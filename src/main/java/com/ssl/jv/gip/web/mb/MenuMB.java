@@ -23,7 +23,7 @@ import com.ssl.jv.gip.jpa.pojo.Usuario;
 
 
 
-@ManagedBean
+@ManagedBean(name="menuMB")
 @SessionScoped
 public class MenuMB extends UtilMB{
 	/**
