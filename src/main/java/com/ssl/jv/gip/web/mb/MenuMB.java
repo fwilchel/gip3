@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.el.MethodExpression;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIParameter;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -23,6 +24,7 @@ import com.ssl.jv.gip.jpa.pojo.Usuario;
 
 
 @ManagedBean
+@SessionScoped
 public class MenuMB extends UtilMB{
 	/**
 	 * 
