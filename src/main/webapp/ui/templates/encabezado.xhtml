@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+	<h:panelGrid columns="2"  border="0" width="800px">
+		<h:panelGrid columns="2"  border="0" width="100%" id="cabezote" >
+	
+			<h:graphicImage value="/img/Logo.png" width="200" heigth="85" id="logo"></h:graphicImage>
+			<span class="titulo" id="bienvenidos">GIPP</span><br/>
+		</h:panelGrid>
+  	
+  		<h:panelGrid rendered="false">
+  				
+		  	<span class="etiqueta_n">Ayuda</span> 
+			<img src="#{request.contextPath}/img/help-file-icon.png"  name="Ayuda" alt="Ayuda" width="22" height="22"/>
+		</h:panelGrid>     
+	
+	<h:panelGrid columns="1"> 
+
+
+  <div id="ayuda">
+  	<table border="0" style="width:280px;text-align:left">
+  		<tr>
+  			<td>
+  				<span class="etiqueta_n">Usuario:</span> #{menuMB.usuario.nombre}
+  			</td>
+  			<td><a href="#{request.contextPath}/cerrarSesion"><img border="none" src="#{request.contextPath}/img/Button-Log-Off-icon.png"  name="Cerrar sesión" alt="Cerrar sesión" width="22" height="22" /></a>
+	<span class="etiqueta_n">Salir</span></td>
+  		</tr>
+  	</table>
+  	
+	
+	 
+  </div>
+  
+  
+  
+ <div id="user">
+  <span class="etiqueta_n">Perfil:</span> #{menuMB.usuario.perfiles}<br/>
+  <span class="etiqueta_n">Opción:</span> #{menuMB.opcionActual}
+  
+ </div>
+ 
+ </h:panelGrid>
+ 
+ </h:panelGrid>
+ 
+
+ 
+ 
+</ui:composition>

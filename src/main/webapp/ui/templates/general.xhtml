@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=iso-8859-1' http-equiv="Content-Type"/>
+                <ui:insert name="title">.:: GIP ::.</ui:insert>
+            </f:facet>
+
+            <meta content='text/html; charset=iso-8859-1' http-equiv='Content-Type'/>
+            <script type="text/javascript" src="#{request.contextPath}/js/procafecol.js"></script>
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css" />
+			
+			<link href="#{request.contextPath}/css/index.css" rel="stylesheet" type="text/css" />
+			<link href="#{request.contextPath}/css/custom-theme/jquery-ui-1.9.2.custom.css" rel="stylesheet"/>
+			
+			<style type="text/css">
+			body {
+				background-color: #DDDCDF;
+			}
+			</style>
+			<style type="text/css">
+				.themeMenu {
+					overflow: auto;
+					height:300px;
+					width:200px;
+				}
+				.ui-layout-north {
+					z-index:20 !important;
+					overflow:visible !important;;
+				}
+
+				.ui-layout-north .ui-layout-unit-content {
+					overflow:visible !important;
+				}		
+			</style>			
+        </h:head>
+
+
+        <h:body>
+			<p:growl id="msg" showDetail="false" showSummary="true"/>
+			<ui:include src="idleMonitor.xhtml"></ui:include>
+            <p:layout fullPage="true" >
+
+                <p:layoutUnit id="top" position="north" size="170">
+					<div align="center">
+						<h:panelGrid columns="1" styleClass="centro" border="0" width="1100px">
+		            		<ui:include src="encabezado.xhtml"></ui:include>    
+							<h:panelGrid width="1100px" border="0">
+								<h:form>
+									<p:menubar autoSubmenuDisplay="true" model="#{menuMB.modelo}" >
+			    	                </p:menubar>
+			                    </h:form>			                
+		                    </h:panelGrid>
+						</h:panelGrid>
+					</div>
+                </p:layoutUnit>
+
+                <p:layoutUnit id="bottom" position="south" size="60">
+					<div align="center">
+
+						<h:panelGrid columns="2" width="1200px" border="0" style="text-align:center">
+						  <div id="pata">
+						      Juan Valdez ®
+	    Procafecol S.A. ®
+	    Copyright - Todos los Derechos Reservados
+	
+	    Juan Valdez es una marca registrada por la Federación Nacional de Cafeteros de Colombia - Fondo Nacional del Café
+	
+						</div>
+						  
+						 <div id="credito"><a href="#"><img src="#{request.contextPath}/img/ssl.png" name="Desarrollado por Soft Studio Ltda." alt="Desarrollado por Soft Studio Ltda." width="63" height="29" /></a></div> 
+						 </h:panelGrid>
+					 </div>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit id="center" position="center">
+                
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tr>
+						    <td align="center" height="450">
+						      <ui:insert name="contenido"></ui:insert>
+						    </td>
+					  	</tr>
+					</table>                
+                </p:layoutUnit>
+
+            </p:layout>
+
+
+        </h:body>
+
+    </f:view>
+</html>

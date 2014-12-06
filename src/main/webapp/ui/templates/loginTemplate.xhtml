@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=iso-8859-1' http-equiv="Content-Type"/>
+				<title>
+                <ui:insert name="title">.:: GIP ::.</ui:insert>
+				</title>
+            </f:facet>
+
+			<link href="#{request.contextPath}/css/index.css" rel="stylesheet" type="text/css" />
+			<style type="text/css">
+			body {
+				background-color: #DDDCDF;
+			}
+			</style>
+
+            <script type="text/javascript" src="#{request.contextPath}/js/procafecol.js"></script>
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css" />
+			<style type="text/css">
+				.ui-widget {
+					font-size: 75%;
+				}
+				
+				.themeMenu {
+					overflow: auto;
+					height:300px;
+					width:200px;
+				}
+				.ui-layout-north {
+					z-index:20 !important;
+					overflow:visible !important;;
+				}
+
+				.ui-layout-north .ui-layout-unit-content {
+					overflow:visible !important;
+				}		
+			</style>
+	
+        </h:head>
+
+
+        <h:body>
+			<div id="contenedor">
+			
+			<!--Aqui arranca el pop--><!--aqui termina el pop-->
+			    
+			    
+			    
+			  <div id="login">
+			  <h:form id="logoForm">
+			  	<h:graphicImage id="logo" value="/img/Logo.png"  >
+			  	</h:graphicImage>
+			  </h:form>
+			  </div>
+			   <div id="login2">
+					<ui:insert name="contenido"></ui:insert>
+				</div>
+			  <!----><!---->
+			  
+			  <div id="pata_login">Todos los Derechos Reservados © 2014 Procafecol</div>
+			</div>
+
+        </h:body>
+
+    </f:view>
+</html>
