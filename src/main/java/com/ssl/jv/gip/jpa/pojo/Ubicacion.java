@@ -56,11 +56,13 @@ public class Ubicacion implements Serializable {
 	@Column(name="id_ubicacion_padre")
 	private Long idUbicacionPadre;
 
+	@Column(name="nombre")
 	private String nombre;
 
 	@Column(name="objeto_co")
 	private Long objetoCo;
 
+	@Column(name="telefono")
 	private String telefono;
 
 	//bi-directional many-to-one association to Consignacion

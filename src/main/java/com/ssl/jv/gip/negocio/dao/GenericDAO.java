@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
 
-
-
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
 
@@ -15,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 public class GenericDAO<T> {
+	
+	public static final String PORCENTAJE_LIKE = "%";
 
 	@PersistenceContext(unitName="primary")
 	EntityManager em;
@@ -46,7 +45,7 @@ public class GenericDAO<T> {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public T findByPK(Integer id){
+	public T findByPK(Long id){
 		List list = em
 				.createQuery("from "+this.persistentClass.getName()+" where id=?")
 		        .setParameter(0, id).getResultList();
