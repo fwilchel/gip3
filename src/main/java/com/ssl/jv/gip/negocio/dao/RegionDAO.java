@@ -1,12 +1,12 @@
 package com.ssl.jv.gip.negocio.dao;
 
-import javax.ejb.Local;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Region;
 
-@Local
 @Stateless
+@LocalBean
 public class RegionDAO extends GenericDAO<Region>{
 
 	

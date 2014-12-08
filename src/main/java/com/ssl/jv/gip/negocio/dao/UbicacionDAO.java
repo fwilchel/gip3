@@ -3,13 +3,13 @@ package com.ssl.jv.gip.negocio.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Local;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 
-@Local
 @Stateless
+@LocalBean
 public class UbicacionDAO extends GenericDAO<Ubicacion>{
 
 	public List<Ubicacion> consultarUbicacionPorFiltro(Ubicacion pFiltro){
