@@ -11,6 +11,11 @@ import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 @LocalBean
 public class FuncionalidadDAO extends GenericDAO<Funcionalidad>{
 	
+	public FuncionalidadDAO(){
+		this.persistentClass = Funcionalidad.class;
+	}
+	
+	
 	public List<Funcionalidad> getMenu(String login) {
 		List<Funcionalidad> opciones = null;
 		try {

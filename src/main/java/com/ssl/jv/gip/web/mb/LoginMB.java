@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
+import com.ssl.jv.gip.web.util.Utilidad;
 
 
 @ManagedBean(name="loginMB")
@@ -70,7 +71,7 @@ public class LoginMB extends UtilMB {
 	public String ingresar(){
 		Usuario u=this.admonEjb.findUsuarioByEmail(this.email);
 		if (u!=null){
-			String pwd=this.password;
+			String pwd=Utilidad.encriptar(this.password);
 			if (u.getContrasena().equals(pwd)){
 				
 				if (u.getRole()==null){
@@ -87,7 +88,7 @@ public class LoginMB extends UtilMB {
 				//MenuMB menu=(MenuMB)Utilidades.getManagedBean("menuMB");
 				//Aplicacion app=(Aplicacion)Utilidades.getManagedBean("aplicacionMB");
 			}else{
-				this.addMensajeError("Contrase�a inv�lida");
+				this.addMensajeError("Contraseña inválida");
 				return null;
 			}
 		}else{
