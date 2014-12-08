@@ -3,10 +3,11 @@ package com.ssl.jv.gip.negocio.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
-
 import java.lang.reflect.ParameterizedType;
 
 
+
+import java.lang.reflect.Type;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,13 +20,18 @@ public class GenericDAO<T> {
 	EntityManager em;
 	
 	
-	private Class<T> persistentClass;
+	protected Class<T> persistentClass;
 
 	
 	@SuppressWarnings("unchecked")
 	public GenericDAO() {
+		/*System.out.println(getClass());
+		System.out.println(getClass().getGenericSuperclass());
+		Type type=getClass().getGenericSuperclass();
+		ParameterizedType pt = (ParameterizedType) type;
+		System.out.println(pt.getActualTypeArguments()[0]);
 		this.persistentClass = (Class<T>) ((ParameterizedType) getClass()
-				.getGenericSuperclass()).getActualTypeArguments()[0];
+				.getGenericSuperclass()).getActualTypeArguments()[0];*/
 	}
 	
 
