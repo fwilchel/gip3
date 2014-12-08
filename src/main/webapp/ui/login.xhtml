@@ -14,7 +14,39 @@
     </ui:define>
 
     <ui:define name="contenido">
-    	
+   	
+		<tr>
+			<td>
+				<div align="center">
+					<table>
+						<tr>
+							<td class="textoCafe"> <p:outputLabel for="emailTxt" value="Correo"></p:outputLabel></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><p:inputText value="#{loginMB.email}" required="true" id="emailTxt"/></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="textoCafe"><p:outputLabel for="contrasenaTxt" value="Contraseña"></p:outputLabel></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><p:inputText value="#{loginMB.password}" required="true" id="contrasenaTxt"/></td>
+							<td class="textoVinotinto">   Olvidó su contraseña?</td>
+						</tr>
+
+					</table>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div align="center">
+					<p:commandButton value="Ingresar" styleClass="textoCafe" action="#{loginMB.ingresar}" update=":growl"></p:commandButton>
+				</div>
+			</td>
+		</tr>
     	
     </ui:define>
                 

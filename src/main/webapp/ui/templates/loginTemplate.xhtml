@@ -14,13 +14,31 @@
             </f:facet>
 
 			<link href="#{request.contextPath}/css/gip.css" rel="stylesheet" type="text/css" />
+			<style type="text/css">
+				.ui-widget {
+					font-size: 75%;
+				}
+				
+				.themeMenu {
+					overflow: auto;
+					height:300px;
+					width:200px;
+				}
+				.ui-layout-north {
+					z-index:20 !important;
+					overflow:visible !important;;
+				}
 
+				.ui-layout-north .ui-layout-unit-content {
+					overflow:visible !important;
+				}		
+			</style>
 	
         </h:head>
 
 
         <h:body>
-                
+                <p:growl id="growl" showDetail="true" sticky="true" />  
 	<table border="0" width="100%" height="100%" >
 		<tr class="encabezadoLogin">
 			<td>
@@ -32,7 +50,7 @@
 			<td>
 				<div align="center">
 					<div id="lona">
-
+						<h:form>
 						<table border="0" width="100%" height="100%" >
 							<tr>
 								<td>
@@ -41,43 +59,12 @@
 									</div>
 								</td>
 							</tr>
-							<tr>
-								<td>
-									<div align="center">
-										<table>
-											<tr>
-												<td class="textoCafe">Correo</td>
-												<td></td>
-											</tr>
-											<tr>
-												<td><input /></td>
-												<td></td>
-											</tr>
-											<tr>
-												<td class="textoCafe">Contraseña</td>
-												<td></td>
-											</tr>
-											<tr>
-												<td><input /></td>
-												<td class="textoVinotinto">   Olvidó su contraseña?</td>
-											</tr>
-
-										</table>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div align="center">
-										<input type="submit" value="Ingresar" class="textoCafe" />
-									</div>
-								</td>
-							</tr>
+							<ui:insert name="contenido"></ui:insert>
 							<tr>
 								<td> </td>
 							</tr>
 						</table>
-
+						</h:form>
 
 					</div>
 				</div>
