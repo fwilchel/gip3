@@ -5,7 +5,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
 
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
@@ -40,5 +39,16 @@ public class AdministracionEJB implements AdministracionEJBLocal {
     	return funcionalidadDao.getMenu(email);
     }
     
+    public void actualizarUsuario(Usuario u){
+    	this.usuarioDao.update(u);
+    }
+
+    public void crearUsuario(Usuario u){
+    	this.usuarioDao.add(u);
+    }
+    
+    public List<Usuario> consultarUsuarios(){
+    	return (List<Usuario>)usuarioDao.findAll();
+    }
 
 }

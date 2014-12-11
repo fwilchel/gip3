@@ -1,90 +1,92 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
-    <f:view contentType="text/html">
-        <h:head>
-            <f:facet name="first">
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
 
-				<title>
-                <ui:insert name="title">.:: GIP ::.</ui:insert>
-				</title>
-            </f:facet>
+			<title><ui:insert name="title">.:: GIP ::.</ui:insert></title>
+		</f:facet>
 
-			<link href="#{request.contextPath}/css/gip.css" rel="stylesheet" type="text/css" />
-			<style type="text/css">
-				.ui-widget {
-					font-size: 75%;
-				}
-				
-				.themeMenu {
-					overflow: auto;
-					height:300px;
-					width:200px;
-				}
-				.ui-layout-north {
-					z-index:20 !important;
-					overflow:visible !important;;
-				}
+		<link href="#{request.contextPath}/css/gip.css" rel="stylesheet"
+			type="text/css" />
+		<style type="text/css">
+		.ui-widget {
+			font-size: 75%;
+		}
+		
+		.themeMenu {
+			overflow: auto;
+			height: 300px;
+			width: 200px;
+		}
+		
+		.ui-layout-north {
+			z-index: 20 !important;
+			overflow: visible !important;;
+		}
+		
+		.ui-layout-north .ui-layout-unit-content {
+			overflow: visible !important;
+		}
+		</style>
 
-				.ui-layout-north .ui-layout-unit-content {
-					overflow:visible !important;
-				}		
-			</style>
-	
-        </h:head>
+	</h:head>
 
 
-        <h:body>
-                <p:growl id="growl" showDetail="true" sticky="true" />
-                <f:loadBundle basename="com.ssl.jv.gip.web.mb.MessageResources" var="msg"/>  
-	<table border="0" width="100%" height="100%" >
-		<tr class="encabezadoLogin">
-			<td>
-				<div id="logoJV"><img src="#{request.contextPath}/images/Logo Juan Valdez.png" alt="Juan Valdez" width="130" height="154"/></div>
-				<div id="paquetes"><img src="#{request.contextPath}/images/Imagen Circular.png" alt="Productos" width="160" height="160"/></div>
-			</td>
-		</tr>
-		<tr height="100%" class="tablas">
-			<td>
-				<div align="center">
-					<div id="lona">
-						<h:form>
-						<table border="0" width="100%" height="100%" >
-							<tr>
-								<td>
-									<div align="center" id="bienvenido">
-										<img src="#{request.contextPath}/images/Bienvenido.png" alt="Bienvenido" width="369" height="100"/>
-									</div>
-								</td>
-							</tr>
-							<ui:insert name="contenido"></ui:insert>
-							<tr>
-								<td> </td>
-							</tr>
-						</table>
-						</h:form>
-
+	<h:body>
+		<p:growl id="growl" showDetail="true" sticky="true" />
+		<f:loadBundle basename="com.ssl.jv.gip.web.mb.MessageResources"
+			var="msg" />
+		<table border="0" width="100%" height="100%">
+			<tr class="encabezadoLogin">
+				<td>
+					<div id="logoJV">
+						<img src="#{request.contextPath}/images/Logo Juan Valdez.png"
+							alt="Juan Valdez" width="130" height="154" />
 					</div>
-				</div>
-				<div class="textoBlanco" id="blancoIzq">
-					(VCLE) Venta Corporativa, Logística y Exportación
-				</div>
-				<div class="textoBlanco" id="blancoDer">
-					Política de privacidad | Términos y condiciones
-				</div>
-			</td>
-		</tr>
-	</table>
+					<div id="paquetes">
+						<img src="#{request.contextPath}/images/Imagen Circular.png"
+							alt="Productos" width="160" height="160" />
+					</div>
+				</td>
+			</tr>
+			<tr height="100%" class="tablas">
+				<td>
+					<div align="center">
+						<div id="lona">
+							<h:form>
+								<table border="0" width="100%" height="100%">
+									<tr>
+										<td>
+											<div align="center" id="bienvenido">
+												<img src="#{request.contextPath}/images/Bienvenido.png"
+													alt="Bienvenido" width="369" height="100" />
+											</div>
+										</td>
+									</tr>
+									<ui:insert name="contenido"></ui:insert>
+									<tr>
+										<td></td>
+									</tr>
+								</table>
+							</h:form>
 
-        
-        
-        
+						</div>
+					</div>
+					<div class="textoBlanco" id="blancoIzq">(VCLE) Venta
+						Corporativa, Logística y Exportación</div>
+					<div class="textoBlanco" id="blancoDer">Política de
+						privacidad | Términos y condiciones</div>
+				</td>
+			</tr>
+		</table>
 
+	</h:body>
 
-        </h:body>
-
-    </f:view>
+</f:view>
 </html>

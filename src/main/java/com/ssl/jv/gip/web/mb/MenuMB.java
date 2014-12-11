@@ -6,17 +6,17 @@ import java.util.List;
 import javax.el.MethodExpression;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIParameter;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
+import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
-import org.primefaces.component.submenu.UISubmenu;
-import org.primefaces.component.menuitem.UIMenuItem;
 
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
@@ -26,6 +26,8 @@ import com.ssl.jv.gip.jpa.pojo.Usuario;
 @ManagedBean(name="menuMB")
 @SessionScoped
 public class MenuMB extends UtilMB{
+	
+	private static final Logger LOGGER = Logger.getLogger(MenuMB.class);
 	/**
 	 * 
 	 */
@@ -35,6 +37,10 @@ public class MenuMB extends UtilMB{
 	private String opcionActual;
 	private List<Funcionalidad> opciones;
 	
+	
+	public MenuMB(){
+		
+	}
 
 	public MenuModel getModelo() {
 		return modelo;
@@ -71,17 +77,17 @@ public class MenuMB extends UtilMB{
 		this.opciones=opciones;
 		modelo = new DefaultMenuModel();
 		
+		
 		for (Funcionalidad o:opciones){
 			if (o.getFuncionalidade()==null){
 				
-				UISubmenu sm = new UISubmenu();
+				DefaultSubMenu sm = new DefaultSubMenu();
 				List<Funcionalidad> hijos=getHijos(o, opciones, sm);
 				if (hijos.size()==0){
 					/*MenuItem mi=new MenuItem();
 					mi.setLabel(o.getOpcion_1());
 					mi.setActionCommand(o.getUrl());*/
 				}else{
-					
 					sm.setLabel(o.getNombre());
 					modelo.addElement(sm);
 					o.setFuncionalidades(hijos);
@@ -91,28 +97,23 @@ public class MenuMB extends UtilMB{
 		}
 	}
 	
-	private List<Funcionalidad> getHijos(Funcionalidad padre, List<Funcionalidad> opciones, UISubmenu sm){
+	private List<Funcionalidad> getHijos(Funcionalidad padre, List<Funcionalidad> opciones, DefaultSubMenu sm){
 		List<Funcionalidad> hijos=new ArrayList<Funcionalidad>();
 		for (Funcionalidad o:opciones){
 			if (o.getFuncionalidade()!=null && padre.getId().equals(o.getFuncionalidade().getId())){
 				hijos.add(o);
 
-				UISubmenu sm2 = new UISubmenu();
+				DefaultSubMenu sm2 = new DefaultSubMenu();
 				List<Funcionalidad> hijos2=getHijos(o, opciones, sm2);
 				if (hijos2.size()==0){
-					UIMenuItem mi=new UIMenuItem();
+					DefaultMenuItem mi=new DefaultMenuItem();
 					mi.setValue(o.getNombre());
 					//mi.setIcon(o.getIcono());
-					
-					mi.setActionExpression(createAction("#{menuMB.ingresoOpcion}", String.class));
-					UIParameter para2=new UIParameter();
-	   				para2.setName("opcion");
-	   				para2.setValue(o.getRuta());
-	   				
-	   				mi.getChildren().add(para2);
+					mi.setCommand("#{menuMB.ingresoOpcion}");
+					mi.setImmediate(true);
+	   				mi.setParam("opcion", o.getRuta());
 	   				mi.setAjax(false);
-					
-					sm.getChildren().add(mi);
+					sm.addElement(mi);
 				}else{
 					
 					sm.setLabel(o.getNombre());
@@ -141,6 +142,7 @@ public class MenuMB extends UtilMB{
     
     public String ingresoOpcion(){
     	
+    	LOGGER.debug("*********** IngresoOpcion");
     	FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         HttpServletRequest req = (HttpServletRequest) ec.getRequest();
@@ -150,6 +152,7 @@ public class MenuMB extends UtilMB{
         		break;
         	}
         }
+        LOGGER.debug("*********** IngresoOpcion *********" +this.opcionActual+ "*******"+req.getParameter("opcion"));
     	return req.getParameter("opcion");
     }
 

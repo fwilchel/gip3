@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::Administración de Usuarios::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+				showIcon="true"></p:messages>
+
+			<p:toolbar>
+				<f:facet name="right">
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+					<p:commandButton action="#{usuariosMB.nuevo}" update=":forma:usuarioDetalle" oncomplete="PF('usuarioDialog').show()" title="Nuevo"
+						icon="ui-icon-document" value="Nuevo" />
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+					<p:commandButton action="introduccion" title="Cancelar" ajax="false"
+						icon="ui-icon-cancel" value="Cancelar" />
+				</f:facet>
+			</p:toolbar>
+
+			<p:tabView id="tabPanel">
+				<p:tab title="Administración de usuarios">
+					<p:dataTable var="usuario" widgetVar="usuariosTabla" id="tablaUsuarios"
+						value="#{usuariosMB.usuarios}" rows="10"
+						emptyMessage="No se han encontrado usuarios" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="Buscar en todos los campos:" />
+								<p:inputText id="globalFilter"
+									onkeyup="PF('usuariosTabla').filter()" style="width:150px"
+									placeholder="Palabra a buscar" />
+							</p:outputPanel>
+						</f:facet>
+
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton oncomplete="PF('usuarioDialog').show()"
+								icon="ui-icon-pencil" title="Ver" update=":forma:usuarioDetalle">
+								<f:setPropertyActionListener value="#{usuario}"
+									target="#{usuariosMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+
+						<p:column filterBy="#{usuario.id}" headerText="Identificación"
+							filterMatchMode="contains" sortBy="#{usuario.id}">
+							<h:outputText value="#{usuario.id}" />
+						</p:column>
+
+						<p:column filterBy="#{usuario.nombre}" headerText="Nombre"
+							filterMatchMode="contains" sortBy="#{usuario.nombre}">
+							<h:outputText value="#{usuario.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{usuario.apellidos}" headerText="Apellidos"
+							filterMatchMode="contains" sortBy="#{usuario.apellidos}">
+							<h:outputText value="#{usuario.apellidos}" />
+						</p:column>
+
+						<p:column filterBy="#{usuario.email}" headerText="Email"
+							filterMatchMode="contains" sortBy="#{usuario.email}">
+							<h:outputText value="#{usuario.email}" />
+						</p:column>
+
+						<p:column filterBy="#{usuario.cargo}" headerText="Cargo"
+							filterMatchMode="contains" sortBy="#{usuario.cargo}">
+							<h:outputText value="#{usuario.cargo}" />
+						</p:column>
+
+						<p:column filterBy="#{usuario.area}" headerText="Area"
+							filterMatchMode="contains" sortBy="#{usuario.area}">
+							<h:outputText value="#{usuario.area}" />
+						</p:column>
+
+						<p:column filterBy="#{usuario.activo}" headerText="Activo"
+							filterMatchMode="contains" sortBy="#{usuario.activo}">
+							<h:outputText value="#{usuario.activo?'Si':'No'}" />
+						</p:column>
+
+						<p:column filterBy="#{usuario.canal}" headerText="Canal"
+							filterMatchMode="contains" sortBy="#{usuario.canal}">
+							<h:outputText value="#{usuario.canal}" />
+						</p:column>
+
+						<p:column filterBy="#{usuario.role.nombre}" headerText="Rol"
+							filterMatchMode="contains" sortBy="#{usuario.role.nombre}">
+							<h:outputText value="#{usuario.role.nombre}" />
+						</p:column>
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+
+			<p:dialog header="Usuario" widgetVar="usuarioDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="usuarioDetalle" style="text-align:center;">
+					<p:messages id="msgs2" showDetail="false" showSummary="true" globalOnly="true"
+						showIcon="true"></p:messages>
+					<p:panelGrid columns="3"
+						rendered="#{not empty usuariosMB.seleccionado}"
+						columnClasses="label,value">
+
+						<h:outputLabel value="Identificación:" for="identificacion" />
+						<h:inputText value="#{usuariosMB.seleccionado.id}" id="identificacion" />
+						<p:message for="identificacion"></p:message>
+
+						<h:outputLabel value="Nombres" for="nombres"/>
+						<h:inputText value="#{usuariosMB.seleccionado.nombre}" id="nombres"/>
+						<p:message for="nombres"></p:message>
+
+						<h:outputLabel value="Apellidos" for="apellidos"/>
+						<h:inputText value="#{usuariosMB.seleccionado.apellidos}" id="apellidos"/>
+						<p:message for="apellidos"></p:message>
+
+						<p:commandButton value="Guardar" icon="ui-icon-disk" action="#{usuariosMB.guardar}" update="msgs2, tabPanel:tablaUsuarios" ></p:commandButton>
+						<p:commandButton value="Cancelar"
+							onclick="PF('usuarioDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+
+					</p:panelGrid>
+
+
+				</p:outputPanel>
+			</p:dialog>
+
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+

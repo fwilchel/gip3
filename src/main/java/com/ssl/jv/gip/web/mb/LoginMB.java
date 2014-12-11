@@ -1,10 +1,18 @@
 package com.ssl.jv.gip.web.mb;
 
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+
+
+
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Inject;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
@@ -18,6 +26,9 @@ public class LoginMB extends UtilMB {
 	/**
 	 * 
 	 */
+	private static final Logger LOGGER = Logger.getLogger(LoginMB.class);
+	private Integer language=AplicacionMB.SPANISH;
+	
 	private static final long serialVersionUID = -1947610603374558443L;
 
 	@EJB
@@ -27,8 +38,19 @@ public class LoginMB extends UtilMB {
 	private Integer empresa;
 	private String email;
 	
-	@Inject
+	@ManagedProperty(value="#{menuMB}")
 	private MenuMB menu;
+	
+	@ManagedProperty(value="#{aplicacionMB}")
+	private AplicacionMB appMB;
+	
+	public AplicacionMB getAppMB() {
+		return appMB;
+	}
+
+	public void setAppMB(AplicacionMB appMB) {
+		this.appMB = appMB;
+	}
 
 	public MenuMB getMenu() {
 		return menu;
@@ -69,38 +91,63 @@ public class LoginMB extends UtilMB {
 	
 
 	public String ingresar(){
+		
+		int NUMERO_MAX_LOGIN=3;
+		
+		HttpServletRequest request = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
+		String remoteAddr = request.getRemoteAddr();
+		String HEADER_X_FORWARDED_FOR = "X-FORWARDED-FOR";
+		String x;
+		String IP = request.getHeader("X-Forwarded-For");
+		  
+		if ((x = request.getHeader(HEADER_X_FORWARDED_FOR)) != null) {
+		    remoteAddr = x;
+		    int idx = remoteAddr.indexOf(',');
+		    if (idx > -1) {
+		        remoteAddr = remoteAddr.substring(0, idx);
+		    }
+		}
+		
+		LOGGER.info("|Client IP address=|"+remoteAddr+" |Identificacion=|"+email);
+		
 		Usuario u=this.admonEjb.findUsuarioByEmail(this.email);
 		if (u!=null){
 			String pwd=Utilidad.encriptar(this.password);
 			if (u.getContrasena().equals(pwd)){
 				
 				if (u.getRole()==null){
-					this.addMensajeError("El usuario no tiene perfil asociado");
+					this.addMensajeError(appMB.getMessage("usuarioSinRol", language));
 					return null;
 				}
 				if (u.getActivo()==false){
-					this.addMensajeError("El usuario está inactivo");
+					this.addMensajeError(appMB.getMessage("usuarioInactivo", language));
 					return null;
 				}
+				if (u.getIntentos()>=NUMERO_MAX_LOGIN){
+					this.addMensajeError(appMB.getMessage("cuentaBloqueada", language));
+					return null;
+				}
+				
+				u.setIntentos(0L);
+				this.admonEjb.actualizarUsuario(u);
+
 				menu.setMenu(admonEjb.getMenu(u.getEmail()));
 				menu.setUsuario(u);
 				return "introduccion";
 				//MenuMB menu=(MenuMB)Utilidades.getManagedBean("menuMB");
 				//Aplicacion app=(Aplicacion)Utilidades.getManagedBean("aplicacionMB");
 			}else{
-				this.addMensajeError("Contraseña inválida");
+				u.setIntentos(u.getIntentos()+1);
+				this.admonEjb.actualizarUsuario(u);
+				this.addMensajeError(appMB.getMessage("vuelvaIntentarlo", language));
 				return null;
 			}
 		}else{
-			this.addMensajeError("Usuario inexistente");
+			LOGGER.warn("|Client IP address=|"+remoteAddr+" |Identificacion=|"+email+" "+appMB.getMessage("vuelvaIntentarlo", language));
+			this.addMensajeError(appMB.getMessage("vuelvaIntentarlo", language));
 			return null;
 		}
 	}
-	
-	public static void main(String args[]){
 
-		
-		
-	}
 
 }

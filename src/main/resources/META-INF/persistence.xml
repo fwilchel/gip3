@@ -120,7 +120,7 @@
 		<class>com.ssl.jv.gip.jpa.pojo.UsuariosXGeografiaPK</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Venta</class>
 		<class>com.ssl.jv.gip.jpa.pojo.VentaPK</class>
-
+		
       <properties>
          <!-- Properties for Hibernate -->
          <!-- property name="hibernate.hbm2ddl.auto" value="validate" /-->

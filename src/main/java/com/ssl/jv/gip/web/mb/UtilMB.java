@@ -36,7 +36,6 @@ public class UtilMB implements Serializable {
 	 */
 	//DetalleCodigoEstructurado detalleCodigoEstructurado = new DetalleCodigoEstructurado();
 	
-	
 	public UtilMB(){
 		
 	}

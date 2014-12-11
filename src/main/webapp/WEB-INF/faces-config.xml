@@ -20,5 +20,16 @@
 			org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
 		</exception-handler-factory>
 	</factory>
+	<navigation-rule>
+	    <from-view-id>*</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>introduccion</from-outcome>
+            <to-view-id>/ui/introduccion.jsf</to-view-id>
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>usuario</from-outcome>
+            <to-view-id>/ui/administracion/usuarios.jsf</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
 </faces-config>
