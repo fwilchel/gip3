@@ -16,20 +16,7 @@
 			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
 				showIcon="true"></p:messages>
 
-			<p:toolbar>
-				<f:facet name="right">
-					<span class="ui-separator"> <span
-						class="ui-icon ui-icon-grip-dotted-vertical" />
-					</span>
-					<p:commandButton action="#{usuariosMB.nuevo}" update=":forma:usuarioDetalle" oncomplete="PF('usuarioDialog').show()" title="Nuevo"
-						icon="ui-icon-document" value="Nuevo" />
-					<span class="ui-separator"> <span
-						class="ui-icon ui-icon-grip-dotted-vertical" />
-					</span>
-					<p:commandButton action="introduccion" title="Cancelar" ajax="false"
-						icon="ui-icon-cancel" value="Cancelar" />
-				</f:facet>
-			</p:toolbar>
+
 
 			<p:tabView id="tabPanel">
 				<p:tab title="Administración de usuarios">
@@ -41,12 +28,23 @@
 						rowsPerPageTemplate="5,10,15">
 
 						<f:facet name="header">
+							<div align="right">
 							<p:outputPanel>
-								<h:outputText value="Buscar en todos los campos:" />
+							
+					<p:commandButton action="#{usuariosMB.nuevo}" update=":forma:usuarioDetalle" oncomplete="PF('usuarioDialog').show()" title="Nuevo"
+						icon="ui-icon-document" value="Nuevo" />
+					<p:spacer width="30"></p:spacer>	
+					<h:outputText value="Buscar en todos los campos:" />
 								<p:inputText id="globalFilter"
 									onkeyup="PF('usuariosTabla').filter()" style="width:150px"
 									placeholder="Palabra a buscar" />
+					<p:spacer width="30"></p:spacer>				
+					<p:commandButton action="introduccion" title="Cancelar" ajax="false"
+						icon="ui-icon-cancel" value="Cancelar" />
+							
+								
 							</p:outputPanel>
+							</div>
 						</f:facet>
 
 						<p:column style="width:32px;text-align: center">

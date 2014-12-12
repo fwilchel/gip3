@@ -20,6 +20,10 @@
 			org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
 		</exception-handler-factory>
 	</factory>
+	<converter>
+        <converter-id>theme</converter-id>
+        <converter-class>org.primefaces.showcase.convert.ThemeConverter</converter-class>
+    </converter>
 	<navigation-rule>
 	    <from-view-id>*</from-view-id> 
 	    <navigation-case>
