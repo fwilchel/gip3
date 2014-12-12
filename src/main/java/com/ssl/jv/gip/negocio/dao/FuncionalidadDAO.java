@@ -5,16 +5,19 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import org.apache.log4j.Logger;
+
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 
 @Stateless
 @LocalBean
 public class FuncionalidadDAO extends GenericDAO<Funcionalidad>{
 	
+	private static final Logger LOGGER = Logger.getLogger(FuncionalidadDAO.class);
+	
 	public FuncionalidadDAO(){
 		this.persistentClass = Funcionalidad.class;
 	}
-	
 	
 	public List<Funcionalidad> getMenu(String login) {
 		List<Funcionalidad> opciones = null;
@@ -23,7 +26,7 @@ public class FuncionalidadDAO extends GenericDAO<Funcionalidad>{
 			opciones = em.createQuery(query).setParameter("email", login)
 					.getResultList();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 		}
 		return opciones;
 	}

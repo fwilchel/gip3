@@ -10,6 +10,45 @@
 	margin:0px 0px 0px 200px;
 }
 
+#logoJV2 {
+	float:left;
+	margin:7px 0px 0px 200px;
+}
+
+#tituloSistema {
+	margin:20px 350px 0px 0px;
+}
+
+#tablaUsuario {
+	padding: 3px;
+    border: 2px solid;
+	border-color: #7B2827;
+	background: #EFDCC5; 
+    border-radius: 5px;
+	float:right;
+	margin:-60px 100px 0px 0px;
+	font-family: "Myriad Pro Regular";
+	font-size: 12pt;
+	color:#7B2827;
+	font: bold;	
+	font-weight: bold;	
+}
+
+#tablaPerfil{
+	padding: 3px;
+    border: 2px solid;
+	border-color: #7B2827;
+	background: #EFDCC5; 
+    border-radius: 5px;
+	float:right;
+	margin:-10px 100px 0px 0px;
+	font-family: "Myriad Pro Regular";
+	font-size: 12pt;
+	color:#7B2827;
+	font: bold;	
+	font-weight: bold;	
+}
+
 #blancoIzq {
 	float:left;
 	position: relative;
@@ -25,6 +64,11 @@
 #paquetes {
 	float:right;
 	margin:0px 200px 0px 0px;
+}
+
+#salir {
+	float:right;
+	margin:-30px 80px 0px 0px;
 }
 
 #lona {
@@ -47,8 +91,26 @@
 	font-size: 22;
 }
 
+.encabezado{
+	background-image: url("../images/FondoEncabezado2.png");
+	background-repeat: repeat-x;
+	height:159px;
+	font-size: 22;
+}
+
 .tablas {
 	background-image: url("../images/Tabla.jpg");
+}
+
+.fondo{
+	background-image: url("../images/Fondo.png");
+	background-repeat: repeat;
+}
+
+.fondoContenido{
+	background-image: url("../images/Fondo.png");
+	background-repeat: repeat;
+	vertical-align: top;
 }
 
 .textoCafe{
@@ -80,7 +142,7 @@
 font-family: 'Myriad Pro Regular';
 font-style: normal;
 font-weight: normal;
-src: local('Myriad Pro Regular'), url('/fonts/MYRIADPRO-REGULAR.woff') format('woff');
+src: local('Myriad Pro Regular'), url('/gip3/fonts/MYRIADPRO-REGULAR.woff') format('woff');
 }
 
 
