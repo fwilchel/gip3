@@ -86,7 +86,7 @@
 							<h:outputText value="#{usuario.area}" />
 						</p:column>
 
-						<p:column filterBy="#{usuario.activo}" headerText="Activo"
+						<p:column filterBy="#{usuario.activo?'Si':'No'}" headerText="Activo"
 							filterMatchMode="contains" sortBy="#{usuario.activo}">
 							<h:outputText value="#{usuario.activo?'Si':'No'}" />
 						</p:column>
