@@ -8,10 +8,15 @@
    <PROCESS-ITEM-OUTPUT ID="usuario::#ui#administracion#usuarios.jsf"
     NAME="output1" PATH="/ui/administracion/usuarios.jsf"
     TARGET="rules:#ui#administracion#usuarios.jsf" TITLE="usuario" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="ubicacion::#ui#maestros#ubicacion.jsf"
+    NAME="output2" PATH="/ui/maestros/ubicacion.jsf"
+    TARGET="rules:#ui#maestros#ubicacion.jsf" TITLE="ubicacion" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#administracion#usuarios.jsf"
   PATH="/ui/administracion/usuarios.jsf" SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#introduccion.jsf"
   PATH="/ui/introduccion.jsf" SHAPE="256,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#ubicacion.jsf"
+  PATH="/ui/maestros/ubicacion.jsf" SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

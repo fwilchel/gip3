@@ -80,4 +80,12 @@ public class UbicacionMB extends UtilMB{
 		}
 	}
 
+	public List<Ubicacion> getUbicacion() {
+		return ubicacion;
+	}
+
+	public void setUbicacion(List<Ubicacion> ubicacion) {
+		this.ubicacion = ubicacion;
+	}
+
 }
