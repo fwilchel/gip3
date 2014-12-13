@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="paises")
 @NamedQuery(name="Pais.findAll", query="SELECT p FROM Pais p")
-public class Pais implements Serializable {
+public class Pais implements Serializable, Comparable<Object> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -154,6 +156,15 @@ public class Pais implements Serializable {
 		usuario.setPais(null);
 
 		return usuario;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (o instanceof Pais){
+			Pais p=(Pais)o;
+			return this.nombre.compareTo(p.getNombre());
+		}
+		return 0;
 	}
 
 }

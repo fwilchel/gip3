@@ -1,9 +1,16 @@
 package com.ssl.jv.gip.web.mb;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+
+import com.ssl.jv.gip.jpa.pojo.Pais;
+import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
 
 @ManagedBean(name="aplicacionMB")
 @ApplicationScoped
@@ -14,6 +21,10 @@ public class AplicacionMB {
 	
 	public static final Integer SPANISH=1;
 	public static final Integer ENGLISH=2;
+	private List<Pais> paises;	
+	
+	@EJB
+	private AdministracionEJB admonEjb;	
 	
 	static{
 		
@@ -26,4 +37,18 @@ public class AplicacionMB {
 			return msgsEn.getString(llave);
 	}
 
+	@PostConstruct
+	public void init(){
+		paises = admonEjb.consultarPaises();
+		Collections.sort(paises);
+	}
+	
+	public List<Pais> getPaises() {
+		return paises;
+	}
+
+	public void setPaises(List<Pais> paises) {
+		this.paises = paises;
+	}	
+	
 }

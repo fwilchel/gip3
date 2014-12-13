@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="roles")
 @NamedQuery(name="Rol.findAll", query="SELECT r FROM Rol r")
-public class Rol implements Serializable {
+public class Rol implements Serializable, Comparable<Object> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -76,6 +78,15 @@ public class Rol implements Serializable {
 		usuario.setRole(null);
 
 		return usuario;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (o instanceof Rol){
+			Rol p=(Rol)o;
+			return this.nombre.compareTo(p.getNombre());
+		}
+		return 0;
 	}
 
 }

@@ -7,8 +7,12 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
+import com.ssl.jv.gip.jpa.pojo.Pais;
+import com.ssl.jv.gip.jpa.pojo.Rol;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.dao.FuncionalidadDAO;
+import com.ssl.jv.gip.negocio.dao.PaisDAO;
+import com.ssl.jv.gip.negocio.dao.RolDAO;
 import com.ssl.jv.gip.negocio.dao.UsuarioDAO;
 
 /**
@@ -23,6 +27,12 @@ public class AdministracionEJB implements AdministracionEJBLocal {
 	
 	@EJB
 	private FuncionalidadDAO funcionalidadDao;
+
+	@EJB
+	private PaisDAO paisDao;
+	
+	@EJB
+	private RolDAO rolDao;
 	
     /**
      * Default constructor. 
@@ -51,4 +61,12 @@ public class AdministracionEJB implements AdministracionEJBLocal {
     	return (List<Usuario>)usuarioDao.findAll();
     }
 
+    public List<Rol> consultarRoles(){
+    	return (List<Rol>)rolDao.findAll();
+    }
+
+    public List<Pais> consultarPaises(){
+    	return (List<Pais>)paisDao.findAll();
+    }
+    
 }

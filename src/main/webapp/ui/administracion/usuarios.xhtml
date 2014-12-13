@@ -7,7 +7,7 @@
 	xmlns:misc="http://java.sun.com/jsf/composite/misc"
 	template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::Administración de Usuarios::.</ui:define>
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.</ui:define>
 
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
@@ -19,10 +19,10 @@
 
 
 			<p:tabView id="tabPanel">
-				<p:tab title="Administración de usuarios">
+				<p:tab title="#{msg.UsuarioAdminUsuariosTitulo}">
 					<p:dataTable var="usuario" widgetVar="usuariosTabla" id="tablaUsuarios"
 						value="#{usuariosMB.usuarios}" rows="10"
-						emptyMessage="No se han encontrado usuarios" paginator="true"
+						emptyMessage="#{msg.UsuarioNoEncontrados}" paginator="true"
 						paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
@@ -31,16 +31,16 @@
 							<div align="right">
 							<p:outputPanel>
 							
-					<p:commandButton action="#{usuariosMB.nuevo}" update=":forma:usuarioDetalle" oncomplete="PF('usuarioDialog').show()" title="Nuevo"
-						icon="ui-icon-document" value="Nuevo" />
+					<p:commandButton action="#{usuariosMB.nuevo}" update=":forma:usuarioDetalle, :forma:usuarioDlg" oncomplete="PF('usuarioDialog').show()" title="#{msg.generalAdicionarRegistro}"
+						icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
 					<p:spacer width="30"></p:spacer>	
-					<h:outputText value="Buscar en todos los campos:" />
+					<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
 								<p:inputText id="globalFilter"
 									onkeyup="PF('usuariosTabla').filter()" style="width:150px"
-									placeholder="Palabra a buscar" />
+									placeholder="#{msg.generalPalabrasBuscar}" />
 					<p:spacer width="30"></p:spacer>				
-					<p:commandButton action="introduccion" title="Cancelar" ajax="false"
-						icon="ui-icon-cancel" value="Cancelar" />
+					<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
+						icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
 							
 								
 							</p:outputPanel>
@@ -49,54 +49,61 @@
 
 						<p:column style="width:32px;text-align: center">
 							<p:commandButton oncomplete="PF('usuarioDialog').show()"
-								icon="ui-icon-pencil" title="Ver" update=":forma:usuarioDetalle">
+								icon="ui-icon-pencil" title="#{msg.generalEditar}" update=":forma:usuarioDetalle,:forma:usuarioDlg">
 								<f:setPropertyActionListener value="#{usuario}"
 									target="#{usuariosMB.seleccionado}" />
 							</p:commandButton>
 						</p:column>
 
 
-						<p:column filterBy="#{usuario.id}" headerText="Identificación"
+						<p:column filterBy="#{usuario.id}" headerText="#{msg.UsuarioNombreId}"
 							filterMatchMode="contains" sortBy="#{usuario.id}">
 							<h:outputText value="#{usuario.id}" />
 						</p:column>
 
-						<p:column filterBy="#{usuario.nombre}" headerText="Nombre"
+						<p:column filterBy="#{usuario.nombre}" headerText="#{msg.UsuarioNombreNombre}"
 							filterMatchMode="contains" sortBy="#{usuario.nombre}">
 							<h:outputText value="#{usuario.nombre}" />
 						</p:column>
 
-						<p:column filterBy="#{usuario.apellidos}" headerText="Apellidos"
+						<p:column filterBy="#{usuario.apellidos}" headerText="#{msg.UsuarioNombreApellido}"
 							filterMatchMode="contains" sortBy="#{usuario.apellidos}">
 							<h:outputText value="#{usuario.apellidos}" />
 						</p:column>
 
-						<p:column filterBy="#{usuario.email}" headerText="Email"
+						<p:column filterBy="#{usuario.email}" headerText="#{msg.UsuarioNombreEmail}"
 							filterMatchMode="contains" sortBy="#{usuario.email}">
 							<h:outputText value="#{usuario.email}" />
 						</p:column>
 
-						<p:column filterBy="#{usuario.cargo}" headerText="Cargo"
+						<p:column filterBy="#{usuario.cargo}" headerText="#{msg.UsuarioNombreCargo}"
 							filterMatchMode="contains" sortBy="#{usuario.cargo}">
 							<h:outputText value="#{usuario.cargo}" />
 						</p:column>
 
-						<p:column filterBy="#{usuario.area}" headerText="Area"
+						<p:column filterBy="#{usuario.area}" headerText="#{msg.UsuarioNombreArea}"
 							filterMatchMode="contains" sortBy="#{usuario.area}">
 							<h:outputText value="#{usuario.area}" />
 						</p:column>
 
-						<p:column filterBy="#{usuario.activo?'Si':'No'}" headerText="Activo"
-							filterMatchMode="contains" sortBy="#{usuario.activo}">
+						<p:column filterBy="#{usuario.activo?'Si':'No'}" headerText="#{msg.UsuarioNombreActivo}"
+							filterMatchMode="exact" sortBy="#{usuario.activo}">
+							<f:facet name="filter">
+				                <p:selectOneMenu onchange="PF('usuariosTabla').filter()" style="width:120px" >
+				                    <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
+				                    <f:selectItem itemLabel="Si" itemValue="Si" />
+				                    <f:selectItem itemLabel="No" itemValue="No" />
+				                </p:selectOneMenu>
+				            </f:facet>
 							<h:outputText value="#{usuario.activo?'Si':'No'}" />
 						</p:column>
 
-						<p:column filterBy="#{usuario.canal}" headerText="Canal"
+						<p:column filterBy="#{usuario.canal}" headerText="#{msg.UsuarioNombreCanal}"
 							filterMatchMode="contains" sortBy="#{usuario.canal}">
 							<h:outputText value="#{usuario.canal}" />
 						</p:column>
 
-						<p:column filterBy="#{usuario.role.nombre}" headerText="Rol"
+						<p:column filterBy="#{usuario.role.nombre}" headerText="#{msg.UsuarioNombreRol}"
 							filterMatchMode="contains" sortBy="#{usuario.role.nombre}">
 							<h:outputText value="#{usuario.role.nombre}" />
 						</p:column>
@@ -105,8 +112,8 @@
 				</p:tab>
 			</p:tabView>
 
-			<p:dialog header="Usuario" widgetVar="usuarioDialog" modal="true"
-				showEffect="fade" hideEffect="fade" resizable="false">
+			<p:dialog header="#{usuariosMB.creacion?msg.UsuarioCrearTitulo:msg.UsuarioModificarTitulo}" widgetVar="usuarioDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false" dynamic="true" id="usuarioDlg">
 				<p:outputPanel id="usuarioDetalle" style="text-align:center;">
 					<p:messages id="msgs2" showDetail="false" showSummary="true" globalOnly="true"
 						showIcon="true"></p:messages>
@@ -114,20 +121,50 @@
 						rendered="#{not empty usuariosMB.seleccionado}"
 						columnClasses="label,value">
 
-						<h:outputLabel value="Identificación:" for="identificacion" />
-						<h:inputText value="#{usuariosMB.seleccionado.id}" id="identificacion" />
+						<h:outputLabel value="#{msg.UsuarioNombreId}" for="identificacion" styleClass="negrita"/>
+						<h:inputText value="#{usuariosMB.seleccionado.id}" id="identificacion" required="true" maxlength="40" label="#{msg.UsuarioNombreId}"/>
 						<p:message for="identificacion"></p:message>
 
-						<h:outputLabel value="Nombres" for="nombres"/>
-						<h:inputText value="#{usuariosMB.seleccionado.nombre}" id="nombres"/>
+						<h:outputLabel value="#{msg.UsuarioNombreNombre}" for="nombres" styleClass="negrita"/>
+						<h:inputText value="#{usuariosMB.seleccionado.nombre}" id="nombres" required="true" maxlength="60" label="#{msg.UsuarioNombreNombre}"/>
 						<p:message for="nombres"></p:message>
 
-						<h:outputLabel value="Apellidos" for="apellidos"/>
-						<h:inputText value="#{usuariosMB.seleccionado.apellidos}" id="apellidos"/>
+						<h:outputLabel value="#{msg.UsuarioNombreApellido}" for="apellidos" styleClass="negrita"/>
+						<h:inputText value="#{usuariosMB.seleccionado.apellidos}" id="apellidos" required="true" maxlength="60" label="#{msg.UsuarioNombreApellido}"/>
 						<p:message for="apellidos"></p:message>
 
-						<p:commandButton value="Guardar" icon="ui-icon-disk" action="#{usuariosMB.guardar}" update="msgs2, tabPanel:tablaUsuarios" ></p:commandButton>
-						<p:commandButton value="Cancelar"
+						<h:outputLabel value="#{msg.UsuarioNombreEmail}" for="email" styleClass="negrita"/>
+						<h:inputText value="#{usuariosMB.seleccionado.email}" id="email" required="true" maxlength="100" label="#{msg.UsuarioNombreEmail}" validatorMessage="#{msg.generalCorreoInvalido}">
+							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="email" />
+						</h:inputText>
+						<p:message for="email"></p:message>
+						
+						<h:outputLabel value="#{msg.UsuarioNombreCargo}" for="cargo" styleClass="negrita" />
+						<h:inputText value="#{usuariosMB.seleccionado.cargo}" id="cargo" required="true" maxlength="40" label="#{msg.UsuarioNombreCargo}"/>
+						<p:message for="cargo"></p:message>
+						
+						<h:outputLabel value="#{msg.UsuarioNombreArea}" for="area" styleClass="negrita" />
+						<h:inputText value="#{usuariosMB.seleccionado.area}" id="area" required="true" maxlength="40" label="#{msg.UsuarioNombreArea}"/>
+						<p:message for="area"></p:message>
+
+						<h:outputLabel value="#{msg.UsuarioNombreActivo}" for="activo" styleClass="negrita" />
+						<p:selectBooleanCheckbox value="#{usuariosMB.seleccionado.activo}" id="activo" label="#{msg.UsuarioNombreActivo}"/>
+						<p:message for="activo"></p:message>
+
+						<h:outputLabel value="#{msg.UsuarioNombreRol}" for="rol" styleClass="negrita" />
+						<p:selectOneMenu id="rol" value="#{usuariosMB.seleccionado.role.idRol}" label="#{msg.UsuarioNombreRol}">
+							<f:selectItems value="#{usuariosMB.roles}" var="rol" itemValue="#{rol.idRol}" itemLabel="#{rol.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="rol"></p:message>
+
+						<h:outputLabel value="#{msg.UsuarioNombrePais}" for="pais" styleClass="negrita" />
+						<p:selectOneMenu id="pais" value="#{usuariosMB.seleccionado.pais.id}" label="#{msg.UsuarioNombrePais}">
+							<f:selectItems value="#{aplicacionMB.paises}" var="pais" itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="pais"></p:message>
+
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{usuariosMB.guardar}" update="usuarioDetalle, tabPanel:tablaUsuarios" ></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}"
 							onclick="PF('usuarioDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
 
 					</p:panelGrid>
