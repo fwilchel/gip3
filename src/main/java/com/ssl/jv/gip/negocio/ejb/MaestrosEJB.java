@@ -27,6 +27,21 @@ public class MaestrosEJB implements MaestrosEJBLocal {
         
     }
     
+    @Override
+    public List<Ubicacion> consultarUbicaciones(){
+    	
+    	List<Ubicacion> listado = new ArrayList<Ubicacion>();
+    	
+    	try{
+    		listado = (List<Ubicacion>)ubicacionDAO.findAll();
+    	} catch(Exception e){
+    		
+    	}
+    	
+    	return listado;
+    	
+    }
+    
     /* (non-Javadoc)
      * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarUbicaciones(com.ssl.jv.gip.jpa.pojo.Ubicacion)
      */
@@ -80,10 +95,10 @@ public class MaestrosEJB implements MaestrosEJBLocal {
     }
     
     /* (non-Javadoc)
-     * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#modificarUbicacion(com.ssl.jv.gip.jpa.pojo.Ubicacion)
+     * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#actualizarUbicacion(com.ssl.jv.gip.jpa.pojo.Ubicacion)
      */
     @Override
-    public Ubicacion modificarUbicacion(Ubicacion pEntidad){
+    public Ubicacion actualizarUbicacion(Ubicacion pEntidad){
     	    	
     	try{
     		ubicacionDAO.update(pEntidad);

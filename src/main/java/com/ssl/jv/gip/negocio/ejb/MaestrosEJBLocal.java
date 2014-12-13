@@ -8,6 +8,13 @@ import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 
 @Local
 public interface MaestrosEJBLocal {
+	
+	/**
+	 * Consultar ubicaciones.
+	 *
+	 * @return the list
+	 */
+	public List<Ubicacion> consultarUbicaciones();
 
 	/**
 	 * Consultar ubicaciones.
@@ -39,6 +46,6 @@ public interface MaestrosEJBLocal {
 	 * @param pEntidad the entidad
 	 * @return the ubicacion
 	 */
-	public Ubicacion modificarUbicacion(Ubicacion pEntidad);
+	public Ubicacion actualizarUbicacion(Ubicacion pEntidad);
 	
 }
