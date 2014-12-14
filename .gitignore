@@ -1,4 +1,7 @@
+/target/*.*
+target/m2e-wtp/web-resources/META-INF/maven/com.ssl.jv.gip/gip3/pom.properties
+target/m2e-wtp/web-resources/META-INF/maven/com.ssl.jv.gip/gip3/pom.properties
+target/m2e-wtp/web-resources/META-INF/maven/com.ssl.jv.gip/gip3/pom.properties
+.classpath
+.settings/*.*
 /target/
-target/m2e-wtp/web-resources/META-INF/maven/com.ssl.jv.gip/gip3/pom.properties
-target/m2e-wtp/web-resources/META-INF/maven/com.ssl.jv.gip/gip3/pom.properties
-target/m2e-wtp/web-resources/META-INF/maven/com.ssl.jv.gip/gip3/pom.properties
