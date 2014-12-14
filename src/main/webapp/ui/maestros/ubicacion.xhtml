@@ -84,7 +84,7 @@
 						<p:column filterBy="#{dato.esTienda?'Si':'No'}" headerText="#{msg.maestroUbicacionesEsTienda}"
 							filterMatchMode="exact" sortBy="#{dato.esTienda}">
 							<f:facet name="filter">
-				                <p:selectOneMenu onchange="PF('datosTabla').filter()" style="width:120px" >
+				                <p:selectOneMenu onchange="PF('datoTabla').filter()" style="width:120px" >
 				                    <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
 				                    <f:selectItem itemLabel="Si" itemValue="Si" />
 				                    <f:selectItem itemLabel="No" itemValue="No" />
