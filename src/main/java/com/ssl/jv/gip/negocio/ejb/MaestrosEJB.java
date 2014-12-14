@@ -37,6 +37,9 @@ public class MaestrosEJB implements MaestrosEJBLocal {
         
     }
     
+    /* (non-Javadoc)
+     * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarUbicaciones()
+     */
     @Override
     public List<Ubicacion> consultarUbicaciones(){
     	

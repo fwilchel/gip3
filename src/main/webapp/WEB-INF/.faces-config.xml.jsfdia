@@ -8,9 +8,11 @@
    <PROCESS-ITEM-OUTPUT ID="usuario::#ui#administracion#usuarios.jsf"
     NAME="output1" PATH="/ui/administracion/usuarios.jsf"
     TARGET="rules:#ui#administracion#usuarios.jsf" TITLE="usuario" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="ubicacion::#ui#maestros#ubicacion.jsf"
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_maestro_Ubicaciones::#ui#maestros#ubicacion.jsf"
     NAME="output2" PATH="/ui/maestros/ubicacion.jsf"
-    TARGET="rules:#ui#maestros#ubicacion.jsf" TITLE="ubicacion" model-entity="JSFProcessItemOutput"/>
+    TARGET="rules:#ui#maestros#ubicacion.jsf"
+    TITLE="listado_maestro_Ubicaciones" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#administracion#usuarios.jsf"
