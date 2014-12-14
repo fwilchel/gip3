@@ -22,7 +22,7 @@
 				<p:tab title="#{msg.maestroUbicacionesTituloFrame}">
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{ubicacionMB.ubicacion}" rows="10"
-						emptyMessage="#{msg.datoNoEncontrados}" paginator="true"
+						emptyMessage="#{msg.maestroUbicacionesNoEncontrados}" paginator="true"
 						paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
@@ -114,11 +114,11 @@
 						<h:inputText value="#{ubicacionMB.seleccionado.nombre}" id="nombres" required="true" maxlength="60" label="#{msg.maestroUbicacionesNombre}"/>
 						<p:message for="nombres"></p:message>
 
-						<h:outputLabel value="#{msg.datoNombreApellido}" for="direccion" styleClass="negrita"/>
+						<h:outputLabel value="#{msg.maestroUbicacionesDireccion}" for="direccion" styleClass="negrita"/>
 						<h:inputText value="#{ubicacionMB.seleccionado.direccion}" id="direccion" required="true" maxlength="60" label="#{msg.maestroUbicacionesDireccion}"/>
 						<p:message for="direccion"></p:message>
 						
-						<h:outputLabel value="#{msg.datoNombreApellido}" for="telefono" styleClass="negrita"/>
+						<h:outputLabel value="#{msg.maestroUbicacionesTelefono}" for="telefono" styleClass="negrita"/>
 						<h:inputText value="#{ubicacionMB.seleccionado.telefono}" id="telefono" required="true" maxlength="60" label="#{msg.maestroUbicacionesTelefono}"/>
 						<p:message for="telefono"></p:message>
 						

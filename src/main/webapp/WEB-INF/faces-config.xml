@@ -35,7 +35,7 @@
             <to-view-id>/ui/administracion/usuarios.jsf</to-view-id>
         </navigation-case>
         <navigation-case>
-	        <from-outcome>ubicacion</from-outcome>
+	        <from-outcome>listado_maestro_Ubicaciones</from-outcome>
             <to-view-id>/ui/maestros/ubicacion.jsf</to-view-id>
         </navigation-case>
     </navigation-rule>
