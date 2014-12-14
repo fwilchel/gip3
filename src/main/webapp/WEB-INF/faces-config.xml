@@ -38,6 +38,10 @@
 	        <from-outcome>ubicacion</from-outcome>
             <to-view-id>/ui/maestros/ubicacion.jsf</to-view-id>
         </navigation-case>
+        <navigation-case>
+	        <from-outcome>agenciaCarga</from-outcome>
+            <to-view-id>/ui/maestros/agenciaCarga.jsf</to-view-id>
+        </navigation-case>
     </navigation-rule>
 
 </faces-config>
