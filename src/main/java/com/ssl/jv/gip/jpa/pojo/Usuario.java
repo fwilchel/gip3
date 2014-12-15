@@ -67,7 +67,7 @@ public class Usuario implements Serializable {
 	private Pais pais;
 
 	//bi-directional many-to-one association to Rol
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_rol")
 	private Rol role;
 
