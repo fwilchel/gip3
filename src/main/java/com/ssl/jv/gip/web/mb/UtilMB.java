@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
  *
  * <p>Description: GIP</p>
  *
- * <p>Copyright: Copyright (c) 2012</p>
+ * <p>Copyright: Copyright (c) 2014</p>
  *
  * <p>Company: Soft Studio Ltda.</p>
  *
@@ -195,6 +195,18 @@ public class UtilMB implements Serializable {
 			else
 				return false;
 		
+	}
+	
+	public boolean isException(Exception e, String constraintName){
+		if (e.getCause()!=null){
+			if (e.getCause().getCause()!=null){
+				return e.getCause().getCause().getMessage().indexOf(constraintName)!=-1;
+			}else{
+				return e.getCause().getMessage().indexOf(constraintName)!=-1;
+			}
+		}else{
+			return e.getMessage().indexOf(constraintName)!=-1;
+		}
 	}
 
 }

@@ -40,17 +40,6 @@ public class LoginMB extends UtilMB {
 	
 	@ManagedProperty(value="#{menuMB}")
 	private MenuMB menu;
-	
-	@ManagedProperty(value="#{aplicacionMB}")
-	private AplicacionMB appMB;
-	
-	public AplicacionMB getAppMB() {
-		return appMB;
-	}
-
-	public void setAppMB(AplicacionMB appMB) {
-		this.appMB = appMB;
-	}
 
 	public MenuMB getMenu() {
 		return menu;
@@ -116,15 +105,15 @@ public class LoginMB extends UtilMB {
 			if (u.getContrasena().equals(pwd)){
 				
 				if (u.getRole()==null){
-					this.addMensajeError(appMB.getMessage("usuarioSinRol", language));
+					this.addMensajeError(AplicacionMB.getMessage("usuarioSinRol", language));
 					return null;
 				}
 				if (u.getActivo()==false){
-					this.addMensajeError(appMB.getMessage("usuarioInactivo", language));
+					this.addMensajeError(AplicacionMB.getMessage("usuarioInactivo", language));
 					return null;
 				}
 				if (u.getIntentos()>=NUMERO_MAX_LOGIN){
-					this.addMensajeError(appMB.getMessage("cuentaBloqueada", language));
+					this.addMensajeError(AplicacionMB.getMessage("cuentaBloqueada", language));
 					return null;
 				}
 				
@@ -139,12 +128,12 @@ public class LoginMB extends UtilMB {
 			}else{
 				u.setIntentos(u.getIntentos()+1);
 				this.admonEjb.actualizarUsuario(u);
-				this.addMensajeError(appMB.getMessage("vuelvaIntentarlo", language));
+				this.addMensajeError(AplicacionMB.getMessage("vuelvaIntentarlo", language));
 				return null;
 			}
 		}else{
-			LOGGER.warn("|Client IP address=|"+remoteAddr+" |Identificacion=|"+email+" "+appMB.getMessage("vuelvaIntentarlo", language));
-			this.addMensajeError(appMB.getMessage("vuelvaIntentarlo", language));
+			LOGGER.warn("|Client IP address=|"+remoteAddr+" |Identificacion=|"+email+" "+AplicacionMB.getMessage("vuelvaIntentarlo", language));
+			this.addMensajeError(AplicacionMB.getMessage("vuelvaIntentarlo", language));
 			return null;
 		}
 	}
