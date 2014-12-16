@@ -124,47 +124,52 @@
 						rendered="#{not empty usuariosMB.seleccionado}"
 						columnClasses="label,value">
 
-						<h:outputLabel value="#{msg.UsuarioNombreId}" for="identificacion" styleClass="negrita"/>
+						<p:outputLabel value="#{msg.UsuarioNombreId}" for="identificacion" styleClass="negrita"/>
 						<h:inputText value="#{usuariosMB.seleccionado.id}" id="identificacion" required="true" maxlength="40" label="#{msg.UsuarioNombreId}"/>
 						<p:message for="identificacion"></p:message>
 
-						<h:outputLabel value="#{msg.UsuarioNombreNombre}" for="nombres" styleClass="negrita"/>
-						<h:inputText value="#{usuariosMB.seleccionado.nombre}" id="nombres" required="true" maxlength="60" label="#{msg.UsuarioNombreNombre}"/>
+						<p:outputLabel value="#{msg.UsuarioNombreNombre}" for="nombres" styleClass="negrita"/>
+						<h:inputText value="#{usuariosMB.seleccionado.nombre}" id="nombres" required="true" maxlength="60" label="#{msg.UsuarioNombreNombre}" size="45"/>
 						<p:message for="nombres"></p:message>
 
-						<h:outputLabel value="#{msg.UsuarioNombreApellido}" for="apellidos" styleClass="negrita"/>
-						<h:inputText value="#{usuariosMB.seleccionado.apellidos}" id="apellidos" required="true" maxlength="60" label="#{msg.UsuarioNombreApellido}"/>
+						<p:outputLabel value="#{msg.UsuarioNombreApellido}" for="apellidos" styleClass="negrita"/>
+						<h:inputText value="#{usuariosMB.seleccionado.apellidos}" id="apellidos" required="true" maxlength="60" label="#{msg.UsuarioNombreApellido}" size="45"/>
 						<p:message for="apellidos"></p:message>
 
-						<h:outputLabel value="#{msg.UsuarioNombreEmail}" for="email" styleClass="negrita"/>
-						<h:inputText value="#{usuariosMB.seleccionado.email}" id="email" required="true" maxlength="100" label="#{msg.UsuarioNombreEmail}" validatorMessage="#{msg.generalCorreoInvalido}">
+						<p:outputLabel value="#{msg.UsuarioNombreEmail}" for="email" styleClass="negrita"/>
+						<h:inputText value="#{usuariosMB.seleccionado.email}" id="email" required="true" maxlength="100" label="#{msg.UsuarioNombreEmail}" validatorMessage="#{msg.generalCorreoInvalido}" size="45">
 							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="email" />
 						</h:inputText>
 						<p:message for="email"></p:message>
 						
-						<h:outputLabel value="#{msg.UsuarioNombreCargo}" for="cargo" styleClass="negrita" />
+						<p:outputLabel value="#{msg.UsuarioNombreCargo}" for="cargo" styleClass="negrita" />
 						<h:inputText value="#{usuariosMB.seleccionado.cargo}" id="cargo" required="true" maxlength="40" label="#{msg.UsuarioNombreCargo}"/>
 						<p:message for="cargo"></p:message>
 						
-						<h:outputLabel value="#{msg.UsuarioNombreArea}" for="area" styleClass="negrita" />
+						<p:outputLabel value="#{msg.UsuarioNombreArea}" for="area" styleClass="negrita" />
 						<h:inputText value="#{usuariosMB.seleccionado.area}" id="area" required="true" maxlength="40" label="#{msg.UsuarioNombreArea}"/>
 						<p:message for="area"></p:message>
 
-						<h:outputLabel value="#{msg.UsuarioNombreActivo}" for="activo" styleClass="negrita" />
+						<p:outputLabel value="#{msg.UsuarioNombreActivo}" for="activo" styleClass="negrita" />
 						<p:selectBooleanCheckbox value="#{usuariosMB.seleccionado.activo}" id="activo" label="#{msg.UsuarioNombreActivo}"/>
 						<p:message for="activo"></p:message>
 
-						<h:outputLabel value="#{msg.UsuarioNombreRol}" for="rol" styleClass="negrita" />
+						<p:outputLabel value="#{msg.UsuarioNombreRol}" for="rol" styleClass="negrita" />
 						<p:selectOneMenu id="rol" value="#{usuariosMB.seleccionado.role.idRol}" label="#{msg.UsuarioNombreRol}">
 							<f:selectItems value="#{usuariosMB.roles}" var="rol" itemValue="#{rol.idRol}" itemLabel="#{rol.nombre}" />
 						</p:selectOneMenu>
 						<p:message for="rol"></p:message>
 
-						<h:outputLabel value="#{msg.UsuarioNombrePais}" for="pais" styleClass="negrita" />
+						<p:outputLabel value="#{msg.UsuarioNombrePais}" for="pais" styleClass="negrita" />
 						<p:selectOneMenu id="pais" value="#{usuariosMB.seleccionado.pais.id}" label="#{msg.UsuarioNombrePais}">
 							<f:selectItems value="#{aplicacionMB.paises}" var="pais" itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
 						</p:selectOneMenu>
 						<p:message for="pais"></p:message>
+						
+						<p:outputLabel value="#{msg.UsuarioNombreCanal}" for="canal" styleClass="negrita" />
+						<h:inputText value="#{usuariosMB.seleccionado.canal}" id="canal" required="false" maxlength="2" label="#{msg.UsuarioNombreCanal}" size="10"/>
+						<p:message for="canal"></p:message>
+						
 
 						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{usuariosMB.guardar}" update=":formaDlg:usuarioDetalle, :forma:tabPanel:tablaUsuarios" ></p:commandButton>
 						<p:commandButton value="#{msg.generalCancelar}" process="@this" oncomplete="PF('usuarioDialog').hide();" icon="ui-icon-cancel" >

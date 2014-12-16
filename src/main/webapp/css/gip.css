@@ -142,6 +142,16 @@
 	vertical-align: bottom;
 }
 
+negrita{
+	font: bold;
+	font-weight: bold;
+}
+ 
+.negrita{
+	font: bold;
+	font-weight: bold;
+}
+
 @font-face {
 font-family: 'Myriad Pro Regular';
 font-style: normal;
@@ -213,12 +223,3 @@ font-weight: normal;
 src: local('Myriad Pro Bold'), url('/fonts/MYRIADPRO-BOLD.woff') format('woff');
 }
 
-negrita{
-	font: bold;
-	font-weight: bold;
-}
-
-.negrita{
-	font: bold;
-	font-weight: bold;
-}
