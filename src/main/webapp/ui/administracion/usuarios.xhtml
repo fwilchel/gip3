@@ -31,7 +31,7 @@
 							<div align="right">
 							<p:outputPanel>
 							
-					<p:commandButton action="#{usuariosMB.nuevo}" update=":forma:usuarioDetalle, :forma:usuarioDlg" oncomplete="PF('usuarioDialog').show()" title="#{msg.generalAdicionarRegistro}"
+					<p:commandButton action="#{usuariosMB.nuevo}" update=":usuarioDlg" oncomplete="PF('usuarioDialog').show()" title="#{msg.generalAdicionarRegistro}"
 						icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
 					<p:spacer width="30"></p:spacer>	
 					<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
@@ -49,7 +49,7 @@
 
 						<p:column style="width:32px;text-align: center">
 							<p:commandButton oncomplete="PF('usuarioDialog').show()"
-								icon="ui-icon-pencil" title="#{msg.generalEditar}" update=":forma:usuarioDetalle,:forma:usuarioDlg">
+								icon="ui-icon-pencil" title="#{msg.generalEditar}" update=":usuarioDlg">
 								<f:setPropertyActionListener value="#{usuario}"
 									target="#{usuariosMB.seleccionado}" />
 							</p:commandButton>
@@ -111,10 +111,13 @@
 					</p:dataTable>
 				</p:tab>
 			</p:tabView>
-
+		</h:form>
+		
 			<p:dialog header="#{usuariosMB.creacion?msg.UsuarioCrearTitulo:msg.UsuarioModificarTitulo}" widgetVar="usuarioDialog" modal="true"
 				showEffect="fade" hideEffect="fade" resizable="false" dynamic="true" id="usuarioDlg">
+				<h:form id="formaDlg">
 				<p:outputPanel id="usuarioDetalle" style="text-align:center;">
+					
 					<p:messages id="msgs2" showDetail="false" showSummary="true" globalOnly="true"
 						showIcon="true"></p:messages>
 					<p:panelGrid columns="3"
@@ -163,19 +166,21 @@
 						</p:selectOneMenu>
 						<p:message for="pais"></p:message>
 
-						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{usuariosMB.guardar}" update="usuarioDetalle, tabPanel:tablaUsuarios" ></p:commandButton>
-						<p:commandButton value="#{msg.generalCancelar}"
-							onclick="PF('usuarioDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{usuariosMB.guardar}" update=":formaDlg:usuarioDetalle, :forma:tabPanel:tablaUsuarios" ></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}" process="@this" oncomplete="PF('usuarioDialog').hide();" icon="ui-icon-cancel" >
+							<p:resetInput target="usuarioDetalle" />
+						</p:commandButton>
 
 					</p:panelGrid>
-
+					
 
 				</p:outputPanel>
+				</h:form>
 			</p:dialog>
 
 
 
-		</h:form>
+
 
 	</ui:define>
 
