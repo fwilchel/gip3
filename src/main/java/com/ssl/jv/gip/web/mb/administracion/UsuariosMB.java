@@ -78,6 +78,7 @@ public class UsuariosMB extends UtilMB{
 		seleccionado=new Usuario();
 		seleccionado.setRole(new Rol());
 		seleccionado.setPais(new Pais());
+		seleccionado.setIntentos(0L);
 		this.modo=Modo.CREACION;
 	}
 	
@@ -85,6 +86,7 @@ public class UsuariosMB extends UtilMB{
 		if (this.modo.equals(Modo.CREACION)){
 			this.seleccionado.setFechaIngreso(new Timestamp(new Date().getTime()));
 			this.admonEjb.crearUsuario(this.seleccionado);
+			this.usuarios.add(this.seleccionado);
 		}else{
 			this.admonEjb.actualizarUsuario(this.seleccionado);
 		}
