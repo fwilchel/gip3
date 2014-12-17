@@ -130,8 +130,12 @@ public class UsuariosMB extends UtilMB{
 		this.modo=Modo.CREACION;
 	}
 	
+	
+	
 	public void guardar(){
 		try{
+			this.seleccionado.setPais(this.appMB.getPais(this.seleccionado.getPais().getId()));
+			this.seleccionado.setRole(this.getRol(this.seleccionado.getRole().getIdRol()));
 			if (this.modo.equals(Modo.CREACION)){
 				this.seleccionado.setFechaIngreso(new Timestamp(new Date().getTime()));
 				this.admonEjb.crearUsuario(this.seleccionado);
@@ -164,6 +168,14 @@ public class UsuariosMB extends UtilMB{
 		}else{
 			return false;
 		}
+	}
+	
+	public Rol getRol(Long id){
+		for (Rol r:this.roles){
+			if (r.getIdRol().equals(id))
+				return r;
+		}
+		return null;
 	}
 
 }

@@ -58,4 +58,12 @@ public class AplicacionMB {
 		this.paises = paises;
 	}
 	
+	public Pais getPais(String id){
+		for (Pais p:paises){
+			if (p.getId().equals(id))
+				return p;
+		}
+		return null;
+	}
+	
 }
