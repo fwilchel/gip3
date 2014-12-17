@@ -64,12 +64,12 @@ public class ComunEJB implements ComunEJBLocal {
 	 * @see com.ssl.jv.gip.negocio.ejb.ComunEJBLocal#consultarRegiones()
 	 */
 	@Override
-	public List<Region> consultarRegiones(){
+	public List<Region> consultarRegiones(String pais){
 		
 		List<Region> listado = new ArrayList<Region>();
 
 		try{
-			listado = (List<Region>)regionDao.findAll();
+			listado = (List<Region>)regionDao.findByRegional(pais);
 		} catch(Exception e){
 
 		}
@@ -87,7 +87,7 @@ public class ComunEJB implements ComunEJBLocal {
 		List<Pais> listado = new ArrayList<Pais>();
 
 		try{
-			listado = (List<Pais>)paisDao.findAll();
+			listado = (List<Pais>)paisDao.findByRegional();
 		} catch(Exception e){
 
 		}

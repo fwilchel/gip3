@@ -13,8 +13,8 @@
 		<p:spacer height="40"></p:spacer>
 		<h:form prependId="false" id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
-				showIcon="true"></p:messages>
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
 
 
 
@@ -22,133 +22,231 @@
 				<p:tab title="#{msg.maestroUbicacionesTituloFrame}">
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{ubicacionMB.ubicacion}" rows="10"
-						emptyMessage="#{msg.maestroUbicacionesNoEncontrados}" paginator="true"
-						paginatorPosition="bottom"
+						emptyMessage="#{msg.maestroUbicacionesNoEncontrados}"
+						paginator="true" paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
 
 						<f:facet name="header">
 							<div align="right">
-							<p:outputPanel>
-							
-					<p:commandButton action="#{ubicacionMB.nuevo}" update=":forma:datoDetalle, :forma:datoDlg" oncomplete="PF('datoDialog').show()" title="#{msg.generalAdicionarRegistro}"
-						icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
-					<p:spacer width="30"></p:spacer>	
-					<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
-								<p:inputText id="globalFilter"
-									onkeyup="PF('datoTabla').filter()" style="width:150px"
-									placeholder="#{msg.generalPalabrasBuscar}" />
-					<p:spacer width="30"></p:spacer>				
-					<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
-						icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
-							
-								
-							</p:outputPanel>
+								<p:outputPanel>
+
+									<p:commandButton action="#{ubicacionMB.nuevo}"
+										update=":datoDlg"
+										oncomplete="PF('datoDialog').show()"
+										title="#{msg.generalAdicionarRegistro}"
+										icon="ui-icon-document"
+										value="#{msg.generalAdicionarRegistro}" />
+									<p:spacer width="30"></p:spacer>
+									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+									<p:inputText id="globalFilter"
+										onkeyup="PF('datoTabla').filter()" style="width:150px"
+										placeholder="#{msg.generalPalabrasBuscar}" />
+									<p:spacer width="30"></p:spacer>
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+
+								</p:outputPanel>
 							</div>
 						</f:facet>
 
 						<p:column style="width:32px;text-align: center">
 							<p:commandButton oncomplete="PF('datoDialog').show()"
-								icon="ui-icon-pencil" title="#{msg.generalEditar}" update=":forma:datoDetalle,:forma:datoDlg">
+								icon="ui-icon-pencil" title="#{msg.generalEditar}"
+								update=":datoDlg"
+								action="#{ubicacionMB.modificar}">
 								<f:setPropertyActionListener value="#{dato}"
 									target="#{ubicacionMB.seleccionado}" />
 							</p:commandButton>
 						</p:column>
 
 
-						<p:column filterBy="#{dato.id}" headerText="#{msg.maestroUbicacionesId}"
+						<p:column filterBy="#{dato.id}"
+							headerText="#{msg.maestroUbicacionesId}"
 							filterMatchMode="contains" sortBy="#{dato.id}">
 							<h:outputText value="#{dato.id}" />
 						</p:column>
 
-						<p:column filterBy="#{dato.nombre}" headerText="#{msg.maestroUbicacionesNombre}"
+						<p:column filterBy="#{dato.nombre}"
+							headerText="#{msg.maestroUbicacionesNombre}"
 							filterMatchMode="contains" sortBy="#{dato.nombre}">
 							<h:outputText value="#{dato.nombre}" />
 						</p:column>
 
-						<p:column filterBy="#{dato.regione.pais.nombre}" headerText="#{msg.maestroUbicacionesPais}"
+						<p:column filterBy="#{dato.regione.pais.nombre}"
+							headerText="#{msg.maestroUbicacionesPais}"
 							filterMatchMode="contains" sortBy="#{dato.regione.pais.nombre}">
 							<h:outputText value="#{dato.regione.pais.nombre}" />
 						</p:column>
 
-						<p:column filterBy="#{dato.regione.nombre}" headerText="#{msg.maestroUbicacionesRegion}"
+						<p:column filterBy="#{dato.regione.nombre}"
+							headerText="#{msg.maestroUbicacionesRegion}"
 							filterMatchMode="contains" sortBy="#{dato.regione.nombre}">
 							<h:outputText value="#{dato.regione.nombre}" />
 						</p:column>
 
-						<p:column filterBy="#{dato.ubicacione.nombre}" headerText="#{msg.maestroUbicacionesBogedaAbastecedora}"
+						<p:column filterBy="#{dato.ubicacione.nombre}"
+							headerText="#{msg.maestroUbicacionesBogedaAbastecedora}"
 							filterMatchMode="contains" sortBy="#{dato.ubicacione.nombre}">
 							<h:outputText value="#{dato.ubicacione.nombre}" />
 						</p:column>
 
-						<p:column filterBy="#{dato.esTienda?'Si':'No'}" headerText="#{msg.maestroUbicacionesEsTienda}"
+						<p:column filterBy="#{dato.esTienda?'Si':'No'}"
+							headerText="#{msg.maestroUbicacionesEsTienda}"
 							filterMatchMode="exact" sortBy="#{dato.esTienda}">
 							<f:facet name="filter">
-				                <p:selectOneMenu onchange="PF('datoTabla').filter()" style="width:120px" >
-				                    <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
-				                    <f:selectItem itemLabel="Si" itemValue="Si" />
-				                    <f:selectItem itemLabel="No" itemValue="No" />
-				                </p:selectOneMenu>
-				            </f:facet>
+								<p:selectOneMenu onchange="PF('datoTabla').filter()"
+									style="width:120px">
+									<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItem itemLabel="Si" itemValue="Si" />
+									<f:selectItem itemLabel="No" itemValue="No" />
+								</p:selectOneMenu>
+							</f:facet>
 							<h:outputText value="#{dato.esTienda?'Si':'No'}" />
 						</p:column>
 
 					</p:dataTable>
 				</p:tab>
 			</p:tabView>
+		</h:form>
 
-			<p:dialog header="#{ubicacionMB.creacion?msg.maestroUbicacionesCrearProducto:msg.maestroUbicacionesModificarProducto}" widgetVar="datoDialog" modal="true"
-				showEffect="fade" hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+		<p:dialog
+			header="#{ubicacionMB.creacion?msg.maestroUbicacionesCrearProducto:msg.maestroUbicacionesModificarProducto}"
+			widgetVar="datoDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+			<h:form id="formaDlg">
 				<p:outputPanel id="datoDetalle" style="text-align:center;">
-					<p:messages id="msgs2" showDetail="false" showSummary="true" globalOnly="true"
-						showIcon="true"></p:messages>
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
 					<p:panelGrid columns="3"
 						rendered="#{not empty ubicacionMB.seleccionado}"
 						columnClasses="label,value">
 
-						<h:outputLabel value="#{msg.maestroUbicacionesId}" for="identificacion" styleClass="negrita"/>
-						<h:inputText value="#{ubicacionMB.seleccionado.id}" id="identificacion" required="true" maxlength="40" label="#{msg.maestroUbicacionesId}"/>
+						<p:outputLabel value="#{msg.maestroUbicacionesId}"
+							for="identificacion" styleClass="negrita" />
+						<h:inputText value="#{ubicacionMB.seleccionado.id}"
+							id="identificacion" required="true" maxlength="40"
+							label="#{msg.maestroUbicacionesId}" />
 						<p:message for="identificacion"></p:message>
 
-						<h:outputLabel value="#{msg.maestroUbicacionesNombre}" for="nombres" styleClass="negrita"/>
-						<h:inputText value="#{ubicacionMB.seleccionado.nombre}" id="nombres" required="true" maxlength="60" label="#{msg.maestroUbicacionesNombre}"/>
+						<p:outputLabel value="#{msg.maestroUbicacionesNombre}"
+							for="nombres" styleClass="negrita" />
+						<h:inputText value="#{ubicacionMB.seleccionado.nombre}"
+							id="nombres" required="true" maxlength="60"
+							label="#{msg.maestroUbicacionesNombre}" />
 						<p:message for="nombres"></p:message>
 
-						<h:outputLabel value="#{msg.maestroUbicacionesDireccion}" for="direccion" styleClass="negrita"/>
-						<h:inputText value="#{ubicacionMB.seleccionado.direccion}" id="direccion" required="true" maxlength="60" label="#{msg.maestroUbicacionesDireccion}"/>
+						<p:outputLabel value="#{msg.maestroUbicacionesDireccion}"
+							for="direccion" styleClass="negrita" />
+						<h:inputText value="#{ubicacionMB.seleccionado.direccion}"
+							id="direccion" required="true" maxlength="60"
+							label="#{msg.maestroUbicacionesDireccion}" />
 						<p:message for="direccion"></p:message>
-						
-						<h:outputLabel value="#{msg.maestroUbicacionesTelefono}" for="telefono" styleClass="negrita"/>
-						<h:inputText value="#{ubicacionMB.seleccionado.telefono}" id="telefono" required="true" maxlength="60" label="#{msg.maestroUbicacionesTelefono}"/>
+
+						<p:outputLabel value="#{msg.maestroUbicacionesTelefono}"
+							for="telefono" styleClass="negrita" />
+						<h:inputText value="#{ubicacionMB.seleccionado.telefono}"
+							id="telefono" required="true" maxlength="60"
+							label="#{msg.maestroUbicacionesTelefono}" />
 						<p:message for="telefono"></p:message>
-						
-						<h:outputLabel value="#{msg.maestroUbicacionesPais}" for="pais" styleClass="negrita" />
-						<p:selectOneMenu id="pais" value="#{ubicacionMB.seleccionado.regione.pais.id}" label="#{msg.maestroUbicacionesPais}">
-							<f:selectItems value="#{ubicacionMB.paises}" var="pais" itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+
+						<h:outputLabel value="#{msg.maestroUbicacionesPais}" for="pais"
+							styleClass="negrita" />
+						<p:selectOneMenu id="pais" value="#{ubicacionMB.pais.id}"
+							label="#{msg.maestroUbicacionesPais}">
+							<p:ajax event="change" update="regione"
+								listener="#{ubicacionMB.cambioPais}"></p:ajax>
+							<f:selectItems value="#{ubicacionMB.paises}" var="pais"
+								itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
 						</p:selectOneMenu>
 						<p:message for="pais"></p:message>
-						
-						
 
-						<h:outputLabel value="#{msg.maestroUbicacionesEsTienda}" for="estienda" styleClass="negrita" />
-						<p:selectBooleanCheckbox value="#{ubicacionMB.seleccionado.esTienda}" id="estienda" label="#{msg.maestroUbicacionesEsTienda}"/>
+						<h:outputLabel value="#{msg.maestroUbicacionesRegion}"
+							for="regione" styleClass="negrita" />
+						<p:selectOneMenu id="regione" value="#{ubicacionMB.region.id}"
+							label="#{msg.maestroUbicacionesRegion}">
+							<f:selectItems value="#{ubicacionMB.regiones}" var="regione"
+								itemValue="#{regione.id}" itemLabel="#{regione.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="regione"></p:message>
+
+						<h:outputLabel value="#{msg.maestroUbicacionesEmpresa}"
+							for="empresa" styleClass="negrita" />
+						<p:selectOneMenu id="empresa"
+							value="#{ubicacionMB.seleccionado.empresa.id}"
+							label="#{msg.maestroUbicacionesEmpresa}">
+							<f:selectItems value="#{ubicacionMB.empresas}" var="empresa"
+								itemValue="#{empresa.id}" itemLabel="#{empresa.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="empresa"></p:message>
+
+						<h:outputLabel value="#{msg.maestroUbicacionesBogedaAbastecedora}"
+							for="bodega" styleClass="negrita" />
+						<p:selectOneMenu id="bodega"
+							value="#{ubicacionMB.seleccionado.ubicacione.id}"
+							label="#{msg.maestroUbicacionesBogedaAbastecedora}">
+							<f:selectItems value="#{ubicacionMB.bodegas}" var="bodega"
+								itemValue="#{bodega.id}" itemLabel="#{bodega.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="bodega"></p:message>
+
+						<h:outputLabel value="#{msg.maestroUbicacionesEsTienda}"
+							for="estienda" styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{ubicacionMB.seleccionado.esTienda}" id="estienda"
+							label="#{msg.maestroUbicacionesEsTienda}" />
 						<p:message for="estienda"></p:message>
-
-						
-
-						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{ubicacionMB.guardar}" update="datoDetalle, tabPanel:tablaDatos" ></p:commandButton>
-						<p:commandButton value="#{msg.generalCancelar}"
-							onclick="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
 
 					</p:panelGrid>
 
 
+
+					<p:panelGrid columns="7"
+						rendered="#{not empty ubicacionMB.seleccionado}"
+						rowClasses="label,value">
+
+						<h:outputText value="#{msg.maestroUbicacionesDespachoLunes}"></h:outputText>
+						<h:outputText value="#{msg.maestroUbicacionesDespachoMartes}"></h:outputText>
+						<h:outputText value="#{msg.maestroUbicacionesDespachoMiercoles}"></h:outputText>
+						<h:outputText value="#{msg.maestroUbicacionesDespachoJueves}"></h:outputText>
+						<h:outputText value="#{msg.maestroUbicacionesDespachoViernes}"></h:outputText>
+						<h:outputText value="#{msg.maestroUbicacionesDespachoSabado}"></h:outputText>
+						<h:outputText value="#{msg.maestroUbicacionesDespachoDomingo}"></h:outputText>
+
+						<p:selectBooleanCheckbox
+							value="#{ubicacionMB.seleccionado.despachoLunes}"></p:selectBooleanCheckbox>
+						<p:selectBooleanCheckbox
+							value="#{ubicacionMB.seleccionado.despachoMartes}"></p:selectBooleanCheckbox>
+						<p:selectBooleanCheckbox
+							value="#{ubicacionMB.seleccionado.despachoMiercoles}"></p:selectBooleanCheckbox>
+						<p:selectBooleanCheckbox
+							value="#{ubicacionMB.seleccionado.despachoJueves}"></p:selectBooleanCheckbox>
+						<p:selectBooleanCheckbox
+							value="#{ubicacionMB.seleccionado.despachoViernes}"></p:selectBooleanCheckbox>
+						<p:selectBooleanCheckbox
+							value="#{ubicacionMB.seleccionado.despachoSabado}"></p:selectBooleanCheckbox>
+						<p:selectBooleanCheckbox
+							value="#{ubicacionMB.seleccionado.despachoDomingo}"></p:selectBooleanCheckbox>
+
+					</p:panelGrid>
+
+					<p:panelGrid columns="3"
+						rendered="#{not empty ubicacionMB.seleccionado}"
+						columnClasses="label,value">
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+							action="#{ubicacionMB.guardar}"
+							update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos"></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}"
+							onclick="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+					</p:panelGrid>
+
 				</p:outputPanel>
-			</p:dialog>
+			</h:form>
+		</p:dialog>
 
-
-
-		</h:form>
 
 	</ui:define>
 

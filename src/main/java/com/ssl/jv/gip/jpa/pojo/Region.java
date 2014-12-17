@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -11,7 +13,10 @@ import java.util.List;
  */
 @Entity
 @Table(name="regiones")
-@NamedQuery(name="Region.findAll", query="SELECT r FROM Region r")
+@NamedQueries({
+	@NamedQuery(name="Region.findAll", query="SELECT r FROM Region r"),
+	@NamedQuery(name="Region.findByPais", query="SELECT r FROM Region r inner join r.pais p WHERE p.id = :pais")
+})
 public class Region implements Serializable {
 	private static final long serialVersionUID = 1L;
 
