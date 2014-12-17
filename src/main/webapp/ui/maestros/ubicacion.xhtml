@@ -122,6 +122,12 @@
 						<h:inputText value="#{ubicacionMB.seleccionado.telefono}" id="telefono" required="true" maxlength="60" label="#{msg.maestroUbicacionesTelefono}"/>
 						<p:message for="telefono"></p:message>
 						
+						<h:outputLabel value="#{msg.maestroUbicacionesPais}" for="pais" styleClass="negrita" />
+						<p:selectOneMenu id="pais" value="#{ubicacionMB.seleccionado.regione.pais.id}" label="#{msg.maestroUbicacionesPais}">
+							<f:selectItems value="#{ubicacionMB.paises}" var="pais" itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="pais"></p:message>
+						
 						
 
 						<h:outputLabel value="#{msg.maestroUbicacionesEsTienda}" for="estienda" styleClass="negrita" />

@@ -1,13 +1,20 @@
 package com.ssl.jv.gip.web.mb;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.component.EditableValueHolder;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
+import javax.faces.context.PartialViewContext;
 
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
@@ -49,6 +56,6 @@ public class AplicacionMB {
 
 	public void setPaises(List<Pais> paises) {
 		this.paises = paises;
-	}	
+	}
 	
 }

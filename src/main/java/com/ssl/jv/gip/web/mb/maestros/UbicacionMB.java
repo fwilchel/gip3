@@ -15,6 +15,7 @@ import com.ssl.jv.gip.jpa.pojo.Rol;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
+import com.ssl.jv.gip.negocio.ejb.ComunEJB;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
@@ -26,10 +27,15 @@ public class UbicacionMB extends UtilMB{
 	private List<Ubicacion> ubicacion;
 	private Ubicacion seleccionado;
 	
+	private List<Pais> paises;
+	
 	private Modo modo;
 	
 	@EJB
 	private MaestrosEJB maestroEjb;	
+	
+	@EJB
+	private ComunEJB comunEJB;
 	
 	public UbicacionMB(){
 		
@@ -38,6 +44,7 @@ public class UbicacionMB extends UtilMB{
 	@PostConstruct
 	public void init(){
 		ubicacion = maestroEjb.consultarUbicaciones();
+		paises = comunEJB.consultarPaises();
 	}
 
 	public Modo getModo() {
@@ -86,6 +93,14 @@ public class UbicacionMB extends UtilMB{
 
 	public void setUbicacion(List<Ubicacion> ubicacion) {
 		this.ubicacion = ubicacion;
+	}
+
+	public List<Pais> getPaises() {
+		return paises;
+	}
+
+	public void setPaises(List<Pais> paises) {
+		this.paises = paises;
 	}
 
 }

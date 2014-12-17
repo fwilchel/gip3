@@ -6,6 +6,8 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import org.apache.log4j.Logger;
+
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Rol;
@@ -22,6 +24,8 @@ import com.ssl.jv.gip.negocio.dao.UsuarioDAO;
 @LocalBean
 public class AdministracionEJB implements AdministracionEJBLocal {
 
+	private static final Logger LOGGER = Logger.getLogger(AdministracionEJB.class);
+	
 	@EJB
 	private UsuarioDAO usuarioDao;
 	
@@ -54,7 +58,7 @@ public class AdministracionEJB implements AdministracionEJBLocal {
     }
 
     public void crearUsuario(Usuario u){
-    	this.usuarioDao.add(u);
+   		this.usuarioDao.add(u);
     }
     
     public List<Usuario> consultarUsuarios(){

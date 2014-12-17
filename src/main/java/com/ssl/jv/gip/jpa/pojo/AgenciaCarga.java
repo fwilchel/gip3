@@ -16,6 +16,8 @@ public class AgenciaCarga implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator( name = "agencia_carga_id_seq", sequenceName = "agencia_carga_id_seq", allocationSize = 1)
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "agencia_carga_id_seq" )
 	private Long id;
 
 	private Boolean activo;
