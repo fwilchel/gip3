@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJB;
+import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
 
@@ -29,6 +30,8 @@ public class AgenciaCargaMB extends UtilMB {
 	
 	@EJB
 	private MaestrosEJB servicio;
+	
+	private Integer language=AplicacionMB.SPANISH;
 	
 	private Modo modo;
 	
@@ -54,13 +57,19 @@ public class AgenciaCargaMB extends UtilMB {
 	}
 	
 	public void guardar(){
+		try{
 		if (this.modo.equals(Modo.CREACION)){
 			this.servicio.crearAgenciaCarga(this.seleccionado);
+			this.agencias.add(0,this.seleccionado);
+			this.modo = Modo.EDICION;
 		}else{
 			this.servicio.actualizarAgenciaCarga(this.seleccionado);
 		}
 		
 		this.addMensajeInfo("Agencia de Carga almacenada exitosamente");
+		}catch (Exception ex){
+			this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
+		}
 	}
 	
 	public boolean isCreacion(){

@@ -25,9 +25,8 @@ public class UbicacionDAO extends GenericDAO<Ubicacion>{
 		List<Ubicacion> listado = new ArrayList<Ubicacion>();
 		
 		try{
-			listado = em.createQuery("from Ubicacion WHERE esTienda = :esTienda AND nombre like :nombre order by nombre").
+			listado = em.createQuery("from Ubicacion WHERE esTienda = :esTienda order by nombre").
 					setParameter("esTienda", pFiltro.getEsTienda()).
-					setParameter("nombre", PORCENTAJE_LIKE + pFiltro.getNombre() == null ? "" : pFiltro.getNombre() + PORCENTAJE_LIKE).
 					getResultList();
 		} catch(Exception e){
 			

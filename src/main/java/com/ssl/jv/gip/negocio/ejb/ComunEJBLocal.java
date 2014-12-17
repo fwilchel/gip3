@@ -27,7 +27,7 @@ public interface ComunEJBLocal {
 	 *
 	 * @return the list
 	 */
-	public List<Region> consultarRegiones();
+	public List<Region> consultarRegiones(String pais);
 	
 	/**
 	 * Consultar paises.

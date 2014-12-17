@@ -13,7 +13,10 @@ import java.util.List;
  */
 @Entity
 @Table(name="paises")
-@NamedQuery(name="Pais.findAll", query="SELECT p FROM Pais p")
+@NamedQueries({
+	@NamedQuery(name="Pais.findAll", query="SELECT p FROM Pais p"),
+	@NamedQuery(name="Pais.findByRegional", query="SELECT distinct(p) FROM Pais p inner join p.regiones r")
+})
 public class Pais implements Serializable, Comparable<Object> {
 	private static final long serialVersionUID = 1L;
 
