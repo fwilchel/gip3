@@ -1,6 +1,5 @@
 package com.ssl.jv.gip.web.mb;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -40,9 +38,10 @@ public class MenuMB extends UtilMB{
 	private String opcionActual;
 	private List<Funcionalidad> opciones;
 	private Integer language=AplicacionMB.SPANISH;
+
 	
 	public MenuMB(){
-		
+
 	}
 
 	public Integer getLanguage() {
@@ -195,4 +194,6 @@ public class MenuMB extends UtilMB{
 
 	}
 
+
+	
 }

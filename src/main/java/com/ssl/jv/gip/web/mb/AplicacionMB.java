@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -23,6 +24,7 @@ public class AplicacionMB {
 	public static final Integer SPANISH=1;
 	public static final Integer ENGLISH=2;
 	private List<Pais> paises;
+	private static final List<String> images;
 	
 	private String ambiente;
 	private Boolean debug;
@@ -31,7 +33,10 @@ public class AplicacionMB {
 	private AdministracionEJB admonEjb;	
 	
 	static{
-		
+		images = new ArrayList<String>();
+        for (int i = 1; i <= 3; i++) {
+            images.add("Imagen" + i + ".png");
+        }		
 	}
 	
 	public static String getMessage(String llave, Integer language){
@@ -81,5 +86,8 @@ public class AplicacionMB {
 	public void setDebug(Boolean debug) {
 		this.debug = debug;
 	}
-	
+
+    public List<String> getImages() {
+        return images;
+    }	
 }
