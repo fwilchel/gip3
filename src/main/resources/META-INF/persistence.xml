@@ -73,6 +73,7 @@
 		<class>com.ssl.jv.gip.jpa.pojo.NivelInventarioxubicacionTemp</class>
 		<class>com.ssl.jv.gip.jpa.pojo.NivelInventarioxubicacionTempPK</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Pais</class>
+		<class>com.ssl.jv.gip.jpa.pojo.Parametro</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Permiso</class>
 		<class>com.ssl.jv.gip.jpa.pojo.PgaDiagram</class>
 		<class>com.ssl.jv.gip.jpa.pojo.PgaForm</class>
