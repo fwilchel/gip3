@@ -1,23 +1,17 @@
 package com.ssl.jv.gip.web.mb;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.component.EditableValueHolder;
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.FacesContext;
-import javax.faces.context.PartialViewContext;
 
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
+import com.ssl.jv.gip.web.util.Parametro;
 
 @ManagedBean(name="aplicacionMB")
 @ApplicationScoped
@@ -28,7 +22,10 @@ public class AplicacionMB {
 	
 	public static final Integer SPANISH=1;
 	public static final Integer ENGLISH=2;
-	private List<Pais> paises;	
+	private List<Pais> paises;
+	
+	private String ambiente;
+	private Boolean debug;
 	
 	@EJB
 	private AdministracionEJB admonEjb;	
@@ -48,6 +45,9 @@ public class AplicacionMB {
 	public void init(){
 		paises = admonEjb.consultarPaises();
 		Collections.sort(paises);
+		ambiente=admonEjb.encontrarParametro(Parametro.AMBIENTE.getId()).getValor();
+		com.ssl.jv.gip.jpa.pojo.Parametro p = admonEjb.encontrarParametro(Parametro.DEBUG.getId());
+		debug=p!=null & p.getValor().equals("SI");
 	}
 	
 	public List<Pais> getPaises() {
@@ -64,6 +64,22 @@ public class AplicacionMB {
 				return p;
 		}
 		return null;
+	}
+
+	public String getAmbiente() {
+		return ambiente;
+	}
+
+	public void setAmbiente(String ambiente) {
+		this.ambiente = ambiente;
+	}
+
+	public Boolean getDebug() {
+		return debug;
+	}
+
+	public void setDebug(Boolean debug) {
+		this.debug = debug;
 	}
 	
 }
