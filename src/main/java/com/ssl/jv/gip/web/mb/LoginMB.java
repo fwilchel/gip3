@@ -140,8 +140,7 @@ public class LoginMB extends UtilMB {
 		Usuario usuario = null;
 		usuario = this.admonEjb.findUsuarioByEmail(this.email);
 		if (usuario != null) {
-			//usuario.getEmail()
-			this.admonEjb.enviarEmail("fredy.wilches@gmail.com", Utilidad.descifrar(usuario
+			this.admonEjb.enviarEmail(usuario.getEmail(), Utilidad.descifrar(usuario
 					.getContrasena()), usuario.getNombre(), usuario
 					.getApellidos());
 			return "login";
