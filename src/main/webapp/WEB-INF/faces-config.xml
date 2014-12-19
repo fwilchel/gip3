@@ -20,27 +20,31 @@
 			org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
 		</exception-handler-factory>
 	</factory>
-	<converter>
+	<!-- converter>
         <converter-id>theme</converter-id>
         <converter-class>org.primefaces.showcase.convert.ThemeConverter</converter-class>
-    </converter>
+    </converter-->
 	<navigation-rule>
 	    <from-view-id>*</from-view-id> 
 	    <navigation-case>
 	        <from-outcome>introduccion</from-outcome>
-            <to-view-id>/ui/introduccion.jsf</to-view-id>
+            <to-view-id>/ui/introduccion.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>salir</from-outcome>
+            <to-view-id>/ui/login.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
 	        <from-outcome>usuario</from-outcome>
-            <to-view-id>/ui/administracion/usuarios.jsf</to-view-id>
+            <to-view-id>/ui/administracion/usuarios.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
 	        <from-outcome>listado_maestro_Ubicaciones</from-outcome>
-            <to-view-id>/ui/maestros/ubicacion.jsf</to-view-id>
+            <to-view-id>/ui/maestros/ubicacion.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
 	        <from-outcome>agenciaCarga</from-outcome>
-            <to-view-id>/ui/maestros/agenciaCarga.jsf</to-view-id>
+            <to-view-id>/ui/maestros/agenciaCarga.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 

@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.primefaces.model.menu.DefaultMenuItem;
@@ -36,10 +39,18 @@ public class MenuMB extends UtilMB{
 	private MenuModel modelo;
 	private String opcionActual;
 	private List<Funcionalidad> opciones;
-	
+	private Integer language=AplicacionMB.SPANISH;
 	
 	public MenuMB(){
 		
+	}
+
+	public Integer getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Integer language) {
+		this.language = language;
 	}
 
 	public MenuModel getModelo() {
@@ -156,5 +167,42 @@ public class MenuMB extends UtilMB{
     	return req.getParameter("opcion");
     }
 
+	public String salir(){
+		HttpServletRequest request = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
+		
+		String remoteAddr = request.getRemoteAddr();
+		String HEADER_X_FORWARDED_FOR = "X-FORWARDED-FOR";
+		String x;
+		String IP = request.getHeader("X-Forwarded-For");
+      
+		if ((x = request.getHeader(HEADER_X_FORWARDED_FOR)) != null) {
+		    remoteAddr = x;
+		    int idx = remoteAddr.indexOf(',');
+		    if (idx > -1) {
+		        remoteAddr = remoteAddr.substring(0, idx);
+		    }
+		}
+		
+		FacesContext context = null;
+		context = FacesContext.getCurrentInstance();
+		ExternalContext external = context.getExternalContext();
+		HttpSession session = (HttpSession) external.getSession(false);
+		session.invalidate();
+		/*HttpServletResponse response = (HttpServletResponse) external
+				.getResponse();
+		context.responseComplete();*/
+		this.addMensajeInfo(AplicacionMB.getMessage("sesionCerrada", language));
+		//try {
+			LOGGER.info("Client IP address=|"+remoteAddr+" |Identificacion=|"+usuario.getEmail()+" |Autenticación|sesión cerrada correctamente");
+			//response.sendRedirect("login.jsf");
+			
+		
+		/*} catch (IOException e) {
+			LOGGER.error("Client IP address=|"+remoteAddr+" |Identificacion=|"+usuario.getEmail()+" |Autenticación|sesión cerrada correctamente");
+			e.printStackTrace();
+		}*/
+		return "salir";
+
+	}
 
 }

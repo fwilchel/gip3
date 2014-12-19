@@ -3,9 +3,6 @@ package com.ssl.jv.gip.web.mb;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-
-
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -122,6 +119,7 @@ public class LoginMB extends UtilMB {
 
 				menu.setMenu(admonEjb.getMenu(u.getEmail()));
 				menu.setUsuario(u);
+				menu.setLanguage(language);
 				return "introduccion";
 				//MenuMB menu=(MenuMB)Utilidades.getManagedBean("menuMB");
 				//Aplicacion app=(Aplicacion)Utilidades.getManagedBean("aplicacionMB");
@@ -137,6 +135,5 @@ public class LoginMB extends UtilMB {
 			return null;
 		}
 	}
-
 
 }
