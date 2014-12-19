@@ -19,6 +19,11 @@
     ID="agenciaCarga::#ui#maestros#agenciaCarga.xhtml" NAME="output4"
     PATH="/ui/maestros/agenciaCarga.xhtml"
     TARGET="rules:#ui#maestros#agenciaCarga.xhtml" TITLE="agenciaCarga" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="lugar_incoterm::#ui#maestros#lugarIncoterm.xhtml" NAME="output5"
+    PATH="/ui/maestros/lugarIncoterm.xhtml"
+    TARGET="rules:#ui#maestros#lugarIncoterm.xhtml"
+    TITLE="lugar_incoterm" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
@@ -31,4 +36,6 @@
   PATH="/ui/administracion/usuarios.xhtml" SHAPE="304,385,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#login.xhtml" PATH="/ui/login.xhtml"
   SHAPE="304,273,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#lugarIncoterm.xhtml"
+  PATH="/ui/maestros/lugarIncoterm.xhtml" SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
