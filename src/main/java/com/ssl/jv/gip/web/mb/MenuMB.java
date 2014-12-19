@@ -188,19 +188,9 @@ public class MenuMB extends UtilMB{
 		ExternalContext external = context.getExternalContext();
 		HttpSession session = (HttpSession) external.getSession(false);
 		session.invalidate();
-		/*HttpServletResponse response = (HttpServletResponse) external
-				.getResponse();
-		context.responseComplete();*/
 		this.addMensajeInfo(AplicacionMB.getMessage("sesionCerrada", language));
-		//try {
+		if (usuario!=null)
 			LOGGER.info("Client IP address=|"+remoteAddr+" |Identificacion=|"+usuario.getEmail()+" |Autenticación|sesión cerrada correctamente");
-			//response.sendRedirect("login.jsf");
-			
-		
-		/*} catch (IOException e) {
-			LOGGER.error("Client IP address=|"+remoteAddr+" |Identificacion=|"+usuario.getEmail()+" |Autenticación|sesión cerrada correctamente");
-			e.printStackTrace();
-		}*/
 		return "salir";
 
 	}

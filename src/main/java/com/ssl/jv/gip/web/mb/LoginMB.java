@@ -98,7 +98,7 @@ public class LoginMB extends UtilMB {
 		
 		Usuario u=this.admonEjb.findUsuarioByEmail(this.email);
 		if (u!=null){
-			String pwd=Utilidad.encriptar(this.password);
+			String pwd=Utilidad.cifrar(this.password);
 			if (u.getContrasena().equals(pwd)){
 				
 				if (u.getRole()==null){
@@ -136,4 +136,21 @@ public class LoginMB extends UtilMB {
 		}
 	}
 
+	public String recordarContrasena() {
+		Usuario usuario = null;
+		usuario = this.admonEjb.findUsuarioByEmail(this.email);
+		if (usuario != null) {
+			//usuario.getEmail()
+			this.admonEjb.enviarEmail("fredy.wilches@gmail.com", Utilidad.descifrar(usuario
+					.getContrasena()), usuario.getNombre(), usuario
+					.getApellidos());
+			return "login";
+
+		} else {
+			this.addMensajeError(AplicacionMB.getMessage("recordarMensajeError", language));
+			return null;
+		}
+	}
+
+	
 }

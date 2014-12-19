@@ -73,7 +73,7 @@ public class UsuariosMB extends UtilMB{
 		usuarios = admonEjb.consultarUsuarios();
 		roles = admonEjb.consultarRoles();
 		Collections.sort(roles);
-		passwordDefault = Utilidad.encriptar(this.admonEjb.encontrarParametro(Parametro.CONTRASENA_DEFECTO.getId()).getValor());
+		passwordDefault = Utilidad.cifrar(this.admonEjb.encontrarParametro(Parametro.CONTRASENA_DEFECTO.getId()).getValor());
 	}
 
 	public AdministracionEJB getAdmonEjb() {
