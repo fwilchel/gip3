@@ -43,7 +43,7 @@
             <to-view-id>/ui/maestros/agenciaCarga.jsf</to-view-id>
         </navigation-case>
         <navigation-case>
-	        <from-outcome>lugarIncoterm</from-outcome>
+	        <from-outcome>lugar_incoterm</from-outcome>
             <to-view-id>/ui/maestros/lugarIncoterm.jsf</to-view-id>
         </navigation-case>
     </navigation-rule>
