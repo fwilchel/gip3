@@ -10,8 +10,10 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
+import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
+import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UsuarioDAO;
 
@@ -29,6 +31,9 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	
 	@EJB
 	private AgenciaCargaDAO agenciaCargaDAO;
+	
+	@EJB
+	private LugarIncotermDAO lugarIncotermDAO;
 	
     /**
      * Default constructor. 
@@ -170,5 +175,73 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 			return null;
     	}
 	}
+	
+    /* (non-Javadoc)
+     * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarLugarIncoterm()
+     */
+    @Override
+    public List<LugarIncoterm> consultarLugarIncoterm(){
+    	
+    	List<LugarIncoterm> listado = new ArrayList<LugarIncoterm>();
+    	
+    	try{
+    		listado = (List<LugarIncoterm>)lugarIncotermDAO.findAll();
+    	} catch(Exception e){
+    		
+    	}
+    	
+    	return listado;
+    	
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarLugarIncoterm(java.lang.Long)
+     */
+    @Override
+    public LugarIncoterm consultarLugarIncoterm(Long pId){
+    	
+    	LugarIncoterm entidad = new LugarIncoterm();
+    	
+    	try{
+    		entidad = lugarIncotermDAO.findByPK(pId);
+    	} catch(Exception e){
+    		
+    	}
+    	
+    	return entidad;
+    	
+    }
+
+    /* (non-Javadoc)
+     * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#crearLugarIncoterm(com.ssl.jv.gip.jpa.pojo.LugarIncoterm)
+     */
+    @Override
+    public LugarIncoterm crearLugarIncoterm(LugarIncoterm pEntidad){
+    	    	
+    	try{
+    		pEntidad = lugarIncotermDAO.add(pEntidad);
+    	} catch(Exception e){
+    		
+    	}
+    	
+    	return pEntidad;
+    	
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#actualizarLugarIncoterm(com.ssl.jv.gip.jpa.pojo.LugarIncoterm)
+     */
+    @Override
+    public LugarIncoterm actualizarLugarIncoterm(LugarIncoterm pEntidad){
+    	    	
+    	try{
+    		lugarIncotermDAO.update(pEntidad);
+    	} catch(Exception e){
+    		
+    	}
+    	
+    	return pEntidad;
+    	
+    }
 
 }

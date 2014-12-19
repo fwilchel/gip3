@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
+import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 
 // TODO: Auto-generated Javadoc
@@ -83,5 +84,36 @@ public interface MaestrosEJBLocal {
 	 * @return the agencia carga
 	 */
 	public AgenciaCarga actualizarAgenciaCarga(AgenciaCarga pEntidad);
+	
+	/**
+	 * Consultar LugarIncoterm.
+	 *
+	 * @return the list
+	 */
+	public List<LugarIncoterm> consultarLugarIncoterm();
+	
+	/**
+	 * Consultar LugarIncoterm.
+	 *
+	 * @param pId the id
+	 * @return the LugarIncoterm
+	 */
+	public LugarIncoterm consultarLugarIncoterm(Long pId);
+	
+	/**
+	 * Crear LugarIncoterm.
+	 *
+	 * @param pEntidad the entidad
+	 * @return the LugarIncoterm
+	 */
+	public LugarIncoterm crearLugarIncoterm(LugarIncoterm pEntidad);
+	
+	/**
+	 * Modificar LugarIncoterm.
+	 *
+	 * @param pEntidad the entidad
+	 * @return the LugarIncoterm
+	 */
+	public LugarIncoterm actualizarLugarIncoterm(LugarIncoterm pEntidad);
 	
 }
