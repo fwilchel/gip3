@@ -11,7 +11,6 @@ import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.validation.ConstraintViolationException;
 
 import org.apache.log4j.Logger;
 
@@ -22,6 +21,8 @@ import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
+import com.ssl.jv.gip.web.util.Parametro;
+import com.ssl.jv.gip.web.util.Utilidad;
 
 /**
  * <p>Title: GIP</p>
@@ -32,7 +33,7 @@ import com.ssl.jv.gip.web.util.Modo;
  *
  * <p>Company: Soft Studio Ltda.</p>
  *
- * @author Fredy Giovanny Wilches L�pez
+ * @author Fredy Giovanny Wilches López
  * @email fredy.wilches@gmail.com
  * @phone 300 2146240
  * @version 1.0
@@ -53,6 +54,7 @@ public class UsuariosMB extends UtilMB{
 	private List<Rol> roles;
 	
 	private Modo modo;
+	private String passwordDefault;
 	
 	@EJB
 	private AdministracionEJB admonEjb;
@@ -71,6 +73,7 @@ public class UsuariosMB extends UtilMB{
 		usuarios = admonEjb.consultarUsuarios();
 		roles = admonEjb.consultarRoles();
 		Collections.sort(roles);
+		passwordDefault = Utilidad.encriptar(this.admonEjb.encontrarParametro(Parametro.CONTRASENA_DEFECTO.getId()).getValor());
 	}
 
 	public AdministracionEJB getAdmonEjb() {
@@ -138,6 +141,7 @@ public class UsuariosMB extends UtilMB{
 			this.seleccionado.setRole(this.getRol(this.seleccionado.getRole().getIdRol()));
 			if (this.modo.equals(Modo.CREACION)){
 				this.seleccionado.setFechaIngreso(new Timestamp(new Date().getTime()));
+				this.seleccionado.setContrasena(this.passwordDefault);
 				this.admonEjb.crearUsuario(this.seleccionado);
 				this.usuarios.add(this.seleccionado);
 				this.modo = Modo.EDICION;

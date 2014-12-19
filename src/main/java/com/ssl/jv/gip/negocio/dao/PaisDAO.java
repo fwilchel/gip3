@@ -9,7 +9,6 @@ import javax.persistence.NoResultException;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Pais;
-import com.ssl.jv.gip.jpa.pojo.Usuario;
 
 @Stateless
 @LocalBean

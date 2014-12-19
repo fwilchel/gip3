@@ -54,7 +54,7 @@ public class GenericDAO<T> {
 	public T findByPK(Long id){
 		List list = em
 				.createQuery("from "+this.persistentClass.getName()+" where id=?")
-		        .setParameter(0, id).getResultList();
+		        .setParameter(1, id).getResultList();
 		return (T)list.get(0);		
 	}
 	

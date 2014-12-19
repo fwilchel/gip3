@@ -10,10 +10,12 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 import com.ssl.jv.gip.jpa.pojo.Pais;
+import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.Rol;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.dao.FuncionalidadDAO;
 import com.ssl.jv.gip.negocio.dao.PaisDAO;
+import com.ssl.jv.gip.negocio.dao.ParametroDAO;
 import com.ssl.jv.gip.negocio.dao.RolDAO;
 import com.ssl.jv.gip.negocio.dao.UsuarioDAO;
 
@@ -37,6 +39,9 @@ public class AdministracionEJB implements AdministracionEJBLocal {
 	
 	@EJB
 	private RolDAO rolDao;
+
+	@EJB
+	private ParametroDAO parametroDao;
 	
     /**
      * Default constructor. 
@@ -73,4 +78,7 @@ public class AdministracionEJB implements AdministracionEJBLocal {
     	return (List<Pais>)paisDao.findAll();
     }
     
+    public Parametro encontrarParametro(Long id){
+    	return parametroDao.findByPK(id);
+    }
 }
