@@ -1,7 +1,7 @@
 package com.ssl.jv.gip.web.util;
 
 public enum Parametro {
-	CONTRASENA_DEFECTO(1L), DEBUG(2L), AMBIENTE(3L);
+	CONTRASENA_DEFECTO(1L), DEBUG(2L), AMBIENTE(3L), VERSION(4L);
 	
 	private Long id;
 	

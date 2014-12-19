@@ -27,6 +27,7 @@ public class AplicacionMB {
 	private static final List<String> images;
 	
 	private String ambiente;
+	private String version;
 	private Boolean debug;
 	
 	@EJB
@@ -51,6 +52,7 @@ public class AplicacionMB {
 		paises = admonEjb.consultarPaises();
 		Collections.sort(paises);
 		ambiente=admonEjb.encontrarParametro(Parametro.AMBIENTE.getId()).getValor();
+		version=admonEjb.encontrarParametro(Parametro.VERSION.getId()).getValor();
 		com.ssl.jv.gip.jpa.pojo.Parametro p = admonEjb.encontrarParametro(Parametro.DEBUG.getId());
 		debug=p!=null & p.getValor().equals("SI");
 	}
@@ -89,5 +91,15 @@ public class AplicacionMB {
 
     public List<String> getImages() {
         return images;
-    }	
+    }
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+    
+    
 }
