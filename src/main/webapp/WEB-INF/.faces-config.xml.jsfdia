@@ -13,6 +13,13 @@
     NAME="output2" PATH="/ui/maestros/ubicacion.jsf"
     TARGET="rules:#ui#maestros#ubicacion.jsf"
     TITLE="listado_maestro_Ubicaciones" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="agenciaCarga::#ui#maestros#agenciaCarga.jsf"
+    NAME="output3" PATH="/ui/maestros/agenciaCarga.jsf"
+    TARGET="rules:#ui#maestros#agenciaCarga.jsf" TITLE="agenciaCarga" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="lugarIncoterm::#ui#maestros#lugarIncoterm.jsf" NAME="output4"
+    PATH="/ui/maestros/lugarIncoterm.jsf"
+    TARGET="rules:#ui#maestros#lugarIncoterm.jsf" TITLE="lugarIncoterm" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#administracion#usuarios.jsf"
@@ -21,4 +28,8 @@
   PATH="/ui/introduccion.jsf" SHAPE="256,33,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#ubicacion.jsf"
   PATH="/ui/maestros/ubicacion.jsf" SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#agenciaCarga.jsf"
+  PATH="/ui/maestros/agenciaCarga.jsf" SHAPE="288,465,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#lugarIncoterm.jsf"
+  PATH="/ui/maestros/lugarIncoterm.jsf" SHAPE="304,497,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

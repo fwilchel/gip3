@@ -42,6 +42,10 @@
 	        <from-outcome>agenciaCarga</from-outcome>
             <to-view-id>/ui/maestros/agenciaCarga.jsf</to-view-id>
         </navigation-case>
+        <navigation-case>
+	        <from-outcome>lugarIncoterm</from-outcome>
+            <to-view-id>/ui/maestros/lugarIncoterm.jsf</to-view-id>
+        </navigation-case>
     </navigation-rule>
 
 </faces-config>
