@@ -24,6 +24,12 @@
     PATH="/ui/maestros/lugarIncoterm.xhtml"
     TARGET="rules:#ui#maestros#lugarIncoterm.xhtml"
     TITLE="lugar_incoterm" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_FX_AsignarContribucionCafe::#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
+    NAME="output6"
+    PATH="/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml"
+    TARGET="rules:#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
+    TITLE="listado_FX_AsignarContribucionCafe" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
@@ -38,4 +44,8 @@
   SHAPE="304,273,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#lugarIncoterm.xhtml"
   PATH="/ui/maestros/lugarIncoterm.xhtml" SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
+  PATH="/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml"
+  SHAPE="304,337,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
