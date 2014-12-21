@@ -56,17 +56,17 @@
 						</p:column>
 
 						<p:column filterBy="#{dato.idDocumentoFX}"
-							headerText="#{msg.CodigoGipSP}"
-							filterMatchMode="contains" sortBy="#{dato.idDocumentoFX}">
+							headerText="#{msg.CodigoGipSP}" filterMatchMode="contains"
+							sortBy="#{dato.idDocumentoFX}">
 							<h:outputText value="#{dato.idDocumentoFX}" />
 						</p:column>
-						
+
 						<p:column filterBy="#{dato.consecutivo}"
-							headerText="#{msg.ConsecutivoFP}"
-							filterMatchMode="contains" sortBy="#{dato.consecutivo}">
+							headerText="#{msg.ConsecutivoFP}" filterMatchMode="contains"
+							sortBy="#{dato.consecutivo}">
 							<h:outputText value="#{dato.consecutivo}" />
 						</p:column>
-						
+
 						<p:column filterBy="#{dato.fechaGeneracion}"
 							headerText="#{msg.RequisicionNombreFechaGenerado}"
 							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
@@ -79,25 +79,59 @@
 		</h:form>
 
 		<p:dialog
-			header="#{asignarDatosContribucionCafeteraMB.creacion?msg.maestroLugarIncotermCrearProducto:msg.maestroLugarIncotermModificarProducto}"
+			header="#{msg.TituloDatosContribucionCafe}"
 			widgetVar="datoDialog" modal="true" showEffect="fade"
-			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg" width="70%">
 			<h:form id="formaDlg">
 				<p:outputPanel id="datoDetalle" style="text-align:center;">
 					<p:messages id="msgs2" showDetail="false" showSummary="true"
 						globalOnly="true" showIcon="true"></p:messages>
-					<p:panelGrid columns="3"
+					<p:panelGrid columns="4"
 						rendered="#{not empty asignarDatosContribucionCafeteraMB.seleccionado}"
-						columnClasses="label,value">
+						columnClasses="label,value,label,value">
 
-						
+						<h:outputText value="#{msg.recibiProductoDcoumento}"></h:outputText>
+						<h:outputText value="#{asignarDatosContribucionCafeteraMB.seleccionado.idDocumentoFX}"></h:outputText>
+
+						<h:outputText value="#{msg.RequisicionNombreCons}"></h:outputText>
+						<h:outputText value="#{asignarDatosContribucionCafeteraMB.seleccionado.consecutivo}"></h:outputText>
+
+						<h:outputText value="#{msg.RequisicionNombreFechaGenerado}"></h:outputText>
+						<h:outputText value="#{asignarDatosContribucionCafeteraMB.seleccionado.fechaGeneracion}"></h:outputText>
 
 					</p:panelGrid>
 
+					<p:dataTable var="datoM" widgetVar="datoTablaM" id="tablaDatosM" 
+						rendered="#{not empty asignarDatosContribucionCafeteraMB.seleccionado}"
+						value="#{asignarDatosContribucionCafeteraMB.documentosLotes}">
+
+						<p:column headerText="#{msg.CampoCodigoLote}">
+							<h:outputText value="#{datoM.consecutivo}" />
+						</p:column>
+
+						<p:column headerText="#{msg.CampoNombreLote}">
+							<h:outputText value="#{datoM.descripcion}" />
+						</p:column>
+
+						<p:column headerText="#{msg.CampoContribucion}">
+							<p:inputText id="contriM" value="#{datoM.contribucion}"
+								required="true" maxlength="10" size="10" />
+							<p:message for="contriM"></p:message>
+						</p:column>
+
+						<p:column headerText="#{msg.CampoDex}">
+							<p:inputText id="dexM" value="#{datoM.dex}" required="true"
+								maxlength="10" size="10" />
+							<p:message for="dexM"></p:message>
+						</p:column>
+
+					</p:dataTable>
+
 					<p:panelGrid columns="3"
 						rendered="#{not empty asignarDatosContribucionCafeteraMB.seleccionado}"
 						columnClasses="label,value">
-						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+						<p:commandButton value="#{msg.BotonAsignarDatos}"
+							icon="ui-icon-disk"
 							action="#{asignarDatosContribucionCafeteraMB.guardar}"
 							update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos"></p:commandButton>
 						<p:commandButton value="#{msg.generalCancelar}"
