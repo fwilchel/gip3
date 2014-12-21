@@ -10,6 +10,6 @@ import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 @Local
 public interface ComercioExteriorLocal {
 
-	public List<DatoContribucionCafeteraDTO> consultarDatosContrubicionCafetera(Map<String, Object> parametros);
+	public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(Map<String, Object> parametros);
 	
 }

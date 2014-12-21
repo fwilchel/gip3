@@ -23,7 +23,7 @@ public class DocumentoDAO extends GenericDAO<Documento>{
 		this.persistentClass = Documento.class;
 	}
 
-	public List<DatoContribucionCafeteraDTO> consultarDatosContrubicionCafetera(Map<String, Object> parametros){
+	public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(Map<String, Object> parametros){
 		
 		List<DatoContribucionCafeteraDTO> lista = new ArrayList<DatoContribucionCafeteraDTO>();
 

@@ -28,8 +28,8 @@ public class ComercioExterior implements ComercioExteriorLocal {
         // TODO Auto-generated constructor stub
     }
     
-	public List<DatoContribucionCafeteraDTO> consultarDatosContrubicionCafetera(Map<String, Object> parametros){
-		return documentoDAO.consultarDatosContrubicionCafetera(parametros);
+	public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(Map<String, Object> parametros){
+		return documentoDAO.consultarDatosContribucionCafetera(parametros);
 	}
 
 }

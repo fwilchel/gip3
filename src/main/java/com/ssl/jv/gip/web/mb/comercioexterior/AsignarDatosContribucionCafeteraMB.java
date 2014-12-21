@@ -41,7 +41,7 @@ public class AsignarDatosContribucionCafeteraMB extends UtilMB{
 		parametros.put("tipo", ConstantesTipoDocumento.FACTURA_EXPORTACION);
 		parametros.put("estado", ConstantesDocumento.IMPRESO);
 		
-		listado = comercioExteriorEjb.consultarDatosContrubicionCafetera(parametros);
+		listado = comercioExteriorEjb.consultarDatosContribucionCafetera(parametros);
 	}
 	
 	public String modificar(){
