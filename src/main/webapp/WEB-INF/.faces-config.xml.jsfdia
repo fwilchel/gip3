@@ -24,6 +24,12 @@
     PATH="/ui/maestros/lugarIncoterm.xhtml"
     TARGET="rules:#ui#maestros#lugarIncoterm.xhtml"
     TITLE="lugar_incoterm" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="consultar_ultima_asignacionLote::#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
+    NAME="output6"
+    PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
+    TARGET="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
+    TITLE="consultar_ultima_asignacionLote" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
@@ -38,4 +44,8 @@
   SHAPE="304,273,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#lugarIncoterm.xhtml"
   PATH="/ui/maestros/lugarIncoterm.xhtml" SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
+  PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
+  SHAPE="304,337,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
