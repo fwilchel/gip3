@@ -30,6 +30,13 @@
     PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
     TARGET="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
     TITLE="consultar_ultima_asignacionLote" model-entity="JSFProcessItemOutput"/>
+   </PROCESS-ITEM>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_FX_AsignarContribucionCafe::#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
+    NAME="output7"
+    PATH="/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml"
+    TARGET="rules:#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
+    TITLE="listado_FX_AsignarContribucionCafe" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
@@ -48,4 +55,8 @@
   NAME="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
   PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
   SHAPE="304,337,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
+  PATH="/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml"
+  SHAPE="304,369,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

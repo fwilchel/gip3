@@ -53,6 +53,11 @@
         <navigation-case>
 	        <from-outcome>consultar_ultima_asignacionLote</from-outcome>
             <to-view-id>/ui/comercioexterior/reiniciarConsecutivoOic.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+	        <from-outcome>listado_FX_AsignarContribucionCafe</from-outcome>
+            <to-view-id>/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml</to-view-id>
+
         </navigation-case>
     </navigation-rule>
 

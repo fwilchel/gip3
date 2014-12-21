@@ -194,6 +194,14 @@ public class MenuMB extends UtilMB{
 
 	}
 
+	public List<Funcionalidad> getOpciones() {
+		return opciones;
+	}
+
+	public void setOpciones(List<Funcionalidad> opciones) {
+		this.opciones = opciones;
+	}
+
 
 	
 }

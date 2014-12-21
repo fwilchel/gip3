@@ -2,6 +2,9 @@ package com.ssl.jv.gip.web.util;
 
 import java.io.IOException;
 
+import javax.faces.application.ViewExpiredException;
+import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -9,10 +12,22 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+
+import com.ssl.jv.gip.web.mb.AplicacionMB;
+import com.ssl.jv.gip.web.mb.MenuMB;
 
 public class SecurityFilter implements Filter{
+
+	@Inject
+	private AplicacionMB appMB;
 	
 	 private FilterConfig filterConfig = null;
+	 
+	 public static final Logger LOGGER = Logger.getLogger(SecurityFilter.class);
 
 	   public void destroy() {
 	      this.filterConfig = null;
@@ -21,19 +36,49 @@ public class SecurityFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		
 		HttpServletRequest req=(HttpServletRequest)request;
-        String url=req.getRequestURI();
-        if (url.indexOf("javax.faces.resource")!=-1 || url.endsWith("login.jsf")){
-        	chain.doFilter(request, response);
-        }else{
-        	System.out.println(url);
-        	chain.doFilter(request, response);
-        }
+		HttpServletResponse res=(HttpServletResponse)response;
+		try{
+			
+	        String url=req.getRequestURI(); // || appMB.getDebug()
+	        if (url.indexOf("javax.faces.resource")!=-1 || url.endsWith("login.jsf")){
+	        	chain.doFilter(request, response);
+	        }else{
+	        	LOGGER.debug(url);
+	        	HttpSession session=req.getSession(false);
+	        	if (session==null || session.getAttribute("menuMB") == null || ((MenuMB)session.getAttribute("menuMB")).getOpciones()==null){
+	        		if (session != null) {
+						session.removeAttribute("menuMB");
+						session.invalidate();
+					}
+					session = req.getSession(true);
+					request.setAttribute(
+							"exception",
+							new Exception(
+									AplicacionMB.getMessage("sesionCaducado", AplicacionMB.SPANISH)));
+					this.filterConfig
+							.getServletContext()
+							.getRequestDispatcher(
+									"/ui/login.jsf;jsessionid="
+											+ session.getId())
+							.forward(request, response);
+	        	}else{
+	        		//TODO : Validar permiso a la opción de menú
+	        		chain.doFilter(request, response);
+	        	}
+	        }
+		} catch (ViewExpiredException g) {
+			HttpSession session = req.getSession(false);
+			if (session!=null)
+				session.invalidate();
+			session = req.getSession(true);
+			res.sendRedirect("/ui/login.jsf;jsessionid="
+					+ session.getId());
+		}
 	}
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-
 		this.filterConfig = filterConfig;
 	}
 
