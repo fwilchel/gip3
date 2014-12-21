@@ -57,7 +57,10 @@
 		<navigation-case>
 	        <from-outcome>listado_FX_AsignarContribucionCafe</from-outcome>
             <to-view-id>/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml</to-view-id>
-
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>listado_Formato_Novedad</from-outcome>
+            <to-view-id>/ui/reportes/formatoNovedades.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
