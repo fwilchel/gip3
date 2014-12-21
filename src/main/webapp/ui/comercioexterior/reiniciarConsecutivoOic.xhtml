@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloReinicioConsecutivoLote}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.utimosConsecutivosOIC}">
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{reiniciarConsecutivoOicMB.listaLotes}" rows="10"
+						emptyMessage="#{msg.reiniciarConsecutivoNoEncontrados}"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel>
+
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+								</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column headerText="#{msg.ConsecutivoFP}">
+							<h:outputText value="#{dato.documento.consecutivoDocumento}" />
+						</p:column>
+
+						<p:column headerText="#{msg.CampoFecha}">
+							<h:outputText value="#{dato.fecha}" />
+						</p:column>
+
+						<p:column headerText="#{msg.CampoConsecutivoLote}">
+							<h:outputText value="#{dato.consecutivo}" />
+						</p:column>
+
+					</p:dataTable>
+				</p:tab>
+
+
+			</p:tabView>
+
+			<div align="center">
+				<p:outputPanel>
+
+					<p:commandButton
+						action="#{reiniciarConsecutivoOicMB.reiniciarConsecutivoLote}"
+						title="#{msg.ReinicioConsecLoteBoton}" ajax="false"
+						icon="ui-icon-cancel" value="#{msg.ReinicioConsecLoteBoton}" />
+
+				</p:outputPanel>
+			</div>
+		</h:form>
+
+
+	</ui:define>
+
+</ui:composition>
+
