@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -62,7 +63,11 @@ public class LugarIncotermMB extends UtilMB{
 	
 	public void guardar(){
 		if (this.modo.equals(Modo.CREACION)){
-			this.maestroEjb.crearLugarIncoterm(this.seleccionado);
+			this.seleccionado = this.maestroEjb.crearLugarIncoterm(this.seleccionado);
+			if(this.lugarIncoterm == null){
+				this.lugarIncoterm = new ArrayList<LugarIncoterm>();
+			}
+			this.lugarIncoterm.add(0,this.seleccionado);
 		}else{
 			this.maestroEjb.actualizarLugarIncoterm(this.seleccionado);
 		}

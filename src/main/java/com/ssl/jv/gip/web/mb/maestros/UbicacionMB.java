@@ -102,7 +102,8 @@ public class UbicacionMB extends UtilMB{
 	public void guardar(){
 		if (this.modo.equals(Modo.CREACION)){
 			seleccionado.setRegione(region);
-			this.maestroEjb.crearUbicacion(this.seleccionado);
+			this.seleccionado = this.maestroEjb.crearUbicacion(this.seleccionado);
+			this.ubicacion.add(0,this.seleccionado);
 		}else{
 			seleccionado.setRegione(region);
 			this.maestroEjb.actualizarUbicacion(this.seleccionado);
