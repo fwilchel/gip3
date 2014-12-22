@@ -3,8 +3,6 @@ package com.ssl.jv.gip.web.util;
 import java.io.IOException;
 
 import javax.faces.application.ViewExpiredException;
-import javax.faces.bean.ManagedProperty;
-import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
