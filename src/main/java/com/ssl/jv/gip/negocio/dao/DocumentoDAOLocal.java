@@ -7,10 +7,15 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 
 @Local
 public interface DocumentoDAOLocal extends IGenericDAO<Documento>{
 
 	public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(Map<String, Object> parametros);
+	
+	public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm();
+	
+	public void actualizarDocumentoPorNegociacion(DocumentoIncontermDTO documento);
 	
 }

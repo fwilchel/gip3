@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
+import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 
 
 /**
@@ -27,5 +29,19 @@ public interface ComercioExteriorEJBLocal {
 	 * @return the integer
 	 */
 	public Integer reiniciarConsecutivoLoteOIC();
+	
+	/**
+	 * Consultar documentos costos inconterm
+	 *
+	 * @return the list
+	 */
+	public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm();
+	
+	/**
+	 * Actualizar documento por negociacion.
+	 *
+	 * @param documento the documento
+	 */
+	public void actualizarDocumentoPorNegociacion(DocumentoIncontermDTO documento);
 
 }
