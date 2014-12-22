@@ -21,9 +21,6 @@ import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 
 public class SecurityFilter implements Filter{
-
-	@Inject
-	private AplicacionMB appMB;
 	
 	 private FilterConfig filterConfig = null;
 	 
@@ -39,9 +36,9 @@ public class SecurityFilter implements Filter{
 		HttpServletRequest req=(HttpServletRequest)request;
 		HttpServletResponse res=(HttpServletResponse)response;
 		try{
-			
-	        String url=req.getRequestURI(); // || appMB.getDebug()
-	        if (url.indexOf("javax.faces.resource")!=-1 || url.endsWith("login.jsf")){
+			AplicacionMB appMB=(AplicacionMB)this.filterConfig.getServletContext().getAttribute("aplicacionMB");
+	        String url=req.getRequestURI(); 
+	        if (url.indexOf("javax.faces.resource")!=-1 || url.endsWith("login.jsf") || (appMB!=null && appMB.getDebug())){
 	        	chain.doFilter(request, response);
 	        }else{
 	        	LOGGER.debug(url);
