@@ -1,14 +1,11 @@
 package com.ssl.jv.gip.negocio.ejb;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -79,15 +76,18 @@ public class AdministracionEJB implements AdministracionEJBLocal {
    		this.usuarioDao.add(u);
     }
     
-    public List<Usuario> consultarUsuarios(){
+    @SuppressWarnings("unchecked")
+	public List<Usuario> consultarUsuarios(){
     	return (List<Usuario>)usuarioDao.findAll();
     }
 
-    public List<Rol> consultarRoles(){
+    @SuppressWarnings("unchecked")
+	public List<Rol> consultarRoles(){
     	return (List<Rol>)rolDao.findAll();
     }
 
-    public List<Pais> consultarPaises(){
+    @SuppressWarnings("unchecked")
+	public List<Pais> consultarPaises(){
     	return (List<Pais>)paisDao.findAll();
     }
     

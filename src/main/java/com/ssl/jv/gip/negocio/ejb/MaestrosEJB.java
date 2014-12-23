@@ -3,11 +3,11 @@ package com.ssl.jv.gip.negocio.ejb;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+
+import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
@@ -15,7 +15,6 @@ import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
-import com.ssl.jv.gip.negocio.dao.UsuarioDAO;
 
 /**
  * Session Bean implementation class MaestrosEJB

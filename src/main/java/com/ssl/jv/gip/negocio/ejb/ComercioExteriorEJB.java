@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAO;

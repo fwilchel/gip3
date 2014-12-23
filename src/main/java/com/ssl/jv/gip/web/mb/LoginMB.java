@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
+import com.ssl.jv.gip.negocio.ejb.AdministracionEJBLocal;
 import com.ssl.jv.gip.web.util.Utilidad;
 
 
@@ -29,7 +30,7 @@ public class LoginMB extends UtilMB {
 	private static final long serialVersionUID = -1947610603374558443L;
 
 	@EJB
-	private AdministracionEJB admonEjb;
+	private AdministracionEJBLocal admonEjb;
 	
 	private String password;
 	private Integer empresa;
