@@ -1,19 +1,31 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the productos_x_cliente_comext database table.
  * 
  */
 @Entity
-@Table(name="productos_x_cliente_comext")
-@NamedQuery(name="ProductosXClienteComext.findAll", query="SELECT p FROM ProductosXClienteComext p")
+@Table(name = "productos_x_cliente_comext")
+@NamedQueries(value = { @NamedQuery(name = ProductosXClienteComext.PRODUCTOS_X_CLIENTE_COM_EXT_FIND_ALL, query = "SELECT p FROM ProductosXClienteComext p") })
 public class ProductosXClienteComext implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2058658769141993022L;
+	public static final String PRODUCTOS_X_CLIENTE_COM_EXT_FIND_ALL = "ProductosXClienteComext.findAll";
 
 	@EmbeddedId
 	private ProductosXClienteComextPK pk;
@@ -24,27 +36,27 @@ public class ProductosXClienteComext implements Serializable {
 
 	private Long id;
 
-	@Column(name="id_moneda")
+	@Column(name = "id_moneda")
 	private String idMoneda;
 
 	private BigDecimal iva;
 
-	@Column(name="otros_descuentos")
+	@Column(name = "otros_descuentos")
 	private BigDecimal otrosDescuentos;
 
 	private BigDecimal precio;
 
-	@Column(name="reg_sanitario")
+	@Column(name = "reg_sanitario")
 	private String regSanitario;
 
-	//bi-directional many-to-one association to Cliente
-	@ManyToOne(optional=false)
-	@JoinColumn(name="id_cliente", referencedColumnName="id", insertable=false, updatable=false)
+	// bi-directional many-to-one association to Cliente
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id_cliente", referencedColumnName = "id", insertable = false, updatable = false)
 	private Cliente cliente;
 
-	//bi-directional many-to-one association to ProductosInventario
-	@ManyToOne(optional=false)
-	@JoinColumn(name="id_producto", referencedColumnName="id", insertable=false, updatable=false)
+	// bi-directional many-to-one association to ProductosInventario
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id_producto", referencedColumnName = "id", insertable = false, updatable = false)
 	private ProductosInventario productosInventario;
 
 	public ProductosXClienteComext() {
