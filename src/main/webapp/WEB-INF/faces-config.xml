@@ -31,6 +31,10 @@
             <to-view-id>/ui/introduccion.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+	        <from-outcome>cambiarContrasena</from-outcome>
+            <to-view-id>/ui/cambiarContrasena.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
 	        <from-outcome>salir</from-outcome>
             <to-view-id>/ui/login.xhtml</to-view-id>
         </navigation-case>

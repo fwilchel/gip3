@@ -12,7 +12,7 @@ import com.ssl.jv.gip.jpa.pojo.Pais;
 
 @Stateless
 @LocalBean
-public class PaisDAO extends GenericDAO<Pais>{
+public class PaisDAO extends GenericDAO<Pais> implements PaisDAOLocal{
 
 	private static final Logger LOGGER = Logger.getLogger(PaisDAO.class);
 	

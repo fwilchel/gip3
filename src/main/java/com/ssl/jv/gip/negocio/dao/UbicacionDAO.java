@@ -12,7 +12,7 @@ import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 
 @Stateless
 @LocalBean
-public class UbicacionDAO extends GenericDAO<Ubicacion>{
+public class UbicacionDAO extends GenericDAO<Ubicacion> implements UbicacionDAOLocal{
 	
 	private static final Logger LOGGER = Logger.getLogger(UbicacionDAO.class);
 	

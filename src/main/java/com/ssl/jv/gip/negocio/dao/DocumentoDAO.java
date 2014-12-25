@@ -18,7 +18,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 
 @Stateless
 @LocalBean
-public class DocumentoDAO extends GenericDAO<Documento>{
+public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOLocal{
 
 	private static final Logger LOGGER = Logger.getLogger(DocumentoDAO.class);
 

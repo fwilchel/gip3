@@ -14,7 +14,7 @@ import com.ssl.jv.gip.negocio.dto.ComextFormatoNovedadesDTO;
 
 @Stateless
 @LocalBean
-public class ComextFormatoNovedadesDAO extends GenericDAO<ComextFormatoNovedade>{
+public class ComextFormatoNovedadesDAO extends GenericDAO<ComextFormatoNovedade> implements ComextFormatoNovedadesDAOLocal{
 
 	private static final Logger LOGGER = Logger.getLogger(ComextFormatoNovedadesDAO.class);
 

@@ -13,7 +13,7 @@ import com.ssl.jv.gip.jpa.pojo.Region;
 
 @Stateless
 @LocalBean
-public class RegionDAO extends GenericDAO<Region>{
+public class RegionDAO extends GenericDAO<Region> implements RegionDAOLocal{
 
 	private static final Logger LOGGER = Logger.getLogger(RegionDAO.class);
 	

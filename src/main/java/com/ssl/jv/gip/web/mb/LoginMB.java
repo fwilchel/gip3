@@ -1,18 +1,18 @@
 package com.ssl.jv.gip.web.mb;
 
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.HistorialContrasena;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
-import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
 import com.ssl.jv.gip.negocio.ejb.AdministracionEJBLocal;
 import com.ssl.jv.gip.web.util.Utilidad;
 
@@ -35,6 +35,8 @@ public class LoginMB extends UtilMB {
 	private String password;
 	private Integer empresa;
 	private String email;
+	
+	private Usuario usuario;
 	
 	@ManagedProperty(value="#{menuMB}")
 	private MenuMB menu;
@@ -59,6 +61,14 @@ public class LoginMB extends UtilMB {
 		return password;
 	}
 	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -81,52 +91,48 @@ public class LoginMB extends UtilMB {
 		
 		int NUMERO_MAX_LOGIN=3;
 		
-		HttpServletRequest request = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
-		String remoteAddr = request.getRemoteAddr();
-		String HEADER_X_FORWARDED_FOR = "X-FORWARDED-FOR";
-		String x;
-		String IP = request.getHeader("X-Forwarded-For");
-		  
-		if ((x = request.getHeader(HEADER_X_FORWARDED_FOR)) != null) {
-		    remoteAddr = x;
-		    int idx = remoteAddr.indexOf(',');
-		    if (idx > -1) {
-		        remoteAddr = remoteAddr.substring(0, idx);
-		    }
-		}
+		
+		String remoteAddr=this.getRemoteAddress();
+		
 		
 		LOGGER.info("|Client IP address=|"+remoteAddr+" |Identificacion=|"+email);
 		
-		Usuario u=this.admonEjb.findUsuarioByEmail(this.email);
-		if (u!=null){
+		usuario=this.admonEjb.findUsuarioByEmail(this.email);
+		if (usuario!=null){
 			String pwd=Utilidad.cifrar(this.password);
-			if (u.getContrasena().equals(pwd)){
+			if (usuario.getContrasena().equals(pwd)){
 				
-				if (u.getRole()==null){
+				if (usuario.getRole()==null){
 					this.addMensajeError(AplicacionMB.getMessage("usuarioSinRol", language));
 					return null;
 				}
-				if (u.getActivo()==false){
+				if (usuario.getActivo()==false){
 					this.addMensajeError(AplicacionMB.getMessage("usuarioInactivo", language));
 					return null;
 				}
-				if (u.getIntentos()>=NUMERO_MAX_LOGIN){
+				if (usuario.getIntentos()>=NUMERO_MAX_LOGIN){
 					this.addMensajeError(AplicacionMB.getMessage("cuentaBloqueada", language));
 					return null;
 				}
 				
-				u.setIntentos(0L);
-				this.admonEjb.actualizarUsuario(u);
+				usuario.setIntentos(0L);
+				this.admonEjb.actualizarUsuario(usuario);
+				
+				
+				List<HistorialContrasena> h=this.admonEjb.consultarHistorialContrasena(usuario);
+				if (h.size()>0){
+					menu.setMenu(admonEjb.getMenu(usuario.getEmail()));
+					menu.setUsuario(usuario);
+					menu.setLanguage(language);
+					return "introduccion";
+				}else{
+					this.addMensajeError(AplicacionMB.getMessage("loginHistorialContrasena", language));
+					return "cambiarContrasena";
+				}
 
-				menu.setMenu(admonEjb.getMenu(u.getEmail()));
-				menu.setUsuario(u);
-				menu.setLanguage(language);
-				return "introduccion";
-				//MenuMB menu=(MenuMB)Utilidades.getManagedBean("menuMB");
-				//Aplicacion app=(Aplicacion)Utilidades.getManagedBean("aplicacionMB");
 			}else{
-				u.setIntentos(u.getIntentos()+1);
-				this.admonEjb.actualizarUsuario(u);
+				usuario.setIntentos(usuario.getIntentos()+1);
+				this.admonEjb.actualizarUsuario(usuario);
 				this.addMensajeError(AplicacionMB.getMessage("vuelvaIntentarlo", language));
 				return null;
 			}

@@ -10,6 +10,7 @@ import javax.faces.component.UIInput;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 /**
  * <p>Title: GIP</p>
@@ -207,6 +208,23 @@ public class UtilMB implements Serializable {
 		}else{
 			return e.getMessage().indexOf(constraintName)!=-1;
 		}
+	}
+	
+	public String getRemoteAddress(){
+		HttpServletRequest request = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
+		String remoteAddr = request.getRemoteAddr();
+		String HEADER_X_FORWARDED_FOR = "X-FORWARDED-FOR";
+		String x;
+		//String IP = request.getHeader("X-Forwarded-For");
+		  
+		if ((x = request.getHeader(HEADER_X_FORWARDED_FOR)) != null) {
+		    remoteAddr = x;
+		    int idx = remoteAddr.indexOf(',');
+		    if (idx > -1) {
+		        remoteAddr = remoteAddr.substring(0, idx);
+		    }
+		}
+		return remoteAddr;
 	}
 
 }

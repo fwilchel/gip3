@@ -11,7 +11,7 @@ import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 
 @Stateless
 @LocalBean
-public class FuncionalidadDAO extends GenericDAO<Funcionalidad>{
+public class FuncionalidadDAO extends GenericDAO<Funcionalidad> implements FuncionalidadDAOLocal{
 	
 	private static final Logger LOGGER = Logger.getLogger(FuncionalidadDAO.class);
 	

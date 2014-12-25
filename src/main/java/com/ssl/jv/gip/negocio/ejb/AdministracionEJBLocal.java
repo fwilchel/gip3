@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
+import com.ssl.jv.gip.jpa.pojo.HistorialContrasena;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.Rol;
@@ -31,4 +32,15 @@ public interface AdministracionEJBLocal {
     
 	public void enviarEmail(String strEmail, String strContrasena,
 			String nombre, String apellido);
+	
+	public List<HistorialContrasena> consultarHistorialContrasenaHoy(Usuario u);
+	
+	public List<HistorialContrasena> consultarHistorialContrasena(Usuario u);
+	
+	public List<HistorialContrasena> consultarHistorialContrasena(String usuarioId);
+	
+	public void crearHistorialContrasena(HistorialContrasena hc);
+	public void actualizarHistorialContrasena(HistorialContrasena hc);
+	public void eliminarHistorialContrasena(HistorialContrasena hc);
+	
 }

@@ -17,15 +17,17 @@ import javax.mail.internet.MimeMessage;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
+import com.ssl.jv.gip.jpa.pojo.HistorialContrasena;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.Rol;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
-import com.ssl.jv.gip.negocio.dao.FuncionalidadDAO;
-import com.ssl.jv.gip.negocio.dao.PaisDAO;
-import com.ssl.jv.gip.negocio.dao.ParametroDAO;
-import com.ssl.jv.gip.negocio.dao.RolDAO;
-import com.ssl.jv.gip.negocio.dao.UsuarioDAO;
+import com.ssl.jv.gip.negocio.dao.FuncionalidadDAOLocal;
+import com.ssl.jv.gip.negocio.dao.HistorialContrasenaDAOLocal;
+import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ParametroDAOLocal;
+import com.ssl.jv.gip.negocio.dao.RolDAOLocal;
+import com.ssl.jv.gip.negocio.dao.UsuarioDAOLocal;
 
 /**
  * Session Bean implementation class AdministracionEJB
@@ -37,19 +39,22 @@ public class AdministracionEJB implements AdministracionEJBLocal {
 	private static final Logger LOGGER = Logger.getLogger(AdministracionEJB.class);
 	
 	@EJB
-	private UsuarioDAO usuarioDao;
+	private UsuarioDAOLocal usuarioDao;
 	
 	@EJB
-	private FuncionalidadDAO funcionalidadDao;
+	private FuncionalidadDAOLocal funcionalidadDao;
 
 	@EJB
-	private PaisDAO paisDao;
+	private PaisDAOLocal paisDao;
 	
 	@EJB
-	private RolDAO rolDao;
+	private RolDAOLocal rolDao;
 
 	@EJB
-	private ParametroDAO parametroDao;
+	private ParametroDAOLocal parametroDao;
+
+	@EJB
+	private HistorialContrasenaDAOLocal historialContrasenaDao;
 	
 	@Resource(mappedName="java:jboss/mail/Default")    
 	private Session mailSessionServer;
@@ -120,8 +125,28 @@ public class AdministracionEJB implements AdministracionEJBLocal {
 		} catch (MessagingException e) {
 			LOGGER.error(e);
 		}       
-		
 	}
 	
+	public List<HistorialContrasena> consultarHistorialContrasenaHoy(Usuario u){
+		return historialContrasenaDao.findByUsuarioContrasenaHoy(u);
+	}
     
+	public List<HistorialContrasena> consultarHistorialContrasena(Usuario u){
+		return historialContrasenaDao.findByUsuarioContrasena(u);
+	}
+	
+	public List<HistorialContrasena> consultarHistorialContrasena(String usuarioId){
+		return historialContrasenaDao.findByUsuarioId(usuarioId);
+	}
+	
+	public void crearHistorialContrasena(HistorialContrasena hc){
+		this.historialContrasenaDao.add(hc);
+	}
+	public void actualizarHistorialContrasena(HistorialContrasena hc){
+		this.historialContrasenaDao.update(hc);
+	}
+	public void eliminarHistorialContrasena(HistorialContrasena hc){
+		this.historialContrasenaDao.deleteAntiguo(hc);
+	}
+	
 }

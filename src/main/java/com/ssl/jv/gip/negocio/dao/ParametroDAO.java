@@ -10,7 +10,7 @@ import com.ssl.jv.gip.jpa.pojo.Parametro;
 
 @Stateless
 @LocalBean
-public class ParametroDAO extends GenericDAO<Parametro>{
+public class ParametroDAO extends GenericDAO<Parametro> implements ParametroDAOLocal{
 
 	private static final Logger LOGGER = Logger.getLogger(PaisDAO.class);
 	

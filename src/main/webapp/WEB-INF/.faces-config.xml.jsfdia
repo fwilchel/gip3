@@ -5,8 +5,10 @@
    <PROCESS-ITEM-OUTPUT ID="introduccion::#ui#introduccion.xhtml"
     NAME="output" PATH="/ui/introduccion.xhtml"
     TARGET="rules:#ui#introduccion.xhtml" TITLE="introduccion" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="salir::#ui#login.xhtml" NAME="output1"
-    PATH="/ui/login.xhtml" TARGET="rules:#ui#login.xhtml" TITLE="salir" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cambiarContrasena::#ui#cambiarContrasena.xhtml" NAME="output1"
+    PATH="/ui/cambiarContrasena.xhtml"
+    TARGET="rules:#ui#cambiarContrasena.xhtml" TITLE="cambiarContrasena" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT ID="usuario::#ui#administracion#usuarios.xhtml"
     NAME="output2" PATH="/ui/administracion/usuarios.xhtml"
     TARGET="rules:#ui#administracion#usuarios.xhtml" TITLE="usuario" model-entity="JSFProcessItemOutput"/>
@@ -42,6 +44,11 @@
     PATH="/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml"
     TARGET="rules:#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
     TITLE="listado_FX_AsignarContribucionCafe" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_Formato_Novedad::#ui#reportes#formatoNovedades.xhtml"
+    NAME="output9" PATH="/ui/reportes/formatoNovedades.xhtml"
+    TARGET="rules:#ui#reportes#formatoNovedades.xhtml"
+    TITLE="listado_Formato_Novedad" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
@@ -70,4 +77,6 @@
   NAME="rules:#ui#comercioexterior#ingresarCostosIncoterm.xhtml"
   PATH="/ui/comercioexterior/ingresarCostosIncoterm.xhtml"
   SHAPE="304,401,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
+  PATH="/ui/cambiarContrasena.xhtml" SHAPE="304,433,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
