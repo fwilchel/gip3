@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.maestroProductosXClienteCETituloFrame}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+				showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.maestroProductosXClienteCETituloFrame}">
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{productoClienteComercioExteriorMB.productosXClienteComExteriorList}" rows="10"
+						emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+							<p:outputPanel>
+							
+					<p:commandButton action="#{productoClienteComercioExteriorMB.nuevo}" oncomplete="return false;" title="#{msg.generalAdicionarRegistro}"
+						icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
+					<p:spacer width="30"></p:spacer>	
+					<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+								<p:inputText id="globalFilter"
+									onkeyup="PF('datoTabla').filter()" style="width:150px"
+									placeholder="#{msg.generalPalabrasBuscar}" />
+					<p:spacer width="30"></p:spacer>				
+					<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
+						icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+							
+								
+							</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton oncomplete="return false;"
+								icon="ui-icon-pencil" title="#{msg.generalEditar}" >
+								<f:setPropertyActionListener value="#{dato}"
+									target="#{productoClienteComercioExteriorMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+
+						<p:column filterBy="#{dato.id}" headerText="#{msg.maestroProductosXClienteCEID}"
+							filterMatchMode="contains" sortBy="#{dato.id}">
+							<h:outputText value="#{dato.id}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.productosInventario.sku}" headerText="#{msg.maestroProductosXClienteCESKU}"
+							filterMatchMode="contains" sortBy="#{dato.productosInventario.sku}">
+							<h:outputText value="#{dato.productosInventario.sku}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.productosInventario.nombre}" headerText="#{msg.maestroProductosXClienteCENombreProducto}"
+							filterMatchMode="contains" sortBy="#{dato.productosInventario.nombre}">
+							<h:outputText value="#{dato.productosInventario.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.cliente.nombre}" headerText="#{msg.maestroProductosXClienteCENombreCliente}"
+							filterMatchMode="contains" sortBy="#{dato.cliente.nombre}">
+							<h:outputText value="#{dato.cliente.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.precio}" headerText="#{msg.maestroProductosXClienteCEPrecioEXWFOB}"
+							filterMatchMode="contains" sortBy="#{dato.precio}">
+							<h:outputText value="#{dato.precio}" />
+						</p:column>
+						
+						<p:column filterBy="#{dato.iva}" headerText="#{msg.maestroProductosXClienteCEIVA}"
+							filterMatchMode="contains" sortBy="#{dato.iva}">
+							<h:outputText value="#{dato.iva}" />
+						</p:column>
+						
+						<p:column filterBy="#{dato.descuentoxproducto}" headerText="#{msg.maestroProductosXClienteCEDescuentoProducto}"
+							filterMatchMode="contains" sortBy="#{dato.descuentoxproducto}">
+							<h:outputText value="#{dato.descuentoxproducto}" />
+						</p:column>
+						
+						<p:column filterBy="#{dato.otrosDescuentos}" headerText="#{msg.maestroProductosXClienteCEOtrosDescuento}"
+							filterMatchMode="contains" sortBy="#{dato.otrosDescuentos}">
+							<h:outputText value="#{dato.otrosDescuentos}" />
+						</p:column>
+						
+						<p:column filterBy="#{dato.activo?'Si':'No'}" headerText="#{msg.generalActivo}"
+							filterMatchMode="exact" sortBy="#{dato.activo}">
+							<f:facet name="filter">
+				                <p:selectOneMenu onchange="PF('datoTabla').filter()" style="width:120px" >
+				                    <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
+				                    <f:selectItem itemLabel="Si" itemValue="Si" />
+				                    <f:selectItem itemLabel="No" itemValue="No" />
+				                </p:selectOneMenu>
+				            </f:facet>
+							<h:outputText value="#{dato.activo?'Si':'No'}" />
+						</p:column>
+
+						
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+
+
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+
