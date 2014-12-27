@@ -1,8 +1,16 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 /**
@@ -23,19 +31,32 @@ public class TerminoIncoterm implements Serializable {
 	//bi-directional many-to-many association to Cliente
 	@ManyToMany
 	@JoinTable(
-		name="incoterm_x_cliente"
-		, joinColumns={
-			@JoinColumn(name="id_incoterm")
+			name="incoterm_x_cliente"
+			, joinColumns={
+					@JoinColumn(name="id_incoterm")
 			}
-		, inverseJoinColumns={
-			@JoinColumn(name="id_cliente")
+			, inverseJoinColumns={
+					@JoinColumn(name="id_cliente")
 			}
-		)
+			)
 	private List<Cliente> clientes;
 
 	//bi-directional many-to-one association to TerminosTransporte
 	@OneToMany(mappedBy="terminoIncoterm")
 	private List<TerminosTransporte> terminosTransportes;
+
+	//bi-directional many-to-many association to medioTransportes
+	@ManyToMany
+	@JoinTable(
+			name="termino_incoterm_x_medio_transporte"
+			, joinColumns={
+					@JoinColumn(name="idTerminoIncoterm")
+			}
+			, inverseJoinColumns={
+					@JoinColumn(name="idMedioTransporte")
+			}
+			)
+	private List<MedioTransporte> medioTransportes;
 
 	public TerminoIncoterm() {
 	}
@@ -85,5 +106,15 @@ public class TerminoIncoterm implements Serializable {
 
 		return terminosTransporte;
 	}
+
+	public List<MedioTransporte> getMedioTransportes() {
+		return medioTransportes;
+	}
+
+	public void setMedioTransportes(List<MedioTransporte> medioTransportes) {
+		this.medioTransportes = medioTransportes;
+	}
+
+
 
 }
