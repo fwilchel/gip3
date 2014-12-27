@@ -9,18 +9,16 @@
     ID="cambiarContrasena::#ui#cambiarContrasena.xhtml" NAME="output1"
     PATH="/ui/cambiarContrasena.xhtml"
     TARGET="rules:#ui#cambiarContrasena.xhtml" TITLE="cambiarContrasena" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="salir::#ui#login.xhtml" NAME="output2"
+    PATH="/ui/login.xhtml" TARGET="rules:#ui#login.xhtml" TITLE="salir" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT ID="usuario::#ui#administracion#usuarios.xhtml"
-    NAME="output2" PATH="/ui/administracion/usuarios.xhtml"
+    NAME="output3" PATH="/ui/administracion/usuarios.xhtml"
     TARGET="rules:#ui#administracion#usuarios.xhtml" TITLE="usuario" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_maestro_Ubicaciones::#ui#maestros#ubicacion.xhtml"
-    NAME="output3" PATH="/ui/maestros/ubicacion.xhtml"
+    NAME="output4" PATH="/ui/maestros/ubicacion.xhtml"
     TARGET="rules:#ui#maestros#ubicacion.xhtml"
     TITLE="listado_maestro_Ubicaciones" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="agenciaCarga::#ui#maestros#agenciaCarga.xhtml" NAME="output4"
-    PATH="/ui/maestros/agenciaCarga.xhtml"
-    TARGET="rules:#ui#maestros#agenciaCarga.xhtml" TITLE="agenciaCarga" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="lugar_incoterm::#ui#maestros#lugarIncoterm.xhtml" NAME="output5"
     PATH="/ui/maestros/lugarIncoterm.xhtml"
@@ -49,6 +47,16 @@
     NAME="output9" PATH="/ui/reportes/formatoNovedades.xhtml"
     TARGET="rules:#ui#reportes#formatoNovedades.xhtml"
     TITLE="listado_Formato_Novedad" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_maestro_ProductosPorCliente_CE::#ui#maestros#productosClienteComExt.xhtml"
+    NAME="output10" PATH="/ui/maestros/productosClienteComExt.xhtml"
+    TARGET="rules:#ui#maestros#productosClienteComExt.xhtml"
+    TITLE="listado_maestro_ProductosPorCliente_CE" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="maestro_inventario::#ui#maestros#productos.xhtml"
+    NAME="output11" PATH="/ui/maestros/productos.xhtml"
+    TARGET="rules:#ui#maestros#productos.xhtml"
+    TITLE="maestro_inventario" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
@@ -79,4 +87,8 @@
   SHAPE="304,401,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
   PATH="/ui/cambiarContrasena.xhtml" SHAPE="304,433,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#productosClienteComExt.xhtml"
+  PATH="/ui/maestros/productosClienteComExt.xhtml" SHAPE="304,465,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#productos.xhtml"
+  PATH="/ui/maestros/productos.xhtml" SHAPE="304,497,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

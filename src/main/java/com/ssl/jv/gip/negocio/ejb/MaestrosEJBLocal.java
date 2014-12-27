@@ -5,10 +5,14 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
+import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
+import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.jpa.pojo.Unidad;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -142,4 +146,11 @@ public interface MaestrosEJBLocal {
 	 */
 	public List<ProductosXClienteComext> consultarProductosClienteComercioExterior();
 
+	public List<Unidad> consultarUnidades();
+	public List<CategoriasInventario> consultarCategoriasInventario();
+	public List<CuentaContable> consultarCuentasContables();
+	
+    public void actualizarProductoInventario(ProductosInventario pi);
+    public void crearProductoInventario(ProductosInventario pi);
+	
 }

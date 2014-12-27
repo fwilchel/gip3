@@ -10,14 +10,22 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
+import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
+import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
+import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
+import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
+import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
+import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 
 /**
  * Session Bean implementation class MaestrosEJB
@@ -40,6 +48,18 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@EJB
 	private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
 
+	@EJB
+	private UnidadDAOLocal unidadDao;
+	
+	@EJB
+	private CuentaContableDAOLocal cuentaContableDao;
+	
+	@EJB
+	private CategoriaInventarioDAOLocal categoriaInventarioDao;
+
+	@EJB
+	private ProductoInventarioDAOLocal productoInventarioDao;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -299,4 +319,27 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		return productoClienteComercioExteriorDAO.consultarTodos();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Unidad> consultarUnidades(){
+		return (List<Unidad>)this.unidadDao.findAll();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CategoriasInventario> consultarCategoriasInventario(){
+		return (List<CategoriasInventario>)this.categoriaInventarioDao.findAll();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CuentaContable> consultarCuentasContables(){
+		return (List<CuentaContable>)this.cuentaContableDao.findAll();
+	}
+	
+    public void actualizarProductoInventario(ProductosInventario pi){
+    	this.productoInventarioDao.update(pi);
+    }
+
+    public void crearProductoInventario(ProductosInventario pi){
+   		this.productoInventarioDao.add(pi);
+    }
+	
 }
