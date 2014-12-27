@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -16,6 +18,8 @@ public class Ubicacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator( name = "ubicacion_id_seq", sequenceName = "ubicacion_id_seq", allocationSize = 1)
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "ubicacion_id_seq" )
 	private Long id;
 
 	@Column(name="cliente_icg")

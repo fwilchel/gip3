@@ -125,13 +125,6 @@
 						rendered="#{not empty ubicacionMB.seleccionado}"
 						columnClasses="label,value">
 
-						<p:outputLabel value="#{msg.maestroUbicacionesId}"
-							for="identificacion" styleClass="negrita" />
-						<h:inputText value="#{ubicacionMB.seleccionado.id}"
-							id="identificacion" required="true" maxlength="40"
-							label="#{msg.maestroUbicacionesId}" />
-						<p:message for="identificacion"></p:message>
-
 						<p:outputLabel value="#{msg.maestroUbicacionesNombre}"
 							for="nombres" styleClass="negrita" />
 						<h:inputText value="#{ubicacionMB.seleccionado.nombre}"
