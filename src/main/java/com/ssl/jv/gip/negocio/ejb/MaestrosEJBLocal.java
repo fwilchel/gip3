@@ -9,9 +9,13 @@ import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
+import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 
@@ -146,6 +150,52 @@ public interface MaestrosEJBLocal {
 	 * @return lista de productos por cliente
 	 */
 	public List<ProductosXClienteComext> consultarProductosClienteComercioExterior();
+	
+	/**
+	 * Consultar IncotermxMedioTrans.
+	 *
+	 * @return the list
+	 */
+	public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte();
+	
+	/**
+	 * Consultar TerminoIncotermXMedioTransporte.
+	 *
+	 * @param pId the id
+	 * @return the TerminoIncotermXMedioTransporte
+	 */
+	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(Long pId);
+	
+	/**
+	 * Crear TerminoIncotermXMedioTransporte.
+	 *
+	 * @param pEntidad the entidad
+	 * @return the TerminoIncotermXMedioTransporte
+	 */
+	public TerminoIncotermXMedioTransporte crearTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad);
+	
+	/**
+	 * Modificar TerminoIncotermXMedioTransporte.
+	 *
+	 * @param pEntidad the entidad
+	 * @return the TerminoIncotermXMedioTransporte
+	 */
+	public TerminoIncotermXMedioTransporte actualizarTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad);
+	
+	/**
+	 * Consultar TerminoIncoterm.
+	 *
+	 * @return the list
+	 */
+	public List<TerminoIncoterm> consultarTerminoIncotermActivo();
+	
+	/**
+	 * Consultar TerminoIncoterm.
+	 *
+	 * @return the list
+	 */
+	public List<MedioTransporte> consultarMedioTransporteActivo();
+	
 
 
 	/**Consulta todos los agentes de aduana
@@ -179,5 +229,6 @@ public interface MaestrosEJBLocal {
     public List<ProductosInventario> consultarProductos(ProductosInventario pi);
     
     
+
 
 }

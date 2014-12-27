@@ -67,6 +67,13 @@ public class GenericDAO<T> {
 				.getResultList();
 		return list;
 	}
+	
+	public List<?> findAllActivoBoolean() {
+		List<?> list = em.createQuery(
+				"from " + this.persistentClass.getName() + " WHERE activo=true")
+				.getResultList();
+		return list;
+	}
 
 	/**
 	 * @see IGenericDAO#deleteMultiple(java.util.List)

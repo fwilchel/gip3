@@ -14,17 +14,23 @@ import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
+import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
+import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAO;
 import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAO;
 import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
+import com.ssl.jv.gip.negocio.dao.MedioTransporteDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
+import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
@@ -54,6 +60,15 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
+	
+	@EJB
+	private IncotermXMedioTransDAO incotermXMedioTransDAO;
+	
+	@EJB
+	private TerminoIncotermDAO terminoIncotermDAO;
+	
+	@EJB
+	private MedioTransporteDAO medioTransporteDAO;
 
 	@EJB
 	private UnidadDAOLocal unidadDao;
@@ -345,6 +360,72 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	}
 
 	@Override
+	public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte() {
+		return incotermXMedioTransDAO.consultarTerminoIncotermXMedioTransporte();
+	}
+
+	@Override
+	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(Long pId) {
+		TerminoIncotermXMedioTransporte entidad = new TerminoIncotermXMedioTransporte();
+
+		try {
+			entidad = incotermXMedioTransDAO.findByPK(pId);
+		} catch (Exception e) {
+
+		}
+
+		return entidad;
+	}
+
+	@Override
+	public TerminoIncotermXMedioTransporte crearTerminoIncotermXMedioTransporte(
+			TerminoIncotermXMedioTransporte pEntidad) {
+		try {
+			pEntidad = incotermXMedioTransDAO.add(pEntidad);
+		} catch (Exception e) {
+
+		}
+
+		return pEntidad;
+	}
+
+	@Override
+	public TerminoIncotermXMedioTransporte actualizarTerminoIncotermXMedioTransporte(
+			TerminoIncotermXMedioTransporte pEntidad) {
+		try {
+			incotermXMedioTransDAO.update(pEntidad);
+		} catch (Exception e) {
+
+		}
+
+		return pEntidad;
+	}
+
+	@Override
+	public List<TerminoIncoterm> consultarTerminoIncotermActivo() {
+		List<TerminoIncoterm> listado = new ArrayList<TerminoIncoterm>();
+
+		try {
+			listado = (List<TerminoIncoterm>) terminoIncotermDAO.findAll();
+		} catch (Exception e) {
+
+		}
+
+		return listado;
+	}
+
+	@Override
+	public List<MedioTransporte> consultarMedioTransporteActivo() {
+		List<MedioTransporte> listado = new ArrayList<MedioTransporte>();
+		try {
+			listado = (List<MedioTransporte>) medioTransporteDAO.findAllActivoBoolean();
+		} catch (Exception e) {
+
+		}
+
+		return listado;
+	}
+
 	public AgenteAduana crearAgenteAduana(AgenteAduana pEntidad) {
 		try {
 			return agenteAduanaDAO.add(pEntidad);

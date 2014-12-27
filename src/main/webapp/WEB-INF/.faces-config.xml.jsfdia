@@ -20,7 +20,6 @@
     TARGET="rules:#ui#maestros#ubicacion.xhtml"
     TITLE="listado_maestro_Ubicaciones" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-<<<<<<< HEAD
     ID="listado_maestro_Agentes::#ui#maestros#agenteAduana.xhtml"
     NAME="output5" PATH="/ui/maestros/agenteAduana.xhtml"
     TARGET="rules:#ui#maestros#agenteAduana.xhtml"
@@ -29,18 +28,6 @@
     ID="agenciaCarga::#ui#maestros#agenciaCarga.xhtml" NAME="output6"
     PATH="/ui/maestros/agenciaCarga.xhtml"
     TARGET="rules:#ui#maestros#agenciaCarga.xhtml" TITLE="agenciaCarga" model-entity="JSFProcessItemOutput"/>
-=======
-    ID="lugar_incoterm::#ui#maestros#lugarIncoterm.xhtml" NAME="output5"
-    PATH="/ui/maestros/lugarIncoterm.xhtml"
-    TARGET="rules:#ui#maestros#lugarIncoterm.xhtml"
-    TITLE="lugar_incoterm" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="consultar_ultima_asignacionLote::#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
-    NAME="output6"
-    PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
-    TARGET="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
-    TITLE="consultar_ultima_asignacionLote" model-entity="JSFProcessItemOutput"/>
->>>>>>> 384907659ad9771a1149d7f2aacf3561de1b01af
    <PROCESS-ITEM-OUTPUT
     ID="ingresar_costos_incoterm::#ui#comercioexterior#ingresarCostosIncoterm.xhtml"
     NAME="output7"
@@ -63,51 +50,54 @@
     NAME="output10" PATH="/ui/maestros/productosClienteComExt.xhtml"
     TARGET="rules:#ui#maestros#productosClienteComExt.xhtml"
     TITLE="listado_maestro_ProductosPorCliente_CE" model-entity="JSFProcessItemOutput"/>
-<<<<<<< HEAD
-=======
+   <PROCESS-ITEM-OUTPUT
+    ID="incoterm_medio_transporte::#ui#maestros#terminoIncotermXMedioTrans.xhtml"
+    NAME="output11" PATH="/ui/maestros/terminoIncotermXMedioTrans.xhtml"
+    TARGET="rules:#ui#maestros#terminoIncotermXMedioTrans.xhtml"
+    TITLE="incoterm_medio_transporte" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="maestro_inventario::#ui#maestros#productos.xhtml"
-    NAME="output11" PATH="/ui/maestros/productos.xhtml"
+    NAME="output12" PATH="/ui/maestros/productos.xhtml"
     TARGET="rules:#ui#maestros#productos.xhtml"
     TITLE="maestro_inventario" model-entity="JSFProcessItemOutput"/>
->>>>>>> 384907659ad9771a1149d7f2aacf3561de1b01af
   </PROCESS-ITEM>
  </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
-  PATH="/ui/introduccion.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
+  PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
+  SHAPE="304,929,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#ubicacion.xhtml"
   PATH="/ui/maestros/ubicacion.xhtml" SHAPE="304,593,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#agenciaCarga.xhtml"
   PATH="/ui/maestros/agenciaCarga.xhtml" SHAPE="304,705,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#administracion#usuarios.xhtml"
   PATH="/ui/administracion/usuarios.xhtml" SHAPE="304,481,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#login.xhtml" PATH="/ui/login.xhtml"
-  SHAPE="304,369,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#lugarIncoterm.xhtml"
-  PATH="/ui/maestros/lugarIncoterm.xhtml" SHAPE="304,817,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
-  PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
-  SHAPE="304,929,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
   PATH="/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml"
   SHAPE="304,1041,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#lugarIncoterm.xhtml"
+  PATH="/ui/maestros/lugarIncoterm.xhtml" SHAPE="304,817,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#login.xhtml" PATH="/ui/login.xhtml"
+  SHAPE="304,369,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
+  PATH="/ui/introduccion.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#reportes#formatoNovedades.xhtml"
   PATH="/ui/reportes/formatoNovedades.xhtml" SHAPE="304,401,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
+  PATH="/ui/cambiarContrasena.xhtml" SHAPE="304,433,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#productosClienteComExt.xhtml"
+  PATH="/ui/maestros/productosClienteComExt.xhtml" SHAPE="32,1425,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#ui#comercioexterior#ingresarCostosIncoterm.xhtml"
   PATH="/ui/comercioexterior/ingresarCostosIncoterm.xhtml"
   SHAPE="304,401,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
-  PATH="/ui/cambiarContrasena.xhtml" SHAPE="304,433,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#productosClienteComExt.xhtml"
-  PATH="/ui/maestros/productosClienteComExt.xhtml" SHAPE="304,465,0,0" model-entity="JSFProcessGroup"/>
-<<<<<<< HEAD
- <PROCESS-ITEM NAME="rules:#ui#maestros#agenteAduana.xhtml"
-  PATH="/ui/maestros/agenteAduana.xhtml" SHAPE="304,465,0,0" model-entity="JSFProcessGroup"/>
-=======
+ <PROCESS-ITEM
+  NAME="rules:#ui#maestros#terminoIncotermXMedioTrans.xhtml"
+  PATH="/ui/maestros/terminoIncotermXMedioTrans.xhtml"
+  SHAPE="304,497,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#productos.xhtml"
-  PATH="/ui/maestros/productos.xhtml" SHAPE="304,497,0,0" model-entity="JSFProcessGroup"/>
->>>>>>> 384907659ad9771a1149d7f2aacf3561de1b01af
+  PATH="/ui/maestros/productos.xhtml" SHAPE="304,641,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#agenteAduana.xhtml"
+  PATH="/ui/maestros/agenteAduana.xhtml" SHAPE="304,529,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
