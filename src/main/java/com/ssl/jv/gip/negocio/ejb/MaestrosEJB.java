@@ -451,7 +451,6 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		return (List<Unidad>)this.unidadDao.findAll();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<CategoriasInventario> consultarCategoriasInventario(){
 		return (List<CategoriasInventario>)this.categoriaInventarioDao.findAll();
 	}

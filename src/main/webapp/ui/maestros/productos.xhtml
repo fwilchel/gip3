@@ -33,7 +33,7 @@
 						<p:outputLabel value="#{msg.buscadorCategoria}" for="categoia" styleClass="negrita" />
 						<p:selectOneMenu id="categoia" value="#{productosMB.filtro.categoriasInventario.id}" label="#{msg.buscadorCategoria}">
 							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"/>
-							<f:selectItems value="#{productosMB.categorias}" var="categoria" itemValue="#{categoria.id}" itemLabel="#{categoria.nombre}" />
+							<f:selectItems value="#{productosMB.categorias}" />
 						</p:selectOneMenu>
 						<p:message for="categoia"></p:message>
 
@@ -144,7 +144,7 @@
 						
 						<p:outputLabel value="#{msg.buscadorCategoria}" for="categoria" styleClass="negrita" />
 						<p:selectOneMenu id="categoria" value="#{productosMB.seleccionado.categoriasInventario.id}" label="#{msg.buscadorCategoria}">
-							<f:selectItems value="#{productosMB.categorias}" var="categoria" itemValue="#{categoria.id}" itemLabel="#{categoria.nombre}" />
+							<f:selectItems value="#{productosMB.categorias}" />
 						</p:selectOneMenu>
 						<p:message for="categoria"></p:message>
 						

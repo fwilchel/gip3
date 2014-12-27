@@ -9,6 +9,8 @@ import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
 
@@ -52,7 +54,7 @@ public class ProductosMB extends UtilMB{
 	private ProductosInventario filtro;
 	private List<Unidad> unidades;
 	private List<CuentaContable> cuentasContables;
-	private List<CategoriasInventario> categorias;
+	private List<SelectItem> categorias;
 	
 	private Modo modo;
 	
@@ -71,7 +73,17 @@ public class ProductosMB extends UtilMB{
 	@PostConstruct
 	public void init(){
 		productos = new ArrayList<ProductosInventario>();
-		categorias = maestrosEjb.consultarCategoriasInventario();
+		List<CategoriasInventario> categorias = maestrosEjb.consultarCategoriasInventario();
+		this.categorias = new ArrayList<SelectItem>();
+		for (CategoriasInventario ci:categorias){
+			SelectItemGroup sig=new SelectItemGroup(ci.getNombre());
+			this.categorias.add(sig);
+			SelectItem hijos[]=new SelectItem[ci.getCategoriasInventarios().size()];
+			for (int i=0; i<hijos.length; i++){
+				hijos[i]=new SelectItem(ci.getCategoriasInventarios().get(i).getId(), ci.getCategoriasInventarios().get(i).getNombre());
+			}
+			sig.setSelectItems(hijos);
+		}
 		unidades= maestrosEjb.consultarUnidades();
 		cuentasContables = maestrosEjb.consultarCuentasContables();
 		filtro = new ProductosInventario();
@@ -134,14 +146,6 @@ public class ProductosMB extends UtilMB{
 
 	public void setCuentasContables(List<CuentaContable> cuentasContables) {
 		this.cuentasContables = cuentasContables;
-	}
-
-	public List<CategoriasInventario> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(List<CategoriasInventario> categorias) {
-		this.categorias = categorias;
 	}
 
 	public MaestrosEJBLocal getMaestrosEjb() {
@@ -209,6 +213,14 @@ public class ProductosMB extends UtilMB{
 	
 	public void consultar(){
 		this.productos=this.maestrosEjb.consultarProductos(this.filtro);
+	}
+
+	public List<SelectItem> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<SelectItem> categorias) {
+		this.categorias = categorias;
 	}
 	
 
