@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,7 +20,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="termino_incoterm")
-@NamedQuery(name="TerminoIncoterm.findAll", query="SELECT t FROM TerminoIncoterm t")
+@NamedQueries(value={
+@NamedQuery(name="TerminoIncoterm.findAll", query="SELECT t FROM TerminoIncoterm t"),
+@NamedQuery(name="TerminoIncoterm.findByMedioTrans", query="SELECT t FROM TerminoIncoterm t join t.terminosTransportes r ")
+})
 public class TerminoIncoterm implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -45,18 +49,7 @@ public class TerminoIncoterm implements Serializable {
 	@OneToMany(mappedBy="terminoIncoterm")
 	private List<TerminosTransporte> terminosTransportes;
 
-	//bi-directional many-to-many association to medioTransportes
-	@ManyToMany
-	@JoinTable(
-			name="termino_incoterm_x_medio_transporte"
-			, joinColumns={
-					@JoinColumn(name="idTerminoIncoterm")
-			}
-			, inverseJoinColumns={
-					@JoinColumn(name="idMedioTransporte")
-			}
-			)
-	private List<MedioTransporte> medioTransportes;
+	
 
 	public TerminoIncoterm() {
 	}
@@ -107,13 +100,7 @@ public class TerminoIncoterm implements Serializable {
 		return terminosTransporte;
 	}
 
-	public List<MedioTransporte> getMedioTransportes() {
-		return medioTransportes;
-	}
 
-	public void setMedioTransportes(List<MedioTransporte> medioTransportes) {
-		this.medioTransportes = medioTransportes;
-	}
 
 
 

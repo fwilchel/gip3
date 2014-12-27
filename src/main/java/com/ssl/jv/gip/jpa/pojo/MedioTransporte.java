@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-
 import java.sql.Array;
 import java.util.List;
 
@@ -21,14 +20,11 @@ public class MedioTransporte implements Serializable {
 
 	@Id
 	private Long id;
-
+	
 	private Boolean activo;
-
+	
 	private String descripcion;
 
-	//bi-directional many-to-many association to TerminoIncoterm
-	@ManyToMany(mappedBy="medioTransportes")
-	private List<TerminoIncoterm> terminoIncoterms;
 
 	public MedioTransporte() {
 	}
@@ -57,12 +53,5 @@ public class MedioTransporte implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public List<TerminoIncoterm> getTerminoIncoterms() {
-		return this.terminoIncoterms;
-	}
-
-	public void setTerminoIncoterms(List<TerminoIncoterm> terminoIncoterms) {
-		this.terminoIncoterms = terminoIncoterms;
-	}
 
 }

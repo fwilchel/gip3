@@ -6,8 +6,11 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
+import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 
 // TODO: Auto-generated Javadoc
@@ -141,5 +144,50 @@ public interface MaestrosEJBLocal {
 	 * @return lista de productos por cliente
 	 */
 	public List<ProductosXClienteComext> consultarProductosClienteComercioExterior();
-
+	
+	/**
+	 * Consultar IncotermxMedioTrans.
+	 *
+	 * @return the list
+	 */
+	public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte();
+	
+	/**
+	 * Consultar TerminoIncotermXMedioTransporte.
+	 *
+	 * @param pId the id
+	 * @return the TerminoIncotermXMedioTransporte
+	 */
+	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(Long pId);
+	
+	/**
+	 * Crear TerminoIncotermXMedioTransporte.
+	 *
+	 * @param pEntidad the entidad
+	 * @return the TerminoIncotermXMedioTransporte
+	 */
+	public TerminoIncotermXMedioTransporte crearTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad);
+	
+	/**
+	 * Modificar TerminoIncotermXMedioTransporte.
+	 *
+	 * @param pEntidad the entidad
+	 * @return the TerminoIncotermXMedioTransporte
+	 */
+	public TerminoIncotermXMedioTransporte actualizarTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad);
+	
+	/**
+	 * Consultar TerminoIncoterm.
+	 *
+	 * @return the list
+	 */
+	public List<TerminoIncoterm> consultarTerminoIncotermActivo();
+	
+	/**
+	 * Consultar TerminoIncoterm.
+	 *
+	 * @return the list
+	 */
+	public List<MedioTransporte> consultarMedioTransporteActivo();
+	
 }
