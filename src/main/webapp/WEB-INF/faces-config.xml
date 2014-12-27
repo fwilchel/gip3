@@ -81,6 +81,7 @@
         <navigation-case>
 	        <from-outcome>incoterm_medio_transporte</from-outcome>
             <to-view-id>/ui/maestros/terminoIncotermXMedioTrans.xhtml</to-view-id>
+        </navigation-case>
 		<navigation-case>
 	        <from-outcome>maestro_inventario</from-outcome>
             <to-view-id>/ui/maestros/productos.xhtml</to-view-id>
