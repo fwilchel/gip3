@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
+import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
@@ -19,6 +20,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
+import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAO;
 import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
@@ -26,6 +28,8 @@ import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
+
+
 
 /**
  * Session Bean implementation class MaestrosEJB
@@ -41,6 +45,9 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private AgenciaCargaDAO agenciaCargaDAO;
+	
+	@EJB
+	private AgenteAduanaDAO agenteAduanaDAO;
 
 	@EJB
 	private LugarIncotermDAO lugarIncotermDAO;
@@ -319,6 +326,45 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		return productoClienteComercioExteriorDAO.consultarTodos();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarAgentesAduana(com
+	 * .ssl.jv.gip.jpa.pojo.AgenciaCarga)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AgenteAduana> consultarAgentesAduana() {
+		try {
+			return (List<AgenteAduana>) agenteAduanaDAO.findAll();
+		} catch (Exception e) {
+			LOGGER.error(e + " Error consultando agentes de aduana");
+			return null;
+		}
+	}
+
+	@Override
+	public AgenteAduana crearAgenteAduana(AgenteAduana pEntidad) {
+		try {
+			return agenteAduanaDAO.add(pEntidad);
+		} catch (Exception e) {
+			LOGGER.error(e + " Error creando agente de aduana");
+			return null;
+		}
+	}
+
+	@Override
+	public AgenteAduana actualizarAgenteAduana(AgenteAduana pEntidad) {
+		try {
+			agenteAduanaDAO.update(pEntidad);
+			return pEntidad;
+		} catch (Exception e) {
+			LOGGER.error(e + " Error actualizando agente de aduana");
+			return null;
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Unidad> consultarUnidades(){
 		return (List<Unidad>)this.unidadDao.findAll();
@@ -341,5 +387,5 @@ public class MaestrosEJB implements MaestrosEJBLocal {
     public void crearProductoInventario(ProductosInventario pi){
    		this.productoInventarioDao.add(pi);
     }
-	
+
 }
