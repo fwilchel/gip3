@@ -47,6 +47,10 @@
             <to-view-id>/ui/maestros/ubicacion.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+	        <from-outcome>listado_maestro_Agentes</from-outcome>
+            <to-view-id>/ui/maestros/agenteAduana.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
 	        <from-outcome>agenciaCarga</from-outcome>
             <to-view-id>/ui/maestros/agenciaCarga.xhtml</to-view-id>
         </navigation-case>
@@ -77,6 +81,9 @@
         <navigation-case>
 	        <from-outcome>incoterm_medio_transporte</from-outcome>
             <to-view-id>/ui/maestros/terminoIncotermXMedioTrans.xhtml</to-view-id>
+		<navigation-case>
+	        <from-outcome>maestro_inventario</from-outcome>
+            <to-view-id>/ui/maestros/productos.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 

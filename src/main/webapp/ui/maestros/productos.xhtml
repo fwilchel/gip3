@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.maestroInventarioInicio}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+				showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.maestroInventarioInicio}">
+					<p:panelGrid columns="3">
+
+						<p:outputLabel value="#{msg.buscadorSKU}" for="codigo" styleClass="negrita"/>
+						<h:inputText value="#{productosMB.filtro.sku}" id="codigo" required="false" maxlength="10" label="#{msg.buscadorSKU}"/>
+						<p:message for="codigo"></p:message>
+
+						<p:outputLabel value="#{msg.buscadorNombreProducto}" for="nombre" styleClass="negrita"/>
+						<h:inputText value="#{productosMB.filtro.nombre}" id="nombre" required="false" maxlength="50" size="40" label="#{msg.buscadorNombreProducto}"/>
+						<p:message for="nombre"></p:message>
+						
+						<p:outputLabel value="#{msg.buscadorCategoria}" for="categoia" styleClass="negrita" />
+						<p:selectOneMenu id="categoia" value="#{productosMB.filtro.categoriasInventario.id}" label="#{msg.buscadorCategoria}">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"/>
+							<f:selectItems value="#{productosMB.categorias}" var="categoria" itemValue="#{categoria.id}" itemLabel="#{categoria.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="categoia"></p:message>
+
+						<p:outputLabel value="#{msg.generalNombrePais}" for="pais" styleClass="negrita" />
+						<p:selectOneMenu id="pais" value="#{productosMB.filtro.pais.id}" label="#{msg.UsuarioNombrePais}">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"/>							
+							<f:selectItems value="#{aplicacionMB.paises}" var="pais" itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="pais"></p:message>
+						
+						<p:outputLabel value="#{msg.generalActivo}" for="activo" styleClass="negrita" />
+						<p:selectBooleanCheckbox value="#{productosMB.filtro.desactivado}" id="activo" label="#{msg.generalActivo}"/>
+						<p:message for="activo"></p:message>
+						
+					
+					</p:panelGrid>
+				
+					<p:dataTable var="registro" widgetVar="registrosTabla" id="tablaRegistros"
+						value="#{productosMB.productos}" rows="10"
+						emptyMessage="#{msg.MaestroInventarioNoEncontrados}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+							<p:outputPanel>
+							
+					<p:commandButton action="#{productosMB.nuevo}" update=":editarDlg" oncomplete="PF('editarDialog').show()" title="#{msg.generalAdicionarRegistro}"
+						icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
+					<p:spacer width="30"></p:spacer>	
+					<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
+						icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+							
+								
+							</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton oncomplete="PF('editarDialog').show()"
+								icon="ui-icon-pencil" title="#{msg.generalEditar}" update=":editarDlg">
+								<f:setPropertyActionListener value="#{registro}"
+									target="#{productosMB.seleccionado}" />
+							</p:commandButton>
+							<p:commandButton oncomplete="PF('editarDialog2').show()" 
+								icon="ui-icon-pencil" title="#{msg.TituloProdCE} #{msg.SubTituloCE}" update=":editarDlg2">
+								<f:setPropertyActionListener value="#{registro}"
+									target="#{productosMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column headerText="#{msg.cierreInventarioTablacategoria}" sortBy="#{registro.categoriasInventario.categoriasInventario.nombre}">
+							<h:outputText value="#{registro.categoriasInventario.categoriasInventario.nombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.cierreInventarioTablasubCategoria}" sortBy="#{registro.categoriasInventario.nombre}">
+							<h:outputText value="#{registro.categoriasInventario.nombre}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.buscadorSKU}" sortBy="#{registro.sku}">
+							<h:outputText value="#{registro.sku}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorNombreProducto}" sortBy="#{registro.nombre}">
+							<h:outputText value="#{registro.nombre}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.MaestroInventarioMicros}" sortBy="#{registro.codigoPos}">
+							<h:outputText value="#{registro.codigoPos}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.generalNombrePais}" sortBy="#{registro.pais.id}">
+							<h:outputText value="#{registro.pais.id}" />
+						</p:column>
+
+						<p:column headerText="#{msg.generalActivo}" sortBy="#{registro.desactivado}">
+							<p:selectBooleanCheckbox value="#{registro.desactivado}" disabled="true"/>
+						</p:column>
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+		
+			<p:dialog header="#{productosMB.creacion?msg.maestroInventarioCrearProducto:msg.maestroInventarioModificarProducto}" widgetVar="editarDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false" dynamic="true" id="editarDlg">
+				<h:form id="formaDlg">
+				<p:outputPanel id="registroDetalle" style="text-align:center;">
+					
+					<p:messages id="msgs2" showDetail="false" showSummary="true" globalOnly="true"
+						showIcon="true"></p:messages>
+						
+					<p:panelGrid columns="3"
+						rendered="#{not empty productosMB.seleccionado}"
+						columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.maestroCodigoProducto}" for="codigo" styleClass="negrita"/>
+						<h:inputText value="#{productosMB.seleccionado.id}" id="codigo" required="true" disabled="#{!productosMB.creacion}" label="#{msg.maestroCodigoProducto}"/>
+						<p:message for="codigo"></p:message>
+						
+						<p:outputLabel value="#{msg.maestroNombreProducto}" for="nombre" styleClass="negrita"/>
+						<h:inputText value="#{productosMB.seleccionado.nombre}" id="nombre" maxlength="50" required="true" label="#{msg.maestroNombreProducto}"/>
+						<p:message for="nombre"></p:message>
+						
+						<p:outputLabel value="#{msg.buscadorCategoria}" for="categoria" styleClass="negrita" />
+						<p:selectOneMenu id="categoria" value="#{productosMB.seleccionado.categoriasInventario.id}" label="#{msg.buscadorCategoria}">
+							<f:selectItems value="#{productosMB.categorias}" var="categoria" itemValue="#{categoria.id}" itemLabel="#{categoria.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="categoria"></p:message>
+						
+						<p:outputLabel value="#{msg.generalNombrePais}" for="pais" styleClass="negrita" />
+						<p:selectOneMenu id="pais" value="#{productosMB.seleccionado.pais.id}" label="#{msg.generalNombrePais}">
+							<f:selectItems value="#{aplicacionMB.paises}" var="pais" itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="pais"></p:message>
+						
+						<p:outputLabel value="#{msg.maestroUnidadDevolucion}" for="unidadDespacho" styleClass="negrita" />
+						<p:selectOneMenu id="unidadDespacho" value="#{productosMB.seleccionado.unidadDespacho.id}" label="#{msg.maestroUnidadDevolucion}">
+							<f:selectItems value="#{productosMB.unidades}" var="unidad" itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="unidadDespacho"></p:message>
+						
+						<p:outputLabel value="#{msg.maestroUnidadVenta}" for="unidadVenta" styleClass="negrita" />
+						<p:selectOneMenu id="unidadVenta" value="#{productosMB.seleccionado.unidadVenta.id}" label="#{msg.maestroUnidadVenta}">
+							<f:selectItems value="#{productosMB.unidades}" var="unidad" itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="unidadVenta"></p:message>
+						
+						<p:outputLabel value="#{msg.maestroCodigoPos}" for="codigoPos" styleClass="negrita"/>
+						<h:inputText value="#{productosMB.seleccionado.codigoPos}" id="codigoPos" size="30" maxlength="40" required="false" label="#{msg.maestroCodigoPos}"/>
+						<p:message for="codigoPos"></p:message>
+						
+						<p:outputLabel value="#{msg.maestroCodigoInventario}" for="sku" styleClass="negrita"/>
+						<h:inputText value="#{productosMB.seleccionado.sku}" id="sku" maxlength="10" required="false" disabled="#{!productosMB.creacion}" label="#{msg.maestroCodigoInventario}"/>
+						<p:message for="sku"></p:message>
+						
+						<p:outputLabel value="#{msg.maestroCodigoBarrasUV}" for="barrasUV" styleClass="negrita"/>
+						<h:inputText value="#{productosMB.seleccionado.codigoBarrasUv}" id="barrasUV" required="false" label="#{msg.maestroCodigoBarrasUV}"/>
+						<p:message for="barrasUV"></p:message>
+
+						<p:outputLabel value="#{msg.maestroConsumible}" for="consumible" styleClass="negrita" />
+						<p:selectBooleanCheckbox value="#{productosMB.seleccionado.consumible}" id="consumible" label="#{msg.maestroConsumible}"/>
+						<p:message for="consumible"></p:message>
+
+						<p:outputLabel value="#{msg.maestroObservacion}" for="observaciones" styleClass="negrita" />
+						<p:inputTextarea value="#{productosMB.seleccionado.consumible}" id="observaciones" label="#{msg.maestroObservacion}" rows="2" cols="30"></p:inputTextarea>
+						<p:message for="observaciones"></p:message>
+						
+						<p:outputLabel value="#{msg.UsuarioNombreActivo}" for="activo" styleClass="negrita" />
+						<p:selectBooleanCheckbox value="#{productosMB.seleccionado.desactivado}" id="activo" label="#{msg.UsuarioNombreActivo}"/>
+						<p:message for="activo"></p:message>
+
+						<p:outputLabel value="#{msg.maestroUnidadReceta}" for="unidadReceta" styleClass="negrita" />
+						<p:selectOneMenu id="unidadReceta" value="#{productosMB.seleccionado.unidadReceta.id}" label="#{msg.maestroUnidadReceta}">
+							<f:selectItems value="#{productosMB.unidades}" var="unidad" itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="unidadReceta"></p:message>
+
+						<p:outputLabel value="#{msg.maestroConversorReceta}" for="conversorReceta" styleClass="negrita"/>
+						<h:inputText value="#{productosMB.seleccionado.codigoBarrasUv}" id="conversorReceta" required="false" label="#{msg.maestroConversorReceta}"/>
+						<p:message for="conversorReceta"></p:message>
+						
+						<p:outputLabel value="#{msg.maestroCuentaContable}" for="cuentaContable" styleClass="negrita" />
+						<p:selectOneMenu id="cuentaContable" value="#{productosMB.seleccionado.idCuentaContable}" label="#{msg.maestroCuentaContable}">
+							<f:selectItems value="#{productosMB.cuentasContables}" var="cuenta" itemValue="#{cuenta.id}" itemLabel="#{cuenta.id}--#{cuenta.descripcion}" />
+						</p:selectOneMenu>
+						<p:message for="cuentaContable"></p:message>
+
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{productosMB.guardar}" update=":formaDlg:registroDetalle, :forma:tabPanel:tablaRegistros" ></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}" process="@this" oncomplete="PF('registroDialog').hide();" icon="ui-icon-cancel" >
+							<p:resetInput target="registroDetalle" />
+						</p:commandButton>
+
+					</p:panelGrid>
+					
+
+				</p:outputPanel>
+				</h:form>
+			</p:dialog>
+
+
+
+
+
+	</ui:define>
+
+</ui:composition>
+

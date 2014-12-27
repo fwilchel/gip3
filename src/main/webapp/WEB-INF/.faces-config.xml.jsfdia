@@ -9,11 +9,14 @@
     ID="cambiarContrasena::#ui#cambiarContrasena.xhtml" NAME="output1"
     PATH="/ui/cambiarContrasena.xhtml"
     TARGET="rules:#ui#cambiarContrasena.xhtml" TITLE="cambiarContrasena" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="salir::#ui#login.xhtml" NAME="output2"
-    PATH="/ui/login.xhtml" TARGET="rules:#ui#login.xhtml" TITLE="salir" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT ID="usuario::#ui#administracion#usuarios.xhtml"
-    NAME="output3" PATH="/ui/administracion/usuarios.xhtml"
+    NAME="output2" PATH="/ui/administracion/usuarios.xhtml"
     TARGET="rules:#ui#administracion#usuarios.xhtml" TITLE="usuario" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_maestro_Ubicaciones::#ui#maestros#ubicacion.xhtml"
+    NAME="output3" PATH="/ui/maestros/ubicacion.xhtml"
+    TARGET="rules:#ui#maestros#ubicacion.xhtml"
+    TITLE="listado_maestro_Ubicaciones" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="agenciaCarga::#ui#maestros#agenciaCarga.xhtml" NAME="output4"
     PATH="/ui/maestros/agenciaCarga.xhtml"
@@ -46,50 +49,34 @@
     NAME="output9" PATH="/ui/reportes/formatoNovedades.xhtml"
     TARGET="rules:#ui#reportes#formatoNovedades.xhtml"
     TITLE="listado_Formato_Novedad" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="listado_maestro_ProductosPorCliente_CE::#ui#maestros#productosClienteComExt.xhtml"
-    NAME="output10" PATH="/ui/maestros/productosClienteComExt.xhtml"
-    TARGET="rules:#ui#maestros#productosClienteComExt.xhtml"
-    TITLE="listado_maestro_ProductosPorCliente_CE" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="incoterm_medio_transporte::#ui#maestros#terminoIncotermXMedioTrans.xhtml"
-    NAME="output11" PATH="/ui/maestros/terminoIncotermXMedioTrans.xhtml"
-    TARGET="rules:#ui#maestros#terminoIncotermXMedioTrans.xhtml"
-    TITLE="incoterm_medio_transporte" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
-  PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
-  SHAPE="304,929,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
+  PATH="/ui/introduccion.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#ubicacion.xhtml"
   PATH="/ui/maestros/ubicacion.xhtml" SHAPE="304,593,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#agenciaCarga.xhtml"
   PATH="/ui/maestros/agenciaCarga.xhtml" SHAPE="304,705,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#administracion#usuarios.xhtml"
   PATH="/ui/administracion/usuarios.xhtml" SHAPE="304,481,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#login.xhtml" PATH="/ui/login.xhtml"
+  SHAPE="304,369,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#lugarIncoterm.xhtml"
+  PATH="/ui/maestros/lugarIncoterm.xhtml" SHAPE="304,817,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
+  PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
+  SHAPE="304,929,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
   PATH="/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml"
   SHAPE="304,1041,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#lugarIncoterm.xhtml"
-  PATH="/ui/maestros/lugarIncoterm.xhtml" SHAPE="304,817,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#login.xhtml" PATH="/ui/login.xhtml"
-  SHAPE="304,369,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
-  PATH="/ui/introduccion.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#reportes#formatoNovedades.xhtml"
   PATH="/ui/reportes/formatoNovedades.xhtml" SHAPE="304,401,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
-  PATH="/ui/cambiarContrasena.xhtml" SHAPE="304,433,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#productosClienteComExt.xhtml"
-  PATH="/ui/maestros/productosClienteComExt.xhtml" SHAPE="32,1425,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#ui#comercioexterior#ingresarCostosIncoterm.xhtml"
   PATH="/ui/comercioexterior/ingresarCostosIncoterm.xhtml"
   SHAPE="304,401,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#maestros#terminoIncotermXMedioTrans.xhtml"
-  PATH="/ui/maestros/terminoIncotermXMedioTrans.xhtml"
-  SHAPE="304,497,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
+  PATH="/ui/cambiarContrasena.xhtml" SHAPE="304,433,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

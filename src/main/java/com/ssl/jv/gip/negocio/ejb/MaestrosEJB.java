@@ -10,20 +10,32 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
+import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
+import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
+import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
 import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAO;
+import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAO;
+import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
+import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.MedioTransporteDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
+import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
+import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
+
+
 
 /**
  * Session Bean implementation class MaestrosEJB
@@ -39,6 +51,9 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private AgenciaCargaDAO agenciaCargaDAO;
+	
+	@EJB
+	private AgenteAduanaDAO agenteAduanaDAO;
 
 	@EJB
 	private LugarIncotermDAO lugarIncotermDAO;
@@ -55,6 +70,18 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@EJB
 	private MedioTransporteDAO medioTransporteDAO;
 
+	@EJB
+	private UnidadDAOLocal unidadDao;
+	
+	@EJB
+	private CuentaContableDAOLocal cuentaContableDao;
+	
+	@EJB
+	private CategoriaInventarioDAOLocal categoriaInventarioDao;
+
+	@EJB
+	private ProductoInventarioDAOLocal productoInventarioDao;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -314,6 +341,24 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		return productoClienteComercioExteriorDAO.consultarTodos();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarAgentesAduana(com
+	 * .ssl.jv.gip.jpa.pojo.AgenciaCarga)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AgenteAduana> consultarAgentesAduana() {
+		try {
+			return (List<AgenteAduana>) agenteAduanaDAO.findAll();
+		} catch (Exception e) {
+			LOGGER.error(e + " Error consultando agentes de aduana");
+			return null;
+		}
+	}
+
 	@Override
 	public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte() {
 		return incotermXMedioTransDAO.consultarTerminoIncotermXMedioTransporte();
@@ -381,4 +426,46 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		return listado;
 	}
 
+	public AgenteAduana crearAgenteAduana(AgenteAduana pEntidad) {
+		try {
+			return agenteAduanaDAO.add(pEntidad);
+		} catch (Exception e) {
+			LOGGER.error(e + " Error creando agente de aduana");
+			return null;
+		}
+	}
+
+	@Override
+	public AgenteAduana actualizarAgenteAduana(AgenteAduana pEntidad) {
+		try {
+			agenteAduanaDAO.update(pEntidad);
+			return pEntidad;
+		} catch (Exception e) {
+			LOGGER.error(e + " Error actualizando agente de aduana");
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Unidad> consultarUnidades(){
+		return (List<Unidad>)this.unidadDao.findAll();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CategoriasInventario> consultarCategoriasInventario(){
+		return (List<CategoriasInventario>)this.categoriaInventarioDao.findAll();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CuentaContable> consultarCuentasContables(){
+		return (List<CuentaContable>)this.cuentaContableDao.findAll();
+	}
+	
+    public void actualizarProductoInventario(ProductosInventario pi){
+    	this.productoInventarioDao.update(pi);
+    }
+
+    public void crearProductoInventario(ProductosInventario pi){
+   		this.productoInventarioDao.add(pi);
+    }
 }

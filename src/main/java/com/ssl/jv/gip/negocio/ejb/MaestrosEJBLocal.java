@@ -5,13 +5,19 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
+import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
+import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
+import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.jpa.pojo.Unidad;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -190,4 +196,37 @@ public interface MaestrosEJBLocal {
 	 */
 	public List<MedioTransporte> consultarMedioTransporteActivo();
 	
+
+
+	/**Consulta todos los agentes de aduana
+	 * 
+	 * @return lista de agentes de aduana
+	 */
+	public List<AgenteAduana> consultarAgentesAduana();
+
+	/**Crea un agente de aduana
+	 * 
+	 * @param pEntidad nuevo agente de aduana
+	 * @return
+	 */
+	public AgenteAduana crearAgenteAduana(AgenteAduana pEntidad);
+
+	/**Actualiza un agente de aduana
+	 * 
+	 * @param pEntidad agente actualizado
+	 * @return 
+	 */
+	public AgenteAduana actualizarAgenteAduana(AgenteAduana pEntidad);
+	
+	public List<Unidad> consultarUnidades();
+	
+	public List<CategoriasInventario> consultarCategoriasInventario();
+	
+	public List<CuentaContable> consultarCuentasContables();
+	
+    public void actualizarProductoInventario(ProductosInventario pi);
+    
+    public void crearProductoInventario(ProductosInventario pi);
+
+
 }

@@ -42,12 +42,12 @@ public class Unidad implements Serializable {
 	private List<MovimientosInventario> movimientosInventarios;
 
 	//bi-directional many-to-one association to ProductosInventario
-	@OneToMany(mappedBy="unidade1")
-	private List<ProductosInventario> productosInventarios1;
+	//@OneToMany(mappedBy="unidade1")
+	//private List<ProductosInventario> productosInventarios1;
 
 	//bi-directional many-to-one association to ProductosInventario
-	@OneToMany(mappedBy="unidade2")
-	private List<ProductosInventario> productosInventarios2;
+	//@OneToMany(mappedBy="unidade2")
+	//private List<ProductosInventario> productosInventarios2;
 
 	//bi-directional many-to-one association to ProductosInventarioComext
 	@OneToMany(mappedBy="unidade")
@@ -204,7 +204,7 @@ public class Unidad implements Serializable {
 		return movimientosInventario;
 	}
 
-	public List<ProductosInventario> getProductosInventarios1() {
+	/*public List<ProductosInventario> getProductosInventarios1() {
 		return this.productosInventarios1;
 	}
 
@@ -246,7 +246,7 @@ public class Unidad implements Serializable {
 		productosInventarios2.setUnidade2(null);
 
 		return productosInventarios2;
-	}
+	}*/
 
 	public List<ProductosInventarioComext> getProductosInventarioComexts() {
 		return this.productosInventarioComexts;
