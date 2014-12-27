@@ -20,6 +20,7 @@ public class PaisDAO extends GenericDAO<Pais> implements PaisDAOLocal{
 		this.persistentClass = Pais.class;
 	}	
 	
+	@SuppressWarnings("unchecked")
 	public List<Pais> findByRegional(){
 		try{
 			return this.em.createNamedQuery("Pais.findByRegional").getResultList();

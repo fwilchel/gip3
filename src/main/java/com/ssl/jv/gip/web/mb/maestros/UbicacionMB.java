@@ -49,7 +49,7 @@ public class UbicacionMB extends UtilMB{
 	private Region region;
 	
 	private Pais pais;
-	
+		
 	public UbicacionMB(){
 		
 	}
@@ -100,14 +100,57 @@ public class UbicacionMB extends UtilMB{
 	}
 	
 	public void guardar(){
+		
+//		Region reg = new Region();
+//		
+//		if(this.getRegiones() != null){
+//			for(Region r : this.getRegiones()){
+//				if(r.getId().longValue() == seleccionado.getRegione().getId().longValue()){
+//					reg = r;
+//					break;
+//				}
+//			}
+//		}
+//		
+//		if(this.getPaises() != null){
+//			for(Pais p : this.getPaises()){
+//				if(p.getId().equals(seleccionado.getRegione().getPais().getId())){
+//					reg.setPais(p);
+//					break;
+//				}
+//			}
+//		}
+//		
+//		seleccionado.setRegione(reg);
+//		
+//		if(this.getEmpresas() != null){
+//			for(Empresa e : this.getEmpresas()){
+//				if(e.getId().longValue() == seleccionado.getEmpresa().getId().longValue()){
+//					seleccionado.setEmpresa(e);
+//					break;
+//				}
+//			}
+//		}
+//		
+//		if(this.getBodegas() != null){
+//			for(Ubicacion u : this.getBodegas()){
+//				if(u.getId().longValue() == seleccionado.getUbicacione().getId().longValue()){
+//					seleccionado.setUbicacione(u);;
+//					break;
+//				}
+//			}
+//		}
+		
 		if (this.modo.equals(Modo.CREACION)){
 			seleccionado.setRegione(region);
-			this.seleccionado = this.maestroEjb.crearUbicacion(this.seleccionado);
-			this.ubicacion.add(0,this.seleccionado);
+			this.seleccionado = this.maestroEjb.crearUbicacion(this.seleccionado);		
+			//this.ubicacion.add(0,this.seleccionado);
 		}else{
 			seleccionado.setRegione(region);
 			this.maestroEjb.actualizarUbicacion(this.seleccionado);
 		}
+		
+		ubicacion = maestroEjb.consultarUbicaciones();
 		
 		this.addMensajeInfo("Ubicacion almacenado exitosamente");
 	}

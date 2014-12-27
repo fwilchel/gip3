@@ -43,8 +43,9 @@ public class ProductosInventario implements Serializable {
 	@Column(name="id_cuenta_contable")
 	private Long idCuentaContable;
 
-	@Column(name="id_ur")
-	private Long idUr;
+	@ManyToOne
+	@JoinColumn(name="id_ur")
+	private Unidad unidadReceta;
 
 	private String nombre;
 
@@ -101,12 +102,12 @@ public class ProductosInventario implements Serializable {
 	//bi-directional many-to-one association to Unidad
 	@ManyToOne
 	@JoinColumn(name="id_ud")
-	private Unidad unidade1;
+	private Unidad unidadDespacho;
 
 	//bi-directional many-to-one association to Unidad
 	@ManyToOne
 	@JoinColumn(name="id_uv")
-	private Unidad unidade2;
+	private Unidad unidadVenta;
 
 	//bi-directional one-to-one association to ProductosInventarioComext
 	@OneToOne(mappedBy="productosInventario")
@@ -227,12 +228,12 @@ public class ProductosInventario implements Serializable {
 		this.idCuentaContable = idCuentaContable;
 	}
 
-	public Long getIdUr() {
-		return this.idUr;
+	public Unidad getUnidadReceta() {
+		return this.unidadReceta;
 	}
 
-	public void setIdUr(Long idUr) {
-		this.idUr = idUr;
+	public void setUnidadReceta(Unidad idUr) {
+		this.unidadReceta = idUr;
 	}
 
 	public String getNombre() {
@@ -473,20 +474,20 @@ public class ProductosInventario implements Serializable {
 		this.pais = pais;
 	}
 
-	public Unidad getUnidade1() {
-		return this.unidade1;
+	public Unidad getUnidadDespacho() {
+		return this.unidadDespacho;
 	}
 
-	public void setUnidade1(Unidad unidade1) {
-		this.unidade1 = unidade1;
+	public void setUnidadDespacho(Unidad unidade1) {
+		this.unidadDespacho = unidade1;
 	}
 
-	public Unidad getUnidade2() {
-		return this.unidade2;
+	public Unidad getUnidadVenta() {
+		return this.unidadVenta;
 	}
 
-	public void setUnidade2(Unidad unidade2) {
-		this.unidade2 = unidade2;
+	public void setUnidadVenta(Unidad unidade2) {
+		this.unidadVenta = unidade2;
 	}
 
 	public ProductosInventarioComext getProductosInventarioComext() {
