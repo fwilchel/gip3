@@ -175,7 +175,9 @@ public interface MaestrosEJBLocal {
 	public List<CuentaContable> consultarCuentasContables();
 	
     public void actualizarProductoInventario(ProductosInventario pi);
-    
     public void crearProductoInventario(ProductosInventario pi);
+    public List<ProductosInventario> consultarProductos(ProductosInventario pi);
+    
+    
 
 }

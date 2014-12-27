@@ -387,5 +387,9 @@ public class MaestrosEJB implements MaestrosEJBLocal {
     public void crearProductoInventario(ProductosInventario pi){
    		this.productoInventarioDao.add(pi);
     }
+    
+    public List<ProductosInventario> consultarProductos(ProductosInventario pi){
+    	return this.productoInventarioDao.consultar(pi);
+    }
 
 }

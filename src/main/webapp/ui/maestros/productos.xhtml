@@ -20,7 +20,7 @@
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.maestroInventarioInicio}">
-					<p:panelGrid columns="3">
+					<p:panelGrid columns="9">
 
 						<p:outputLabel value="#{msg.buscadorSKU}" for="codigo" styleClass="negrita"/>
 						<h:inputText value="#{productosMB.filtro.sku}" id="codigo" required="false" maxlength="10" label="#{msg.buscadorSKU}"/>
@@ -45,14 +45,18 @@
 						<p:message for="pais"></p:message>
 						
 						<p:outputLabel value="#{msg.generalActivo}" for="activo" styleClass="negrita" />
-						<p:selectBooleanCheckbox value="#{productosMB.filtro.desactivado}" id="activo" label="#{msg.generalActivo}"/>
+						<p:selectOneMenu id="activo" value="#{productosMB.filtro.desactivado}" label="#{msg.generalActivo}">
+							<f:selectItem itemLabel="Si" itemValue="true"/>
+							<f:selectItem itemLabel="No" itemValue="false"/>
+						</p:selectOneMenu>
 						<p:message for="activo"></p:message>
 						
+						<p:commandButton value="#{msg.buscadorConsultarProducto}" icon="ui-icon-search" action="#{productosMB.consultar}" update="tablaRegistros,:forma:msgs"></p:commandButton>
 					
 					</p:panelGrid>
 				
 					<p:dataTable var="registro" widgetVar="registrosTabla" id="tablaRegistros"
-						value="#{productosMB.productos}" rows="10"
+						value="#{productosMB.productos}" rows="15"
 						emptyMessage="#{msg.MaestroInventarioNoEncontrados}" paginator="true"
 						paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -64,7 +68,6 @@
 							
 					<p:commandButton action="#{productosMB.nuevo}" update=":editarDlg" oncomplete="PF('editarDialog').show()" title="#{msg.generalAdicionarRegistro}"
 						icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
-					<p:spacer width="30"></p:spacer>	
 					<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
 						icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
 							
@@ -73,7 +76,7 @@
 							</div>
 						</f:facet>
 
-						<p:column style="width:32px;text-align: center">
+						<p:column style="width:64px;text-align: center">
 							<p:commandButton oncomplete="PF('editarDialog').show()"
 								icon="ui-icon-pencil" title="#{msg.generalEditar}" update=":editarDlg">
 								<f:setPropertyActionListener value="#{registro}"
@@ -215,7 +218,13 @@
 				</h:form>
 			</p:dialog>
 
-
+			<p:dialog header="#{productosMB.creacion?msg.maestroInventarioCrearProducto:msg.maestroInventarioModificarProducto}" widgetVar="editarDialog2" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false" dynamic="true" id="editarDlg2">
+				<h:form id="formaDlg2">
+					<p:outputPanel id="registroDetalle" style="text-align:center;">
+					</p:outputPanel>
+					</h:form>
+			</p:dialog>
 
 
 

@@ -77,6 +77,7 @@ public class ProductosMB extends UtilMB{
 		filtro = new ProductosInventario();
 		filtro.setPais(new Pais());
 		filtro.setCategoriasInventario(new CategoriasInventario());
+		filtro.setDesactivado(true);
 	}
 
 	/*public AdministracionEJB getAdmonEjb() {
@@ -204,6 +205,10 @@ public class ProductosMB extends UtilMB{
 		}else{
 			return false;
 		}
+	}
+	
+	public void consultar(){
+		this.productos=this.maestrosEjb.consultarProductos(this.filtro);
 	}
 	
 
