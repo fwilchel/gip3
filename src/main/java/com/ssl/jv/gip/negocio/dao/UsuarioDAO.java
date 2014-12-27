@@ -10,7 +10,7 @@ import com.ssl.jv.gip.jpa.pojo.Usuario;
 
 @Stateless
 @LocalBean
-public class UsuarioDAO extends GenericDAO<Usuario>{
+public class UsuarioDAO extends GenericDAO<Usuario> implements UsuarioDAOLocal{
 	
 	private static final Logger LOGGER = Logger.getLogger(UsuarioDAO.class);
 	

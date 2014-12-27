@@ -10,14 +10,13 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoicPK;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 
 @Stateless
 @LocalBean
-public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic>{
+public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic> implements DocumentoLotesOICDAOLocal{
 
 	private static final Logger LOGGER = Logger.getLogger(DocumentoLotesOICDAO.class);
 

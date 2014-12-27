@@ -37,7 +37,7 @@
 			<td>
 				<div align="center">
 					<p:commandButton value="#{msg.recordarMensajeEnviar}" styleClass="textoCafe" action="#{loginMB.recordarContrasena}" ajax="false" update=":growl"></p:commandButton>
-					<p:commandButton value="#{msg.recordarMensajeCancelar}" styleClass="textoCafe" action="salir" ajax="false" ></p:commandButton>
+					<p:commandButton value="#{msg.recordarMensajeCancelar}" styleClass="textoCafe" immediate="true" process="@this" action="salir" ajax="false" ></p:commandButton>
 				</div>
 			</td>
 		</tr>

@@ -3,20 +3,23 @@ package com.ssl.jv.gip.negocio.ejb;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import org.apache.log4j.Logger;
-
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
+import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
 import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAO;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
+import com.ssl.jv.gip.negocio.dao.UsuarioDAO;
 
 /**
  * Session Bean implementation class MaestrosEJB
@@ -247,32 +250,5 @@ public class MaestrosEJB implements MaestrosEJBLocal {
     	return pEntidad;
     	
     }
-
-	@Override
-	public List<TerminoIncoterm> consultarTerminoIncotermXMedioTransporte() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public TerminoIncoterm consultarTerminoIncotermXMedioTransporte(
-			Long pId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public TerminoIncoterm crearTerminoIncotermXMedioTransporte(
-			TerminoIncoterm pEntidad) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public TerminoIncoterm actualizarTerminoIncotermXMedioTransporte(
-			TerminoIncoterm pEntidad) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

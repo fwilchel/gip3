@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.sql.Timestamp;
 
 
@@ -11,7 +13,15 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="historial_contrasena")
-@NamedQuery(name="HistorialContrasena.findAll", query="SELECT h FROM HistorialContrasena h")
+
+@NamedQueries({
+	@NamedQuery(name="HistorialContrasena.findAll", query="SELECT h FROM HistorialContrasena h"),
+	@NamedQuery(name="HistorialContrasena.findByUsuarioPwdHoy", query="SELECT h FROM HistorialContrasena h WHERE h.pk.usuarioId= :id AND h.pk.contrasena= :contrasena AND h.fechaCaducidad>= :hoy "),
+	@NamedQuery(name="HistorialContrasena.findByUsuarioPwd", query="SELECT h FROM HistorialContrasena h WHERE h.pk.usuarioId= :id AND h.pk.contrasena= :contrasena"),
+	@NamedQuery(name="HistorialContrasena.findByUsuarioId", query="SELECT h FROM HistorialContrasena h WHERE h.pk.usuarioId= :id")
+})
+
+
 public class HistorialContrasena implements Serializable {
 	private static final long serialVersionUID = 1L;
 

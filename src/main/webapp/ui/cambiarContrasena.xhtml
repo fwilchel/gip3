@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:misc="http://java.sun.com/jsf/composite/misc"
+                template="/ui/templates/loginTemplate.xhtml">
+                
+	<ui:define name="title">
+        .:: GIP ::. .::Login::.
+    </ui:define>
+
+    <ui:define name="contenido">
+   		 
+		<tr>
+			<td>
+				<div align="center">
+					<table>
+						<tr>
+							<td class="textoCafe"> <p:outputLabel for="emailTxt" value="#{msg.loginIdentificacion}"></p:outputLabel></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><p:inputText value="#{loginMB.email}" required="true" id="emailTxt" validatorMessage="#{msg.generalCorreoInvalido}" disabled="true" size="40">
+								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="emailTxt" />
+ 							</p:inputText></td>
+							<td><p:message for="emailTxt"></p:message></td>
+						</tr>
+
+						<tr>
+							<td class="textoCafe"><p:outputLabel for="contrasenaTxt1" value="#{msg.cambiarContraseñaNueva1}"></p:outputLabel></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<p:inputText value="#{cambioContrasenaMB.strNueva1}" maxlength="#{cambioContrasenaMB.intMaxC}" required="true" id="contrasenaTxt1" size="40" type="password">
+									<f:validateLength minimum="#{cambioContrasenaMB.intMinC}"></f:validateLength>
+								</p:inputText>
+							</td>
+							<td><p:message for="contrasenaTxt1"></p:message></td>
+						</tr>
+
+						<tr>
+							<td class="textoCafe"><p:outputLabel for="contrasenaTxt2" value="#{msg.cambiarContraseñaNueva2}"></p:outputLabel></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<p:inputText value="#{cambioContrasenaMB.strNueva2}" maxlength="#{cambioContrasenaMB.intMaxC}" required="true" id="contrasenaTxt2" size="40" type="password">
+									<f:validateLength minimum="#{cambioContrasenaMB.intMinC}"></f:validateLength>
+								</p:inputText>
+							</td>
+							<td><p:message for="contrasenaTxt2"></p:message></td>
+						</tr>
+
+
+					</table>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div align="center">
+					<p:commandButton value="#{msg.cambiarContraseñaGuardar}" styleClass="textoCafe" action="#{cambioContrasenaMB.cambiarCaducidadContrasenaUsuario}" ajax="false" update=":growl"></p:commandButton>
+				</div>
+			</td>
+		</tr>
+    	
+    </ui:define>
+                
+</ui:composition>
+

@@ -10,7 +10,9 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
+import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAO;
+import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 
 
 /**
@@ -26,6 +28,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	/** The documento x lote dao. */
 	@EJB
 	private DocumentoXLoteDAO documentoXLoteDAO;
+	
+	@EJB
+	private DocumentoDAO documentoDAO;
 	
 	/**
      * Default constructor. 
@@ -56,6 +61,30 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	@Override
 	public Integer reiniciarConsecutivoLoteOIC() {
 		return documentoXLoteDAO.reiniciarConsecutivoLoteOIC();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#consultarDocumentosCostosInconterm()
+	 */
+	@Override
+	public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm() {
+		List<DocumentoIncontermDTO> listado = new ArrayList<DocumentoIncontermDTO>();
+    	
+    	try{
+    		listado = documentoDAO.consultarDocumentosCostosInconterm();
+    	} catch(Exception e){
+    		
+    	}
+    	
+    	return listado;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#actualizarDocumentoPorNegociacion(com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO)
+	 */
+	@Override
+	public void actualizarDocumentoPorNegociacion(DocumentoIncontermDTO documento) {
+		 documentoDAO.actualizarDocumentoPorNegociacion(documento);
 	}
 
 }

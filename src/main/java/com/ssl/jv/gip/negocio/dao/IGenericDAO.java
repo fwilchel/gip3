@@ -11,7 +11,7 @@ public interface IGenericDAO<T>  {
 	
 	public void delete(T pojo);
 	
-	public T findByPK(Integer id);
+	public T findByPK(Long id);
 	
 	public List<?> findAll();
 

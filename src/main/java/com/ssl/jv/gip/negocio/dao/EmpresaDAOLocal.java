@@ -5,7 +5,7 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Empresa;
 
 @Local
-public class EmpresaDAOLocal extends GenericDAO<Empresa>{
+public interface EmpresaDAOLocal extends IGenericDAO<Empresa>{
 
 	
 	

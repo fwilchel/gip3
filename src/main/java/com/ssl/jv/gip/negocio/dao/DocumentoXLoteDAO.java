@@ -19,7 +19,7 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
  */
 @Stateless
 @LocalBean
-public class DocumentoXLoteDAO extends GenericDAO<DocumentoXLotesoic>{
+public class DocumentoXLoteDAO extends GenericDAO<DocumentoXLotesoic> implements DocumentoXLoteDAOLocal{
 
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(DocumentoXLoteDAO.class);
