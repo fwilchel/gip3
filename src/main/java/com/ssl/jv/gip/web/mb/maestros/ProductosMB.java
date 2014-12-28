@@ -2,6 +2,7 @@ package com.ssl.jv.gip.web.mb.maestros;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,6 +14,8 @@ import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
@@ -49,7 +52,8 @@ public class ProductosMB extends UtilMB{
 
 	private static final Logger LOGGER = Logger.getLogger(ProductosMB.class);
 
-	private List<ProductosInventario> productos;
+	//private List<ProductosInventario> productos;
+	private LazyDataModel<ProductosInventario> modelo;
 	private ProductosInventario seleccionado;
 	private ProductosInventario filtro;
 	private List<Unidad> unidades;
@@ -72,7 +76,8 @@ public class ProductosMB extends UtilMB{
 	
 	@PostConstruct
 	public void init(){
-		productos = new ArrayList<ProductosInventario>();
+		//productos = new ArrayList<ProductosInventario>();
+		modelo = new LazyProductsDataModel();
 		List<CategoriasInventario> categorias = maestrosEjb.consultarCategoriasInventario();
 		this.categorias = new ArrayList<SelectItem>();
 		for (CategoriasInventario ci:categorias){
@@ -116,14 +121,6 @@ public class ProductosMB extends UtilMB{
 		this.modo = modo;
 	}
 
-	public List<ProductosInventario> getProductos() {
-		return productos;
-	}
-
-	public void setProductos(List<ProductosInventario> productos) {
-		this.productos = productos;
-	}
-
 	public ProductosInventario getFiltro() {
 		return filtro;
 	}
@@ -165,6 +162,14 @@ public class ProductosMB extends UtilMB{
 		this.modo=Modo.EDICION;
 	}
 	
+	public LazyDataModel<ProductosInventario> getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(LazyDataModel<ProductosInventario> modelo) {
+		this.modelo = modelo;
+	}
+
 	public void nuevo(){
 		seleccionado=new ProductosInventario();
 		seleccionado.setCategoriasInventario(new CategoriasInventario());
@@ -182,7 +187,7 @@ public class ProductosMB extends UtilMB{
 			this.seleccionado.setPais(this.appMB.getPais(this.seleccionado.getPais().getId()));
 			if (this.modo.equals(Modo.CREACION)){
 				this.maestrosEjb.crearProductoInventario(this.seleccionado);
-				this.productos.add(this.seleccionado);
+				//this.productos.add(this.seleccionado);
 				this.modo = Modo.EDICION;
 			}else{
 				this.maestrosEjb.actualizarProductoInventario(this.seleccionado);
@@ -212,7 +217,7 @@ public class ProductosMB extends UtilMB{
 	}
 	
 	public void consultar(){
-		this.productos=this.maestrosEjb.consultarProductos(this.filtro);
+		//this.productos=this.maestrosEjb.consultarProductos(this.filtro);
 	}
 
 	public List<SelectItem> getCategorias() {
@@ -223,5 +228,38 @@ public class ProductosMB extends UtilMB{
 		this.categorias = categorias;
 	}
 	
+	private class LazyProductsDataModel extends LazyDataModel<ProductosInventario>{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 283497341126330045L;
+		private List<ProductosInventario> datos;
+		
+		@Override
+	    public Object getRowKey(ProductosInventario pi) {
+	        return pi.getId();
+	    }
+		
+		@Override
+	    public ProductosInventario getRowData(String rowKey) {
+	        for(ProductosInventario pi : datos) {
+	            if(pi.getId().toString().equals(rowKey))
+	                return pi;
+	        }
+	        return null;
+	    }
+
+		
+		@Override
+	    public List<ProductosInventario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
+			Object rta[]=maestrosEjb.consultarProductos(filtro, first, pageSize, sortField, sortOrder, true);
+			this.setRowCount(((Long)rta[0]).intValue());
+			rta=maestrosEjb.consultarProductos(filtro, first, pageSize, sortField, sortOrder, false);
+			datos=(List<ProductosInventario>)rta[1];
+			return datos;
+		}
+
+	}
 
 }

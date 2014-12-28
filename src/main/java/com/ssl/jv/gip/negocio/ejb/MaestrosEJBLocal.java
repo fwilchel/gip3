@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import org.primefaces.model.SortOrder;
+
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
@@ -11,7 +13,6 @@ import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
-
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
@@ -226,7 +227,7 @@ public interface MaestrosEJBLocal {
 	
     public void actualizarProductoInventario(ProductosInventario pi);
     public void crearProductoInventario(ProductosInventario pi);
-    public List<ProductosInventario> consultarProductos(ProductosInventario pi);
+    public Object[] consultarProductos(ProductosInventario pi, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count);
     
     
 

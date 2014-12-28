@@ -8,6 +8,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.SortOrder;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
@@ -468,8 +469,8 @@ public class MaestrosEJB implements MaestrosEJBLocal {
    		this.productoInventarioDao.add(pi);
     }
     
-    public List<ProductosInventario> consultarProductos(ProductosInventario pi){
-    	return this.productoInventarioDao.consultar(pi);
+    public Object[] consultarProductos(ProductosInventario pi, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count){
+    	return this.productoInventarioDao.consultar(pi, first, pageSize, sortField, sortOrder, count);
     }
 
 }
