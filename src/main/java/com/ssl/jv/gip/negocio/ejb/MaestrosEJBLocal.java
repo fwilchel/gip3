@@ -7,11 +7,11 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
-
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
@@ -228,7 +228,31 @@ public interface MaestrosEJBLocal {
     public void crearProductoInventario(ProductosInventario pi);
     public List<ProductosInventario> consultarProductos(ProductosInventario pi);
     
-    
+    /**
+	 * Consultar clientes.
+	 *
+	 * @return the list
+	 */
+	public List<Cliente> consultarClientes();
+
+
+	/**
+	 * Crear clientes
+	 *
+	 * @param pEntidad
+	 *            the entidad
+	 * @return the Cliente
+	 */
+	public Cliente crearCliente(Cliente pEntidad);
+
+	/**
+	 * Actualizar clientes.
+	 *
+	 * @param pEntidad
+	 *            the entidad
+	 * @return the cliente
+	 */
+	public Cliente actualizarCliente(Cliente pEntidad);
 
 
 }
