@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,10 +11,12 @@ import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
@@ -52,7 +55,6 @@ public class ProductosMB extends UtilMB{
 
 	private static final Logger LOGGER = Logger.getLogger(ProductosMB.class);
 
-	//private List<ProductosInventario> productos;
 	private LazyDataModel<ProductosInventario> modelo;
 	private ProductosInventario seleccionado;
 	private ProductosInventario filtro;
@@ -76,7 +78,6 @@ public class ProductosMB extends UtilMB{
 	
 	@PostConstruct
 	public void init(){
-		//productos = new ArrayList<ProductosInventario>();
 		modelo = new LazyProductsDataModel();
 		List<CategoriasInventario> categorias = maestrosEjb.consultarCategoriasInventario();
 		this.categorias = new ArrayList<SelectItem>();
@@ -96,14 +97,6 @@ public class ProductosMB extends UtilMB{
 		filtro.setCategoriasInventario(new CategoriasInventario());
 		filtro.setDesactivado(true);
 	}
-
-	/*public AdministracionEJB getAdmonEjb() {
-		return admonEjb;
-	}
-
-	public void setAdmonEjb(AdministracionEJB admonEjb) {
-		this.admonEjb = admonEjb;
-	}*/
 
 	public AplicacionMB getAppMB() {
 		return appMB;
@@ -180,14 +173,13 @@ public class ProductosMB extends UtilMB{
 		this.modo=Modo.CREACION;
 	}
 	
-	
-	
 	public void guardar(){
 		try{
 			this.seleccionado.setPais(this.appMB.getPais(this.seleccionado.getPais().getId()));
 			if (this.modo.equals(Modo.CREACION)){
+				this.seleccionado.setAbc("A");
+				this.seleccionado.setFactorUdUv(new BigDecimal(1));
 				this.maestrosEjb.crearProductoInventario(this.seleccionado);
-				//this.productos.add(this.seleccionado);
 				this.modo = Modo.EDICION;
 			}else{
 				this.maestrosEjb.actualizarProductoInventario(this.seleccionado);
@@ -215,10 +207,6 @@ public class ProductosMB extends UtilMB{
 			return false;
 		}
 	}
-	
-	public void consultar(){
-		//this.productos=this.maestrosEjb.consultarProductos(this.filtro);
-	}
 
 	public List<SelectItem> getCategorias() {
 		return categorias;
@@ -228,6 +216,7 @@ public class ProductosMB extends UtilMB{
 		this.categorias = categorias;
 	}
 	
+
 	private class LazyProductsDataModel extends LazyDataModel<ProductosInventario>{
 
 		/**
@@ -261,5 +250,7 @@ public class ProductosMB extends UtilMB{
 		}
 
 	}
+	
+	
 
 }
