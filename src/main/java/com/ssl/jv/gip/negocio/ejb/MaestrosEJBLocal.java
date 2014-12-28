@@ -9,6 +9,7 @@ import org.primefaces.model.SortOrder;
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
@@ -229,7 +230,31 @@ public interface MaestrosEJBLocal {
     public void crearProductoInventario(ProductosInventario pi);
     public Object[] consultarProductos(ProductosInventario pi, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count);
     
-    
+    /**
+	 * Consultar clientes.
+	 *
+	 * @return the list
+	 */
+	public List<Cliente> consultarClientes();
+
+
+	/**
+	 * Crear clientes
+	 *
+	 * @param pEntidad
+	 *            the entidad
+	 * @return the Cliente
+	 */
+	public Cliente crearCliente(Cliente pEntidad);
+
+	/**
+	 * Actualizar clientes.
+	 *
+	 * @param pEntidad
+	 *            the entidad
+	 * @return the cliente
+	 */
+	public Cliente actualizarCliente(Cliente pEntidad);
 
 
 }

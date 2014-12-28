@@ -13,6 +13,7 @@ import org.primefaces.model.SortOrder;
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
@@ -24,6 +25,8 @@ import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
+import com.ssl.jv.gip.negocio.dao.ClienteDAO;
+import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAO;
 import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAO;
 import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
@@ -52,7 +55,7 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private AgenciaCargaDAO agenciaCargaDAO;
-	
+
 	@EJB
 	private AgenteAduanaDAO agenteAduanaDAO;
 
@@ -61,28 +64,31 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
-	
+
 	@EJB
 	private IncotermXMedioTransDAO incotermXMedioTransDAO;
-	
+
 	@EJB
 	private TerminoIncotermDAO terminoIncotermDAO;
-	
+
 	@EJB
 	private MedioTransporteDAO medioTransporteDAO;
 
 	@EJB
 	private UnidadDAOLocal unidadDao;
-	
+
 	@EJB
 	private CuentaContableDAOLocal cuentaContableDao;
-	
+
 	@EJB
 	private CategoriaInventarioDAOLocal categoriaInventarioDao;
 
 	@EJB
 	private ProductoInventarioDAOLocal productoInventarioDao;
-	
+
+	@EJB
+	private ClienteDAO clienteDAO;
+
 	/**
 	 * Default constructor.
 	 */
@@ -451,11 +457,11 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	public List<Unidad> consultarUnidades(){
 		return (List<Unidad>)this.unidadDao.findAll();
 	}
-	
+
 	public List<CategoriasInventario> consultarCategoriasInventario(){
 		return (List<CategoriasInventario>)this.categoriaInventarioDao.findAll();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<CuentaContable> consultarCuentasContables(){
 		return (List<CuentaContable>)this.cuentaContableDao.findAll();
@@ -472,5 +478,37 @@ public class MaestrosEJB implements MaestrosEJBLocal {
     public Object[] consultarProductos(ProductosInventario pi, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count){
     	return this.productoInventarioDao.consultar(pi, first, pageSize, sortField, sortOrder, count);
     }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Cliente> consultarClientes() {
+		try {
+			return (List<Cliente>) clienteDAO.findAll();
+		} catch (Exception e) {
+			LOGGER.error(e + " Error consultando clientes");
+			return null;
+		}
+	}
+
+	@Override
+	public Cliente crearCliente(Cliente pEntidad) {
+		try {
+			return clienteDAO.add(pEntidad);
+		} catch (Exception e) {
+			LOGGER.error(e + " Error creando clientes");
+			return null; 
+		}
+	}
+
+	@Override
+	public Cliente actualizarCliente(Cliente pEntidad) {
+		try {
+			clienteDAO.update(pEntidad);
+			return pEntidad;
+		} catch (Exception e) {
+			LOGGER.error(e + " Error creando clientes");
+			return null;
+		}
+	}
 
 }
