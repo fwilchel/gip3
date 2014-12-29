@@ -255,6 +255,8 @@ public class ProductosMB extends UtilMB{
 			this.maestrosEjb.crearProductoInventarioComext(this.seleccionado2);
 		else
 			this.maestrosEjb.actualizarProductoInventarioComext(this.seleccionado2);
+		this.addMensajeInfo(AplicacionMB.getMessage("MaestroInventarioExitoPaginaBoton", language));
+		
 	}
 	
 	private class LazyProductsDataModel extends LazyDataModel<ProductosInventario>{
