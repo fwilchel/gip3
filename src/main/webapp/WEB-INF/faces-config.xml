@@ -82,6 +82,10 @@
 	        <from-outcome>maestro_inventario</from-outcome>
             <to-view-id>/ui/maestros/productos.xhtml</to-view-id>
         </navigation-case>
+		<navigation-case>
+	        <from-outcome>listado_terminos_transporte</from-outcome>
+            <to-view-id>/ui/comercioexterior/terminosTransporte.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
 
 </faces-config>

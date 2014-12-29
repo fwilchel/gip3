@@ -106,6 +106,7 @@
 		<class>com.ssl.jv.gip.jpa.pojo.SaldoPK</class>
 		<class>com.ssl.jv.gip.jpa.pojo.SaldosFranquicia</class>
 		<class>com.ssl.jv.gip.jpa.pojo.SaldosFranquiciaPK</class>
+		<class>com.ssl.jv.gip.jpa.pojo.ShipmentConditions</class>
 		<class>com.ssl.jv.gip.jpa.pojo.TerminoIncoterm</class>
 		<class>com.ssl.jv.gip.jpa.pojo.TerminosTransporte</class>
 		<class>com.ssl.jv.gip.jpa.pojo.TipoCanal</class>
