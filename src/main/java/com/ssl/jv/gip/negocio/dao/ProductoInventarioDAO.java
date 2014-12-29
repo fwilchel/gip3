@@ -26,7 +26,7 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario> imple
 		
 		String query="SELECT "+(count?"COUNT(pi)":"pi")+" FROM ProductosInventario pi WHERE 1=1 " +
 				(pi.getSku()!=null && !pi.getSku().equals("")?" AND pi.sku= :sku ":"")+
-				(pi.getNombre()!=null && !pi.getNombre().equals("")?" AND pi.nombre= :nombre ":"")+
+				(pi.getNombre()!=null && !pi.getNombre().equals("")?" AND pi.nombre like :nombre ":"")+
 				(pi.getCategoriasInventario().getId()!=null && pi.getCategoriasInventario().getId()!=null && pi.getCategoriasInventario().getId()!=0?" AND pi.categoriasInventario= :categoria ":"")+
 				(pi.getPais().getId()!=null && pi.getPais().getId()!=null && !pi.getPais().getId().equals("")?" AND pi.pais.id= :idPais ":"")+
 				(pi.getDesactivado()!=null?" AND pi.desactivado= :desactivado ":"")+
@@ -37,7 +37,7 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario> imple
 			if (pi.getSku()!=null && !pi.getSku().equals(""))
 				q=q.setParameter("sku", pi.getSku());
 			if (pi.getNombre()!=null && !pi.getNombre().equals(""))
-				q=q.setParameter("nombre", pi.getNombre());
+				q=q.setParameter("nombre", "%"+pi.getNombre()+"%");
 			if (pi.getCategoriasInventario()!=null && pi.getCategoriasInventario().getId()!=null && pi.getCategoriasInventario().getId()!=0)
 				q=q.setParameter("categoria", pi.getCategoriasInventario());
 			if (pi.getPais().getId()!=null && pi.getPais().getId()!=null && !pi.getPais().getId().equals(""))

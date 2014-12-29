@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.negocio.ejb;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -18,10 +19,12 @@ import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
+import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
@@ -34,8 +37,10 @@ import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.MedioTransporteDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
+import com.ssl.jv.gip.negocio.dao.ProductosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
+import com.ssl.jv.gip.negocio.dao.TipoLoteOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 
@@ -87,8 +92,15 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	private ProductoInventarioDAOLocal productoInventarioDao;
 
 	@EJB
-	private ClienteDAO clienteDAO;
+	private ClienteDAOLocal clienteDao;
+	
+	@EJB
+	private TipoLoteOICDAOLocal tipoLoteOicDao;
 
+
+	@EJB
+	private ProductosInventarioComextDAOLocal productosInventarioComextDao;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -455,7 +467,9 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@SuppressWarnings("unchecked")
 	public List<Unidad> consultarUnidades(){
-		return (List<Unidad>)this.unidadDao.findAll();
+		List<Unidad> lista=(List<Unidad>)this.unidadDao.findAll();
+		Collections.sort(lista);
+		return lista;
 	}
 
 	public List<CategoriasInventario> consultarCategoriasInventario(){
@@ -483,7 +497,7 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@Override
 	public List<Cliente> consultarClientes() {
 		try {
-			return (List<Cliente>) clienteDAO.findAll();
+			return (List<Cliente>) clienteDao.findAll();
 		} catch (Exception e) {
 			LOGGER.error(e + " Error consultando clientes");
 			return null;
@@ -493,7 +507,7 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@Override
 	public Cliente crearCliente(Cliente pEntidad) {
 		try {
-			return clienteDAO.add(pEntidad);
+			return (Cliente)clienteDao.add(pEntidad);
 		} catch (Exception e) {
 			LOGGER.error(e + " Error creando clientes");
 			return null; 
@@ -503,7 +517,7 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@Override
 	public Cliente actualizarCliente(Cliente pEntidad) {
 		try {
-			clienteDAO.update(pEntidad);
+			clienteDao.update(pEntidad);
 			return pEntidad;
 		} catch (Exception e) {
 			LOGGER.error(e + " Error creando clientes");
@@ -511,4 +525,25 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<TipoLoteoic> consultarTipoLotesOic(){
+		return (List<TipoLoteoic>)this.tipoLoteOicDao.findAll();
+	}
+	
+	public ProductosInventarioComext consultarProductoInventarioComext(String sku){
+		try{
+			ProductosInventarioComext  pi = productosInventarioComextDao.findBySku(sku);
+			return pi;
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
+	public void crearProductoInventarioComext(ProductosInventarioComext pic){
+		this.productosInventarioComextDao.add(pic);
+	}
+	public void actualizarProductoInventarioComext(ProductosInventarioComext pic){
+		this.productosInventarioComextDao.update(pic);
+	}
+	
 }

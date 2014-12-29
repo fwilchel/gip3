@@ -14,10 +14,12 @@ import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
+import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 
@@ -256,5 +258,10 @@ public interface MaestrosEJBLocal {
 	 */
 	public Cliente actualizarCliente(Cliente pEntidad);
 
-
+	public List<TipoLoteoic> consultarTipoLotesOic();
+	
+	public ProductosInventarioComext consultarProductoInventarioComext(String sku);
+	
+	public void crearProductoInventarioComext(ProductosInventarioComext pic);
+	public void actualizarProductoInventarioComext(ProductosInventarioComext pic);
 }

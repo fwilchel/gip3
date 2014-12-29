@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +15,12 @@ import java.util.List;
  */
 @Entity
 @Table(name="productos_inventario_comext")
-@NamedQuery(name="ProductosInventarioComext.findAll", query="SELECT p FROM ProductosInventarioComext p")
+@NamedQueries({
+	@NamedQuery(name="ProductosInventarioComext.findAll", query="SELECT p FROM ProductosInventarioComext p"),
+	@NamedQuery(name="ProductosInventarioComext.findBySku", query="SELECT p FROM ProductosInventarioComext p WHERE p.idProducto = (SELECT pi.id FROM ProductosInventario pi WHERE pi.sku= :sku)")
+})
+
+
 public class ProductosInventarioComext implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -47,6 +54,9 @@ public class ProductosInventarioComext implements Serializable {
 
 	@Column(name="codigo_sap")
 	private String codigoSap;
+	
+	@Column(name="controlstock")
+	private Boolean controlStock;
 
 	private String descripcion;
 
@@ -169,7 +179,7 @@ public class ProductosInventarioComext implements Serializable {
 	//bi-directional many-to-one association to Unidad
 	@ManyToOne
 	@JoinColumn(name="id_unidad_embalaje")
-	private Unidad unidade;
+	private Unidad unidadEmbalaje;
 
 	public ProductosInventarioComext() {
 	}
@@ -580,12 +590,20 @@ public class ProductosInventarioComext implements Serializable {
 		this.tipoLoteoic = tipoLoteoic;
 	}
 
-	public Unidad getUnidade() {
-		return this.unidade;
+	public Unidad getUnidadEmbalaje() {
+		return this.unidadEmbalaje;
 	}
 
-	public void setUnidade(Unidad unidade) {
-		this.unidade = unidade;
+	public void setUnidadEmbalaje(Unidad unidade) {
+		this.unidadEmbalaje = unidade;
+	}
+
+	public Boolean getControlStock() {
+		return controlStock;
+	}
+
+	public void setControlStock(Boolean controlStock) {
+		this.controlStock = controlStock;
 	}
 
 }
