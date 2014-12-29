@@ -22,8 +22,9 @@ public class CategoriaInventarioDAO extends GenericDAO<CategoriasInventario> imp
 	/**
 	 * Consulta solo las categorias padre, y hace fetch de las hijas, ordenadas por nombre de padre y nombre de hijas
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<CategoriasInventario> findAll(){
-		List list = this.em.createQuery("from CategoriasInventario ci JOIN FETCH ci.categoriasInventarios hijos WHERE ci.categoriasInventario IS NULL ORDER BY ci.nombre, hijos.nombre")
+		List list = this.em.createQuery("SELECT DISTINCT ci from CategoriasInventario ci JOIN FETCH ci.categoriasInventarios hijos WHERE ci.categoriasInventario IS NULL ORDER BY ci.nombre, hijos.nombre")
 				.getResultList();
 		return list;
 	}

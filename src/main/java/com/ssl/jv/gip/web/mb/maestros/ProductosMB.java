@@ -168,7 +168,8 @@ public class ProductosMB extends UtilMB{
 			this.seleccionado2.setIdProducto(this.seleccionado.getId());
 			this.modoDetalle = Modo.CREACION;
 		}
-		
+		if (seleccionado2.getUnidadEmbalaje()==null)
+			this.seleccionado2.setUnidadEmbalaje(new Unidad());
 	}
 	
 	public LazyDataModel<ProductosInventario> getModelo() {
