@@ -54,23 +54,23 @@ public class ProductosInventario implements Serializable {
 	private String sku;
 
 	//bi-directional many-to-one association to ComextItemc
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<ComextItemc> comextItemcs;
 
 	//bi-directional many-to-one association to Conteo
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<Conteo> conteos;
 
 	//bi-directional many-to-one association to CostoVenta
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<CostoVenta> costoVentas;
 
 	//bi-directional many-to-one association to Costo
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<Costo> costos;
 
 	//bi-directional many-to-one association to EstandarConteo
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<EstandarConteo> estandarConteos;
 
 	//bi-directional many-to-one association to EstandarPedido
@@ -78,15 +78,15 @@ public class ProductosInventario implements Serializable {
 	private List<EstandarPedido> estandarPedidos;*/
 
 	//bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<MovimientosInventario> movimientosInventarios;
 
 	//bi-directional many-to-one association to NivelInventarioxubicacion
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<NivelInventarioxubicacion> nivelInventarioxubicacions;
 
 	//bi-directional many-to-one association to NivelInventarioxubicacionTemp
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps;
 
 	//bi-directional many-to-one association to CategoriasInventario
@@ -110,35 +110,35 @@ public class ProductosInventario implements Serializable {
 	private Unidad unidadVenta;
 
 	//bi-directional one-to-one association to ProductosInventarioComext
-	@OneToOne(mappedBy="productosInventario")
+	@OneToOne(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private ProductosInventarioComext productosInventarioComext;
 
 	//bi-directional many-to-one association to ProductosXClienteComext
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<ProductosXClienteComext> productosXClienteComexts;
 
 	//bi-directional many-to-one association to ProductosXCliente
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<ProductosXCliente> productosxclientes;
 
 	//bi-directional many-to-one association to ProductosXDocumento
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<ProductosXDocumento> productosxdocumentos;
 
 	//bi-directional many-to-one association to ProductosXProveedor
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<ProductosXProveedor> productosxproveedors;
 
 	//bi-directional many-to-one association to ProductosXReceta
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<ProductosXReceta> productosxrecetas;
 
 	//bi-directional many-to-one association to Saldo
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<Saldo> saldos;
 
 	//bi-directional many-to-one association to SaldosFranquicia
-	@OneToMany(mappedBy="productosInventario")
+	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
 	private List<SaldosFranquicia> saldosFranquicias;
 
 	//bi-directional many-to-one association to TempCosto

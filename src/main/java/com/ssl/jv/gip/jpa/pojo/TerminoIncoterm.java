@@ -1,8 +1,17 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 /**
@@ -11,7 +20,10 @@ import java.util.List;
  */
 @Entity
 @Table(name="termino_incoterm")
-@NamedQuery(name="TerminoIncoterm.findAll", query="SELECT t FROM TerminoIncoterm t")
+@NamedQueries(value={
+@NamedQuery(name="TerminoIncoterm.findAll", query="SELECT t FROM TerminoIncoterm t"),
+@NamedQuery(name="TerminoIncoterm.findByMedioTrans", query="SELECT t FROM TerminoIncoterm t join t.terminosTransportes r ")
+})
 public class TerminoIncoterm implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,19 +35,21 @@ public class TerminoIncoterm implements Serializable {
 	//bi-directional many-to-many association to Cliente
 	@ManyToMany
 	@JoinTable(
-		name="incoterm_x_cliente"
-		, joinColumns={
-			@JoinColumn(name="id_incoterm")
+			name="incoterm_x_cliente"
+			, joinColumns={
+					@JoinColumn(name="id_incoterm")
 			}
-		, inverseJoinColumns={
-			@JoinColumn(name="id_cliente")
+			, inverseJoinColumns={
+					@JoinColumn(name="id_cliente")
 			}
-		)
+			)
 	private List<Cliente> clientes;
 
 	//bi-directional many-to-one association to TerminosTransporte
 	@OneToMany(mappedBy="terminoIncoterm")
 	private List<TerminosTransporte> terminosTransportes;
+
+	
 
 	public TerminoIncoterm() {
 	}
@@ -85,5 +99,9 @@ public class TerminoIncoterm implements Serializable {
 
 		return terminosTransporte;
 	}
+
+
+
+
 
 }

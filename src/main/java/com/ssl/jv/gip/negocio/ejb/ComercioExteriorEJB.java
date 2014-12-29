@@ -2,6 +2,7 @@ package com.ssl.jv.gip.negocio.ejb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -11,8 +12,11 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
+import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAO;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAO;
+import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 
 
 /**
@@ -39,6 +43,25 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
     }
 
+	@EJB
+	private DocumentoLotesOICDAO documentoLotesOICDAO;
+	
+    /**
+     * Default constructor. 
+     */
+   
+	public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(Map<String, Object> parametros){
+		return documentoDAO.consultarDatosContribucionCafetera(parametros);
+	}
+	
+	public List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(Map<String, Object> parametros){
+		return documentoLotesOICDAO.consultarDocumentoLotesContribucionCafetera(parametros);
+	}
+
+	public List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(List<DocumentoLotesContribucionCafeteriaDTO> documentos){
+		return documentoLotesOICDAO.guardarDocumentoLotesContribucionCafetera(documentos);
+	}    
+    
 	/* (non-Javadoc)
 	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#consultarDocumentosPorLoteOIC()
 	 */

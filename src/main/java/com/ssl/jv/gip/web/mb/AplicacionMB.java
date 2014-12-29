@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.model.SelectItem;
 
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
@@ -29,6 +30,11 @@ public class AplicacionMB {
 	private String ambiente;
 	private String version;
 	private Boolean debug;
+	
+	public final SelectItem[] siNo= { 
+		new SelectItem(new Boolean(true), "SI"),
+		new SelectItem(new Boolean(false), "NO"), 
+	};
 	
 	@EJB
 	private AdministracionEJB admonEjb;	
@@ -100,6 +106,9 @@ public class AplicacionMB {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-    
+
+	public SelectItem[] getSiNo() {
+		return siNo;
+	}
     
 }

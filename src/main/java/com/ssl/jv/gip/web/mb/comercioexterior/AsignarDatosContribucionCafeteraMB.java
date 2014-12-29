@@ -12,7 +12,7 @@ import javax.faces.bean.SessionScoped;
 
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
-import com.ssl.jv.gip.negocio.ejb.ComercioExterior;
+import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
@@ -30,7 +30,7 @@ public class AsignarDatosContribucionCafeteraMB extends UtilMB{
 	private Modo modo;
 	
 	@EJB
-	private ComercioExterior comercioExteriorEjb;	
+	private ComercioExteriorEJBLocal comercioExteriorEjb;	
 	
 	public AsignarDatosContribucionCafeteraMB(){
 		
