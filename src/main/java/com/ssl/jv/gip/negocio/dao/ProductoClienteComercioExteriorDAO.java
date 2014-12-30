@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 
 /**
  * Session Bean implementation class ProductoClienteComercioExteriorDAO
@@ -123,5 +125,60 @@ public class ProductoClienteComercioExteriorDAO extends
 		Query query = em
 				.createNamedQuery(ProductosXClienteComext.PRODUCTOS_X_CLIENTE_COM_EXT_FIND_ALL);
 		return query.getResultList();
+	}
+	
+	
+	/**
+	 * Consulta producto por documento
+	 * @author Lorena Salamanca
+	 * @email tachu.salamanca@gmail.com
+	 * @phone 316 6537244
+	 * @version 1.0
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
+		List<ProductoDTO> lista = new ArrayList<ProductoDTO>();
+		String sql = "SELECT  productos_inventario.id,"
+				+ " productos_inventario.sku,"
+				+ " productos_inventario.nombre,"
+				+ "	productosXdocumentos.cantidad1, "
+				+ "	pi_ce.cantidad_x_embalaje,"
+				+ "	(CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje) END) as TotalCajas,"
+				+ "	((CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (pi_ce.peso_neto_embalaje/pi_ce.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as TotalPesoNeto,"
+				+ "	((CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (pi_ce.peso_bruto_embalaje/pi_ce.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as TotalPesoBruto,"
+				+ " ((CASE WHEN (pi_ce.cantidad_x_embalaje = 0 or pi_ce.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje)/pi_ce.total_cajas_x_pallet END)) AS TotalCajasPallet,"
+				+ "	tl.descripcion as DESCRIPCION_LOTE, dxl.consecutivo as CONSECUTIVO_LOTE,"
+				+ " productosXdocumentos.valor_unitario_usd,"
+				+ " productosXdocumentos.valor_total"
+				+ " FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
+				+ "  LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto"
+				+ "	 LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=productos_inventario.id"
+				+ "	 left join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id"
+				+ "  LEFT join documento_x_lotesoic dxl on dxl.id_tipo_lote=tl.id"
+				+ "	 WHERE productosXdocumentos.id_documento = " + idDocumento
+				+ "  AND (dxl.id_documento = " + idDocumento + " or dxl.id_documento is null) "
+				+ "		 AND productos_x_cliente_comext.id_cliente= " + idCliente 
+				+ "  order by CONSECUTIVO_LOTE";
+
+
+		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
+		
+		if(listado != null){
+			for(Object[] objs : listado){
+				ProductoDTO dto = new ProductoDTO();
+				dto.setId(objs[0] != null ? objs[0].toString() : null);
+				dto.setSku(objs[1] != null ? objs[1].toString() : null);
+				dto.setNombre(objs[2] != null ? objs[2].toString() : null);
+				dto.setCantidad(objs[3] != null ? new BigDecimal(objs[3].toString()) : null);
+				dto.setCantidadPorEmbalaje(objs[4] != null ? new BigDecimal(objs[4].toString()) : null);
+				dto.setCantidadCajas(objs[5] != null ? new BigDecimal(objs[5].toString()) : null);
+				dto.setPesoNeto(objs[6] != null ? new BigDecimal(objs[6].toString()) : null);
+				dto.setPesoBruto(objs[7] != null ? new BigDecimal(objs[7].toString()) : null);
+				dto.setCantidadPallets(objs[8] != null ? new BigDecimal(objs[8].toString()) : null);
+				lista.add(dto);
+			}
+		}
+		return lista;
 	}
 }

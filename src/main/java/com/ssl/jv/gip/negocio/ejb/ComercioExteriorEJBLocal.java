@@ -9,6 +9,8 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
+import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 
 
 /**
@@ -51,6 +53,9 @@ public interface ComercioExteriorEJBLocal {
 	public List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(Map<String, Object> parametros);
 
 	public List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(List<DocumentoLotesContribucionCafeteriaDTO> documentos);
+
+	List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
 	
+	List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente);
 
 }
