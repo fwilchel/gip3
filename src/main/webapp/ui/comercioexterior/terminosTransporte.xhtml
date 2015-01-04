@@ -47,32 +47,83 @@
 			</p:dataTable>
 		</h:form>
 
-		<p:dialog widgetVar="editarDlg" modal="true" showEffect="fade"
+		<p:dialog widgetVar="editarDlg" modal="true" showEffect="fade" style="width: 300px"
 			hideEffect="fade" resizable="false" dynamic="true" id="editarDialog">
 			<h:form id="formaDlg2">
-				<p:panelGrid>
+				<p:panelGrid  style="text-align:left">
 					<p:panelGrid columns="2">
 						<p:panelGrid columns="2">
 							<p:outputLabel value="#{msg.condicionesEmbarqueClienteLabel}" styleClass="negrita" />
-							<h:inputText value="#{terminosTransporteMB.selectedCliente.nombre}" id="nomCliente" 
-								required="true" maxlength="40" label="#{msg.condicionesEmbarqueClienteLabel}"/>
+							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.clientName}" id="nomCliente" 
+								required="true" maxlength="40" label="#{msg.condicionesEmbarqueClienteLabel}" disabled="true"/>
 						</p:panelGrid>
 						<p:panelGrid columns="2">
 							<p:outputLabel value="#{msg.condicionesEmbarqueDireccionLabel}" styleClass="negrita" />
-							<h:inputText value="#{terminosTransporteMB.selectedCliente.direccion}" id="dirCliente" 
-								required="true" maxlength="40" label="#{msg.condicionesEmbarqueDireccionLabel}"/>
+							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.clientAddress}" id="dirCliente" 
+								required="true" maxlength="40" label="#{msg.condicionesEmbarqueDireccionLabel}" disabled="true"/>
 						</p:panelGrid>
 						<p:panelGrid columns="2">
 							<p:outputLabel value="#{msg.condicionesEmbarqueTelefonoLabel}" styleClass="negrita" />
-							<h:inputText value="#{terminosTransporteMB.selectedCliente.telefono}" id="telCliente" 
-								required="true" maxlength="40" label="#{msg.condicionesEmbarqueTelefonoLabel}"/>
+							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.clientPhone}" id="telCliente" 
+								required="true" maxlength="40" label="#{msg.condicionesEmbarqueTelefonoLabel}" disabled="true"/>
 						</p:panelGrid>
 						<p:panelGrid columns="2">
 							<p:outputLabel value="#{msg.condicionesEmbarqueContactoLabel}" styleClass="negrita" />
-							<h:inputText value="#{terminosTransporteMB.selectedCliente.contacto}" id="contCliente" 
-								required="true" maxlength="40" label="#{msg.condicionesEmbarqueContactoLabel}"/>
+							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.clientContact}" id="contCliente" 
+								required="true" maxlength="40" label="#{msg.condicionesEmbarqueContactoLabel}" disabled="true"/>
 						</p:panelGrid>
 					</p:panelGrid>
+					
+					<p:separator />
+					
+					<p:dataTable var="doc" widgetVar="docsTerm"
+						id="tablaDocsTerm" value="#{terminosTransporteMB.instruccionesEmbarqueDTO.documentos}" rows="10"
+						emptyMessage="#{msg.condicionesEmbarqueDocumentosNoEncontrados}"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+						
+						<p:column headerText="#{msg.condicionesEmbarqueFacturaLabel}">
+								<h:outputText value="#{doc.factura}" />
+						</p:column>
+		
+						<p:column headerText="#{msg.condicionesEmbarqueLoteLabel}">
+							<h:outputText value="#{doc.lote}" />
+						</p:column>
+		
+						<p:column headerText="#{msg.condicionesEmbarqueDescripcionLabel}">
+							<h:outputText value="#{doc.descripcion}" />
+						</p:column>
+		
+						<p:column headerText="#{msg.condicionesEmbarqueCantidadCajasLabel}">
+							<h:outputText value="#{doc.cantCajas}" />
+						</p:column>
+		
+						<p:column headerText="#{msg.condicionesEmbarquePedidoaLabel}">
+							<h:outputText value="#{doc.pedidoNum}" />
+						</p:column>
+		
+						<p:column headerText="#{msg.condicionesEmbarqueAsignacionLabel}">
+							<h:outputText value="#{doc.asignacionNum}" />
+						</p:column>
+		
+						<p:column headerText="#{msg.condicionesEmbarqueAvisoLabel}">
+							<h:outputText value="#{doc.avisoNum}" />
+						</p:column>
+		
+					</p:dataTable>
+					
+					<p:separator />
+					
+					<ui:remove>
+					<p:panelGrid >
+						<p:panelGrid id="terminTransPnlgrd" columns="4">
+							<p:outputLabel value="#{msg.CampoSociedadAduanera1}" styleClass="negrita" />
+							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.}" id="nomCliente" 
+								required="true" maxlength="40" label="#{msg.CampoSociedadAduanera1}"/>
+						</p:panelGrid>
+					</p:panelGrid>
+					</ui:remove>
 				</p:panelGrid>
 			</h:form>
 		</p:dialog>

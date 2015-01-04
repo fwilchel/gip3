@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -12,7 +14,9 @@ import java.util.List;
  */
 @Entity
 @Table(name="clientes")
+@NamedQueries({
 @NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
+})
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 

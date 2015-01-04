@@ -32,6 +32,7 @@ import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
+import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 
 /**
  * <p>Title: TerminosTransporteEJB</p>
@@ -68,13 +69,13 @@ public class TerminosTransporteEJB implements TerminosTransporteEJBLocal {
 	}
 
 	/**
-	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarClientePorIdTerminosTransporte(java.lang.String)
+	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarTerminosTransportePorId(java.lang.String)
 	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
 	 * @email seba.gamba02@gmail.com
 	 * @phone 311 8376670
 	 */
 	@Override
-	public Cliente consultarClientePorIdTerminosTransporte(String idTermTrans) {
-		return terminosTransporteDAO.getClientByShipmentConditionsId(idTermTrans);
+	public InstruccionesEmbarqueDTO consultarTerminosTransportePorId(String idTermTrans) {
+		return terminosTransporteDAO.getShipmentConditionsById(idTermTrans);
 	}
 }

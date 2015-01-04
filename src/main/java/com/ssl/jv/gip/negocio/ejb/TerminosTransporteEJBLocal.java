@@ -17,6 +17,7 @@ import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
+import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 
 /**
  * <p>Title: GIP</p>
@@ -46,12 +47,12 @@ public interface TerminosTransporteEJBLocal {
 	List<ShipmentConditions> consultarListadoTerminosTransporte();
 	
 	/**
-	 * Metodo que obtiene un cliente por el identificador de terminos de transporte
+	 * Metodo que obtiene una instruccion de embarque
 	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
 	 * @email seba.gamba02@gmail.com
 	 * @phone 311 8376670
 	 * @param idTermTrans
 	 * @return
 	 */ 
-	Cliente consultarClientePorIdTerminosTransporte(String idTermTrans);
+	InstruccionesEmbarqueDTO consultarTerminosTransportePorId(String idTermTrans);
 }

@@ -12,7 +12,9 @@ import org.apache.log4j.Logger;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
+import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 import com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal;
+import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.maestros.ProductosMB;
 
@@ -44,7 +46,9 @@ public class TerminosTransporteMB extends UtilMB{
 	
 	private ShipmentConditions selectedShipmentCond;
 	
-	private Cliente selectedCliente;
+	private InstruccionesEmbarqueDTO instruccionesEmbarqueDTO;
+	
+	private Integer language=AplicacionMB.SPANISH;
 	
 	public TerminosTransporteMB(){
 	}
@@ -70,13 +74,14 @@ public class TerminosTransporteMB extends UtilMB{
 	public void setSelectedShipmentCond(ShipmentConditions selectedShipmentCond) {
 		this.selectedShipmentCond = selectedShipmentCond;
 	}
-	
-	public Cliente getSelectedCliente() {
-		return selectedCliente;
+
+	public InstruccionesEmbarqueDTO getInstruccionesEmbarqueDTO() {
+		return instruccionesEmbarqueDTO;
 	}
 
-	public void setSelectedCliente(Cliente selectedCliente) {
-		this.selectedCliente = selectedCliente;
+	public void setInstruccionesEmbarqueDTO(
+			InstruccionesEmbarqueDTO instruccionesEmbarqueDTO) {
+		this.instruccionesEmbarqueDTO = instruccionesEmbarqueDTO;
 	}
 
 	/**
@@ -88,6 +93,12 @@ public class TerminosTransporteMB extends UtilMB{
 	public void getShipmentConditionsById(){
 		LOGGER.info("Consultando la informacion para el termino de transporte : " 
 				+ selectedShipmentCond.getId());
-		selectedCliente = terminosTransporteEjb.consultarClientePorIdTerminosTransporte(selectedShipmentCond.getId());
+		try {
+			instruccionesEmbarqueDTO = terminosTransporteEjb.
+					consultarTerminosTransportePorId(selectedShipmentCond.getId());
+		} catch (Exception e) {
+			this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
+			LOGGER.error(e);
+		}
 	}
 }
