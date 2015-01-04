@@ -8,6 +8,7 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 
 @Local
 public interface DocumentoDAOLocal extends IGenericDAO<Documento>{
@@ -17,5 +18,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento>{
 	public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm();
 	
 	public void actualizarDocumentoPorNegociacion(DocumentoIncontermDTO documento);
+
+	List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
 	
 }

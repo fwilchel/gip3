@@ -14,9 +14,12 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAO;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAO;
+import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
+import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 
 
 /**
@@ -35,6 +38,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	
 	@EJB
 	private DocumentoDAO documentoDAO;
+	
+	@EJB
+	private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
 	
 	/**
      * Default constructor. 
@@ -108,6 +114,16 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	@Override
 	public void actualizarDocumentoPorNegociacion(DocumentoIncontermDTO documento) {
 		 documentoDAO.actualizarDocumentoPorNegociacion(documento);
+	}
+	
+	@Override
+	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma){
+		return documentoDAO.consultarDocumentoPorFacturaProforma(consecutivoFacturaProforma);	
+	}
+	
+	@Override
+	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
+		return productoClienteComercioExteriorDAO.consultarProductoPorDocumento(idDocumento, idCliente);
 	}
 
 }

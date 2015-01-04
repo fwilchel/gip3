@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.maestroProductosXClienteCETituloFrame}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+				showIcon="true" autoUpdate="true"></p:messages>
+
+			<p:tabView id="tabPanel">
+			
+				<p:tab title="#{msg.maestroProductosXClienteCETituloFrame}">
+					
+					<p:panelGrid columns="3"
+						columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.maestroProductosXClienteCECliente}" for="cliente" styleClass="negrita" />
+						<p:selectOneMenu id="cliente" value="#{productoClienteComercioExteriorMB.seleccionado.cliente.id}" required="true" label="#{msg.maestroProductosXClienteCECliente}">
+							<f:selectItems value="#{productoClienteComercioExteriorMB.clientes}" var="cliente" itemValue="#{cliente.id}" itemLabel="#{cliente.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="cliente"></p:message>
+
+						<p:outputLabel value="#{msg.maestroProductosXClienteCEIDML}" for="moneda" styleClass="negrita" />
+						<p:selectOneMenu id="moneda" value="#{productoClienteComercioExteriorMB.seleccionado.idMoneda}" required="true" label="#{msg.maestroProductosXClienteCEIDML}">
+							<f:selectItems value="#{productoClienteComercioExteriorMB.monedas}" var="moneda" itemValue="#{moneda.id}" itemLabel="#{moneda.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="moneda"></p:message>
+
+						<p:outputLabel value="#{msg.maestroProductosXClienteCEActivo}" for="activo" styleClass="negrita" />
+						<p:selectBooleanCheckbox value="#{productoClienteComercioExteriorMB.seleccionado.activo}"  id="activo" label="#{msg.maestroProductosXClienteCEActivo}"/>
+						<p:message for="activo"></p:message>
+						
+						<p:outputLabel value="#{msg.maestroProductosXClienteCEProductosAsociar}" for="productosAsociar" styleClass="negrita" />
+						<p:commandButton id="productosAsociar" value="#{msg.generalConsultar}" icon="ui-icon-disk" action="return false;" oncomplete="PF('buscarProdDialog').show()"></p:commandButton>
+						<p:message for="productosAsociar"></p:message>
+
+					</p:panelGrid>
+					
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{productoClienteComercioExteriorMB.productosSeleccionados}" rows="10"
+						emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+							<p:outputPanel>
+								<p:spacer width="30"></p:spacer>	
+								<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+											<p:inputText id="globalFilter"
+												onkeyup="PF('datoTabla').filter()" style="width:150px"
+												placeholder="#{msg.generalPalabrasBuscar}" />
+								<p:spacer width="30"></p:spacer>
+							</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column filterBy="#{dato.productosInventario.id}" headerText="#{msg.maestroProductosXClienteCEID}"
+							filterMatchMode="contains" sortBy="#{dato.productosInventario.id}">
+							<h:outputText value="#{dato.productosInventario.id}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.productosInventario.sku}" headerText="#{msg.maestroProductosXClienteCESKU}"
+							filterMatchMode="contains" sortBy="#{dato.productosInventario.sku}">
+							<h:outputText value="#{dato.productosInventario.sku}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.productosInventario.nombre}" headerText="#{msg.maestroProductosXClienteCENombredelProducto}"
+							filterMatchMode="contains" sortBy="#{dato.productosInventario.nombre}">
+							<h:outputText value="#{dato.productosInventario.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.precio}" headerText="#{msg.maestroProductosXClienteCEPrecioEXWFOB}"
+							filterMatchMode="contains" sortBy="#{dato.precio}">
+							<h:inputText value="#{dato.precio}" id="precio" required="true" maxlength="17" >
+								<f:validateDoubleRange minimum="0" maximum="999999999999.9999"></f:validateDoubleRange>
+							</h:inputText>
+						</p:column>
+
+						<p:column filterBy="#{dato.regSanitario}" headerText="#{msg.maestroProductosXClienteRegSanitario}"
+							filterMatchMode="contains" sortBy="#{dato.regSanitario}">
+							<h:inputText value="#{dato.regSanitario}" id="regSanitario" required="true" maxlength="40" />
+						</p:column>
+						
+						<p:column filterBy="#{dato.descuentoxproducto}" headerText="#{msg.maestroProductosXClienteCEDescuentoProducto}"
+							filterMatchMode="contains" sortBy="#{dato.descuentoxproducto}">
+							<h:inputText value="#{dato.descuentoxproducto}" id="desc" required="true" maxlength="9" >
+								<f:validateDoubleRange minimum="0" maximum="9999.9999"></f:validateDoubleRange>
+							</h:inputText>
+						</p:column>
+						
+						<p:column filterBy="#{dato.otrosDescuentos}" headerText="#{msg.maestroProductosXClienteCEOtrosDescuento}"
+							filterMatchMode="contains" sortBy="#{dato.otrosDescuentos}">
+							<h:inputText value="#{dato.otrosDescuentos}" id="otrosDesc" required="true" maxlength="9" >
+								<f:validateDoubleRange minimum="0" maximum="9999.9999"></f:validateDoubleRange>
+							</h:inputText>
+						</p:column>
+						
+						<p:column headerText="#{msg.maestroProductosXClienteIncluirProd}" >
+							<p:selectBooleanCheckbox value="#{dato.productosInventario.incluido}" id="incluido" label="#{msg.maestroProductosXClienteIncluirProd}"/>
+						</p:column>
+						
+					</p:dataTable>
+					
+					<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{productoClienteComercioExteriorMB.guardarRelacionProductoClienteComExt}" ></p:commandButton>
+					<p:commandButton value="#{msg.generalCancelar}" process="@this" icon="ui-icon-cancel" action="listado_maestro_ProductosPorCliente_CE" ></p:commandButton>
+					
+				</p:tab>
+			</p:tabView>
+		</h:form>
+		
+		<p:dialog header="#{msg.maestroProductosXClienteBuscarProd}" widgetVar="buscarProdDialog" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false" dynamic="true" id="findProdDlg">
+			<h:form id="formaDlg">
+			<p:outputPanel id="busquedaProducto" style="text-align:center;">
+				
+				<p:messages id="msgs2" showDetail="false" showSummary="true" globalOnly="true"
+					showIcon="true"></p:messages>
+				<p:panelGrid columns="3"
+					columnClasses="label,value">
+
+					<p:outputLabel value="#{msg.maestroProductosXClienteCateInv}" for="categoria" styleClass="negrita" />
+					<p:selectOneMenu id="categoria" value="#{productoClienteComercioExteriorMB.productosInventarioFiltroDTO.idCategoria}" height="200" label="#{msg.maestroProductosXClienteCateInv}">
+						<f:selectItem itemValue="-1" itemLabel="#{msg.generalTodos}"></f:selectItem>
+						<f:selectItems value="#{productoClienteComercioExteriorMB.categoriasInventarios}" />
+					</p:selectOneMenu>
+					<p:message for="categoria"></p:message>
+					
+					<p:outputLabel value="#{msg.maestroProductosXClienteCENombredelProducto}" for="nombreProd" styleClass="negrita"/>
+					<h:inputText value="#{productoClienteComercioExteriorMB.productosInventarioFiltroDTO.nombre}" id="nombreProd" maxlength="40" label="#{msg.maestroProductosXClienteCENombredelProducto}"/>
+					<p:message for="nombreProd"></p:message>
+					
+					<p:outputLabel value="#{msg.maestroProductosXClienteCESKU}" for="sku" styleClass="negrita"/>
+					<h:inputText value="#{productoClienteComercioExteriorMB.productosInventarioFiltroDTO.sku}" id="sku" maxlength="40" label="#{msg.maestroProductosXClienteCESKU}"/>
+					<p:message for="sku"></p:message>
+					
+					<p:outputLabel value=""></p:outputLabel>
+					<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{productoClienteComercioExteriorMB.buscarProductosInventarios}" update=":formaDlg:tablaDatos2" ></p:commandButton>
+
+				</p:panelGrid>
+				
+				<p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
+						value="#{productoClienteComercioExteriorMB.productosInventarios}" rows="10"
+						emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+					<f:facet name="header">
+						<div align="right">
+						<p:outputPanel>
+							<p:spacer width="30"></p:spacer>	
+							<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+										<p:inputText id="globalFilter"
+											onkeyup="PF('datoTabla2').filter()" style="width:150px"
+											placeholder="#{msg.generalPalabrasBuscar}" />
+							<p:spacer width="30"></p:spacer>
+						</p:outputPanel>
+						</div>
+					</f:facet>
+
+					<p:column filterBy="#{dato.productosInventario.sku}" headerText="#{msg.maestroProductosXClienteCESKU}"
+						filterMatchMode="contains" sortBy="#{dato.productosInventario.sku}">
+						<h:outputText value="#{dato.sku}" />
+					</p:column>
+
+					<p:column filterBy="#{dato.productosInventario.nombre}" headerText="#{msg.maestroProductosXClienteCENombredelProducto}"
+						filterMatchMode="contains" sortBy="#{dato.productosInventario.nombre}">
+						<h:outputText value="#{dato.nombre}" />
+					</p:column>
+						
+					<p:column headerText="#{msg.maestroProductosXClienteIncluirProd}" >
+						<p:selectBooleanCheckbox value="#{dato.incluido}" id="seleccionado" label="#{msg.maestroProductosXClienteIncluirProd}"/>
+					</p:column>
+						
+				</p:dataTable>
+				
+				<p:panelGrid columns="2"
+					columnClasses="label,value">
+					<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{productoClienteComercioExteriorMB.adicionarProductosSeleccionados}" update=":forma:tabPanel:tablaDatos" oncomplete="PF('buscarProdDialog').hide();" ></p:commandButton>
+					<p:commandButton value="#{msg.generalCancelar}" process="@this" oncomplete="PF('buscarProdDialog').hide();" icon="ui-icon-cancel" >
+						<p:resetInput target="busquedaProducto" />
+					</p:commandButton>
+				</p:panelGrid>
+			</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+</ui:composition>
+

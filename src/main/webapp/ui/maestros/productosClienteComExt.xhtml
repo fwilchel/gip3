@@ -31,7 +31,7 @@
 							<div align="right">
 							<p:outputPanel>
 							
-					<p:commandButton action="#{productoClienteComercioExteriorMB.nuevo}" oncomplete="return false;" title="#{msg.generalAdicionarRegistro}"
+					<p:commandButton action="#{productoClienteComercioExteriorMB.nuevo}" title="#{msg.generalAdicionarRegistro}"
 						icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
 					<p:spacer width="30"></p:spacer>	
 					<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
@@ -48,7 +48,7 @@
 						</f:facet>
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete="return false;"
+							<p:commandButton action="#{productoClienteComercioExteriorMB.editar}"
 								icon="ui-icon-pencil" title="#{msg.generalEditar}" >
 								<f:setPropertyActionListener value="#{dato}"
 									target="#{productoClienteComercioExteriorMB.seleccionado}" />
