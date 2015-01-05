@@ -14,6 +14,8 @@ import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
@@ -50,6 +52,8 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 	private List<SelectItem> categoriasInventarios;
 	private List<ProductosInventario> productosInventarios;
 	private List<ProductosXClienteComext> productosSeleccionados;
+
+	private UploadedFile uploadedFile;
 
 	@EJB
 	private MaestrosEJBLocal maestroFacade;
@@ -277,6 +281,20 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 		return items.toArray(new SelectItem[categoriasInventarios.size()]);
 	}
 
+	public void cargarArchivo(FileUploadEvent fileUploadEvent) {
+		try {
+			uploadedFile = fileUploadEvent.getFile();
+			String fileName = uploadedFile.getFileName();
+			maestroFacade
+					.cargarProductosPorClienteComExtDesdeArchivo(uploadedFile
+							.getInputstream());
+			this.addMensajeInfo("Archivo cargado con éxito");
+		} catch (Exception e) {
+			LOGGER.error(e);
+			this.addMensajeError(e);
+		}
+	}
+
 	public List<ProductosXClienteComext> getProductosXClienteComExteriorList() {
 		return productosXClienteComExteriorList;
 	}
@@ -359,6 +377,14 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 	public void setProductosInventarioFiltroDTO(
 			ProductosInventarioFiltroDTO productosInventarioFiltroDTO) {
 		this.productosInventarioFiltroDTO = productosInventarioFiltroDTO;
+	}
+
+	public UploadedFile getUploadedFile() {
+		return uploadedFile;
+	}
+
+	public void setUploadedFile(UploadedFile uploadedFile) {
+		this.uploadedFile = uploadedFile;
 	}
 
 }

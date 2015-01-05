@@ -122,6 +122,10 @@ public class Cliente implements Serializable {
 	public Cliente() {
 	}
 
+	public Cliente(Long id) {
+		this.id = id;
+	}
+
 	public Long getId() {
 		return this.id;
 	}

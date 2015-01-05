@@ -22,6 +22,7 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 
 /**
@@ -126,10 +127,10 @@ public class ProductoClienteComercioExteriorDAO extends
 				.createNamedQuery(ProductosXClienteComext.PRODUCTOS_X_CLIENTE_COM_EXT_FIND_ALL);
 		return query.getResultList();
 	}
-	
-	
+
 	/**
 	 * Consulta producto por documento
+	 * 
 	 * @author Lorena Salamanca
 	 * @email tachu.salamanca@gmail.com
 	 * @phone 316 6537244
@@ -137,7 +138,8 @@ public class ProductoClienteComercioExteriorDAO extends
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
+	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento,
+			String idCliente) {
 		List<ProductoDTO> lista = new ArrayList<ProductoDTO>();
 		String sql = "SELECT  productos_inventario.id,"
 				+ " productos_inventario.sku,"
@@ -157,28 +159,38 @@ public class ProductoClienteComercioExteriorDAO extends
 				+ "	 left join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id"
 				+ "  LEFT join documento_x_lotesoic dxl on dxl.id_tipo_lote=tl.id"
 				+ "	 WHERE productosXdocumentos.id_documento = " + idDocumento
-				+ "  AND (dxl.id_documento = " + idDocumento + " or dxl.id_documento is null) "
-				+ "		 AND productos_x_cliente_comext.id_cliente= " + idCliente 
+				+ "  AND (dxl.id_documento = " + idDocumento
+				+ " or dxl.id_documento is null) "
+				+ "		 AND productos_x_cliente_comext.id_cliente= " + idCliente
 				+ "  order by CONSECUTIVO_LOTE";
 
-
 		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
-		
-		if(listado != null){
-			for(Object[] objs : listado){
+
+		if (listado != null) {
+			for (Object[] objs : listado) {
 				ProductoDTO dto = new ProductoDTO();
 				dto.setId(objs[0] != null ? objs[0].toString() : null);
 				dto.setSku(objs[1] != null ? objs[1].toString() : null);
 				dto.setNombre(objs[2] != null ? objs[2].toString() : null);
-				dto.setCantidad(objs[3] != null ? new BigDecimal(objs[3].toString()) : null);
-				dto.setCantidadPorEmbalaje(objs[4] != null ? new BigDecimal(objs[4].toString()) : null);
-				dto.setCantidadCajas(objs[5] != null ? new BigDecimal(objs[5].toString()) : null);
-				dto.setPesoNeto(objs[6] != null ? new BigDecimal(objs[6].toString()) : null);
-				dto.setPesoBruto(objs[7] != null ? new BigDecimal(objs[7].toString()) : null);
-				dto.setCantidadPallets(objs[8] != null ? new BigDecimal(objs[8].toString()) : null);
+				dto.setCantidad(objs[3] != null ? new BigDecimal(objs[3]
+						.toString()) : null);
+				dto.setCantidadPorEmbalaje(objs[4] != null ? new BigDecimal(
+						objs[4].toString()) : null);
+				dto.setCantidadCajas(objs[5] != null ? new BigDecimal(objs[5]
+						.toString()) : null);
+				dto.setPesoNeto(objs[6] != null ? new BigDecimal(objs[6]
+						.toString()) : null);
+				dto.setPesoBruto(objs[7] != null ? new BigDecimal(objs[7]
+						.toString()) : null);
+				dto.setCantidadPallets(objs[8] != null ? new BigDecimal(objs[8]
+						.toString()) : null);
 				lista.add(dto);
 			}
 		}
 		return lista;
+	}
+
+	public ProductosXClienteComext consultarPorPK(ProductosXClienteComextPK pk) {
+		return em.find(ProductosXClienteComext.class, pk);
 	}
 }

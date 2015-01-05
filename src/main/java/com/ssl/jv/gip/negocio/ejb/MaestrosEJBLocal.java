@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -295,4 +296,7 @@ public interface MaestrosEJBLocal {
 
 	public List<ProductosXClienteComext> guardarRelacionProductosClienteComercioExterior(
 			List<ProductosXClienteComext> productosXClienteComexts);
+
+	public void cargarProductosPorClienteComExtDesdeArchivo(
+			InputStream inputStream);
 }

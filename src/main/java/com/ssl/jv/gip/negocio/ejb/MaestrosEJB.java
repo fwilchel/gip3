@@ -1,5 +1,10 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +28,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
@@ -612,4 +618,105 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		return productosXClienteComexts;
 	}
 
+	@Override
+	public void cargarProductosPorClienteComExtDesdeArchivo(
+			InputStream inputStream) {
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					inputStream));
+			String line = null;
+			List<String[]> lines = new ArrayList<String[]>();
+			boolean error = true;
+			while ((line = reader.readLine()) != null) {
+				if (!line.isEmpty()) {
+					error = false;
+					String[] values = line.split("\\|");
+					if (values.length < 13 || values.length > 14) {
+						throw new RuntimeException("Archivo inválido");
+					}
+
+					if (values[0].trim().isEmpty()) {
+						error = true;
+					}
+
+					try {
+						Long.parseLong(values[1]);
+						new BigDecimal(values[6]);
+						new BigDecimal(values[8]);
+						new BigDecimal(values[9]);
+						new BigDecimal(values[10]);
+						Boolean.parseBoolean(values[12]);
+					} catch (NumberFormatException e) {
+						error = true;
+					}
+
+					lines.add(values);
+				}
+			}
+			reader.close();
+
+			if (error) {
+				throw new RuntimeException(
+						"Archivo con errores en sus registros");
+			}
+
+			int numLinea = 1;
+			List<ProductosXClienteComext> productosXClienteComexts = new ArrayList<ProductosXClienteComext>();
+			for (String[] lineFile : lines) {
+				productosXClienteComexts.add(getProductoXClienteComExt(
+						numLinea, lineFile));
+				numLinea++;
+			}
+
+			for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
+				productoClienteComercioExteriorDAO
+						.update(productosXClienteComext);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	private ProductosXClienteComext getProductoXClienteComExt(int numLinea,
+			String[] lineFile) {
+		ProductosXClienteComext productosXClienteComext = new ProductosXClienteComext();
+		ProductosInventario productoInv = null;
+		try {
+			productoInv = productoInventarioDao.consultarPorSku(lineFile[0]);
+		} catch (Exception e) {
+			productoInv = null;
+		}
+		if (productoInv == null) {
+			throw new RuntimeException(
+					String.format(
+							"Producto referenciando en la línea %d no existe",
+							numLinea));
+		}
+		Long idProducto = productoInv.getId();
+		Long idCliente = Long.parseLong(lineFile[1]);
+		ProductosXClienteComextPK pk = new ProductosXClienteComextPK(
+				idProducto, idCliente);
+		productosXClienteComext.setPk(pk);
+		ProductosXClienteComext productoClienteComext = productoClienteComercioExteriorDAO
+				.consultarPorPK(pk);
+		if (productoClienteComext != null) {
+			productosXClienteComext = productoClienteComext;
+		} else {
+			productosXClienteComext.setProductosInventario(productoInv);
+			productosXClienteComext.setCliente(new Cliente(idCliente));
+		}
+		productosXClienteComext.setPrecio(new BigDecimal(lineFile[6]));
+		productosXClienteComext.setIdMoneda(lineFile[7]);
+		productosXClienteComext.setIva(new BigDecimal(lineFile[8]));
+		productosXClienteComext.setDescuentoxproducto(new BigDecimal(
+				lineFile[9]));
+		productosXClienteComext
+				.setOtrosDescuentos(new BigDecimal(lineFile[10]));
+		productosXClienteComext.setActivo(Boolean.parseBoolean(lineFile[12]));
+		if (lineFile.length == 14) {
+			productosXClienteComext.setRegSanitario(lineFile[13]);
+		}
+		return productosXClienteComext;
+	}
 }

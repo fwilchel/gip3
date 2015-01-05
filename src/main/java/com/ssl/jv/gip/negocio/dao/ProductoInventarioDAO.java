@@ -114,4 +114,12 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
 				ProductosInventario.PRODUCTOS_INVENTARIO_FIND_ACTIVOS)
 				.getResultList();
 	}
+
+	@Override
+	public ProductosInventario consultarPorSku(String sku) {
+		Query query = em
+				.createNamedQuery(ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKU);
+		query.setParameter("sku", sku);
+		return (ProductosInventario) query.getSingleResult();
+	}
 }
