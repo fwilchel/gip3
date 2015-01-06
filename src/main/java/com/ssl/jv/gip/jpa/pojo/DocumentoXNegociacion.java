@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 
 
@@ -17,6 +19,10 @@ public class DocumentoXNegociacion implements Serializable {
 	
 	@EmbeddedId
 	private DocumentoXNegociacionPK pk;
+	
+	@ManyToOne
+	@JoinColumn(name="id_termino_incoterm", insertable=false, updatable=false)
+	private TerminoIncoterm terminoIncoterm;	
 
 	@Column(name="cantidad_contenedores_de_20")
 	private BigDecimal cantidadContenedoresDe20;
@@ -252,6 +258,14 @@ public class DocumentoXNegociacion implements Serializable {
 
 	public void setDocumento(Documento documento) {
 		this.documento = documento;
+	}
+
+	public TerminoIncoterm getTerminoIncoterm() {
+		return terminoIncoterm;
+	}
+
+	public void setTerminoIncoterm(TerminoIncoterm terminoIncoterm) {
+		this.terminoIncoterm = terminoIncoterm;
 	}
 
 

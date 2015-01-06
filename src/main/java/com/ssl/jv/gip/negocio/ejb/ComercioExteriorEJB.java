@@ -10,11 +10,12 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
-import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
-import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAO;
-import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAO;
-import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
+import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
+import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
@@ -34,13 +35,16 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 	/** The documento x lote dao. */
 	@EJB
-	private DocumentoXLoteDAO documentoXLoteDAO;
+	private DocumentoXLoteDAOLocal documentoXLoteDAO;
 	
 	@EJB
-	private DocumentoDAO documentoDAO;
+	private DocumentoDAOLocal documentoDAO;
 	
 	@EJB
-	private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
+	private ProductoClienteComercioExteriorDAOLocal productoClienteComercioExteriorDAO;
+
+	@EJB
+	private DocumentoLotesOICDAOLocal documentoLotesOICDAO;
 	
 	/**
      * Default constructor. 
@@ -49,8 +53,6 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
     }
 
-	@EJB
-	private DocumentoLotesOICDAO documentoLotesOICDAO;
 	
     /**
      * Default constructor. 
@@ -124,6 +126,11 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	@Override
 	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
 		return productoClienteComercioExteriorDAO.consultarProductoPorDocumento(idDocumento, idCliente);
+	}
+	
+	@Override
+	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento){
+		return documentoDAO.consultarDocumentosPorConsecutivoPedido(consecutivoDocumento);
 	}
 
 }

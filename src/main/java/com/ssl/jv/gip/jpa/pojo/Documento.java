@@ -46,8 +46,9 @@ public class Documento implements Serializable {
 	@Column(name="fecha_generacion")
 	private Timestamp fechaGeneracion;
 
-	@Column(name="id_cliente")
-	private Long idCliente;
+	@ManyToOne
+	@JoinColumn(name="id_cliente")
+	private Cliente cliente;
 
 	@Column(name="id_punto_venta")
 	private Long idPuntoVenta;
@@ -200,13 +201,13 @@ public class Documento implements Serializable {
 	public void setFechaGeneracion(Timestamp fechaGeneracion) {
 		this.fechaGeneracion = fechaGeneracion;
 	}
-
-	public Long getIdCliente() {
-		return this.idCliente;
+	
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Long getIdPuntoVenta() {

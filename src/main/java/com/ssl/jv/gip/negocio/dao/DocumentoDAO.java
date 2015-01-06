@@ -255,6 +255,224 @@ public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm(){
 		return lista;
 	}
 	
+	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento){
+		
+
+		
+		
+		
+		Object parametros[] = new Object[5];
+		parametros[0] = "Docs_segun_estado5";
+		parametros[1] = ConstantesTipoDocumento.SOLICITUD_PEDIDO;
+		
+		// Se Define la cadena de busqueda del nombre segun lo ingresado en el
+		// campo de Consecutivo Pedido. 
+		String parametroConseDoc;
+		if (this.strConsecutivoDocumento.equals("")) {
+			parametroConseDoc = "%";
+		} else {
+			parametroConseDoc = "%" + this.strConsecutivoDocumento + "%";
+		}
+		parametros[2] = parametroConseDoc; // Parámetro Filtro
+		parametros[3] = ConstantesDocumento.VERIFICADO; // Parámetro Filtro
+		parametros[4] = ConstantesDocumento.APROBADA; // Parámetro Filtro
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		int tipo = (Integer) parametros[1];
+		String strConsecutivo = (String) parametros[2];
+		int estado = (Integer) parametros[3];
+		//int estado2 = (Integer) parametros[4];
+		
+		
+		sql = "SELECT  {2},{3},{4},{5},{6},{7},{8},cli.nombre AS NOMBRE_CLIENTE,cli.id AS ID_CLIENTE,{13} AS NOMBRE_ESTADO,cli.direccion,cli.telefono,cli.contacto,inc.id AS ID_INCOTERM, inc.descripcion AS NOMBRE_INCOTERM, doc.{19}, doc.{20}, doc.{21}, doc.{22}, doc.{23}, doc.{24}, doc.{25}, doc.{26}, doc.{27}, {28}, doc.{29}, doc.{30}, doc.{31}, ciu.nombre AS NOMBRE_CIUDAD, doc.{36}, {39} AS DESCRIPCION_PAGO, {40}, {41}, doc.{42} ,doc.{43} ,doc.{44},{45},{46},"
+			    + " (select observacion_documento from documentos docu where docu.consecutivo_documento = (select observacion_documento from documentos docu2 where docu2.consecutivo_documento = documentos.observacion_documento)) as observacion_documento2, doc.{47}"
+				+ " FROM {0}"
+				+ " INNER JOIN clientes cli on documentos.id_cliente=cli.id"							
+				+ " INNER JOIN {11} on {8}={12}"
+				+ " INNER JOIN {17} doc on {2}=doc.id_documento"
+				+ " INNER JOIN {18} inc on inc.id = doc.id_termino_incoterm"
+				+ " INNER JOIN ciudades ciu on ciu.id = cli.id_ciudad"	
+				+ " INNER JOIN metodo_pago on cli.{37} = {38}"							
+				+ " WHERE {7}=" + tipo;
+				
+				if (parametros.length == 5)//Se envio un nuevo estado
+				{
+					int estado2 = (Integer) parametros[4];
+					sql = sql + " AND {8} IN (" + estado + "," + estado2 + ")"
+					+ " AND documentos.consecutivo_documento not in (select observacion_documento from documentos where observacion_documento  in (SELECT consecutivo_documento from documentos where  id_tipo_documento="+ tipo+" and id_estado IN ("  + estado + "," + estado2 + ") )) ";  
+					
+												
+					
+				}
+				else
+					
+					if (parametros.length == 4)//Se envio un nuevo estado
+					{
+						
+						sql = sql + " AND {8} IN (" + estado + ")";
+					}
+			
+				
+				sql = sql + " AND UPPER({3}) LIKE UPPER('" + strConsecutivo + "')"
+						  + " ORDER BY {2} DESC";					
+							
+		String params[] = new String[48];
+
+		params[0] = IDocumento.sysTabla;
+		params[1] = ICliente.sysTabla;
+		params[2] = IDocumento.descripcionId;
+		params[3] = IDocumento.descripcionConsecutivoDocumentos;
+		params[4] = IDocumento.descripcionFechaGeneracion;
+		params[5] = IDocumento.descripcionDocumentoCliente;	
+		params[6] = IDocumento.descripcionIdCliente;
+		params[7] = IDocumento.descripcionTipoDocumento;
+		params[8] = IDocumento.descripcionIdEstado;					
+		params[9] = ICliente.descripcionNombre;
+		params[10] = ICliente.descripcionId;
+		params[11] = IEstado.sysTabla;					
+		params[12] = IEstado.descripcionId;
+		params[13] = IEstado.descripcionNombre;
+		params[14] = ICliente.descripcionDireccion;
+		params[15] = ICliente.descripcionTelefono;
+		params[16] = ICliente.descripcionContacto;					
+		params[17] = IDocumentoxNegociacion.sysTabla;
+		params[18] = IIncoterm.sysTabla;
+		params[19] = IDocumentoxNegociacion.cCostoEntrega;
+		params[20] = IDocumentoxNegociacion.cCostoSeguro;
+		params[21] = IDocumentoxNegociacion.cCostoFlete;
+		params[22] = IDocumentoxNegociacion.cOtrosGastos;
+		params[23] = IDocumentoxNegociacion.cObservacionesMarcacion2;					
+		params[24] = IDocumentoxNegociacion.cTotalPesoNeto;
+		params[25] = IDocumentoxNegociacion.cTotalPesoBruto;
+		params[26] = IDocumentoxNegociacion.cTotalTendidos;
+		params[27] = IDocumentoxNegociacion.cTotalPallets;
+		params[28] = IDocumento.descripcionFechaEsperadaEntrega;
+		params[29] = IDocumentoxNegociacion.cCantidadContenedores20;
+		params[30] = IDocumentoxNegociacion.cCantidadContenedores40;
+		params[31] = IDocumentoxNegociacion.cLugarIncoterm;					
+		params[32] = ICliente.descripcionCiudad;
+		params[33] = ICiudad.sysTabla;
+		params[34] = ICiudad.descripcionId;
+		params[35] = ICiudad.descripcionNombre;
+		params[36] = IDocumentoxNegociacion.cCantidadDiasVigencia;
+		params[37] = ICliente.cIdMetodoPago;
+		params[38] = IMetodoPago.descripcionId;
+		params[39] = IMetodoPago.descripcionDescripcion;
+		params[40] = IDocumento.descripcionObservacion;
+		params[41] = IMetodoPago.descripcionDescripcionIngles;
+		params[42] = IDocumentoxNegociacion.cSolicitudCafe;
+		
+		params[43] = IDocumentoxNegociacion.cCantidadEstibas;
+		params[44] = IDocumentoxNegociacion.cPesoBrutoEstibas;
+		params[45] = IDocumento.descripcionUbicacionOrigen;					
+		params[46] = IDocumento.descripcionUbicacionDestino;
+		params[47] = IDocumentoxNegociacion.cDescripcion;
+
+		query = Utilidad.stringFormat(sql, params);
+		modoDto = 16;
+
+		
+		
+		
+		
+		
+		
+		
+		
+		dto.setIntId(resulSet.getInt(IDocumento.cId));
+		dto.setStrId(resulSet.getString((IDocumento.cId).toString()));
+
+		TipoDocumento objTipoDocumento = new TipoDocumento();
+		objTipoDocumento.setIntId(resulSet.getInt(IDocumento.cIdTipoDocumento));
+		dto.setObjTipoDocumento(objTipoDocumento);
+
+		Estado objEstado = new Estado();
+		objEstado.setIntId(resulSet.getInt(IDocumento.cIdEstado));
+		dto.setObjEstado(objEstado);
+
+		dto.setStrConsecutivoDocumento(resulSet.getString(IDocumento.cConsecutivoDocumentos));
+		dto.setDtmFechaGeneracion(resulSet.getTimestamp(IDocumento.cFechaGeneracion));				
+		dto.setStrDocumentoCliente(resulSet.getString(IDocumento.cDocumentoCliente));	
+		dto.setStrNombreCliente(resulSet.getString("NOMBRE_CLIENTE"));
+
+		Cliente objCliente = new Cliente();
+		objCliente.setIntId(resulSet.getInt("ID_CLIENTE"));
+		objCliente.setStrNombre(resulSet.getString("NOMBRE_CLIENTE"));
+		objCliente.setStrDireccion(resulSet.getString(ICliente.cDireccion));
+		objCliente.setStrTelefono(resulSet.getString(ICliente.cTelefono));
+		objCliente.setStrContacto(resulSet.getString(ICliente.cContacto));
+		//objCliente.setBlnFacturaIngles(resulSet.getBoolean(ICliente.cFacturaIngles));
+		objCliente.setStrContacto(resulSet.getString(ICliente.cContacto));
+		dto.setObjCliente(objCliente);				
+		
+		dto.setStrNombreEstado(resulSet.getString("NOMBRE_ESTADO"));
+		
+		Incoterm objIncoterm = new Incoterm();
+		objIncoterm.setIntId(resulSet.getInt("ID_INCOTERM"));
+		objIncoterm.setStrDescripcion(resulSet.getString("NOMBRE_INCOTERM"));
+		dto.setObjIncoterm(objIncoterm);
+		
+		DocumentoxNegociacion objDocumentoxNegociacion = new DocumentoxNegociacion();
+		objDocumentoxNegociacion.setDblCostoEntrega(resulSet.getDouble(IDocumentoxNegociacion.cCostoEntrega));
+		objDocumentoxNegociacion.setDblCostoSeguro(resulSet.getDouble(IDocumentoxNegociacion.cCostoSeguro));
+		objDocumentoxNegociacion.setDblCostoFlete(resulSet.getDouble(IDocumentoxNegociacion.cCostoFlete));
+		objDocumentoxNegociacion.setDblOtrosGastos(resulSet.getDouble(IDocumentoxNegociacion.cOtrosGastos));
+		objDocumentoxNegociacion.setStrObservacionMarcacion2(resulSet.getString(IDocumentoxNegociacion.cObservacionesMarcacion2));
+		objDocumentoxNegociacion.setDblTotalPesoNeto(resulSet.getDouble(IDocumentoxNegociacion.cTotalPesoNeto));
+		objDocumentoxNegociacion.setDblTotalPesoBruto(resulSet.getDouble(IDocumentoxNegociacion.cTotalPesoBruto));
+		objDocumentoxNegociacion.setDblTotalTendidos(resulSet.getDouble(IDocumentoxNegociacion.cTotalTendidos));
+		objDocumentoxNegociacion.setDblTotalPallets(resulSet.getDouble(IDocumentoxNegociacion.cTotalPallets));
+		objDocumentoxNegociacion.setDblCantidadContenedores20(resulSet.getDouble(IDocumentoxNegociacion.cCantidadContenedores20));
+		objDocumentoxNegociacion.setDblCantidadContenedores40(resulSet.getDouble(IDocumentoxNegociacion.cCantidadContenedores40));
+		objDocumentoxNegociacion.setIntCantidadDiasVigencia(resulSet.getInt(IDocumentoxNegociacion.cCantidadDiasVigencia));
+		objDocumentoxNegociacion.setBlnSolicitudCafe(resulSet.getBoolean(IDocumentoxNegociacion.cSolicitudCafe));
+		
+		objDocumentoxNegociacion.setDblCantidadEstibas(resulSet.getDouble(IDocumentoxNegociacion.cCantidadEstibas));
+		objDocumentoxNegociacion.setDblPesoBrutoEstibas(resulSet.getDouble(IDocumentoxNegociacion.cPesoBrutoEstibas));
+		objDocumentoxNegociacion.setStrdescripcion(resulSet.getString(IDocumentoxNegociacion.cDescripcion));
+		
+		MetodoPago objMetodoPago = new MetodoPago();
+		objMetodoPago.setStrDescripcion(resulSet.getString("DESCRIPCION_PAGO"));
+		objMetodoPago.setStrDescripcionIngles(resulSet.getString(IMetodoPago.cDescripcionIngles));
+		
+		dto.setObjMetodoPago(objMetodoPago);
+		
+		ciudad = "";
+		ciudad = resulSet.getString(IDocumentoxNegociacion.cLugarIncoterm);
+		
+		if (ciudad == null || ciudad == "")
+		{ciudad = resulSet.getString("NOMBRE_CIUDAD");}
+		
+		objDocumentoxNegociacion.setStrLugarIncoterm(ciudad);				
+		
+		dto.setObjDocumentoxNegociacion(objDocumentoxNegociacion);
+
+		dto.setDtmFechaEsperadaEntrega(resulSet.getTimestamp(IDocumento.cFechaEsperadaEntrega));
+		dto.setStrObservacion(resulSet.getString(IDocumento.cObservacion));
+		
+		dto.setIntIdUbicacionOrigen(resulSet.getInt(IDocumento.cIdUbicacionOrigen));
+		dto.setIntIdUbicacionDestino(resulSet.getInt(IDocumento.cIdUbicacionDestino));
+		
+		dto.setStrObservacion2(resulSet.getString("observacion_documento2"));*/
+		return null;
+
+	}
 
 
 }
