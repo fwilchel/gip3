@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -607,8 +608,10 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 					productoClienteComercioExteriorDAO
 							.update(productosXClienteComext);
 				} else {
-					productosXClienteComext = productoClienteComercioExteriorDAO
+					productoClienteComercioExteriorDAO
 							.add(productosXClienteComext);
+					productosXClienteComext = productoClienteComercioExteriorDAO
+							.consultarPorPK(productosXClienteComext.getPk());
 				}
 			} else if (productosXClienteComext.getId() != null) {
 				productoClienteComercioExteriorDAO
@@ -688,7 +691,7 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 			productoInv = null;
 		}
 		if (productoInv == null) {
-			throw new RuntimeException(
+			throw new EJBException(
 					String.format(
 							"Producto referenciando en la línea %d no existe",
 							numLinea));
