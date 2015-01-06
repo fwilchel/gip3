@@ -67,6 +67,10 @@
             <to-view-id>/ui/comercioexterior/ingresarCostosIncoterm.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
+	        <from-outcome>listado_solicitud_pedido</from-outcome>
+            <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 	        <from-outcome>listado_FX_AsignarContribucionCafe</from-outcome>
             <to-view-id>/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml</to-view-id>
         </navigation-case>
