@@ -18,9 +18,6 @@ import com.ssl.jv.gip.web.util.Modo;
 @ViewScoped
 public class AgenteAduanaMB extends UtilMB{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private List<AgenteAduana> agentes;
@@ -71,11 +68,7 @@ public class AgenteAduanaMB extends UtilMB{
 	}
 	
 	public boolean isCreacion(){
-		if (this.modo!=null && this.modo.equals(Modo.CREACION)){
-			return true;
-		}else{
-			return false;
-		}
+		return this.modo!=null && this.modo.equals(Modo.CREACION);
 	}
 
 	public List<AgenteAduana> getAgentes() {

@@ -37,7 +37,8 @@ public class SecurityFilter implements Filter{
 			AplicacionMB appMB=(AplicacionMB)this.filterConfig.getServletContext().getAttribute("aplicacionMB");
 	        String url=req.getRequestURI(); 
 	        if (url.indexOf("javax.faces.resource")!=-1 || url.endsWith("login.jsf") || url.endsWith("recordarContrasena.jsf")
-	        		 || url.endsWith("cambiarContrasena.jsf") || (appMB!=null && appMB.getDebug())){
+	        		 || url.endsWith("cambiarContrasena.jsf") || (appMB!=null && appMB.getDebug()) || url.endsWith("generadorReportes")
+	        		 || url.endsWith("listaReportes.jsp") || url.endsWith("compilarReporte.jsp")){
 	        	chain.doFilter(request, response);
 	        }else{
 	        	LOGGER.debug(url);

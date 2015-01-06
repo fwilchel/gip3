@@ -72,7 +72,7 @@
 						</p:column>
 
 						<p:column filterBy="#{dato.productosInventario.sku}" headerText="#{msg.maestroProductosXClienteCESKU}"
-							filterMatchMode="contains" sortBy="#{dato.productosInventario.sku}">
+							filterMatchMode="contains" sortBy="#{dato.productosInventario.sku}" >
 							<h:outputText value="#{dato.productosInventario.sku}" />
 						</p:column>
 
@@ -83,28 +83,28 @@
 
 						<p:column filterBy="#{dato.precio}" headerText="#{msg.maestroProductosXClienteCEPrecioEXWFOB}"
 							filterMatchMode="contains" sortBy="#{dato.precio}">
-							<h:inputText value="#{dato.precio}" id="precio" required="true" maxlength="17" >
-								<f:validateDoubleRange minimum="0" maximum="999999999999.9999"></f:validateDoubleRange>
-							</h:inputText>
+								<h:inputText value="#{dato.precio}" id="precio" label="#{msg.maestroProductosXClienteCEPrecioEXWFOB}" required="true" maxlength="17" >
+									<f:validateDoubleRange minimum="0" maximum="999999999999.9999"></f:validateDoubleRange>
+								</h:inputText>
 						</p:column>
 
 						<p:column filterBy="#{dato.regSanitario}" headerText="#{msg.maestroProductosXClienteRegSanitario}"
 							filterMatchMode="contains" sortBy="#{dato.regSanitario}">
-							<h:inputText value="#{dato.regSanitario}" id="regSanitario" required="true" maxlength="40" />
+								<h:inputText value="#{dato.regSanitario}" id="regSanitario" label="#{msg.maestroProductosXClienteRegSanitario}" required="true" maxlength="40" />
 						</p:column>
 						
 						<p:column filterBy="#{dato.descuentoxproducto}" headerText="#{msg.maestroProductosXClienteCEDescuentoProducto}"
 							filterMatchMode="contains" sortBy="#{dato.descuentoxproducto}">
-							<h:inputText value="#{dato.descuentoxproducto}" id="desc" required="true" maxlength="9" >
-								<f:validateDoubleRange minimum="0" maximum="9999.9999"></f:validateDoubleRange>
-							</h:inputText>
+								<h:inputText value="#{dato.descuentoxproducto}" label="#{msg.maestroProductosXClienteCEDescuentoProducto}" id="desc" required="true" maxlength="9" >
+									<f:validateDoubleRange minimum="0" maximum="9999.9999"></f:validateDoubleRange>
+								</h:inputText>
 						</p:column>
 						
 						<p:column filterBy="#{dato.otrosDescuentos}" headerText="#{msg.maestroProductosXClienteCEOtrosDescuento}"
 							filterMatchMode="contains" sortBy="#{dato.otrosDescuentos}">
-							<h:inputText value="#{dato.otrosDescuentos}" id="otrosDesc" required="true" maxlength="9" >
-								<f:validateDoubleRange minimum="0" maximum="9999.9999"></f:validateDoubleRange>
-							</h:inputText>
+								<h:inputText  value="#{dato.otrosDescuentos}" id="otrosDesc" label="#{msg.maestroProductosXClienteCEOtrosDescuento}" required="true" maxlength="9" >
+									<f:validateDoubleRange minimum="0" maximum="9999.9999"></f:validateDoubleRange>
+								</h:inputText>
 						</p:column>
 						
 						<p:column headerText="#{msg.maestroProductosXClienteIncluirProd}" >

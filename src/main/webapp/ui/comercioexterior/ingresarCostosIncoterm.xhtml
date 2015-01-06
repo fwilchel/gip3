@@ -219,13 +219,18 @@
 
 						
 					</p:panelGrid>
-
-					<p:panelGrid columns="3"
+					
+					<p:panelGrid columns="1"
 						rendered="#{not empty ingresarCostosIncotermMB.seleccionado}"
 						columnClasses="label,value">
 						<p:commandButton value="#{msg.generarOrdenComptraTotalñizar}"
 							action="#{ingresarCostosIncotermMB.refrescarTotales}"
-							update=":formaDlg:dblValorNeg"></p:commandButton>
+							update=":formaDlg:dblValorNeg"></p:commandButton>						
+					</p:panelGrid>
+
+					<p:panelGrid columns="2"
+						rendered="#{not empty ingresarCostosIncotermMB.seleccionado}"
+						columnClasses="label,value">
 						<p:commandButton value="#{msg.BotonActualizarCostos}" icon="ui-icon-disk"
 							action="#{ingresarCostosIncotermMB.guardarAjustesPedido}"
 							update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos"></p:commandButton>
