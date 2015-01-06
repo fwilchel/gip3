@@ -55,4 +55,13 @@ public interface TerminosTransporteEJBLocal {
 	 * @return
 	 */ 
 	InstruccionesEmbarqueDTO consultarTerminosTransportePorId(String idTermTrans);
+	
+	/**
+	 * Metodo que consulta todos los agentes de aduana activos
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	List<AgenteAduana> consultarAgentesAduanaActivos();
 }

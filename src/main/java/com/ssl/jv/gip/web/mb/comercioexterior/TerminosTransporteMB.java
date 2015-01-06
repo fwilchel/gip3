@@ -1,14 +1,17 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
@@ -48,6 +51,8 @@ public class TerminosTransporteMB extends UtilMB{
 	
 	private InstruccionesEmbarqueDTO instruccionesEmbarqueDTO;
 	
+	private List<SelectItem> agenteAduanaSelectList = null;
+	
 	private Integer language=AplicacionMB.SPANISH;
 	
 	public TerminosTransporteMB(){
@@ -56,6 +61,20 @@ public class TerminosTransporteMB extends UtilMB{
 	@PostConstruct
 	public void init(){
 		terminosTransporteList = terminosTransporteEjb.consultarListadoTerminosTransporte();
+		List<AgenteAduana> agentesAduana = terminosTransporteEjb.consultarAgentesAduanaActivos();
+		if(agentesAduana != null){
+			for(AgenteAduana aa : agentesAduana){
+				SelectItem item = new SelectItem();
+				item.setLabel(aa.getNombre());
+				item.setValue(aa);
+			
+				if(agenteAduanaSelectList == null){
+					agenteAduanaSelectList = new ArrayList<SelectItem>();
+				}
+				
+				agenteAduanaSelectList.add(item);
+			}
+		}
 	}
 
 	public List<ShipmentConditions> getTerminosTransporteList() {

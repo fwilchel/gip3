@@ -1,12 +1,6 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-<<<<<<< HEAD
-
-import javax.persistence.*;
-
-=======
->>>>>>> dcb5fd49217d8e75e6e4633f85f740ba439a1e10
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -26,17 +20,10 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-<<<<<<< HEAD
-@Table(name="clientes")
-@NamedQueries({
-@NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
-})
-=======
 @Table(name = "clientes")
 @NamedQueries({
 		@NamedQuery(name = Cliente.CLIENTE_FIND_ALL, query = "SELECT c FROM Cliente c"),
 		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.activo = true AND u.id = :idUsuario") })
->>>>>>> dcb5fd49217d8e75e6e4633f85f740ba439a1e10
 public class Cliente implements Serializable {
 
 	/**

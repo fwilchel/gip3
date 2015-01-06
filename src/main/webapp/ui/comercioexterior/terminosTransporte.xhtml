@@ -72,6 +72,16 @@
 							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.clientContact}" id="contCliente" 
 								required="true" maxlength="40" label="#{msg.condicionesEmbarqueContactoLabel}" disabled="true"/>
 						</p:panelGrid>
+						<p:panelGrid columns="2">
+							<p:outputLabel value="#{msg.documentoCiudad}" styleClass="negrita" />
+							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.city}" id="ciudadCliente" 
+								required="true" maxlength="40" label="#{msg.documentoCiudad}" disabled="true"/>
+						</p:panelGrid>
+						<p:panelGrid columns="2">
+							<p:outputLabel value="#{msg.generalNombrePais}" styleClass="negrita" /> 
+							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.country}" id="paisCliente" 
+								required="true" maxlength="40" label="#{msg.generalNombrePais}" disabled="true"/>
+						</p:panelGrid>
 					</p:panelGrid>
 					
 					<p:separator />
