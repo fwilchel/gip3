@@ -22,5 +22,10 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento>{
 	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
 	
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento);
+
+	public List<Documento> consultarOrdenesDeDespachoPorFiltro(Documento filtro);
+
+	public List<Documento> consultarOrdenesDeDespacho();
 	
+	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
 }
