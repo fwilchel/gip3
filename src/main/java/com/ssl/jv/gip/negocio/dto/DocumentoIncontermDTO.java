@@ -2,6 +2,7 @@ package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.sql.Timestamp;
 
 /**
@@ -20,6 +21,9 @@ public class DocumentoIncontermDTO implements Serializable{
 	
 	/** The fecha esperada entrega. */
 	private Timestamp fechaEsperadaEntrega;
+	
+	/** The fecha esperada entrega. */
+	private Date fechaEsperadaEntregaDate;
 	
 	/** The id ubicacion origen. */
 	private Long idUbicacionOrigen;
@@ -107,7 +111,15 @@ public class DocumentoIncontermDTO implements Serializable{
 	
 	/** The observaciones marcacion2. */
 	private String observacionesMarcacion2;
+	
+	private BigDecimal totalPesoNeto;
+	
+	private BigDecimal totalPesoBruto;
 
+	private BigDecimal totalTendidos;
+	
+	private BigDecimal totalPallets;
+	
 	/**
 	 * Gets the id documento.
 	 *
@@ -682,6 +694,56 @@ public class DocumentoIncontermDTO implements Serializable{
 	 */
 	public void setObservacionesMarcacion2(String observacionesMarcacion2) {
 		this.observacionesMarcacion2 = observacionesMarcacion2;
+	}
+
+	/**
+	 * Gets the fecha esperada entrega date.
+	 *
+	 * @return the fecha esperada entrega date
+	 */
+	public Date getFechaEsperadaEntregaDate() {
+		return fechaEsperadaEntregaDate;
+	}
+
+	/**
+	 * Sets the fecha esperada entrega date.
+	 *
+	 * @param fechaEsperadaEntregaDate the new fecha esperada entrega date
+	 */
+	public void setFechaEsperadaEntregaDate(Date fechaEsperadaEntregaDate) {
+		this.fechaEsperadaEntregaDate = fechaEsperadaEntregaDate;
+	}
+
+	public BigDecimal getTotalPesoNeto() {
+		return totalPesoNeto;
+	}
+
+	public void setTotalPesoNeto(BigDecimal totalPesoNeto) {
+		this.totalPesoNeto = totalPesoNeto;
+	}
+
+	public BigDecimal getTotalPesoBruto() {
+		return totalPesoBruto;
+	}
+
+	public void setTotalPesoBruto(BigDecimal totalPesoBruto) {
+		this.totalPesoBruto = totalPesoBruto;
+	}
+
+	public BigDecimal getTotalTendidos() {
+		return totalTendidos;
+	}
+
+	public void setTotalTendidos(BigDecimal totalTendidos) {
+		this.totalTendidos = totalTendidos;
+	}
+
+	public BigDecimal getTotalPallets() {
+		return totalPallets;
+	}
+
+	public void setTotalPallets(BigDecimal totalPallets) {
+		this.totalPallets = totalPallets;
 	}
 
 		

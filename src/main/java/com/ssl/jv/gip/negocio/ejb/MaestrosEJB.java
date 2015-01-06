@@ -1,10 +1,16 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -18,33 +24,34 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
+import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
-import com.ssl.jv.gip.negocio.dao.ClienteDAO;
-import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
-import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAO;
 import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAO;
 import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
+import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAO;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.MedioTransporteDAO;
+import com.ssl.jv.gip.negocio.dao.MonedaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
+import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
-import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoLoteOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
-
-
+import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 
 /**
  * Session Bean implementation class MaestrosEJB
@@ -93,14 +100,19 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private ClienteDAOLocal clienteDao;
-	
+
 	@EJB
 	private TipoLoteOICDAOLocal tipoLoteOicDao;
 
-
 	@EJB
 	private ProductosInventarioComextDAOLocal productosInventarioComextDao;
-	
+
+	@EJB
+	private MonedaDAOLocal monedaDAO;
+
+	@EJB
+	private CategoriaInventarioDAOLocal categoriaInventarioDAO;
+
 	/**
 	 * Default constructor.
 	 */
@@ -380,11 +392,13 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@Override
 	public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte() {
-		return incotermXMedioTransDAO.consultarTerminoIncotermXMedioTransporte();
+		return incotermXMedioTransDAO
+				.consultarTerminoIncotermXMedioTransporte();
 	}
 
 	@Override
-	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(Long pId) {
+	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(
+			Long pId) {
 		TerminoIncotermXMedioTransporte entidad = new TerminoIncotermXMedioTransporte();
 
 		try {
@@ -437,7 +451,8 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	public List<MedioTransporte> consultarMedioTransporteActivo() {
 		List<MedioTransporte> listado = new ArrayList<MedioTransporte>();
 		try {
-			listado = (List<MedioTransporte>) medioTransporteDAO.findAllActivoBoolean();
+			listado = (List<MedioTransporte>) medioTransporteDAO
+					.findAllActivoBoolean();
 		} catch (Exception e) {
 
 		}
@@ -466,32 +481,35 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Unidad> consultarUnidades(){
-		List<Unidad> lista=(List<Unidad>)this.unidadDao.findAll();
+	public List<Unidad> consultarUnidades() {
+		List<Unidad> lista = (List<Unidad>) this.unidadDao.findAll();
 		Collections.sort(lista);
 		return lista;
 	}
 
-	public List<CategoriasInventario> consultarCategoriasInventario(){
-		return (List<CategoriasInventario>)this.categoriaInventarioDao.findAll();
+	public List<CategoriasInventario> consultarCategoriasInventario() {
+		return (List<CategoriasInventario>) this.categoriaInventarioDao
+				.findAll();
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<CuentaContable> consultarCuentasContables(){
-		return (List<CuentaContable>)this.cuentaContableDao.findAll();
+	public List<CuentaContable> consultarCuentasContables() {
+		return (List<CuentaContable>) this.cuentaContableDao.findAll();
 	}
-	
-    public void actualizarProductoInventario(ProductosInventario pi){
-    	this.productoInventarioDao.update(pi);
-    }
 
-    public void crearProductoInventario(ProductosInventario pi){
-   		this.productoInventarioDao.add(pi);
-    }
-    
-    public Object[] consultarProductos(ProductosInventario pi, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count){
-    	return this.productoInventarioDao.consultar(pi, first, pageSize, sortField, sortOrder, count);
-    }
+	public void actualizarProductoInventario(ProductosInventario pi) {
+		this.productoInventarioDao.update(pi);
+	}
+
+	public void crearProductoInventario(ProductosInventario pi) {
+		this.productoInventarioDao.add(pi);
+	}
+
+	public Object[] consultarProductos(ProductosInventario pi, int first,
+			int pageSize, String sortField, SortOrder sortOrder, boolean count) {
+		return this.productoInventarioDao.consultar(pi, first, pageSize,
+				sortField, sortOrder, count);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -507,10 +525,10 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@Override
 	public Cliente crearCliente(Cliente pEntidad) {
 		try {
-			return (Cliente)clienteDao.add(pEntidad);
+			return (Cliente) clienteDao.add(pEntidad);
 		} catch (Exception e) {
 			LOGGER.error(e + " Error creando clientes");
-			return null; 
+			return null;
 		}
 	}
 
@@ -526,24 +544,182 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<TipoLoteoic> consultarTipoLotesOic(){
-		return (List<TipoLoteoic>)this.tipoLoteOicDao.findAll();
+	public List<TipoLoteoic> consultarTipoLotesOic() {
+		return (List<TipoLoteoic>) this.tipoLoteOicDao.findAll();
 	}
-	
-	public ProductosInventarioComext consultarProductoInventarioComext(String sku){
-		try{
-			ProductosInventarioComext  pi = productosInventarioComextDao.findBySku(sku);
+
+	public ProductosInventarioComext consultarProductoInventarioComext(
+			String sku) {
+		try {
+			ProductosInventarioComext pi = productosInventarioComextDao
+					.findBySku(sku);
 			return pi;
-		}catch(Exception e){
+		} catch (Exception e) {
 			return null;
 		}
 	}
-	
-	public void crearProductoInventarioComext(ProductosInventarioComext pic){
+
+	public void crearProductoInventarioComext(ProductosInventarioComext pic) {
 		this.productosInventarioComextDao.add(pic);
 	}
-	public void actualizarProductoInventarioComext(ProductosInventarioComext pic){
+
+	public void actualizarProductoInventarioComext(ProductosInventarioComext pic) {
 		this.productosInventarioComextDao.update(pic);
 	}
-	
+
+	@Override
+	public List<Cliente> consultarClientesActivosPorUsuario(String idUsuario) {
+		return clienteDao.consultarActivosPorUsuario(idUsuario);
+	}
+
+	@Override
+	public List<Moneda> consultarMonedas() {
+		return monedaDAO.consultarTodas();
+	}
+
+	@Override
+	public List<CategoriasInventario> consultarCategoriasInventarios() {
+		return categoriaInventarioDAO.findAll();
+	}
+
+	@Override
+	public List<ProductosInventario> consultarProductosInventarios() {
+		return productoInventarioDao.consultarTodos();
+	}
+
+	@Override
+	public List<ProductosInventario> consultarProductosInventariosPorCategoriaSkuNombreAndEstado(
+			ProductosInventarioFiltroDTO filtroDTO) {
+		return productoInventarioDao
+				.consultarPorCategoriaAndSKUAndNombreAndEstado(filtroDTO);
+	}
+
+	@Override
+	public List<ProductosInventario> consultarProductosInventariosActivos() {
+		return productoInventarioDao.consultarActivos();
+	}
+
+	@Override
+	public List<ProductosXClienteComext> guardarRelacionProductosClienteComercioExterior(
+			List<ProductosXClienteComext> productosXClienteComexts) {
+		for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
+			if (productosXClienteComext.getProductosInventario().isIncluido()) {
+				if (productosXClienteComext.getId() != null) {
+					productoClienteComercioExteriorDAO
+							.update(productosXClienteComext);
+				} else {
+					productoClienteComercioExteriorDAO
+							.add(productosXClienteComext);
+					productosXClienteComext = productoClienteComercioExteriorDAO
+							.consultarPorPK(productosXClienteComext.getPk());
+				}
+			} else if (productosXClienteComext.getId() != null) {
+				productoClienteComercioExteriorDAO
+						.delete(productosXClienteComext);
+			}
+		}
+		return productosXClienteComexts;
+	}
+
+	@Override
+	public void cargarProductosPorClienteComExtDesdeArchivo(
+			InputStream inputStream) {
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					inputStream));
+			String line = null;
+			List<String[]> lines = new ArrayList<String[]>();
+			boolean error = true;
+			while ((line = reader.readLine()) != null) {
+				if (!line.isEmpty()) {
+					error = false;
+					String[] values = line.split("\\|");
+					if (values.length < 13 || values.length > 14) {
+						throw new RuntimeException("Archivo inválido");
+					}
+
+					if (values[0].trim().isEmpty()) {
+						error = true;
+					}
+
+					try {
+						Long.parseLong(values[1]);
+						new BigDecimal(values[6]);
+						new BigDecimal(values[8]);
+						new BigDecimal(values[9]);
+						new BigDecimal(values[10]);
+						Boolean.parseBoolean(values[12]);
+					} catch (NumberFormatException e) {
+						error = true;
+					}
+
+					lines.add(values);
+				}
+			}
+			reader.close();
+
+			if (error) {
+				throw new RuntimeException(
+						"Archivo con errores en sus registros");
+			}
+
+			int numLinea = 1;
+			List<ProductosXClienteComext> productosXClienteComexts = new ArrayList<ProductosXClienteComext>();
+			for (String[] lineFile : lines) {
+				productosXClienteComexts.add(getProductoXClienteComExt(
+						numLinea, lineFile));
+				numLinea++;
+			}
+
+			for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
+				productoClienteComercioExteriorDAO
+						.update(productosXClienteComext);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	private ProductosXClienteComext getProductoXClienteComExt(int numLinea,
+			String[] lineFile) {
+		ProductosXClienteComext productosXClienteComext = new ProductosXClienteComext();
+		ProductosInventario productoInv = null;
+		try {
+			productoInv = productoInventarioDao.consultarPorSku(lineFile[0]);
+		} catch (Exception e) {
+			productoInv = null;
+		}
+		if (productoInv == null) {
+			throw new EJBException(
+					String.format(
+							"Producto referenciando en la línea %d no existe",
+							numLinea));
+		}
+		Long idProducto = productoInv.getId();
+		Long idCliente = Long.parseLong(lineFile[1]);
+		ProductosXClienteComextPK pk = new ProductosXClienteComextPK(
+				idProducto, idCliente);
+		productosXClienteComext.setPk(pk);
+		ProductosXClienteComext productoClienteComext = productoClienteComercioExteriorDAO
+				.consultarPorPK(pk);
+		if (productoClienteComext != null) {
+			productosXClienteComext = productoClienteComext;
+		} else {
+			productosXClienteComext.setProductosInventario(productoInv);
+			productosXClienteComext.setCliente(new Cliente(idCliente));
+		}
+		productosXClienteComext.setPrecio(new BigDecimal(lineFile[6]));
+		productosXClienteComext.setIdMoneda(lineFile[7]);
+		productosXClienteComext.setIva(new BigDecimal(lineFile[8]));
+		productosXClienteComext.setDescuentoxproducto(new BigDecimal(
+				lineFile[9]));
+		productosXClienteComext
+				.setOtrosDescuentos(new BigDecimal(lineFile[10]));
+		productosXClienteComext.setActivo(Boolean.parseBoolean(lineFile[12]));
+		if (lineFile.length == 14) {
+			productosXClienteComext.setRegSanitario(lineFile[13]);
+		}
+		return productosXClienteComext;
+	}
 }

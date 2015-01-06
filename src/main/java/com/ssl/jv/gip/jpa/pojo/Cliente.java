@@ -1,20 +1,37 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the clientes database table.
  * 
  */
 @Entity
-@Table(name="clientes")
-@NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
+@Table(name = "clientes")
+@NamedQueries({
+		@NamedQuery(name = Cliente.CLIENTE_FIND_ALL, query = "SELECT c FROM Cliente c"),
+		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.activo = true AND u.id = :idUsuario") })
 public class Cliente implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 466740775247498616L;
+	public static final String CLIENTE_FIND_ALL = "Cliente.findAll";
+	public static final String CLIENTE_ACTIVO_FIND_BY_USUARIO = "Cliente.findActivoFindByUsuario";
 
 	@Id
 	private Long id;
@@ -23,86 +40,90 @@ public class Cliente implements Serializable {
 
 	private String celular;
 
-	@Column(name="codigo_barras")
+	@Column(name = "codigo_barras")
 	private Long codigoBarras;
 
-	@Column(name="codigo_postal")
+	@Column(name = "codigo_postal")
 	private String codigoPostal;
 
-	@Column(name="codigo_sap")
+	@Column(name = "codigo_sap")
 	private String codigoSap;
 
 	private String contacto;
 
-	@Column(name="descuento_cliente")
+	@Column(name = "descuento_cliente")
 	private BigDecimal descuentoCliente;
 
 	private String direccion;
 
 	private String email;
 
-	@Column(name="factura_ingles")
+	@Column(name = "factura_ingles")
 	private Boolean facturaIngles;
 
 	private String fax;
 
-	@Column(name="id_ciudad")
+	@Column(name = "id_ciudad")
 	private Long idCiudad;
 
-	@Column(name="modo_factura")
+	@Column(name = "modo_factura")
 	private Integer modoFactura;
 
 	private String nit;
 
 	private String nombre;
 
-	@Column(name="observaciones_marcacion_1")
+	@Column(name = "observaciones_marcacion_1")
 	private String observacionesMarcacion1;
 
 	private String telefono;
 
-	//bi-directional many-to-one association to AgenteAduana
+	// bi-directional many-to-one association to AgenteAduana
 	@ManyToOne
-	@JoinColumn(name="id_agente_aduana")
+	@JoinColumn(name = "id_agente_aduana")
 	private AgenteAduana agenteAduana;
 
-	//bi-directional many-to-one association to CuentaContable
+	// bi-directional many-to-one association to CuentaContable
 	@ManyToOne
-	@JoinColumn(name="id_cuenta_cliente")
+	@JoinColumn(name = "id_cuenta_cliente")
 	private CuentaContable cuentaContable;
 
-	//bi-directional many-to-one association to MetodoPago
+	// bi-directional many-to-one association to MetodoPago
 	@ManyToOne
-	@JoinColumn(name="id_metodo_pago")
+	@JoinColumn(name = "id_metodo_pago")
 	private MetodoPago metodoPago;
 
-	//bi-directional many-to-one association to TipoCanal
+	// bi-directional many-to-one association to TipoCanal
 	@ManyToOne
-	@JoinColumn(name="id_tipo_canal")
+	@JoinColumn(name = "id_tipo_canal")
 	private TipoCanal tipoCanal;
 
-	//bi-directional many-to-one association to TipoPrecio
+	// bi-directional many-to-one association to TipoPrecio
 	@ManyToOne
-	@JoinColumn(name="id_tipo_precio")
+	@JoinColumn(name = "id_tipo_precio")
 	private TipoPrecio tipoPrecio;
 
-	//bi-directional many-to-many association to TerminoIncoterm
-	@ManyToMany(mappedBy="clientes")
+	// bi-directional many-to-many association to TerminoIncoterm
+	@ManyToMany(mappedBy = "clientes")
 	private List<TerminoIncoterm> terminoIncoterms;
 
-	//bi-directional many-to-one association to ProductosXClienteComext
-	@OneToMany(mappedBy="cliente")
+	// bi-directional many-to-one association to ProductosXClienteComext
+	@OneToMany(mappedBy = "cliente")
 	private List<ProductosXClienteComext> productosXClienteComexts;
 
-	//bi-directional many-to-one association to ProductosXCliente
-	@OneToMany(mappedBy="cliente")
+	// bi-directional many-to-one association to ProductosXCliente
+	@OneToMany(mappedBy = "cliente")
 	private List<ProductosXCliente> productosxclientes;
 
-	//bi-directional many-to-one association to PuntoVenta
-	@OneToMany(mappedBy="cliente")
+	// bi-directional many-to-one association to PuntoVenta
+	@OneToMany(mappedBy = "cliente")
 	private List<PuntoVenta> puntoVentas;
 
 	public Cliente() {
+	}
+
+	public Cliente(Long id) {
+		this.id = id;
 	}
 
 	public Long getId() {
@@ -301,18 +322,21 @@ public class Cliente implements Serializable {
 		return this.productosXClienteComexts;
 	}
 
-	public void setProductosXClienteComexts(List<ProductosXClienteComext> productosXClienteComexts) {
+	public void setProductosXClienteComexts(
+			List<ProductosXClienteComext> productosXClienteComexts) {
 		this.productosXClienteComexts = productosXClienteComexts;
 	}
 
-	public ProductosXClienteComext addProductosXClienteComext(ProductosXClienteComext productosXClienteComext) {
+	public ProductosXClienteComext addProductosXClienteComext(
+			ProductosXClienteComext productosXClienteComext) {
 		getProductosXClienteComexts().add(productosXClienteComext);
 		productosXClienteComext.setCliente(this);
 
 		return productosXClienteComext;
 	}
 
-	public ProductosXClienteComext removeProductosXClienteComext(ProductosXClienteComext productosXClienteComext) {
+	public ProductosXClienteComext removeProductosXClienteComext(
+			ProductosXClienteComext productosXClienteComext) {
 		getProductosXClienteComexts().remove(productosXClienteComext);
 		productosXClienteComext.setCliente(null);
 
@@ -327,14 +351,16 @@ public class Cliente implements Serializable {
 		this.productosxclientes = productosxclientes;
 	}
 
-	public ProductosXCliente addProductosxcliente(ProductosXCliente productosxcliente) {
+	public ProductosXCliente addProductosxcliente(
+			ProductosXCliente productosxcliente) {
 		getProductosxclientes().add(productosxcliente);
 		productosxcliente.setCliente(this);
 
 		return productosxcliente;
 	}
 
-	public ProductosXCliente removeProductosxcliente(ProductosXCliente productosxcliente) {
+	public ProductosXCliente removeProductosxcliente(
+			ProductosXCliente productosxcliente) {
 		getProductosxclientes().remove(productosxcliente);
 		productosxcliente.setCliente(null);
 

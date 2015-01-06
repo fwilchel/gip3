@@ -67,6 +67,10 @@
             <to-view-id>/ui/comercioexterior/ingresarCostosIncoterm.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
+	        <from-outcome>listado_solicitud_pedido</from-outcome>
+            <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 	        <from-outcome>listado_FX_AsignarContribucionCafe</from-outcome>
             <to-view-id>/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml</to-view-id>
         </navigation-case>
@@ -93,6 +97,10 @@
         <navigation-case>
         	<from-outcome>listado_LE</from-outcome>
             <to-view-id>/ui/comercioexterior/generarListaEmpaque.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>crear_maestro_productosporcliente_CE</from-outcome>
+            <to-view-id>/ui/maestros/crearProductoClienteComExt.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
