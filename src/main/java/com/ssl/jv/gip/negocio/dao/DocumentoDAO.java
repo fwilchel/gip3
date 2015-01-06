@@ -17,6 +17,7 @@ import com.ssl.jv.gip.negocio.dto.ClienteDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
+import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 @Stateless
 @LocalBean
@@ -64,13 +65,12 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
 	}
 	
-	
-/**
- * Consultar documentos costos inconterm.
- *
- * @return the list
- */
-public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm(){
+	/**
+	 * Consultar documentos costos inconterm.
+	 *
+	 * @return the list
+	 */
+	public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm(){
 		
 		List<DocumentoIncontermDTO> lista = new ArrayList<DocumentoIncontermDTO>();
 
@@ -255,6 +255,41 @@ public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm(){
 		return lista;
 	}
 	
+	/**Consulta de ordenes de despacho por filtro
+	 * 
+	 * @return Lista de ordenes de despacho
+	 */
+	@Override
+	public List<Documento> consultarOrdenesDeDespachoPorFiltro(Documento filtro){
+		List<Documento> listado= new ArrayList<Documento>();
+		String query;
+		try{
+			query = "SELECT a FROM Documento a WHERE a.consecutivo_documento like :codigo order by a.consecutivo_documento";
+			listado= em.createQuery(query).setParameter("codigo",PORCENTAJE_LIKE + filtro.getConsecutivoDocumento() + PORCENTAJE_LIKE).getResultList();
+		} catch(Exception e){
+			LOGGER.error(e + "********Error consultando ordenes de despacho");
+			return null;
+		}
+		return listado;
+	}
 
+	/**Consulta de todas las ordenes de despacho
+	 * 
+	 * @return Lista de ordenes de despacho
+	 */
+	@Override
+	public List<Documento> consultarOrdenesDeDespacho(){
+		List<Documento> listado= new ArrayList<Documento>();
+		String query;
+		try{
+			query = "SELECT a FROM Documento a WHERE id_tipo_documento='"+ConstantesTipoDocumento.ORDEN_DESPACHO+"'";
+			listado= em.createQuery(query).getResultList();
+		} catch(Exception e){
+			LOGGER.error(e + "********Error consultando ordenes de despacho");
+			return null;
+		}
+		return listado;
+	}
+	
 
 }
