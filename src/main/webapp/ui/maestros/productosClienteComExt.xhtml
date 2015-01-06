@@ -11,10 +11,11 @@
 
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
+		
+		<h:form prependId="false" id="forma" enctype="multipart/form-data">
 
 			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
-				showIcon="true"></p:messages>
+				showIcon="true" autoUpdate="true"></p:messages>
 
 
 
@@ -23,32 +24,34 @@
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{productoClienteComercioExteriorMB.productosXClienteComExteriorList}" rows="10"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true"
-						paginatorPosition="bottom"
+						paginatorPosition="bottom" 
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
 
 						<f:facet name="header">
 							<div align="right">
-							<p:outputPanel>
-							
-					<p:commandButton action="#{productoClienteComercioExteriorMB.nuevo}" oncomplete="return false;" title="#{msg.generalAdicionarRegistro}"
-						icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
-					<p:spacer width="30"></p:spacer>	
-					<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
-								<p:inputText id="globalFilter"
-									onkeyup="PF('datoTabla').filter()" style="width:150px"
-									placeholder="#{msg.generalPalabrasBuscar}" />
-					<p:spacer width="30"></p:spacer>				
-					<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
-						icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
-							
+								<p:outputPanel>
 								
-							</p:outputPanel>
+									<p:fileUpload fileUploadListener="#{productoClienteComercioExteriorMB.cargarArchivo}" label="#{msg.maestroProductosXClienteEscogerArchivo}" uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}" cancelLabel="#{msg.generalCancelar}" invalidFileMessage="#{msg.maestroProductosXClienteArchivoNoValido}" allowTypes="/(\.|\/)(txt)$/"></p:fileUpload>
+									<p:spacer width="30"></p:spacer>
+									<p:commandButton action="#{productoClienteComercioExteriorMB.nuevo}" title="#{msg.generalAdicionarRegistro}"
+										icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
+									<p:spacer width="30"></p:spacer>	
+									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+												<p:inputText id="globalFilter"
+													onkeyup="PF('datoTabla').filter()" style="width:150px"
+													placeholder="#{msg.generalPalabrasBuscar}" />
+									<p:spacer width="30"></p:spacer>				
+									<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+								
+									
+								</p:outputPanel>
 							</div>
 						</f:facet>
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete="return false;"
+							<p:commandButton action="#{productoClienteComercioExteriorMB.editar}"
 								icon="ui-icon-pencil" title="#{msg.generalEditar}" >
 								<f:setPropertyActionListener value="#{dato}"
 									target="#{productoClienteComercioExteriorMB.seleccionado}" />

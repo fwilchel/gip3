@@ -1,15 +1,20 @@
 package com.ssl.jv.gip.negocio.ejb;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
+import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoDTO;
+
 
 
 /**
@@ -95,5 +100,16 @@ public interface ComercioExteriorEJBLocal {
 	 * @return the list
 	 */
 	public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
+
+	public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(Map<String, Object> parametros);
+	
+	public List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(Map<String, Object> parametros);
+
+	public List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(List<DocumentoLotesContribucionCafeteriaDTO> documentos);
+
+	List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
+	
+	List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente);
+
 
 }

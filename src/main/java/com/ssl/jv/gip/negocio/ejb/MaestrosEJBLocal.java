@@ -1,19 +1,30 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.ejb.Local;
 
+import org.primefaces.model.SortOrder;
+
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
+import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
+import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
+import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
+import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -147,35 +158,145 @@ public interface MaestrosEJBLocal {
 	 */
 	public List<ProductosXClienteComext> consultarProductosClienteComercioExterior();
 
+	/**
+	 * Consultar IncotermxMedioTrans.
+	 *
+	 * @return the list
+	 */
+	public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte();
 
-	/**Consulta todos los agentes de aduana
+	/**
+	 * Consultar TerminoIncotermXMedioTransporte.
+	 *
+	 * @param pId
+	 *            the id
+	 * @return the TerminoIncotermXMedioTransporte
+	 */
+	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(
+			Long pId);
+
+	/**
+	 * Crear TerminoIncotermXMedioTransporte.
+	 *
+	 * @param pEntidad
+	 *            the entidad
+	 * @return the TerminoIncotermXMedioTransporte
+	 */
+	public TerminoIncotermXMedioTransporte crearTerminoIncotermXMedioTransporte(
+			TerminoIncotermXMedioTransporte pEntidad);
+
+	/**
+	 * Modificar TerminoIncotermXMedioTransporte.
+	 *
+	 * @param pEntidad
+	 *            the entidad
+	 * @return the TerminoIncotermXMedioTransporte
+	 */
+	public TerminoIncotermXMedioTransporte actualizarTerminoIncotermXMedioTransporte(
+			TerminoIncotermXMedioTransporte pEntidad);
+
+	/**
+	 * Consultar TerminoIncoterm.
+	 *
+	 * @return the list
+	 */
+	public List<TerminoIncoterm> consultarTerminoIncotermActivo();
+
+	/**
+	 * Consultar TerminoIncoterm.
+	 *
+	 * @return the list
+	 */
+	public List<MedioTransporte> consultarMedioTransporteActivo();
+
+	/**
+	 * Consulta todos los agentes de aduana
 	 * 
 	 * @return lista de agentes de aduana
 	 */
 	public List<AgenteAduana> consultarAgentesAduana();
 
-	/**Crea un agente de aduana
+	/**
+	 * Crea un agente de aduana
 	 * 
-	 * @param pEntidad nuevo agente de aduana
+	 * @param pEntidad
+	 *            nuevo agente de aduana
 	 * @return
 	 */
 	public AgenteAduana crearAgenteAduana(AgenteAduana pEntidad);
 
-	/**Actualiza un agente de aduana
+	/**
+	 * Actualiza un agente de aduana
 	 * 
-	 * @param pEntidad agente actualizado
-	 * @return 
+	 * @param pEntidad
+	 *            agente actualizado
+	 * @return
 	 */
 	public AgenteAduana actualizarAgenteAduana(AgenteAduana pEntidad);
-	
-	public List<Unidad> consultarUnidades();
-	
-	public List<CategoriasInventario> consultarCategoriasInventario();
-	
-	public List<CuentaContable> consultarCuentasContables();
-	
-    public void actualizarProductoInventario(ProductosInventario pi);
-    
-    public void crearProductoInventario(ProductosInventario pi);
 
+	public List<Unidad> consultarUnidades();
+
+	public List<CategoriasInventario> consultarCategoriasInventario();
+
+	public List<CuentaContable> consultarCuentasContables();
+
+	public void actualizarProductoInventario(ProductosInventario pi);
+
+	public void crearProductoInventario(ProductosInventario pi);
+
+	public Object[] consultarProductos(ProductosInventario pi, int first,
+			int pageSize, String sortField, SortOrder sortOrder, boolean count);
+
+	/**
+	 * Consultar clientes.
+	 *
+	 * @return the list
+	 */
+	public List<Cliente> consultarClientes();
+
+	/**
+	 * Crear clientes
+	 *
+	 * @param pEntidad
+	 *            the entidad
+	 * @return the Cliente
+	 */
+	public Cliente crearCliente(Cliente pEntidad);
+
+	/**
+	 * Actualizar clientes.
+	 *
+	 * @param pEntidad
+	 *            the entidad
+	 * @return the cliente
+	 */
+	public Cliente actualizarCliente(Cliente pEntidad);
+
+	public List<TipoLoteoic> consultarTipoLotesOic();
+
+	public ProductosInventarioComext consultarProductoInventarioComext(
+			String sku);
+
+	public void crearProductoInventarioComext(ProductosInventarioComext pic);
+
+	public void actualizarProductoInventarioComext(ProductosInventarioComext pic);
+
+	public List<Cliente> consultarClientesActivosPorUsuario(String idUsuario);
+
+	public List<Moneda> consultarMonedas();
+
+	public List<CategoriasInventario> consultarCategoriasInventarios();
+
+	public List<ProductosInventario> consultarProductosInventarios();
+
+	public List<ProductosInventario> consultarProductosInventariosActivos();
+
+	public List<ProductosInventario> consultarProductosInventariosPorCategoriaSkuNombreAndEstado(
+			ProductosInventarioFiltroDTO filtroDTO);
+
+	public List<ProductosXClienteComext> guardarRelacionProductosClienteComercioExterior(
+			List<ProductosXClienteComext> productosXClienteComexts);
+
+	public void cargarProductosPorClienteComExtDesdeArchivo(
+			InputStream inputStream);
 }

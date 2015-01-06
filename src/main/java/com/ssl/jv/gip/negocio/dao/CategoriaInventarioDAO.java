@@ -1,5 +1,7 @@
 package com.ssl.jv.gip.negocio.dao;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -17,4 +19,14 @@ public class CategoriaInventarioDAO extends GenericDAO<CategoriasInventario> imp
 		this.persistentClass = CategoriasInventario.class;
 	}	
 	
+	/**
+	 * Consulta solo las categorias padre, y hace fetch de las hijas, ordenadas por nombre de padre y nombre de hijas
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<CategoriasInventario> findAll(){
+		List list = this.em.createQuery("SELECT DISTINCT ci from CategoriasInventario ci JOIN FETCH ci.categoriasInventarios hijos WHERE ci.categoriasInventario IS NULL ORDER BY ci.nombre, hijos.nombre")
+				.getResultList();
+		return list;
+	}
+		
 }

@@ -1,7 +1,10 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -9,13 +12,19 @@ import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
@@ -47,14 +56,17 @@ public class ProductosMB extends UtilMB{
 
 	private static final Logger LOGGER = Logger.getLogger(ProductosMB.class);
 
-	private List<ProductosInventario> productos;
+	private LazyDataModel<ProductosInventario> modelo;
 	private ProductosInventario seleccionado;
+	private ProductosInventarioComext seleccionado2;
 	private ProductosInventario filtro;
 	private List<Unidad> unidades;
 	private List<CuentaContable> cuentasContables;
-	private List<CategoriasInventario> categorias;
+	private List<SelectItem> categorias;
+	private List<TipoLoteoic> tiposLotesOic;
 	
 	private Modo modo;
+	private Modo modoDetalle;
 	
 	@EJB
 	private MaestrosEJBLocal maestrosEjb;
@@ -70,22 +82,26 @@ public class ProductosMB extends UtilMB{
 	
 	@PostConstruct
 	public void init(){
-		productos = new ArrayList<ProductosInventario>();
-		categorias = maestrosEjb.consultarCategoriasInventario();
+		modelo = new LazyProductsDataModel();
+		List<CategoriasInventario> categorias = maestrosEjb.consultarCategoriasInventario();
+		this.categorias = new ArrayList<SelectItem>();
+		for (CategoriasInventario ci:categorias){
+			SelectItemGroup sig=new SelectItemGroup(ci.getNombre());
+			this.categorias.add(sig);
+			SelectItem hijos[]=new SelectItem[ci.getCategoriasInventarios().size()];
+			for (int i=0; i<hijos.length; i++){
+				hijos[i]=new SelectItem(ci.getCategoriasInventarios().get(i).getId(), ci.getCategoriasInventarios().get(i).getNombre());
+			}
+			sig.setSelectItems(hijos);
+		}
 		unidades= maestrosEjb.consultarUnidades();
 		cuentasContables = maestrosEjb.consultarCuentasContables();
 		filtro = new ProductosInventario();
 		filtro.setPais(new Pais());
 		filtro.setCategoriasInventario(new CategoriasInventario());
+		filtro.setDesactivado(true);
+		this.tiposLotesOic = this.maestrosEjb.consultarTipoLotesOic();
 	}
-
-	/*public AdministracionEJB getAdmonEjb() {
-		return admonEjb;
-	}
-
-	public void setAdmonEjb(AdministracionEJB admonEjb) {
-		this.admonEjb = admonEjb;
-	}*/
 
 	public AplicacionMB getAppMB() {
 		return appMB;
@@ -101,14 +117,6 @@ public class ProductosMB extends UtilMB{
 
 	public void setModo(Modo modo) {
 		this.modo = modo;
-	}
-
-	public List<ProductosInventario> getProductos() {
-		return productos;
-	}
-
-	public void setProductos(List<ProductosInventario> productos) {
-		this.productos = productos;
 	}
 
 	public ProductosInventario getFiltro() {
@@ -135,14 +143,6 @@ public class ProductosMB extends UtilMB{
 		this.cuentasContables = cuentasContables;
 	}
 
-	public List<CategoriasInventario> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(List<CategoriasInventario> categorias) {
-		this.categorias = categorias;
-	}
-
 	public MaestrosEJBLocal getMaestrosEjb() {
 		return maestrosEjb;
 	}
@@ -158,8 +158,44 @@ public class ProductosMB extends UtilMB{
 	public void setSeleccionado(ProductosInventario seleccionado) {
 		this.seleccionado = seleccionado;
 		this.modo=Modo.EDICION;
+		this.seleccionado2 = this.maestrosEjb.consultarProductoInventarioComext(this.seleccionado.getSku());
+		this.modoDetalle = Modo.EDICION;
+		if (seleccionado2==null){
+			this.seleccionado2 = new ProductosInventarioComext();
+			this.seleccionado2.setCuentaContable(new CuentaContable());
+			this.seleccionado2.setTipoLoteoic(new TipoLoteoic());
+			this.seleccionado2.setUnidadEmbalaje(new Unidad());
+			this.seleccionado2.setIdProducto(this.seleccionado.getId());
+			this.modoDetalle = Modo.CREACION;
+		}
+		if (seleccionado2.getUnidadEmbalaje()==null)
+			this.seleccionado2.setUnidadEmbalaje(new Unidad());
 	}
 	
+	public LazyDataModel<ProductosInventario> getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(LazyDataModel<ProductosInventario> modelo) {
+		this.modelo = modelo;
+	}
+
+	public ProductosInventarioComext getSeleccionado2() {
+		return seleccionado2;
+	}
+
+	public void setSeleccionado2(ProductosInventarioComext seleccionado2) {
+		this.seleccionado2 = seleccionado2;
+	}
+
+	public List<TipoLoteoic> getTiposLotesOic() {
+		return tiposLotesOic;
+	}
+
+	public void setTiposLotesOic(List<TipoLoteoic> tiposLotesOic) {
+		this.tiposLotesOic = tiposLotesOic;
+	}
+
 	public void nuevo(){
 		seleccionado=new ProductosInventario();
 		seleccionado.setCategoriasInventario(new CategoriasInventario());
@@ -170,14 +206,13 @@ public class ProductosMB extends UtilMB{
 		this.modo=Modo.CREACION;
 	}
 	
-	
-	
 	public void guardar(){
 		try{
 			this.seleccionado.setPais(this.appMB.getPais(this.seleccionado.getPais().getId()));
 			if (this.modo.equals(Modo.CREACION)){
+				this.seleccionado.setAbc("A");
+				this.seleccionado.setFactorUdUv(new BigDecimal(1));
 				this.maestrosEjb.crearProductoInventario(this.seleccionado);
-				this.productos.add(this.seleccionado);
 				this.modo = Modo.EDICION;
 			}else{
 				this.maestrosEjb.actualizarProductoInventario(this.seleccionado);
@@ -205,6 +240,60 @@ public class ProductosMB extends UtilMB{
 			return false;
 		}
 	}
+
+	public List<SelectItem> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<SelectItem> categorias) {
+		this.categorias = categorias;
+	}
+	
+	public void guardarDetalle(){
+		if (this.seleccionado2.getFechaCreado()==null)
+			this.seleccionado2.setFechaCreado(new Date());
+		if (this.modoDetalle.equals(Modo.CREACION))
+			this.maestrosEjb.crearProductoInventarioComext(this.seleccionado2);
+		else
+			this.maestrosEjb.actualizarProductoInventarioComext(this.seleccionado2);
+		this.addMensajeInfo(AplicacionMB.getMessage("MaestroInventarioExitoPaginaBoton", language));
+		
+	}
+	
+	private class LazyProductsDataModel extends LazyDataModel<ProductosInventario>{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 283497341126330045L;
+		private List<ProductosInventario> datos;
+		
+		@Override
+	    public Object getRowKey(ProductosInventario pi) {
+	        return pi.getId();
+	    }
+		
+		@Override
+	    public ProductosInventario getRowData(String rowKey) {
+	        for(ProductosInventario pi : datos) {
+	            if(pi.getId().toString().equals(rowKey))
+	                return pi;
+	        }
+	        return null;
+	    }
+
+		
+		@Override
+	    public List<ProductosInventario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
+			Object rta[]=maestrosEjb.consultarProductos(filtro, first, pageSize, sortField, sortOrder, true);
+			this.setRowCount(((Long)rta[0]).intValue());
+			rta=maestrosEjb.consultarProductos(filtro, first, pageSize, sortField, sortOrder, false);
+			datos=(List<ProductosInventario>)rta[1];
+			return datos;
+		}
+
+	}
+	
 	
 
 }

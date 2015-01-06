@@ -82,9 +82,25 @@
 	        <from-outcome>listado_maestro_ProductosPorCliente_CE</from-outcome>
             <to-view-id>/ui/maestros/productosClienteComExt.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+	        <from-outcome>incoterm_medio_transporte</from-outcome>
+            <to-view-id>/ui/maestros/terminoIncotermXMedioTrans.xhtml</to-view-id>
+        </navigation-case>
 		<navigation-case>
 	        <from-outcome>maestro_inventario</from-outcome>
             <to-view-id>/ui/maestros/productos.xhtml</to-view-id>
+        </navigation-case>
+		<navigation-case>
+	        <from-outcome>listado_terminos_transporte</from-outcome>
+            <to-view-id>/ui/comercioexterior/terminosTransporte.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+        	<from-outcome>listado_LE</from-outcome>
+            <to-view-id>/ui/comercioexterior/generarListaEmpaque.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>crear_maestro_productosporcliente_CE</from-outcome>
+            <to-view-id>/ui/maestros/crearProductoClienteComExt.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 

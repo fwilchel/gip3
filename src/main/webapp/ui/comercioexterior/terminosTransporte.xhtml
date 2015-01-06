@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.condicionesEmbarqueTitulo}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+				showIcon="true"></p:messages>
+
+			<p:dataTable var="cond" widgetVar="condEmbarque"
+				id="tablaCondicionesEmbarque" value="#{terminosTransporteMB.terminosTransporteList}" rows="10"
+				emptyMessage="#{msg.condicionesEmbarqueNoEncontrados}"
+				paginator="true" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+
+				<p:column style="width:32px;text-align: center">
+					<p:commandButton oncomplete="PF('editarDlg').show()"
+						icon="ui-icon-pencil" title="bleh" action="#{terminosTransporteMB.getShipmentConditionsById}"
+						update=":editarDialog">
+						<f:setPropertyActionListener value="#{cond}"
+									target="#{terminosTransporteMB.selectedShipmentCond}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="#{msg.condicionesEmbarqueIdLabel}">
+						<h:outputText value="#{cond.id}" />
+				</p:column>
+
+				<p:column headerText="#{msg.condicionesEmbarqueClienteLabel}">
+					<h:outputText value="#{cond.clientName}" />
+				</p:column>
+
+				<p:column headerText="#{msg.condicionesEmbarqueFechaEmbarqueLabel}">
+					<h:outputText value="#{cond.shipmentDateString}" />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+
+		<p:dialog widgetVar="editarDlg" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="editarDialog">
+			<h:form id="formaDlg2">
+				<p:panelGrid>
+					<p:panelGrid columns="2">
+						<p:panelGrid columns="2">
+							<p:outputLabel value="#{msg.condicionesEmbarqueClienteLabel}" styleClass="negrita" />
+							<h:inputText value="#{terminosTransporteMB.selectedCliente.nombre}" id="nomCliente" 
+								required="true" maxlength="40" label="#{msg.condicionesEmbarqueClienteLabel}"/>
+						</p:panelGrid>
+						<p:panelGrid columns="2">
+							<p:outputLabel value="#{msg.condicionesEmbarqueDireccionLabel}" styleClass="negrita" />
+							<h:inputText value="#{terminosTransporteMB.selectedCliente.direccion}" id="dirCliente" 
+								required="true" maxlength="40" label="#{msg.condicionesEmbarqueDireccionLabel}"/>
+						</p:panelGrid>
+						<p:panelGrid columns="2">
+							<p:outputLabel value="#{msg.condicionesEmbarqueTelefonoLabel}" styleClass="negrita" />
+							<h:inputText value="#{terminosTransporteMB.selectedCliente.telefono}" id="telCliente" 
+								required="true" maxlength="40" label="#{msg.condicionesEmbarqueTelefonoLabel}"/>
+						</p:panelGrid>
+						<p:panelGrid columns="2">
+							<p:outputLabel value="#{msg.condicionesEmbarqueContactoLabel}" styleClass="negrita" />
+							<h:inputText value="#{terminosTransporteMB.selectedCliente.contacto}" id="contCliente" 
+								required="true" maxlength="40" label="#{msg.condicionesEmbarqueContactoLabel}"/>
+						</p:panelGrid>
+					</p:panelGrid>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
+

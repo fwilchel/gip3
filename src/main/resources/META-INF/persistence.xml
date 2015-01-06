@@ -64,6 +64,7 @@
 		<class>com.ssl.jv.gip.jpa.pojo.LugarIncoterm</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Maxfecha</class>
 		<class>com.ssl.jv.gip.jpa.pojo.MaxfechaPK</class>
+		<class>com.ssl.jv.gip.jpa.pojo.MedioTransporte</class>
 		<class>com.ssl.jv.gip.jpa.pojo.MetodoPago</class>
 		<class>com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Moneda</class>
@@ -106,7 +107,9 @@
 		<class>com.ssl.jv.gip.jpa.pojo.SaldoPK</class>
 		<class>com.ssl.jv.gip.jpa.pojo.SaldosFranquicia</class>
 		<class>com.ssl.jv.gip.jpa.pojo.SaldosFranquiciaPK</class>
+		<class>com.ssl.jv.gip.jpa.pojo.ShipmentConditions</class>
 		<class>com.ssl.jv.gip.jpa.pojo.TerminoIncoterm</class>
+		<class>com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte</class>
 		<class>com.ssl.jv.gip.jpa.pojo.TerminosTransporte</class>
 		<class>com.ssl.jv.gip.jpa.pojo.TipoCanal</class>
 		<class>com.ssl.jv.gip.jpa.pojo.TipoConteo</class>
@@ -122,6 +125,8 @@
 		<class>com.ssl.jv.gip.jpa.pojo.UsuariosXGeografiaPK</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Venta</class>
 		<class>com.ssl.jv.gip.jpa.pojo.VentaPK</class>
+		
+		
 		
       <properties>
          <!-- Properties for Hibernate -->

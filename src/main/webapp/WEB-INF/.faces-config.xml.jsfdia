@@ -66,6 +66,32 @@
     NAME="output13" PATH="/ui/maestros/productosClienteComExt.xhtml"
     TARGET="rules:#ui#maestros#productosClienteComExt.xhtml"
     TITLE="listado_maestro_ProductosPorCliente_CE" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="incoterm_medio_transporte::#ui#maestros#terminoIncotermXMedioTrans.xhtml"
+    NAME="output14" PATH="/ui/maestros/terminoIncotermXMedioTrans.xhtml"
+    TARGET="rules:#ui#maestros#terminoIncotermXMedioTrans.xhtml"
+    TITLE="incoterm_medio_transporte" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="maestro_inventario::#ui#maestros#productos.xhtml"
+    NAME="output15" PATH="/ui/maestros/productos.xhtml"
+    TARGET="rules:#ui#maestros#productos.xhtml"
+    TITLE="maestro_inventario" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_terminos_transporte::#ui#comercioexterior#terminosTransporte.xhtml"
+    NAME="output16" PATH="/ui/comercioexterior/terminosTransporte.xhtml"
+    TARGET="rules:#ui#comercioexterior#terminosTransporte.xhtml"
+    TITLE="listado_terminos_transporte" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_LE::#ui#comercioexterior#generarListaEmpaque.xhtml"
+    NAME="output17"
+    PATH="/ui/comercioexterior/generarListaEmpaque.xhtml"
+    TARGET="rules:#ui#comercioexterior#generarListaEmpaque.xhtml"
+    TITLE="listado_LE" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="crear_maestro_productosporcliente_CE::#ui#maestros#crearProductoClienteComExt.xhtml"
+    NAME="output18" PATH="/ui/maestros/crearProductoClienteComExt.xhtml"
+    TARGET="rules:#ui#maestros#crearProductoClienteComExt.xhtml"
+    TITLE="crear_maestro_productosporcliente_CE" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
@@ -104,4 +130,20 @@
   PATH="/ui/introduccion.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#comercioexterior#solicitudPedido.xhtml"
   PATH="/ui/comercioexterior/solicitudPedido.xhtml" SHAPE="304,561,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#generarListaEmpaque.xhtml"
+  PATH="/ui/comercioexterior/generarListaEmpaque.xhtml"
+  SHAPE="304,945,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#maestros#crearProductoClienteComExt.xhtml"
+  PATH="/ui/maestros/crearProductoClienteComExt.xhtml"
+  SHAPE="304,1057,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#terminosTransporte.xhtml"
+  PATH="/ui/comercioexterior/terminosTransporte.xhtml"
+  SHAPE="304,833,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#maestros#terminoIncotermXMedioTrans.xhtml"
+  PATH="/ui/maestros/terminoIncotermXMedioTrans.xhtml"
+  SHAPE="304,721,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

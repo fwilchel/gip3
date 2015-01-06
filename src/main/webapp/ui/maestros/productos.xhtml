@@ -13,209 +13,584 @@
 		<p:spacer height="40"></p:spacer>
 		<h:form prependId="false" id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
-				showIcon="true"></p:messages>
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
 
 
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.maestroInventarioInicio}">
-					<p:panelGrid columns="3">
+					<p:panelGrid columns="9">
 
-						<p:outputLabel value="#{msg.buscadorSKU}" for="codigo" styleClass="negrita"/>
-						<h:inputText value="#{productosMB.filtro.sku}" id="codigo" required="false" maxlength="10" label="#{msg.buscadorSKU}"/>
+						<p:outputLabel value="#{msg.buscadorSKU}" for="codigo"
+							styleClass="negrita" />
+						<h:inputText value="#{productosMB.filtro.sku}" id="codigo"
+							required="false" maxlength="10" label="#{msg.buscadorSKU}" />
 						<p:message for="codigo"></p:message>
 
-						<p:outputLabel value="#{msg.buscadorNombreProducto}" for="nombre" styleClass="negrita"/>
-						<h:inputText value="#{productosMB.filtro.nombre}" id="nombre" required="false" maxlength="50" size="40" label="#{msg.buscadorNombreProducto}"/>
+						<p:outputLabel value="#{msg.buscadorNombreProducto}" for="nombre"
+							styleClass="negrita" />
+						<h:inputText value="#{productosMB.filtro.nombre}" id="nombre"
+							required="false" maxlength="50" size="40"
+							label="#{msg.buscadorNombreProducto}" />
 						<p:message for="nombre"></p:message>
-						
-						<p:outputLabel value="#{msg.buscadorCategoria}" for="categoia" styleClass="negrita" />
-						<p:selectOneMenu id="categoia" value="#{productosMB.filtro.categoriasInventario.id}" label="#{msg.buscadorCategoria}">
-							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"/>
-							<f:selectItems value="#{productosMB.categorias}" var="categoria" itemValue="#{categoria.id}" itemLabel="#{categoria.nombre}" />
+
+						<p:outputLabel value="#{msg.buscadorCategoria}" for="categoia"
+							styleClass="negrita" />
+						<p:selectOneMenu id="categoia"
+							value="#{productosMB.filtro.categoriasInventario.id}"
+							label="#{msg.buscadorCategoria}">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}" />
+							<f:selectItems value="#{productosMB.categorias}" />
 						</p:selectOneMenu>
 						<p:message for="categoia"></p:message>
 
-						<p:outputLabel value="#{msg.generalNombrePais}" for="pais" styleClass="negrita" />
-						<p:selectOneMenu id="pais" value="#{productosMB.filtro.pais.id}" label="#{msg.UsuarioNombrePais}">
-							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"/>							
-							<f:selectItems value="#{aplicacionMB.paises}" var="pais" itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+						<p:outputLabel value="#{msg.generalNombrePais}" for="pais"
+							styleClass="negrita" />
+						<p:selectOneMenu id="pais" value="#{productosMB.filtro.pais.id}"
+							label="#{msg.UsuarioNombrePais}">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}" />
+							<f:selectItems value="#{aplicacionMB.paises}" var="pais"
+								itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
 						</p:selectOneMenu>
 						<p:message for="pais"></p:message>
-						
-						<p:outputLabel value="#{msg.generalActivo}" for="activo" styleClass="negrita" />
-						<p:selectBooleanCheckbox value="#{productosMB.filtro.desactivado}" id="activo" label="#{msg.generalActivo}"/>
+
+						<p:outputLabel value="#{msg.generalActivo}" for="activo"
+							styleClass="negrita" />
+						<p:selectOneMenu id="activo"
+							value="#{productosMB.filtro.desactivado}"
+							label="#{msg.generalActivo}">
+							<f:selectItem itemLabel="Si" itemValue="true" />
+							<f:selectItem itemLabel="No" itemValue="false" />
+						</p:selectOneMenu>
 						<p:message for="activo"></p:message>
-						
-					
+
+						<p:commandButton value="#{msg.buscadorConsultarProducto}"
+							icon="ui-icon-search" oncomplete="PF('registrosTabla').getPaginator().setPage(0)"
+							update="tablaRegistros,:forma:msgs"></p:commandButton>
+
 					</p:panelGrid>
-				
-					<p:dataTable var="registro" widgetVar="registrosTabla" id="tablaRegistros"
-						value="#{productosMB.productos}" rows="10"
-						emptyMessage="#{msg.MaestroInventarioNoEncontrados}" paginator="true"
-						paginatorPosition="bottom"
+
+					<p:dataTable var="registro" widgetVar="registrosTabla" sortField="nombre"
+						id="tablaRegistros" value="#{productosMB.modelo}" rows="15"
+						emptyMessage="#{msg.MaestroInventarioNoEncontrados}" sortMode="single" 
+						paginator="true" paginatorPosition="bottom" lazy="true"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
 
 						<f:facet name="header">
 							<div align="right">
-							<p:outputPanel>
-							
-					<p:commandButton action="#{productosMB.nuevo}" update=":editarDlg" oncomplete="PF('editarDialog').show()" title="#{msg.generalAdicionarRegistro}"
-						icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
-					<p:spacer width="30"></p:spacer>	
-					<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
-						icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
-							
-								
-							</p:outputPanel>
+								<p:outputPanel>
+
+									<p:commandButton action="#{productosMB.nuevo}"
+										update=":editarDlg" oncomplete="PF('editarDialog').show()"
+										title="#{msg.generalAdicionarRegistro}"
+										icon="ui-icon-document"
+										value="#{msg.generalAdicionarRegistro}" />
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+
+								</p:outputPanel>
 							</div>
 						</f:facet>
 
-						<p:column style="width:32px;text-align: center">
+						<p:column style="width:64px;text-align: center">
 							<p:commandButton oncomplete="PF('editarDialog').show()"
-								icon="ui-icon-pencil" title="#{msg.generalEditar}" update=":editarDlg">
+								icon="ui-icon-pencil" title="#{msg.generalEditar}"
+								update=":editarDlg">
 								<f:setPropertyActionListener value="#{registro}"
 									target="#{productosMB.seleccionado}" />
 							</p:commandButton>
-							<p:commandButton oncomplete="PF('editarDialog2').show()" 
-								icon="ui-icon-pencil" title="#{msg.TituloProdCE} #{msg.SubTituloCE}" update=":editarDlg2">
+							<p:commandButton oncomplete="PF('editarDialog2').show()"
+								icon="ui-icon-zoomin"
+								title="#{msg.TituloProdCE} #{msg.SubTituloCE}"
+								update=":editarDlg2">
 								<f:setPropertyActionListener value="#{registro}"
 									target="#{productosMB.seleccionado}" />
 							</p:commandButton>
 						</p:column>
 
-						<p:column headerText="#{msg.cierreInventarioTablacategoria}" sortBy="#{registro.categoriasInventario.categoriasInventario.nombre}">
-							<h:outputText value="#{registro.categoriasInventario.categoriasInventario.nombre}" />
+						<p:column headerText="#{msg.cierreInventarioTablacategoria}" 
+							sortBy="#{registro.categoriasInventario.categoriasInventario.nombre}">
+							<h:outputText
+								value="#{registro.categoriasInventario.categoriasInventario.nombre}" />
 						</p:column>
 
-						<p:column headerText="#{msg.cierreInventarioTablasubCategoria}" sortBy="#{registro.categoriasInventario.nombre}">
+						<p:column headerText="#{msg.cierreInventarioTablasubCategoria}"
+							sortBy="#{registro.categoriasInventario.nombre}">
 							<h:outputText value="#{registro.categoriasInventario.nombre}" />
 						</p:column>
-						
+
 						<p:column headerText="#{msg.buscadorSKU}" sortBy="#{registro.sku}">
 							<h:outputText value="#{registro.sku}" />
 						</p:column>
 
-						<p:column headerText="#{msg.buscadorNombreProducto}" sortBy="#{registro.nombre}">
+						<p:column headerText="#{msg.buscadorNombreProducto}" field="nombre"
+							sortBy="#{registro.nombre}">
 							<h:outputText value="#{registro.nombre}" />
 						</p:column>
-						
-						<p:column headerText="#{msg.MaestroInventarioMicros}" sortBy="#{registro.codigoPos}">
+
+						<p:column headerText="#{msg.MaestroInventarioMicros}"
+							sortBy="#{registro.codigoPos}">
 							<h:outputText value="#{registro.codigoPos}" />
 						</p:column>
-						
-						<p:column headerText="#{msg.generalNombrePais}" sortBy="#{registro.pais.id}">
+
+						<p:column headerText="#{msg.generalNombrePais}"
+							sortBy="#{registro.pais.id}">
 							<h:outputText value="#{registro.pais.id}" />
 						</p:column>
 
-						<p:column headerText="#{msg.generalActivo}" sortBy="#{registro.desactivado}">
-							<p:selectBooleanCheckbox value="#{registro.desactivado}" disabled="true"/>
+						<p:column headerText="#{msg.generalActivo}"
+							sortBy="#{registro.desactivado}">
+							<p:selectBooleanCheckbox value="#{registro.desactivado}"
+								disabled="true" />
 						</p:column>
 
 					</p:dataTable>
 				</p:tab>
 			</p:tabView>
 		</h:form>
-		
-			<p:dialog header="#{productosMB.creacion?msg.maestroInventarioCrearProducto:msg.maestroInventarioModificarProducto}" widgetVar="editarDialog" modal="true"
-				showEffect="fade" hideEffect="fade" resizable="false" dynamic="true" id="editarDlg">
-				<h:form id="formaDlg">
+
+		<p:dialog
+			header="#{productosMB.creacion?msg.maestroInventarioCrearProducto:msg.maestroInventarioModificarProducto}"
+			widgetVar="editarDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="editarDlg">
+			<h:form id="formaDlg">
 				<p:outputPanel id="registroDetalle" style="text-align:center;">
-					
-					<p:messages id="msgs2" showDetail="false" showSummary="true" globalOnly="true"
-						showIcon="true"></p:messages>
-						
+
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+
 					<p:panelGrid columns="3"
 						rendered="#{not empty productosMB.seleccionado}"
 						columnClasses="label,value">
 
-						<p:outputLabel value="#{msg.maestroCodigoProducto}" for="codigo" styleClass="negrita"/>
-						<h:inputText value="#{productosMB.seleccionado.id}" id="codigo" required="true" disabled="#{!productosMB.creacion}" label="#{msg.maestroCodigoProducto}"/>
+						<p:outputLabel value="#{msg.maestroCodigoProducto}" for="codigo"
+							styleClass="negrita" />
+						<h:inputText value="#{productosMB.seleccionado.id}" id="codigo"
+							required="true" disabled="#{!productosMB.creacion}"
+							label="#{msg.maestroCodigoProducto}" />
 						<p:message for="codigo"></p:message>
-						
-						<p:outputLabel value="#{msg.maestroNombreProducto}" for="nombre" styleClass="negrita"/>
-						<h:inputText value="#{productosMB.seleccionado.nombre}" id="nombre" maxlength="50" required="true" label="#{msg.maestroNombreProducto}"/>
+
+						<p:outputLabel value="#{msg.maestroNombreProducto}" for="nombre"
+							styleClass="negrita" />
+						<h:inputText value="#{productosMB.seleccionado.nombre}"
+							id="nombre" maxlength="50" required="true"
+							label="#{msg.maestroNombreProducto}" />
 						<p:message for="nombre"></p:message>
-						
-						<p:outputLabel value="#{msg.buscadorCategoria}" for="categoria" styleClass="negrita" />
-						<p:selectOneMenu id="categoria" value="#{productosMB.seleccionado.categoriasInventario.id}" label="#{msg.buscadorCategoria}">
-							<f:selectItems value="#{productosMB.categorias}" var="categoria" itemValue="#{categoria.id}" itemLabel="#{categoria.nombre}" />
+
+						<p:outputLabel value="#{msg.buscadorCategoria}" for="categoria"
+							styleClass="negrita" />
+						<p:selectOneMenu id="categoria"
+							value="#{productosMB.seleccionado.categoriasInventario.id}"
+							label="#{msg.buscadorCategoria}">
+							<f:selectItems value="#{productosMB.categorias}" />
 						</p:selectOneMenu>
 						<p:message for="categoria"></p:message>
-						
-						<p:outputLabel value="#{msg.generalNombrePais}" for="pais" styleClass="negrita" />
-						<p:selectOneMenu id="pais" value="#{productosMB.seleccionado.pais.id}" label="#{msg.generalNombrePais}">
-							<f:selectItems value="#{aplicacionMB.paises}" var="pais" itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+
+						<p:outputLabel value="#{msg.generalNombrePais}" for="pais"
+							styleClass="negrita" />
+						<p:selectOneMenu id="pais"
+							value="#{productosMB.seleccionado.pais.id}"
+							label="#{msg.generalNombrePais}">
+							<f:selectItems value="#{aplicacionMB.paises}" var="pais"
+								itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
 						</p:selectOneMenu>
 						<p:message for="pais"></p:message>
-						
-						<p:outputLabel value="#{msg.maestroUnidadDevolucion}" for="unidadDespacho" styleClass="negrita" />
-						<p:selectOneMenu id="unidadDespacho" value="#{productosMB.seleccionado.unidadDespacho.id}" label="#{msg.maestroUnidadDevolucion}">
-							<f:selectItems value="#{productosMB.unidades}" var="unidad" itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+
+						<p:outputLabel value="#{msg.maestroUnidadDevolucion}"
+							for="unidadDespacho" styleClass="negrita" />
+						<p:selectOneMenu id="unidadDespacho"
+							value="#{productosMB.seleccionado.unidadDespacho.id}"
+							label="#{msg.maestroUnidadDevolucion}">
+							<f:selectItems value="#{productosMB.unidades}" var="unidad"
+								itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
 						</p:selectOneMenu>
 						<p:message for="unidadDespacho"></p:message>
-						
-						<p:outputLabel value="#{msg.maestroUnidadVenta}" for="unidadVenta" styleClass="negrita" />
-						<p:selectOneMenu id="unidadVenta" value="#{productosMB.seleccionado.unidadVenta.id}" label="#{msg.maestroUnidadVenta}">
-							<f:selectItems value="#{productosMB.unidades}" var="unidad" itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+
+						<p:outputLabel value="#{msg.maestroUnidadVenta}" for="unidadVenta"
+							styleClass="negrita" />
+						<p:selectOneMenu id="unidadVenta"
+							value="#{productosMB.seleccionado.unidadVenta.id}"
+							label="#{msg.maestroUnidadVenta}">
+							<f:selectItems value="#{productosMB.unidades}" var="unidad"
+								itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
 						</p:selectOneMenu>
 						<p:message for="unidadVenta"></p:message>
-						
-						<p:outputLabel value="#{msg.maestroCodigoPos}" for="codigoPos" styleClass="negrita"/>
-						<h:inputText value="#{productosMB.seleccionado.codigoPos}" id="codigoPos" size="30" maxlength="40" required="false" label="#{msg.maestroCodigoPos}"/>
+
+						<p:outputLabel value="#{msg.maestroCodigoPos}" for="codigoPos"
+							styleClass="negrita" />
+						<h:inputText value="#{productosMB.seleccionado.codigoPos}"
+							id="codigoPos" size="30" maxlength="40" required="false"
+							label="#{msg.maestroCodigoPos}" />
 						<p:message for="codigoPos"></p:message>
-						
-						<p:outputLabel value="#{msg.maestroCodigoInventario}" for="sku" styleClass="negrita"/>
-						<h:inputText value="#{productosMB.seleccionado.sku}" id="sku" maxlength="10" required="false" disabled="#{!productosMB.creacion}" label="#{msg.maestroCodigoInventario}"/>
+
+						<p:outputLabel value="#{msg.maestroCodigoInventario}" for="sku"
+							styleClass="negrita" />
+						<h:inputText value="#{productosMB.seleccionado.sku}" id="sku"
+							maxlength="10" required="false"
+							disabled="#{!productosMB.creacion}"
+							label="#{msg.maestroCodigoInventario}" />
 						<p:message for="sku"></p:message>
-						
-						<p:outputLabel value="#{msg.maestroCodigoBarrasUV}" for="barrasUV" styleClass="negrita"/>
-						<h:inputText value="#{productosMB.seleccionado.codigoBarrasUv}" id="barrasUV" required="false" label="#{msg.maestroCodigoBarrasUV}"/>
+
+						<p:outputLabel value="#{msg.maestroCodigoBarrasUV}" for="barrasUV"
+							styleClass="negrita" />
+						<h:inputText value="#{productosMB.seleccionado.codigoBarrasUv}"
+							id="barrasUV" required="false"
+							label="#{msg.maestroCodigoBarrasUV}" />
 						<p:message for="barrasUV"></p:message>
 
-						<p:outputLabel value="#{msg.maestroConsumible}" for="consumible" styleClass="negrita" />
-						<p:selectBooleanCheckbox value="#{productosMB.seleccionado.consumible}" id="consumible" label="#{msg.maestroConsumible}"/>
+						<p:outputLabel value="#{msg.maestroConsumible}" for="consumible"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{productosMB.seleccionado.consumible}" id="consumible"
+							label="#{msg.maestroConsumible}" />
 						<p:message for="consumible"></p:message>
 
-						<p:outputLabel value="#{msg.maestroObservacion}" for="observaciones" styleClass="negrita" />
-						<p:inputTextarea value="#{productosMB.seleccionado.consumible}" id="observaciones" label="#{msg.maestroObservacion}" rows="2" cols="30"></p:inputTextarea>
+						<p:outputLabel value="#{msg.maestroObservacion}"
+							for="observaciones" styleClass="negrita" />
+						<p:inputTextarea value="#{productosMB.seleccionado.observaciones}"
+							id="observaciones" label="#{msg.maestroObservacion}" rows="2"
+							cols="30"></p:inputTextarea>
 						<p:message for="observaciones"></p:message>
-						
-						<p:outputLabel value="#{msg.UsuarioNombreActivo}" for="activo" styleClass="negrita" />
-						<p:selectBooleanCheckbox value="#{productosMB.seleccionado.desactivado}" id="activo" label="#{msg.UsuarioNombreActivo}"/>
+
+						<p:outputLabel value="#{msg.UsuarioNombreActivo}" for="activo"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{productosMB.seleccionado.desactivado}" id="activo"
+							label="#{msg.UsuarioNombreActivo}" />
 						<p:message for="activo"></p:message>
 
-						<p:outputLabel value="#{msg.maestroUnidadReceta}" for="unidadReceta" styleClass="negrita" />
-						<p:selectOneMenu id="unidadReceta" value="#{productosMB.seleccionado.unidadReceta.id}" label="#{msg.maestroUnidadReceta}">
-							<f:selectItems value="#{productosMB.unidades}" var="unidad" itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+						<p:outputLabel value="#{msg.maestroUnidadReceta}"
+							for="unidadReceta" styleClass="negrita" />
+						<p:selectOneMenu id="unidadReceta"
+							value="#{productosMB.seleccionado.unidadReceta.id}"
+							label="#{msg.maestroUnidadReceta}">
+							<f:selectItems value="#{productosMB.unidades}" var="unidad"
+								itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
 						</p:selectOneMenu>
 						<p:message for="unidadReceta"></p:message>
 
-						<p:outputLabel value="#{msg.maestroConversorReceta}" for="conversorReceta" styleClass="negrita"/>
-						<h:inputText value="#{productosMB.seleccionado.codigoBarrasUv}" id="conversorReceta" required="false" label="#{msg.maestroConversorReceta}"/>
+						<p:outputLabel value="#{msg.maestroConversorReceta}"
+							for="conversorReceta" styleClass="negrita" />
+						<h:inputText value="#{productosMB.seleccionado.codigoBarrasUv}"
+							id="conversorReceta" required="false"
+							label="#{msg.maestroConversorReceta}" />
 						<p:message for="conversorReceta"></p:message>
-						
-						<p:outputLabel value="#{msg.maestroCuentaContable}" for="cuentaContable" styleClass="negrita" />
-						<p:selectOneMenu id="cuentaContable" value="#{productosMB.seleccionado.idCuentaContable}" label="#{msg.maestroCuentaContable}">
-							<f:selectItems value="#{productosMB.cuentasContables}" var="cuenta" itemValue="#{cuenta.id}" itemLabel="#{cuenta.id}--#{cuenta.descripcion}" />
+
+						<p:outputLabel value="#{msg.maestroCuentaContable}"
+							for="cuentaContable" styleClass="negrita" />
+						<p:selectOneMenu id="cuentaContable"
+							value="#{productosMB.seleccionado.idCuentaContable}"
+							label="#{msg.maestroCuentaContable}">
+							<f:selectItems value="#{productosMB.cuentasContables}"
+								var="cuenta" itemValue="#{cuenta.id}"
+								itemLabel="#{cuenta.id}--#{cuenta.descripcion}" />
 						</p:selectOneMenu>
 						<p:message for="cuentaContable"></p:message>
 
-						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{productosMB.guardar}" update=":formaDlg:registroDetalle, :forma:tabPanel:tablaRegistros" ></p:commandButton>
-						<p:commandButton value="#{msg.generalCancelar}" process="@this" oncomplete="PF('registroDialog').hide();" icon="ui-icon-cancel" >
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+							action="#{productosMB.guardar}"
+							update=":formaDlg:registroDetalle, :forma:tabPanel:tablaRegistros"></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}" process="@this"
+							oncomplete="PF('editarDialog').hide();" icon="ui-icon-cancel">
 							<p:resetInput target="registroDetalle" />
 						</p:commandButton>
 
 					</p:panelGrid>
-					
+
 
 				</p:outputPanel>
-				</h:form>
-			</p:dialog>
+			</h:form>
+		</p:dialog>
 
+		<p:dialog
+			header="#{productosMB.creacion?msg.maestroInventarioCrearProducto:msg.maestroInventarioModificarProducto}"
+			widgetVar="editarDialog2" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="editarDlg2">
+			<h:form id="formaDlg2">
+				<p:outputPanel id="registroDetalle" style="text-align:center;" rendered="#{not empty productosMB.seleccionado2}">
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+					<p:panel header="#{msg.DatosProducto}" style="margin-bottom:20px">
+						<p:panelGrid columns="3"
+							columnClasses="label,value">
+	
+							<p:outputLabel value="#{msg.maestroCodigoProducto}" for="idProducto"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.idProducto}" id="idProducto"
+								required="true" disabled="true"
+								label="#{msg.maestroCodigoProducto}" />
+							<p:message for="idProducto"></p:message>
+	
+							<p:outputLabel value="#{msg.maestroCodigoSap}" for="strCodigoSap"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.codigoSap}"
+								id="strCodigoSap" maxlength="40" required="false"
+								label="#{msg.maestroCodigoSap}" />
+							<p:message for="strCodigoSap"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroEan14}" for="lngEan14"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.ean14}"
+								id="lngEan14" required="false"
+								label="#{msg.maestroEan14}" />
+							<p:message for="lngEan14"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroPosicionArancelaria}" for="strPosicionArancelaria"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.posicionArancelaria}"
+								id="strPosicionArancelaria" maxlength="14" required="false"
+								label="#{msg.maestroPosicionArancelaria}" />
+							<p:message for="strPosicionArancelaria"></p:message>							
 
+		           			<p:outputLabel value="#{msg.maestroImportado}"
+								for="blnImportado" styleClass="negrita" />
+							<p:selectOneMenu id="blnImportado"
+								value="#{productosMB.seleccionado2.importado}"
+								label="#{msg.maestroImportado}">
+								<f:selectItems value="#{aplicacionMB.siNo}" />
+							</p:selectOneMenu>
+							<p:message for="blnImportado"></p:message>
+	           
+							<p:outputLabel value="#{msg.maestroNombrePrdProveedor}" for="strNombrePrdProveedor"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.nombrePrdProveedor}"
+								id="strNombrePrdProveedor" maxlength="50" size="40" required="false"
+								label="#{msg.maestroNombrePrdProveedor}" />
+							<p:message for="strNombrePrdProveedor"></p:message>							
+	      
+	           				<p:outputLabel value="#{msg.maestroDescripcion}" for="strDescripcion"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.descripcion}"
+								id="strDescripcion" maxlength="100" size="70" required="false"
+								label="#{msg.maestroDescripcion}" />
+							<p:message for="strDescripcion"></p:message>
+	           
+							<p:outputLabel value="#{msg.maestroLargo}" for="dblLargo"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.largo}"
+								id="dblLargo" required="false" label="#{msg.maestroLargo}" />
+							<p:message for="dblLargo"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroAlto}" for="dblAlto"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.alto}"
+								id="dblAlto" required="false" label="#{msg.maestroAlto}" />
+							<p:message for="dblAlto"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroAncho}" for="dblAncho"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.ancho}"
+								id="dblAncho" required="false" label="#{msg.maestroAncho}" />
+							<p:message for="dblAncho"></p:message>
+
+							<p:outputLabel value="#{msg.maestroVolumen}" for="dblVolumen"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.volumen}"
+								id="dblVolumen" required="false" label="#{msg.maestroVolumen}" />
+							<p:message for="dblVolumen"></p:message>
+							
+	           				<p:outputLabel value="#{msg.maestroPesoNeto}" for="dblPesoNeto"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.pesoNeto}"
+								id="dblPesoNeto" required="false"
+								label="#{msg.maestroPesoNeto}" />
+							<p:message for="dblPesoNeto"></p:message>
+	           
+	           				<p:outputLabel value="#{msg.maestroPesoBruto}" for="dblPesoBruto"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.pesoBruto}"
+								id="dblPesoBruto" required="false"
+								label="#{msg.maestroPesoBruto}" />
+							<p:message for="dblPesoBruto"></p:message>
+	           
+	           				<p:outputLabel value="#{msg.maestroTiempoUtil}" for="dblTiempoUtil"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.tiempoUtil}"
+								id="dblTiempoUtil" required="false"
+								label="#{msg.maestroTiempoUtil}" />
+							<p:message for="dblTiempoUtil"></p:message>
+
+	           				<p:outputLabel value="#{msg.maestroMarcacionFechaVencimiento}" for="strMarcacionFechaVencimiento"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.marcacionFechaVencimiento}"
+								id="strMarcacionFechaVencimiento" maxlength="16" required="false"
+								label="#{msg.maestroMarcacionFechaVencimiento}" />
+							<p:message for="strMarcacionFechaVencimiento"></p:message>
+	           	
+							<p:outputLabel value="#{msg.maestroTipoLoteoic}"
+								for="lngIdTipoLoteoic" styleClass="negrita" />
+							<p:selectOneMenu id="lngIdTipoLoteoic"
+								value="#{productosMB.seleccionado2.tipoLoteoic.id}"
+								label="#{msg.maestroTipoLoteoic}">
+								<f:selectItems value="#{productosMB.tiposLotesOic}" var="tipoLoteOic" itemLabel="#{tipoLoteOic.descripcion}" itemValue="#{tipoLoteOic.id}"/>
+							</p:selectOneMenu>
+							<p:message for="lngIdTipoLoteoic"></p:message>
+					
+	              			<p:outputLabel value="#{msg.maestroCuentaContableCE}"
+								for="selectidCtaCont" styleClass="negrita" />
+							<p:selectOneMenu id="selectidCtaCont"
+								value="#{productosMB.seleccionado2.cuentaContable.id}"
+								label="#{msg.maestroCuentaContableCE}">
+								<f:selectItems value="#{productosMB.cuentasContables}"
+									var="cuenta" itemValue="#{cuenta.id}"
+									itemLabel="#{cuenta.id}--#{cuenta.descripcion}" />
+							</p:selectOneMenu>
+							<p:message for="selectidCtaCont"></p:message>
+				
+		           			<p:outputLabel value="#{msg.maestroManejaInventario}"
+								for="blnInventario" styleClass="negrita" />
+							<p:selectOneMenu id="blnInventario"
+								value="#{productosMB.seleccionado2.controlStock}"
+								label="#{msg.maestroManejaInventario}">
+								<f:selectItems value="#{aplicacionMB.siNo}" />
+							</p:selectOneMenu>
+							<p:message for="blnInventario"></p:message>
+							
+						</p:panelGrid>	
+					</p:panel>			
+					<p:panel header="#{msg.DatosEmbalaje}" style="margin-bottom:20px">
+						<p:panelGrid columns="3"
+							columnClasses="label,value">
+	
+		           			<p:outputLabel value="#{msg.maestroUnidadEmbalaje}"
+								for="intUnidadEmbalaje" styleClass="negrita" />
+							<p:selectOneMenu id="intUnidadEmbalaje"
+								value="#{productosMB.seleccionado2.unidadEmbalaje.id}"
+								label="#{msg.maestroUnidadEmbalaje}">
+								<f:selectItems value="#{productosMB.unidades}" var="unidad"
+								itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+							</p:selectOneMenu>
+							<p:message for="intUnidadEmbalaje"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroCantidadXEmbalaje}" for="dblCantidadXEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.cantidadXEmbalaje}"
+								id="dblCantidadXEmbalaje" required="false"
+								label="#{msg.maestroCantidadXEmbalaje}" />
+							<p:message for="dblCantidadXEmbalaje"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroLargoEmbalaje}" for="dblLargoEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.largoEmbalaje}"
+								id="dblLargoEmbalaje" required="false"
+								label="#{msg.maestroLargoEmbalaje}" />
+							<p:message for="dblLargoEmbalaje"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroAltoEmbalaje}" for="dblAltoEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.altoEmbalaje}"
+								id="dblAltoEmbalaje" required="false"
+								label="#{msg.maestroAltoEmbalaje}" />
+							<p:message for="dblAltoEmbalaje"></p:message>
+
+							<p:outputLabel value="#{msg.maestroAnchoEmbalaje}" for="dblAnchoEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.anchoEmbalaje}"
+								id="dblAnchoEmbalaje" required="false"
+								label="#{msg.maestroAnchoEmbalaje}" />
+							<p:message for="dblAnchoEmbalaje"></p:message>
+		
+							<p:outputLabel value="#{msg.maestroVolumenEmbalaje}" for="dblVolumenEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.volumenEmbalaje}"
+								id="dblVolumenEmbalaje" required="false"
+								label="#{msg.maestroVolumenEmbalaje}" />
+							<p:message for="dblVolumenEmbalaje"></p:message>
+		
+							<p:outputLabel value="#{msg.maestroPesoNetoEmbalaje}" for="dblPesoNetoEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.pesoNetoEmbalaje}"
+								id="dblPesoNetoEmbalaje" required="false"
+								label="#{msg.maestroPesoNetoEmbalaje}" />
+							<p:message for="dblPesoNetoEmbalaje"></p:message>
+
+							<p:outputLabel value="#{msg.maestroPesoBrutoEmbalaje}" for="dblPesoBrutoEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.pesoBrutoEmbalaje}"
+								id="dblPesoBrutoEmbalaje" required="false"
+								label="#{msg.maestroPesoBrutoEmbalaje}" />
+							<p:message for="dblPesoBrutoEmbalaje"></p:message>
+				
+							<p:outputLabel value="#{msg.maestroClave}" for="strClave"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.clave}"
+								id="strClave" required="false" maxlength="10"
+								label="#{msg.maestroClave}" />
+							<p:message for="strClave"></p:message>
+							
+						</p:panelGrid>
+					</p:panel>
+					<p:panel header="#{msg.DatosEstibado}" style="margin-bottom:20px">
+						<p:panelGrid columns="3"
+							columnClasses="label,value">
+	
+							<p:outputLabel value="#{msg.maestroCantCajasXTendido}" for="dblCantCajasXTendido"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.cantCajasXTendido}"
+								id="dblCantCajasXTendido" required="false" 
+								label="#{msg.maestroCantCajasXTendido}" />
+							<p:message for="dblCantCajasXTendido"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroCantMaxTendXPallet}" for="dblCantMaxTendXPallet"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.cantMaxTendXPallet}"
+								id="dblCantMaxTendXPallet" required="false" 
+								label="#{msg.maestroCantMaxTendXPallet}" />
+							<p:message for="dblCantMaxTendXPallet"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroTotalCajasXPallet}" for="dblTotalCajasXPallet"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.totalCajasXPallet}"
+								id="dblTotalCajasXPallet" required="false" 
+								label="#{msg.maestroTotalCajasXPallet}" />
+							<p:message for="dblTotalCajasXPallet"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroPesoBrutoMaxPallet}" for="dblPesoBrutoMaxPallet"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.pesoBrutoMaxPallet}"
+								id="dblPesoBrutoMaxPallet" required="false" 
+								label="#{msg.maestroPesoBrutoMaxPallet}" />
+							<p:message for="dblPesoBrutoMaxPallet"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroAlturaMaxPallet}" for="dblAlturaMaxPallet"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.alturaMaxPallet}"
+								id="dblAlturaMaxPallet" required="false" 
+								label="#{msg.maestroAlturaMaxPallet}" />
+							<p:message for="dblAlturaMaxPallet"></p:message>
+	
+							<p:outputLabel value="#{msg.maestroVolumenPallet}" for="dblVolumenPallet"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.volumenPallet}"
+								id="dblVolumenPallet" required="false" 
+								label="#{msg.maestroVolumenPallet}" />
+							<p:message for="dblVolumenPallet"></p:message>
+		             
+							<p:outputLabel value="#{msg.maestroUnidadesMinDespacho}" for="dblUnidadesMinDespacho"
+								styleClass="negrita" />
+							<h:inputText value="#{productosMB.seleccionado2.unidadMinDespachoXTendido}"
+								id="dblUnidadesMinDespacho" required="false" 
+								label="#{msg.maestroUnidadesMinDespacho}" />
+							<p:message for="dblUnidadesMinDespacho"></p:message>
+							
+						</p:panelGrid>
+					</p:panel>
+					<p:panelGrid columns="2">
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+							action="#{productosMB.guardarDetalle}"
+							update=":formaDlg2:registroDetalle"></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}" process="@this"
+							oncomplete="PF('editarDialog2').hide();" icon="ui-icon-cancel">
+							<p:resetInput target="registroDetalle" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
 
 
 

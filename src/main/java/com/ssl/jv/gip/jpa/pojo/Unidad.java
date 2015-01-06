@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="unidades")
 @NamedQuery(name="Unidad.findAll", query="SELECT u FROM Unidad u")
-public class Unidad implements Serializable {
+public class Unidad implements Serializable, Comparable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -50,7 +52,7 @@ public class Unidad implements Serializable {
 	//private List<ProductosInventario> productosInventarios2;
 
 	//bi-directional many-to-one association to ProductosInventarioComext
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidadEmbalaje")
 	private List<ProductosInventarioComext> productosInventarioComexts;
 
 	//bi-directional many-to-one association to ProductosXDocumento
@@ -258,14 +260,14 @@ public class Unidad implements Serializable {
 
 	public ProductosInventarioComext addProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
 		getProductosInventarioComexts().add(productosInventarioComext);
-		productosInventarioComext.setUnidade(this);
+		productosInventarioComext.setUnidadEmbalaje(this);
 
 		return productosInventarioComext;
 	}
 
 	public ProductosInventarioComext removeProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
 		getProductosInventarioComexts().remove(productosInventarioComext);
-		productosInventarioComext.setUnidade(null);
+		productosInventarioComext.setUnidadEmbalaje(null);
 
 		return productosInventarioComext;
 	}
@@ -422,6 +424,12 @@ public class Unidad implements Serializable {
 		venta.setUnidade(null);
 
 		return venta;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		Unidad u=(Unidad)o;
+		return this.getNombre().compareTo(u.getNombre());
 	}
 
 }

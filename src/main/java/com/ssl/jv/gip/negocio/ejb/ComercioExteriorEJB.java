@@ -3,6 +3,7 @@ package com.ssl.jv.gip.negocio.ejb;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -15,14 +16,20 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
+import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAO;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
+import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
+import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoDTO;
+
 
 
 /**
@@ -51,6 +58,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	@EJB
 	private UbicacionDAO ubicacionDAO;
 	
+	@EJB
+	private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
+	
 	/**
      * Default constructor. 
      */
@@ -58,6 +68,25 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
     }
 
+	@EJB
+	private DocumentoLotesOICDAO documentoLotesOICDAO;
+	
+    /**
+     * Default constructor. 
+     */
+   
+	public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(Map<String, Object> parametros){
+		return documentoDAO.consultarDatosContribucionCafetera(parametros);
+	}
+	
+	public List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(Map<String, Object> parametros){
+		return documentoLotesOICDAO.consultarDocumentoLotesContribucionCafetera(parametros);
+	}
+
+	public List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(List<DocumentoLotesContribucionCafeteriaDTO> documentos){
+		return documentoLotesOICDAO.guardarDocumentoLotesContribucionCafetera(documentos);
+	}    
+    
 	/* (non-Javadoc)
 	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#consultarDocumentosPorLoteOIC()
 	 */
@@ -210,5 +239,15 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     	
     	return listado;
 	}
+	
+	@Override
+	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma){
+		return documentoDAO.consultarDocumentoPorFacturaProforma(consecutivoFacturaProforma);	
+	}
+	
+	@Override
+	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
+		return productoClienteComercioExteriorDAO.consultarProductoPorDocumento(idDocumento, idCliente);
 
+	}
 }
