@@ -1,6 +1,5 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
-
 import java.util.List;
 
 import javax.annotation.PostConstruct;

@@ -2,6 +2,7 @@ package com.ssl.jv.gip.negocio.ejb;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -19,6 +20,7 @@ public class OrdenDespachoEJB implements OrdenDespachoEJBLocal{
 	
 	private static final Logger LOGGER = Logger.getLogger(MaestrosEJB.class);
 	
+	@EJB
 	DocumentoDAO ordenes;
 
 	@Override

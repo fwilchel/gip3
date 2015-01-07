@@ -3,11 +3,13 @@ package com.ssl.jv.gip.web.mb.abastecimiento;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJB;
@@ -20,31 +22,27 @@ import com.ssl.jv.gip.web.util.Modo;
 @ViewScoped
 public class OrdenesDespachoMB extends UtilMB{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
-	
 	
 	private List<Documento> documentos;
 	private Documento seleccionado;
 	private Documento filtro;
 	
+	@EJB
 	private OrdenDespachoEJB orden;
 	
 	private Integer language=AplicacionMB.SPANISH;
 	
 	private Modo modo;
+	
+	public OrdenesDespachoMB() {
+	}
 
 	@PostConstruct
 	public void init(){
 		documentos = orden.consultarOrdenesDeDespacho();
 	}
 
-	public OrdenesDespachoMB() {
-	}
-	
 	public Documento getSeleccionado() {
 		return seleccionado;
 	}
@@ -60,6 +58,14 @@ public class OrdenesDespachoMB extends UtilMB{
 
 	public void setDocumentos(List<Documento> documentos) {
 		this.documentos = documentos;
+	}
+	
+	public Documento getFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(Documento filtro) {
+		this.filtro = filtro;
 	}
 
 	public void nuevo(){
