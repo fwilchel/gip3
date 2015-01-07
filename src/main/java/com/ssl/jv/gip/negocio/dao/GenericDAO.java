@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.dao;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
@@ -67,11 +68,12 @@ public class GenericDAO<T> {
 				.getResultList();
 		return list;
 	}
-	
+
 	public List<?> findAllActivoBoolean() {
-		List<?> list = em.createQuery(
-				"from " + this.persistentClass.getName() + " WHERE activo=true")
-				.getResultList();
+		List<?> list = em
+				.createQuery(
+						"from " + this.persistentClass.getName()
+								+ " WHERE activo=true").getResultList();
 		return list;
 	}
 
@@ -84,6 +86,18 @@ public class GenericDAO<T> {
 			em.remove(pojo);
 		}
 		em.flush();
+	}
+
+	public Long consultarProximoValorSecuencia(String secuenceName) {
+		return ((BigInteger) em.createNativeQuery(
+				String.format("SELECT nextval('%s')", secuenceName))
+				.getSingleResult()).longValue();
+	}
+
+	public Number consultarMaximoValorColumna(String column) {
+		return (Number) em.createQuery(
+				String.format("SELECT MAX(%s) FROM %s", column,
+						this.persistentClass.getName())).getSingleResult();
 	}
 
 	public static void main(String[] args) {
