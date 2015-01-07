@@ -63,8 +63,9 @@ public class Cliente implements Serializable {
 
 	private String fax;
 
-	@Column(name = "id_ciudad")
-	private Long idCiudad;
+	@ManyToOne
+	@JoinColumn(name="id_ciudad")
+	private Ciudad ciudad;	
 
 	@Column(name = "modo_factura")
 	private Integer modoFactura;
@@ -220,14 +221,6 @@ public class Cliente implements Serializable {
 
 	public void setFax(String fax) {
 		this.fax = fax;
-	}
-
-	public Long getIdCiudad() {
-		return this.idCiudad;
-	}
-
-	public void setIdCiudad(Long idCiudad) {
-		this.idCiudad = idCiudad;
 	}
 
 	public Integer getModoFactura() {
@@ -387,6 +380,14 @@ public class Cliente implements Serializable {
 		puntoVenta.setCliente(null);
 
 		return puntoVenta;
+	}
+
+	public Ciudad getCiudad() {
+		return ciudad;
+	}
+
+	public void setCiudad(Ciudad ciudad) {
+		this.ciudad = ciudad;
 	}
 
 }

@@ -34,8 +34,8 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 public class ListaEmpaqueMB extends UtilMB{
 	
 	private static final long serialVersionUID = 1L;
-	Timestamp currentTimeStamp;
-	String consecutivoFacturaProforma;
+	private Timestamp currentTimeStamp;
+	private String consecutivoFacturaProforma;
 	private List<ListaEmpaqueDTO> listaEmpaqueList;
 	private ListaEmpaqueDTO listaEmpaqueSeleccionada;
 	private List<ProductoDTO> productoList;
@@ -44,9 +44,7 @@ public class ListaEmpaqueMB extends UtilMB{
 	
 	@PostConstruct
 	public void init(){
-		Calendar calendar = Calendar.getInstance();
-		Date now = calendar.getTime();
-		currentTimeStamp = new Timestamp(now.getTime());
+		currentTimeStamp = new Timestamp(System.currentTimeMillis());
 	}
 	
 	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(){

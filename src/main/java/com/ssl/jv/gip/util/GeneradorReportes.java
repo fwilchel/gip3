@@ -2,7 +2,6 @@ package com.ssl.jv.gip.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;

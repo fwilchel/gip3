@@ -11,4 +11,12 @@ public interface AgenteAduanaDAOLocal extends IGenericDAO<AgenteAduana> {
 
 	public List<AgenteAduana> consultarAgenteAduanaPorFiltro(AgenteAduana pFiltro);
 	
+	/**
+	 * Metodo que consulta todos los agentes de aduana activos
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	public List<AgenteAduana> getAllActive();	
 }

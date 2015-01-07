@@ -42,4 +42,23 @@ public class AgenteAduanaDAO  extends GenericDAO<AgenteAduana> implements Agente
 		return listado;
 	}
 
+	/**
+	 * @see com.ssl.jv.gip.negocio.dao.AgenteAduanaDAOLocal#getAllActive()
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public List<AgenteAduana> getAllActive() {
+		List<AgenteAduana> listado = new ArrayList<AgenteAduana>();
+		try{
+			listado = em.createNamedQuery("AgenteAduana.findAllActive").
+					getResultList();
+		} catch(Exception e){
+			LOGGER.error(e + "********Error consultando agentes de aduana");
+			return null;
+		}
+		return listado;
+	}
+
 }

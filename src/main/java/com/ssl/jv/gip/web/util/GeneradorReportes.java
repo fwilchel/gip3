@@ -39,12 +39,14 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/generadorReportes")
 public class GeneradorReportes extends HttpServlet  {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1353950457290762424L;
+
 	public GeneradorReportes(){
 
 	}
-	private static final String CONTENT_TYPE = "text/html";
-	
-	
 
 	//Initialize global variables
 	public void init() throws ServletException {

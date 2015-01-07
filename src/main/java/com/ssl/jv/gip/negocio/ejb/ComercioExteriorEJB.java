@@ -15,20 +15,21 @@ import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
-import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
-import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAO;
-import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAO;
+import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
+import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
+import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
-import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
-import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
+import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 
 
@@ -44,10 +45,16 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 	/** The documento x lote dao. */
 	@EJB
-	private DocumentoXLoteDAO documentoXLoteDAO;
+	private DocumentoXLoteDAOLocal documentoXLoteDAO;
 	
 	@EJB
-	private DocumentoDAO documentoDAO;
+	private DocumentoDAOLocal documentoDAO;
+	
+	@EJB
+	private ProductoClienteComercioExteriorDAOLocal productoClienteComercioExteriorDAO;
+
+	@EJB
+	private DocumentoLotesOICDAOLocal documentoLotesOICDAO;
 	
 	@EJB
 	private ProductoClienteComercioExteriorDAO productoClienteCEDAO;
@@ -58,8 +65,6 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	@EJB
 	private UbicacionDAO ubicacionDAO;
 	
-	@EJB
-	private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
 	
 	/**
      * Default constructor. 
@@ -68,8 +73,6 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
     }
 
-	@EJB
-	private DocumentoLotesOICDAO documentoLotesOICDAO;
 	
     /**
      * Default constructor. 
@@ -248,6 +251,11 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	@Override
 	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
 		return productoClienteComercioExteriorDAO.consultarProductoPorDocumento(idDocumento, idCliente);
-
 	}
+	
+	@Override
+	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento){
+		return documentoDAO.consultarDocumentosPorConsecutivoPedido(consecutivoDocumento);
+	}
+
 }

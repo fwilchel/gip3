@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloGenerarFacturaProforma}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.TituloGenerarFacturaProforma}">
+
+					<p:outputText value="#{msg.trasladoInventarioFecha}: " />
+					<p:inputText value="#{generarFacturaPFMB.currentTimeStamp}"
+						required="false" disabled="true" />
+
+					<p:outputText
+						value="#{msg.IngresarNumPedidoFactura}: " />
+					<p:inputText value="#{generarFacturaPFMB.consecutivoDocumento}"
+						required="false" />
+
+					<p:commandButton value="#{msg.documentoEjecutarBusqueda}" update="tablaDocs"
+						action="#{generarFacturaPFMB.buscarDocumentos}" />
+
+					<p:dataTable var="doc" widgetVar="tablaDoc" id="tablaDocs"
+						rendered="#{not empty listaEmpaqueMB.listaEmpaqueList}"
+						value="#{listaEmpaqueMB.listaEmpaqueList}" rows="10"
+						emptyMessage="#{msg.generarListaEmpaque_noEncontrados}"
+						paginator="true" paginatorPosition="bottom" 
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+						
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton oncomplete="PF('datoDialog').show()" action="#{listaEmpaqueMB.consultarProductoPorDocumento}"
+								icon="ui-icon-search" update=":datoDlg">
+								<f:setPropertyActionListener value="#{doc}"
+									target="#{listaEmpaqueMB.listaEmpaqueSeleccionada}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column filterBy="#{doc.idDocumento}"
+							headerText="#{msg.generarListaEmpaque_codigoGip}"
+							filterMatchMode="contains" sortBy="#{doc.idDocumento}">
+							<h:outputText value="#{doc.idDocumento}"/>
+						</p:column>
+
+						<p:column filterBy="#{doc.consecutivoDocumento}"
+							headerText="#{msg.generarListaEmpaque_consecutivoFactura}"
+							filterMatchMode="contains" sortBy="#{doc.consecutivoDocumento}">
+							<h:outputText value="#{doc.consecutivoDocumento}" />
+						</p:column>
+
+						<p:column filterBy="#{doc.fechaGeneracion}"
+							headerText="#{msg.generarListaEmpaque_FechaGeneracion}"
+							filterMatchMode="contains" sortBy="#{doc.fechaGeneracion}">
+							<h:outputText value="#{doc.fechaGeneracion}" />
+						</p:column>
+
+					</p:dataTable>
+				</p:tab>
+				
+			</p:tabView>
+		</h:form>
+		
+				<p:dialog header="#{msg.generarListaEmpaque_Titulo}"
+			widgetVar="datoDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+			<h:form id="formaDlg">
+				<p:outputPanel id="datoDetalle" style="text-align:center;">
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+					<p:panelGrid columns="4"
+						rendered="#{not empty listaEmpaqueMB.listaEmpaqueSeleccionada}" >
+
+						<p:outputLabel value="#{msg.generarListaEmpaque_Documento}"
+							for="documento" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.idDocumento}"
+							id="documento" 
+							label="#{msg.generarListaEmpaque_Documento}" disabled="true"/>
+
+						<p:outputLabel value="#{msg.generarListaEmpaque_ConsecutivoDocumento}"
+							for="consecutivoDocumento" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.consecutivoDocumento}"
+							id="consecutivoDocumento" 
+							label="#{msg.generarListaEmpaque_ConsecutivoDocumento}" disabled="true" />
+
+						<p:outputLabel value="#{msg.generarListaEmpaque_FechaGeneracion}"
+							for="fechaGeneracion" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.fechaGeneracion}"
+							id="fechaGeneracion" label="#{msg.generarListaEmpaque_FechaGeneracion}" disabled="true"/>
+
+						<p:outputLabel value="#{msg.generarListaEmpaque_Cliente}"
+							for="clienteNombre" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.cliente.nombre}"
+							id="clienteNombre" label="#{msg.generarListaEmpaque_Cliente}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_NumeroPedidoWeb}"
+							for="clienteId" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.numeroPedidoWeb}"
+							id="clienteId" label="#{msg.generarListaEmpaque_NumeroPedidoWeb}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_Direccion}"
+							for="clienteDireccion" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.cliente.direccion}"
+							id="clienteDireccion" label="#{msg.generarListaEmpaque_Direccion}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_Telefono}"
+							for="clienteTelefono" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.cliente.telefono}"
+							id="clienteTelefono" label="#{msg.generarListaEmpaque_Telefono}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_Contacto}"
+							for="clienteContacto" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.cliente.contacto}"
+							id="clienteContacto" label="#{msg.generarListaEmpaque_Contacto}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_TerminoIncoterm}"
+							for="terminoIncoterm" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.descripcionTerminoIncoterm}"
+							id="terminoIncoterm" label="#{msg.generarListaEmpaque_TerminoIncoterm}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_LugarIncoterm}"
+							for="lugarIncoterm" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.lugarIncoterm}"
+							id="lugarIncoterm" label="#{msg.generarListaEmpaque_LugarIncoterm}" disabled="true"/>
+							
+						<p:outputLabel value="#{msg.CantidadContenedores20}"
+							for="cantidadContenedores20" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.cantidadContenedores20}"
+							id="cantidadContenedores20" label="#{msg.CantidadContenedores20}" disabled="true"/>
+
+						<p:outputLabel value="#{msg.CantidadContenedores40}"
+							for="cantidadContenedores40" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.cantidadContenedores40}"
+							id="cantidadContenedores40" label="#{msg.LugarIncoterm}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_DespachadoEn}"
+							for="sitioEntrega" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.sitioEntrega}"
+							id="sitioEntrega" label="#{msg.generarListaEmpaque_DespachadoEn}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_FechaCargue}"
+							for="fechaEntrega" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.fechaEntrega}"
+							id="fechaEntrega" label="#{msg.generarListaEmpaque_FechaCargue}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_ObservacionDocumento}"
+							for="observacionDocumento" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.observacionDocumento}"
+							id="observacionDocumento" label="#{msg.generarListaEmpaque_ObservacionDocumento}" />
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_ObservacionMarcacion}"
+							for="observacionMarcacion" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.observacionMarcacion}"
+							id="observacionMarcacion" label="#{msg.generarListaEmpaque_ObservacionMarcacion}" disabled="true"/>
+					
+						<p:outputLabel value="#{msg.generarListaEmpaque_CantidadEstibas}"
+							for="cantidadEstibas" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.cantidadEstibas}"
+							id="cantidadEstibas" label="#{msg.generarListaEmpaque_CantidadEstibas}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_PesoBrutoEstibas}"
+							for="pesoBrutoEstibas" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.pesoBrutoEstibas}"
+							id="pesoBrutoEstibas" label="#{msg.generarListaEmpaque_PesoBrutoEstibas}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.generarListaEmpaque_Canal}"
+							for="canal" styleClass="negrita" />
+						<h:inputText value="#{listaEmpaqueMB.listaEmpaqueSeleccionada.canal}"
+							id="canal" label="#{msg.generarListaEmpaque_Canal}" disabled="true"/>
+					</p:panelGrid>
+					
+					<p:dataTable var="producto" widgetVar="productoDoc" id="tablaProductos"
+						rendered="#{not empty listaEmpaqueMB.productoList}"
+						value="#{listaEmpaqueMB.productoList}" 
+						emptyMessage="#{msg.generarListaEmpaque_noEncontrados}">
+
+						<p:column filterBy="#{producto.sku}"
+							headerText="#{msg.buscadorCodigoProductoSKU}"
+							filterMatchMode="contains" sortBy="#{producto.sku}">
+							<h:outputText value="#{producto.sku}"/>
+						</p:column>
+
+						<p:column filterBy="#{producto.nombre}"
+							headerText="#{msg.comprasNombreAprobacion}"
+							filterMatchMode="contains" sortBy="#{producto.nombre}">
+							<h:outputText value="#{producto.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{producto.cantidad}"
+							headerText="#{msg.comprasCantidadSola}"
+							filterMatchMode="contains" sortBy="#{producto.cantidad}">
+							<h:outputText value="#{producto.cantidad}" />
+						</p:column>
+						
+						<p:column filterBy="#{producto.cantidadPorEmbalaje}"
+							headerText="#{msg.unidadxembalaje}"
+							filterMatchMode="contains" sortBy="#{producto.cantidadPorEmbalaje}">
+							<h:inputText value="#{producto.cantidadPorEmbalaje}" style="text-align:right;width:100px;">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:inputText>
+						</p:column>
+						
+						<p:column filterBy="#{producto.cantidadCajas}"
+							headerText="#{msg.SPcantidadCajas}"
+							filterMatchMode="contains" sortBy="#{producto.cantidadCajas}">
+							<h:inputText value="#{producto.cantidadCajas}" style="text-align:right;width:100px;">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:inputText>
+						</p:column>
+						
+						<p:column filterBy="#{producto.cantidadPallets}"
+							headerText="#{msg.SPcantidadPallet}"
+							filterMatchMode="contains" sortBy="#{producto.cantidadPallets}">
+							<h:inputText value="#{producto.cantidadPallets}" style="text-align:right;width:100px;">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:inputText>
+						</p:column>
+						
+						<p:column filterBy="#{producto.pesoNeto}"
+							headerText="#{msg.PesoNetoVista}"
+							filterMatchMode="contains" sortBy="#{producto.pesoNeto}">
+							<h:inputText value="#{producto.pesoNeto}" style="text-align:right;width:100px;">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:inputText>
+						</p:column>
+						
+						<p:column filterBy="#{producto.pesoBruto}"
+							headerText="#{msg.PesoBrutoVista}"
+							filterMatchMode="contains" sortBy="#{producto.pesoBruto}">
+							<h:inputText value="#{producto.pesoBruto}" style="text-align:right;width:100px;">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:inputText>
+						</p:column>
+
+					</p:dataTable>
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>

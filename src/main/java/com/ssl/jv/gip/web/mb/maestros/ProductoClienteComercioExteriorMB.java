@@ -14,6 +14,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
+import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -213,8 +214,15 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 			for (ProductosXClienteComext productosXClienteComext : productosSeleccionados) {
 				if (productosXClienteComext.getProductosInventario()
 						.isIncluido()) {
-					productosXClienteComExteriorList.add(0,
-							productosXClienteComext);
+					int indexOf = productosXClienteComExteriorList
+							.indexOf(productosXClienteComext);
+					if (indexOf != -1) {
+						productosXClienteComExteriorList.set(indexOf,
+								productosXClienteComext);
+					} else {
+						productosXClienteComExteriorList.add(0,
+								productosXClienteComext);
+					}
 				} else {
 					productosXClienteComExteriorList
 							.remove(productosXClienteComext);
@@ -223,7 +231,13 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 			outcome = "listado_maestro_ProductosPorCliente_CE";
 		} catch (Exception e) {
 			LOGGER.error(e);
-			this.addMensajeError(e);
+			Exception unrollException = (Exception) this.unrollException(e,
+					ConstraintViolationException.class);
+			if (unrollException != null) {
+				this.addMensajeError(unrollException.getLocalizedMessage());
+			} else {
+				this.addMensajeError(e);
+			}
 		}
 		return outcome;
 	}
@@ -291,7 +305,13 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 			this.addMensajeInfo("Archivo cargado con éxito");
 		} catch (Exception e) {
 			LOGGER.error(e);
-			this.addMensajeError(e);
+			Exception unrollException = (Exception) this.unrollException(e,
+					ConstraintViolationException.class);
+			if (unrollException != null) {
+				this.addMensajeError(unrollException.getLocalizedMessage());
+			} else {
+				this.addMensajeError(e);
+			}
 		}
 	}
 
