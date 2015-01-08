@@ -246,14 +246,14 @@ public class GenerarFacturaPFMB extends UtilMB{
 
 		this.comercioEjb.crearFactura(documento);
 			
-			//REVISAR CREACION DOC
+/*			//REVISAR CREACION DOC
 			String cadena = postDocumentoDao.adicionar3(documento);
 				    	      			
 			//id_tipo_doc, id_estado, fecha_generacion, observacion, id_cliente, valor_total, documento_cliente 
 			
 		String[] arrayCadena = cadena.split(";");
 		idDocumentoCons = Integer.parseInt(arrayCadena[0]);
-		String consecDoc = arrayCadena[1];	    	      			
+		String consecDoc = arrayCadena[1];*/	    	      			
 
 		
 		return null;
