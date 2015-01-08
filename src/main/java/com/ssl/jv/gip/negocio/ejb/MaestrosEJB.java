@@ -600,10 +600,13 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public List<ProductosXClienteComext> guardarRelacionProductosClienteComercioExterior(
+	public void guardarRelacionProductosClienteComercioExterior(
 			List<ProductosXClienteComext> productosXClienteComexts) {
 		for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
 			if (productosXClienteComext.getProductosInventario().isIncluido()) {
+				productosXClienteComext
+						.setCliente(clienteDao.findByPK(productosXClienteComext
+								.getCliente().getId()));
 				if (productosXClienteComext.getId() != null) {
 					productoClienteComercioExteriorDAO
 							.update(productosXClienteComext);
@@ -623,7 +626,6 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 						.delete(productosXClienteComext);
 			}
 		}
-		return productosXClienteComexts;
 	}
 
 	@Override
