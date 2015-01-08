@@ -11,7 +11,7 @@
 
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
+		<h:form id="forma">
 
 			<p:messages id="msgs" showDetail="false" showSummary="true"
 				globalOnly="false" showIcon="true"></p:messages>
@@ -161,8 +161,9 @@
 							
 						<p:outputLabel value="#{msg.DiasVigenciaFP}"
 							for="diasVigencia" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadDiasVigencia}"
-							id="diasVigencia" label="#{msg.DiasVigenciaFP}" disabled="true"/>
+						<h:inputText value="#{generarFacturaPFMB.cantidadDiasVigencia}"
+							id="diasVigencia" label="#{msg.DiasVigenciaFP}" disabled="false" required="true" />
+						<p:message for="diasVigencia" id="msgDiasVigencia"></p:message>
 						
 					</p:panelGrid>
 					
@@ -335,7 +336,7 @@
 					    	</p:column>
 					    </p:row>
 					</p:panelGrid>
-					<p:commandButton value="#{msg.VentasGenerarFactura}" action="#{generarFacturaPFMB.crearFactura}" ></p:commandButton>
+					<p:commandButton value="#{msg.VentasGenerarFactura}" icon="ui-icon-script" action="#{generarFacturaPFMB.crearFactura}" disabled="#{generarFacturaPFMB.deshabilitado}" widgetVar="btnGenerar" update="msgs2, :forma:tabPanel, msgDiasVigencia, btnGenerar"  ></p:commandButton>
 					</p:panelGrid>
 
 				</p:outputPanel>
