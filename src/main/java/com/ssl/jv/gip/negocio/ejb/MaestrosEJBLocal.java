@@ -294,7 +294,7 @@ public interface MaestrosEJBLocal {
 	public List<ProductosInventario> consultarProductosInventariosPorCategoriaSkuNombreAndEstado(
 			ProductosInventarioFiltroDTO filtroDTO);
 
-	public List<ProductosXClienteComext> guardarRelacionProductosClienteComercioExterior(
+	public void guardarRelacionProductosClienteComercioExterior(
 			List<ProductosXClienteComext> productosXClienteComexts);
 
 	public void cargarProductosPorClienteComExtDesdeArchivo(

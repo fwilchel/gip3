@@ -21,7 +21,7 @@ public class TerminoIncotermDAO extends GenericDAO<TerminoIncoterm> implements T
 		this.persistentClass = TerminoIncoterm.class;
 	}
 	
-public List<TerminoIncoterm> consultarListaIncontermPorCliente(Long idCliente){
+	public List<TerminoIncoterm> consultarListaIncontermPorCliente(Long idCliente){
 		
 		List<TerminoIncoterm> lista = new ArrayList<TerminoIncoterm>();
 

@@ -88,6 +88,18 @@
 	margin:30px 0px 0px 0px;	
 }
 
+.izquierda{
+	text-align: left;
+}
+
+.derecha{
+	text-align: right;
+}
+
+.centro{
+	text-align: center;
+}
+
 .encabezadoLogin {
 	background-image: url("../images/FondoEncabezado.png");
 	background-repeat: repeat-x;

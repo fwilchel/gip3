@@ -16,6 +16,8 @@ import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 
+import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
+
 
 /**
  * <p>Title: ImprimirListaEmpaqueMB</p>
@@ -45,6 +47,18 @@ public class ImprimirListaEmpaqueMB {
 	private ListaEmpaqueDTO seleccionado2;
 	private boolean blnActivo = false;
 	
+	
+	private List<ProductoImprimirLEDTO> listaEmpaqueDetalle;
+	
+	public List<ProductoImprimirLEDTO> getListaEmpaqueDetalle() {
+		return listaEmpaqueDetalle;
+	}
+
+	public void setListaEmpaqueDetalle(
+			List<ProductoImprimirLEDTO> listaEmpaqueDetalle) {
+		this.listaEmpaqueDetalle = listaEmpaqueDetalle;
+	}
+
 	public boolean isBlnActivo() {
 		return blnActivo;
 	}
@@ -65,6 +79,10 @@ public class ImprimirListaEmpaqueMB {
 		
 		System.out.println("docSel: "+seleccionado.getConsecutivoDocumento());
 		this.setSeleccionado2(this.comercioEjb.consultarDocumentoListaEmpaque(seleccionado.getConsecutivoDocumento()));
+		
+		
+		listaEmpaqueDetalle = comercioEjb.consultarProductoListaEmpaque(seleccionado.getConsecutivoDocumento());
+		
 	}
 
 	public String getStrConsecutivoDocumento() {

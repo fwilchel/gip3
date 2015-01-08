@@ -8,6 +8,7 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
+import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 
 /**
  * <p>Title: TerminosTransporteDAOLocal</p>
@@ -36,12 +37,22 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
 	List<ShipmentConditions> getAllShipmentConditions();
 	
 	/**
-	 * Metodo que consulta el cliente segun el identificador de una instruccion de embarque
+	 * Metodo que consulta la informacion de una instruccion de embarque por su id
 	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
 	 * @email seba.gamba02@gmail.com
 	 * @phone 311 8376670
 	 * @param shipCondId
 	 * @return
 	 */ 
-	Cliente getClientByShipmentConditionsId(String shipCondId);
+	InstruccionesEmbarqueDTO getShipmentConditionsById(String shipCondId);
+	
+	/**
+	 * Metodo que consulta una instruccion de embarque por su identificador
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @param idTerminosTrans
+	 * @return
+	 */ 
+	TerminosTransporte getById(Long idTerminosTrans);
 }

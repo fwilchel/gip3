@@ -199,7 +199,7 @@
 							
 							
 							<p:dataTable var="dato2" widgetVar="datoTabla" id="tablaDatos2"
-						value="#{imprimirListaEmpaqueMB.listaEmpaqueList}" rows="10"
+						value="#{imprimirListaEmpaqueMB.listaEmpaqueDetalle}" rows="10"
 						emptyMessage="#{msg.ConsultarFormatoNovedadNoEncontrados}"
 						paginator="true" paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -208,41 +208,100 @@
 						<f:facet name="header">
 							<div align="right">
 								<p:outputPanel>
-									
 									<p:spacer width="15"></p:spacer>
-									
-									
-
-
-								</p:outputPanel>
+									</p:outputPanel>
 							</div>
 						</f:facet>
 						
 						
+						<p:column filterBy="#{dato2.descripcionLote}"
+							headerText="#{msg.TipoLoteOIC}"
+							filterMatchMode="contains" sortBy="#{dato2.descripcionLote}">
+							<h:outputText value="#{dato2.descripcionLote}" />
+						</p:column>
 					
 						
-						<p:column filterBy="#{dato2.id}"
-							headerText="#{msg.CodigoGipSP}"
-							filterMatchMode="contains" sortBy="#{dato2.id}">
-							<h:outputText value="#{dato2.id}" />
+						<p:column filterBy="#{dato2.sku}"
+							headerText="#{msg.buscadorPxCSKU}"
+							filterMatchMode="contains" sortBy="#{dato2.sku}">
+							<h:outputText value="#{dato2.sku}" />
 						</p:column>
 
-						<p:column filterBy="#{dato2.consecutivoDocumento}"
-							headerText="#{msg.reporteFacturasConsecutivo}"
-							filterMatchMode="contains" sortBy="#{dato2.consecutivoDocumento}">
-							<h:outputText value="#{dato2.consecutivoDocumento}" />
+						<p:column filterBy="#{dato2.nombre}"
+							headerText="#{msg.buscadorNombreProducto}"
+							filterMatchMode="contains" sortBy="#{dato2.nombre}">
+							<h:outputText value="#{dato2.nombre}" />
 						</p:column>
 						
-						<p:column filterBy="#{dato2.fechaGeneracion}"
-							headerText="#{msg.FechaBusquedaFormatoNovedad}"
-							filterMatchMode="contains" sortBy="#{dato2.fechaGeneracion}">
-							<h:outputText value="#{dato2.fechaGeneracion}" />
+						
+						<p:column filterBy="#{dato2.cantidad}"
+							headerText="#{msg.comprasCantidadSola}"
+							filterMatchMode="contains" sortBy="#{dato2.cantidad}">
+							<h:outputText value="#{dato2.cantidad}" />
+						</p:column>
+						
+						
+						<p:column filterBy="#{dato2.cantidadPorEmbalaje}"
+							headerText="#{msg.unidadxembalaje}"
+							filterMatchMode="contains" sortBy="#{dato2.cantidadPorEmbalaje}">
+							<h:outputText value="#{dato2.cantidadPorEmbalaje}" />
+						</p:column>
+						
+						<p:column filterBy="#{dato2.cantidadCajas}"
+							headerText="#{msg.SPcantidadCajas}"
+							filterMatchMode="contains" sortBy="#{dato2.cantidadCajas}">
+							<h:outputText value="#{dato2.cantidadCajas}" />
+						</p:column>
+						
+						
+						<p:column filterBy="#{dato2.pesoNeto}"
+							headerText="#{msg.PesoNeto}"
+							filterMatchMode="contains" sortBy="#{dato2.pesoNeto}">
+							<h:outputText value="#{dato2.pesoNeto}" />
 						</p:column>
 
-						
-
+						<p:column filterBy="#{dato2.pesoBruto}"
+							headerText="#{msg.PesoBruto}"
+							filterMatchMode="contains" sortBy="#{dato2.pesoBruto}">
+							<h:outputText value="#{dato2.pesoBruto}" />
+						</p:column>
+	
 					</p:dataTable>
+					
+					
+					
+					
+							
+							<p:dataTable var="dato3" widgetVar="datoTabla" id="tablaDatos3"
+						value="#{imprimirListaEmpaqueMB.listaEmpaqueDetalle}" rows="10"
+						emptyMessage="#{msg.ConsultarFormatoNovedadNoEncontrados}"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
 
+						
+						<f:facet name="header">  
+            Sales/Profits of Manufacturers  
+        </f:facet>  
+  
+  <p:columnGroup type="header">
+        <p:row>
+            <p:column headerText="LOTES" />
+            <p:column headerText="TOTALES" />
+        </p:row>
+    </p:columnGroup>
+  
+  
+  <p:column> <h:outputText value="#{dato3.cantidad}" />
+  </p:column>
+  
+  
+			
+						
+				
+       
+					
+	</p:dataTable>
 
 
 	</h:form>

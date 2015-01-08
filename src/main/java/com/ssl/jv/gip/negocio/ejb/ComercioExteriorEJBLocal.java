@@ -7,6 +7,9 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
@@ -14,6 +17,8 @@ import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 
 
@@ -113,8 +118,10 @@ public interface ComercioExteriorEJBLocal {
 	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente);
 	
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento);
-	
 	public List<Documento> consultarDocumento(Map<String, Object> parametros);
 	public ListaEmpaqueDTO consultarDocumentoListaEmpaque (String consecutivoDocumento);
-
+	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente);
+	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos);
+	public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque (String strConsecutivoDocumento) ;
+	
 }

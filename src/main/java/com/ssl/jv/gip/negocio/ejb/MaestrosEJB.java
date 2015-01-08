@@ -600,25 +600,32 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public List<ProductosXClienteComext> guardarRelacionProductosClienteComercioExterior(
+	public void guardarRelacionProductosClienteComercioExterior(
 			List<ProductosXClienteComext> productosXClienteComexts) {
 		for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
 			if (productosXClienteComext.getProductosInventario().isIncluido()) {
+				productosXClienteComext
+						.setCliente(clienteDao.findByPK(productosXClienteComext
+								.getCliente().getId()));
 				if (productosXClienteComext.getId() != null) {
 					productoClienteComercioExteriorDAO
 							.update(productosXClienteComext);
 				} else {
-					productoClienteComercioExteriorDAO
-							.add(productosXClienteComext);
+					Number max = productoClienteComercioExteriorDAO
+							.consultarMaximoValorColumna("id");
+					if (max == null) {
+						productosXClienteComext.setId(1L);
+					} else {
+						productosXClienteComext.setId(max.longValue() + 1);
+					}
 					productosXClienteComext = productoClienteComercioExteriorDAO
-							.consultarPorPK(productosXClienteComext.getPk());
+							.add(productosXClienteComext);
 				}
 			} else if (productosXClienteComext.getId() != null) {
 				productoClienteComercioExteriorDAO
 						.delete(productosXClienteComext);
 			}
 		}
-		return productosXClienteComexts;
 	}
 
 	@Override
@@ -672,8 +679,22 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 			}
 
 			for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
-				productoClienteComercioExteriorDAO
-						.update(productosXClienteComext);
+				ProductosXClienteComext consultarPorPK = productoClienteComercioExteriorDAO
+						.consultarPorPK(productosXClienteComext.getPk());
+				if (consultarPorPK != null) {
+					productoClienteComercioExteriorDAO
+							.update(productosXClienteComext);
+				} else {
+					Number max = productoClienteComercioExteriorDAO
+							.consultarMaximoValorColumna("id");
+					if (max == null) {
+						productosXClienteComext.setId(1L);
+					} else {
+						productosXClienteComext.setId(max.longValue() + 1);
+					}
+					productoClienteComercioExteriorDAO
+							.add(productosXClienteComext);
+				}
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
