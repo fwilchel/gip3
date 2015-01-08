@@ -109,7 +109,7 @@ public class GenerarFacturaPFMB extends UtilMB{
 	}
 
 	public String buscarDocumentos(){
-		listaDocumentos=this.comercioEjb.consultarDocumentosPorConsecutivoPedido(consecutivoDocumento);
+		listaDocumentos=this.comercioEjb.consultarDocumentosSolicitudPedido(consecutivoDocumento);
 		this.deshabilitado=false;
 		return null;
 	}

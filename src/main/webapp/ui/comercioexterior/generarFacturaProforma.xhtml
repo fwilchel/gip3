@@ -90,78 +90,78 @@
 
 						<p:outputLabel value="#{msg.recibiProductoDcoumento}"
 							for="documento" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.id}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.id}"
 							id="documento" 
 							label="#{msg.recibiProductoDcoumento}" disabled="true"/>
 
 						<p:outputLabel value="#{msg.RequisicionNombreCons}"
 							for="consecutivoDocumento" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.consecutivoDocumento}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.consecutivoDocumento}"
 							id="consecutivoDocumento" 
 							label="#{msg.RequisicionNombreCons}" disabled="true" />
 
 						<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
 							for="fechaGeneracion" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.fechaGeneracion}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.fechaGeneracion}"
 							id="fechaGeneracion" label="#{msg.RequisicionNombreFechaGenerado}" disabled="true">
 							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
-						</h:inputText>
+						</p:inputText>
 
 						<p:outputLabel value="#{msg.nomCliente}"
 							for="clienteNombre" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.cliente.nombre}" size="30"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.cliente.nombre}" size="30"
 							id="clienteNombre" label="#{msg.nomCliente}" disabled="true"/>
 						
 						<p:outputLabel value="#{msg.NumeroPedidoWeb}"
 							for="clienteId" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoCliente}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoCliente}"
 							id="clienteId" label="#{msg.NumeroPedidoWeb}" disabled="true"/>
 						
 						<p:outputLabel value="#{msg.maestroDireccionCliente}"
 							for="clienteDireccion" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.cliente.direccion}" size="30"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.cliente.direccion}" size="30"
 							id="clienteDireccion" label="#{msg.maestroDireccionCliente}" disabled="true"/>
 						
 						<p:outputLabel value="#{msg.maestroTelefonoCliente}"
 							for="clienteTelefono" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.cliente.telefono}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.cliente.telefono}"
 							id="clienteTelefono" label="#{msg.maestroTelefonoCliente}" disabled="true"/>
 						
 						<p:outputLabel value="#{msg.maestroContactoAgente}"
 							for="clienteContacto" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.cliente.contacto}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.cliente.contacto}"
 							id="clienteContacto" label="#{msg.maestroContactoAgente}" disabled="true"/>
 						
 						<p:outputLabel value="#{msg.TérminoIncotermSP}"
 							for="terminoIncoterm" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoXNegociacions.get(0).terminoIncoterm.descripcion}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoXNegociacions.get(0).terminoIncoterm.descripcion}"
 							id="terminoIncoterm" label="#{msg.TérminoIncotermSP}" disabled="true"/>
 						
 						<p:outputLabel value="#{msg.LugarIncoterm}"
 							for="lugarIncoterm" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
 							id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true"/>
 							
 						<p:outputLabel value="#{msg.CantidadContenedores20}"
 							for="cantidadContenedores20" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe20}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe20}"
 							id="cantidadContenedores20" label="#{msg.CantidadContenedores20}" disabled="true"/>
 
 						<p:outputLabel value="#{msg.CantidadContenedores40}"
 							for="cantidadContenedores40" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe40}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe40}"
 							id="cantidadContenedores40" label="#{msg.LugarIncoterm}" disabled="true"/>
 							
 						<p:outputLabel value="#{msg.FechaDespacho}"
 							for="fechaDespacho" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.documentoSeleccionado.fechaEsperadaEntrega}"
+						<p:inputText value="#{generarFacturaPFMB.documentoSeleccionado.fechaEsperadaEntrega}"
 							id="fechaDespacho" label="#{msg.FechaDespacho}" disabled="true">
 							<f:convertDateTime pattern="dd-MMM-yyyy"/>
-						</h:inputText>
+						</p:inputText>
 							
 						<p:outputLabel value="#{msg.DiasVigenciaFP}"
 							for="diasVigencia" styleClass="negrita" />
-						<h:inputText value="#{generarFacturaPFMB.cantidadDiasVigencia}"
+						<p:inputText value="#{generarFacturaPFMB.cantidadDiasVigencia}"
 							id="diasVigencia" label="#{msg.DiasVigenciaFP}" disabled="false" required="true" />
 						<p:message for="diasVigencia" id="msgDiasVigencia"></p:message>
 						
