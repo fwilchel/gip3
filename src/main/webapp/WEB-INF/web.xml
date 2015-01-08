@@ -106,6 +106,6 @@
  </error-page>
  <error-page>
   <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-  <location>/ui/error/viewExpired.jsf</location>
+  <location>/ui/login.jsf</location>
  </error-page>
 </web-app>

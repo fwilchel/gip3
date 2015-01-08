@@ -17,6 +17,7 @@ import com.ssl.jv.gip.negocio.dto.ClienteDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 @Stateless
@@ -375,35 +376,29 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento){
 		
-
-/*		
-		
-		
-		Object parametros[] = new Object[5];
-		parametros[0] = "Docs_segun_estado5";
-		parametros[1] = ConstantesTipoDocumento.SOLICITUD_PEDIDO;
-		
-		// Se Define la cadena de busqueda del nombre segun lo ingresado en el
-		// campo de Consecutivo Pedido. 
-		String parametroConseDoc;
-		if (this.strConsecutivoDocumento.equals("")) {
-			parametroConseDoc = "%";
-		} else {
-			parametroConseDoc = "%" + this.strConsecutivoDocumento + "%";
+		List<Documento> listado= new ArrayList<Documento>();
+		String query;
+		try{
+			query = "SELECT d FROM Documento d "+
+					"JOIN FETCH d.cliente c "+
+					"JOIN FETCH d.estadosxdocumento exd "+
+					"JOIN FETCH exd.estado e "+
+					"JOIN FETCH d.documentoXNegociacions dxn "+
+					"JOIN FETCH dxn.terminoIncoterm ti "+
+					"JOIN FETCH c.ciudad ciu "+
+					"JOIN FETCH c.metodoPago mp "+
+					"WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id IN (:estado1, :estado2) "+
+					" AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.observacionDocumento IN (SELECT d3.consecutivoDocumento FROM Documento d3 WHERE d3.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d3.estadosxdocumento.estado.id IN (:estado1, :estado2)))"+
+					" AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " +
+					" ORDER BY d.id DESC";
+					
+			listado= em.createQuery(query).setParameter("tipoDocumento", (long)ConstantesTipoDocumento.SOLICITUD_PEDIDO).setParameter("estado1", (long)ConstantesDocumento.VERIFICADO).setParameter("estado2", (long)ConstantesDocumento.APROBADA).setParameter("consecutivo",consecutivoDocumento.equals("")?"%":"%"+consecutivoDocumento+"%").getResultList();
+		} catch(Exception e){
+			LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");
+			return null;
 		}
-		parametros[2] = parametroConseDoc; // Parámetro Filtro
-		parametros[3] = ConstantesDocumento.VERIFICADO; // Parámetro Filtro
-		parametros[4] = ConstantesDocumento.APROBADA; // Parámetro Filtro
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		return listado;
+/*		
 		
 		
 		
@@ -438,13 +433,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 												
 					
 				}
-				else
-					
-					if (parametros.length == 4)//Se envio un nuevo estado
-					{
-						
-						sql = sql + " AND {8} IN (" + estado + ")";
-					}
 			
 				
 				sql = sql + " AND UPPER({3}) LIKE UPPER('" + strConsecutivo + "')"
@@ -588,7 +576,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 		dto.setIntIdUbicacionDestino(resulSet.getInt(IDocumento.cIdUbicacionDestino));
 		
 		dto.setStrObservacion2(resulSet.getString("observacion_documento2"));*/
-		return null;
+
 
 	}
 	

@@ -14,6 +14,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 
 
@@ -113,5 +114,7 @@ public interface ComercioExteriorEJBLocal {
 	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente);
 	
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento);
+	
+	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente);
 
 }

@@ -126,6 +126,7 @@
 		<class>com.ssl.jv.gip.jpa.pojo.Venta</class>
 		<class>com.ssl.jv.gip.jpa.pojo.VentaPK</class>
 		
+		<class>com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO</class>
 		
 		
       <properties>

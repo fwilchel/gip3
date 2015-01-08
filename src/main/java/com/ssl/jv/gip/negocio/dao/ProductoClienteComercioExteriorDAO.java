@@ -22,6 +22,7 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
@@ -392,6 +393,61 @@ public class ProductoClienteComercioExteriorDAO extends
 		return lista;
 	}
 
+	/**
+	 * Consulta productos por documento para Generar Factura Proforma
+	 * 
+	 * @author Fredy Wilches
+	 * @email fredy.wilches@softstudio.co
+	 * @phone 3002146240
+	 * @version 1.0
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento,
+			Long idCliente) {
+		//List<ProductoDTO> lista = new ArrayList<ProductoDTO>();
+		String sql = "SELECT productos_inventario.id, productos_inventario.nombre, productos_inventario.sku, productosXdocumentos.cantidad1 as cantidad, productos_x_cliente_comext.precio, productosXdocumentos.cantidad1*productos_x_cliente_comext.precio as valorTotal, "+ 
+				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE round((productos_inventario_comext.peso_neto_embalaje/productos_inventario_comext.cantidad_x_embalaje),3)*productosXdocumentos.cantidad1 END) as totalPesoNeto,  "+
+				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productos_inventario_comext.peso_bruto_embalaje/productos_inventario_comext.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END) as totalPesoBruto,  "+
+				"productos_x_cliente_comext.id_cliente as idCliente, productos_inventario_comext.peso_bruto as pesoBruto, productos_inventario_comext.peso_neto as pesoneto, productos_inventario_comext.cant_cajas_x_tendido as cantidadCajas, productos_inventario_comext.total_cajas_x_pallet as cajasPorPallets, "+
+				"productos_inventario_comext.cantidad_x_embalaje as cantidadPorEmbalaje,productos_inventario.id_ud as idUnidad, (CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje) END) as totalCajas, "+ 
+				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.cant_cajas_x_tendido = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.cant_cajas_x_tendido END) AS totalCajasTendido, "+ 
+				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.total_cajas_x_pallet END) AS totalCajasPallet, "+ 
+				"productos_inventario_comext.posicion_arancelaria as posicionArancelaria, unidades.nombre AS unidad, unidades.nombre_ingles as nombreIngles, productos_inventario_comext.descripcion, productos_inventario_comext.peso_neto_embalaje as pesoNetoEmbalaje, "+ 
+				"productos_inventario_comext.peso_bruto_embalaje as pesoBrutoEmbalaje, productos_inventario_comext.controlstock as controlStock "+
+				"FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id "+ 
+				"LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto  "+
+				"LEFT JOIN productos_inventario_comext ON productos_inventario_comext.id_producto=productos_inventario.id  "+
+				"INNER JOIN unidades ON productos_inventario.id_uv=unidades.id  "+
+				"WHERE productosXdocumentos.id_documento= :idDocumento AND (productos_x_cliente_comext.id_cliente= :idCliente or productos_x_cliente_comext.id_cliente is null) ";
+
+		return em.createNativeQuery(sql, ProductoGenerarFacturaPFDTO.class).setParameter("idDocumento", idDocumento).setParameter("idCliente", idCliente).getResultList();
+
+		/*if (listado != null) {
+			for (Object[] objs : listado) {
+				ProductoDTO dto = new ProductoDTO();
+				dto.setId(objs[0] != null ? objs[0].toString() : null);
+				dto.setSku(objs[1] != null ? objs[1].toString() : null);
+				dto.setNombre(objs[2] != null ? objs[2].toString() : null);
+				dto.setCantidad(objs[3] != null ? new BigDecimal(objs[3]
+						.toString()) : null);
+				dto.setCantidadPorEmbalaje(objs[4] != null ? new BigDecimal(
+						objs[4].toString()) : null);
+				dto.setCantidadCajas(objs[5] != null ? new BigDecimal(objs[5]
+						.toString()) : null);
+				dto.setPesoNeto(objs[6] != null ? new BigDecimal(objs[6]
+						.toString()) : null);
+				dto.setPesoBruto(objs[7] != null ? new BigDecimal(objs[7]
+						.toString()) : null);
+				dto.setCantidadPallets(objs[8] != null ? new BigDecimal(objs[8]
+						.toString()) : null);
+				lista.add(dto);
+			}
+		}
+		return lista;*/
+	}
+	
+	
 	public ProductosXClienteComext consultarPorPK(ProductosXClienteComextPK pk) {
 		return em.find(ProductosXClienteComext.class, pk);
 	}

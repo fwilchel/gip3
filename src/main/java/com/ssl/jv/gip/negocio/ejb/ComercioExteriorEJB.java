@@ -27,6 +27,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
@@ -251,6 +252,11 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	@Override
 	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
 		return productoClienteComercioExteriorDAO.consultarProductoPorDocumento(idDocumento, idCliente);
+	}
+	
+	@Override
+	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente){
+		return productoClienteComercioExteriorDAO.consultarProductoPorDocumentoGenerarFacturaProforma(idDocumento, idCliente);
 	}
 	
 	@Override
