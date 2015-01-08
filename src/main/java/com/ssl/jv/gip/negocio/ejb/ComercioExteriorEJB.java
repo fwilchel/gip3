@@ -13,15 +13,23 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
+import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
+import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
+import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
+import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
@@ -44,7 +52,6 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(ComercioExteriorEJB.class);
 
-	/** The documento x lote dao. */
 	@EJB
 	private DocumentoXLoteDAOLocal documentoXLoteDAO;
 	
@@ -58,14 +65,19 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	private DocumentoLotesOICDAOLocal documentoLotesOICDAO;
 	
 	@EJB
-	private ProductoClienteComercioExteriorDAO productoClienteCEDAO;
+	private ProductoClienteComercioExteriorDAOLocal productoClienteCEDAO;
 	
 	@EJB
-	private TerminoIncotermDAO terminoDAO;
+	private TerminoIncotermDAOLocal terminoDAO;
 	
 	@EJB
-	private UbicacionDAO ubicacionDAO;
+	private UbicacionDAOLocal ubicacionDAO;
 	
+	@EJB
+	private LogAuditoriaDAOLocal logAuditoriaDAO;
+	
+	@EJB
+	private DocumentoXNegociacionDAOLocal documentoXNegociacionDAO;
 	
 	/**
      * Default constructor. 
@@ -265,10 +277,19 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	}
 	
 	@Override
-	public boolean crearFactura(Documento documento){
+	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos){
+		documento.setConsecutivoDocumento("FP1-"+this.documentoDAO.consultarProximoValorSecuencia("fp1_seq"));
 		documento=(Documento)this.documentoDAO.add(documento);
-		
-		return true;
+		auditoria.setIdRegTabla(documento.getId());
+		auditoria.setValorNuevo(documento.getConsecutivoDocumento());
+		this.logAuditoriaDAO.add(auditoria);
+		documentoPorNegociacion.getPk().setIdDocumento(documento.getId());
+		documentoXNegociacionDAO.add(documentoPorNegociacion);
+		for (ProductosXDocumento pxd:productos){
+			pxd.getId().setIdDocumento(documento.getId());
+		}
+		documento.getEstadosxdocumento().getId().setIdEstado((long)ConstantesDocumento.APROBADA);
+		return documento;
 	}
 
 }

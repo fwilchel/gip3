@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.sql.Timestamp;
 
 
@@ -17,6 +19,8 @@ public class LogAuditoria implements Serializable {
 
 	@Id
 	@Column(name="id_log")
+	@SequenceGenerator(name="logAuditoriaSeq",sequenceName="log_auditoria_id_seq",allocationSize=1)
+	@GeneratedValue(generator="logAuditoriaSeq",strategy=GenerationType.SEQUENCE)
 	private Long idLog;
 
 	private String accion;
