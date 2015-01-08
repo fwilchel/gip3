@@ -470,10 +470,10 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 	}
 
 	/**
-	 * Consulta de ordenes de despacho por filtro
+	 * Consulta de Documentos tipo Solicitud Pedido, para el CU Generar Facturas Proforma
 	 */
 
-	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento){
+	public List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento){
 		
 		List<Documento> listado= new ArrayList<Documento>();
 		String query;
@@ -497,9 +497,39 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 			return null;
 		}
 		return listado;
+	}
+
+	/**
+	 * Consulta de Documentos tipo Factura Proforma, para el CU Asignar Lotes OCI
+	 */
+	public List<Documento> consultarDocumentosFacturaPF(String consecutivoDocumento){
+		
+		List<Documento> listado= new ArrayList<Documento>();
+		String query;
+		try{
+			query = "SELECT d FROM Documento d "+
+					"JOIN FETCH d.cliente c "+
+					"JOIN FETCH d.estadosxdocumento exd "+
+					"JOIN FETCH exd.estado e "+
+					"JOIN FETCH d.documentoXNegociacions dxn "+
+					"JOIN FETCH dxn.terminoIncoterm ti "+
+					"JOIN FETCH c.ciudad ciu "+
+					"JOIN FETCH c.metodoPago mp "+
+					"WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id= :estado "+
+					" AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " +
+					" AND dxn.solicitudCafe = :solicitudCafe "+
+					" ORDER BY d.id DESC";
+					
+			listado= em.createQuery(query).setParameter("tipoDocumento", (long)ConstantesTipoDocumento.FACTURA_PROFORMA).setParameter("estado", (long)ConstantesDocumento.APROBADA).setParameter("solicitudCafe", true).setParameter("consecutivo",consecutivoDocumento.equals("")?"%":"%"+consecutivoDocumento+"%").getResultList();
+		} catch(Exception e){
+			LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");
+			return null;
+		}
+		return listado;
 
 
 	}
+	
 	
 	/**Consulta de ordenes de despacho por filtro
 	 * 

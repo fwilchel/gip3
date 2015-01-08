@@ -24,8 +24,10 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
+import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 
 /**
@@ -449,7 +451,7 @@ public class ProductoClienteComercioExteriorDAO extends
 	@Override
 	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento,
 			Long idCliente) {
-		//List<ProductoDTO> lista = new ArrayList<ProductoDTO>();
+
 		String sql = "SELECT productos_inventario.id, productos_inventario.nombre, productos_inventario.sku, productosXdocumentos.cantidad1 as cantidad, productos_x_cliente_comext.precio, productosXdocumentos.cantidad1*productos_x_cliente_comext.precio as valorTotal, "+ 
 				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE round((productos_inventario_comext.peso_neto_embalaje/productos_inventario_comext.cantidad_x_embalaje),3)*productosXdocumentos.cantidad1 END) as totalPesoNeto,  "+
 				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productos_inventario_comext.peso_bruto_embalaje/productos_inventario_comext.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END) as totalPesoBruto,  "+
@@ -468,6 +470,75 @@ public class ProductoClienteComercioExteriorDAO extends
 		return em.createNativeQuery(sql, ProductoGenerarFacturaPFDTO.class).setParameter("idDocumento", idDocumento).setParameter("idCliente", idCliente).getResultList();
 
 	}
+
+	/**
+	 * Consulta productos por documento para Asignar Lotes OIC
+	 * 
+	 * @author Fredy Wilches
+	 * @email fredy.wilches@softstudio.co
+	 * @phone 3002146240
+	 * @version 1.0
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento,
+			Long idCliente) {
+
+		String sql = "SELECT productos_inventario.id, productos_inventario.nombre, productos_inventario.sku, productosXdocumentos.cantidad1 as cantidad, productos_x_cliente_comext.precio, productosXdocumentos.cantidad1*productos_x_cliente_comext.precio as valorTotal, "+ 
+				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productos_inventario_comext.peso_neto_embalaje/productos_inventario_comext.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END) as totalPesoNeto,  "+
+				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productos_inventario_comext.peso_bruto_embalaje/productos_inventario_comext.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END) as totalPesoBruto,  "+
+				"productos_x_cliente_comext.id_cliente as idCliente, productos_inventario_comext.peso_bruto as pesoBruto, productos_inventario_comext.peso_neto as pesoneto, productos_inventario_comext.cant_cajas_x_tendido as cantidadCajas, productos_inventario_comext.total_cajas_x_pallet as cajasPorPallets, "+
+				"productos_inventario_comext.cantidad_x_embalaje as cantidadPorEmbalaje,productos_inventario.id_ud as idUnidad, (CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje) END) as totalCajas, "+ 
+				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.cant_cajas_x_tendido = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.cant_cajas_x_tendido END) AS totalCajasTendido, "+ 
+				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.total_cajas_x_pallet END) AS totalCajasPallet, "+ 
+				"productos_inventario_comext.posicion_arancelaria as posicionArancelaria, unidades.nombre AS unidad, unidades.nombre_ingles as nombreIngles, productos_inventario_comext.descripcion, productos_inventario_comext.peso_neto_embalaje as pesoNetoEmbalaje, "+ 
+				"productos_inventario_comext.peso_bruto_embalaje as pesoBrutoEmbalaje, productos_inventario_comext.id_tipo_loteoic as tipoLote, tipo_loteoic.descripcion as descripcionLote "+
+				"FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id "+ 
+				"LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto  "+
+				"LEFT JOIN productos_inventario_comext ON productos_inventario_comext.id_producto=productos_inventario.id  "+
+				"LEFT JOIN tipo_loteoic ON tipo_loteoic.id = productos_inventario_comext.id_tipo_loteoic "+
+				"INNER JOIN unidades ON productos_inventario.id_uv=unidades.id  "+
+				"WHERE productosXdocumentos.id_documento= :idDocumento AND (productos_x_cliente_comext.id_cliente= :idCliente or productos_x_cliente_comext.id_cliente is null) ";
+
+		return em.createNativeQuery(sql, ProductoAsignarLoteOICDTO.class).setParameter("idDocumento", idDocumento).setParameter("idCliente", idCliente).getResultList();
+
+	}
+	
+	/**
+	 * Consulta productos por documento para Asignar Lotes OIC agrupados por Lote
+	 * 
+	 * @author Fredy Wilches
+	 * @email fredy.wilches@softstudio.co
+	 * @phone 3002146240
+	 * @version 1.0
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento,
+			Long idCliente) {
+
+		String sql = "SELECT pic.id_tipo_loteoic as tipoLote, tipo_loteoic.descripcion as descripcionLote, SUM(productosXdocumentos.cantidad1) as totalCantidad,"
+			+ " SUM ((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (pic.peso_neto_embalaje/pic.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as totalPesoNeto,"
+			+ " SUM((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (pic.peso_bruto_embalaje/pic.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as totalPesoBruto,"
+			+ " SUM((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pic.cantidad_x_embalaje) END)) as totalCajas,"
+			+ " SUM((CASE WHEN (pic.cantidad_x_embalaje = 0 or pic.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pic.cantidad_x_embalaje)/pic.total_cajas_x_pallet END)) AS totalCajasPallet"
+			+ " FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
+			+ " LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto"
+			+ " LEFT JOIN productos_inventario_comext pic ON pic.id_producto=productos_inventario.id"
+			+ " LEFT JOIN tipo_loteoic ON tipo_loteoic.id = pic.id_tipo_loteoic"
+			+ " INNER JOIN unidades ON productos_inventario.id_uv=unidades.id"
+			+ " WHERE productosxdocumentos.id_documento= :idDocumento "
+			+ " AND (productos_x_cliente_comext.id_cliente= :idCliente or productos_x_cliente_comext.id_cliente is null)"
+			+ " GROUP BY pic.id_tipo_loteoic, tipo_loteoic.descripcion"
+			+ " ORDER BY tipo_loteoic.descripcion DESC";
+
+		return em.createNativeQuery(sql, ProductoLoteAsignarLoteOICDTO.class).setParameter("idDocumento", idDocumento).setParameter("idCliente", idCliente).getResultList();
+
+	}	
+	
+	
+	
+	
 	
 	
 	public ProductosXClienteComext consultarPorPK(ProductosXClienteComextPK pk) {

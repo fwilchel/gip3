@@ -34,8 +34,10 @@ import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
@@ -272,8 +274,25 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	}
 	
 	@Override
-	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento){
-		return documentoDAO.consultarDocumentosPorConsecutivoPedido(consecutivoDocumento);
+	public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento,
+			Long idCliente){
+		return productoClienteComercioExteriorDAO.consultarProductoPorDocumentoAsignarLotesOIC(idDocumento, idCliente);
+	}
+	
+	@Override
+	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento,
+			Long idCliente){
+		return productoClienteComercioExteriorDAO.consultarProductoPorDocumentoLoteAsignarLotesOIC(idDocumento, idCliente);
+	}
+	
+	@Override
+	public List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento){
+		return documentoDAO.consultarDocumentosSolicitudPedido(consecutivoDocumento);
+	}
+	
+	@Override
+	public List<Documento> consultarDocumentosFacturaPF(String consecutivoDocumento){
+		return documentoDAO.consultarDocumentosFacturaPF(consecutivoDocumento);
 	}
 	
 	@Override
@@ -289,7 +308,22 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 			pxd.getId().setIdDocumento(documento.getId());
 		}
 		documento.getEstadosxdocumento().getId().setIdEstado((long)ConstantesDocumento.APROBADA);
+		this.documentoDAO.update(documento);
 		return documento;
+	}
+	
+	@Override
+	public List<DocumentoXLotesoic> guardarLotes(List<DocumentoXLotesoic> lista, Documento documento){
+		for (DocumentoXLotesoic dxl:lista){
+			Long seq=documentoXLoteDAO.consultarProximoValorSecuencia("lote_oic_seq");
+			String seqStr=seq.toString();
+			seqStr = String.format("%4s", seqStr).replace(' ', '0');
+			seqStr = "3-223-" + seqStr;	
+			dxl.setConsecutivo(seqStr);
+			documentoXLoteDAO.add(dxl);
+		}
+		this.documentoDAO.update(documento);
+		return lista;
 	}
 
 }
