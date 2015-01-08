@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloConsultarListaEmpaque}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+				
+				
+		
+					
+
+
+
+	
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.TituloConsultarListaEmpaque}">
+				
+				
+				<p:panelGrid columns="2">
+
+						<p:outputLabel value="#{msg.IngresarNumLE}" for="codigo"
+							styleClass="negrita" />
+						<h:inputText value="#{imprimirListaEmpaqueMB.strConsecutivoDocumento}" id="codigo"
+							required="false" maxlength="10" label="#{msg.buscadorSKU}" />
+						<p:message for="codigo"></p:message>
+
+						
+						
+							<p:commandButton value="#{msg.documentoEjecutarBusqueda}" icon="ui-icon-search" action="#{imprimirListaEmpaqueMB.consultarDocumento}"
+							update="tablaDatos">
+							</p:commandButton>
+							
+
+					</p:panelGrid>
+				
+				
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{imprimirListaEmpaqueMB.listaEmpaqueList}" rows="10"
+						emptyMessage="#{msg.ConsultarFormatoNovedadNoEncontrados}"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel>
+
+									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+									<p:inputText id="globalFilter"
+										onkeyup="PF('datoTabla').filter()" style="width:150px"
+										placeholder="#{msg.generalPalabrasBuscar}" />
+									<p:spacer width="30"></p:spacer>
+									
+								
+									
+									
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+
+								</p:outputPanel>
+							</div>
+						</f:facet>
+						
+						
+						<p:column style="width:64px;text-align: center">
+						<p:commandButton oncomplete="PF('editarDialog2').show()"
+								icon="ui-icon-zoomin"
+								title="#{msg.TituloProdCE} #{msg.SubTituloCE}"
+								update=":editarDlg2">
+								<f:setPropertyActionListener value="#{dato}"
+									target="#{imprimirListaEmpaqueMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+						
+						<p:column filterBy="#{dato.id}"
+							headerText="#{msg.CodigoGipSP}"
+							filterMatchMode="contains" sortBy="#{dato.id}">
+							<h:outputText value="#{dato.id}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.consecutivoDocumento}"
+							headerText="#{msg.reporteFacturasConsecutivo}"
+							filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
+							<h:outputText value="#{dato.consecutivoDocumento}" />
+						</p:column>
+						
+						<p:column filterBy="#{dato.fechaGeneracion}"
+							headerText="#{msg.FechaBusquedaFormatoNovedad}"
+							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
+							<h:outputText value="#{dato.fechaGeneracion}" />
+						</p:column>
+
+						
+
+					</p:dataTable>
+					
+					
+					
+				</p:tab>
+			</p:tabView>
+		</h:form>
+		
+		
+		<p:dialog
+			header="#{msg.TituloConsultarListaEmpaque}"
+			widgetVar="editarDialog2" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="editarDlg2">
+			<h:form id="formaDlg2">
+			<p:panelGrid columns="4"
+							columnClasses="label,value">
+							
+						
+			<p:outputLabel value="#{msg.recibiProductoDcoumento}" for="idDocumento" styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.idDocumento}" id="idDocumento"/>
+			
+			<p:outputLabel value="#{msg.RequisicionNombreCons}" for="consecutivoDocumento" styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.consecutivoDocumento}" id="consecutivoDocumento"/>
+							
+			
+			<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.fechaGeneracion}" />
+			
+			<p:outputLabel value="#{msg.NumeroPedidoWeb}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.numeroPedidoWeb}" />
+			
+			
+			<p:outputLabel value="#{msg.nomCliente}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.nombre}" />
+			
+			<p:outputLabel value="#{msg.maestroDireccionCliente}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.direccion}" />	
+			
+			<p:outputLabel value="#{msg.maestroTelefonoCliente}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.telefono}" />
+			
+			<p:outputLabel value="#{msg.maestroContactoAgente}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.contacto}" />				
+			
+			
+			<p:outputLabel value="#{msg.TérminoIncotermSP}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.descripcionTerminoIncoterm}" />
+			
+			<p:outputLabel value="#{msg.LugarIncoterm}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.lugarIncoterm}" />
+			
+			
+			<p:outputLabel value="#{msg.CantidadContenedores20}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadContenedores20}" />
+			
+			<p:outputLabel value="#{msg.CantidadContenedores40}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadContenedores40}" />
+			
+			
+			<p:outputLabel value="#{msg.CantidadEstibas}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadEstibas}" /> 
+			     
+			<p:outputLabel value="#{msg.PesoBrutoEstibas}"  styleClass="negrita" />
+			<h:outputText value="#{imprimirListaEmpaqueMB.seleccionado2.pesoBrutoEstibas}" />      
+			     
+			  
+			 <p:outputLabel value="#{msg.observacionDocumento}"  styleClass="negrita" />
+			  <h:inputTextarea styleClass="filas_contenido3"  
+							   rows="4" cols="40"
+							   value="#{imprimirListaEmpaqueMB.seleccionado2.observacionDocumento}" readonly="true"/>
+				 
+			 
+			    
+			   
+			      <p:outputLabel value="#{msg.observacionMarcacion2}"  styleClass="negrita" />
+			  <h:inputTextarea styleClass="filas_contenido3"  
+							   rows="4" cols="40"
+							   value="#{imprimirListaEmpaqueMB.seleccionado2.observacionMarcacion }" readonly="true"/>
+				
+			   
+			     
+			   	
+			     
+			   		     
+			     			     
+			     <h:outputLabel  styleClass="negrita"  value="#{msg.generalActivo2}" />   
+                 <h:selectBooleanCheckbox  value="#{imprimirListaEmpaqueMB.blnActivo}" />
+							
+							</p:panelGrid>
+							
+							
+							
+							<p:dataTable var="dato2" widgetVar="datoTabla" id="tablaDatos2"
+						value="#{imprimirListaEmpaqueMB.listaEmpaqueList}" rows="10"
+						emptyMessage="#{msg.ConsultarFormatoNovedadNoEncontrados}"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel>
+									
+									<p:spacer width="15"></p:spacer>
+									
+									
+
+
+								</p:outputPanel>
+							</div>
+						</f:facet>
+						
+						
+					
+						
+						<p:column filterBy="#{dato2.id}"
+							headerText="#{msg.CodigoGipSP}"
+							filterMatchMode="contains" sortBy="#{dato2.id}">
+							<h:outputText value="#{dato2.id}" />
+						</p:column>
+
+						<p:column filterBy="#{dato2.consecutivoDocumento}"
+							headerText="#{msg.reporteFacturasConsecutivo}"
+							filterMatchMode="contains" sortBy="#{dato2.consecutivoDocumento}">
+							<h:outputText value="#{dato2.consecutivoDocumento}" />
+						</p:column>
+						
+						<p:column filterBy="#{dato2.fechaGeneracion}"
+							headerText="#{msg.FechaBusquedaFormatoNovedad}"
+							filterMatchMode="contains" sortBy="#{dato2.fechaGeneracion}">
+							<h:outputText value="#{dato2.fechaGeneracion}" />
+						</p:column>
+
+						
+
+					</p:dataTable>
+
+
+
+	</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+
+
+</ui:composition>
+

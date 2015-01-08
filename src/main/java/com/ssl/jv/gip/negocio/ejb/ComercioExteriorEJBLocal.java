@@ -113,5 +113,8 @@ public interface ComercioExteriorEJBLocal {
 	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente);
 	
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento);
+	
+	public List<Documento> consultarDocumento(Map<String, Object> parametros);
+	public ListaEmpaqueDTO consultarDocumentoListaEmpaque (String consecutivoDocumento);
 
 }

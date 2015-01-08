@@ -28,4 +28,19 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento>{
 	public List<Documento> consultarOrdenesDeDespacho();
 	
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
+
+	public List<Documento> consultarDocumento(Map<String, Object> parametros);
+
+	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
+			String consecutivoDocumento);
+
+	//public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
+		//	String consecutivoDocumento);
+	
+	//public List<Documento> consultarDocumento(Map<String, Object> parametros);
+	
+	//public List<ListaEmpaqueDTO> consultarDocumentoListaEmpaque(String consecutivoDocumento);
+	
+	 
+	
 }

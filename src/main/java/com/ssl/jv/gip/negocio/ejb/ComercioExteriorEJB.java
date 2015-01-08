@@ -257,5 +257,16 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento){
 		return documentoDAO.consultarDocumentosPorConsecutivoPedido(consecutivoDocumento);
 	}
+	
+	@Override
+	public List<Documento> consultarDocumento(Map<String, Object> parametros) {
+		// TODO Auto-generated method stub
+		return documentoDAO.consultarDocumento(parametros);
+	}
+	
+	@Override
+	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(String consecutivoDocumento){
+		return documentoDAO.consultarDocumentoListaEmpaque(consecutivoDocumento);	
+	}
 
 }

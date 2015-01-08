@@ -106,6 +106,11 @@
 	        <from-outcome>listado_SP_Generar_FP</from-outcome>
             <to-view-id>/ui/comercioexterior/generarFacturaProforma.xhtml</to-view-id>
         </navigation-case>
+        
+        <navigation-case>
+	        <from-outcome>listado_LE2</from-outcome>
+            <to-view-id>/ui/reportes/listaEmpaque.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
 
 </faces-config>

@@ -9,10 +9,13 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.negocio.dto.ClienteDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
@@ -629,5 +632,170 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 		return listado;
 	}
 	
+	
+	
+	public List<Documento> consultarDocumento(
+			Map<String, Object> parametros) {
+		// TODO Auto-generated method stub
+		
+		List<Documento> lista = new ArrayList<Documento>();
 
+		//String sql="";
+
+		int tipo = (Integer)parametros.get("tipo");
+		int estado = (Integer) parametros.get("estado");
+		
+		String  parametroConseDoc = (String) parametros.get("parametroConseDoc");
+		
+		
+		System.out.println("tipo doc:"+tipo);
+		System.out.println("estado doc:"+estado);
+		System.out.println("parametroConseDoc:"+parametroConseDoc);
+		
+		/*sql="select documentos.id,documentos.consecutivo_documento,documentos.fecha_generacion"
+				+ " from documentos "
+				+ " where documentos.id_tipo_documento= " + tipo
+				+ " AND documentos.id_estado = " + estado
+				+ " ORDER BY documentos.id DESC";
+		
+		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
+		*/
+		
+		//List<Funcionalidad> opciones = null;
+		
+		try {
+			//String query = "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
+			
+			String query ="select d from Documento d where id_tipo_documento= :tipo AND id_estado = :estado AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
+			
+		
+			
+			lista = em.createQuery(query).setParameter("tipo", tipo)
+					.setParameter("estado", estado)
+					.setParameter("parametroConseDoc", parametroConseDoc)
+					.getResultList();
+					//lista = em.createQuery(query).setParameter("tipo", tipo)	
+						
+			
+			//query = "SELECT a FROM Documento a WHERE id_tipo_documento='"+ConstantesTipoDocumento.ORDEN_DESPACHO+"'";
+			//			String query = "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
+			//opciones = em.createQuery(query).setParameter("email", login)
+			//	.getResultList();
+			
+			/*String query = "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
+			opciones = em.createQuery(query).setParameter("email", login)
+					.getResultList();*/
+			
+
+			System.out.println("query LE"+lista.size());
+		} catch (Exception e) {
+			LOGGER.error(e);
+		}
+		
+		
+		
+		
+		/*if(listado != null){
+			for(Object[] objs : listado){
+				//Documento dto = new Documento();
+				
+				ListaEmpaqueDTO dto = new ListaEmpaqueDTO();
+				
+				
+				//dto.setId(objs[0] != null ? Long.parseLong(objs[0].toString()) : null);
+				dto.setIdDocumento(objs[0] != null ? objs[0].toString() : null);
+				//dto.setIdDocumentoFX(objs[1] != null ? Long.parseLong(objs[1].toString()) : null);
+				dto.setConsecutivoDocumento(objs[1] != null ? objs[1].toString() : null);
+				dto.setFechaGeneracion((Timestamp) (objs[2] != null ? objs[2]: null));
+				
+				lista.add(dto);
+			}
+		}*/
+		
+		return lista;
+		//return listado;
+	}
+
+	
+	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(String strConsecutivoDocumento) {
+		// TODO Auto-generated method stub
+		
+		
+		ListaEmpaqueDTO dto = new ListaEmpaqueDTO();
+
+		String query="";
+		//System.out.println("parametroConseDoc:"+strConsecutivoDocumento);
+		query="SELECT  doc.id,doc.consecutivo_documento,doc.fecha_generacion,doc.documento_cliente,"
+				+ " cli.nombre AS NOMBRE_CLIENTE,cli.direccion,cli.telefono,cli.contact"
+				+ "o, inc.descripcion AS NOMBRE_INCOTERM,"
+				+ " docxneg.observaciones_marcacion_2, docxneg.cantidad_contenedores_de_20, docxneg.cantidad_contenedores_de_40, docxneg.lugar_incoterm,"  
+		+ " docxneg.cantidad_estibas ,docxneg.peso_bruto_estibas, docxneg.descripcion "
+		+ " FROM documentos doc INNER JOIN clientes cli on doc.id_cliente=cli.id "
+		+ " INNER JOIN Documento_x_Negociacion docxneg on doc.id=docxneg.id_documento" 
+		+ " INNER JOIN termino_incoterm inc on inc.id = docxneg.id_termino_incoterm "
+		+ " WHERE  doc.consecutivo_documento='"+strConsecutivoDocumento+"'";
+
+		
+		List<Object[]> listado = em.createNativeQuery(query).getResultList();
+		
+		
+		//ListaEmpaqueDTO objDoc= (ListaEmpaqueDTO) em.createNativeQuery(query).getSingleResult();
+		//Query q = em.createQuery(query);
+		//List<ListaEmpaqueDTO> listado = em.createNativeQuery(query).getResultList();
+		//return (ListaEmpaqueDTO) q.getSingleResult();
+		
+	/*	try {
+			String query ="select d from Documento d where id_tipo_documento= :tipo AND id_estado = :estado AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
+			lista = em.createQuery(query).setParameter("tipo", tipo)
+					.setParameter("estado", estado)
+					.setParameter("parametroConseDoc", parametroConseDoc)
+					.getResultList();
+			
+
+			System.out.println("query LE"+lista.size());
+		} catch (Exception e) {
+			LOGGER.error(e);
+		}
+		
+		*/
+		
+		
+		if(listado != null){
+			for(Object[] objs : listado){
+				
+				dto.setIdDocumento(objs[0] != null ? objs[0].toString() : null);
+				dto.setConsecutivoDocumento(objs[1] != null ? objs[1].toString() : null);
+				dto.setFechaGeneracion((Timestamp) (objs[2] != null ? objs[2]: null));
+				dto.setNumeroPedidoWeb(objs[3] != null ? objs[3].toString() : null);
+				
+				ClienteDTO objCli =new ClienteDTO();
+				
+				objCli.setNombre(objs[4] != null ? objs[4].toString() : null);
+				objCli.setDireccion(objs[5] != null ? objs[5].toString() : null);
+				objCli.setTelefono(objs[6] != null ? objs[6].toString() : null);
+				objCli.setContacto(objs[7] != null ? objs[7].toString() : null);
+				
+				dto.setCliente(objCli);
+				
+				dto.setDescripcionTerminoIncoterm(objs[8] != null ? objs[8].toString() : null);
+				dto.setObservacionMarcacion(objs[9] != null ? objs[9].toString() : null);
+				dto.setCantidadContenedores20(objs[10] != null ? new BigDecimal(objs[10].toString()) : null);
+				dto.setCantidadContenedores40(objs[11] != null ? new BigDecimal(objs[11].toString()) : null);
+				dto.setLugarIncoterm(objs[12] != null ? objs[12].toString() : null);
+				dto.setCantidadEstibas(objs[13] != null ? new Double( objs[13].toString()) : null);
+				dto.setPesoBrutoEstibas(objs[14] != null ? new Double( objs[14].toString()) : null);
+				dto.setObservacionDocumento(objs[15] != null ?  objs[15].toString() : null);
+				
+				
+			}
+		}
+		
+		return dto;
+		
+		
+	}
+
+	
+
+	
 }
