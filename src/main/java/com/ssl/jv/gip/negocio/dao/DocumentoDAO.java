@@ -679,60 +679,39 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 
 	}
 	
-	/**Consulta de ordenes de despacho por filtro
-	 * 
-	 * @return Lista de ordenes de despacho
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Documento> consultarOrdenesDeDespachoPorFiltro(Documento filtro) {
-		List<Documento> listado = new ArrayList<Documento>();
-		String query;
-		try {
-			query = "SELECT a FROM documentos a WHERE a.consecutivo_documento like :codigo order by a.consecutivo_documento";
-			listado = em
-					.createQuery(query)
-					.setParameter(
-							"codigo",
-							PORCENTAJE_LIKE + filtro.getConsecutivoDocumento()
-									+ PORCENTAJE_LIKE).getResultList();
-		} catch (Exception e) {
-			LOGGER.error(e
-					+ "********Error consultando ordenes de despacho por filtro");
-			return null;
-		}
-		return listado;
-
-	}
 
 	/**
-	 * Consulta de todas las ordenes de despacho
+	 * Consulta de todas las ordenes de despacho con opción de filtro
 	 * 
-	 * @return Lista de ordenes de despacho
+	 * @return Lista de documentos de tipo ordenes de despacho
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Documento> consultarOrdenesDeDespacho() {
-		List<Documento> listado = new ArrayList<Documento>();
-		String sql;
-		try {
-			sql = "SELECT documentos.consecutivo_documento,"
-					+ "documentos.numero_factura,"
-					+ "documentos.fecha_generacion "
-					+ "FROM documentos "
-					+ "WHERE documentos.id_tipo_documento = "
-					+ ConstantesTipoDocumento.ORDEN_DESPACHO+" ";
-//					+ "LIMIT 100";
-			List<Object[]> aux = em.createNativeQuery(sql).getResultList();
-			for (Object[] objs : aux) {
-				Documento ordenDeDespacho = new Documento();
-				ordenDeDespacho.setConsecutivoDocumento(objs[0] != null ? objs[0].toString(): null);
-				ordenDeDespacho.setNumeroFactura(objs[1] != null ? objs[1].toString(): null);
-				ordenDeDespacho.setFechaGeneracion((java.sql.Timestamp) (objs[2] != null ? objs[2]: null));
-				listado.add(ordenDeDespacho);
-			}
-		} catch (Exception e) {
-			LOGGER.error(e + " ********Error consultando ordenes de despacho");
+	public List<Documento> consultarOrdenesDeDespacho(String consecutivoDocumento) {
+		List<Documento> listado= new ArrayList<Documento>();
+		String query;
+		try{
+			query = "SELECT d FROM Documento d "+
+					"JOIN FETCH d.cliente c "+
+					"JOIN FETCH d.estadosxdocumento exd "+
+					"JOIN FETCH exd.estado e "+
+					"JOIN FETCH d.documentoXNegociacions dxn "+
+					"JOIN FETCH dxn.terminoIncoterm ti "+
+					"JOIN FETCH c.ciudad ciu "+
+					"JOIN FETCH c.metodoPago mp "+
+					"WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id IN (:estado1, :estado2) "+
+					" AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.observacionDocumento IN (SELECT d3.consecutivoDocumento FROM Documento d3 WHERE d3.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d3.estadosxdocumento.estado.id IN (:estado1, :estado2)))"+
+					" AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " +
+					" ORDER BY d.id DESC";
+			
+			listado= em.createQuery(query)
+					.setParameter("tipoDocumento", (long)ConstantesTipoDocumento.SOLICITUD_PEDIDO)
+					.setParameter("estado1", (long)ConstantesDocumento.VERIFICADO)
+					.setParameter("estado2", (long)ConstantesDocumento.APROBADA)
+					.setParameter("consecutivo",consecutivoDocumento.equals("")?"%":"%"+consecutivoDocumento+"%")
+					.getResultList();
+		} catch(Exception e){
+			LOGGER.error(e + "********Error consultando Documentos por tipo de documento ORDEN DE DESPACHO");
 			return null;
 		}
 		return listado;
