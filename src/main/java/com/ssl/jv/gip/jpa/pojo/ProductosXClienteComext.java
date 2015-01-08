@@ -34,7 +34,7 @@ public class ProductosXClienteComext implements Serializable {
 
 	private BigDecimal descuentoxproducto;
 
-	@Column(name = "id", insertable = false)
+	@Column(name = "id")
 	private Long id;
 
 	@Column(name = "id_moneda")

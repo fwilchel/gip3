@@ -174,6 +174,11 @@
     NAME="output18" PATH="/ui/maestros/crearProductoClienteComExt.xhtml"
     TARGET="rules:#ui#maestros#crearProductoClienteComExt.xhtml"
     TITLE="crear_maestro_productosporcliente_CE" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_GenerarOrdenDespacho::#ui#abastecimiento#ordenDespacho.xhtml"
+    NAME="output19" PATH="/ui/abastecimiento/ordenDespacho.xhtml"
+    TARGET="rules:#ui#abastecimiento#ordenDespacho.xhtml"
+    TITLE="listado_GenerarOrdenDespacho" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
@@ -229,4 +234,6 @@
   PATH="/ui/maestros/terminoIncotermXMedioTrans.xhtml"
 >>>>>>> 0934eba0395a4f97dc8d2978ef2d0780ff9f12eb
   SHAPE="304,721,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#abastecimiento#ordenDespacho.xhtml"
+  PATH="/ui/abastecimiento/ordenDespacho.xhtml" SHAPE="304,753,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
