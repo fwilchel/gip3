@@ -380,14 +380,14 @@ public class Ubicacion implements Serializable {
 
 	public Documento addDocumentos1(Documento documentos1) {
 		getDocumentos1().add(documentos1);
-		documentos1.setUbicacione1(this);
+		documentos1.setUbicacionDestino(this);
 
 		return documentos1;
 	}
 
 	public Documento removeDocumentos1(Documento documentos1) {
 		getDocumentos1().remove(documentos1);
-		documentos1.setUbicacione1(null);
+		documentos1.setUbicacionDestino(null);
 
 		return documentos1;
 	}
@@ -402,14 +402,14 @@ public class Ubicacion implements Serializable {
 
 	public Documento addDocumentos2(Documento documentos2) {
 		getDocumentos2().add(documentos2);
-		documentos2.setUbicacione2(this);
+		documentos2.setUbicacionOrigen(this);
 
 		return documentos2;
 	}
 
 	public Documento removeDocumentos2(Documento documentos2) {
 		getDocumentos2().remove(documentos2);
-		documentos2.setUbicacione2(null);
+		documentos2.setUbicacionOrigen(null);
 
 		return documentos2;
 	}
