@@ -22,7 +22,7 @@ import com.ssl.jv.gip.web.util.Modo;
 
 /**Managed Bean para ordenes de despacho
  * 
- * @author Daniel Cortés
+ * @author Daniel Cortes
  * @version 1.0
  * @email danicorc@gmail.com
  *
