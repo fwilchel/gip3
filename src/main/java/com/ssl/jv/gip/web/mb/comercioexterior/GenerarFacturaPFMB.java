@@ -244,6 +244,7 @@ public class GenerarFacturaPFMB extends UtilMB{
 		documento.setDocumentoCliente(this.documentoSeleccionado.getDocumentoCliente());
 		documento.setFechaEsperadaEntrega(this.documentoSeleccionado.getFechaEsperadaEntrega());
 
+		this.comercioEjb.crearFactura(documento);
 			
 			//REVISAR CREACION DOC
 			String cadena = postDocumentoDao.adicionar3(documento);

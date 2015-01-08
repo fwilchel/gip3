@@ -18,6 +18,8 @@ public class Documento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="documentoSeq",sequenceName="documentos_id_seq",allocationSize=1)
+	@GeneratedValue(generator="documentoSeq",strategy=GenerationType.SEQUENCE)
 	private Long id;
 
 	@Column(name="consecutivo_documento")

@@ -216,9 +216,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		Documento vdocumento = documentoDAO.findByPK(documento.getIdDocumento());
 		vdocumento.setValorTotal(documento.getValorTotalDocumento());
 		Ubicacion ubicacion1 = ubicacionDAO.findByPK(documento.getIdUbicacionOrigen());
-		vdocumento.setUbicacione1(ubicacion1);
+		vdocumento.setUbicacionOrigen(ubicacion1);
 		Ubicacion ubicacion2 = ubicacionDAO.findByPK(documento.getIdUbicacionDestino());
-		vdocumento.setUbicacione2(ubicacion2);
+		vdocumento.setUbicacionDestino(ubicacion2);
 		vdocumento.setFechaEsperadaEntrega(documento.getFechaEsperadaEntrega());
 		
 		
@@ -262,6 +262,13 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	@Override
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento){
 		return documentoDAO.consultarDocumentosPorConsecutivoPedido(consecutivoDocumento);
+	}
+	
+	@Override
+	public boolean crearFactura(Documento documento){
+		documento=(Documento)this.documentoDAO.add(documento);
+		
+		return true;
 	}
 
 }

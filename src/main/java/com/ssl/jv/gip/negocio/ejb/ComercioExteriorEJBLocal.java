@@ -116,5 +116,7 @@ public interface ComercioExteriorEJBLocal {
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento);
 	
 	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente);
+	
+	public boolean crearFactura(Documento documento);
 
 }
