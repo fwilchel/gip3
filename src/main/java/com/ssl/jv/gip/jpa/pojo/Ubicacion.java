@@ -82,19 +82,19 @@ public class Ubicacion implements Serializable {
 	private List<CostoVenta> costoVentas;
 
 	//bi-directional many-to-one association to Documento
-	@OneToMany(mappedBy="ubicacione1")
+	@OneToMany(mappedBy="ubicacionDestino")
 	private List<Documento> documentos1;
 
 	//bi-directional many-to-one association to Documento
-	@OneToMany(mappedBy="ubicacione2")
+	@OneToMany(mappedBy="ubicacionOrigen")
 	private List<Documento> documentos2;
 
 	//bi-directional many-to-one association to Documento2
-	@OneToMany(mappedBy="ubicacione1")
+	@OneToMany(mappedBy="ubicacionDestino")
 	private List<Documento2> documentos2s1;
 
 	//bi-directional many-to-one association to Documento2
-	@OneToMany(mappedBy="ubicacione2")
+	@OneToMany(mappedBy="ubicacionOrigen")
 	private List<Documento2> documentos2s2;
 
 	//bi-directional many-to-one association to EstandarConteo
@@ -110,11 +110,11 @@ public class Ubicacion implements Serializable {
 	private List<HistorialCierre> historialCierres;
 
 	//bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy="ubicacione1")
+	@OneToMany(mappedBy="ubicacionDestino")
 	private List<MovimientosInventario> movimientosInventarios1;
 
 	//bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy="ubicacione2")
+	@OneToMany(mappedBy="ubicacionOrigen")
 	private List<MovimientosInventario> movimientosInventarios2;
 
 	//bi-directional many-to-one association to NivelInventarioxubicacion
@@ -424,14 +424,14 @@ public class Ubicacion implements Serializable {
 
 	public Documento2 addDocumentos2s1(Documento2 documentos2s1) {
 		getDocumentos2s1().add(documentos2s1);
-		documentos2s1.setUbicacione1(this);
+		documentos2s1.setUbicacionDestino(this);
 
 		return documentos2s1;
 	}
 
 	public Documento2 removeDocumentos2s1(Documento2 documentos2s1) {
 		getDocumentos2s1().remove(documentos2s1);
-		documentos2s1.setUbicacione1(null);
+		documentos2s1.setUbicacionDestino(null);
 
 		return documentos2s1;
 	}
@@ -446,14 +446,14 @@ public class Ubicacion implements Serializable {
 
 	public Documento2 addDocumentos2s2(Documento2 documentos2s2) {
 		getDocumentos2s2().add(documentos2s2);
-		documentos2s2.setUbicacione2(this);
+		documentos2s2.setUbicacionOrigen(this);
 
 		return documentos2s2;
 	}
 
 	public Documento2 removeDocumentos2s2(Documento2 documentos2s2) {
 		getDocumentos2s2().remove(documentos2s2);
-		documentos2s2.setUbicacione2(null);
+		documentos2s2.setUbicacionOrigen(null);
 
 		return documentos2s2;
 	}
@@ -534,14 +534,14 @@ public class Ubicacion implements Serializable {
 
 	public MovimientosInventario addMovimientosInventarios1(MovimientosInventario movimientosInventarios1) {
 		getMovimientosInventarios1().add(movimientosInventarios1);
-		movimientosInventarios1.setUbicacione1(this);
+		movimientosInventarios1.setUbicacionDestino(this);
 
 		return movimientosInventarios1;
 	}
 
 	public MovimientosInventario removeMovimientosInventarios1(MovimientosInventario movimientosInventarios1) {
 		getMovimientosInventarios1().remove(movimientosInventarios1);
-		movimientosInventarios1.setUbicacione1(null);
+		movimientosInventarios1.setUbicacionDestino(null);
 
 		return movimientosInventarios1;
 	}
@@ -556,14 +556,14 @@ public class Ubicacion implements Serializable {
 
 	public MovimientosInventario addMovimientosInventarios2(MovimientosInventario movimientosInventarios2) {
 		getMovimientosInventarios2().add(movimientosInventarios2);
-		movimientosInventarios2.setUbicacione2(this);
+		movimientosInventarios2.setUbicacionOrigen(this);
 
 		return movimientosInventarios2;
 	}
 
 	public MovimientosInventario removeMovimientosInventarios2(MovimientosInventario movimientosInventarios2) {
 		getMovimientosInventarios2().remove(movimientosInventarios2);
-		movimientosInventarios2.setUbicacione2(null);
+		movimientosInventarios2.setUbicacionOrigen(null);
 
 		return movimientosInventarios2;
 	}
