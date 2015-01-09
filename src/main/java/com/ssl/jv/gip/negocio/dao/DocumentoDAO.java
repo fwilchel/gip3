@@ -1,7 +1,10 @@
 package com.ssl.jv.gip.negocio.dao;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -189,13 +192,13 @@ public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm(){
 	@Override
 	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma){
 		List<ListaEmpaqueDTO> lista = new ArrayList<ListaEmpaqueDTO>();
-		
-		String sql = "SELECT  documentos.id,documentos.consecutivo_documento,documentos.fecha_generacion,"
-				+" documentos.documento_cliente,documentos.id_cliente as doc_id,"
-				+" documentos.id_tipo_documento,documentos.id_estado,"
-				+" cli.nombre AS NOMBRE_CLIENTE,cli.id AS ID_CLIENTE,"
-				+" estados.nombre AS NOMBRE_ESTADO,cli.direccion,cli.telefono,"
-				+" cli.contacto,inc.id AS ID_INCOTERM, inc.descripcion AS NOMBRE_INCOTERM,"
+		try {
+			String sql = "SELECT  documentos.id, documentos.consecutivo_documento,documentos.fecha_generacion,"
+				+" documentos.documento_cliente, documentos.id_cliente as doc_id,"
+				+" documentos.id_tipo_documento, documentos.id_estado,"
+				+" cli.nombre AS NOMBRE_CLIENTE, cli.id AS ID_CLIENTE,"
+				+" estados.nombre AS NOMBRE_ESTADO, cli.direccion, cli.telefono,"
+				+" cli.contacto, inc.id AS ID_INCOTERM, inc.descripcion AS NOMBRE_INCOTERM,"
 				+" doc.costo_entrega, doc.costo_seguro, doc.costo_flete, doc.otros_gastos, doc.observaciones_marcacion_2, doc.total_peso_neto, doc.total_peso_bruto," 
 				+" doc.total_tendidos, doc.total_pallets, documentos.fecha_esperada_entrega," 
 				+" doc.cantidad_contenedores_de_20, doc.cantidad_contenedores_de_40, doc.lugar_incoterm," 
@@ -204,7 +207,7 @@ public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm(){
 				+" documentos.id_ubicacion_origen,documentos.id_ubicacion_destino,"
 				+" (select observacion_documento from documentos doc2" 
 				+" where doc2.consecutivo_documento = documentos.observacion_documento)" 
-				+" as observacion_documento2, ub.nombre, cli.nit,cli.factura_ingles"
+				+" as observacion_documento2, ub.nombre, cli.nit,cli.factura_ingles, documentos.id_proveedor "
 				+" FROM documentos"
 				+" INNER JOIN clientes cli on documentos.id_cliente=cli.id"
 				+" INNER JOIN estados on documentos.id_estado=estados.id"
@@ -219,42 +222,136 @@ public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm(){
 				+" AND UPPER(documentos.consecutivo_documento) LIKE UPPER('%" + consecutivoFacturaProforma + "%')"
 				+" ORDER BY documentos.id DESC";
 		
-		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
-		
-		if(listado != null){
-			for(Object[] objs : listado){
-				ListaEmpaqueDTO dto = new ListaEmpaqueDTO();
-				ClienteDTO clienteDTO = new ClienteDTO(); 
-				dto.setIdDocumento(objs[0] != null ? objs[0].toString() : null);
-				dto.setConsecutivoDocumento(objs[1] != null ? objs[1].toString() : null);
-				dto.setFechaGeneracion((Timestamp) (objs[2] != null ? objs[2]: null));
-				dto.setDescripcionTerminoIncoterm(objs[14] != null ? objs[14].toString() : null);
-				dto.setCantidadContenedores20(objs[25] != null ? new BigDecimal(objs[25].toString()) : null);
-				dto.setCantidadContenedores40(objs[26] != null ? new BigDecimal(objs[26].toString()) : null);
-				dto.setLugarIncoterm(objs[27] != null ? objs[27].toString() : null);
-				dto.setNumeroPedidoWeb(objs[3] != null ? objs[3].toString() : null);
-				dto.setFechaEntrega((Timestamp) (objs[33] != null ? objs[33]: null));
-				dto.setObservacionDocumento(objs[38] != null ? objs[38].toString() : null);
-				dto.setCanal(objs[39] != null ? objs[39].toString() : null);
-				dto.setObservacionMarcacion(objs[19] != null ? objs[19].toString() : null);
-				dto.setSitioEntrega(objs[34] != null ? objs[34].toString() : null);
-				dto.setTotalPallets(objs[23] != null ? Double.valueOf(objs[23].toString()) : null);
-				
-				clienteDTO.setId(objs[4] != null ? objs[4].toString() : null);
-				clienteDTO.setNombre(objs[7] != null ? objs[7].toString() : null);
-				clienteDTO.setDireccion(objs[10] != null ? objs[10].toString() : null);
-				clienteDTO.setTelefono(objs[11] != null ? objs[11].toString() : null);
-				clienteDTO.setContacto(objs[12] != null ? objs[12].toString() : null);
-				dto.setCliente(clienteDTO);
-				
-				dto.setCantidadEstibas(Math.ceil(dto.getTotalPallets()));
-				dto.setPesoBrutoEstibas(dto.getCantidadEstibas() * 20D);
-				lista.add(dto);
+			List<Object[]> listado = em.createNativeQuery(sql).getResultList();
+			
+			if(listado != null){
+				for(Object[] objs : listado){
+					ListaEmpaqueDTO dto = new ListaEmpaqueDTO();
+					ClienteDTO clienteDTO = new ClienteDTO(); 
+					dto.setIdDocumento(objs[0] != null ? objs[0].toString() : null);
+					dto.setConsecutivoDocumento(objs[1] != null ? objs[1].toString() : null);
+					dto.setFechaGeneracion((Timestamp) (objs[2] != null ? objs[2]: null));
+					dto.setDescripcionTerminoIncoterm(objs[14] != null ? objs[14].toString() : null);
+					dto.setCantidadContenedores20(objs[25] != null ? new BigDecimal(objs[25].toString()) : null);
+					dto.setCantidadContenedores40(objs[26] != null ? new BigDecimal(objs[26].toString()) : null);
+					dto.setLugarIncoterm(objs[27] != null ? objs[27].toString() : null);
+					dto.setNumeroPedidoWeb(objs[3] != null ? objs[3].toString() : null);
+					dto.setFechaEntrega((Timestamp) (objs[33] != null ? objs[33]: null));
+					dto.setObservacionDocumento(objs[38] != null ? objs[38].toString() : null);
+					dto.setCanal(objs[39] != null ? objs[39].toString() : null);
+					dto.setObservacionMarcacion(objs[19] != null ? objs[19].toString() : null);
+					dto.setSitioEntrega(objs[34] != null ? objs[34].toString() : null);
+					dto.setTotalPallets(objs[23] != null ? Double.valueOf(objs[23].toString()) : null);
+					dto.setSolicitudCafe(objs[35].toString() == "t" ? true : false);
+					dto.setIdEstado(objs[6] != null ? objs[6].toString() : null);
+					dto.setFechaEsperadaEntrega((Timestamp) (objs[24] != null ? objs[24]: null));
+					dto.setIdProveedor(objs[42] != null ? objs[42].toString() : null);
+					dto.setIdUbicacionOrigen(objs[36] != null ? objs[36].toString() : null);
+					dto.setIdUbicacionDestino(objs[37] != null ? objs[37].toString() : null);
+					dto.setIdTerminoIncoterm(objs[13] != null ? objs[13].toString() : null);
+					dto.setCostoEntrega(objs[15] != null ? new BigDecimal(objs[15].toString()) : null);
+					dto.setCostoSeguro(objs[16] != null ? new BigDecimal(objs[16].toString()) : null);
+					dto.setCostoFlete(objs[17] != null ? new BigDecimal(objs[17].toString()) : null);
+					dto.setOtrosGastos(objs[18] != null ? new BigDecimal(objs[18].toString()) : null);
+					dto.setCantidadDiasVigencia(objs[29] != null ? objs[29].toString() : null);
+					dto.setTotalPesoNeto(objs[20] != null ? Double.valueOf(objs[20].toString()) : null);
+					dto.setTotalPesoBruto(objs[21] != null ? Double.valueOf(objs[21].toString()) : null);
+					dto.setTotalTendidos(objs[22] != null ? Double.valueOf(objs[22].toString()) : null);
+					dto.setIdTipoDocumento(objs[5] != null ? objs[5].toString() : null);
+					
+					clienteDTO.setId(objs[4] != null ? objs[4].toString() : null);
+					clienteDTO.setDocumento(objs[3] != null ? objs[3].toString() : null);
+					clienteDTO.setNombre(objs[7] != null ? objs[7].toString() : null);
+					clienteDTO.setDireccion(objs[10] != null ? objs[10].toString() : null);
+					clienteDTO.setTelefono(objs[11] != null ? objs[11].toString() : null);
+					clienteDTO.setContacto(objs[12] != null ? objs[12].toString() : null);
+					dto.setCliente(clienteDTO);
+					
+					dto.setCantidadEstibas(Math.ceil(dto.getTotalPallets()));
+					dto.setPesoBrutoEstibas(dto.getCantidadEstibas() * 20D);
+					lista.add(dto);
+					}
 				}
-		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		return lista;
 	}
 	
-
+	@SuppressWarnings("unchecked")
+	@Override
+	public BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO){
+		String sqlSec = "select nextval('documentos_id_seq') AS SEQ";
+		BigInteger secuence = (BigInteger)em.createNativeQuery(sqlSec).getSingleResult();
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		String fechaoshig = dateFormat.format(listaEmpaqueDTO.getFechaEsperadaEntrega());
+//		
+//		System.out.println("********FECHA  " +fechaoshig);
+		
+		String sqlEmpresa = "select id_empresa from ubicaciones where id = " 
+		+ listaEmpaqueDTO.getIdUbicacionOrigen() + " or id = "
+		+ listaEmpaqueDTO.getIdUbicacionDestino();
+		BigInteger prefijoEmpresa = (BigInteger)em.createNativeQuery(sqlEmpresa).getSingleResult();
+		
+		String sqlConsecutivoEmpresa = "select nextval('" + "LE" 
+				+ prefijoEmpresa + "_seq') AS SEQ";
+		BigInteger consecutivoEmpresa = (BigInteger)em.createNativeQuery(sqlConsecutivoEmpresa).getSingleResult();
+		
+		String sql;
+		try {
+			sql = "INSERT INTO documentos (consecutivo_documento,"
+					+ " fecha_esperada_entrega, id_ubicacion_origen, id_ubicacion_destino,"
+					+ " id_tipo_documento, fecha_generacion,"
+					+ " id_estado, observacion_documento, id, documento_cliente, "
+					+ " sitio_entrega, id_cliente)"
+					+ " VALUES ('LE" + prefijoEmpresa + "-" + consecutivoEmpresa.toString() + "','" 
+					+ listaEmpaqueDTO.getFechaEsperadaEntrega() + "','" 
+					+ listaEmpaqueDTO.getIdUbicacionOrigen() + "','" 
+					+ listaEmpaqueDTO.getIdUbicacionDestino() + "','" 
+					+ listaEmpaqueDTO.getIdTipoDocumento() + "','" 
+					+ listaEmpaqueDTO.getFechaGeneracion() + "','" 
+					+ listaEmpaqueDTO.getIdEstado() + "','" 
+					+ listaEmpaqueDTO.getObservacionDocumento() + "','" 
+					+ secuence + "','" 
+					+ listaEmpaqueDTO.getCliente().getDocumento() + "','" 
+					+ listaEmpaqueDTO.getSitioEntrega() + "','" 
+					+ listaEmpaqueDTO.getCliente().getId() + "')";
+		
+		em.createNativeQuery(sql).executeUpdate();
+		
+		sql = "INSERT INTO Documento_x_Negociacion (id_documento, id_termino_incoterm, "
+				+ " costo_entrega, costo_seguro, costo_flete, otros_gastos,"
+				+ " observaciones_marcacion_2,total_peso_neto,total_peso_bruto,"
+				+ "	total_tendidos,total_pallets,cantidad_dias_vigencia,"
+				+ " solicitud_cafe,cantidad_contenedores_de_20,cantidad_contenedores_de_40, "
+				+ " lugar_incoterm,cantidad_estibas,peso_bruto_estibas,descripcion)"
+				+ " VALUES ('" + secuence + "','" 
+				+ listaEmpaqueDTO.getIdTerminoIncoterm() + "','" 
+				+ listaEmpaqueDTO.getCostoEntrega() + "','" 
+				+ listaEmpaqueDTO.getCostoSeguro() + "','" 
+				+ listaEmpaqueDTO.getCostoFlete() + "','" 
+				+ listaEmpaqueDTO.getOtrosGastos() + "','" 
+				+ listaEmpaqueDTO.getObservacionMarcacion() + "','" 
+				+ listaEmpaqueDTO.getTotalPesoNeto() + "','" 
+				+ listaEmpaqueDTO.getTotalPesoBruto() + "','" 
+				+ listaEmpaqueDTO.getTotalTendidos() + "','" 
+				+ listaEmpaqueDTO.getTotalPallets() + "','" 
+				+ listaEmpaqueDTO.getCantidadDiasVigencia() + "','" 
+				+ listaEmpaqueDTO.getSolicitudCafe() + "','" 
+				+ listaEmpaqueDTO.getCantidadContenedores20() + "','" 
+				+ listaEmpaqueDTO.getCantidadContenedores40() + "','" 
+				+ listaEmpaqueDTO.getLugarIncoterm() + "'," 
+				+ listaEmpaqueDTO.getCantidadEstibas() + "," 
+				+ listaEmpaqueDTO.getPesoBrutoEstibas() + ",'" 
+				+ listaEmpaqueDTO.getDescripcionTerminoIncoterm() + "')";
+		
+		em.createNativeQuery(sql).executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		
+		return secuence;
+		
+	}
 
 }

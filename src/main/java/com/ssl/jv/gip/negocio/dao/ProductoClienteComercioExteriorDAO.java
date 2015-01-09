@@ -22,6 +22,7 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 
 /**
@@ -137,30 +138,54 @@ public class ProductoClienteComercioExteriorDAO extends
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
+	public List<ProductoDTO> consultarProductoPorDocumento(ListaEmpaqueDTO listaEmpaqueDTO){
 		List<ProductoDTO> lista = new ArrayList<ProductoDTO>();
-		String sql = "SELECT  productos_inventario.id,"
-				+ " productos_inventario.sku,"
-				+ " productos_inventario.nombre,"
-				+ "	productosXdocumentos.cantidad1, "
-				+ "	pi_ce.cantidad_x_embalaje,"
-				+ "	(CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje) END) as TotalCajas,"
-				+ "	((CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (pi_ce.peso_neto_embalaje/pi_ce.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as TotalPesoNeto,"
-				+ "	((CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (pi_ce.peso_bruto_embalaje/pi_ce.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as TotalPesoBruto,"
-				+ " ((CASE WHEN (pi_ce.cantidad_x_embalaje = 0 or pi_ce.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje)/pi_ce.total_cajas_x_pallet END)) AS TotalCajasPallet,"
-				+ "	tl.descripcion as DESCRIPCION_LOTE, dxl.consecutivo as CONSECUTIVO_LOTE,"
-				+ " productosXdocumentos.valor_unitario_usd,"
-				+ " productosXdocumentos.valor_total"
-				+ " FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
-				+ "  LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto"
-				+ "	 LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=productos_inventario.id"
-				+ "	 left join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id"
-				+ "  LEFT join documento_x_lotesoic dxl on dxl.id_tipo_lote=tl.id"
-				+ "	 WHERE productosXdocumentos.id_documento = " + idDocumento
-				+ "  AND (dxl.id_documento = " + idDocumento + " or dxl.id_documento is null) "
-				+ "		 AND productos_x_cliente_comext.id_cliente= " + idCliente 
-				+ "  order by CONSECUTIVO_LOTE";
-
+		String sql = "";
+		if (listaEmpaqueDTO.getSolicitudCafe()){
+			sql = "SELECT  productos_inventario.id,"
+					+ " productos_inventario.sku,"
+					+ " productos_inventario.nombre,"
+					+ "	productosXdocumentos.cantidad1, "
+					+ "	pi_ce.cantidad_x_embalaje,"
+					+ "	(CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje) END) as TotalCajas,"
+					+ "	((CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (pi_ce.peso_neto_embalaje/pi_ce.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as TotalPesoNeto,"
+					+ "	((CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (pi_ce.peso_bruto_embalaje/pi_ce.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as TotalPesoBruto,"
+					+ " ((CASE WHEN (pi_ce.cantidad_x_embalaje = 0 or pi_ce.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje)/pi_ce.total_cajas_x_pallet END)) AS TotalCajasPallet,"
+					+ " productosXdocumentos.valor_unitario_usd, "
+					+ " productosXdocumentos.valor_total, "
+					+ "	tl.descripcion as DESCRIPCION_LOTE, "
+					+ " dxl.consecutivo as CONSECUTIVO_LOTE "
+					+ " FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
+					+ "  LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto"
+					+ "	 LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=productos_inventario.id"
+					+ "	 left join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id"
+					+ "  LEFT join documento_x_lotesoic dxl on dxl.id_tipo_lote=tl.id"
+					+ "	 WHERE productosXdocumentos.id_documento = " + listaEmpaqueDTO.getIdDocumento()
+					+ "  AND (dxl.id_documento = " + listaEmpaqueDTO.getIdDocumento() + " or dxl.id_documento is null) "
+					+ "		 AND productos_x_cliente_comext.id_cliente = " + listaEmpaqueDTO.getCliente().getId() 
+					+ "  order by CONSECUTIVO_LOTE";
+			
+		} else if (!listaEmpaqueDTO.getSolicitudCafe()){
+			sql = "SELECT  productos_inventario.id,"
+					+ " productos_inventario.sku,"
+					+ " productos_inventario.nombre,"
+					+ " productosXdocumentos.cantidad1,"
+					+ " pi_ce.cantidad_x_embalaje,"
+					+ " (CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje) END) as TotalCajas,"
+					+ " ((CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (pi_ce.peso_neto_embalaje/pi_ce.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as TotalPesoNeto,"
+					+ " ((CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (pi_ce.peso_bruto_embalaje/pi_ce.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as TotalPesoBruto,"
+					+ " ((CASE WHEN (pi_ce.cantidad_x_embalaje = 0 or pi_ce.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje)/pi_ce.total_cajas_x_pallet END)) AS TotalCajasPallet,"
+					+ " productosXdocumentos.valor_unitario_usd, "
+					+ " productosXdocumentos.valor_total, "
+					+ " productos_inventario.id_uv "
+					+ " FROM productosXdocumentos"
+					+ " LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
+					+ " LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto"
+					+ " LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=productos_inventario.id"
+					+ " WHERE productosXdocumentos.id_documento = " + listaEmpaqueDTO.getIdDocumento() 
+					+ " AND (productos_x_cliente_comext.id_cliente = " + listaEmpaqueDTO.getCliente().getId()
+					+ " or productos_x_cliente_comext.id_cliente is null)";
+		}
 
 		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
 		
@@ -180,5 +205,29 @@ public class ProductoClienteComercioExteriorDAO extends
 			}
 		}
 		return lista;
+	}
+	
+	@Override
+	public void generarListaEmpaque(ProductoDTO productoDTO){
+		
+		String sql = "INSERT INTO productosXdocumentos (id_documento, id_producto, cantidad1, "
+				+ "	fecha_estimada_entrega, fecha_entrega, id_ml, "
+				+ " id_unidades, total_peso_neto_item, valor_unitario_usd,"
+				+ " valor_total, total_peso_bruto_item, cantidad_cajas_item,"
+				+ " cantidad_pallets_item, cantidad_x_embalaje)"
+				+ " VALUES (" + productoDTO.getIdDocumento() + "," 
+				+ productoDTO.getId() + "," 
+				+ productoDTO.getCantidad() + ","
+				+ " current_timestamp + '2 days', current_timestamp + '2 days', 'USD', "
+				+ " (select id_ud from productos_inventario where id = " + productoDTO.getId() + "), "
+				+ productoDTO.getPesoNeto() + "," 
+				+ productoDTO.getValorUnitarioUsd() + "," 
+				+ productoDTO.getValorTotal() + "," 
+				+ productoDTO.getPesoBruto() + "," 
+				+ productoDTO.getCantidadCajas() + "," 
+				+ productoDTO.getCantidadPallets() + "," 
+				+ productoDTO.getCantidadPorEmbalaje() + ")"; 
+		
+		em.createNativeQuery(sql).executeUpdate();
 	}
 }

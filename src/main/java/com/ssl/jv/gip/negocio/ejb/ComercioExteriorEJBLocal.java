@@ -1,10 +1,12 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
@@ -56,6 +58,12 @@ public interface ComercioExteriorEJBLocal {
 
 	List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
 	
-	List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente);
+	List<ProductoDTO> consultarProductoPorDocumento(ListaEmpaqueDTO listaEmpaqueDTO);
+
+	BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
+
+	Documento consultarDocumentoPorId(Long pId);
+
+	void generarListaEmpaque(ProductoDTO productoDTO);
 
 }

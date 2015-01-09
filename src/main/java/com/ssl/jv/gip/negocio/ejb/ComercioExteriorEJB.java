@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAO;
@@ -122,8 +124,24 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	}
 	
 	@Override
-	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
-		return productoClienteComercioExteriorDAO.consultarProductoPorDocumento(idDocumento, idCliente);
+	public List<ProductoDTO> consultarProductoPorDocumento(ListaEmpaqueDTO listaEmpaqueDTO){
+		return productoClienteComercioExteriorDAO.consultarProductoPorDocumento(listaEmpaqueDTO);
+	}
+	
+	@Override
+	public BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO){
+		return documentoDAO.generarListaEmpaque(listaEmpaqueDTO);
+	}
+
+	@Override
+	public void generarListaEmpaque(ProductoDTO productoDTO){
+		productoClienteComercioExteriorDAO.generarListaEmpaque(productoDTO);
+	}
+	
+	@Override
+	public Documento consultarDocumentoPorId(Long pId) {
+		Documento entidad = documentoDAO.findByPK(pId);
+		return entidad;
 	}
 
 }
