@@ -94,6 +94,7 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
 			ProductosInventarioFiltroDTO filtro) {
 		Query query = em
 				.createNamedQuery(ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_CATEGORIA_SKU_NOMBRE_ESTADO);
+		query.setParameter("idUsuario", filtro.getIdUsuario());
 		query.setParameter("paramDesactivado",
 				filtro.getEstado() != null ? true : false);
 		query.setParameter("desactivado", filtro.getEstado());
@@ -101,10 +102,13 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
 				filtro.getIdCategoria() != null ? true : false);
 		query.setParameter("idCategoria", filtro.getIdCategoria());
 		query.setParameter("paramSku", filtro.getSku() != null ? true : false);
-		query.setParameter("sku", filtro.getSku());
+		query.setParameter("sku",
+				filtro.getSku() != null ? "%" + filtro.getSku() + "%" : null);
 		query.setParameter("paramNombre", filtro.getNombre() != null ? true
 				: false);
-		query.setParameter("nombre", filtro.getNombre());
+		query.setParameter("nombre",
+				filtro.getNombre() != null ? "%" + filtro.getNombre() + "%"
+						: null);
 		return query.getResultList();
 	}
 

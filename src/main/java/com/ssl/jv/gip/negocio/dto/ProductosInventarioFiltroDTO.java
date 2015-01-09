@@ -17,6 +17,8 @@ public class ProductosInventarioFiltroDTO implements Serializable {
 
 	private String sku;
 
+	private String idUsuario;
+
 	public Long getIdCategoria() {
 		return idCategoria;
 	}
@@ -47,6 +49,14 @@ public class ProductosInventarioFiltroDTO implements Serializable {
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+
+	public String getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(String idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 }
