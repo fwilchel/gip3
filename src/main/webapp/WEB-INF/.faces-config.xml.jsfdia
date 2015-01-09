@@ -98,9 +98,16 @@
     TARGET="rules:#ui#abastecimiento#ordenDespacho.xhtml"
     TITLE="listado_GenerarOrdenDespacho" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="listado_LE2::#ui#reportes#listaEmpaque.xhtml" NAME="output20"
-    PATH="/ui/reportes/listaEmpaque.xhtml"
-    TARGET="rules:#ui#reportes#listaEmpaque.xhtml" TITLE="listado_LE2" model-entity="JSFProcessItemOutput"/>
+    ID="listado_SP_Generar_FP::#ui#comercioexterior#generarFacturaProforma.xhtml"
+    NAME="output20"
+    PATH="/ui/comercioexterior/generarFacturaProforma.xhtml"
+    TARGET="rules:#ui#comercioexterior#generarFacturaProforma.xhtml"
+    TITLE="listado_SP_Generar_FP" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_FP_Asignar_LotesOIC::#ui#comercioexterior#asignarLotesOIC.xhtml"
+    NAME="output21" PATH="/ui/comercioexterior/asignarLotesOIC.xhtml"
+    TARGET="rules:#ui#comercioexterior#asignarLotesOIC.xhtml"
+    TITLE="listado_FP_Asignar_LotesOIC" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
@@ -163,4 +170,6 @@
   PATH="/ui/reportes/listaEmpaque.xhtml" SHAPE="304,785,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#abastecimiento#ordenDespacho.xhtml"
   PATH="/ui/abastecimiento/ordenDespacho.xhtml" SHAPE="304,785,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#comercioexterior#asignarLotesOIC.xhtml"
+  PATH="/ui/comercioexterior/asignarLotesOIC.xhtml" SHAPE="304,817,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

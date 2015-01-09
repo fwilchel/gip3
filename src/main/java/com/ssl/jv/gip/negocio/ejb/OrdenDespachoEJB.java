@@ -15,7 +15,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 /**
  * Session Bean implementation class OrdenDespachoEJB
  * 
- * @author Daniel Cortés
+ * @author Daniel Cortes
  * @version 1.0
  * @email danicorc@gmail.com
  * 

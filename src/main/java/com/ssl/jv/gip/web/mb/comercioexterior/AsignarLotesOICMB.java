@@ -15,6 +15,8 @@ import javax.faces.bean.SessionScoped;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoicPK;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
@@ -23,9 +25,12 @@ import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
+import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
+import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
@@ -48,22 +53,23 @@ import com.ssl.jv.gip.web.util.Utilidad;
  * @phone 300 2146240
  * @version 1.0
  */
-@ManagedBean(name="generarFacturaPFMB")
+@ManagedBean(name="asignarLotesMB")
 @SessionScoped
-public class GenerarFacturaPFMB extends UtilMB{
+public class AsignarLotesOICMB extends UtilMB{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2780795923623719268L;
 
-	private static final Logger LOGGER = Logger.getLogger(GenerarFacturaPFMB.class);
+	private static final Logger LOGGER = Logger.getLogger(AsignarLotesOICMB.class);
 	private Timestamp currentTimeStamp;
 	private String consecutivoDocumento;
 	private Integer language=AplicacionMB.SPANISH;
 	private List<Documento> listaDocumentos;
 	private Documento documentoSeleccionado;
-	private List<ProductoGenerarFacturaPFDTO> productos;
+	private List<ProductoAsignarLoteOICDTO> productos;
+	private List<ProductoLoteAsignarLoteOICDTO> lotes;
 	private double totalCantidad=0;
 	private double totalValorTotal=0;
 	private double totalPesoNeto=0;
@@ -73,7 +79,6 @@ public class GenerarFacturaPFMB extends UtilMB{
 	private double totalCantidadPallets=0;
 	private double totalCostos=0;
 	private double totalNegociacion=0;
-	private Integer cantidadDiasVigencia;
 	private boolean deshabilitado=false;
 	
 	@EJB
@@ -82,7 +87,7 @@ public class GenerarFacturaPFMB extends UtilMB{
 	@ManagedProperty(value="#{menuMB}")
 	private MenuMB menu;
 	
-	public GenerarFacturaPFMB(){
+	public AsignarLotesOICMB(){
 		
 	}
 	
@@ -90,6 +95,14 @@ public class GenerarFacturaPFMB extends UtilMB{
 	public void init(){
 		currentTimeStamp = new Timestamp(System.currentTimeMillis());
 		
+	}
+
+	public List<ProductoLoteAsignarLoteOICDTO> getLotes() {
+		return lotes;
+	}
+
+	public void setLotes(List<ProductoLoteAsignarLoteOICDTO> lotes) {
+		this.lotes = lotes;
 	}
 
 	public Timestamp getCurrentTimeStamp() {
@@ -109,7 +122,7 @@ public class GenerarFacturaPFMB extends UtilMB{
 	}
 
 	public String buscarDocumentos(){
-		listaDocumentos=this.comercioEjb.consultarDocumentosSolicitudPedido(consecutivoDocumento);
+		listaDocumentos=this.comercioEjb.consultarDocumentosFacturaPF(consecutivoDocumento);
 		this.deshabilitado=false;
 		return null;
 	}
@@ -210,16 +223,8 @@ public class GenerarFacturaPFMB extends UtilMB{
 		this.totalNegociacion = totalNegociacion;
 	}
 
-	public Integer getCantidadDiasVigencia() {
-		return cantidadDiasVigencia;
-	}
-
-	public void setCantidadDiasVigencia(Integer cantidadDiasVigencia) {
-		this.cantidadDiasVigencia = cantidadDiasVigencia;
-	}
-
-	public String consultarSolicitudPedido(){
-		productos=comercioEjb.consultarProductoPorDocumentoGenerarFacturaProforma(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
+	public String consultarFacturaPF(){
+		productos=comercioEjb.consultarProductoPorDocumentoAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
 		this.totalCantidad=0;
 		this.totalValorTotal=0;
 		this.totalPesoNeto=0;
@@ -227,7 +232,7 @@ public class GenerarFacturaPFMB extends UtilMB{
 		this.totalCantidadCajas=0;
 		this.totalCantidadTendidos=0;
 		this.totalCantidadPallets=0;
-		for (ProductoGenerarFacturaPFDTO p:productos){
+		for (ProductoAsignarLoteOICDTO p:productos){
 			this.totalCantidad+=p.getCantidad().doubleValue();
 			this.totalValorTotal+=p.getValorTotal().doubleValue();
 			this.totalPesoNeto+=p.getTotalPesoNeto().doubleValue();
@@ -243,116 +248,49 @@ public class GenerarFacturaPFMB extends UtilMB{
 					this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoFlete().doubleValue() + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getOtrosGastos().doubleValue(); 
 		}
 		totalNegociacion= this.totalCostos + this.totalValorTotal;
+		lotes = comercioEjb.consultarProductoPorDocumentoLoteAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
+		
 		return null;
 	}
 
-	public List<ProductoGenerarFacturaPFDTO> getProductos() {
+	public List<ProductoAsignarLoteOICDTO> getProductos() {
 		return productos;
 	}
 
-	public void setProductos(List<ProductoGenerarFacturaPFDTO> productos) {
+	public void setProductos(List<ProductoAsignarLoteOICDTO> productos) {
 		this.productos = productos;
 	}
 	
-	public String crearFactura(){
-		
-		Documento documento = new Documento();
-		documento.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
-		Estadosxdocumento estadosxdocumento=new Estadosxdocumento();
-		EstadosxdocumentoPK estadosxdocumentoPK=new EstadosxdocumentoPK();
-		estadosxdocumentoPK.setIdEstado((long)ConstantesDocumento.ACTIVO);
-		estadosxdocumentoPK.setIdTipoDocumento((long)ConstantesTipoDocumento.FACTURA_PROFORMA);
-		estadosxdocumento.setId(estadosxdocumentoPK);
-		documento.setEstadosxdocumento(estadosxdocumento);
-		documento.setObservacionDocumento(this.documentoSeleccionado.getConsecutivoDocumento());
-		documento.setUbicacionDestino(new Ubicacion());
-		documento.setUbicacionOrigen(new Ubicacion());
-		documento.getUbicacionDestino().setId(this.documentoSeleccionado.getUbicacionOrigen().getId());
-		documento.getUbicacionOrigen().setId(this.documentoSeleccionado.getUbicacionOrigen().getId());
-		documento.setCliente(this.documentoSeleccionado.getCliente());
-		documento.setValorTotal(new BigDecimal(this.totalNegociacion));
-		documento.setDocumentoCliente(this.documentoSeleccionado.getDocumentoCliente());
-		documento.setFechaEsperadaEntrega(this.documentoSeleccionado.getFechaEsperadaEntrega());
-		documento.setNumeroFactura("0");
-		
-		LogAuditoria auditoria=new LogAuditoria();
-		auditoria.setIdUsuario(menu.getUsuario().getId());
-		auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
-		auditoria.setTabla(Documento.class.getName());
-		auditoria.setAccion("CRE");
-		auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
-		
-		DocumentoXNegociacion dxn = new DocumentoXNegociacion();
-		dxn.setPk(new DocumentoXNegociacionPK());
-		dxn.getPk().setIdTerminoIncoterm(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getTerminoIncoterm().getId());
-		dxn.setCostoEntrega(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoEntrega());
-		dxn.setCostoSeguro(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoSeguro());
-		dxn.setCostoFlete(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoFlete());
-		dxn.setOtrosGastos(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getOtrosGastos());
-		dxn.setObservacionesMarcacion2(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getObservacionesMarcacion2());
-		dxn.setTotalPesoNeto(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getTotalPesoNeto());
-		dxn.setTotalPesoBruto(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getTotalPesoBruto());
-		dxn.setTotalTendidos(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getTotalTendidos());
-		dxn.setTotalPallets(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getTotalPallets());
-		dxn.setCantidadDiasVigencia(this.cantidadDiasVigencia);
-		dxn.setSolicitudCafe(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getSolicitudCafe());
-		dxn.setCantidadContenedoresDe20(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe20());
-		dxn.setCantidadContenedoresDe40(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe40());
-		dxn.setLugarIncoterm(this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm());
-		dxn.setCantidadEstibas(0);
-		dxn.setPesoBrutoEstibas(0);
-		
-		List<ProductosXDocumento> productos=new ArrayList<ProductosXDocumento>();
-		
-		for(ProductoGenerarFacturaPFDTO pxc:this.productos){
+	public String asignarLotes(){
+		List<DocumentoXLotesoic> lista=new ArrayList<DocumentoXLotesoic>();
+		for (ProductoLoteAsignarLoteOICDTO lote:this.lotes){
+			DocumentoXLotesoic docLote = new DocumentoXLotesoic();
 			
-			ProductosXDocumento productoDocumento = new ProductosXDocumento();
-			productoDocumento.setInformacion(false);
-			productoDocumento.setCalidad(false);
-			productoDocumento.setFechaEstimadaEntrega(documento.getFechaGeneracion());
-			productoDocumento.setFechaEntrega(documento.getFechaGeneracion());
-			productoDocumento.setId(new ProductosXDocumentoPK());
-			productoDocumento.getId().setIdProducto(pxc.getId().longValue());
-			productoDocumento.setCantidad1(pxc.getCantidad());    	      				
-				
-			Unidad u = new Unidad();
-			u.setId(pxc.getIdUnidad().longValue());
-			productoDocumento.setUnidade(u); // unidad de venta
-
-			Moneda moneda = new Moneda();
-			moneda.setId("USD");
-
-			productoDocumento.setMoneda(moneda); 	    	      				
-			productoDocumento.setCantidad2(new BigDecimal(0));
-			productoDocumento.setValorUnitatrioMl(new BigDecimal(0));
-			productoDocumento.setValorUnitarioUsd(pxc.getPrecio());
-			productoDocumento.setValorTotal(pxc.getValorTotal());
-			productoDocumento.setTotalPesoNetoItem(pxc.getTotalPesoNeto());
-
-			productoDocumento.setTotalPesoBrutoItem(pxc.getTotalPesoBruto());
-			productoDocumento.setCantidadCajasItem(pxc.getTotalCajas());
-			productoDocumento.setCantidadPalletsItem(pxc.getTotalCajasPallet());
-			productoDocumento.setCantidadXEmbalaje(pxc.getTotalCajasTendido());
+			docLote.setDocumento(this.documentoSeleccionado);
+			docLote.setTipoLoteoic(new TipoLoteoic());
 			
-			Calendar c=Calendar.getInstance();
-			c.add(Calendar.DATE, 2);
+			docLote.setId(new DocumentoXLotesoicPK());
+			docLote.getId().setIdDocumento(this.documentoSeleccionado.getId());
+			docLote.getId().setIdTipoLote(lote.getTipoLote().longValue());
 			
-			productoDocumento.setFechaEstimadaEntrega(new Timestamp(c.getTimeInMillis()));	
-			productoDocumento.setFechaEntrega(new Timestamp(c.getTimeInMillis()));
-
-			productos.add(productoDocumento);
+			docLote.getTipoLoteoic().setId(lote.getTipoLote().longValue());
+			docLote.setFecha(new Timestamp(System.currentTimeMillis()));
+			docLote.setTotalCantidad(lote.getTotalCantidad());
+			docLote.setTotalCajas(lote.getTotalCajas());
+			docLote.setTotalPesoNeto(lote.getTotalPesoNeto());
+			docLote.setContribucion(new BigDecimal(0));
+			docLote.setDex(new BigDecimal(0));
+			lista.add(docLote);
 		}
-		documento=this.comercioEjb.crearFactura(documento, auditoria, dxn, productos);
-		String mensaje = AplicacionMB.getMessage("VentasFPExito_Crear", language);
-		String parametros[]=new String[2];
-		parametros[0]=""+documento.getId();
-		parametros[1]=documento.getConsecutivoDocumento();
-		mensaje=Utilidad.stringFormat(mensaje, parametros);
-		
-		this.addMensajeInfo(mensaje);
+		documentoSeleccionado.getEstadosxdocumento().getId().setIdEstado((long)ConstantesDocumento.ASIGNADA);
+		lista=this.comercioEjb.guardarLotes(lista, this.documentoSeleccionado);
+		for (int i=0; i<lista.size(); i++){
+			this.lotes.get(i).setConsecutivo(lista.get(i).getConsecutivo());
+		}
 		this.buscarDocumentos();
 		this.deshabilitado = true;
 		return null;
+	
 	}
 
 	public MenuMB getMenu() {

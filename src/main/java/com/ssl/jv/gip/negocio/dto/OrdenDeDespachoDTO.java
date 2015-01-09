@@ -2,9 +2,9 @@ package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
 
-/**DTO para el manejo de front de las órdenes de despacho
+/**DTO para el manejo de front de las ï¿½rdenes de despacho
  * 
- * @author Daniel Cortés
+ * @author Daniel Cortes
  * @version 1
  * @since 08/01/2015
  *

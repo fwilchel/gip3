@@ -16,9 +16,11 @@ import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 
 
@@ -117,11 +119,23 @@ public interface ComercioExteriorEJBLocal {
 	
 	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente);
 	
-	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento);
+
 	public List<Documento> consultarDocumento(Map<String, Object> parametros);
 	public ListaEmpaqueDTO consultarDocumentoListaEmpaque (String consecutivoDocumento);
-	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente);
-	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos);
+
+
 	public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque (String strConsecutivoDocumento) ;
 	
+
+	public List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento);
+	public List<Documento> consultarDocumentosFacturaPF(String consecutivoDocumento);
+	
+	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente);
+	public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento, Long idCliente);
+	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento, Long idCliente);
+	
+	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos);
+	public List<DocumentoXLotesoic> guardarLotes(List<DocumentoXLotesoic> lista, Documento documento);
+
+
 }

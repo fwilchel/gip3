@@ -6,7 +6,9 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
@@ -31,5 +33,10 @@ public interface ProductoClienteComercioExteriorDAOLocal {
 	
 	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento,
 			Long idCliente);
+	
+	public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento,
+			Long idCliente);
 
+	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento,
+			Long idCliente);
 }

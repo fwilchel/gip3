@@ -474,10 +474,10 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 	}
 
 	/**
-	 * Consulta de ordenes de despacho por filtro
+	 * Consulta de Documentos tipo Solicitud Pedido, para el CU Generar Facturas Proforma
 	 */
 
-	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento){
+	public List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento){
 		
 		List<Documento> listado= new ArrayList<Documento>();
 		String query;
@@ -501,13 +501,43 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 			return null;
 		}
 		return listado;
+	}
+
+	/**
+	 * Consulta de Documentos tipo Factura Proforma, para el CU Asignar Lotes OCI
+	 */
+	public List<Documento> consultarDocumentosFacturaPF(String consecutivoDocumento){
+		
+		List<Documento> listado= new ArrayList<Documento>();
+		String query;
+		try{
+			query = "SELECT d FROM Documento d "+
+					"JOIN FETCH d.cliente c "+
+					"JOIN FETCH d.estadosxdocumento exd "+
+					"JOIN FETCH exd.estado e "+
+					"JOIN FETCH d.documentoXNegociacions dxn "+
+					"JOIN FETCH dxn.terminoIncoterm ti "+
+					"JOIN FETCH c.ciudad ciu "+
+					"JOIN FETCH c.metodoPago mp "+
+					"WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id= :estado "+
+					" AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " +
+					" AND dxn.solicitudCafe = :solicitudCafe "+
+					" ORDER BY d.id DESC";
+					
+			listado= em.createQuery(query).setParameter("tipoDocumento", (long)ConstantesTipoDocumento.FACTURA_PROFORMA).setParameter("estado", (long)ConstantesDocumento.APROBADA).setParameter("solicitudCafe", true).setParameter("consecutivo",consecutivoDocumento.equals("")?"%":"%"+consecutivoDocumento+"%").getResultList();
+		} catch(Exception e){
+			LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");
+			return null;
+		}
+		return listado;
 
 
 	}
 	
+	
 
 	/**
-	 * Consulta de todas las ordenes de despacho con opción de filtro
+	 * Consulta de todas las ordenes de despacho con opciï¿½n de filtro
 	 * 
 	 * @return Lista de documentos de tipo ordenes de despacho
 	 */
@@ -597,6 +627,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 					.getResultList();*/
 			
 
+
 			System.out.println("query LE"+lista.size());
 		} catch (Exception e) {
 			LOGGER.error(e);
@@ -640,7 +671,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		+ " INNER JOIN Documento_x_Negociacion docxneg on doc.id=docxneg.id_documento" 
 		+ " INNER JOIN termino_incoterm inc on inc.id = docxneg.id_termino_incoterm "
 		+ " WHERE  doc.consecutivo_documento='"+strConsecutivoDocumento+"'";
-
 		
 		List<Object[]> listado = em.createNativeQuery(query).getResultList();
 		
@@ -795,7 +825,24 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		
 	}
 	
-	 
+	@Override
+	public List<Documento> consultarOrdenesDeDespachoPorFiltro(Documento filtro) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Documento> consultarOrdenesDeDespacho() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Documento> consultarDocumentosPorConsecutivoPedido(
+			String consecutivoDocumento) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 	
