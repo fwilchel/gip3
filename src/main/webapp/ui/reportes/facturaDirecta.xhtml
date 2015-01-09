@@ -7,7 +7,7 @@
 	xmlns:misc="http://java.sun.com/jsf/composite/misc"
 	template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloConsultarListaEmpaque}::.</ui:define>
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloVentasImpFacturaDirecta}::.</ui:define>
 
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
@@ -25,20 +25,20 @@
 	
 
 			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.TituloConsultarListaEmpaque}">
+				<p:tab title="#{msg.TituloVentasImpFacturaDirecta}">
 				
 				
 				<p:panelGrid columns="2"  styleClass="noBorders">
 
-						<p:outputLabel value="#{msg.IngresarNumLE}" for="codigo"
+						<p:outputLabel value="#{msg.NumeroFDFactura}" for="codigo"
 							styleClass="negrita" />
-						<h:inputText value="#{imprimirListaEmpaqueMB.strConsecutivoDocumento}" id="codigo"
+						<h:inputText value="#{imprimirFacturaDirectaMB.strConsecutivoDocumento}" id="codigo"
 							required="false" maxlength="10" label="#{msg.buscadorSKU}" />
 						<p:message for="codigo"></p:message>
 
 						
 						
-							<p:commandButton value="#{msg.documentoEjecutarBusqueda}" icon="ui-icon-search" action="#{imprimirListaEmpaqueMB.consultarDocumento}"
+							<p:commandButton value="#{msg.documentoEjecutarBusqueda}" icon="ui-icon-search" action="#{imprimirFacturaDirectaMB.consultarDocumento}"
 							update="tablaDatos">
 							</p:commandButton>
 							
@@ -47,8 +47,8 @@
 				
 				
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-						value="#{imprimirListaEmpaqueMB.listaEmpaqueList}" rows="10"
-						emptyMessage="#{msg.ConsultarListaEmpaqueNoEncontrados}"
+						value="#{imprimirFacturaDirectaMB.list}" rows="10"
+						emptyMessage="#{msg.ConsultarFormatoNovedadNoEncontrados}"
 						paginator="true" paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
@@ -62,7 +62,7 @@
 								title="#{msg.TituloProdCE} #{msg.SubTituloCE}"
 								update=":editarDlg2">
 								<f:setPropertyActionListener value="#{dato}"
-									target="#{imprimirListaEmpaqueMB.seleccionado}" />
+									target="#{imprimirFacturaDirectaMB.seleccionado}" />
 							</p:commandButton>
 						</p:column>
 						
@@ -96,7 +96,7 @@
 		
 		
 		<p:dialog
-			header="#{msg.TituloConsultarListaEmpaque}"
+			header="#{msg.TituloVentasImpFacturaDirecta}"
 			widgetVar="editarDialog2" modal="true" showEffect="fade"
 			hideEffect="fade" resizable="false" dynamic="true" id="editarDlg2">
 			<h:form id="formaDlg2">
@@ -104,58 +104,32 @@
 							
 						
 			<p:outputLabel value="#{msg.recibiProductoDcoumento}" for="idDocumento" styleClass="negrita" />
-			<h:outputText  styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.idDocumento}" id="idDocumento"/>
+			<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.idDocumento}" id="idDocumento"/>
 			
 			<p:outputLabel value="#{msg.RequisicionNombreCons}" for="consecutivoDocumento" styleClass="negrita" />
-			<h:outputText  styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.consecutivoDocumento}" id="consecutivoDocumento"/>
+			<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.consecutivoDocumento}" id="consecutivoDocumento"/>
 							
 			
 			<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.fechaGeneracion}" />
+			<h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.fechaGeneracion}" />
 			
-			<p:outputLabel value="#{msg.NumeroPedidoWeb}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.numeroPedidoWeb}" />
+			<p:outputLabel value="#{msg.VentasVDRel}"  styleClass="negrita" />
+			<h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.observacionDocumento}" />
 			
 			
 			<p:outputLabel value="#{msg.nomCliente}"  styleClass="negrita" />
-			<h:outputText  styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.nombre}" />
+			<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.cliente.nombre}" />
 			
 			<p:outputLabel value="#{msg.maestroDireccionCliente}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.direccion}" />	
+			<h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.cliente.direccion}" />	
 			
 			<p:outputLabel value="#{msg.maestroTelefonoCliente}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.telefono}" />
+			<h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.cliente.telefono}" />
 			
 			<p:outputLabel value="#{msg.maestroContactoAgente}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.contacto}" />				
+			<h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.cliente.contacto}" />				
 			
 			
-			<p:outputLabel value="#{msg.TérminoIncotermSP}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.descripcionTerminoIncoterm}" />
-			
-			<p:outputLabel value="#{msg.LugarIncoterm}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.lugarIncoterm}" />
-			
-			
-			<p:outputLabel value="#{msg.CantidadContenedores20}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadContenedores20}" />
-			
-			<p:outputLabel value="#{msg.CantidadContenedores40}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadContenedores40}" />
-			
-			
-			<p:outputLabel value="#{msg.CantidadEstibas}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadEstibas}" /> 
-			     
-			<p:outputLabel value="#{msg.PesoBrutoEstibas}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.pesoBrutoEstibas}" />      
-			     
-			  
-			 <p:outputLabel value="#{msg.observacionDocumento}"  styleClass="negrita" />
-			 <h:inputTextarea styleClass="filas_contenido"  rows="4" cols="40" value="#{imprimirListaEmpaqueMB.seleccionado2.observacionDocumento}" readonly="true" style="border: none;"/>
-						
-			  <p:outputLabel value="#{msg.observacionMarcacion2}"  styleClass="negrita" />
-			  <h:inputTextarea styleClass="filas_contenido"  rows="4" cols="40"  value="#{imprimirListaEmpaqueMB.seleccionado2.observacionMarcacion}" readonly="true" style="border: none;" />
 				
 			   
 			     
@@ -163,25 +137,20 @@
 			     
 			   		     
 			     			     
-			     <h:outputLabel  styleClass="negrita"  value="#{msg.generalActivo2}" />   
-                 <h:selectBooleanCheckbox  value="#{imprimirListaEmpaqueMB.blnActivo}" />
-							
+			     			
 							</p:panelGrid>
 							
 							
 							
-							<p:dataTable var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirListaEmpaqueMB.seleccionado2.idDocumento}"
-						value="#{imprimirListaEmpaqueMB.listaEmpaqueDetalle}"
-						rendered="#{not empty imprimirListaEmpaqueMB.listaEmpaqueDetalle}">
+							<p:dataTable var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirFacturaDirectaMB.seleccionado2.idDocumento}"
+						value="#{imprimirFacturaDirectaMB.listaEmpaqueDetalle}"
+						rendered="#{not empty imprimirFacturaDirectaMB.listaEmpaqueDetalle}">
 						
 						
 						
 						
 						
 						
-						<p:column headerText="#{msg.TipoLoteOIC}">
-							<h:outputText value="#{dato2.descripcionLote}" />
-						</p:column>
 					
 						
 						<p:column headerText="#{msg.buscadorPxCSKU}">
@@ -193,7 +162,7 @@
 						</p:column>
 						
 						
-						<p:column headerText="#{msg.comprasCantidadSola}" styleClass="derecha">
+						<p:column headerText="#{msg.cantidadRemisionada}" styleClass="derecha">
 							<h:outputText value="#{dato2.cantidad}" >
 							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
 							   </h:outputText>
@@ -231,29 +200,29 @@
 				                <h:outputText value="TOTALES " />
 				            </p:column>
 				            <p:column styleClass="derecha">
-				                <h:outputText value="#{imprimirListaEmpaqueMB.totalCantidad}" >
+				                <h:outputText value="#{imprimirFacturaDirectaMB.totalCantidad}" >
 				                    <f:convertNumber maxFractionDigits="2"/>
 				                </h:outputText>
 				            </p:column>
 				            <p:column styleClass="derecha">
-				                <h:outputText value="#{imprimirListaEmpaqueMB.totalCantidadPorEmbalaje}" >
+				                <h:outputText value="#{imprimirFacturaDirectaMB.totalCantidadPorEmbalaje}" >
 				                    <f:convertNumber maxFractionDigits="2"/>
 				                </h:outputText>
 				            </p:column>
 				            
 				             <p:column styleClass="derecha">
-				                <h:outputText value="#{imprimirListaEmpaqueMB.totalCantidadCajas}">
+				                <h:outputText value="#{imprimirFacturaDirectaMB.totalCantidadCajas}">
 				                    <f:convertNumber maxFractionDigits="2"/>
 				                </h:outputText>
 				            </p:column>
 				            
 				            <p:column styleClass="derecha">
-				                <h:outputText value="#{imprimirListaEmpaqueMB.totalPesoNeto}" >
+				                <h:outputText value="#{imprimirFacturaDirectaMB.totalPesoNeto}" >
 				                    <f:convertNumber maxFractionDigits="2"/>
 				                </h:outputText>
 				            </p:column>
 				            <p:column styleClass="derecha">
-				                <h:outputText value="#{imprimirListaEmpaqueMB.totalPesoBruto}" >
+				                <h:outputText value="#{imprimirFacturaDirectaMB.totalPesoBruto}" >
 				                    <f:convertNumber maxFractionDigits="2"/>
 				                </h:outputText>
 				            </p:column>
@@ -272,8 +241,8 @@
 						<p:spacer height="30"></p:spacer>
 					<p:panelGrid columns="3">
 						<p:dataTable var="lote" widgetVar="loteDoc" id="tablaLotes" sortBy="#{lote.tipoLote}"
-						rendered="#{not empty imprimirListaEmpaqueMB.lotes}" 
-						value="#{imprimirListaEmpaqueMB.lotes}" >
+						rendered="#{not empty imprimirFacturaDirectaMB.lotes}" 
+						value="#{imprimirFacturaDirectaMB.lotes}" >
 						
 							<f:facet name="header">
 								#{msg.TotalesPorLote}

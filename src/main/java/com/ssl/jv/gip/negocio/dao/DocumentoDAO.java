@@ -19,8 +19,10 @@ import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.negocio.dto.ClienteDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
+import com.ssl.jv.gip.negocio.dto.UbicacionDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
@@ -588,20 +590,10 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		String  parametroConseDoc = (String) parametros.get("parametroConseDoc");
 		
 		
-		System.out.println("tipo doc:"+tipo);
-		System.out.println("estado doc:"+estado);
-		System.out.println("parametroConseDoc:"+parametroConseDoc);
+		//System.out.println("tipo doc:"+tipo);
+		//System.out.println("estado doc:"+estado);
+		//System.out.println("parametroConseDoc:"+parametroConseDoc);
 		
-		/*sql="select documentos.id,documentos.consecutivo_documento,documentos.fecha_generacion"
-				+ " from documentos "
-				+ " where documentos.id_tipo_documento= " + tipo
-				+ " AND documentos.id_estado = " + estado
-				+ " ORDER BY documentos.id DESC";
-		
-		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
-		*/
-		
-		//List<Funcionalidad> opciones = null;
 		
 		try {
 			//String query = "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
@@ -616,84 +608,36 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 					.getResultList();
 					//lista = em.createQuery(query).setParameter("tipo", tipo)	
 						
-			
-			//query = "SELECT a FROM Documento a WHERE id_tipo_documento='"+ConstantesTipoDocumento.ORDEN_DESPACHO+"'";
-			//			String query = "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
-			//opciones = em.createQuery(query).setParameter("email", login)
-			//	.getResultList();
-			
-			/*String query = "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
-			opciones = em.createQuery(query).setParameter("email", login)
-					.getResultList();*/
-			
-
+		
 
 			System.out.println("query LE"+lista.size());
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
 		
-		/*if(listado != null){
-			for(Object[] objs : listado){
-				//Documento dto = new Documento();
-				
-				ListaEmpaqueDTO dto = new ListaEmpaqueDTO();
-				
-				
-				//dto.setId(objs[0] != null ? Long.parseLong(objs[0].toString()) : null);
-				dto.setIdDocumento(objs[0] != null ? objs[0].toString() : null);
-				//dto.setIdDocumentoFX(objs[1] != null ? Long.parseLong(objs[1].toString()) : null);
-				dto.setConsecutivoDocumento(objs[1] != null ? objs[1].toString() : null);
-				dto.setFechaGeneracion((Timestamp) (objs[2] != null ? objs[2]: null));
-				
-				lista.add(dto);
-			}
-		}*/
+	
 		
 		return lista;
-		//return listado;
+		
 	}
 	
 	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(String strConsecutivoDocumento) {
 		// TODO Auto-generated method stub
 		
-		
 		ListaEmpaqueDTO dto = new ListaEmpaqueDTO();
 
 		String query="";
-		//System.out.println("parametroConseDoc:"+strConsecutivoDocumento);
 		query="SELECT  doc.id,doc.consecutivo_documento,doc.fecha_generacion,doc.documento_cliente,"
 				+ " cli.nombre AS NOMBRE_CLIENTE,cli.direccion,cli.telefono,cli.contact"
 				+ "o, inc.descripcion AS NOMBRE_INCOTERM,"
 				+ " docxneg.observaciones_marcacion_2, docxneg.cantidad_contenedores_de_20, docxneg.cantidad_contenedores_de_40, docxneg.lugar_incoterm,"  
-		+ " docxneg.cantidad_estibas ,docxneg.peso_bruto_estibas, docxneg.descripcion "
+		+ " docxneg.cantidad_estibas ,docxneg.peso_bruto_estibas, docxneg.descripcion"
 		+ " FROM documentos doc INNER JOIN clientes cli on doc.id_cliente=cli.id "
 		+ " INNER JOIN Documento_x_Negociacion docxneg on doc.id=docxneg.id_documento" 
 		+ " INNER JOIN termino_incoterm inc on inc.id = docxneg.id_termino_incoterm "
 		+ " WHERE  doc.consecutivo_documento='"+strConsecutivoDocumento+"'";
 		
 		List<Object[]> listado = em.createNativeQuery(query).getResultList();
-		
-		
-		//ListaEmpaqueDTO objDoc= (ListaEmpaqueDTO) em.createNativeQuery(query).getSingleResult();
-		//Query q = em.createQuery(query);
-		//List<ListaEmpaqueDTO> listado = em.createNativeQuery(query).getResultList();
-		//return (ListaEmpaqueDTO) q.getSingleResult();
-		
-	/*	try {
-			String query ="select d from Documento d where id_tipo_documento= :tipo AND id_estado = :estado AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
-			lista = em.createQuery(query).setParameter("tipo", tipo)
-					.setParameter("estado", estado)
-					.setParameter("parametroConseDoc", parametroConseDoc)
-					.getResultList();
-			
-
-			System.out.println("query LE"+lista.size());
-		} catch (Exception e) {
-			LOGGER.error(e);
-		}
-		
-		*/
 		
 		
 		if(listado != null){
@@ -736,13 +680,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		
 		List<ProductoImprimirLEDTO> lista = new ArrayList<ProductoImprimirLEDTO>();
 		
-		//String  parametroConseDoc = strConsecutivoDocumento;
-		
 		try {
 			//String query = "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
 			//String query ="select d from Documento d where id_tipo_documento= :tipo AND id_estado = :estado AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
-			
-			
 			/*String query ="select pi.sku" 
 +" from ProductosXDocumentoPK pxd"  
 +" LEFT JOIN ProductosInventario pi on pxd.idProducto=pi.id" 
@@ -776,14 +716,8 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 					+" and dxl.id_tipo_lote=pi_ce.id_tipo_loteoic"
 					+" LEFT JOIN unidades on unidades.id = pi.id_uv WHERE d.consecutivo_documento='"+strConsecutivoDocumento+"'"; 	
 			List<Object[]> listado = em.createNativeQuery(query).getResultList();
-			//query = "SELECT a FROM Documento a WHERE id_tipo_documento='"+ConstantesTipoDocumento.ORDEN_DESPACHO+"'";
-			//			String query = "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
-			//opciones = em.createQuery(query).setParameter("email", login)
-			//	.getResultList();
 			
-			/*String query = "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
-			opciones = em.createQuery(query).setParameter("email", login)
-					.getResultList();*/
+			
 			System.out.println("query PXD LE Query"+query);
 			System.out.println("query PXD LE"+listado.size());
 			if (listado != null) {
@@ -844,6 +778,51 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		return null;
 	}
 	
+	@Override
+	public FacturaDirectaDTO consultarDocumentoFacturaDirecta(String strConsecutivoDocumento) {
+		
+		FacturaDirectaDTO dto = new FacturaDirectaDTO();
 
+		String query="";
+		query="SELECT  d.id,d.consecutivo_documento,d.fecha_generacion,"
+				+ " cli.nombre as cliente,cli.direccion,cli.telefono,cli.contacto,"
+				+ " d.observacion_documento , u.nombre as ubicacion"
+		+ " FROM documentos d INNER JOIN clientes cli on d.id_cliente=cli.id "
+		+ " INNER JOIN ubicaciones u on d.id_ubicacion_destino=u.id "
+		+ " WHERE d.consecutivo_documento='"+strConsecutivoDocumento+"'";
+		
+		List<Object[]> listado = em.createNativeQuery(query).getResultList();
+		
+		
+		if(listado != null){
+			for(Object[] objs : listado){
+				
+				dto.setIdDocumento(objs[0] != null ? objs[0].toString() : null);
+				dto.setConsecutivoDocumento(objs[1] != null ? objs[1].toString() : null);
+				dto.setFechaGeneracion((Timestamp) (objs[2] != null ? objs[2]: null));
+				
+				
+				ClienteDTO objCli =new ClienteDTO();
+				
+				objCli.setNombre(objs[3] != null ? objs[3].toString() : null);
+				objCli.setDireccion(objs[4] != null ? objs[4].toString() : null);
+				objCli.setTelefono(objs[5] != null ? objs[5].toString() : null);
+				objCli.setContacto(objs[6] != null ? objs[6].toString() : null);
+				
+				dto.setCliente(objCli);
+				
+				dto.setObservacionDocumento(objs[7] != null ?  objs[7].toString() : null);
+				
+				UbicacionDTO objUbiv =new UbicacionDTO(); 
+				objUbiv.setNombre(objs[8] != null ? objs[8].toString() : null);
+				
+				
+			}
+		}
+		
+		return dto;
+		
+
+	}
 	
 }

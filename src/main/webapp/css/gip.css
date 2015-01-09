@@ -235,3 +235,13 @@ font-weight: normal;
 src: local('Myriad Pro Bold'), url('/fonts/MYRIADPRO-BOLD.woff') format('woff');
 }
 
+.noBorders tr, .noBorders td {
+background: none !important;
+border: none !important;
+} 
+
+.filas_contenido{
+		font-size:12px;
+
+}
+
