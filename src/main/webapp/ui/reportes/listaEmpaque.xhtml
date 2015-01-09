@@ -302,7 +302,11 @@
        
 					
 	</p:dataTable>
-
+	
+	<p:commandButton value="Reporte PDF" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-document">
+        <p:fileDownload value="#{imprimirListaEmpaqueMB.reportePDF}" />
+    </p:commandButton>
+	
 
 	</h:form>
 		</p:dialog>
