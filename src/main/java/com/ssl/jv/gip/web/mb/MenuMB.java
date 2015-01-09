@@ -38,7 +38,7 @@ public class MenuMB extends UtilMB{
 	private String opcionActual;
 	private List<Funcionalidad> opciones;
 	private Integer language=AplicacionMB.SPANISH;
-
+	private Long idOpcionActual;
 	
 	public MenuMB(){
 
@@ -74,6 +74,14 @@ public class MenuMB extends UtilMB{
 
 	public void setOpcionActual(String opcionActual) {
 		this.opcionActual = opcionActual;
+	}
+
+	public Long getIdOpcionActual() {
+		return idOpcionActual;
+	}
+
+	public void setIdOpcionActual(Long idOpcionActual) {
+		this.idOpcionActual = idOpcionActual;
 	}
 
 	/**
@@ -159,6 +167,7 @@ public class MenuMB extends UtilMB{
         for (Funcionalidad o:opciones){
         	if (o.getRuta()!=null && o.getRuta().equals(req.getParameter("opcion"))){
         		this.opcionActual = o.getNombre();
+        		this.idOpcionActual=o.getId();
         		break;
         	}
         }

@@ -1,50 +1,73 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the productos_inventario database table.
  * 
  */
 @Entity
-@Table(name="productos_inventario")
-@NamedQuery(name="ProductosInventario.findAll", query="SELECT p FROM ProductosInventario p")
+@Table(name = "productos_inventario")
+@NamedQueries({
+		@NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_ALL, query = "SELECT p FROM ProductosInventario p"),
+		@NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_ACTIVOS, query = "SELECT p FROM ProductosInventario p WHERE p.desactivado = false"),
+		@NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_CATEGORIA_SKU_NOMBRE_ESTADO, query = "SELECT p FROM ProductosInventario p LEFT JOIN p.categoriasInventario ci JOIN p.pais pa JOIN pa.usuarios u WHERE u.id = :idUsuario AND (false = :paramDesactivado OR p.desactivado = :desactivado) AND (false = :paramCategoria OR ci.id = :idCategoria) AND (false = :paramSku OR p.sku like :sku) AND (false = :paramNombre OR p.nombre like :nombre)"),
+		@NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKU, query = "SELECT p FROM ProductosInventario p WHERE p.sku = :sku") })
 public class ProductosInventario implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1938090563895800247L;
+	public static final String PRODUCTOS_INVENTARIO_FIND_ALL = "ProductosInventario.findAll";
+	public static final String PRODUCTOS_INVENTARIO_FIND_ACTIVOS = "ProductosInventario.findActivos";
+	public static final String PRODUCTOS_INVENTARIO_FIND_BY_CATEGORIA_SKU_NOMBRE_ESTADO = "ProductosInventario.findByCategoriaSkuNombreEstado";
+	public static final String PRODUCTOS_INVENTARIO_FIND_BY_SKU = "ProductosInventario.findBySku";
 
 	@Id
 	private Long id;
 
 	private String abc;
 
-	@Column(name="codigo_barras_ud")
+	@Column(name = "codigo_barras_ud")
 	private Long codigoBarrasUd;
 
-	@Column(name="codigo_barras_uv")
+	@Column(name = "codigo_barras_uv")
 	private Long codigoBarrasUv;
 
-	@Column(name="codigo_pos")
+	@Column(name = "codigo_pos")
 	private String codigoPos;
 
 	private Boolean consumible;
 
-	@Column(name="conversor_r")
+	@Column(name = "conversor_r")
 	private Long conversorR;
 
 	private Boolean desactivado;
 
-	@Column(name="factor_ud_uv")
+	@Column(name = "factor_ud_uv")
 	private BigDecimal factorUdUv;
 
-	@Column(name="id_cuenta_contable")
+	@Column(name = "id_cuenta_contable")
 	private Long idCuentaContable;
 
 	@ManyToOne
-	@JoinColumn(name="id_ur")
+	@JoinColumn(name = "id_ur")
 	private Unidad unidadReceta;
 
 	private String nombre;
@@ -53,97 +76,104 @@ public class ProductosInventario implements Serializable {
 
 	private String sku;
 
-	//bi-directional many-to-one association to ComextItemc
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to ComextItemc
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<ComextItemc> comextItemcs;
 
-	//bi-directional many-to-one association to Conteo
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Conteo
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<Conteo> conteos;
 
-	//bi-directional many-to-one association to CostoVenta
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to CostoVenta
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<CostoVenta> costoVentas;
 
-	//bi-directional many-to-one association to Costo
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Costo
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<Costo> costos;
 
-	//bi-directional many-to-one association to EstandarConteo
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to EstandarConteo
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<EstandarConteo> estandarConteos;
 
-	//bi-directional many-to-one association to EstandarPedido
-	/*@OneToMany(mappedBy="productosInventario")
-	private List<EstandarPedido> estandarPedidos;*/
+	// bi-directional many-to-one association to EstandarPedido
+	/*
+	 * @OneToMany(mappedBy="productosInventario") private List<EstandarPedido>
+	 * estandarPedidos;
+	 */
 
-	//bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to MovimientosInventario
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<MovimientosInventario> movimientosInventarios;
 
-	//bi-directional many-to-one association to NivelInventarioxubicacion
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to NivelInventarioxubicacion
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<NivelInventarioxubicacion> nivelInventarioxubicacions;
 
-	//bi-directional many-to-one association to NivelInventarioxubicacionTemp
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to NivelInventarioxubicacionTemp
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps;
 
-	//bi-directional many-to-one association to CategoriasInventario
+	// bi-directional many-to-one association to CategoriasInventario
 	@ManyToOne
-	@JoinColumn(name="id_categoria")
+	@JoinColumn(name = "id_categoria")
 	private CategoriasInventario categoriasInventario;
 
-	//bi-directional many-to-one association to Pais
+	// bi-directional many-to-one association to Pais
 	@ManyToOne
-	@JoinColumn(name="id_pais")
+	@JoinColumn(name = "id_pais")
 	private Pais pais;
 
-	//bi-directional many-to-one association to Unidad
+	// bi-directional many-to-one association to Unidad
 	@ManyToOne
-	@JoinColumn(name="id_ud")
+	@JoinColumn(name = "id_ud")
 	private Unidad unidadDespacho;
 
-	//bi-directional many-to-one association to Unidad
+	// bi-directional many-to-one association to Unidad
 	@ManyToOne
-	@JoinColumn(name="id_uv")
+	@JoinColumn(name = "id_uv")
 	private Unidad unidadVenta;
 
-	//bi-directional one-to-one association to ProductosInventarioComext
-	@OneToOne(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional one-to-one association to ProductosInventarioComext
+	@OneToOne(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private ProductosInventarioComext productosInventarioComext;
 
-	//bi-directional many-to-one association to ProductosXClienteComext
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to ProductosXClienteComext
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<ProductosXClienteComext> productosXClienteComexts;
 
-	//bi-directional many-to-one association to ProductosXCliente
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to ProductosXCliente
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<ProductosXCliente> productosxclientes;
 
-	//bi-directional many-to-one association to ProductosXDocumento
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to ProductosXDocumento
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<ProductosXDocumento> productosxdocumentos;
 
-	//bi-directional many-to-one association to ProductosXProveedor
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to ProductosXProveedor
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<ProductosXProveedor> productosxproveedors;
 
-	//bi-directional many-to-one association to ProductosXReceta
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to ProductosXReceta
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<ProductosXReceta> productosxrecetas;
 
-	//bi-directional many-to-one association to Saldo
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to Saldo
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<Saldo> saldos;
 
-	//bi-directional many-to-one association to SaldosFranquicia
-	@OneToMany(mappedBy="productosInventario", fetch=FetchType.LAZY)
+	// bi-directional many-to-one association to SaldosFranquicia
+	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
 	private List<SaldosFranquicia> saldosFranquicias;
 
-	//bi-directional many-to-one association to TempCosto
-	/*@OneToMany(mappedBy="productosInventario")
-	private List<TempCosto> tempCostos;*/
+	// bi-directional many-to-one association to TempCosto
+	/*
+	 * @OneToMany(mappedBy="productosInventario") private List<TempCosto>
+	 * tempCostos;
+	 */
+
+	@Transient
+	private boolean incluido;
 
 	public ProductosInventario() {
 	}
@@ -370,44 +400,45 @@ public class ProductosInventario implements Serializable {
 		return estandarConteo;
 	}
 
-	/*public List<EstandarPedido> getEstandarPedidos() {
-		return this.estandarPedidos;
-	}
-
-	public void setEstandarPedidos(List<EstandarPedido> estandarPedidos) {
-		this.estandarPedidos = estandarPedidos;
-	}
-
-	public EstandarPedido addEstandarPedido(EstandarPedido estandarPedido) {
-		getEstandarPedidos().add(estandarPedido);
-		estandarPedido.setProductosInventario(this);
-
-		return estandarPedido;
-	}
-
-	public EstandarPedido removeEstandarPedido(EstandarPedido estandarPedido) {
-		getEstandarPedidos().remove(estandarPedido);
-		estandarPedido.setProductosInventario(null);
-
-		return estandarPedido;
-	}*/
+	/*
+	 * public List<EstandarPedido> getEstandarPedidos() { return
+	 * this.estandarPedidos; }
+	 * 
+	 * public void setEstandarPedidos(List<EstandarPedido> estandarPedidos) {
+	 * this.estandarPedidos = estandarPedidos; }
+	 * 
+	 * public EstandarPedido addEstandarPedido(EstandarPedido estandarPedido) {
+	 * getEstandarPedidos().add(estandarPedido);
+	 * estandarPedido.setProductosInventario(this);
+	 * 
+	 * return estandarPedido; }
+	 * 
+	 * public EstandarPedido removeEstandarPedido(EstandarPedido estandarPedido)
+	 * { getEstandarPedidos().remove(estandarPedido);
+	 * estandarPedido.setProductosInventario(null);
+	 * 
+	 * return estandarPedido; }
+	 */
 
 	public List<MovimientosInventario> getMovimientosInventarios() {
 		return this.movimientosInventarios;
 	}
 
-	public void setMovimientosInventarios(List<MovimientosInventario> movimientosInventarios) {
+	public void setMovimientosInventarios(
+			List<MovimientosInventario> movimientosInventarios) {
 		this.movimientosInventarios = movimientosInventarios;
 	}
 
-	public MovimientosInventario addMovimientosInventario(MovimientosInventario movimientosInventario) {
+	public MovimientosInventario addMovimientosInventario(
+			MovimientosInventario movimientosInventario) {
 		getMovimientosInventarios().add(movimientosInventario);
 		movimientosInventario.setProductosInventario(this);
 
 		return movimientosInventario;
 	}
 
-	public MovimientosInventario removeMovimientosInventario(MovimientosInventario movimientosInventario) {
+	public MovimientosInventario removeMovimientosInventario(
+			MovimientosInventario movimientosInventario) {
 		getMovimientosInventarios().remove(movimientosInventario);
 		movimientosInventario.setProductosInventario(null);
 
@@ -418,18 +449,21 @@ public class ProductosInventario implements Serializable {
 		return this.nivelInventarioxubicacions;
 	}
 
-	public void setNivelInventarioxubicacions(List<NivelInventarioxubicacion> nivelInventarioxubicacions) {
+	public void setNivelInventarioxubicacions(
+			List<NivelInventarioxubicacion> nivelInventarioxubicacions) {
 		this.nivelInventarioxubicacions = nivelInventarioxubicacions;
 	}
 
-	public NivelInventarioxubicacion addNivelInventarioxubicacion(NivelInventarioxubicacion nivelInventarioxubicacion) {
+	public NivelInventarioxubicacion addNivelInventarioxubicacion(
+			NivelInventarioxubicacion nivelInventarioxubicacion) {
 		getNivelInventarioxubicacions().add(nivelInventarioxubicacion);
 		nivelInventarioxubicacion.setProductosInventario(this);
 
 		return nivelInventarioxubicacion;
 	}
 
-	public NivelInventarioxubicacion removeNivelInventarioxubicacion(NivelInventarioxubicacion nivelInventarioxubicacion) {
+	public NivelInventarioxubicacion removeNivelInventarioxubicacion(
+			NivelInventarioxubicacion nivelInventarioxubicacion) {
 		getNivelInventarioxubicacions().remove(nivelInventarioxubicacion);
 		nivelInventarioxubicacion.setProductosInventario(null);
 
@@ -440,19 +474,23 @@ public class ProductosInventario implements Serializable {
 		return this.nivelInventarioxubicacionTemps;
 	}
 
-	public void setNivelInventarioxubicacionTemps(List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps) {
+	public void setNivelInventarioxubicacionTemps(
+			List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps) {
 		this.nivelInventarioxubicacionTemps = nivelInventarioxubicacionTemps;
 	}
 
-	public NivelInventarioxubicacionTemp addNivelInventarioxubicacionTemp(NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
+	public NivelInventarioxubicacionTemp addNivelInventarioxubicacionTemp(
+			NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
 		getNivelInventarioxubicacionTemps().add(nivelInventarioxubicacionTemp);
 		nivelInventarioxubicacionTemp.setProductosInventario(this);
 
 		return nivelInventarioxubicacionTemp;
 	}
 
-	public NivelInventarioxubicacionTemp removeNivelInventarioxubicacionTemp(NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
-		getNivelInventarioxubicacionTemps().remove(nivelInventarioxubicacionTemp);
+	public NivelInventarioxubicacionTemp removeNivelInventarioxubicacionTemp(
+			NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
+		getNivelInventarioxubicacionTemps().remove(
+				nivelInventarioxubicacionTemp);
 		nivelInventarioxubicacionTemp.setProductosInventario(null);
 
 		return nivelInventarioxubicacionTemp;
@@ -462,7 +500,8 @@ public class ProductosInventario implements Serializable {
 		return this.categoriasInventario;
 	}
 
-	public void setCategoriasInventario(CategoriasInventario categoriasInventario) {
+	public void setCategoriasInventario(
+			CategoriasInventario categoriasInventario) {
 		this.categoriasInventario = categoriasInventario;
 	}
 
@@ -494,7 +533,8 @@ public class ProductosInventario implements Serializable {
 		return this.productosInventarioComext;
 	}
 
-	public void setProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
+	public void setProductosInventarioComext(
+			ProductosInventarioComext productosInventarioComext) {
 		this.productosInventarioComext = productosInventarioComext;
 	}
 
@@ -502,18 +542,21 @@ public class ProductosInventario implements Serializable {
 		return this.productosXClienteComexts;
 	}
 
-	public void setProductosXClienteComexts(List<ProductosXClienteComext> productosXClienteComexts) {
+	public void setProductosXClienteComexts(
+			List<ProductosXClienteComext> productosXClienteComexts) {
 		this.productosXClienteComexts = productosXClienteComexts;
 	}
 
-	public ProductosXClienteComext addProductosXClienteComext(ProductosXClienteComext productosXClienteComext) {
+	public ProductosXClienteComext addProductosXClienteComext(
+			ProductosXClienteComext productosXClienteComext) {
 		getProductosXClienteComexts().add(productosXClienteComext);
 		productosXClienteComext.setProductosInventario(this);
 
 		return productosXClienteComext;
 	}
 
-	public ProductosXClienteComext removeProductosXClienteComext(ProductosXClienteComext productosXClienteComext) {
+	public ProductosXClienteComext removeProductosXClienteComext(
+			ProductosXClienteComext productosXClienteComext) {
 		getProductosXClienteComexts().remove(productosXClienteComext);
 		productosXClienteComext.setProductosInventario(null);
 
@@ -528,14 +571,16 @@ public class ProductosInventario implements Serializable {
 		this.productosxclientes = productosxclientes;
 	}
 
-	public ProductosXCliente addProductosxcliente(ProductosXCliente productosxcliente) {
+	public ProductosXCliente addProductosxcliente(
+			ProductosXCliente productosxcliente) {
 		getProductosxclientes().add(productosxcliente);
 		productosxcliente.setProductosInventario(this);
 
 		return productosxcliente;
 	}
 
-	public ProductosXCliente removeProductosxcliente(ProductosXCliente productosxcliente) {
+	public ProductosXCliente removeProductosxcliente(
+			ProductosXCliente productosxcliente) {
 		getProductosxclientes().remove(productosxcliente);
 		productosxcliente.setProductosInventario(null);
 
@@ -546,18 +591,21 @@ public class ProductosInventario implements Serializable {
 		return this.productosxdocumentos;
 	}
 
-	public void setProductosxdocumentos(List<ProductosXDocumento> productosxdocumentos) {
+	public void setProductosxdocumentos(
+			List<ProductosXDocumento> productosxdocumentos) {
 		this.productosxdocumentos = productosxdocumentos;
 	}
 
-	public ProductosXDocumento addProductosxdocumento(ProductosXDocumento productosxdocumento) {
+	public ProductosXDocumento addProductosxdocumento(
+			ProductosXDocumento productosxdocumento) {
 		getProductosxdocumentos().add(productosxdocumento);
 		productosxdocumento.setProductosInventario(this);
 
 		return productosxdocumento;
 	}
 
-	public ProductosXDocumento removeProductosxdocumento(ProductosXDocumento productosxdocumento) {
+	public ProductosXDocumento removeProductosxdocumento(
+			ProductosXDocumento productosxdocumento) {
 		getProductosxdocumentos().remove(productosxdocumento);
 		productosxdocumento.setProductosInventario(null);
 
@@ -568,18 +616,21 @@ public class ProductosInventario implements Serializable {
 		return this.productosxproveedors;
 	}
 
-	public void setProductosxproveedors(List<ProductosXProveedor> productosxproveedors) {
+	public void setProductosxproveedors(
+			List<ProductosXProveedor> productosxproveedors) {
 		this.productosxproveedors = productosxproveedors;
 	}
 
-	public ProductosXProveedor addProductosxproveedor(ProductosXProveedor productosxproveedor) {
+	public ProductosXProveedor addProductosxproveedor(
+			ProductosXProveedor productosxproveedor) {
 		getProductosxproveedors().add(productosxproveedor);
 		productosxproveedor.setProductosInventario(this);
 
 		return productosxproveedor;
 	}
 
-	public ProductosXProveedor removeProductosxproveedor(ProductosXProveedor productosxproveedor) {
+	public ProductosXProveedor removeProductosxproveedor(
+			ProductosXProveedor productosxproveedor) {
 		getProductosxproveedors().remove(productosxproveedor);
 		productosxproveedor.setProductosInventario(null);
 
@@ -594,14 +645,16 @@ public class ProductosInventario implements Serializable {
 		this.productosxrecetas = productosxrecetas;
 	}
 
-	public ProductosXReceta addProductosxreceta(ProductosXReceta productosxreceta) {
+	public ProductosXReceta addProductosxreceta(
+			ProductosXReceta productosxreceta) {
 		getProductosxrecetas().add(productosxreceta);
 		productosxreceta.setProductosInventario(this);
 
 		return productosxreceta;
 	}
 
-	public ProductosXReceta removeProductosxreceta(ProductosXReceta productosxreceta) {
+	public ProductosXReceta removeProductosxreceta(
+			ProductosXReceta productosxreceta) {
 		getProductosxrecetas().remove(productosxreceta);
 		productosxreceta.setProductosInventario(null);
 
@@ -638,40 +691,46 @@ public class ProductosInventario implements Serializable {
 		this.saldosFranquicias = saldosFranquicias;
 	}
 
-	public SaldosFranquicia addSaldosFranquicia(SaldosFranquicia saldosFranquicia) {
+	public SaldosFranquicia addSaldosFranquicia(
+			SaldosFranquicia saldosFranquicia) {
 		getSaldosFranquicias().add(saldosFranquicia);
 		saldosFranquicia.setProductosInventario(this);
 
 		return saldosFranquicia;
 	}
 
-	public SaldosFranquicia removeSaldosFranquicia(SaldosFranquicia saldosFranquicia) {
+	public SaldosFranquicia removeSaldosFranquicia(
+			SaldosFranquicia saldosFranquicia) {
 		getSaldosFranquicias().remove(saldosFranquicia);
 		saldosFranquicia.setProductosInventario(null);
 
 		return saldosFranquicia;
 	}
 
-	/*public List<TempCosto> getTempCostos() {
-		return this.tempCostos;
+	public boolean isIncluido() {
+		return incluido;
 	}
 
-	public void setTempCostos(List<TempCosto> tempCostos) {
-		this.tempCostos = tempCostos;
+	public void setIncluido(boolean incluido) {
+		this.incluido = incluido;
 	}
 
-	public TempCosto addTempCosto(TempCosto tempCosto) {
-		getTempCostos().add(tempCosto);
-		tempCosto.setProductosInventario(this);
-
-		return tempCosto;
-	}
-
-	public TempCosto removeTempCosto(TempCosto tempCosto) {
-		getTempCostos().remove(tempCosto);
-		tempCosto.setProductosInventario(null);
-
-		return tempCosto;
-	}*/
+	/*
+	 * public List<TempCosto> getTempCostos() { return this.tempCostos; }
+	 * 
+	 * public void setTempCostos(List<TempCosto> tempCostos) { this.tempCostos =
+	 * tempCostos; }
+	 * 
+	 * public TempCosto addTempCosto(TempCosto tempCosto) {
+	 * getTempCostos().add(tempCosto); tempCosto.setProductosInventario(this);
+	 * 
+	 * return tempCosto; }
+	 * 
+	 * public TempCosto removeTempCosto(TempCosto tempCosto) {
+	 * getTempCostos().remove(tempCosto);
+	 * tempCosto.setProductosInventario(null);
+	 * 
+	 * return tempCosto; }
+	 */
 
 }

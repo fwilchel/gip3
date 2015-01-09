@@ -18,6 +18,8 @@ public class Documento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="documentoSeq",sequenceName="documentos_id_seq",allocationSize=1)
+	@GeneratedValue(generator="documentoSeq",strategy=GenerationType.SEQUENCE)
 	private Long id;
 
 	@Column(name="consecutivo_documento")
@@ -46,8 +48,9 @@ public class Documento implements Serializable {
 	@Column(name="fecha_generacion")
 	private Timestamp fechaGeneracion;
 
-	@Column(name="id_cliente")
-	private Long idCliente;
+	@ManyToOne
+	@JoinColumn(name="id_cliente")
+	private Cliente cliente;
 
 	@Column(name="id_punto_venta")
 	private Long idPuntoVenta;
@@ -103,12 +106,12 @@ public class Documento implements Serializable {
 	//bi-directional many-to-one association to Ubicacion
 	@ManyToOne
 	@JoinColumn(name="id_ubicacion_destino")
-	private Ubicacion ubicacione1;
+	private Ubicacion ubicacionDestino;
 
 	//bi-directional many-to-one association to Ubicacion
 	@ManyToOne
 	@JoinColumn(name="id_ubicacion_origen")
-	private Ubicacion ubicacione2;
+	private Ubicacion ubicacionOrigen;
 
 	//bi-directional many-to-one association to MovimientosInventario
 	@OneToMany(mappedBy="documento")
@@ -200,13 +203,13 @@ public class Documento implements Serializable {
 	public void setFechaGeneracion(Timestamp fechaGeneracion) {
 		this.fechaGeneracion = fechaGeneracion;
 	}
-
-	public Long getIdCliente() {
-		return this.idCliente;
+	
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Long getIdPuntoVenta() {
@@ -357,20 +360,20 @@ public class Documento implements Serializable {
 		this.proveedore = proveedore;
 	}
 
-	public Ubicacion getUbicacione1() {
-		return this.ubicacione1;
+	public Ubicacion getUbicacionDestino() {
+		return this.ubicacionDestino;
 	}
 
-	public void setUbicacione1(Ubicacion ubicacione1) {
-		this.ubicacione1 = ubicacione1;
+	public void setUbicacionDestino(Ubicacion ubicacionDestino) {
+		this.ubicacionDestino = ubicacionDestino;
 	}
 
-	public Ubicacion getUbicacione2() {
-		return this.ubicacione2;
+	public Ubicacion getUbicacionOrigen() {
+		return this.ubicacionOrigen;
 	}
 
-	public void setUbicacione2(Ubicacion ubicacione2) {
-		this.ubicacione2 = ubicacione2;
+	public void setUbicacionOrigen(Ubicacion ubicacionOrigen) {
+		this.ubicacionOrigen = ubicacionOrigen;
 	}
 
 	public List<MovimientosInventario> getMovimientosInventarios() {

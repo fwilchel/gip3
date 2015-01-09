@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -16,6 +18,10 @@ public class Estadosxdocumento implements Serializable {
 
 	@EmbeddedId
 	private EstadosxdocumentoPK id;
+	
+	@ManyToOne
+	@JoinColumn(name="id_estado", insertable=false, updatable=false)
+	private Estado estado;
 
 	//bi-directional many-to-one association to Documento
 	@OneToMany(mappedBy="estadosxdocumento")
@@ -79,5 +85,15 @@ public class Estadosxdocumento implements Serializable {
 
 		return documentos2;
 	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+	
+	
 
 }

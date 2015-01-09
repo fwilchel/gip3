@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +20,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletResponse;
 
 import sun.misc.BASE64Encoder;
@@ -50,7 +52,7 @@ import sun.misc.BASE64Decoder;
 @SuppressWarnings("restriction")
 public class Utilidad {
 	private static ArrayList listaUbicaciones = new ArrayList();
-
+	
 	public final static String stringFormat(String sql, String[] params) {
 
 		String resultado = sql;

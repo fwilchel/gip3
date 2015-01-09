@@ -34,6 +34,7 @@ public class ProductosXClienteComext implements Serializable {
 
 	private BigDecimal descuentoxproducto;
 
+	@Column(name = "id")
 	private Long id;
 
 	@Column(name = "id_moneda")
@@ -148,6 +149,31 @@ public class ProductosXClienteComext implements Serializable {
 
 	public void setProductosInventario(ProductosInventario productosInventario) {
 		this.productosInventario = productosInventario;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((pk == null) ? 0 : pk.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProductosXClienteComext other = (ProductosXClienteComext) obj;
+		if (pk == null) {
+			if (other.pk != null)
+				return false;
+		} else if (!pk.equals(other.pk))
+			return false;
+		return true;
 	}
 
 }

@@ -10,6 +10,7 @@ import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 
 @Local
 public interface DocumentoDAOLocal extends IGenericDAO<Documento>{
@@ -23,5 +24,21 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento>{
 	List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
 
 	BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
+
+	public List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento);
+	public List<Documento> consultarDocumentosFacturaPF(String consecutivoDocumento);
+
+	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento);
+
 	
+	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
+
+	public List<Documento> consultarDocumento(Map<String, Object> parametros);
+
+	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(String consecutivoDocumento);
+	
+	public List<Documento> consultarOrdenesDeDespacho(String consecutivoDocumento);
+
+	public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(String consecutivoDocumento);
+
 }

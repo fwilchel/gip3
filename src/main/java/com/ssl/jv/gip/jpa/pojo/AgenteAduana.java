@@ -11,7 +11,10 @@ import java.util.List;
  */
 @Entity
 @Table(name="agente_aduana")
-@NamedQuery(name="AgenteAduana.findAll", query="SELECT a FROM AgenteAduana a")
+@NamedQueries({
+		@NamedQuery(name="AgenteAduana.findAll", query="SELECT a FROM AgenteAduana a"),
+		@NamedQuery(name="AgenteAduana.findAllActive", query="SELECT a FROM AgenteAduana a WHERE a.activo = true")
+})
 public class AgenteAduana implements Serializable {
 	private static final long serialVersionUID = 1L;
 

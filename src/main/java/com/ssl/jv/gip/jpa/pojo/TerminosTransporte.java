@@ -1,9 +1,15 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.ssl.jv.gip.web.util.Utilidad;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -416,4 +422,13 @@ public class TerminosTransporte implements Serializable {
 		this.documentos = documentos;
 	}
 
+	/** Metodos para poder actualizar la fecha embarque desde la vista :: Sebastian Gamba */	
+	
+	public Date getFechaEmbarqueDate(){
+		return new Date(this.fechaEmbarque.getTime());
+	}
+	
+	public void setFechaEmbarqueDate(Date date){
+		this.fechaEmbarque = Utilidad.convertirDateTotimestamp(date);
+	}
 }

@@ -11,5 +11,7 @@ public interface UbicacionDAOLocal extends IGenericDAO<Ubicacion>{
 
 	public List<Ubicacion> consultarUbicacionPorFiltro(Ubicacion pFiltro);
 	
+	public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
+	
 	
 }
