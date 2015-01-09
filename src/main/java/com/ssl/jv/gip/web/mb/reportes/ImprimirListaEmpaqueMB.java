@@ -20,12 +20,9 @@ import org.primefaces.model.StreamedContent;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
-<<<<<<< HEAD
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
-=======
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
->>>>>>> 6434fc40fd64c7073092d8deea14482f416d7b82
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
@@ -59,7 +56,6 @@ public class ImprimirListaEmpaqueMB extends UtilMB{
 	private Documento seleccionado;
 	private ListaEmpaqueDTO seleccionado2;
 	private boolean blnActivo = false;
-<<<<<<< HEAD
 	private double totalCantidad=0;
 	private double totalValorTotal=0;
 	private double totalPesoNeto=0;
@@ -67,10 +63,8 @@ public class ImprimirListaEmpaqueMB extends UtilMB{
 	private double totalCantidadCajas=0;
 	private double totalCantidadPallets=0;
 	private double totalCantidadPorEmbalaje=0;
-=======
 	private StreamedContent reportePDF;
->>>>>>> 6434fc40fd64c7073092d8deea14482f416d7b82
-	
+
 	public double getTotalCantidadPorEmbalaje() {
 		return totalCantidadPorEmbalaje;
 	}
