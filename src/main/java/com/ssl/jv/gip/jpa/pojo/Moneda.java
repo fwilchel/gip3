@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "monedas")
-@NamedQueries({ @NamedQuery(name = Moneda.MONEDA_FIND_ALL, query = "SELECT m FROM Moneda m") })
+@NamedQueries({ @NamedQuery(name = Moneda.MONEDA_FIND_ALL, query = "SELECT m FROM Moneda m ORDER BY m.nombre") })
 public class Moneda implements Serializable {
 
 	/**
