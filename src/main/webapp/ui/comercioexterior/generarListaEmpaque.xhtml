@@ -276,7 +276,7 @@
 						</p:dataTable>
 						<p:separator />
 
-						<p:commandButton value="#{msg.GenerarListaEmpaque}" process="@this" icon="ui-icon-check" action="#{listaEmpaqueMB.generarListaEmpaque}"
+						<p:commandButton value="#{msg.GenerarListaEmpaque}" icon="ui-icon-check" action="#{listaEmpaqueMB.generarListaEmpaque}"
 								oncomplete="PF('datoDialog').show()" />
 					</p:outputPanel>
 				</p:tab>
@@ -293,7 +293,7 @@
 			              <f:param value="#{listaEmpaqueMB.docFinal.id}" />
 		   	                <f:param value="#{listaEmpaqueMB.docFinal.consecutivoDocumento}" />
 		                </h:outputFormat>
-
+						<p:separator />
 						<p:commandButton value="#{msg.NivelInventarioRegresar}"
 							onclick="PF('datoDialog').hide()" icon="ui-icon-check"></p:commandButton>
 				</p:outputPanel>
