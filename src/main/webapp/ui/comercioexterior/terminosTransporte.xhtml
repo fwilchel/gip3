@@ -47,19 +47,19 @@
 			</p:dataTable>
 		</h:form>
 
-		<p:dialog widgetVar="editarDlg" modal="true" showEffect="fade" style="width: 300px"
-			hideEffect="fade" resizable="false" dynamic="true" id="editarDialog">
-			<h:form id="formaDlg2">
-				<p:panelGrid  style="text-align:left">
-					<p:panelGrid columns="2">
+		<p:dialog widgetVar="editarDlg" modal="true" showEffect="fade" style="width: 300px" header="#{msg.TituloModInstruccionEmbarque}"
+			hideEffect="fade" resizable="false" dynamic="true" id="editarDialog" height="500">
+			<h:form id="formaDlg2" style="text-align:left">
+				<p:panelGrid >
+					<p:panelGrid columns="2"  style="width:1000px">
 						<p:panelGrid columns="2">
 							<p:outputLabel value="#{msg.condicionesEmbarqueClienteLabel}" styleClass="negrita" />
-							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.clientName}" id="nomCliente" 
+							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.clientName}" id="nomCliente" style="width:400px"
 								required="true" maxlength="40" label="#{msg.condicionesEmbarqueClienteLabel}" disabled="true"/>
 						</p:panelGrid>
 						<p:panelGrid columns="2">
 							<p:outputLabel value="#{msg.condicionesEmbarqueDireccionLabel}" styleClass="negrita" />
-							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.clientAddress}" id="dirCliente" 
+							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.clientAddress}" id="dirCliente"  style="width:400px"
 								required="true" maxlength="40" label="#{msg.condicionesEmbarqueDireccionLabel}" disabled="true"/>
 						</p:panelGrid>
 						<p:panelGrid columns="2">
@@ -125,15 +125,99 @@
 					
 					<p:separator />
 					
-					<ui:remove>
+					<p:spacer height="10"/>
+					
 					<p:panelGrid >
-						<p:panelGrid id="terminTransPnlgrd" columns="4">
+						<p:panelGrid id="terminTransPnlgrd" columns="6">
 							<p:outputLabel value="#{msg.CampoSociedadAduanera1}" styleClass="negrita" />
-							<h:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.}" id="nomCliente" 
-								required="true" maxlength="40" label="#{msg.CampoSociedadAduanera1}"/>
+							<p:selectOneMenu id="aduanaAgentelist1" required="true"
+								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.idAgenteAduana1}">
+								<f:selectItems value="#{terminosTransporteMB.agenteAduanaSelectList}"/>
+							</p:selectOneMenu>
+							<p:message for="aduanaAgentelist1" />
+							
+							<p:outputLabel value="#{msg.CampoSociedadAduanera2}" styleClass="negrita" />
+							<p:selectOneMenu id="aduanaAgentelist2"  required="true"
+								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.idAgenteAduana2}">
+								<f:selectItems value="#{terminosTransporteMB.agenteAduanaSelectList}"/>
+							</p:selectOneMenu>
+							<p:message for="aduanaAgentelist2" />
+							
+							<p:outputLabel value="#{msg.CampoMesEmbarque}" styleClass="negrita" />
+							<p:selectOneMenu id="mesEmbarqueList" required="true"
+								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.mesEmbarque}">
+								<f:selectItems value="#{aplicacionMB.monthsEs}"/>
+							</p:selectOneMenu>
+							<p:message for="mesEmbarqueList" />
+
+							<p:outputLabel value="#{msg.CampoPuertoEmbarque}" styleClass="negrita" />
+							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.puertoEmbarque}" 
+								required="true" id="puertoEmbarque"/>
+							<p:message for="puertoEmbarque" />
+
+							<p:outputLabel value="#{msg.CampoFechaEmbarque}" styleClass="negrita" />
+							<p:calendar id="fechaEmbarque" required="true" pattern="yyyy-MM-dd"
+								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.fechaEmbarqueDate}" />
+							<p:message for="fechaEmbarque" />
+						
+
+							<p:outputLabel value="#{msg.CampoNaviera}" styleClass="negrita" />
+							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.naviera}" 
+								required="true" id="naviera"/>
+							<p:message for="naviera" />
+						
+
+							<p:outputLabel value="#{msg.CampoLinea}" styleClass="negrita" />
+							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.linea}" 
+								required="true" id="linea"/>
+							<p:message for="linea" />
+						
+
+							<p:outputLabel value="#{msg.CampoBuque}" styleClass="negrita" />
+							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.buque}" 
+								required="true" id="buque"/>
+							<p:message for="buque" />
+						
+
+							<p:outputLabel value="#{msg.CampoSeguro}" styleClass="negrita" />
+							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.seguro}" 
+								required="true" id="seguro"/>
+							<p:message for="seguro" />
+						
+
+							<p:outputLabel value="#{msg.CampoTipoContenedor}" styleClass="negrita" />
+							<p:selectOneMenu id="tipoContenedor"  required="true"
+								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.tipoContenedor}">
+								<f:selectItems value="#{aplicacionMB.tiposContenedorTerminosTrans}"/>
+							</p:selectOneMenu>
+							<p:message for="tipoContenedor" />
+						
+
+							<p:outputLabel value="#{msg.CampoCantidadContenedores}" styleClass="negrita" />
+							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.cantidadContenedores}" 
+								required="true" id="cantidadContenedores"/>
+							<p:message for="cantidadContenedores" />
+						
+
+							<p:outputLabel value="#{msg.CampoNumeroContenedor}" styleClass="negrita" />
+							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.numeroContenedor}" 
+								required="true" id="numeroContenedor"/>
+							<p:message for="numeroContenedor" />
+						
+
+							<p:outputLabel value="#{msg.CampoSellosSeg}" styleClass="negrita" />
+							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.sellosSeg}" 
+								required="true" id="sellosSeg"/>
+							<p:message for="sellosSeg" />
+						
+
+							<p:outputLabel value="#{msg.CampoPrecintos}" styleClass="negrita" />
+							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.precintos}" 
+								required="true" id="precintos"/>
+							<p:message for="precintos" />
+							
 						</p:panelGrid>
 					</p:panelGrid>
-					</ui:remove>
 				</p:panelGrid>
 			</h:form>
 		</p:dialog>

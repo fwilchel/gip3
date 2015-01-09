@@ -52,6 +52,10 @@ public class TerminosTransporteMB extends UtilMB{
 	private InstruccionesEmbarqueDTO instruccionesEmbarqueDTO;
 	
 	private List<SelectItem> agenteAduanaSelectList = null;
+	private SelectItem selectedAduanaAgent1;
+	private SelectItem selectedAduanaAgent2;
+	
+	private TerminosTransporte selectedTerminosTransporte;
 	
 	private Integer language=AplicacionMB.SPANISH;
 	
@@ -61,12 +65,15 @@ public class TerminosTransporteMB extends UtilMB{
 	@PostConstruct
 	public void init(){
 		terminosTransporteList = terminosTransporteEjb.consultarListadoTerminosTransporte();
+		
+		selectedTerminosTransporte = null;
+		
 		List<AgenteAduana> agentesAduana = terminosTransporteEjb.consultarAgentesAduanaActivos();
 		if(agentesAduana != null){
 			for(AgenteAduana aa : agentesAduana){
 				SelectItem item = new SelectItem();
 				item.setLabel(aa.getNombre());
-				item.setValue(aa);
+				item.setValue(aa.getId());
 			
 				if(agenteAduanaSelectList == null){
 					agenteAduanaSelectList = new ArrayList<SelectItem>();
@@ -101,6 +108,47 @@ public class TerminosTransporteMB extends UtilMB{
 	public void setInstruccionesEmbarqueDTO(
 			InstruccionesEmbarqueDTO instruccionesEmbarqueDTO) {
 		this.instruccionesEmbarqueDTO = instruccionesEmbarqueDTO;
+	}
+
+	public List<SelectItem> getAgenteAduanaSelectList() {
+		return agenteAduanaSelectList;
+	}
+
+	public void setAgenteAduanaSelectList(List<SelectItem> agenteAduanaSelectList) {
+		this.agenteAduanaSelectList = agenteAduanaSelectList;
+	}
+
+	public SelectItem getSelectedAduanaAgent1() {
+		return selectedAduanaAgent1;
+	}
+
+	public void setSelectedAduanaAgent1(SelectItem selectedAduanaAgent1) {
+		this.selectedAduanaAgent1 = selectedAduanaAgent1;
+	}
+
+	public SelectItem getSelectedAduanaAgent2() {
+		return selectedAduanaAgent2;
+	}
+
+	public void setSelectedAduanaAgent2(SelectItem selectedAduanaAgent2) {
+		this.selectedAduanaAgent2 = selectedAduanaAgent2;
+	}
+
+	public TerminosTransporte getSelectedTerminosTransporte() {
+		return selectedTerminosTransporte;
+	}
+
+	public void setSelectedTerminosTransporte(
+			TerminosTransporte selectedTerminosTransporte) {
+		this.selectedTerminosTransporte = selectedTerminosTransporte;
+	}
+
+	public Integer getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Integer language) {
+		this.language = language;
 	}
 
 	/**
