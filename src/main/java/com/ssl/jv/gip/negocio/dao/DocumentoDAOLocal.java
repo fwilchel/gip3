@@ -26,10 +26,6 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento>{
 	public List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento);
 	public List<Documento> consultarDocumentosFacturaPF(String consecutivoDocumento);
 
-	public List<Documento> consultarOrdenesDeDespachoPorFiltro(Documento filtro);
-
-	public List<Documento> consultarOrdenesDeDespacho();
-
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento);
 
 	

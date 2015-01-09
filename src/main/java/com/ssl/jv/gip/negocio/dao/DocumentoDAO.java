@@ -534,37 +534,24 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 
 	}
 	
-	
-
 	/**
 	 * Consulta de todas las ordenes de despacho con opci�n de filtro
 	 * 
 	 * @return Lista de documentos de tipo ordenes de despacho
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Documento> consultarOrdenesDeDespacho(String consecutivoDocumento) {
 		List<Documento> listado= new ArrayList<Documento>();
 		String query;
 		try{
 			query = "SELECT d FROM Documento d "+
-					"JOIN FETCH d.cliente c "+
 					"JOIN FETCH d.estadosxdocumento exd "+
-					"JOIN FETCH exd.estado e "+
-					"JOIN FETCH d.documentoXNegociacions dxn "+
-					"JOIN FETCH dxn.terminoIncoterm ti "+
-					"JOIN FETCH c.ciudad ciu "+
-					"JOIN FETCH c.metodoPago mp "+
-					"WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id IN (:estado1, :estado2) "+
-					" AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.observacionDocumento IN (SELECT d3.consecutivoDocumento FROM Documento d3 WHERE d3.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d3.estadosxdocumento.estado.id IN (:estado1, :estado2)))"+
-					" AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " +
+					"WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento"+
 					" ORDER BY d.id DESC";
 			
 			listado= em.createQuery(query)
-					.setParameter("tipoDocumento", (long)ConstantesTipoDocumento.SOLICITUD_PEDIDO)
-					.setParameter("estado1", (long)ConstantesDocumento.VERIFICADO)
-					.setParameter("estado2", (long)ConstantesDocumento.APROBADA)
-					.setParameter("consecutivo",consecutivoDocumento.equals("")?"%":"%"+consecutivoDocumento+"%")
+					.setParameter("tipoDocumento", (long)ConstantesTipoDocumento.ORDEN_DESPACHO)
 					.getResultList();
 		} catch(Exception e){
 			LOGGER.error(e + "********Error consultando Documentos por tipo de documento ORDEN DE DESPACHO");
@@ -573,9 +560,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		return listado;
 	}
 
-	
-	
-	
 	public List<Documento> consultarDocumento(
 			Map<String, Object> parametros) {
 		// TODO Auto-generated method stub
@@ -825,18 +809,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		
 	}
 	
-	@Override
-	public List<Documento> consultarOrdenesDeDespachoPorFiltro(Documento filtro) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Documento> consultarOrdenesDeDespacho() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(
 			String consecutivoDocumento) {
