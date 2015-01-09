@@ -90,7 +90,7 @@ public class GeneradorReportes extends HttpServlet  {
 			
 			basicDataSource = (BasicDataSource)getServletContext().getAttribute("DataSource");*/
 
-			com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, nombreReporte, session, request, response);
+			com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, nombreReporte, session, request, response, null, null);
 			System.out.println("**** EXCNN ");
 
 		} catch (Exception e) {

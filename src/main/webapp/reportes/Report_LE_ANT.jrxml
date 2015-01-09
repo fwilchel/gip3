@@ -1,0 +1,1145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
+<!-- 2015-01-09T10:37:30 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_LE_ANT" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="277ed9f4-9fc2-4e06-921e-21a412f27725">
+	<property name="ireport.zoom" value="1.650000000000012"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="675"/>
+	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
+	<property name="ireport.background.image.properties" value="false,true,0.75,0,0,0,0,0,0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#FFF8F8"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#FFF8F8"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 12">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 12_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 12_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 12_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 13">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 13_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 13_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 13_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 14">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 14_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 14_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 14_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 15">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 15_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 15_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 15_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 16">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 16_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 16_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 16_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 17">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 17_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 17_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 17_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 18">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 18_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 18_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 18_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 19">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 19_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 19_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 19_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 20">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 20_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 20_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 20_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 21">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 21_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 21_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 21_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 22">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 22_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 22_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 22_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 23">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 23_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 23_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 23_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 24">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 24_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 24_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 24_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 25">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 25_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 25_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 25_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="nit" class="java.lang.String"/>
+	<parameter name="direccion" class="java.lang.String"/>
+	<parameter name="ciudad" class="java.lang.String"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="documento" class="java.lang.String"/>
+	<parameter name="telefono" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_documento" class="java.lang.String"/>
+	<parameter name="tipoImp" class="java.lang.String"/>
+	<parameter name="fechaVigencia" class="java.lang.String"/>
+	<parameter name="despacho" class="java.lang.String"/>
+	<parameter name="fechaCargue" class="java.lang.String"/>
+	<parameter name="contacto" class="java.lang.String"/>
+	<parameter name="totalPesoNeto" class="java.lang.Double"/>
+	<parameter name="totalPesoBruto" class="java.lang.Double"/>
+	<parameter name="totalCajas" class="java.lang.Double"/>
+	<parameter name="totalPallets" class="java.lang.Double"/>
+	<parameter name="costoEntrega" class="java.lang.Double"/>
+	<parameter name="costoFlete" class="java.lang.Double"/>
+	<parameter name="costoSeguro" class="java.lang.Double"/>
+	<parameter name="otrosCostos" class="java.lang.Double"/>
+	<parameter name="totalNegociacion" class="java.lang.Double"/>
+	<parameter name="incoterm" class="java.lang.String"/>
+	<parameter name="lugarIncoterm" class="java.lang.String"/>
+	<parameter name="valorLetras" class="java.lang.String"/>
+	<parameter name="solicitud" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\reporte\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="t1" class="java.lang.String"/>
+	<parameter name="t2" class="java.lang.String"/>
+	<parameter name="t3" class="java.lang.String"/>
+	<parameter name="t4" class="java.lang.String"/>
+	<parameter name="t5" class="java.lang.String"/>
+	<parameter name="t6" class="java.lang.String"/>
+	<parameter name="t7" class="java.lang.String"/>
+	<parameter name="t8" class="java.lang.String"/>
+	<parameter name="t9" class="java.lang.String"/>
+	<parameter name="t10" class="java.lang.String"/>
+	<parameter name="t11" class="java.lang.String"/>
+	<parameter name="t12" class="java.lang.String"/>
+	<parameter name="t13" class="java.lang.String"/>
+	<parameter name="t14" class="java.lang.String"/>
+	<parameter name="t15" class="java.lang.String"/>
+	<parameter name="qEstibas" class="java.lang.Double"/>
+	<parameter name="PesoBrutoEstibas" class="java.lang.Double"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="objTipoLoteOIC.strDescripcion" class="java.lang.String"/>
+	<field name="objProductoInventario.strSku" class="java.lang.String"/>
+	<field name="objProductoInventario.strNombre" class="java.lang.String"/>
+	<field name="dblCantidad1" class="java.lang.Double"/>
+	<field name="dblTotalCajasPorEmbalaje" class="java.lang.Double"/>
+	<field name="dblTotalCajasItem" class="java.lang.Double"/>
+	<field name="dblTotalPesoNetoItem" class="java.lang.Double"/>
+	<field name="dblTotalPesoBrutoItem" class="java.lang.Double"/>
+	<field name="objDocumentoxLotesOic.strConsecutivo" class="java.lang.String"/>
+	<field name="dblTotalCajasPalletItem" class="java.lang.Double"/>
+	<field name="objProductoPorClienteComExt.strRegSanitario" class="java.lang.String"/>
+	<variable name="dblCantidad1_1" class="java.lang.Double" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblCantidad1}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalCajasPorEmbalaje_1" class="java.lang.Double" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblTotalCajasPorEmbalaje}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalCajasItem_1" class="java.lang.Double" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblTotalCajasItem}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalPesoNetoItem_1" class="java.lang.Double" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblTotalPesoNetoItem}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalPesoNetoItem_2" class="java.lang.Double" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblTotalPesoNetoItem}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalPesoBrutoItem_1" class="java.lang.Double" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblTotalPesoBrutoItem}]]></variableExpression>
+	</variable>
+	<variable name="dblCantidad1_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblCantidad1}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalCajasPorEmbalaje_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblTotalCajasPorEmbalaje}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalPesoNetoItem_3" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblTotalPesoNetoItem}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalPesoBrutoItem_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblTotalPesoBrutoItem}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalCajasItem_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblTotalCajasItem}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalCajasPalletItem_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{dblTotalCajasPalletItem}]]></variableExpression>
+	</variable>
+	<variable name="dblTotalCajasPalletItem_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblTotalCajasPalletItem}]]></variableExpression>
+	</variable>
+	<variable name="dblCantidad1_3" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{dblCantidad1}]]></variableExpression>
+	</variable>
+	<group name="TipoLoteOIC">
+		<groupExpression><![CDATA[$F{objTipoLoteOIC.strDescripcion}]]></groupExpression>
+		<groupHeader>
+			<band height="32">
+				<line>
+					<reportElement x="30" y="18" width="557" height="1" uuid="5dc94316-89ab-453c-8b79-c66795357775"/>
+				</line>
+				<line>
+					<reportElement x="31" y="30" width="556" height="1" uuid="9ccb1588-5f0f-4739-80d3-41e06f95884c"/>
+				</line>
+				<textField>
+					<reportElement x="166" y="4" width="205" height="14" uuid="021bff73-fcbd-44ab-9dd4-a8d625148284"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{objDocumentoxLotesOic.strConsecutivo}==null)?"":"Lote " + $F{objDocumentoxLotesOic.strConsecutivo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="132" y="18" width="163" height="11" uuid="8af41004-e20c-4f5f-a403-83ba09bc58d6"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{t4}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="298" y="19" width="49" height="11" uuid="2209112a-6ab6-4ef5-b3fb-32f656ade1fb"/>
+					<textElement textAlignment="Center">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{t5}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="350" y="19" width="60" height="11" uuid="629a289c-ba10-47b4-a105-69ac8f58f7ca"/>
+					<textElement textAlignment="Center">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{t6}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="411" y="19" width="58" height="11" uuid="934edef8-b3dc-4782-9568-95b9bdb9d081"/>
+					<textElement textAlignment="Center">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{t7}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="471" y="19" width="60" height="11" uuid="74d3c31f-3376-4674-9762-3638bb8f1d29"/>
+					<textElement textAlignment="Center">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{t8}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="534" y="19" width="53" height="11" uuid="6deb9842-f5db-4f24-8002-c971778fe60d"/>
+					<textElement textAlignment="Center">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{t9}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="30" y="18" width="1" height="13" uuid="180e32c7-4fac-4491-b6b7-3c15702595e2"/>
+				</line>
+				<line>
+					<reportElement x="131" y="19" width="1" height="12" uuid="2f122fdc-d9dc-4df3-8c43-c8f50df021f2"/>
+				</line>
+				<line>
+					<reportElement x="297" y="18" width="1" height="12" uuid="44e913e2-8240-4410-ab56-0a125d1b25ab"/>
+				</line>
+				<line>
+					<reportElement x="348" y="18" width="1" height="12" uuid="92d9acc4-813e-4f86-9353-70cb9d14fc98"/>
+				</line>
+				<line>
+					<reportElement x="411" y="18" width="1" height="12" uuid="aa530184-c85f-4d54-90a5-85f35032b02b"/>
+				</line>
+				<line>
+					<reportElement x="470" y="18" width="1" height="12" uuid="c511325c-b74a-455c-818a-92d6bc12143e"/>
+				</line>
+				<line>
+					<reportElement x="533" y="18" width="1" height="12" uuid="c2e0c82f-f993-4e35-9899-134fb9d5baeb"/>
+				</line>
+				<line>
+					<reportElement x="587" y="18" width="1" height="13" uuid="7e5485c3-950c-4776-91f6-0ddf692d522c"/>
+				</line>
+				<textField>
+					<reportElement x="111" y="19" width="19" height="11" uuid="c085c0f4-2491-447b-ace3-fc6efe1ae970"/>
+					<textElement textAlignment="Center">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{t3}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="31" y="4" width="133" height="14" uuid="69d757cc-cb2f-4648-b305-683c274a7c99"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{objTipoLoteOIC.strDescripcion}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="109" y="18" width="1" height="12" uuid="af3ceb2c-3371-4d59-88a8-ec10d066d9f8"/>
+				</line>
+				<textField>
+					<reportElement x="32" y="18" width="77" height="11" uuid="a74d1a74-f281-4d3f-ae26-274280cfc5f5"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{t11}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="28">
+				<staticText>
+					<reportElement x="110" y="1" width="133" height="15" uuid="5883d164-ff9a-4672-b047-5a1863763ad4"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SubTotal:]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement x="298" y="0" width="49" height="16" uuid="53f7ef92-5ec0-4dc5-9fe6-44dc4742a43a"/>
+					<textElement textAlignment="Right">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{dblCantidad1_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="351" y="0" width="59" height="16" uuid="2c0e7a60-f48f-4d2c-b1ef-795128708abb"/>
+					<textElement textAlignment="Right">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{dblTotalCajasPorEmbalaje_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="412" y="0" width="57" height="16" uuid="1ab22f93-4869-495b-9884-5b26408530cf"/>
+					<textElement textAlignment="Right">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{dblTotalCajasItem_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="471" y="0" width="60" height="16" uuid="986ec04a-0777-4141-9f06-19e9c64888fc"/>
+					<textElement textAlignment="Right">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{dblTotalPesoNetoItem_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="534" y="0" width="53" height="16" uuid="fbdc7adc-55a3-429f-b8ed-cd53d01efc34"/>
+					<textElement textAlignment="Right">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{dblTotalPesoBrutoItem_1}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="30" y="-2" width="557" height="1" uuid="19a37084-3def-46a9-9c0b-578381f69077"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="631">
+			<image>
+				<reportElement x="146" y="243" width="317" height="321" uuid="8cc99ebf-084d-41c9-aa9b-940152ffc9c5"/>
+				<imageExpression><![CDATA["/usr/local/apache-tomcat-6.0.24/webapps/gip2/jsp/ventas/reporte/JuanValdez_MarcaAgua1.JPG"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="242" splitType="Stretch">
+			<textField>
+				<reportElement x="145" y="158" width="130" height="14" uuid="2f70305e-db81-4aa0-9f6c-a99e3300ad49"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="145" width="265" height="14" uuid="1ee76a1f-14a3-439b-bd68-0a9160423eff"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="172" width="130" height="14" uuid="a26da35c-7b95-4a0a-8ead-c992ae426b57"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="186" width="130" height="13" uuid="a3c6f66a-b1be-435d-9e74-bde2b5b2b6a4"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ciudad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="199" width="130" height="14" uuid="cb068c5c-3ad9-4085-8d14-87cbc7be3f6f"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="212" width="130" height="14" uuid="23c83b05-c82d-4c39-baf6-4559e0c00f77"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{contacto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="32" y="81" width="113" height="14" uuid="fbf534c4-9e5e-44e2-b314-6099ff833679"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="145" y="95" width="145" height="49" uuid="7ef4889a-efbf-40eb-9e09-25a64d3791d7"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Calle 73 No. 8-13 Torre A Piso 2
+Tels.: (571) 326 92 22
+Bogotá - Colombia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="32" y="146" width="113" height="14" uuid="dcf497ef-4ebd-4116-b497-1267118f1b96"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="145" y="81" width="145" height="14" uuid="97cc8464-aa20-4596-bb15-490175791867"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Promotora de Café Colombia S.A.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="32" y="37" width="556" height="20" uuid="35c5b903-728e-4f17-ba47-94d21e198dc9"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="81" width="100" height="14" uuid="4af42988-189b-48bf-a4f2-83d80cbc5e71"/>
+				<textFieldExpression><![CDATA[$P{t1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="146" width="100" height="13" uuid="151b173f-3bd6-46d2-a8ef-b450ef5bf5d9"/>
+				<textFieldExpression><![CDATA[$P{t2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="226" width="130" height="14" uuid="2391b8f9-a98e-47f1-b34c-8ef672445d16"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{t14}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21"/>
+	</columnHeader>
+	<detail>
+		<band height="12">
+			<textField>
+				<reportElement x="111" y="-1" width="19" height="11" uuid="a39dc140-1771-4f99-87ac-e6d92414ca8b"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{objProductoInventario.strSku}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="132" y="-1" width="163" height="11" uuid="fc60e761-53db-47fe-bd99-2f89d48c54b6"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{objProductoInventario.strNombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="350" y="-1" width="60" height="11" uuid="fd799458-ef07-4da9-8851-e6fabf33771a"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dblTotalCajasPorEmbalaje}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="411" y="-1" width="58" height="11" uuid="c561eb65-08d1-46cc-925d-d043033d99f6"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dblTotalCajasItem}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="471" y="-1" width="60" height="11" uuid="d6fa00c3-9bae-425c-9592-9e0acc958936"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dblTotalPesoNetoItem}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="533" y="-1" width="53" height="11" uuid="e9f2acdf-a27e-4373-9ab1-e33bdb019036"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dblTotalPesoBrutoItem}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="30" y="-2" width="1" height="12" uuid="de967115-3cdf-4691-9956-a50089ec0723"/>
+			</line>
+			<textField pattern="#,##0.00">
+				<reportElement x="297" y="-1" width="50" height="11" uuid="a5108872-9c06-4c21-8e2b-639d7a744292"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dblCantidad1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="587" y="-1" width="1" height="12" uuid="e3c790b9-e9d2-4d83-b180-5cc84624ee1e"/>
+			</line>
+			<textField>
+				<reportElement x="32" y="-1" width="77" height="11" uuid="39962a7b-320f-4957-abb1-ed72838f9f31"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{objProductoPorClienteComExt.strRegSanitario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<lastPageFooter>
+		<band height="214">
+			<line>
+				<reportElement x="31" y="7" width="254" height="1" uuid="1acc00c8-1fe2-4344-9bf2-e12f142cd641"/>
+			</line>
+			<rectangle>
+				<reportElement mode="Transparent" x="146" y="63" width="100" height="20" uuid="11ee0e9b-66cf-4a3a-ad7c-68059fe9172d"/>
+			</rectangle>
+			<line>
+				<reportElement x="58" y="170" width="217" height="1" uuid="31dfe051-0c70-4efb-a653-4d444f3ce7c8"/>
+			</line>
+			<rectangle>
+				<reportElement mode="Transparent" x="146" y="23" width="100" height="20" uuid="99134b7d-4f03-4d9d-a232-9144bdb016a6"/>
+			</rectangle>
+			<textField>
+				<reportElement x="50" y="132" width="89" height="20" uuid="7a1e86db-e7fe-41cf-85b8-dfd4892a06f6"/>
+				<textElement>
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{t12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="62" width="88" height="20" uuid="a3421f8e-c742-4f7c-9dcd-85137a87ae3e"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{t7}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="147" y="45" width="90" height="15" uuid="b1c314b2-5c32-47e9-a0c8-a1fca51a45fc"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{dblTotalPesoBrutoItem_2}+$P{PesoBrutoEstibas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="147" y="23" width="90" height="15" uuid="08adcaf4-8bdb-496d-9214-9668fef18a6e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="styled">
+					<font size="8" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{dblTotalPesoNetoItem_3}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="31" y="128" width="255" height="61" uuid="03436bdc-5cc1-420b-b3d0-302d8156ac2d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="146" y="82" width="100" height="20" uuid="a9b0a700-c7ba-4d10-b6a3-3f45ffb3a26b"/>
+			</rectangle>
+			<textField>
+				<reportElement x="51" y="82" width="88" height="20" uuid="ff9d6f27-b2c9-43f0-b64c-086c9d2e1604"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{t10}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="285" y="7" width="1" height="115" uuid="038f6442-44dd-4921-95a9-fa2e25f4b0e9"/>
+			</line>
+			<textField>
+				<reportElement x="51" y="24" width="88" height="19" uuid="f6329592-8ad6-4c93-b956-a85bb6d00b59"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{t8}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="171" width="217" height="20" uuid="95a19c36-fc7a-4d1d-aa67-226bba1f2e90"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{t13}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="146" y="102" width="100" height="20" uuid="9cd9fa13-a08e-46f9-a992-4d9cc049fb8d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="146" y="43" width="100" height="20" uuid="9022f631-f027-41eb-8a58-159733f773e3"/>
+			</rectangle>
+			<textField pattern="#,##0.00">
+				<reportElement x="147" y="64" width="90" height="15" uuid="cf281197-2b6e-45e3-9200-4fc28ec6fabf"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{dblTotalCajasItem_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="102" width="88" height="20" uuid="3b65893d-c58b-42c1-af3b-7f305c98ad87"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{t5}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="147" y="85" width="90" height="15" uuid="602b4017-0d2b-4ef5-94d1-9ef4cb2aab5d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qEstibas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="43" width="88" height="20" uuid="cb663c2c-6358-4b85-b415-525774693487"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{t9}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="30" y="7" width="1" height="115" uuid="64d9237e-f2c3-4ae7-9afb-47ab156df6bc"/>
+			</line>
+			<line>
+				<reportElement x="30" y="122" width="256" height="1" uuid="e35a3b2c-f20a-4e98-874f-8b524e85c3c1"/>
+			</line>
+			<textField pattern="#,##0.00">
+				<reportElement x="147" y="103" width="90" height="15" uuid="41c94061-590d-4648-9c5b-878bd38bf670"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{dblCantidad1_3}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="20" splitType="Immediate">
+			<textField>
+				<reportElement x="110" y="1" width="133" height="15" uuid="da6e1e8f-b208-4c79-835d-5dff181eb422"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{t15}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="292" y="1" width="53" height="15" uuid="d0ee52b9-fb3b-4d44-9914-c9bee2298b0a"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qEstibas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="518" y="2" width="65" height="15" uuid="4a08e215-e60c-4dca-88e5-50dc690fea23"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PesoBrutoEstibas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

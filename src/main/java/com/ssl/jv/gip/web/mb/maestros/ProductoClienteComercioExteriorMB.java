@@ -67,6 +67,8 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 
 	private ProductosInventarioFiltroDTO productosInventarioFiltroDTO;
 
+	private String idUsuario;
+
 	public ProductoClienteComercioExteriorMB() {
 		super();
 	}
@@ -74,6 +76,7 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 	@PostConstruct
 	public void init() {
 		try {
+			idUsuario = menu.getUsuario().getId();
 			productosXClienteComExteriorList = maestroFacade
 					.consultarProductosClienteComercioExterior();
 		} catch (Exception e) {
@@ -150,7 +153,8 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 
 	public void buscarProductosInventarios(ActionEvent event) {
 		try {
-			productosInventarioFiltroDTO.setEstado(false);
+			productosInventarioFiltroDTO.setIdUsuario(idUsuario);
+			productosInventarioFiltroDTO.setEstado(true);
 			if (productosInventarioFiltroDTO.getIdCategoria() == -1) {
 				productosInventarioFiltroDTO.setIdCategoria(null);
 			}
@@ -263,7 +267,6 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 	}
 
 	private void cargarValoresCombos() {
-		String idUsuario = menu.getUsuario().getId();
 		clientes = maestroFacade.consultarClientesActivosPorUsuario(idUsuario);
 		monedas = maestroFacade.consultarMonedas();
 		cargarCategoriasInventario();

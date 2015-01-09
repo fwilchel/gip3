@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -117,9 +118,6 @@ public interface ComercioExteriorEJBLocal {
 
 	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
 	
-	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente);
-	
-
 	public List<Documento> consultarDocumento(Map<String, Object> parametros);
 	public ListaEmpaqueDTO consultarDocumentoListaEmpaque (String consecutivoDocumento);
 
@@ -134,6 +132,13 @@ public interface ComercioExteriorEJBLocal {
 	public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento, Long idCliente);
 	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento, Long idCliente);
 	
+	List<ProductoDTO> consultarProductoPorDocumento(ListaEmpaqueDTO listaEmpaqueDTO);
+
+	BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
+
+	Documento consultarDocumentoPorId(Long pId);
+
+	void generarListaEmpaque(ProductoDTO productoDTO);
 	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos);
 	public List<DocumentoXLotesoic> guardarLotes(List<DocumentoXLotesoic> lista, Documento documento);
 

@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -21,15 +22,12 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento>{
 	
 	public void actualizarDocumentoPorNegociacion(DocumentoIncontermDTO documento);
 
-	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
-	
+	List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
+
+	BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
 
 	public List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento);
 	public List<Documento> consultarDocumentosFacturaPF(String consecutivoDocumento);
-
-	public List<Documento> consultarOrdenesDeDespachoPorFiltro(Documento filtro);
-
-	public List<Documento> consultarOrdenesDeDespacho();
 
 	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento);
 
