@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.sugerenciasCompra_TituloFrame}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		
+		<h:form prependId="false" id="forma" enctype="multipart/form-data">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+				showIcon="true" autoUpdate="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.sugerenciasCompra_TituloFrame}">
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{sugerenciaCompraMB.sugerenciasCompra}" rows="10"
+						emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom" 
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel>
+								
+									<p:fileUpload fileUploadListener="#{sugerenciaCompraMB.cargarArchivo}" label="#{msg.generalSeleccionarArchivo}" uploadLabel="#{msg.generalImportar}" cancelLabel="#{msg.generalCancelar}" invalidFileMessage="#{msg.generalTipoArchivoNoValido}" allowTypes="/(\.|\/)(txt)$/"></p:fileUpload>
+									<p:spacer width="30"></p:spacer>
+									<p:commandButton action="#{sugerenciaCompraMB.nuevo}" title="#{msg.generalAdicionarRegistro}"
+										icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
+									<p:spacer width="30"></p:spacer>	
+									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+												<p:inputText id="globalFilter"
+													onkeyup="PF('datoTabla').filter()" style="width:150px"
+													placeholder="#{msg.generalPalabrasBuscar}" />
+									<p:spacer width="30"></p:spacer>				
+									<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+								
+									
+								</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton action="#{sugerenciaCompraMB.editar}"
+								icon="ui-icon-pencil" title="#{msg.generalEditar}" >
+								<f:setPropertyActionListener value="#{dato}"
+									target="#{sugerenciaCompraMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+
+						<p:column filterBy="#{dato.id}" headerText="#{msg.sugerenciasCompra_Documento}"
+							filterMatchMode="contains" sortBy="#{dato.id}">
+							<h:outputText value="#{dato.id}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.consecutivoDocumento}" headerText="#{msg.sugerenciasCompra_ConsecutivoDocumento}"
+							filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
+							<h:outputText value="#{dato.consecutivoDocumento}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.fechaGeneracion}" headerText="#{msg.sugerenciasCompra_FechaGeneracion}"
+							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
+							<h:outputText value="#{dato.fechaGeneracion}" >
+								<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
+							</h:outputText>
+						</p:column>
+						
+						<p:column filterBy="#{dato.estadosxdocumento.estado.nombre}" headerText="#{msg.generalEstado}"
+							filterMatchMode="exact" sortBy="#{dato.estadosxdocumento.estado.nombre}">
+							<h:outputText value="#{dato.estadosxdocumento.estado.nombre}" />
+						</p:column>
+						
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+
