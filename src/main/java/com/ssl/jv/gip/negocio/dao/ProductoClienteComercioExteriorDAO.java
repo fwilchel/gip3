@@ -88,7 +88,7 @@ public class ProductoClienteComercioExteriorDAO extends
 				+ "productos_inventario_comext.descripcion, "
 				+ "productos_inventario_comext.peso_neto_embalaje, "
 				+ "productos_inventario_comext.peso_bruto_embalaje, "
-				// + "productos_inventario_comext.controlstock, "
+				+ "productos_inventario_comext.controlstock, "
 				+ "productos_inventario_comext.nombre_prd_proveedor as PRODUCTO_CLIENTE"
 				+ " FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
 				+ " LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto"
@@ -162,9 +162,8 @@ public class ProductoClienteComercioExteriorDAO extends
 						objs[22].toString()) : null);
 				dto.setDblPesoBrutoEmbalajeProductoInventarioCE(objs[23] != null ? new BigDecimal(
 						objs[23].toString()) : null);
-				// dto.setControlStockProductoInventarioCE((Boolean) (objs[24]
-				// != null ? objs[24] : null));
-				dto.setNombrePrdProveedorProductoInventarioCE(objs[24] != null ? objs[24]
+				dto.setControlStockProductoInventarioCE((Boolean) (objs[24] != null ? objs[24] : null));
+				dto.setNombrePrdProveedorProductoInventarioCE(objs[25] != null ? objs[25]
 						.toString() : null);
 
 				dto.setBlnIncluirBusqueda(true);
