@@ -122,6 +122,10 @@
 	        <from-outcome>listado_factura</from-outcome>
             <to-view-id>/ui/reportes/facturaDirecta.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+	        <from-outcome>listado_maestro_Clientes</from-outcome>
+            <to-view-id>/ui/maestros/cliente.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
     

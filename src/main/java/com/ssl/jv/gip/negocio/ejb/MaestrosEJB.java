@@ -550,7 +550,8 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@Override
 	public Cliente crearCliente(Cliente pEntidad) {
 		try {
-			return (Cliente) clienteDao.add(pEntidad);
+			clienteDao.guardarCliente(pEntidad);
+			return pEntidad;
 		} catch (Exception e) {
 			LOGGER.error(e + " Error creando clientes");
 			return null;

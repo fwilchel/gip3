@@ -13,5 +13,7 @@ public interface ClienteDAOLocal extends IGenericDAO<Cliente> {
 	List<Cliente> consultarPorFiltro(ClienteFiltroVO filtroVO);
 
 	List<Cliente> consultarActivosPorUsuario(String idUsuario);
+	
+	void guardarCliente(Cliente cliente);
 
 }
