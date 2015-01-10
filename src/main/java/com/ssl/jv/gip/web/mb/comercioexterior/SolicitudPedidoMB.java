@@ -121,8 +121,8 @@ public class SolicitudPedidoMB extends UtilMB{
 					if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0))==1 
 							&& pxc.getDblCantCajasXTendidoProductoInventarioCE() .compareTo(new BigDecimal(0))==1 )
 					{
-						ValorCajasTendido = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE()))
-								.divide(pxc.getDblCantCajasXTendidoProductoInventarioCE());
+						ValorCajasTendido = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(),mc))
+								.divide(pxc.getDblCantCajasXTendidoProductoInventarioCE(),mc);
 					}
 					else
 					{
@@ -132,8 +132,8 @@ public class SolicitudPedidoMB extends UtilMB{
 					if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0))==1 
 							&& pxc.getDblTotalCajasXPalletProductoInventarioCE().compareTo(new BigDecimal(0))==1)
 					{
-						ValorCajasPallet = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE()))
-								.divide(pxc.getDblTotalCajasXPalletProductoInventarioCE());
+						ValorCajasPallet = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(),mc))
+								.divide(pxc.getDblTotalCajasXPalletProductoInventarioCE(),mc);
 					}
 					else
 					{

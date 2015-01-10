@@ -52,6 +52,8 @@ public class ProductoPorClienteComExtDTO implements Serializable{
 	
 	private BigDecimal dblCantidad1ProductoxDocumento;
 	
+	private BigDecimal dblCantidad1ActualProductoxDocumento;
+	
 	private BigDecimal dblValorTotalProductoxDocumento;
 	
 	//Producto x inventario CE
@@ -103,6 +105,12 @@ public class ProductoPorClienteComExtDTO implements Serializable{
 	private String strRegSanitario;
 	
 	private BigDecimal dblMuestraFito ,dblMuestraCalidad;
+	
+	private Long idTipoMovimiento;
+	
+	private Timestamp DtmFecha;
+	
+	private BigDecimal dblSaldo;
 	
 //	private DocumentoxNegociacion objDocumentoxNegociacion;
 
@@ -445,6 +453,39 @@ public class ProductoPorClienteComExtDTO implements Serializable{
 	public void setNombrePrdProveedorProductoInventarioCE(
 			String nombrePrdProveedorProductoInventarioCE) {
 		this.nombrePrdProveedorProductoInventarioCE = nombrePrdProveedorProductoInventarioCE;
+	}
+
+	public Long getIdTipoMovimiento() {
+		return idTipoMovimiento;
+	}
+
+	public void setIdTipoMovimiento(Long idTipoMovimiento) {
+		this.idTipoMovimiento = idTipoMovimiento;
+	}
+
+	public Timestamp getDtmFecha() {
+		return DtmFecha;
+	}
+
+	public void setDtmFecha(Timestamp dtmFecha) {
+		DtmFecha = dtmFecha;
+	}
+
+	public BigDecimal getDblSaldo() {
+		return dblSaldo;
+	}
+
+	public void setDblSaldo(BigDecimal dblSaldo) {
+		this.dblSaldo = dblSaldo;
+	}
+
+	public BigDecimal getDblCantidad1ActualProductoxDocumento() {
+		return dblCantidad1ActualProductoxDocumento;
+	}
+
+	public void setDblCantidad1ActualProductoxDocumento(
+			BigDecimal dblCantidad1ActualProductoxDocumento) {
+		this.dblCantidad1ActualProductoxDocumento = dblCantidad1ActualProductoxDocumento;
 	}
 
 	

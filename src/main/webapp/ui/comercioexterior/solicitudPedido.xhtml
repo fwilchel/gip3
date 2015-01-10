@@ -405,7 +405,8 @@
 						<p:commandButton value="Guardar Ajustes SP"
 							icon="ui-icon-disk"
 							action="#{solicitudPedidoMB.guardarAjustesSP}"
-							update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos"></p:commandButton>
+							update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos">
+						</p:commandButton>
 						<p:commandButton value="#{msg.generalCancelar}"
 							onclick="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
 					</p:panelGrid>
