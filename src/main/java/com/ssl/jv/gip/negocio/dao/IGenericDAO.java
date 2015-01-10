@@ -18,4 +18,8 @@ public interface IGenericDAO<T>  {
 	public List<?> findAllActivo();
 	
 	public void deleteMultiple(List<T> pojoList);
+	
+	public Long consultarProximoValorSecuencia(String secuenceName);
+	
+	public Number consultarMaximoValorColumna(String column);
 }

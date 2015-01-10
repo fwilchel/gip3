@@ -65,12 +65,12 @@ public class MovimientosInventario implements Serializable {
 	//bi-directional many-to-one association to Ubicacion
 	@ManyToOne
 	@JoinColumn(name="id_ubicacion_destino")
-	private Ubicacion ubicacione1;
+	private Ubicacion ubicacionDestino;
 
 	//bi-directional many-to-one association to Ubicacion
 	@ManyToOne
 	@JoinColumn(name="id_ubicacion_origen")
-	private Ubicacion ubicacione2;
+	private Ubicacion ubicacionOrigen;
 
 	//bi-directional many-to-one association to Unidad
 	@ManyToOne
@@ -176,20 +176,20 @@ public class MovimientosInventario implements Serializable {
 		this.tipoMovimiento = tipoMovimiento;
 	}
 
-	public Ubicacion getUbicacione1() {
-		return this.ubicacione1;
+	public Ubicacion getUbicacionDestino() {
+		return this.ubicacionDestino;
 	}
 
-	public void setUbicacione1(Ubicacion ubicacione1) {
-		this.ubicacione1 = ubicacione1;
+	public void setUbicacionDestino(Ubicacion ubicacionDestino) {
+		this.ubicacionDestino = ubicacionDestino;
 	}
 
-	public Ubicacion getUbicacione2() {
-		return this.ubicacione2;
+	public Ubicacion getUbicacionOrigen() {
+		return this.ubicacionOrigen;
 	}
 
-	public void setUbicacione2(Ubicacion ubicacione2) {
-		this.ubicacione2 = ubicacione2;
+	public void setUbicacionOrigen(Ubicacion ubicacionOrigen) {
+		this.ubicacionOrigen = ubicacionOrigen;
 	}
 
 	public Unidad getUnidade() {

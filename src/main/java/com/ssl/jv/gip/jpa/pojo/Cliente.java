@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Table(name = "clientes")
 @NamedQueries({
 		@NamedQuery(name = Cliente.CLIENTE_FIND_ALL, query = "SELECT c FROM Cliente c"),
-		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.activo = true AND u.id = :idUsuario") })
+		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.activo = true AND u.id = :idUsuario ORDER BY c.nombre ASC") })
 public class Cliente implements Serializable {
 
 	/**
@@ -64,8 +64,8 @@ public class Cliente implements Serializable {
 	private String fax;
 
 	@ManyToOne
-	@JoinColumn(name="id_ciudad")
-	private Ciudad ciudad;	
+	@JoinColumn(name = "id_ciudad")
+	private Ciudad ciudad;
 
 	@Column(name = "modo_factura")
 	private Integer modoFactura;

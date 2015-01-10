@@ -31,6 +31,8 @@ public class AplicacionMB {
 	private String version;
 	private Boolean debug;
 	
+	private static String[] MONTHS;
+	
 	public final SelectItem[] siNo= { 
 		new SelectItem(new Boolean(true), "SI"),
 		new SelectItem(new Boolean(false), "NO"), 
@@ -111,4 +113,74 @@ public class AplicacionMB {
 		return siNo;
 	}
     
+	/**
+	 * Metodo que retorna el list de selectItem con los meses en ingles
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	public List<SelectItem> getMonthsEn(){
+		return getMonthsByLanguage(ENGLISH);
+	}
+	
+	/**
+	 * Metodo que retorna el list de selectItem con los meses en espanol
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	public List<SelectItem> getMonthsEs(){
+		return getMonthsByLanguage(SPANISH);
+	}
+	
+	/**
+	 * Metodo que retorna el listado de meses segun el idioma
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @param language
+	 * @return
+	 */ 
+	private List<SelectItem> getMonthsByLanguage(Integer language){
+		List<SelectItem> monthList = null;
+		MONTHS = getMessage("meses", language).split(",");
+		if(MONTHS != null){
+			monthList = new ArrayList<SelectItem>();
+			for(String m : MONTHS){
+				SelectItem item = new SelectItem();
+				item.setLabel(m);
+				item.setValue(m);
+				
+				monthList.add(item);
+			}
+		}
+		return monthList;
+	}
+	
+	/**
+	 * Metodo que retorna los tipos de contenedor para los terminos de transporte
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	public List<SelectItem> getTiposContenedorTerminosTrans(){
+		List<SelectItem> tipos = new ArrayList<SelectItem>();
+		
+		SelectItem item1 = new SelectItem();
+		item1.setLabel("20");
+		item1.setValue(new Integer(20));
+		
+		tipos.add(item1);
+		
+		SelectItem item2 = new SelectItem();
+		item2.setLabel("40");
+		item2.setValue(new Integer(40));
+		
+		tipos.add(item2);
+		
+		return tipos;
+	}
 }

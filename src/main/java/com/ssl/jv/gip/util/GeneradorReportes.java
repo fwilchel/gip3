@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -43,11 +46,11 @@ public class GeneradorReportes {
 	
 	private static final Logger logger = Logger.getLogger(GeneradorReportes.class);
 	
-	public static void generar(Hashtable<String, String> parametrosR, String nombreReporte, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException, Exception{
+	public static OutputStream generar(Hashtable<String, String> parametrosGenerador, String nombreReporte, HttpSession session, HttpServletRequest request, HttpServletResponse response, Map<String, Object> parametrosReporte, JRDataSource jrDatasource) throws IOException, Exception{
 
 		try {
 			
-			String tipo = parametrosR.get("tipo"); //pdf, xml, html, rtf, xls, jxl, csv, odt, ods, docx, xlsx, pptx, xhtml
+			String tipo = parametrosGenerador.get("tipo"); //pdf, xml, html, rtf, xls, jxl, csv, odt, ods, docx, xlsx, pptx, xhtml
 			//String dataSource = parametrosR.get("datasource");
 			//String tipoDatasource = parametrosR.get("tipoDatasource"); //1:Connection, 2:JRDataSource, 
 			//String reporte = parametrosR.get("reporte");
@@ -64,7 +67,7 @@ public class GeneradorReportes {
 			parameters.put("CLIENTE", "Procafecol");
 			parameters.put("NIT", "");
 			parameters.put("LOGO_CLIENTE", "Logo.png");
-			String otros = parametrosR.get("otros");
+			String otros = parametrosGenerador.get("otros");
 			if (otros != null && !otros.equals("")) {
 				StringTokenizer st = new StringTokenizer(otros, "|");
 				while (st.hasMoreTokens()) {
@@ -78,6 +81,11 @@ public class GeneradorReportes {
 					parameters.put(campo, valor);
 				}
 			}
+			if (parametrosReporte!=null){
+				for (String s:parametrosReporte.keySet()){
+					parameters.put(s, parametrosReporte.get(s));
+				}
+			}
 			
 			InitialContext initialContext = new InitialContext();
 			DataSource dataSource = (DataSource)initialContext.lookup("java:/jdbc/GIPDS");
@@ -86,26 +94,42 @@ public class GeneradorReportes {
 			
 			System.out.println(new File(salida).getAbsolutePath());
 			
+			
+			JasperPrint jasperPrint;
+			
+			if (jrDatasource!=null){
+				jasperPrint=JasperFillManager.fillReport(nombreReporte, parameters, jrDatasource);
+			}else{
+				jasperPrint=JasperFillManager.fillReport(nombreReporte, parameters, dataSource.getConnection());
+			}
+			
 			long start = System.currentTimeMillis();
-			JasperPrint jasperPrint=JasperFillManager.fillReport(nombreReporte, parameters, dataSource.getConnection());
+			
+			OutputStream os;
+			if (response!=null){
+				os=response.getOutputStream();
+			}else{
+				os=new ByteArrayOutputStream();
+			}
+			
 			if (tipo.equals("pdf"))
-				JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+				JasperExportManager.exportReportToPdfStream(jasperPrint, os);
 			else if (tipo.equals("html")){
 				response.setContentType("text/html");
 				JasperExportManager.exportReportToHtmlFile(jasperPrint, salida+".html");
 			}else if (tipo.equals("xml"))
-				JasperExportManager.exportReportToXmlStream(jasperPrint, response.getOutputStream());
+				JasperExportManager.exportReportToXmlStream(jasperPrint, os);
 			else if (tipo.equals("rtf")){
 				response.setContentType("application/rtf");
 				JRRtfExporter exporter = new JRRtfExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleWriterExporterOutput(response.getOutputStream()));
+				exporter.setExporterOutput(new SimpleWriterExporterOutput(os));
 				exporter.exportReport();
 			}else if (tipo.equals("xls")){
 				response.setContentType("application/x-msexcel");
 				JRXlsExporter exporter = new JRXlsExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
 				SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
 				configuration.setOnePagePerSheet(true);
 				exporter.setConfiguration(configuration);
@@ -114,7 +138,7 @@ public class GeneradorReportes {
 				net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
 						new net.sf.jasperreports.engine.export.JExcelApiExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
 				net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
 					new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
 				configuration.setOnePagePerSheet(true);
@@ -124,19 +148,19 @@ public class GeneradorReportes {
 				response.setContentType("text/csv");
 				JRCsvExporter exporter = new JRCsvExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleWriterExporterOutput(response.getOutputStream()));
+				exporter.setExporterOutput(new SimpleWriterExporterOutput(os));
 				exporter.exportReport();
 			}else if (tipo.equals("odt")){
 				response.setContentType("application/vnd.oasis.opendocument.text");
 				JROdtExporter exporter = new JROdtExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
 				exporter.exportReport();
 			}else if (tipo.equals("ods")){
 				response.setContentType("application/vnd.oasis.opendocument.spreadsheet");
 				JROdsExporter exporter = new JROdsExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
 				SimpleOdsReportConfiguration configuration = new SimpleOdsReportConfiguration();
 				configuration.setOnePagePerSheet(true);
 				exporter.setConfiguration(configuration);
@@ -145,13 +169,13 @@ public class GeneradorReportes {
 				response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 				JRDocxExporter exporter = new JRDocxExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
 				exporter.exportReport();
 			}else if (tipo.equals("xlsx")){
 				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 				JRXlsxExporter exporter = new JRXlsxExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
 				SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
 				configuration.setOnePagePerSheet(true);
 				exporter.setConfiguration(configuration);
@@ -160,18 +184,19 @@ public class GeneradorReportes {
 				response.setContentType("application/vnd.openxmlformats-officedocument.presentationml.presentation");
 				JRPptxExporter exporter = new JRPptxExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
 				exporter.exportReport();
 			}else if (tipo.equals("xhtml")){
 				response.setContentType("application/xhtml+xml");
 				net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
 						new net.sf.jasperreports.engine.export.JRXhtmlExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleHtmlExporterOutput(response.getOutputStream()));
+				exporter.setExporterOutput(new SimpleHtmlExporterOutput(os));
 				exporter.exportReport();
 			}
+			os.flush();
 			System.err.println("Creation time : " + (System.currentTimeMillis() - start));
-			
+			return os;
 		
 		} catch (JRException e) {
 			errores(response, e);
@@ -185,6 +210,7 @@ public class GeneradorReportes {
 			errores(response, e);
 			e.printStackTrace();
 		}
+		return null;
 	}
 	public static void errores(HttpServletResponse response, Exception e) {
 		try {

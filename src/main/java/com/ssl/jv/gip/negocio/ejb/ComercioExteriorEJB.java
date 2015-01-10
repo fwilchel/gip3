@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,20 +14,32 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
+import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
+import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
+import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
+import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
@@ -43,7 +56,6 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(ComercioExteriorEJB.class);
 
-	/** The documento x lote dao. */
 	@EJB
 	private DocumentoXLoteDAOLocal documentoXLoteDAO;
 	
@@ -57,14 +69,19 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	private DocumentoLotesOICDAOLocal documentoLotesOICDAO;
 	
 	@EJB
-	private ProductoClienteComercioExteriorDAO productoClienteCEDAO;
+	private ProductoClienteComercioExteriorDAOLocal productoClienteCEDAO;
 	
 	@EJB
-	private TerminoIncotermDAO terminoDAO;
+	private TerminoIncotermDAOLocal terminoDAO;
 	
 	@EJB
-	private UbicacionDAO ubicacionDAO;
+	private UbicacionDAOLocal ubicacionDAO;
 	
+	@EJB
+	private LogAuditoriaDAOLocal logAuditoriaDAO;
+	
+	@EJB
+	private DocumentoXNegociacionDAOLocal documentoXNegociacionDAO;
 	
 	/**
      * Default constructor. 
@@ -215,9 +232,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		Documento vdocumento = documentoDAO.findByPK(documento.getIdDocumento());
 		vdocumento.setValorTotal(documento.getValorTotalDocumento());
 		Ubicacion ubicacion1 = ubicacionDAO.findByPK(documento.getIdUbicacionOrigen());
-		vdocumento.setUbicacione1(ubicacion1);
+		vdocumento.setUbicacionOrigen(ubicacion1);
 		Ubicacion ubicacion2 = ubicacionDAO.findByPK(documento.getIdUbicacionDestino());
-		vdocumento.setUbicacione2(ubicacion2);
+		vdocumento.setUbicacionDestino(ubicacion2);
 		vdocumento.setFechaEsperadaEntrega(documento.getFechaEsperadaEntrega());
 		
 		
@@ -249,13 +266,103 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	}
 	
 	@Override
-	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
-		return productoClienteComercioExteriorDAO.consultarProductoPorDocumento(idDocumento, idCliente);
+	public List<ProductoDTO> consultarProductoPorDocumento(ListaEmpaqueDTO listaEmpaqueDTO){
+		return productoClienteComercioExteriorDAO.consultarProductoPorDocumento(listaEmpaqueDTO);
 	}
 	
 	@Override
-	public List<Documento> consultarDocumentosPorConsecutivoPedido(String consecutivoDocumento){
-		return documentoDAO.consultarDocumentosPorConsecutivoPedido(consecutivoDocumento);
+	public BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO){
+		return documentoDAO.generarListaEmpaque(listaEmpaqueDTO);
 	}
+
+	@Override
+	public void generarListaEmpaque(ProductoDTO productoDTO){
+		productoClienteComercioExteriorDAO.generarListaEmpaque(productoDTO);
+	}
+	
+	@Override
+	public Documento consultarDocumentoPorId(Long pId) {
+		Documento entidad = documentoDAO.findByPK(pId);
+		return entidad;
+	}
+	
+	@Override
+	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente){
+		return productoClienteComercioExteriorDAO.consultarProductoPorDocumentoGenerarFacturaProforma(idDocumento, idCliente);
+	}
+	
+	@Override
+	public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento,
+			Long idCliente){
+		return productoClienteComercioExteriorDAO.consultarProductoPorDocumentoAsignarLotesOIC(idDocumento, idCliente);
+	}
+	
+	@Override
+	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento,
+			Long idCliente){
+		return productoClienteComercioExteriorDAO.consultarProductoPorDocumentoLoteAsignarLotesOIC(idDocumento, idCliente);
+	}
+	
+	@Override
+	public List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento){
+		return documentoDAO.consultarDocumentosSolicitudPedido(consecutivoDocumento);
+	}
+	
+	@Override
+	public List<Documento> consultarDocumentosFacturaPF(String consecutivoDocumento){
+		return documentoDAO.consultarDocumentosFacturaPF(consecutivoDocumento);
+	}
+	
+	@Override
+	public List<Documento> consultarDocumento(Map<String, Object> parametros) {
+		// TODO Auto-generated method stub
+		return documentoDAO.consultarDocumento(parametros);
+	}
+	
+	@Override
+	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(String consecutivoDocumento){
+		return documentoDAO.consultarDocumentoListaEmpaque(consecutivoDocumento);
+	}
+
+	@Override
+	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos){
+		documento.setConsecutivoDocumento("FP1-"+this.documentoDAO.consultarProximoValorSecuencia("fp1_seq"));
+		documento=(Documento)this.documentoDAO.add(documento);
+		auditoria.setIdRegTabla(documento.getId());
+		auditoria.setValorNuevo(documento.getConsecutivoDocumento());
+		this.logAuditoriaDAO.add(auditoria);
+		documentoPorNegociacion.getPk().setIdDocumento(documento.getId());
+		documentoXNegociacionDAO.add(documentoPorNegociacion);
+		for (ProductosXDocumento pxd:productos){
+			pxd.getId().setIdDocumento(documento.getId());
+		}
+		documento.getEstadosxdocumento().getId().setIdEstado((long)ConstantesDocumento.APROBADA);
+		this.documentoDAO.update(documento);
+		return documento;
+	}
+
+		
+		
+		public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(String consecutivoDocumento) 
+		{
+			return documentoDAO.consultarProductoListaEmpaque(consecutivoDocumento);
+		}
+		
+
+	
+	@Override
+	public List<DocumentoXLotesoic> guardarLotes(List<DocumentoXLotesoic> lista, Documento documento){
+		for (DocumentoXLotesoic dxl:lista){
+			Long seq=documentoXLoteDAO.consultarProximoValorSecuencia("lote_oic_seq");
+			String seqStr=seq.toString();
+			seqStr = String.format("%4s", seqStr).replace(' ', '0');
+			seqStr = "3-223-" + seqStr;	
+			dxl.setConsecutivo(seqStr);
+			documentoXLoteDAO.add(dxl);
+		}
+		this.documentoDAO.update(documento);
+		return lista;
+	}
+
 
 }

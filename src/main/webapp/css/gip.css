@@ -88,6 +88,18 @@
 	margin:30px 0px 0px 0px;	
 }
 
+.izquierda{
+	text-align: left;
+}
+
+.derecha{
+	text-align: right;
+}
+
+.centro{
+	text-align: center;
+}
+
 .encabezadoLogin {
 	background-image: url("../images/FondoEncabezado.png");
 	background-repeat: repeat-x;
@@ -221,5 +233,15 @@ font-family: 'Myriad Pro Bold';
 font-style: normal;
 font-weight: normal;
 src: local('Myriad Pro Bold'), url('/fonts/MYRIADPRO-BOLD.woff') format('woff');
+}
+
+.noBorders tr, .noBorders td {
+background: none !important;
+border: none !important;
+} 
+
+.filas_contenido{
+		font-size:12px;
+
 }
 

@@ -11,18 +11,19 @@ public class ListaEmpaqueDTO implements Serializable {
 
 	private static final long serialVersionUID = 6826470281110432159L;
 
+	private ClienteDTO cliente;
 	private String idDocumento;
 	private String consecutivoDocumento;
 	private String numeroPedidoWeb;
 	private Timestamp fechaGeneracion;
-	private ClienteDTO cliente;
-	private Long idUbicacionOrigen;
-	private Long idUbicacionDestino;
-	private Long idTipoDocumento;
 	private Timestamp fechaEntrega;
-	private Long idProveedor;
-	private Long idEstado;
-	private Long idTerminoIncoterm;
+	private Timestamp fechaEsperadaEntrega;
+	private String idTipoDocumento;
+	private String idTerminoIncoterm;
+	private String idUbicacionOrigen;
+	private String idUbicacionDestino;
+	private String idProveedor;
+	private String idEstado;
 	private String descripcionTerminoIncoterm;
 	private BigDecimal valorTotalDocumento;
 	private BigDecimal costoEntrega;
@@ -42,6 +43,10 @@ public class ListaEmpaqueDTO implements Serializable {
 	private Double cantidadEstibas;
 	private Double pesoBrutoEstibas;
 	private Double totalPallets;
+	private Double totalTendidos;
+	private Double totalPesoNeto;
+	private Double totalPesoBruto;
+	private String cantidadDiasVigencia;
 	
 	public String getIdDocumento() {
 		return idDocumento;
@@ -75,27 +80,27 @@ public class ListaEmpaqueDTO implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public Long getIdUbicacionOrigen() {
+	public String getIdUbicacionOrigen() {
 		return idUbicacionOrigen;
 	}
 
-	public void setIdUbicacionOrigen(Long idUbicacionOrigen) {
+	public void setIdUbicacionOrigen(String idUbicacionOrigen) {
 		this.idUbicacionOrigen = idUbicacionOrigen;
 	}
 
-	public Long getIdUbicacionDestino() {
+	public String getIdUbicacionDestino() {
 		return idUbicacionDestino;
 	}
 
-	public void setIdUbicacionDestino(Long idUbicacionDestino) {
+	public void setIdUbicacionDestino(String idUbicacionDestino) {
 		this.idUbicacionDestino = idUbicacionDestino;
 	}
 
-	public Long getIdTipoDocumento() {
+	public String getIdTipoDocumento() {
 		return idTipoDocumento;
 	}
 
-	public void setIdTipoDocumento(Long idTipoDocumento) {
+	public void setIdTipoDocumento(String idTipoDocumento) {
 		this.idTipoDocumento = idTipoDocumento;
 	}
 
@@ -107,23 +112,23 @@ public class ListaEmpaqueDTO implements Serializable {
 		this.fechaEntrega = fechaEntrega;
 	}
 
-	public Long getIdProveedor() {
+	public String getIdProveedor() {
 		return idProveedor;
 	}
 
-	public void setIdProveedor(Long idProveedor) {
+	public void setIdProveedor(String idProveedor) {
 		this.idProveedor = idProveedor;
 	}
 
-	public Long getIdEstado() {
+	public String getIdEstado() {
 		return idEstado;
 	}
 
-	public void setIdEstado(Long idEstado) {
+	public void setIdEstado(String idEstado) {
 		this.idEstado = idEstado;
 	}
 
-	public Long getIdTerminoIncoterm() {
+	public String getIdTerminoIncoterm() {
 		return idTerminoIncoterm;
 	}
 
@@ -131,11 +136,19 @@ public class ListaEmpaqueDTO implements Serializable {
 		return totalPallets;
 	}
 
+	public Timestamp getFechaEsperadaEntrega() {
+		return fechaEsperadaEntrega;
+	}
+
+	public void setFechaEsperadaEntrega(Timestamp fechaEsperadaEntrega) {
+		this.fechaEsperadaEntrega = fechaEsperadaEntrega;
+	}
+
 	public void setTotalPallets(Double totalPallets) {
 		this.totalPallets = totalPallets;
 	}
 
-	public void setIdTerminoIncoterm(Long idTerminoIncoterm) {
+	public void setIdTerminoIncoterm(String idTerminoIncoterm) {
 		this.idTerminoIncoterm = idTerminoIncoterm;
 	}
 
@@ -145,6 +158,14 @@ public class ListaEmpaqueDTO implements Serializable {
 
 	public void setDescripcionTerminoIncoterm(String descripcionTerminoIncoterm) {
 		this.descripcionTerminoIncoterm = descripcionTerminoIncoterm;
+	}
+
+	public String getCantidadDiasVigencia() {
+		return cantidadDiasVigencia;
+	}
+
+	public void setCantidadDiasVigencia(String cantidadDiasVigencia) {
+		this.cantidadDiasVigencia = cantidadDiasVigencia;
 	}
 
 	public BigDecimal getValorTotalDocumento() {
@@ -221,6 +242,30 @@ public class ListaEmpaqueDTO implements Serializable {
 
 	public String getEstadoNombre() {
 		return estadoNombre;
+	}
+
+	public Double getTotalTendidos() {
+		return totalTendidos;
+	}
+
+	public void setTotalTendidos(Double totalTendidos) {
+		this.totalTendidos = totalTendidos;
+	}
+
+	public Double getTotalPesoNeto() {
+		return totalPesoNeto;
+	}
+
+	public void setTotalPesoNeto(Double totalPesoNeto) {
+		this.totalPesoNeto = totalPesoNeto;
+	}
+
+	public Double getTotalPesoBruto() {
+		return totalPesoBruto;
+	}
+
+	public void setTotalPesoBruto(Double totalPesoBruto) {
+		this.totalPesoBruto = totalPesoBruto;
 	}
 
 	public String getCanal() {

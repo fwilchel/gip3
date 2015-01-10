@@ -11,6 +11,7 @@ public class ProductoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
+	private String idDocumento;
 	private String sku;
 	private String nombre;
 	private BigDecimal cantidad;
@@ -19,7 +20,10 @@ public class ProductoDTO implements Serializable {
 	private BigDecimal cantidadCajas;
 	private BigDecimal cantidadPorEmbalaje;
 	private BigDecimal cantidadPallets;
+	private BigDecimal valorUnitarioUsd;
+	private BigDecimal valorTotal;
 
+	
 	public String getId() {
 		return id;
 	}
@@ -90,6 +94,30 @@ public class ProductoDTO implements Serializable {
 
 	public void setCantidadPallets(BigDecimal cantidadPallets) {
 		this.cantidadPallets = cantidadPallets;
+	}
+
+	public String getIdDocumento() {
+		return idDocumento;
+	}
+
+	public void setIdDocumento(String idDocumento) {
+		this.idDocumento = idDocumento;
+	}
+
+	public BigDecimal getValorUnitarioUsd() {
+		return valorUnitarioUsd;
+	}
+
+	public void setValorUnitarioUsd(BigDecimal valorUnitarioUsd) {
+		this.valorUnitarioUsd = valorUnitarioUsd;
+	}
+
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 
 }
