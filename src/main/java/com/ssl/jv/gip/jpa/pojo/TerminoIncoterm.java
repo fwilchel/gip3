@@ -12,6 +12,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 /**
@@ -33,21 +34,15 @@ public class TerminoIncoterm implements Serializable {
 	private String descripcion;
 
 	//bi-directional many-to-many association to Cliente
-	@ManyToMany
-	@JoinTable(
-			name="incoterm_x_cliente"
-			, joinColumns={
-					@JoinColumn(name="id_incoterm")
-			}
-			, inverseJoinColumns={
-					@JoinColumn(name="id_cliente")
-			}
-			)
+	@ManyToMany(mappedBy = "terminoIncoterms")
 	private List<Cliente> clientes;
 
 	//bi-directional many-to-one association to TerminosTransporte
 	@OneToMany(mappedBy="terminoIncoterm")
 	private List<TerminosTransporte> terminosTransportes;
+	
+	@Transient
+	private boolean seleccionado;
 
 	
 
@@ -100,7 +95,15 @@ public class TerminoIncoterm implements Serializable {
 		return terminosTransporte;
 	}
 
+	public boolean isSeleccionado() {
+		return seleccionado;
+	}
 
+	public void setSeleccionado(boolean seleccionado) {
+		this.seleccionado = seleccionado;
+	}
+
+	
 
 
 

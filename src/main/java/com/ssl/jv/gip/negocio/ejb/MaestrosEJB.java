@@ -20,11 +20,14 @@ import org.primefaces.model.SortOrder;
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
+import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
+import com.ssl.jv.gip.jpa.pojo.MetodoPago;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
+import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
@@ -32,23 +35,30 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
+import com.ssl.jv.gip.jpa.pojo.TipoCanal;
 import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
+import com.ssl.jv.gip.jpa.pojo.TipoPrecio;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
 import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAO;
 import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
+import com.ssl.jv.gip.negocio.dao.CiudadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
 import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAO;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.MedioTransporteDAO;
+import com.ssl.jv.gip.negocio.dao.MetodoPagoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MonedaDAOLocal;
+import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
+import com.ssl.jv.gip.negocio.dao.TipoCanalDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoLoteOICDAOLocal;
+import com.ssl.jv.gip.negocio.dao.TipoPrecioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
@@ -112,6 +122,21 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private CategoriaInventarioDAOLocal categoriaInventarioDAO;
+	
+	@EJB
+	private PaisDAOLocal paisDAO;
+	
+	@EJB
+	private CiudadDAOLocal ciudadDAO;
+	
+	@EJB
+	private TipoCanalDAOLocal tipoCanalDAO;
+	
+	@EJB
+	private MetodoPagoDAOLocal metodoPagoDAO;
+	
+	@EJB
+	private TipoPrecioDAOLocal tipoPrecioDAO;
 
 	/**
 	 * Default constructor.
@@ -525,7 +550,8 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@Override
 	public Cliente crearCliente(Cliente pEntidad) {
 		try {
-			return (Cliente) clienteDao.add(pEntidad);
+			clienteDao.guardarCliente(pEntidad);
+			return pEntidad;
 		} catch (Exception e) {
 			LOGGER.error(e + " Error creando clientes");
 			return null;
@@ -743,4 +769,35 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		}
 		return productosXClienteComext;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Pais> consultarPaises() {
+		return (List<Pais>)paisDAO.findAll();
+	}
+
+	@Override
+	public List<Ciudad> consultarCiudadesPorPais(String idPais) {
+		return ciudadDAO.findByPais(idPais);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TipoCanal> consultarTiposCanal() {
+		return (List<TipoCanal>) tipoCanalDAO.findAll();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<MetodoPago> consultarMetodosPago() {
+		return (List<MetodoPago>) metodoPagoDAO.findAll();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TipoPrecio> consultarTiposPrecio() {
+		return (List<TipoPrecio>) tipoPrecioDAO.findAll();
+	}
+	
+	
 }

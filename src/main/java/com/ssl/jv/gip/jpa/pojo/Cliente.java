@@ -4,15 +4,20 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -34,6 +39,8 @@ public class Cliente implements Serializable {
 	public static final String CLIENTE_ACTIVO_FIND_BY_USUARIO = "Cliente.findActivoFindByUsuario";
 
 	@Id
+	@SequenceGenerator( name = "clientes_id_seq", sequenceName = "clientes_id_seq", allocationSize = 1)
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "clientes_id_seq" )
 	private Long id;
 
 	private Boolean activo;
@@ -105,7 +112,16 @@ public class Cliente implements Serializable {
 	private TipoPrecio tipoPrecio;
 
 	// bi-directional many-to-many association to TerminoIncoterm
-	@ManyToMany(mappedBy = "clientes")
+	@ManyToMany
+	@JoinTable(
+			name="incoterm_x_cliente"
+			, joinColumns={
+					@JoinColumn(name="id_cliente")
+			}
+			, inverseJoinColumns={
+					@JoinColumn(name="id_incoterm")
+			}
+			)
 	private List<TerminoIncoterm> terminoIncoterms;
 
 	// bi-directional many-to-one association to ProductosXClienteComext
