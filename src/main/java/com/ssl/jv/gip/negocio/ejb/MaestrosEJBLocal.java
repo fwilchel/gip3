@@ -26,6 +26,7 @@ import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TipoCanal;
 import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
+import com.ssl.jv.gip.jpa.pojo.TipoPrecio;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
@@ -333,6 +334,13 @@ public interface MaestrosEJBLocal {
 	 * @return the list
 	 */
 	public List<MetodoPago> consultarMetodosPago();
+	
+	/**
+	 * Consultar tipos precio.
+	 *
+	 * @return the list
+	 */
+	public List<TipoPrecio> consultarTiposPrecio();
 	
 	
 }

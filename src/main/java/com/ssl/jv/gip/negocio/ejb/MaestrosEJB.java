@@ -37,6 +37,7 @@ import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TipoCanal;
 import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
+import com.ssl.jv.gip.jpa.pojo.TipoPrecio;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
@@ -57,6 +58,7 @@ import com.ssl.jv.gip.negocio.dao.ProductosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.TipoCanalDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoLoteOICDAOLocal;
+import com.ssl.jv.gip.negocio.dao.TipoPrecioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
@@ -132,6 +134,9 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	
 	@EJB
 	private MetodoPagoDAOLocal metodoPagoDAO;
+	
+	@EJB
+	private TipoPrecioDAOLocal tipoPrecioDAO;
 
 	/**
 	 * Default constructor.
@@ -785,6 +790,12 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@Override
 	public List<MetodoPago> consultarMetodosPago() {
 		return (List<MetodoPago>) metodoPagoDAO.findAll();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TipoPrecio> consultarTiposPrecio() {
+		return (List<TipoPrecio>) tipoPrecioDAO.findAll();
 	}
 	
 	
