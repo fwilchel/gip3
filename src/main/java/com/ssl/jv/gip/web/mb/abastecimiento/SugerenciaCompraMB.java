@@ -17,6 +17,7 @@ import javax.faces.model.SelectItemGroup;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
@@ -317,7 +318,10 @@ public class SugerenciaCompraMB extends UtilMB {
 
 	public void cargarArchivo(FileUploadEvent fileUploadEvent) {
 		try {
-
+			UploadedFile uploadedFile = fileUploadEvent.getFile();
+			abastecimientoEJBLocal.importarSugerenciasCompra(uploadedFile
+					.getContents());
+			this.addMensajeInfo("Archivo cargado con éxito");
 		} catch (Exception e) {
 			LOGGER.error(e);
 			Exception unrollException = (Exception) this.unrollException(e,
@@ -325,7 +329,13 @@ public class SugerenciaCompraMB extends UtilMB {
 			if (unrollException != null) {
 				this.addMensajeError(unrollException.getLocalizedMessage());
 			} else {
-				this.addMensajeError(e);
+				unrollException = (Exception) this.unrollException(e,
+						RuntimeException.class);
+				if (unrollException != null) {
+					this.addMensajeError(unrollException.getLocalizedMessage());
+				} else {
+					this.addMensajeError(e);
+				}
 			}
 		}
 	}
