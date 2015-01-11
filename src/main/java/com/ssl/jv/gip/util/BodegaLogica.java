@@ -14,8 +14,4 @@ public enum BodegaLogica {
 		return codigo;
 	}
 
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
-	}
-
 }

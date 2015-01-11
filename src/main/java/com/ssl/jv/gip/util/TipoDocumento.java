@@ -24,15 +24,7 @@ public enum TipoDocumento {
 		return codigo;
 	}
 
-	public void setCodigo(long id) {
-		this.codigo = id;
-	}
-
 	public String getAbreviatura() {
 		return abreviatura;
-	}
-
-	public void setAbreviatura(String abreviatura) {
-		this.abreviatura = abreviatura;
 	}
 }
