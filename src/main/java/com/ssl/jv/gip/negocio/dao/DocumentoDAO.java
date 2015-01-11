@@ -237,8 +237,59 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 			if (documento.getTotalPallets() != null) {
 				sql.append(" , total_pallets = " + documento.getTotalPallets());
 			}
+			if (documento.getLugarIncoterm() != null && !documento.getLugarIncoterm().isEmpty()) {
+				sql.append(" , lugar_incoterm = " + "'" + documento.getLugarIncoterm()+ "'");
+			}
+			if (documento.getCantidadContenedores20() != null) {
+				sql.append(" , cantidad_contenedores_de_20 = " + documento.getCantidadContenedores20());
+			}
+			if (documento.getCantidadContenedores40() != null) {
+				sql.append(" , cantidad_contenedores_de_40 = " + documento.getCantidadContenedores40());
+			}
+			if (documento.getIdTerminoIncoterm() != null) {
+				sql.append(" , id_termino_incoterm = " + documento.getIdTerminoIncoterm());
+			}
+			
 
 			sql.append(" WHERE  id_documento = " + documento.getIdDocumento());
+
+			int q = em.createNativeQuery(sql.toString()).executeUpdate();
+
+		} catch (Exception e) {
+
+		}
+	}
+	
+	/**
+	 * Actualiza el estado del documento.
+	 *
+	 */
+	public void actualizarEstadoDocumento(
+			DocumentoIncontermDTO documento) {
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE documentos SET "
+					+ " id_estado = " + documento.getIdEstado()
+					+ " WHERE  id = " + documento.getIdDocumento());
+
+			int q = em.createNativeQuery(sql.toString()).executeUpdate();
+
+		} catch (Exception e) {
+
+		}
+	}
+	
+	/**
+	 * Actualiza el estado del documento por consecutivo.
+	 *
+	 */
+	public void actualizarEstadoDocumentoPorConsecutivo(
+			DocumentoIncontermDTO documento) {
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE documentos SET "
+					+ " id_estado = " + documento.getIdEstado()
+					+ " WHERE  consecutivo_documento = " + documento.getConsecutivoDocumento());
 
 			int q = em.createNativeQuery(sql.toString()).executeUpdate();
 
