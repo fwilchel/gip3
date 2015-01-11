@@ -12,6 +12,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.EstadoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
@@ -35,6 +36,9 @@ public class AbastecimientoEJB implements AbastecimientoEJBLocal {
 
 	@EJB
 	private TipoDocumentoDAOLocal tipoDocumentoDAOLocal;
+
+	@EJB
+	private EstadoDAOLocal estadoDAOLocal;
 
 	/**
 	 * Default constructor.
@@ -64,7 +68,6 @@ public class AbastecimientoEJB implements AbastecimientoEJBLocal {
 	@Override
 	public Documento guardarSugerenciaCompra(Documento sugerencia,
 			List<ProductosXDocumento> productosXSugerencia) {
-		Long sugerenciaId = null;
 		if (sugerencia.getId() == null) {
 			TipoDocumento tipoDocumento = tipoDocumentoDAOLocal
 					.findByPK(sugerencia.getEstadosxdocumento().getId()
@@ -84,17 +87,29 @@ public class AbastecimientoEJB implements AbastecimientoEJBLocal {
 					.consultarProximoValorSecuencia(prefijoConsecutivo + "_seq");
 			sugerencia.setConsecutivoDocumento(prefijoConsecutivo + "-"
 					+ valorSecuencia);
-			//
-			// sugerenciaId = documentoDAOLocal
-			// .consultarValorActualSecuencia("documentos_id_seq");
+
+			sugerencia.getEstadosxdocumento().setEstado(
+					estadoDAOLocal.findByPK(sugerencia.getEstadosxdocumento()
+							.getId().getIdEstado()));
+
+			sugerencia = (Documento) documentoDAOLocal.add(sugerencia);
+		} else {
+			documentoDAOLocal.update(sugerencia);
 		}
-		documentoDAOLocal.update(sugerencia);
 		for (ProductosXDocumento productosXDocumento : productosXSugerencia) {
 			if (productosXDocumento.getProductosInventario().isIncluido()) {
+				productosXDocumento.setFechaEntrega(sugerencia
+						.getFechaEsperadaEntrega());
+				productosXDocumento.setFechaEstimadaEntrega(sugerencia
+						.getFechaEsperadaEntrega());
 				ProductosXDocumentoPK id = productosXDocumento.getId();
-				id.setIdDocumento(sugerencia.getId());
-				productosXDocumento.setId(id);
-				productosXDocumentoDAOLocal.update(productosXDocumento);
+				if (id.getIdDocumento() == null) {
+					id.setIdDocumento(sugerencia.getId());
+					productosXDocumento.setId(id);
+					productosXDocumentoDAOLocal.add(productosXDocumento);
+				} else {
+					productosXDocumentoDAOLocal.update(productosXDocumento);
+				}
 			} else {
 				productosXDocumentoDAOLocal.delete(productosXDocumento);
 			}

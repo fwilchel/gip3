@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.event.FileUploadEvent;
 
+import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
@@ -31,6 +32,7 @@ import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 import com.ssl.jv.gip.negocio.ejb.AbastecimientoEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
+import com.ssl.jv.gip.util.BodegaLogica;
 import com.ssl.jv.gip.util.Estado;
 import com.ssl.jv.gip.util.TipoDocumento;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
@@ -74,17 +76,25 @@ public class SugerenciaCompraMB extends UtilMB {
 	private List<Ubicacion> ubicaciones;
 	private List<Cliente> clientes;
 	private List<SelectItem> categoriasInventarios;
+	private List<Estado> estados;
 
 	@PostConstruct
 	public void init() {
 		try {
 			idUsuario = menu.getUsuario().getId();
 			filtroDocumentoDTO = new FiltroDocumentoDTO();
+			cargarEstados();
 			consultarSugerenciasCompras();
 		} catch (Exception e) {
 			LOGGER.error(e);
 			this.addMensajeError(e);
 		}
+	}
+
+	private void cargarEstados() {
+		estados = new ArrayList<Estado>();
+		estados.add(Estado.ACTIVO);
+		estados.add(Estado.INACTIVO);
 	}
 
 	private void consultarSugerenciasCompras() {
@@ -250,6 +260,15 @@ public class SugerenciaCompraMB extends UtilMB {
 		productosXDocumento.setCantidad2(BigDecimal.ZERO);
 		productosXDocumento.setValorUnitatrioMl(BigDecimal.ZERO);
 		productosXDocumento.setValorUnitarioUsd(BigDecimal.ZERO);
+		productosXDocumento.setCalidad(false);
+		productosXDocumento.setInformacion(false);
+		BodegasLogica bodegasLogicaDefault = new BodegasLogica(
+				BodegaLogica.DEFAULT.getCodigo());
+		productosXDocumento.setBodegasLogica1(bodegasLogicaDefault);
+		productosXDocumento.setBodegasLogica2(bodegasLogicaDefault);
+		productosXDocumento
+				.setMoneda(productosInventario.getPais().getMoneda());
+		productosXDocumento.setDescuentoxproducto(BigDecimal.ZERO);
 		return productosXDocumento;
 	}
 
@@ -425,6 +444,14 @@ public class SugerenciaCompraMB extends UtilMB {
 	public void setProductosSeleccionados(
 			List<ProductosXDocumento> productosSeleccionados) {
 		this.productosSeleccionados = productosSeleccionados;
+	}
+
+	public List<Estado> getEstados() {
+		return estados;
+	}
+
+	public void setEstados(List<Estado> estados) {
+		this.estados = estados;
 	}
 
 }
