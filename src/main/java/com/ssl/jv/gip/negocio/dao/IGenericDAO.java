@@ -13,6 +13,8 @@ public interface IGenericDAO<T> {
 
 	public T findByPK(Long id);
 
+	public T findByPK(String id);
+
 	public List<?> findAll();
 
 	public List<?> findAllActivo();

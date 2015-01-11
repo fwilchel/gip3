@@ -23,4 +23,6 @@ public interface AbastecimientoEJBLocal {
 	public Documento guardarSugerenciaCompra(Documento sugerencia,
 			List<ProductosXDocumento> productosXSugerencia);
 
+	public void importarSugerenciasCompra(byte[] archivo);
+
 }
