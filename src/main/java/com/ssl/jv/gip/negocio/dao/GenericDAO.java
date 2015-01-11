@@ -94,6 +94,12 @@ public class GenericDAO<T> {
 				.getSingleResult()).longValue();
 	}
 
+	public Long consultarValorActualSecuencia(String secuenceName) {
+		return ((BigInteger) em.createNativeQuery(
+				String.format("SELECT currval('%s')", secuenceName))
+				.getSingleResult()).longValue();
+	}
+
 	public Number consultarMaximoValorColumna(String column) {
 		return (Number) em.createQuery(
 				String.format("SELECT MAX(%s) FROM %s", column,

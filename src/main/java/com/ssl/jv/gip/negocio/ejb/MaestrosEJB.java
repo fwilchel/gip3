@@ -614,7 +614,7 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public List<ProductosInventario> consultarProductosInventariosPorCategoriaSkuNombreAndEstado(
+	public List<ProductosInventario> consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(
 			ProductosInventarioFiltroDTO filtroDTO) {
 		return productoInventarioDao
 				.consultarPorCategoriaAndSKUAndNombreAndEstado(filtroDTO);

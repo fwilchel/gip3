@@ -1,17 +1,21 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the estados database table.
  * 
  */
 @Entity
-@Table(name="estados")
-@NamedQuery(name="Estado.findAll", query="SELECT e FROM Estado e")
+@Table(name = "estados")
+@NamedQuery(name = "Estado.findAll", query = "SELECT e FROM Estado e")
 public class Estado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -22,11 +26,15 @@ public class Estado implements Serializable {
 
 	private String nombre;
 
-	//bi-directional many-to-many association to TipoDocumento
-	@ManyToMany(mappedBy="estados")
+	// bi-directional many-to-many association to TipoDocumento
+	@ManyToMany(mappedBy = "estados")
 	private List<TipoDocumento> tipoDocumentos;
 
 	public Estado() {
+	}
+
+	public Estado(Long id) {
+		this.id = id;
 	}
 
 	public Long getId() {

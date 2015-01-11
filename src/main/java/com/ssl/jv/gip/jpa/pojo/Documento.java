@@ -2,7 +2,7 @@ package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,6 +19,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the documentos database table.
@@ -58,16 +60,20 @@ public class Documento implements Serializable {
 	private Boolean estadoNovedad;
 
 	@Column(name = "fecha_entrega")
-	private Timestamp fechaEntrega;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEntrega;
 
 	@Column(name = "fecha_esperada_entrega")
-	private Timestamp fechaEsperadaEntrega;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEsperadaEntrega;
 
 	@Column(name = "fecha_eta")
-	private Timestamp fechaEta;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEta;
 
 	@Column(name = "fecha_generacion")
-	private Timestamp fechaGeneracion;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaGeneracion;
 
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
@@ -192,35 +198,35 @@ public class Documento implements Serializable {
 		this.estadoNovedad = estadoNovedad;
 	}
 
-	public Timestamp getFechaEntrega() {
+	public Date getFechaEntrega() {
 		return this.fechaEntrega;
 	}
 
-	public void setFechaEntrega(Timestamp fechaEntrega) {
+	public void setFechaEntrega(Date fechaEntrega) {
 		this.fechaEntrega = fechaEntrega;
 	}
 
-	public Timestamp getFechaEsperadaEntrega() {
+	public Date getFechaEsperadaEntrega() {
 		return this.fechaEsperadaEntrega;
 	}
 
-	public void setFechaEsperadaEntrega(Timestamp fechaEsperadaEntrega) {
+	public void setFechaEsperadaEntrega(Date fechaEsperadaEntrega) {
 		this.fechaEsperadaEntrega = fechaEsperadaEntrega;
 	}
 
-	public Timestamp getFechaEta() {
+	public Date getFechaEta() {
 		return this.fechaEta;
 	}
 
-	public void setFechaEta(Timestamp fechaEta) {
+	public void setFechaEta(Date fechaEta) {
 		this.fechaEta = fechaEta;
 	}
 
-	public Timestamp getFechaGeneracion() {
+	public Date getFechaGeneracion() {
 		return this.fechaGeneracion;
 	}
 
-	public void setFechaGeneracion(Timestamp fechaGeneracion) {
+	public void setFechaGeneracion(Date fechaGeneracion) {
 		this.fechaGeneracion = fechaGeneracion;
 	}
 

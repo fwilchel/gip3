@@ -123,11 +123,15 @@
     TARGET="rules:#ui#maestros#cliente.xhtml"
     TITLE="listado_maestro_Clientes" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="lista_sugerencia::#ui#abastecimiento#listaSugerenciasCompra.xhtml"
-    NAME="output25"
-    PATH="/ui/abastecimiento/listaSugerenciasCompra.xhtml"
-    TARGET="rules:#ui#abastecimiento#listaSugerenciasCompra.xhtml"
+    ID="lista_sugerencia::#ui#compras#listaSugerenciasCompra.xhtml"
+    NAME="output25" PATH="/ui/compras/listaSugerenciasCompra.xhtml"
+    TARGET="rules:#ui#compras#listaSugerenciasCompra.xhtml"
     TITLE="lista_sugerencia" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sugerencia_compra::#ui#compras#sugerenciaCompra.xhtml"
+    NAME="output26" PATH="/ui/compras/sugerenciaCompra.xhtml"
+    TARGET="rules:#ui#compras#sugerenciaCompra.xhtml"
+    TITLE="sugerencia_compra" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
@@ -196,8 +200,8 @@
   PATH="/ui/reportes/facturaDirecta.xhtml" SHAPE="304,849,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#cliente.xhtml"
   PATH="/ui/maestros/cliente.xhtml" SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#abastecimiento#listaSugerenciasCompra.xhtml"
-  PATH="/ui/abastecimiento/listaSugerenciasCompra.xhtml"
-  SHAPE="304,945,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#compras#listaSugerenciasCompra.xhtml"
+  PATH="/ui/compras/listaSugerenciasCompra.xhtml" SHAPE="304,977,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#compras#sugerenciaCompra.xhtml"
+  PATH="/ui/compras/sugerenciaCompra.xhtml" SHAPE="304,977,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

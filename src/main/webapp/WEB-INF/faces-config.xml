@@ -128,7 +128,11 @@
         </navigation-case>
 		<navigation-case>
 			<from-outcome>lista_sugerencia</from-outcome>
-			<to-view-id>/ui/abastecimiento/listaSugerenciasCompra.xhtml</to-view-id>
+			<to-view-id>/ui/compras/listaSugerenciasCompra.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>sugerencia_compra</from-outcome>
+			<to-view-id>/ui/compras/sugerenciaCompra.xhtml</to-view-id>
 		</navigation-case>
     </navigation-rule>
     
