@@ -34,10 +34,10 @@ import com.ssl.jv.gip.negocio.ejb.AbastecimientoEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.util.BodegaLogica;
 import com.ssl.jv.gip.util.Estado;
-import com.ssl.jv.gip.util.TipoDocumento;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Modo;
 
 @ManagedBean(name = "sugerenciaCompraMB")
@@ -100,8 +100,7 @@ public class SugerenciaCompraMB extends UtilMB {
 	private void consultarSugerenciasCompras() {
 		try {
 			filtroDocumentoDTO
-					.setIdTipoDocumento(TipoDocumento.SUGERENCIA_DE_COMPRAS
-							.getCodigo());
+					.setIdTipoDocumento((long) ConstantesTipoDocumento.SUGERENCIA_COMPRAS);
 			filtroDocumentoDTO.setIdEstado(Estado.ACTIVO.getCodigo());
 			this.sugerenciasCompra = this.abastecimientoEJBLocal
 					.consultarDocumentosPorTipoYEstado(filtroDocumentoDTO);
@@ -137,7 +136,7 @@ public class SugerenciaCompraMB extends UtilMB {
 		Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
 		EstadosxdocumentoPK id = new EstadosxdocumentoPK();
 		id.setIdEstado(Estado.ACTIVO.getCodigo());
-		id.setIdTipoDocumento(TipoDocumento.SUGERENCIA_DE_COMPRAS.getCodigo());
+		id.setIdTipoDocumento((long) ConstantesTipoDocumento.SUGERENCIA_COMPRAS);
 		estadosxdocumento.setId(id);
 
 		documento.setEstadosxdocumento(estadosxdocumento);
