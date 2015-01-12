@@ -503,7 +503,11 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	
 	@Override
 	public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku){
-		return this.productoClienteComercioExteriorDAO.consultarPorClienteSku(idCliente, sku);
+		try{
+			return this.productoClienteComercioExteriorDAO.consultarPorClienteSku(idCliente, sku);
+		}catch(Exception e){
+			return null;
+		}
 	}
 
 
