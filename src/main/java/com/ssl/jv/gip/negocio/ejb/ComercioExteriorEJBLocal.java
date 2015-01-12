@@ -1,6 +1,8 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,8 @@ import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
@@ -141,6 +145,9 @@ public interface ComercioExteriorEJBLocal {
 	void generarListaEmpaque(ProductoDTO productoDTO);
 	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos);
 	public List<DocumentoXLotesoic> guardarLotes(List<DocumentoXLotesoic> lista, Documento documento);
-
+	public Documento crearSolicitudPedido(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, List<MovimientosInventarioComext> mice);
+	public Hashtable<Long, BigDecimal> consultarUltimosSaldos();
+	
+	public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku);
 
 }

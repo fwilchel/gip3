@@ -126,6 +126,14 @@
 	        <from-outcome>listado_maestro_Clientes</from-outcome>
             <to-view-id>/ui/maestros/cliente.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+	        <from-outcome>ingresar_solicitud_pedido</from-outcome>
+            <to-view-id>/ui/comercioexterior/ingresarSolicitudPedido.xhtml</to-view-id>
+        </navigation-case>
+        
+        
+        
+        
     </navigation-rule>
     
     

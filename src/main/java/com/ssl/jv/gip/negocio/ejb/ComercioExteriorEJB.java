@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -18,24 +19,20 @@ import org.apache.log4j.Logger;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
-import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
-import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
-import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
-import com.ssl.jv.gip.jpa.pojo.TipoMovimiento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
-import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
+import com.ssl.jv.gip.negocio.dao.MovimientosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
-import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
-import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
@@ -88,6 +85,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 	@EJB
 	private DocumentoXNegociacionDAOLocal documentoXNegociacionDAO;
+	
+	@EJB
+	private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAO;
 
 	/**
 	 * Default constructor. 
@@ -440,6 +440,33 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		return documento;
 	}
 
+	@Override
+	public Documento crearSolicitudPedido(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, List<MovimientosInventarioComext> mice){
+		documento.setConsecutivoDocumento("SP1-"+this.documentoDAO.consultarProximoValorSecuencia("sp1_seq"));
+		documento=(Documento)this.documentoDAO.add(documento);
+		auditoria.setIdRegTabla(documento.getId());
+		auditoria.setValorNuevo(documento.getConsecutivoDocumento());
+		this.logAuditoriaDAO.add(auditoria);
+		documentoPorNegociacion.getPk().setIdDocumento(documento.getId());
+		documentoXNegociacionDAO.add(documentoPorNegociacion);
+		for (ProductosXDocumento pxd:productos){
+			pxd.getId().setIdDocumento(documento.getId());
+		}
+		for (MovimientosInventarioComext mic:mice){
+			mic=(MovimientosInventarioComext)movimientosInventarioComextDAO.add(mic);
+			LogAuditoria aud=new LogAuditoria();
+			aud.setIdUsuario(auditoria.getIdUsuario());
+			aud.setIdRegTabla(mic.getId());
+			aud.setIdFuncionalidad(auditoria.getIdFuncionalidad());
+			aud.setTabla(MovimientosInventarioComext.class.getName());
+			aud.setAccion("CRE");
+			aud.setCampo(null);
+			aud.setValorAnterior(null);
+			aud.setFecha(new Timestamp(System.currentTimeMillis()));
+			this.logAuditoriaDAO.add(aud);
+		}
+		return documento;
+	}
 
 
 	public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(String consecutivoDocumento) 
@@ -461,6 +488,21 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		}
 		this.documentoDAO.update(documento);
 		return lista;
+	}
+	
+	@Override
+	public Hashtable<Long, BigDecimal> consultarUltimosSaldos(){
+		List<MovimientosInventarioComext> saldos=this.movimientosInventarioComextDAO.getUltimosSaldos();
+		Hashtable<Long, BigDecimal> lista =new Hashtable<Long, BigDecimal>();
+		for (MovimientosInventarioComext mic:saldos){
+			lista.put(mic.getProductosInventarioComext().getIdProducto(), mic.getSaldo());
+		}
+		return lista;
+	}
+	
+	@Override
+	public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku){
+		return this.productoClienteComercioExteriorDAO.consultarPorClienteSku(idCliente, sku);
 	}
 
 

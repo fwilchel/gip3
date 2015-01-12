@@ -56,4 +56,6 @@ public interface ProductoClienteComercioExteriorDAOLocal {
 
 	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento,
 			Long idCliente);
+	
+	public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku);
 }

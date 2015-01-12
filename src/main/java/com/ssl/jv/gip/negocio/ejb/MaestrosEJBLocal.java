@@ -342,5 +342,5 @@ public interface MaestrosEJBLocal {
 	 */
 	public List<TipoPrecio> consultarTiposPrecio();
 	
-	
+	public ProductosInventario consultarPorSku(String sku);
 }

@@ -799,5 +799,15 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		return (List<TipoPrecio>) tipoPrecioDAO.findAll();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ProductosInventario consultarPorSku(String sku){
+		ProductosInventario pi=productoInventarioDao.consultarPorSku(sku);
+		pi.getProductosInventarioComext(); // Para hacer fetch
+		pi.getProductosInventarioComext().getTipoLoteoic(); // Para hacer fetch
+		pi.getUnidadVenta();// Para hacer fetch
+		return pi;
+	}
+	
 	
 }

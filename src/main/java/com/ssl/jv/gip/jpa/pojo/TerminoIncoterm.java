@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +21,8 @@ import javax.persistence.Transient;
 @Table(name="termino_incoterm")
 @NamedQueries(value={
 @NamedQuery(name="TerminoIncoterm.findAll", query="SELECT t FROM TerminoIncoterm t"),
-@NamedQuery(name="TerminoIncoterm.findByMedioTrans", query="SELECT t FROM TerminoIncoterm t join t.terminosTransportes r ")
+@NamedQuery(name="TerminoIncoterm.findByMedioTrans", query="SELECT t FROM TerminoIncoterm t join t.terminosTransportes r "),
+@NamedQuery(name="TerminoIncoterm.findByCliente", query="SELECT DISTINCT t FROM TerminoIncoterm t JOIN t.clientes c WHERE c.id= :idCliente ORDER BY t.descripcion"),
 })
 public class TerminoIncoterm implements Serializable {
 	private static final long serialVersionUID = 1L;
