@@ -425,7 +425,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	}
 
 	@Override
-	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos){
+	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, Documento original){
 		documento.setConsecutivoDocumento("FP1-"+this.documentoDAO.consultarProximoValorSecuencia("fp1_seq"));
 		documento=(Documento)this.documentoDAO.add(documento);
 		auditoria.setIdRegTabla(documento.getId());
@@ -436,8 +436,8 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		for (ProductosXDocumento pxd:productos){
 			pxd.getId().setIdDocumento(documento.getId());
 		}
-		documento.getEstadosxdocumento().getId().setIdEstado((long)ConstantesDocumento.APROBADA);
-		this.documentoDAO.update(documento);
+		original.getEstadosxdocumento().getId().setIdEstado((long)ConstantesDocumento.APROBADA);
+		this.documentoDAO.update(original);
 		return documento;
 	}
 

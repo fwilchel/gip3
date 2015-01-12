@@ -143,7 +143,7 @@ public interface ComercioExteriorEJBLocal {
 	Documento consultarDocumentoPorId(Long pId);
 
 	void generarListaEmpaque(ProductoDTO productoDTO);
-	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos);
+	public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, Documento original);
 	public List<DocumentoXLotesoic> guardarLotes(List<DocumentoXLotesoic> lista, Documento documento);
 	public Documento crearSolicitudPedido(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, List<MovimientosInventarioComext> mice);
 	public Hashtable<Long, BigDecimal> consultarUltimosSaldos();
