@@ -29,6 +29,10 @@ public class IngresarCostosIncontermMB extends UtilMB{
 	/** The dbl valor total neg. */
 	private BigDecimal dblValorTotalNeg;
 	
+	private BigDecimal dblValorCostoLogistico;
+	
+	private BigDecimal dblValorCostoEtiquetas;
+	
 	/** The dbl valor fob. */
 	private BigDecimal dblValorFOB;
 	
@@ -67,6 +71,8 @@ public class IngresarCostosIncontermMB extends UtilMB{
 	 * Refrescar totales.
 	 */
 	public void refrescarTotales() {
+		
+		dblValorFOB = dblValorCostoLogistico.add(dblValorCostoEtiquetas);
 		
 		dblValorTotalNeg= dblTotalValorT.add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
 		
@@ -249,6 +255,22 @@ public class IngresarCostosIncontermMB extends UtilMB{
 	 */
 	public void setDblTotalValorT(BigDecimal dblTotalValorT) {
 		this.dblTotalValorT = dblTotalValorT;
+	}
+
+	public BigDecimal getDblValorCostoLogistico() {
+		return dblValorCostoLogistico;
+	}
+
+	public void setDblValorCostoLogistico(BigDecimal dblValorCostoLogistico) {
+		this.dblValorCostoLogistico = dblValorCostoLogistico;
+	}
+
+	public BigDecimal getDblValorCostoEtiquetas() {
+		return dblValorCostoEtiquetas;
+	}
+
+	public void setDblValorCostoEtiquetas(BigDecimal dblValorCostoEtiquetas) {
+		this.dblValorCostoEtiquetas = dblValorCostoEtiquetas;
 	}
 	
 	

@@ -296,7 +296,7 @@ public interface MaestrosEJBLocal {
 
 	public List<ProductosInventario> consultarProductosInventariosActivos();
 
-	public List<ProductosInventario> consultarProductosInventariosPorCategoriaSkuNombreAndEstado(
+	public List<ProductosInventario> consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(
 			ProductosInventarioFiltroDTO filtroDTO);
 
 	public void guardarRelacionProductosClienteComercioExterior(

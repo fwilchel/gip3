@@ -1,171 +1,187 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the ubicaciones database table.
  * 
  */
 @Entity
-@Table(name="ubicaciones")
-@NamedQuery(name="Ubicacion.findAll", query="SELECT u FROM Ubicacion u")
+@Table(name = "ubicaciones")
+@NamedQuery(name = "Ubicacion.findAll", query = "SELECT u FROM Ubicacion u")
 public class Ubicacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator( name = "ubicacion_id_seq", sequenceName = "ubicacion_id_seq", allocationSize = 1)
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "ubicacion_id_seq" )
+	@SequenceGenerator(name = "ubicacion_id_seq", sequenceName = "ubicacion_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ubicacion_id_seq")
 	private Long id;
 
-	@Column(name="cliente_icg")
+	@Column(name = "cliente_icg")
 	private Long clienteIcg;
 
-	@Column(name="despacho_domingo")
+	@Column(name = "despacho_domingo")
 	private Boolean despachoDomingo;
 
-	@Column(name="despacho_jueves")
+	@Column(name = "despacho_jueves")
 	private Boolean despachoJueves;
 
-	@Column(name="despacho_lunes")
+	@Column(name = "despacho_lunes")
 	private Boolean despachoLunes;
 
-	@Column(name="despacho_martes")
+	@Column(name = "despacho_martes")
 	private Boolean despachoMartes;
 
-	@Column(name="despacho_miercoles")
+	@Column(name = "despacho_miercoles")
 	private Boolean despachoMiercoles;
 
-	@Column(name="despacho_sabado")
+	@Column(name = "despacho_sabado")
 	private Boolean despachoSabado;
 
-	@Column(name="despacho_viernes")
+	@Column(name = "despacho_viernes")
 	private Boolean despachoViernes;
 
 	private String direccion;
 
-	@Column(name="es_franquicia")
+	@Column(name = "es_franquicia")
 	private Boolean esFranquicia;
 
-	@Column(name="es_tienda")
+	@Column(name = "es_tienda")
 	private Boolean esTienda;
 
-	@Column(name="id_ciudad")
+	@Column(name = "id_ciudad")
 	private Long idCiudad;
 
-	@Column(name="id_ubicacion_padre")
+	@Column(name = "id_ubicacion_padre")
 	private Long idUbicacionPadre;
 
-	@Column(name="nombre")
+	@Column(name = "nombre")
 	private String nombre;
 
-	@Column(name="objeto_co")
+	@Column(name = "objeto_co")
 	private Long objetoCo;
 
-	@Column(name="telefono")
+	@Column(name = "telefono")
 	private String telefono;
 
-	//bi-directional many-to-one association to Consignacion
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to Consignacion
+	@OneToMany(mappedBy = "ubicacione")
 	private List<Consignacion> consignaciones;
 
-	//bi-directional many-to-one association to Conteo
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to Conteo
+	@OneToMany(mappedBy = "ubicacione")
 	private List<Conteo> conteos;
 
-	//bi-directional many-to-one association to CostoVenta
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to CostoVenta
+	@OneToMany(mappedBy = "ubicacione")
 	private List<CostoVenta> costoVentas;
 
-	//bi-directional many-to-one association to Documento
-	@OneToMany(mappedBy="ubicacionDestino")
+	// bi-directional many-to-one association to Documento
+	@OneToMany(mappedBy = "ubicacionDestino")
 	private List<Documento> documentos1;
 
-	//bi-directional many-to-one association to Documento
-	@OneToMany(mappedBy="ubicacionOrigen")
+	// bi-directional many-to-one association to Documento
+	@OneToMany(mappedBy = "ubicacionOrigen")
 	private List<Documento> documentos2;
 
-	//bi-directional many-to-one association to Documento2
-	@OneToMany(mappedBy="ubicacionDestino")
+	// bi-directional many-to-one association to Documento2
+	@OneToMany(mappedBy = "ubicacionDestino")
 	private List<Documento2> documentos2s1;
 
-	//bi-directional many-to-one association to Documento2
-	@OneToMany(mappedBy="ubicacionOrigen")
+	// bi-directional many-to-one association to Documento2
+	@OneToMany(mappedBy = "ubicacionOrigen")
 	private List<Documento2> documentos2s2;
 
-	//bi-directional many-to-one association to EstandarConteo
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to EstandarConteo
+	@OneToMany(mappedBy = "ubicacione")
 	private List<EstandarConteo> estandarConteos;
 
-	//bi-directional many-to-one association to EstandarPedido
-	/*@OneToMany(mappedBy="ubicacione")
-	private List<EstandarPedido> estandarPedidos;*/
+	// bi-directional many-to-one association to EstandarPedido
+	/*
+	 * @OneToMany(mappedBy="ubicacione") private List<EstandarPedido>
+	 * estandarPedidos;
+	 */
 
-	//bi-directional many-to-one association to HistorialCierre
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to HistorialCierre
+	@OneToMany(mappedBy = "ubicacione")
 	private List<HistorialCierre> historialCierres;
 
-	//bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy="ubicacionDestino")
+	// bi-directional many-to-one association to MovimientosInventario
+	@OneToMany(mappedBy = "ubicacionDestino")
 	private List<MovimientosInventario> movimientosInventarios1;
 
-	//bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy="ubicacionOrigen")
+	// bi-directional many-to-one association to MovimientosInventario
+	@OneToMany(mappedBy = "ubicacionOrigen")
 	private List<MovimientosInventario> movimientosInventarios2;
 
-	//bi-directional many-to-one association to NivelInventarioxubicacion
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to NivelInventarioxubicacion
+	@OneToMany(mappedBy = "ubicacione")
 	private List<NivelInventarioxubicacion> nivelInventarioxubicacions;
 
-	//bi-directional many-to-one association to NivelInventarioxubicacionTemp
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to NivelInventarioxubicacionTemp
+	@OneToMany(mappedBy = "ubicacione")
 	private List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps;
 
-	//bi-directional many-to-one association to Saldo
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to Saldo
+	@OneToMany(mappedBy = "ubicacione")
 	private List<Saldo> saldos;
 
-	//bi-directional many-to-one association to SaldosFranquicia
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to SaldosFranquicia
+	@OneToMany(mappedBy = "ubicacione")
 	private List<SaldosFranquicia> saldosFranquicias;
 
-	//bi-directional many-to-one association to Empresa
+	// bi-directional many-to-one association to Empresa
 	@ManyToOne
-	@JoinColumn(name="id_empresa")
+	@JoinColumn(name = "id_empresa")
 	private Empresa empresa;
 
-	//bi-directional many-to-one association to Region
+	// bi-directional many-to-one association to Region
 	@ManyToOne
-	@JoinColumn(name="id_region")
+	@JoinColumn(name = "id_region")
 	private Region regione;
 
-	//bi-directional many-to-one association to TipoCanal
+	// bi-directional many-to-one association to TipoCanal
 	@ManyToOne
-	@JoinColumn(name="id_tipo_canal")
+	@JoinColumn(name = "id_tipo_canal")
 	private TipoCanal tipoCanal;
 
-	//bi-directional many-to-one association to Ubicacion
+	// bi-directional many-to-one association to Ubicacion
 	@ManyToOne
-	@JoinColumn(name="id_bodega_abastecedora")
+	@JoinColumn(name = "id_bodega_abastecedora")
 	private Ubicacion ubicacione;
 
-	//bi-directional many-to-one association to Ubicacion
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to Ubicacion
+	@OneToMany(mappedBy = "ubicacione")
 	private List<Ubicacion> ubicaciones;
 
-	//bi-directional many-to-one association to VariablesPedidoSugerido
-	/*@OneToMany(mappedBy="ubicacione")
-	private List<VariablesPedidoSugerido> variablesPedidoSugeridos;*/
+	// bi-directional many-to-one association to VariablesPedidoSugerido
+	/*
+	 * @OneToMany(mappedBy="ubicacione") private List<VariablesPedidoSugerido>
+	 * variablesPedidoSugeridos;
+	 */
 
-	//bi-directional many-to-one association to Venta
-	@OneToMany(mappedBy="ubicacione")
+	// bi-directional many-to-one association to Venta
+	@OneToMany(mappedBy = "ubicacione")
 	private List<Venta> ventas;
 
 	public Ubicacion() {
+	}
+
+	public Ubicacion(Long id) {
+		this.id = id;
 	}
 
 	public Long getId() {
@@ -480,27 +496,25 @@ public class Ubicacion implements Serializable {
 		return estandarConteo;
 	}
 
-	/*public List<EstandarPedido> getEstandarPedidos() {
-		return this.estandarPedidos;
-	}
-
-	public void setEstandarPedidos(List<EstandarPedido> estandarPedidos) {
-		this.estandarPedidos = estandarPedidos;
-	}
-
-	public EstandarPedido addEstandarPedido(EstandarPedido estandarPedido) {
-		getEstandarPedidos().add(estandarPedido);
-		estandarPedido.setUbicacione(this);
-
-		return estandarPedido;
-	}
-
-	public EstandarPedido removeEstandarPedido(EstandarPedido estandarPedido) {
-		getEstandarPedidos().remove(estandarPedido);
-		estandarPedido.setUbicacione(null);
-
-		return estandarPedido;
-	}*/
+	/*
+	 * public List<EstandarPedido> getEstandarPedidos() { return
+	 * this.estandarPedidos; }
+	 * 
+	 * public void setEstandarPedidos(List<EstandarPedido> estandarPedidos) {
+	 * this.estandarPedidos = estandarPedidos; }
+	 * 
+	 * public EstandarPedido addEstandarPedido(EstandarPedido estandarPedido) {
+	 * getEstandarPedidos().add(estandarPedido);
+	 * estandarPedido.setUbicacione(this);
+	 * 
+	 * return estandarPedido; }
+	 * 
+	 * public EstandarPedido removeEstandarPedido(EstandarPedido estandarPedido)
+	 * { getEstandarPedidos().remove(estandarPedido);
+	 * estandarPedido.setUbicacione(null);
+	 * 
+	 * return estandarPedido; }
+	 */
 
 	public List<HistorialCierre> getHistorialCierres() {
 		return this.historialCierres;
@@ -528,18 +542,21 @@ public class Ubicacion implements Serializable {
 		return this.movimientosInventarios1;
 	}
 
-	public void setMovimientosInventarios1(List<MovimientosInventario> movimientosInventarios1) {
+	public void setMovimientosInventarios1(
+			List<MovimientosInventario> movimientosInventarios1) {
 		this.movimientosInventarios1 = movimientosInventarios1;
 	}
 
-	public MovimientosInventario addMovimientosInventarios1(MovimientosInventario movimientosInventarios1) {
+	public MovimientosInventario addMovimientosInventarios1(
+			MovimientosInventario movimientosInventarios1) {
 		getMovimientosInventarios1().add(movimientosInventarios1);
 		movimientosInventarios1.setUbicacionDestino(this);
 
 		return movimientosInventarios1;
 	}
 
-	public MovimientosInventario removeMovimientosInventarios1(MovimientosInventario movimientosInventarios1) {
+	public MovimientosInventario removeMovimientosInventarios1(
+			MovimientosInventario movimientosInventarios1) {
 		getMovimientosInventarios1().remove(movimientosInventarios1);
 		movimientosInventarios1.setUbicacionDestino(null);
 
@@ -550,18 +567,21 @@ public class Ubicacion implements Serializable {
 		return this.movimientosInventarios2;
 	}
 
-	public void setMovimientosInventarios2(List<MovimientosInventario> movimientosInventarios2) {
+	public void setMovimientosInventarios2(
+			List<MovimientosInventario> movimientosInventarios2) {
 		this.movimientosInventarios2 = movimientosInventarios2;
 	}
 
-	public MovimientosInventario addMovimientosInventarios2(MovimientosInventario movimientosInventarios2) {
+	public MovimientosInventario addMovimientosInventarios2(
+			MovimientosInventario movimientosInventarios2) {
 		getMovimientosInventarios2().add(movimientosInventarios2);
 		movimientosInventarios2.setUbicacionOrigen(this);
 
 		return movimientosInventarios2;
 	}
 
-	public MovimientosInventario removeMovimientosInventarios2(MovimientosInventario movimientosInventarios2) {
+	public MovimientosInventario removeMovimientosInventarios2(
+			MovimientosInventario movimientosInventarios2) {
 		getMovimientosInventarios2().remove(movimientosInventarios2);
 		movimientosInventarios2.setUbicacionOrigen(null);
 
@@ -572,18 +592,21 @@ public class Ubicacion implements Serializable {
 		return this.nivelInventarioxubicacions;
 	}
 
-	public void setNivelInventarioxubicacions(List<NivelInventarioxubicacion> nivelInventarioxubicacions) {
+	public void setNivelInventarioxubicacions(
+			List<NivelInventarioxubicacion> nivelInventarioxubicacions) {
 		this.nivelInventarioxubicacions = nivelInventarioxubicacions;
 	}
 
-	public NivelInventarioxubicacion addNivelInventarioxubicacion(NivelInventarioxubicacion nivelInventarioxubicacion) {
+	public NivelInventarioxubicacion addNivelInventarioxubicacion(
+			NivelInventarioxubicacion nivelInventarioxubicacion) {
 		getNivelInventarioxubicacions().add(nivelInventarioxubicacion);
 		nivelInventarioxubicacion.setUbicacione(this);
 
 		return nivelInventarioxubicacion;
 	}
 
-	public NivelInventarioxubicacion removeNivelInventarioxubicacion(NivelInventarioxubicacion nivelInventarioxubicacion) {
+	public NivelInventarioxubicacion removeNivelInventarioxubicacion(
+			NivelInventarioxubicacion nivelInventarioxubicacion) {
 		getNivelInventarioxubicacions().remove(nivelInventarioxubicacion);
 		nivelInventarioxubicacion.setUbicacione(null);
 
@@ -594,19 +617,23 @@ public class Ubicacion implements Serializable {
 		return this.nivelInventarioxubicacionTemps;
 	}
 
-	public void setNivelInventarioxubicacionTemps(List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps) {
+	public void setNivelInventarioxubicacionTemps(
+			List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps) {
 		this.nivelInventarioxubicacionTemps = nivelInventarioxubicacionTemps;
 	}
 
-	public NivelInventarioxubicacionTemp addNivelInventarioxubicacionTemp(NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
+	public NivelInventarioxubicacionTemp addNivelInventarioxubicacionTemp(
+			NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
 		getNivelInventarioxubicacionTemps().add(nivelInventarioxubicacionTemp);
 		nivelInventarioxubicacionTemp.setUbicacione(this);
 
 		return nivelInventarioxubicacionTemp;
 	}
 
-	public NivelInventarioxubicacionTemp removeNivelInventarioxubicacionTemp(NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
-		getNivelInventarioxubicacionTemps().remove(nivelInventarioxubicacionTemp);
+	public NivelInventarioxubicacionTemp removeNivelInventarioxubicacionTemp(
+			NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
+		getNivelInventarioxubicacionTemps().remove(
+				nivelInventarioxubicacionTemp);
 		nivelInventarioxubicacionTemp.setUbicacione(null);
 
 		return nivelInventarioxubicacionTemp;
@@ -642,14 +669,16 @@ public class Ubicacion implements Serializable {
 		this.saldosFranquicias = saldosFranquicias;
 	}
 
-	public SaldosFranquicia addSaldosFranquicia(SaldosFranquicia saldosFranquicia) {
+	public SaldosFranquicia addSaldosFranquicia(
+			SaldosFranquicia saldosFranquicia) {
 		getSaldosFranquicias().add(saldosFranquicia);
 		saldosFranquicia.setUbicacione(this);
 
 		return saldosFranquicia;
 	}
 
-	public SaldosFranquicia removeSaldosFranquicia(SaldosFranquicia saldosFranquicia) {
+	public SaldosFranquicia removeSaldosFranquicia(
+			SaldosFranquicia saldosFranquicia) {
 		getSaldosFranquicias().remove(saldosFranquicia);
 		saldosFranquicia.setUbicacione(null);
 
@@ -710,27 +739,30 @@ public class Ubicacion implements Serializable {
 		return ubicacione;
 	}
 
-	/*public List<VariablesPedidoSugerido> getVariablesPedidoSugeridos() {
-		return this.variablesPedidoSugeridos;
-	}
-
-	public void setVariablesPedidoSugeridos(List<VariablesPedidoSugerido> variablesPedidoSugeridos) {
-		this.variablesPedidoSugeridos = variablesPedidoSugeridos;
-	}
-
-	public VariablesPedidoSugerido addVariablesPedidoSugerido(VariablesPedidoSugerido variablesPedidoSugerido) {
-		getVariablesPedidoSugeridos().add(variablesPedidoSugerido);
-		variablesPedidoSugerido.setUbicacione(this);
-
-		return variablesPedidoSugerido;
-	}
-
-	public VariablesPedidoSugerido removeVariablesPedidoSugerido(VariablesPedidoSugerido variablesPedidoSugerido) {
-		getVariablesPedidoSugeridos().remove(variablesPedidoSugerido);
-		variablesPedidoSugerido.setUbicacione(null);
-
-		return variablesPedidoSugerido;
-	}*/
+	/*
+	 * public List<VariablesPedidoSugerido> getVariablesPedidoSugeridos() {
+	 * return this.variablesPedidoSugeridos; }
+	 * 
+	 * public void setVariablesPedidoSugeridos(List<VariablesPedidoSugerido>
+	 * variablesPedidoSugeridos) { this.variablesPedidoSugeridos =
+	 * variablesPedidoSugeridos; }
+	 * 
+	 * public VariablesPedidoSugerido
+	 * addVariablesPedidoSugerido(VariablesPedidoSugerido
+	 * variablesPedidoSugerido) {
+	 * getVariablesPedidoSugeridos().add(variablesPedidoSugerido);
+	 * variablesPedidoSugerido.setUbicacione(this);
+	 * 
+	 * return variablesPedidoSugerido; }
+	 * 
+	 * public VariablesPedidoSugerido
+	 * removeVariablesPedidoSugerido(VariablesPedidoSugerido
+	 * variablesPedidoSugerido) {
+	 * getVariablesPedidoSugeridos().remove(variablesPedidoSugerido);
+	 * variablesPedidoSugerido.setUbicacione(null);
+	 * 
+	 * return variablesPedidoSugerido; }
+	 */
 
 	public List<Venta> getVentas() {
 		return this.ventas;

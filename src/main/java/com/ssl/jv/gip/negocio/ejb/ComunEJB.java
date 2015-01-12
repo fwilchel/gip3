@@ -8,10 +8,12 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Empresa;
+import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.EmpresaDAO;
+import com.ssl.jv.gip.negocio.dao.EstadoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAO;
 import com.ssl.jv.gip.negocio.dao.RegionDAO;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
@@ -22,101 +24,118 @@ import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 @Stateless
 @LocalBean
 public class ComunEJB implements ComunEJBLocal {
-	
+
 	@EJB
 	private PaisDAO paisDao;
-	
+
 	@EJB
 	private EmpresaDAO empresaDao;
-	
+
 	@EJB
 	private RegionDAO regionDao;
-	
+
 	@EJB
 	private UbicacionDAO ubicacionDao;
 
+	@EJB
+	private EstadoDAOLocal estadoDAOLocal;
+
 	/**
-	 * Default constructor. 
+	 * Default constructor.
 	 */
 	public ComunEJB() {
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.ssl.jv.gip.negocio.ejb.ComunEJBLocal#consultarEmpresas()
 	 */
 	@Override
-	public List<Empresa> consultarEmpresas(){
+	public List<Empresa> consultarEmpresas() {
 
 		List<Empresa> listado = new ArrayList<Empresa>();
 
-		try{
-			listado = (List<Empresa>)empresaDao.findAll();
-		} catch(Exception e){
+		try {
+			listado = (List<Empresa>) empresaDao.findAll();
+		} catch (Exception e) {
 
 		}
 
 		return listado;
 
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.ssl.jv.gip.negocio.ejb.ComunEJBLocal#consultarRegiones()
 	 */
 	@Override
-	public List<Region> consultarRegiones(String pais){
-		
+	public List<Region> consultarRegiones(String pais) {
+
 		List<Region> listado = new ArrayList<Region>();
 
-		try{
-			listado = (List<Region>)regionDao.findByRegional(pais);
-		} catch(Exception e){
+		try {
+			listado = (List<Region>) regionDao.findByRegional(pais);
+		} catch (Exception e) {
 
 		}
 
 		return listado;
-		
+
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.ssl.jv.gip.negocio.ejb.ComunEJBLocal#consultarPaises()
 	 */
 	@Override
-	public List<Pais> consultarPaises(){
-		
+	public List<Pais> consultarPaises() {
+
 		List<Pais> listado = new ArrayList<Pais>();
 
-		try{
-			listado = (List<Pais>)paisDao.findByRegional();
-		} catch(Exception e){
+		try {
+			listado = (List<Pais>) paisDao.findByRegional();
+		} catch (Exception e) {
 
 		}
 
 		return listado;
-		
+
 	}
-	
-    /* (non-Javadoc)
-     * @see com.ssl.jv.gip.negocio.ejb.ComunEJBLocal#consultarBodegasAbastecedoras()
-     */
-    @Override
-    public List<Ubicacion> consultarBodegasAbastecedoras(){
-    	
-    	List<Ubicacion> listado = new ArrayList<Ubicacion>();
-    	
-    	try{
-    		
-    		Ubicacion filtro = new Ubicacion();
-    		filtro.setEsTienda(false);
-    		
-    		listado = ubicacionDao.consultarUbicacionPorFiltro(filtro);
-    		
-    	} catch(Exception e){
-    		
-    	}
-    	
-    	return listado;
-    	
-    }
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ssl.jv.gip.negocio.ejb.ComunEJBLocal#consultarBodegasAbastecedoras()
+	 */
+	@Override
+	public List<Ubicacion> consultarBodegasAbastecedoras() {
+
+		List<Ubicacion> listado = new ArrayList<Ubicacion>();
+
+		try {
+
+			Ubicacion filtro = new Ubicacion();
+			filtro.setEsTienda(false);
+
+			listado = ubicacionDao.consultarUbicacionPorFiltro(filtro);
+
+		} catch (Exception e) {
+
+		}
+
+		return listado;
+
+	}
+
+	@Override
+	public List<Estado> consultarEstados() {
+		return (List<Estado>) estadoDAOLocal.findAll();
+	}
 
 }

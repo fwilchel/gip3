@@ -59,7 +59,9 @@
 						</p:column>
 
 						<p:column headerText="#{msg.RequisicionNombreFechaGenerado}">
-							<h:outputText value="#{dato.fechaGeneracion}" />
+							<h:outputText value="#{dato.fechaGeneracion}">
+								<f:convertDateTime pattern="dd-MMM-yyyy"/>
+							</h:outputText>
 						</p:column>
 
 
@@ -100,7 +102,9 @@
 						<h:inputText
 							value="#{solicitudPedidoMB.seleccionado.fechaGeneracion}"
 							id="strFechaGeneracion" disabled="true"
-							label="#{msg.RequisicionNombreFechaGenerado}" />
+							label="#{msg.RequisicionNombreFechaGenerado}" >
+								<f:convertDateTime pattern="dd-MMM-yyyy"/>
+						</h:inputText>
 						<p:message for="strFechaGeneracion"></p:message>
 
 						<p:outputLabel value="#{msg.nomCliente}" for="strNombreCliente"
@@ -176,7 +180,7 @@
 
 						<p:outputLabel value="#{msg.LugarIncoterm}" for="strLugarIncoterm"
 							styleClass="negrita" />
-						<h:inputText
+						<h:inputText maxlength="50"
 							value="#{solicitudPedidoMB.seleccionado.lugarIncoterm}"
 							id="strLugarIncoterm" required="true"
 							label="#{msg.LugarIncoterm}" />
@@ -185,18 +189,22 @@
 
 						<p:outputLabel value="#{msg.CantidadContenedores20}"
 							for="dblCantidadContenedores20" styleClass="negrita" />
-						<h:inputText
+						<h:inputText maxlength="10" size="10"
 							value="#{solicitudPedidoMB.seleccionado.cantidadContenedores20}"
 							id="dblCantidadContenedores20" required="true"
-							label="#{msg.CantidadContenedores20}" />
+							label="#{msg.CantidadContenedores20}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
 						<p:message for="dblCantidadContenedores20"></p:message>
 
 						<p:outputLabel value="#{msg.CantidadContenedores40}"
 							for="dblCantidadContenedores40" styleClass="negrita" />
-						<h:inputText
+						<h:inputText maxlength="10" size="10"
 							value="#{solicitudPedidoMB.seleccionado.cantidadContenedores40}"
 							id="dblCantidadContenedores40" required="true"
-							label="#{msg.CantidadContenedores40}" />
+							label="#{msg.CantidadContenedores40}" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
 						<p:message for="dblCantidadContenedores40"></p:message>
 
 
@@ -210,7 +218,7 @@
 						
 						<p:outputLabel value="#{msg.Canal}"
 							for="idUbicacion" styleClass="negrita" />
-						<p:selectOneMenu id="idUbicacion"
+						<p:selectOneMenu id="idUbicacion" required="true"
 							value="#{solicitudPedidoMB.seleccionado.idUbicacionDestino}"
 							label="#{msg.Canal}">
 							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}" />
@@ -365,6 +373,7 @@
 					<p:panelGrid columns="1"
 						rendered="#{not empty solicitudPedidoMB.seleccionado}">
 						<p:commandButton value="#{msg.buscadorConsultarPrdxCli}"
+							immediate="true"
 							action="#{solicitudPedidoMB.consultarListaProductosxCli}"
 							update=":formaDlg:tablaProd"></p:commandButton>
 					</p:panelGrid>
@@ -396,7 +405,7 @@
 						columnClasses="label,value">
 						<p:commandButton value="#{msg.buscadorInsertarProductoSeleccionado}"
 							action="#{solicitudPedidoMB.insertarProductoTabla}"
-							update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos"></p:commandButton>						
+							update=":formaDlg:datoDetalle"></p:commandButton>						
 					</p:panelGrid>
 					
 					<p:panelGrid columns="2"
@@ -408,7 +417,9 @@
 							update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos">
 						</p:commandButton>
 						<p:commandButton value="#{msg.generalCancelar}"
-							onclick="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+							update=":formaDlg:datoDetalle,:forma:tabPanel:tablaDatos"
+							action="#{solicitudPedidoMB.cancelar}"
+							oncomplete="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
 					</p:panelGrid>
 
 				</p:outputPanel>

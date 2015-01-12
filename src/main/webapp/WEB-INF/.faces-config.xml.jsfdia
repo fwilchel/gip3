@@ -128,6 +128,16 @@
     PATH="/ui/comercioexterior/ingresarSolicitudPedido.xhtml"
     TARGET="rules:#ui#comercioexterior#ingresarSolicitudPedido.xhtml"
     TITLE="ingresar_solicitud_pedido" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="lista_sugerencia::#ui#compras#listaSugerenciasCompra.xhtml"
+    NAME="output26" PATH="/ui/compras/listaSugerenciasCompra.xhtml"
+    TARGET="rules:#ui#compras#listaSugerenciasCompra.xhtml"
+    TITLE="lista_sugerencia" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sugerencia_compra::#ui#compras#sugerenciaCompra.xhtml"
+    NAME="output27" PATH="/ui/compras/sugerenciaCompra.xhtml"
+    TARGET="rules:#ui#compras#sugerenciaCompra.xhtml"
+    TITLE="sugerencia_compra" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
@@ -200,4 +210,8 @@
   NAME="rules:#ui#comercioexterior#ingresarSolicitudPedido.xhtml"
   PATH="/ui/comercioexterior/ingresarSolicitudPedido.xhtml"
   SHAPE="304,945,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#compras#listaSugerenciasCompra.xhtml"
+  PATH="/ui/compras/listaSugerenciasCompra.xhtml" SHAPE="304,1009,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#compras#sugerenciaCompra.xhtml"
+  PATH="/ui/compras/sugerenciaCompra.xhtml" SHAPE="304,1121,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

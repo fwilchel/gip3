@@ -55,6 +55,11 @@ public class GenericDAO<T> {
 		return (T) list.get(0);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public T findByPK(String id) {
+		return em.find(persistentClass, id);
+	}
+
 	@SuppressWarnings("rawtypes")
 	public List<?> findAll() {
 		List list = em.createQuery("from " + this.persistentClass.getName())

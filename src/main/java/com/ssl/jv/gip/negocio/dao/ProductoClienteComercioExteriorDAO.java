@@ -427,25 +427,25 @@ public class ProductoClienteComercioExteriorDAO extends
 				dto.setDblPrecioUSD(objs[4] != null ? new BigDecimal(objs[4]
 						.toString()) : new BigDecimal(0));
 				dto.setDblPesoNetoProductoInventarioCE(objs[5] != null ? new BigDecimal(
-						objs[5].toString()) : new BigDecimal(0));
+						objs[5].toString()) : new BigDecimal(0.00));
 				dto.setDblPesoBrutoProductoInventarioCE(objs[6] != null ? new BigDecimal(
-						objs[6].toString()) : new BigDecimal(0));
+						objs[6].toString()) : new BigDecimal(0.00));
 				dto.setDblCantCajasXTendidoProductoInventarioCE(objs[7] != null ? new BigDecimal(
-						objs[7].toString()) : new BigDecimal(0));
+						objs[7].toString()) : new BigDecimal(0.00));
 				dto.setDblTotalCajasXPalletProductoInventarioCE(objs[8] != null ? new BigDecimal(
-						objs[8].toString()) : new BigDecimal(0));
+						objs[8].toString()) : new BigDecimal(0.00));
 
 				dto.setDblCantidad1ProductoxDocumento(objs[9] != null ? new BigDecimal(
-						objs[9].toString()) : new BigDecimal(0));
+						objs[9].toString()) : new BigDecimal(0.00));
 				dto.setDblValorTotalProductoxDocumento(objs[10] != null ? new BigDecimal(
-						objs[10].toString()) : new BigDecimal(0));
+						objs[10].toString()) : new BigDecimal(0.00));
 
 				dto.setDblCantidadXEmbalajeProductoInventarioCE(objs[11] != null ? new BigDecimal(
-						objs[11].toString()) : new BigDecimal(0));
+						objs[11].toString()) : new BigDecimal(0.00));
 				dto.setDblPesoNetoEmbalajeProductoInventarioCE(objs[12] != null ? new BigDecimal(
-						objs[12].toString()) : new BigDecimal(0));
+						objs[12].toString()) : new BigDecimal(0.00));
 				dto.setDblPesoBrutoEmbalajeProductoInventarioCE(objs[13] != null ? new BigDecimal(
-						objs[13].toString()) : new BigDecimal(0));
+						objs[13].toString()) : new BigDecimal(0.00));
 
 				dto.setBlnIncluirBusqueda(false);
 

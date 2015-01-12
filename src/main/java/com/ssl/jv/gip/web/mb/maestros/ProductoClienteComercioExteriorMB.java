@@ -168,7 +168,7 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 				productosInventarioFiltroDTO.setSku(null);
 			}
 			productosInventarios = maestroFacade
-					.consultarProductosInventariosPorCategoriaSkuNombreAndEstado(productosInventarioFiltroDTO);
+					.consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(productosInventarioFiltroDTO);
 			// productosInventarios = maestroFacade
 			// .consultarProductosInventariosActivos();
 			if (productosInventarios.isEmpty()) {

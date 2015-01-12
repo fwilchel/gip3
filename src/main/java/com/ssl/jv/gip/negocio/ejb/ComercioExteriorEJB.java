@@ -224,6 +224,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	public void guardarSolicitudPedido(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listaSolicitudPedido){
 		if (documento.getIdEstado() == ConstantesDocumento.GENERADO){
 			documento.setIdEstado(new Long(ConstantesDocumento.ANULADO));
+			documentoDAO.actualizarEstadoDocumentoPorConsecutivo(documento);
 		}
 
 		if ( documento.getIdTipoDocumento()==ConstantesTipoDocumento.SOLICITUD_PEDIDO)
@@ -243,8 +244,8 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		vdocumento.setUbicacionDestino(ubicacion2);
 		vdocumento.setFechaEsperadaEntrega(documento.getFechaEsperadaEntrega());
 
-
 		documentoDAO.update(vdocumento);
+		documentoDAO.actualizarEstadoDocumento(documento);
 		documentoDAO.actualizarDocumentoPorNegociacion(documento);
 
 		// Falta almacenar la lista de solicitud de pedido

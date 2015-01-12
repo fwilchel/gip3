@@ -1,33 +1,50 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the productosxdocumentos database table.
  * 
  */
 @Entity
-@Table(name="productosxdocumentos")
-@NamedQuery(name="ProductosXDocumento.findAll", query="SELECT p FROM ProductosXDocumento p")
+@Table(name = "productosxdocumentos")
+@NamedQueries({
+		@NamedQuery(name = "ProductosXDocumento.findAll", query = "SELECT p FROM ProductosXDocumento p"),
+		@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO, query = "SELECT p FROM ProductosXDocumento p WHERE p.id.idDocumento = :idDocumento") })
 public class ProductosXDocumento implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1420770172594917035L;
+
+	public static final String FIND_BY_DOCUMENTO = "ProductosXDocumento.findByDocumento";
 
 	@EmbeddedId
 	private ProductosXDocumentoPK id;
 
 	private Boolean calidad;
 
-	@Column(name="cantidad_cajas_item")
+	@Column(name = "cantidad_cajas_item")
 	private BigDecimal cantidadCajasItem;
 
-	@Column(name="cantidad_pallets_item")
+	@Column(name = "cantidad_pallets_item")
 	private BigDecimal cantidadPalletsItem;
 
-	@Column(name="cantidad_x_embalaje")
+	@Column(name = "cantidad_x_embalaje")
 	private BigDecimal cantidadXEmbalaje;
 
 	private BigDecimal cantidad1;
@@ -36,11 +53,13 @@ public class ProductosXDocumento implements Serializable {
 
 	private BigDecimal descuentoxproducto;
 
-	@Column(name="fecha_entrega")
-	private Timestamp fechaEntrega;
+	@Column(name = "fecha_entrega")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEntrega;
 
-	@Column(name="fecha_estimada_entrega")
-	private Timestamp fechaEstimadaEntrega;
+	@Column(name = "fecha_estimada_entrega")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEstimadaEntrega;
 
 	private Boolean informacion;
 
@@ -50,55 +69,55 @@ public class ProductosXDocumento implements Serializable {
 
 	private String observacion2;
 
-	@Column(name="otros_descuentos")
+	@Column(name = "otros_descuentos")
 	private BigDecimal otrosDescuentos;
 
-	@Column(name="total_peso_bruto_item")
+	@Column(name = "total_peso_bruto_item")
 	private BigDecimal totalPesoBrutoItem;
 
-	@Column(name="total_peso_neto_item")
+	@Column(name = "total_peso_neto_item")
 	private BigDecimal totalPesoNetoItem;
 
-	@Column(name="valor_descuentoxproducto")
+	@Column(name = "valor_descuentoxproducto")
 	private BigDecimal valorDescuentoxproducto;
 
-	@Column(name="valor_total")
+	@Column(name = "valor_total")
 	private BigDecimal valorTotal;
 
-	@Column(name="valor_unitario_usd")
+	@Column(name = "valor_unitario_usd")
 	private BigDecimal valorUnitarioUsd;
 
-	@Column(name="valor_unitatrio_ml")
+	@Column(name = "valor_unitatrio_ml")
 	private BigDecimal valorUnitatrioMl;
 
-	//bi-directional many-to-one association to BodegasLogica
+	// bi-directional many-to-one association to BodegasLogica
 	@ManyToOne
-	@JoinColumn(name="id_bodega_logica_origen")
+	@JoinColumn(name = "id_bodega_logica_origen")
 	private BodegasLogica bodegasLogica1;
 
-	//bi-directional many-to-one association to BodegasLogica
+	// bi-directional many-to-one association to BodegasLogica
 	@ManyToOne
-	@JoinColumn(name="id_bodega_logica_destino")
+	@JoinColumn(name = "id_bodega_logica_destino")
 	private BodegasLogica bodegasLogica2;
 
-	//bi-directional many-to-one association to Moneda
+	// bi-directional many-to-one association to Moneda
 	@ManyToOne
-	@JoinColumn(name="id_ml")
+	@JoinColumn(name = "id_ml")
 	private Moneda moneda;
 
-	//bi-directional many-to-one association to ProductosInventario
-	@ManyToOne(optional=false)
-	@JoinColumn(name="id_producto", referencedColumnName="id", insertable=false, updatable=false)
+	// bi-directional many-to-one association to ProductosInventario
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id_producto", referencedColumnName = "id", insertable = false, updatable = false)
 	private ProductosInventario productosInventario;
 
-	//bi-directional many-to-one association to TipoDevolucion
+	// bi-directional many-to-one association to TipoDevolucion
 	@ManyToOne
-	@JoinColumn(name="id_tipo_devolucion")
+	@JoinColumn(name = "id_tipo_devolucion")
 	private TipoDevolucion tipoDevolucion;
 
-	//bi-directional many-to-one association to Unidad
+	// bi-directional many-to-one association to Unidad
 	@ManyToOne
-	@JoinColumn(name="id_unidades")
+	@JoinColumn(name = "id_unidades")
 	private Unidad unidade;
 
 	public ProductosXDocumento() {
@@ -168,19 +187,19 @@ public class ProductosXDocumento implements Serializable {
 		this.descuentoxproducto = descuentoxproducto;
 	}
 
-	public Timestamp getFechaEntrega() {
+	public Date getFechaEntrega() {
 		return this.fechaEntrega;
 	}
 
-	public void setFechaEntrega(Timestamp fechaEntrega) {
+	public void setFechaEntrega(Date fechaEntrega) {
 		this.fechaEntrega = fechaEntrega;
 	}
 
-	public Timestamp getFechaEstimadaEntrega() {
+	public Date getFechaEstimadaEntrega() {
 		return this.fechaEstimadaEntrega;
 	}
 
-	public void setFechaEstimadaEntrega(Timestamp fechaEstimadaEntrega) {
+	public void setFechaEstimadaEntrega(Date fechaEstimadaEntrega) {
 		this.fechaEstimadaEntrega = fechaEstimadaEntrega;
 	}
 

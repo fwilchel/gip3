@@ -55,7 +55,9 @@
 						</p:column>
 						
 						<p:column  headerText="#{msg.RequisicionNombreFechaGenerado}">
-							<h:outputText value="#{dato.fechaGeneracion}" />
+							<h:outputText value="#{dato.fechaGeneracion}">
+								<f:convertDateTime pattern="dd-MMM-yyyy"/>
+							</h:outputText>
 						</p:column>
 
 						
@@ -177,10 +179,26 @@
 		      			</h:inputText>
 						<p:message for="strValorTotal"></p:message>
 						
+						<p:outputLabel value="#{msg.ValorCostoLogistico1}"
+							for="dblValorCostoLogistico" styleClass="negrita" />
+						<h:inputText id="dblValorCostoLogistico" value="#{ingresarCostosIncotermMB.dblValorCostoLogistico}" 
+							required="true" label="#{msg.ValorCostoLogistico1}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+						<p:message for="dblValorCostoLogistico"></p:message>
+						
+						<p:outputLabel value="#{msg.ValorCostoEtiqueta}"
+							for="dblValorEtiqueta" styleClass="negrita" />
+						<h:inputText id="dblValorEtiqueta" value="#{ingresarCostosIncotermMB.dblValorCostoEtiquetas}" 
+							required="true" label="#{msg.ValorCostoEtiqueta}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+						<p:message for="dblValorEtiqueta"></p:message>
+						
 						<p:outputLabel value="#{msg.ValorCostoLogistico}"
 							for="dblValorFOB" styleClass="negrita" />
 						<h:inputText id="dblValorFOB" value="#{ingresarCostosIncotermMB.dblValorFOB}" 
-							required="true" label="#{msg.ValorCostoLogistico}" >
+							readonly="true" label="#{msg.ValorCostoLogistico}" >
 		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
 		      			</h:inputText>
 						<p:message for="dblValorFOB"></p:message>
@@ -225,7 +243,7 @@
 						columnClasses="label,value">
 						<p:commandButton value="#{msg.generarOrdenComptraTotalñizar}"
 							action="#{ingresarCostosIncotermMB.refrescarTotales}"
-							update=":formaDlg:dblValorNeg"></p:commandButton>						
+							update=":formaDlg:dblValorNeg, :formaDlg:dblValorFOB"></p:commandButton>						
 					</p:panelGrid>
 
 					<p:panelGrid columns="2"
