@@ -307,7 +307,7 @@
 						rendered="#{not empty solicitudPedidoMB.seleccionado}">
 						<p:commandButton value="#{msg.generarOrdenComptraTotalñizar}"
 							action="#{solicitudPedidoMB.refrescarTotales}"
-							update=":formaDlg:panelTotales"></p:commandButton>
+							update=":formaDlg:panelTotales, :formaDlg:tablaProductos"></p:commandButton>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="16" id="panelTotales"
