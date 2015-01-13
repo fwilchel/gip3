@@ -41,6 +41,10 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Modo;
 
+/**
+ * @author Juan Jose Buzon
+ *
+ */
 @ManagedBean(name = "sugerenciaCompraMB")
 @SessionScoped
 public class SugerenciaCompraMB extends UtilMB {
@@ -68,10 +72,10 @@ public class SugerenciaCompraMB extends UtilMB {
 	private Integer language = AplicacionMB.SPANISH;
 	private Modo modo;
 
+	private Documento seleccionado;
+
 	private FiltroDocumentoDTO filtroDocumentoDTO;
 	private ProductosInventarioFiltroDTO productosInventarioFiltroDTO;
-
-	private Documento seleccionado;
 	private List<ProductosInventario> productosInventarios;
 	private List<ProductosXDocumento> productosSeleccionados;
 	private List<Ubicacion> ubicaciones;

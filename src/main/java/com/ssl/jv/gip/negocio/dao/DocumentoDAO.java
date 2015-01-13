@@ -237,19 +237,23 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 			if (documento.getTotalPallets() != null) {
 				sql.append(" , total_pallets = " + documento.getTotalPallets());
 			}
-			if (documento.getLugarIncoterm() != null && !documento.getLugarIncoterm().isEmpty()) {
-				sql.append(" , lugar_incoterm = " + "'" + documento.getLugarIncoterm()+ "'");
+			if (documento.getLugarIncoterm() != null
+					&& !documento.getLugarIncoterm().isEmpty()) {
+				sql.append(" , lugar_incoterm = " + "'"
+						+ documento.getLugarIncoterm() + "'");
 			}
 			if (documento.getCantidadContenedores20() != null) {
-				sql.append(" , cantidad_contenedores_de_20 = " + documento.getCantidadContenedores20());
+				sql.append(" , cantidad_contenedores_de_20 = "
+						+ documento.getCantidadContenedores20());
 			}
 			if (documento.getCantidadContenedores40() != null) {
-				sql.append(" , cantidad_contenedores_de_40 = " + documento.getCantidadContenedores40());
+				sql.append(" , cantidad_contenedores_de_40 = "
+						+ documento.getCantidadContenedores40());
 			}
 			if (documento.getIdTerminoIncoterm() != null) {
-				sql.append(" , id_termino_incoterm = " + documento.getIdTerminoIncoterm());
+				sql.append(" , id_termino_incoterm = "
+						+ documento.getIdTerminoIncoterm());
 			}
-			
 
 			sql.append(" WHERE  id_documento = " + documento.getIdDocumento());
 
@@ -259,18 +263,17 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 
 		}
 	}
-	
+
 	/**
 	 * Actualiza el estado del documento.
 	 *
 	 */
-	public void actualizarEstadoDocumento(
-			DocumentoIncontermDTO documento) {
+	public void actualizarEstadoDocumento(DocumentoIncontermDTO documento) {
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE documentos SET "
-					+ " id_estado = " + documento.getIdEstado()
-					+ " WHERE  id = " + documento.getIdDocumento());
+			sql.append("UPDATE documentos SET " + " id_estado = "
+					+ documento.getIdEstado() + " WHERE  id = "
+					+ documento.getIdDocumento());
 
 			int q = em.createNativeQuery(sql.toString()).executeUpdate();
 
@@ -278,7 +281,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 
 		}
 	}
-	
+
 	/**
 	 * Actualiza el estado del documento por consecutivo.
 	 *
@@ -287,9 +290,10 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 			DocumentoIncontermDTO documento) {
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE documentos SET "
-					+ " id_estado = " + documento.getIdEstado()
-					+ " WHERE  consecutivo_documento = " + documento.getConsecutivoDocumento());
+			sql.append("UPDATE documentos SET " + " id_estado = "
+					+ documento.getIdEstado()
+					+ " WHERE  consecutivo_documento = "
+					+ documento.getConsecutivoDocumento());
 
 			int q = em.createNativeQuery(sql.toString()).executeUpdate();
 
@@ -1048,6 +1052,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Documento> consultarDocumentosPorTipoDocumentoYEstado(
 			FiltroDocumentoDTO filtro) {
@@ -1055,6 +1060,18 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				.createNamedQuery(Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO);
 		query.setParameter("idTipoDocumento", filtro.getIdTipoDocumento());
 		query.setParameter("idEstado", filtro.getIdEstado());
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Documento> consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
+			Long idEstado, Long idTipoDocumento, String consecutivoDocumento) {
+		Query query = em
+				.createNamedQuery(Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO);
+		query.setParameter("idEstado", idEstado);
+		query.setParameter("idTipoDocumento", idTipoDocumento);
+		query.setParameter("consecutivoDocumento", consecutivoDocumento);
 		return query.getResultList();
 	}
 
