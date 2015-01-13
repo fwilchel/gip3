@@ -89,6 +89,24 @@ public class ClienteMB extends UtilMB{
 	public void guardar(){
 		try{
 			this.seleccionado.setTerminoIncoterms(listaTerminosIncotermSeleccionados);
+			
+			if(this.seleccionado.getAgenteAduana() != null && this.seleccionado.getAgenteAduana().getId().equals(0l)){
+				this.seleccionado.setAgenteAduana(null);
+			}
+			
+			if(this.seleccionado.getMetodoPago() != null && this.seleccionado.getMetodoPago().getId().equals(0l)){
+				this.seleccionado.setMetodoPago(null);
+			}
+			
+			if(this.seleccionado.getCuentaContable() != null && this.seleccionado.getCuentaContable().getId().equals(0l)){
+				this.seleccionado.setCuentaContable(null);
+			}
+			
+			if(this.seleccionado.getTipoPrecio() != null && this.seleccionado.getTipoPrecio().getId().equals(0l)){
+				this.seleccionado.setTipoPrecio(null);
+			}
+			
+			
 			if (this.modo.equals(Modo.CREACION)){
 				this.seleccionado = this.servicio.crearCliente(this.seleccionado);
 				if(this.clientes == null){
@@ -178,6 +196,22 @@ public class ClienteMB extends UtilMB{
 		            return  ciudad.getNombre().compareTo(ciudad2.getNombre());
 		        }
 		    });
+		}
+		
+		if(this.seleccionado.getAgenteAduana() == null){
+			this.seleccionado.setAgenteAduana(new AgenteAduana());
+		}
+		
+		if(this.seleccionado.getMetodoPago() == null){
+			this.seleccionado.setMetodoPago(new MetodoPago());
+		}
+		
+		if(this.seleccionado.getCuentaContable() == null){
+			this.seleccionado.setCuentaContable(new CuentaContable());
+		}
+		
+		if(this.seleccionado.getTipoPrecio() == null){
+			this.seleccionado.setTipoPrecio(new TipoPrecio());
 		}
 		
 	}
