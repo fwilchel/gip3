@@ -24,10 +24,9 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 	public void actualizarDocumentoPorNegociacion(
 			DocumentoIncontermDTO documento);
-	
-	public void actualizarEstadoDocumento(
-			DocumentoIncontermDTO documento);
-	
+
+	public void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
+
 	public void actualizarEstadoDocumentoPorConsecutivo(
 			DocumentoIncontermDTO documento);
 
@@ -63,5 +62,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 	public List<Documento> consultarDocumentosPorTipoDocumentoYEstado(
 			FiltroDocumentoDTO filtro);
+
+	public List<Documento> consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
+			Long idEstado, Long idTipoDocumento, String consecutivoDocumento);
 
 }

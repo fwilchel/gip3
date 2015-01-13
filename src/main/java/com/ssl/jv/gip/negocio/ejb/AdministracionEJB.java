@@ -16,12 +16,14 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 import com.ssl.jv.gip.jpa.pojo.HistorialContrasena;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.Rol;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
+import com.ssl.jv.gip.negocio.dao.CiudadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.FuncionalidadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.HistorialContrasenaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
@@ -55,6 +57,9 @@ public class AdministracionEJB implements AdministracionEJBLocal {
 
 	@EJB
 	private HistorialContrasenaDAOLocal historialContrasenaDao;
+	
+	@EJB
+	private CiudadDAOLocal ciudadDao;
 	
 	@Resource(mappedName="java:jboss/mail/Default")    
 	private Session mailSessionServer;
@@ -148,5 +153,9 @@ public class AdministracionEJB implements AdministracionEJBLocal {
 	public void eliminarHistorialContrasena(HistorialContrasena hc){
 		this.historialContrasenaDao.deleteAntiguo(hc);
 	}
-	
+
+	@Override
+	public List<Ciudad> getCiudadesByIdPais(String idPais) {
+		return ciudadDao.findByPais(idPais);
+	}
 }

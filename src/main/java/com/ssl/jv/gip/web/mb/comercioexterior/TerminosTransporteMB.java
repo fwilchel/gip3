@@ -13,13 +13,16 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 import com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.maestros.ProductosMB;
+import com.ssl.jv.gip.web.mb.util.EFleteExterno;
 
 /**
  * <p>Title: Terminos de transporte</p>
@@ -52,9 +55,15 @@ public class TerminosTransporteMB extends UtilMB{
 	private InstruccionesEmbarqueDTO instruccionesEmbarqueDTO;
 	
 	private List<SelectItem> agenteAduanaSelectList = null;
+	private List<SelectItem> modalidadEmbarqueList = null;
+	private List<SelectItem> incotermList = null;
 	private SelectItem selectedAduanaAgent1;
 	private SelectItem selectedAduanaAgent2;
+	private String selectedIdPais;
+	private List<SelectItem> extFeesList;
+	private List<SelectItem> ciudadesList;
 	
+
 	private TerminosTransporte selectedTerminosTransporte;
 	
 	private Integer language=AplicacionMB.SPANISH;
@@ -68,6 +77,7 @@ public class TerminosTransporteMB extends UtilMB{
 		
 		selectedTerminosTransporte = null;
 		
+		// Listado de agentes de aduana disponibles
 		List<AgenteAduana> agentesAduana = terminosTransporteEjb.consultarAgentesAduanaActivos();
 		if(agentesAduana != null){
 			for(AgenteAduana aa : agentesAduana){
@@ -82,6 +92,44 @@ public class TerminosTransporteMB extends UtilMB{
 				agenteAduanaSelectList.add(item);
 			}
 		}
+		
+		//Listado de modalidades de embarque
+		List<ModalidadEmbarque> modalidadesEmbarque = terminosTransporteEjb.consultarModalidadesEmbarque();
+		if(modalidadesEmbarque != null){
+			for(ModalidadEmbarque me : modalidadesEmbarque){
+				SelectItem item = new SelectItem();
+				item.setLabel(me.getDescripcion());
+				item.setValue(me.getId());
+				
+				if(modalidadEmbarqueList == null){
+					modalidadEmbarqueList = new ArrayList<SelectItem>();
+				}
+				modalidadEmbarqueList.add(item);
+			}
+		}
+		
+		//Listado de incoterm de decpacho
+		List<TerminoIncoterm> incotermShList = terminosTransporteEjb.consultarIncoterms();
+		if(incotermShList != null){
+			for(TerminoIncoterm ti : incotermShList){
+				SelectItem item = new SelectItem();
+				item.setLabel(ti.getDescripcion());
+				item.setValue(ti);
+				
+				if(incotermList == null){
+					incotermList = new ArrayList<SelectItem>();
+				}
+				
+				incotermList.add(item);
+			}
+		}
+		
+		extFeesList = EFleteExterno.getList();
+		ciudadesList = null;
+	}
+
+	public List<SelectItem> getExtFeesList() {
+		return extFeesList;
 	}
 
 	public List<ShipmentConditions> getTerminosTransporteList() {
@@ -91,6 +139,9 @@ public class TerminosTransporteMB extends UtilMB{
 	public void setTerminosTransporteList(
 			List<ShipmentConditions> terminosTransporteList) {
 		this.terminosTransporteList = terminosTransporteList;
+	}
+	public List<SelectItem> getCiudadesList() {
+		return ciudadesList;
 	}
 
 	public ShipmentConditions getSelectedShipmentCond() {
@@ -143,6 +194,30 @@ public class TerminosTransporteMB extends UtilMB{
 		this.selectedTerminosTransporte = selectedTerminosTransporte;
 	}
 
+	public List<SelectItem> getModalidadEmbarqueList() {
+		return modalidadEmbarqueList;
+	}
+
+	public List<SelectItem> getIncotermList() {
+		return incotermList;
+	}
+
+	public void setIncotermList(List<SelectItem> incotermList) {
+		this.incotermList = incotermList;
+	}
+
+	public String getSelectedIdPais() {
+		return selectedIdPais;
+	}
+
+	public void setSelectedIdPais(String selectedIdPais) {
+		this.selectedIdPais = selectedIdPais;
+	}
+
+	public void setModalidadEmbarqueList(List<SelectItem> modalidadEmbarqueList) {
+		this.modalidadEmbarqueList = modalidadEmbarqueList;
+	}
+
 	public Integer getLanguage() {
 		return language;
 	}
@@ -163,9 +238,36 @@ public class TerminosTransporteMB extends UtilMB{
 		try {
 			instruccionesEmbarqueDTO = terminosTransporteEjb.
 					consultarTerminosTransportePorId(selectedShipmentCond.getId());
+			selectedIdPais = null;
+			ciudadesList = null;
 		} catch (Exception e) {
 			this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
 			LOGGER.error(e);
+		}
+	}
+	
+	/**
+	 * Metodo que obtiene las ciudades de una lista
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	public void loadCiudades(){
+		ciudadesList = AplicacionMB.getCiudadesList(selectedIdPais);
+	}
+	
+	/**
+	 * Metodo que guarda los cambios sobre una instruccion de embarque seleccionada
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */ 
+	public void actualizarInstruccionEmbarque(){
+		try {
+			terminosTransporteEjb.actualizarInstruccionEmbarque(instruccionesEmbarqueDTO.getTerminosTransporte());
+		} catch (Exception e) {
+			this.addMensajeError("Ocurrio un error al actualizar la instruccion de embarque, intente de nuevo mas tarde");
 		}
 	}
 }

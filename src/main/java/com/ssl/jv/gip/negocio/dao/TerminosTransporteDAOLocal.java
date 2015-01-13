@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
@@ -55,4 +56,13 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
 	 * @return
 	 */ 
 	TerminosTransporte getById(Long idTerminosTrans);
+	
+	/**
+	 * Metodo que retorna todas las modalidades de embarque
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	List<ModalidadEmbarque> getAllShipmentMod();
 }

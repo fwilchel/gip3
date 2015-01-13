@@ -138,7 +138,14 @@
 			<from-outcome>sugerencia_compra</from-outcome>
 			<to-view-id>/ui/compras/sugerenciaCompra.xhtml</to-view-id>
 		</navigation-case>
-
+		<navigation-case>
+			<from-outcome>listado_LE4</from-outcome>
+			<to-view-id>/ui/comercioexterior/listadoListaEmpaque.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modificar_lista_empaque</from-outcome>
+			<to-view-id>/ui/comercioexterior/modificarListaEmpaque.xhtml</to-view-id>
+		</navigation-case>
     </navigation-rule>
     
     
