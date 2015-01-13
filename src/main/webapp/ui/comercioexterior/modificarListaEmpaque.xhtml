@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.modificarListaEmpaque_ModificarListaEmpaque}::.</ui:define>
+
+	<ui:define name="contenido">
+	
+		<p:spacer height="40"></p:spacer>
+		
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+				showIcon="true" autoUpdate="true"></p:messages>
+
+			<p:tabView id="tabPanel">
+			
+				<p:tab title="#{msg.modificarListaEmpaque_ModificarListaEmpaque}">
+				
+					<ui:include src="/ui/comercioexterior/listaEmpaqueEncabezado.xhtml" />
+					
+					<p:fileUpload fileUploadListener="#{modificarListaEmpaqueMB.cargarArchivo}" style="width:1000;" label="#{msg.generalSeleccionarArchivo}" uploadLabel="#{msg.generalCargarArchivo}" cancelLabel="#{msg.generalCancelar}" invalidFileMessage="#{msg.generalTipoArchivoNoValido}" allowTypes="/(\.|\/)(txt)$/" />
+		
+					<p:spacer height="20"></p:spacer>
+					
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{modificarListaEmpaqueMB.productosInventarios}" rows="10"
+						emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom" 
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+	
+						<p:column filterBy="#{dato.sku}" headerText="#{msg.modificarListaEmpaque_SKU}"
+							filterMatchMode="contains" sortBy="#{dato.sku}">
+							<h:outputText value="#{dato.sku}" />
+						</p:column>
+	
+						<p:column filterBy="#{dato.nombre}" headerText="#{msg.modificarListaEmpaque_NombreProducto}"
+							filterMatchMode="contains" sortBy="#{dato.nombre}">
+							<h:outputText value="#{dato.nombre}" />
+						</p:column>
+						
+					</p:dataTable>
+					
+					<p:spacer height="20"></p:spacer>
+					
+					<p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
+						value="#{modificarListaEmpaqueMB.productosInventarios}" rows="10"
+						emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom" 
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+	
+						<p:column headerText="#{msg.modificarListaEmpaque_SKU}"
+							sortBy="#{dato.sku}">
+							<h:outputText value="#{dato.sku}" />
+						</p:column>
+	
+						<p:column headerText="#{msg.modificarListaEmpaque_NombreDelProducto}"
+							sortBy="#{dato.nombre}">
+							<h:outputText value="#{dato.nombre}" />
+						</p:column>
+	
+						<p:column headerText="#{msg.modificarListaEmpaque_Cantidad}"
+							sortBy="#{dato.cantidad}">
+							<p:outputLabel value="#{dato.cantidad}" />
+							<f:facet name="footer">
+                 				<p:outputLabel value="#{modificarListaEmpaqueMB.totalCantidad}" style="text-align:right;width:100px;">
+                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                		 		</p:outputLabel>                  
+							</f:facet>
+						</p:column>
+	
+						<p:column headerText="#{msg.modificarListaEmpaque_CantidadPallets}"
+							 sortBy="#{dato.cantidadPallets}">
+							<p:outputLabel value="#{dato.cantidadPallets}" />
+							<f:facet name="footer">
+                 				<p:outputLabel value="#{modificarListaEmpaqueMB.totalPallets}" style="text-align:right;width:100px;">
+                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                		 		</p:outputLabel>                  
+							</f:facet>
+						</p:column>
+	
+						<p:column headerText="#{msg.modificarListaEmpaque_CantidadCajas}"
+							 sortBy="#{dato.cantidadCajas}">
+							<p:outputLabel value="#{dato.cantidadCajas}" />
+							<f:facet name="footer">
+                 				<p:outputLabel value="#{modificarListaEmpaqueMB.totalCajas}" style="text-align:right;width:100px;">
+                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                		 		</p:outputLabel>                  
+							</f:facet>
+						</p:column>
+						
+						<p:column headerText="#{msg.modificarListaEmpaque_PesoNeto}"
+							sortBy="#{dato.pesoNeto}" footerText="hola">
+							<p:outputLabel value="#{dato.pesoNeto}" />
+							<f:facet name="footer">
+                 				<p:outputLabel value="#{modificarListaEmpaqueMB.totalPesoNeto}" style="text-align:right;width:100px;">
+                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                		 		</p:outputLabel>                  
+							</f:facet>
+						</p:column>
+						
+						<p:column headerText="#{msg.modificarListaEmpaque_PesoBruto}"
+							sortBy="#{dato.pesoBruto}" footerText="hola">
+							<p:outputLabel value="#{dato.pesoBruto}" />
+							<f:facet name="footer">
+                 				<p:outputLabel value="#{modificarListaEmpaqueMB.totalPesoBruto}" style="text-align:right;width:100px;">
+                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                		 		</p:outputLabel>                  
+							</f:facet>
+						</p:column>
+						
+					</p:dataTable>
+					
+					<p:spacer height="30"></p:spacer>
+					
+					<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{modificarListaEmpaqueMB.modificarListaEmpaque}" ></p:commandButton>
+					<p:commandButton value="#{msg.generalCancelar}" process="@this" icon="ui-icon-cancel" action="listado_LE4" ></p:commandButton>
+				
+				</p:tab>
+				
+			</p:tabView>
+			
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>
