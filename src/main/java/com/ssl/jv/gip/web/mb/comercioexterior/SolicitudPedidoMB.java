@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -30,7 +31,7 @@ import com.ssl.jv.gip.web.mb.UtilMB;
  * The Class SolicitudPedidoMB.
  */
 @ManagedBean(name="solicitudPedidoMB")
-@SessionScoped
+@ViewScoped
 public class SolicitudPedidoMB extends UtilMB{
 
 	/** The lista documentos. */
@@ -268,7 +269,7 @@ public class SolicitudPedidoMB extends UtilMB{
 		valorCajasT =  new BigDecimal(0.00); 
 		dblTotalPrecio =  new BigDecimal(0.00);
 		seleccionado = new DocumentoIncontermDTO();
-		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosCostosInconterm();
+		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
 	}
 
 	/**
@@ -317,7 +318,7 @@ public class SolicitudPedidoMB extends UtilMB{
 		comercioEjb.guardarSolicitudPedido(seleccionado, listaSolicitudPedido);
 
 		this.addMensajeInfo("Se almaceno la solicitud de pedido exitosamente");
-		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosCostosInconterm();
+		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
 		for(DocumentoIncontermDTO vdoc:listaDocumentos){
 			if(vdoc.getIdDocumento().equals(seleccionado.getIdDocumento())){
 				seleccionado = vdoc;
