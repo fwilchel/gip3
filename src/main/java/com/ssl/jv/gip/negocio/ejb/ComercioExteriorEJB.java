@@ -32,6 +32,7 @@ import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
@@ -88,6 +89,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	
 	@EJB
 	private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAO;
+	
+	@EJB
+	private ProductosXDocumentoDAOLocal productoXDocumentoDAO;
 
 	/**
 	 * Default constructor. 
@@ -435,6 +439,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		documentoXNegociacionDAO.add(documentoPorNegociacion);
 		for (ProductosXDocumento pxd:productos){
 			pxd.getId().setIdDocumento(documento.getId());
+			this.productoXDocumentoDAO.add(pxd);
 		}
 		original.getEstadosxdocumento().getId().setIdEstado((long)ConstantesDocumento.APROBADA);
 		this.documentoDAO.update(original);
