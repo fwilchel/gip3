@@ -13,6 +13,7 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
@@ -273,5 +274,21 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
 	@Override
 	public TerminosTransporte getById(Long idTerminosTrans) {
 		return this.findByPK(idTerminosTrans);
+	}
+
+	@Override
+	public List<ModalidadEmbarque> getAllShipmentMod() {
+		List<ModalidadEmbarque> list = null;
+		try {
+			String query = "SELECT me FROM ModalidadEmbarque me";
+			Query q = this.em.createQuery(query);
+			
+			list = q.getResultList();
+		} catch (NoResultException ne) {
+			LOGGER.error(ErrorConstants.NO_RESULT.getDescription());
+		} catch (Exception e) {
+			LOGGER.error(ErrorConstants.UNHANDLED_EXCEPTION.getDescription());
+		}
+		return list;
 	}
 }

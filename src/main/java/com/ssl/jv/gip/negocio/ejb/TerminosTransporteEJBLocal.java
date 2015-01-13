@@ -10,10 +10,12 @@ import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
+import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
@@ -64,4 +66,22 @@ public interface TerminosTransporteEJBLocal {
 	 * @return
 	 */ 
 	List<AgenteAduana> consultarAgentesAduanaActivos();
+	
+	/**
+	 * Metodoq ue consulta las modalidades de embarque
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	List<ModalidadEmbarque> consultarModalidadesEmbarque();
+	
+	/**
+	 * Metodo que retorna el listado de incoterms de despacho
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	List<TerminoIncoterm> consultarIncoterms();
 }

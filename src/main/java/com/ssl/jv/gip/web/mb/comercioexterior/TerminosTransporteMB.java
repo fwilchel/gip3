@@ -13,7 +13,9 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 import com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal;
@@ -52,8 +54,11 @@ public class TerminosTransporteMB extends UtilMB{
 	private InstruccionesEmbarqueDTO instruccionesEmbarqueDTO;
 	
 	private List<SelectItem> agenteAduanaSelectList = null;
+	private List<SelectItem> modalidadEmbarqueList = null;
+	private List<SelectItem> incotermList = null;
 	private SelectItem selectedAduanaAgent1;
 	private SelectItem selectedAduanaAgent2;
+	private String selectedIdPais;
 	
 	private TerminosTransporte selectedTerminosTransporte;
 	
@@ -68,6 +73,7 @@ public class TerminosTransporteMB extends UtilMB{
 		
 		selectedTerminosTransporte = null;
 		
+		// Listado de agentes de aduana disponibles
 		List<AgenteAduana> agentesAduana = terminosTransporteEjb.consultarAgentesAduanaActivos();
 		if(agentesAduana != null){
 			for(AgenteAduana aa : agentesAduana){
@@ -80,6 +86,37 @@ public class TerminosTransporteMB extends UtilMB{
 				}
 				
 				agenteAduanaSelectList.add(item);
+			}
+		}
+		
+		//Listado de modalidades de embarque
+		List<ModalidadEmbarque> modalidadesEmbarque = terminosTransporteEjb.consultarModalidadesEmbarque();
+		if(modalidadesEmbarque != null){
+			for(ModalidadEmbarque me : modalidadesEmbarque){
+				SelectItem item = new SelectItem();
+				item.setLabel(me.getDescripcion());
+				item.setValue(me.getId());
+				
+				if(modalidadEmbarqueList == null){
+					modalidadEmbarqueList = new ArrayList<SelectItem>();
+				}
+				modalidadEmbarqueList.add(item);
+			}
+		}
+		
+		//Listado de incoterm de decpacho
+		List<TerminoIncoterm> incotermShList = terminosTransporteEjb.consultarIncoterms();
+		if(incotermShList != null){
+			for(TerminoIncoterm ti : incotermShList){
+				SelectItem item = new SelectItem();
+				item.setLabel(ti.getDescripcion());
+				item.setValue(ti);
+				
+				if(incotermList == null){
+					incotermList = new ArrayList<SelectItem>();
+				}
+				
+				incotermList.add(item);
 			}
 		}
 	}
@@ -143,6 +180,30 @@ public class TerminosTransporteMB extends UtilMB{
 		this.selectedTerminosTransporte = selectedTerminosTransporte;
 	}
 
+	public List<SelectItem> getModalidadEmbarqueList() {
+		return modalidadEmbarqueList;
+	}
+
+	public List<SelectItem> getIncotermList() {
+		return incotermList;
+	}
+
+	public void setIncotermList(List<SelectItem> incotermList) {
+		this.incotermList = incotermList;
+	}
+
+	public String getSelectedIdPais() {
+		return selectedIdPais;
+	}
+
+	public void setSelectedIdPais(String selectedIdPais) {
+		this.selectedIdPais = selectedIdPais;
+	}
+
+	public void setModalidadEmbarqueList(List<SelectItem> modalidadEmbarqueList) {
+		this.modalidadEmbarqueList = modalidadEmbarqueList;
+	}
+
 	public Integer getLanguage() {
 		return language;
 	}
@@ -167,5 +228,16 @@ public class TerminosTransporteMB extends UtilMB{
 			this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
 			LOGGER.error(e);
 		}
+	}
+	
+	/**
+	 * Metodo que obtiene las ciudades de una lista
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	public List<SelectItem> getCiudades(){
+		return AplicacionMB.getCiudadesList(selectedIdPais);
 	}
 }

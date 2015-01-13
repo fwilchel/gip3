@@ -47,5 +47,16 @@ public class TerminoIncotermDAO extends GenericDAO<TerminoIncoterm> implements T
 		return lista;
 		 */
 	}
+
+	/**
+	 * @see com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal#getAll()
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public List<TerminoIncoterm> getAll() {
+		return (List<TerminoIncoterm>) this.findAll();
+	}
 	
 }
