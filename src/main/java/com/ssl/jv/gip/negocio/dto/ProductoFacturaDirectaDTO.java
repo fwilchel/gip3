@@ -33,7 +33,19 @@ public class ProductoFacturaDirectaDTO implements Serializable {
 	private BigDecimal  valorIva10;
 	private BigDecimal  valorIva16;
 	private BigDecimal  valorIva5;
+	private BigDecimal  valorOtrosDescuento;
 	
+	
+	public BigDecimal getValorOtrosDescuento() {
+		return valorOtrosDescuento;
+	}
+
+
+	public void setValorOtrosDescuento(BigDecimal valorOtrosDescuento) {
+		this.valorOtrosDescuento = valorOtrosDescuento;
+	}
+
+
 	public ProductoFacturaDirectaDTO(){
 		
 	}

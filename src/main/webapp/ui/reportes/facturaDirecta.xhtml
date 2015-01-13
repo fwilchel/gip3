@@ -143,8 +143,8 @@
 							
 							
 							<p:dataTable var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirFacturaDirectaMB.seleccionado2.idDocumento}"
-						value="#{imprimirFacturaDirectaMB.listaEmpaqueDetalle}"
-						rendered="#{not empty imprimirFacturaDirectaMB.listaEmpaqueDetalle}">
+						value="#{imprimirFacturaDirectaMB.listaDetalle}"
+						rendered="#{not empty imprimirFacturaDirectaMB.listaDetalle}">
 						
 						
 						
@@ -161,6 +161,10 @@
 							<h:outputText value="#{dato2.nombre}" />
 						</p:column>
 						
+						<p:column headerText="#{msg.recibiProductoUnidadVenta}">
+							<h:outputText value="#{dato2.unidad}" />
+						</p:column>
+						
 						
 						<p:column headerText="#{msg.cantidadRemisionada}" styleClass="derecha">
 							<h:outputText value="#{dato2.cantidad}" >
@@ -169,31 +173,7 @@
 						</p:column>
 						
 						
-						<p:column headerText="#{msg.unidadxembalaje}"	styleClass="derecha">
-							<h:outputText value="#{dato2.cantidadPorEmbalaje}" >
-							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-							   </h:outputText>
-						</p:column>
-						
-						<p:column	headerText="#{msg.SPcantidadCajas}"	styleClass="derecha" >
-							<h:outputText value="#{dato2.cantidadCajas}" >
-							  <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-							   </h:outputText>
-						</p:column>
-						
-						
-						<p:column headerText="#{msg.PesoNeto}"	styleClass="derecha">
-							<h:outputText value="#{dato2.pesoNeto}" >
-							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-							   </h:outputText>
-						</p:column>
-
-						<p:column headerText="#{msg.PesoBruto}"	styleClass="derecha">
-							<h:outputText value="#{dato2.pesoBruto}" >
-							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-							   </h:outputText>
-						</p:column>
-						
+												
 						
 							<p:summaryRow>
 				            <p:column colspan="3" styleClass="derecha">

@@ -13,11 +13,11 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 
 
@@ -67,7 +67,7 @@ public class ImprimirFacturaDirectaMB {
 
 	
 	
-	private List<ProductoImprimirLEDTO> listaEmpaqueDetalle;
+	private List<ProductoFacturaDirectaDTO> listaDetalle;
 
 	private List<ProductoLoteAsignarLoteOICDTO> lotes;
 	
@@ -80,16 +80,16 @@ public class ImprimirFacturaDirectaMB {
 		this.lotes = lotes;
 	}
 
-	public List<ProductoImprimirLEDTO> getListaEmpaqueDetalle() {
-		return listaEmpaqueDetalle;
-	}
-
-	public void setListaEmpaqueDetalle(
-			List<ProductoImprimirLEDTO> listaEmpaqueDetalle) {
-		this.listaEmpaqueDetalle = listaEmpaqueDetalle;
-	}
-
 	
+	
+	public List<ProductoFacturaDirectaDTO> getListaDetalle() {
+		return listaDetalle;
+	}
+
+	public void setListaDetalle(List<ProductoFacturaDirectaDTO> listaDetalle) {
+		this.listaDetalle = listaDetalle;
+	}
+
 	public Documento getSeleccionado() {
 		return seleccionado;
 	}
@@ -103,7 +103,9 @@ public class ImprimirFacturaDirectaMB {
 		
 		
 		this.setSeleccionado2(this.ventasFacturacionEjb.consultarDocumentoFacturaDirecta(seleccionado.getConsecutivoDocumento()));
-		listaEmpaqueDetalle = comercioEjb.consultarProductoListaEmpaque(seleccionado.getConsecutivoDocumento());
+		//listaEmpaqueDetalle = comercioEjb.consultarProductoListaEmpaque(seleccionado.getConsecutivoDocumento());
+		
+		//listaDetalle = ventasFacturacionEjb.consultarProductoFacturaDirecta(seleccionado.getConsecutivoDocumento());
 		
 		
 		System.out.println("doc: "+seleccionado.getId());
