@@ -69,6 +69,7 @@
 		<class>com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Moneda</class>
 		<class>com.ssl.jv.gip.jpa.pojo.MovimientosInventario</class>
+		<class>com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Muestrasxlote</class>
 		<class>com.ssl.jv.gip.jpa.pojo.NivelInventarioxubicacion</class>
 		<class>com.ssl.jv.gip.jpa.pojo.NivelInventarioxubicacionPK</class>

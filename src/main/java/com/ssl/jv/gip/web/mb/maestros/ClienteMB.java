@@ -1,6 +1,8 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -58,6 +60,8 @@ public class ClienteMB extends UtilMB{
 	
 	private List<TerminoIncoterm> listaTerminosIncoterm;
 	private List<TerminoIncoterm> listaTerminosIncotermSeleccionados = new ArrayList<TerminoIncoterm>();
+	
+	private boolean isEditar;
 
 	public ClienteMB(){
 
@@ -77,6 +81,7 @@ public class ClienteMB extends UtilMB{
 		seleccionado.setTerminoIncoterms(new ArrayList<TerminoIncoterm>());
 		seleccionado.setTipoCanal(new TipoCanal());
 		seleccionado.setTipoPrecio(new TipoPrecio());
+		this.idPais = null;
 		seleccionado.setCiudad(new Ciudad());
 		this.modo=Modo.CREACION;
 	}
@@ -122,6 +127,15 @@ public class ClienteMB extends UtilMB{
 		String idPais = (String) ev.getNewValue();
 		if(idPais != null && !idPais.isEmpty()){
 			listaCiudades = servicio.consultarCiudadesPorPais(idPais);
+			
+			Collections.sort(listaCiudades, new Comparator<Ciudad>() {
+		        @Override
+		        public int compare(Ciudad  ciudad, Ciudad  ciudad2)
+		        {
+
+		            return  ciudad.getNombre().compareTo(ciudad2.getNombre());
+		        }
+		    });
 		}
 	}
 
@@ -149,14 +163,37 @@ public class ClienteMB extends UtilMB{
 	public void setSeleccionado(Cliente seleccionado) {
 		this.seleccionado = seleccionado;
 		this.modo=Modo.EDICION;
+		this.isEditar = true;
 		this.idPais =this.seleccionado.getCiudad().getIdPais();
 		this.listaTerminosIncotermSeleccionados = this.seleccionado.getTerminoIncoterms();
+		
+		if(idPais != null && !idPais.isEmpty()){
+			listaCiudades = servicio.consultarCiudadesPorPais(idPais);
+			
+			Collections.sort(listaCiudades, new Comparator<Ciudad>() {
+		        @Override
+		        public int compare(Ciudad  ciudad, Ciudad  ciudad2)
+		        {
+
+		            return  ciudad.getNombre().compareTo(ciudad2.getNombre());
+		        }
+		    });
+		}
 		
 	}
 
 	public List<Pais> getListaPaises() {
 		if(listaPaises == null || listaPaises.isEmpty()){
 			listaPaises = servicio.consultarPaises();
+			
+			Collections.sort(listaPaises, new Comparator<Pais>() {
+		        @Override
+		        public int compare(Pais  pais, Pais  pais2)
+		        {
+
+		            return  pais.getNombre().compareTo(pais2.getNombre());
+		        }
+		    });
 		}
 		return listaPaises;
 	}
@@ -176,6 +213,15 @@ public class ClienteMB extends UtilMB{
 	public List<TipoCanal> getListaTiposCanal() {
 		if(listaTiposCanal == null || listaTiposCanal.isEmpty()){
 			listaTiposCanal = servicio.consultarTiposCanal();
+			
+			Collections.sort(listaTiposCanal, new Comparator<TipoCanal>() {
+		        @Override
+		        public int compare(TipoCanal  tipoCanal, TipoCanal  tipoCanal2)
+		        {
+
+		            return  tipoCanal.getNombre().compareTo(tipoCanal2.getNombre());
+		        }
+		    });
 		}
 		
 		return listaTiposCanal;
@@ -188,6 +234,15 @@ public class ClienteMB extends UtilMB{
 	public List<AgenteAduana> getListaAgentesAduana() {
 		if(listaAgentesAduana == null || listaAgentesAduana.isEmpty()){
 			listaAgentesAduana = servicio.consultarAgentesAduana();
+			
+			Collections.sort(listaAgentesAduana, new Comparator<AgenteAduana>() {
+		        @Override
+		        public int compare(AgenteAduana  agenteAduana, AgenteAduana  agenteAduana2)
+		        {
+
+		            return  agenteAduana.getNombre().compareTo(agenteAduana2.getNombre());
+		        }
+		    });
 		}
 		return listaAgentesAduana;
 	}
@@ -199,6 +254,15 @@ public class ClienteMB extends UtilMB{
 	public List<MetodoPago> getListaMetodosPago() {
 		if(listaMetodosPago == null || listaMetodosPago.isEmpty()){
 			listaMetodosPago = servicio.consultarMetodosPago();
+			
+			Collections.sort(listaMetodosPago, new Comparator<MetodoPago>() {
+		        @Override
+		        public int compare(MetodoPago  metodoPago, MetodoPago  metodoPago2)
+		        {
+
+		            return  metodoPago.getDescripcion().compareTo(metodoPago2.getDescripcion());
+		        }
+		    });
 		}
 		return listaMetodosPago;
 	}
@@ -210,6 +274,15 @@ public class ClienteMB extends UtilMB{
 	public List<CuentaContable> getListaCuentaContable() {
 		if(listaCuentaContable == null || listaCuentaContable.isEmpty()){
 			listaCuentaContable = servicio.consultarCuentasContables();
+			
+			Collections.sort(listaCuentaContable, new Comparator<CuentaContable>() {
+		        @Override
+		        public int compare(CuentaContable  cuentaContable, CuentaContable  cuentaContable2)
+		        {
+
+		            return  cuentaContable.getDescripcion().compareTo(cuentaContable2.getDescripcion());
+		        }
+		    });
 		}
 		return listaCuentaContable;
 	}
@@ -253,6 +326,16 @@ public class ClienteMB extends UtilMB{
 			List<TerminoIncoterm> listaTerminosIncotermSeleccionados) {
 		this.listaTerminosIncotermSeleccionados = listaTerminosIncotermSeleccionados;
 	}
+
+	public boolean isEditar() {
+		return isEditar;
+	}
+
+	public void setEditar(boolean isEditar) {
+		this.isEditar = isEditar;
+	}
+	
+	
 
 	
 

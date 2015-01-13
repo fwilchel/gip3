@@ -32,6 +32,10 @@ import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
 
+/**
+ * @author Juan Jose Buzon
+ *
+ */
 @ManagedBean(name = "productoClienteComercioExteriorMB")
 @SessionScoped
 public class ProductoClienteComercioExteriorMB extends UtilMB {

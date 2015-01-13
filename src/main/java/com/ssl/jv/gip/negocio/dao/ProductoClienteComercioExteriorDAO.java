@@ -749,7 +749,7 @@ public class ProductoClienteComercioExteriorDAO extends
 	
 	
 	
-	
+	@Override
 	public ProductosXClienteComext consultarPorPK(ProductosXClienteComextPK pk) {
 		ProductosXClienteComext productosClienteComExt = null;
 		try {
@@ -757,5 +757,12 @@ public class ProductoClienteComercioExteriorDAO extends
 		} catch (NoResultException e) {
 		}
 		return productosClienteComExt;
+	}
+	
+	@Override
+	public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku) {
+		Query query = em
+				.createNamedQuery(ProductosXClienteComext.PRODUCTOS_X_CLIENTE_SKU).setParameter("idCliente", idCliente).setParameter("sku", sku);
+		return (ProductosXClienteComext)query.getSingleResult();
 	}
 }

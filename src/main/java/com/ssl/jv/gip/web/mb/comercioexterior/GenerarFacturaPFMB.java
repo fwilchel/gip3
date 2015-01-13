@@ -342,7 +342,7 @@ public class GenerarFacturaPFMB extends UtilMB{
 
 			productos.add(productoDocumento);
 		}
-		documento=this.comercioEjb.crearFactura(documento, auditoria, dxn, productos);
+		documento=this.comercioEjb.crearFactura(documento, auditoria, dxn, productos, this.documentoSeleccionado);
 		String mensaje = AplicacionMB.getMessage("VentasFPExito_Crear", language);
 		String parametros[]=new String[2];
 		parametros[0]=""+documento.getId();
