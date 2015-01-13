@@ -84,4 +84,13 @@ public interface TerminosTransporteEJBLocal {
 	 * @return
 	 */ 
 	List<TerminoIncoterm> consultarIncoterms();
+	
+	/**
+	 * Metodo que actualiza una instruccion de embarque seleccionada
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	TerminosTransporte actualizarInstruccionEmbarque(TerminosTransporte tt);
 }

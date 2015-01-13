@@ -22,6 +22,7 @@ import com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.maestros.ProductosMB;
+import com.ssl.jv.gip.web.mb.util.EFleteExterno;
 
 /**
  * <p>Title: Terminos de transporte</p>
@@ -59,7 +60,10 @@ public class TerminosTransporteMB extends UtilMB{
 	private SelectItem selectedAduanaAgent1;
 	private SelectItem selectedAduanaAgent2;
 	private String selectedIdPais;
+	private List<SelectItem> extFeesList;
+	private List<SelectItem> ciudadesList;
 	
+
 	private TerminosTransporte selectedTerminosTransporte;
 	
 	private Integer language=AplicacionMB.SPANISH;
@@ -119,6 +123,13 @@ public class TerminosTransporteMB extends UtilMB{
 				incotermList.add(item);
 			}
 		}
+		
+		extFeesList = EFleteExterno.getList();
+		ciudadesList = null;
+	}
+
+	public List<SelectItem> getExtFeesList() {
+		return extFeesList;
 	}
 
 	public List<ShipmentConditions> getTerminosTransporteList() {
@@ -128,6 +139,9 @@ public class TerminosTransporteMB extends UtilMB{
 	public void setTerminosTransporteList(
 			List<ShipmentConditions> terminosTransporteList) {
 		this.terminosTransporteList = terminosTransporteList;
+	}
+	public List<SelectItem> getCiudadesList() {
+		return ciudadesList;
 	}
 
 	public ShipmentConditions getSelectedShipmentCond() {
@@ -224,6 +238,8 @@ public class TerminosTransporteMB extends UtilMB{
 		try {
 			instruccionesEmbarqueDTO = terminosTransporteEjb.
 					consultarTerminosTransportePorId(selectedShipmentCond.getId());
+			selectedIdPais = null;
+			ciudadesList = null;
 		} catch (Exception e) {
 			this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
 			LOGGER.error(e);
@@ -237,7 +253,21 @@ public class TerminosTransporteMB extends UtilMB{
 	 * @phone 311 8376670
 	 * @return
 	 */ 
-	public List<SelectItem> getCiudades(){
-		return AplicacionMB.getCiudadesList(selectedIdPais);
+	public void loadCiudades(){
+		ciudadesList = AplicacionMB.getCiudadesList(selectedIdPais);
+	}
+	
+	/**
+	 * Metodo que guarda los cambios sobre una instruccion de embarque seleccionada
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */ 
+	public void actualizarInstruccionEmbarque(){
+		try {
+			terminosTransporteEjb.actualizarInstruccionEmbarque(instruccionesEmbarqueDTO.getTerminosTransporte());
+		} catch (Exception e) {
+			this.addMensajeError("Ocurrio un error al actualizar la instruccion de embarque, intente de nuevo mas tarde");
+		}
 	}
 }

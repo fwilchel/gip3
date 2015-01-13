@@ -122,4 +122,16 @@ public class TerminosTransporteEJB implements TerminosTransporteEJBLocal {
 	public List<TerminoIncoterm> consultarIncoterms() {
 		return terminoIncotermDAO.getAll();
 	}
+
+	/**
+	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#actualizarInstruccionEmbarque()
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public TerminosTransporte actualizarInstruccionEmbarque(TerminosTransporte tt) {
+		terminosTransporteDAO.update(tt);
+		return terminosTransporteDAO.findByPK(tt.getId());
+	}
 }

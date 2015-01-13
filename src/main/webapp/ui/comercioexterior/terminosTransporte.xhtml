@@ -260,9 +260,65 @@
 						</p:panelGrid>
 					</p:panelGrid>
 				</p:panelGrid>
+				
+				<p:panelGrid id="PnlGrd" columns="3">
+					<p:outputLabel value="#{msg.fleteExterno}" styleClass="negrita" />
+					<p:selectOneRadio id="fleteExterno"  required="true"
+						value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.fleteExterno}">
+						<f:selectItems value="#{terminosTransporteMB.extFeesList}"/>
+					</p:selectOneRadio>
+					<p:message for="incotermDespacho" />
+				</p:panelGrid>
+					
+				<p:panelGrid id="PnlGrd2" columns="6">
+					<p:outputLabel value="#{msg.CampoPaisDestino}" styleClass="negrita" />
+					<p:selectOneMenu id="paises"  required="true" 
+						value="#{terminosTransporteMB.selectedIdPais}">
+						<f:selectItem itemLabel="Seleccionar..." itemValue="null"/>
+						<f:selectItems value="#{aplicacionMB.paisesList}"/>
+						<p:ajax listener="#{terminosTransporteMB.loadCiudades}" update="PnlGrd2"/>
+					</p:selectOneMenu>
+					<p:message for="paises" />
+
+					<p:outputLabel value="#{msg.CampoCiudadDestino}" styleClass="negrita" />
+					<p:selectOneMenu id="ciudades"  required="true"
+						value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.ciudade}">
+						<f:selectItems value="#{terminosTransporteMB.ciudadesList}"/>
+					</p:selectOneMenu>
+					<p:message for="ciudades" />
+				</p:panelGrid>
+				<p:spacer height="10"/>
+				<p:panelGrid id="updatePnlGrd" columns="2">
+					<p:spacer width="400" height="10"/>
+				 	<p:commandButton id="updateButton" value="#{msg.BotonActualizarIE}"
+				 		oncomplete="PF('confirmDlg').show()" process="@form"/>
+				</p:panelGrid>
 			</h:form>
 		</p:dialog>
 
+		<p:dialog widgetVar="confirmDlg" modal="true" showEffect="fade" style="width: 80px" header="#{msg.TituloModInstruccionEmbarque}"
+			hideEffect="fade" resizable="false" dynamic="true" id="confirmDialog" height="50">
+			<h:form id="formaDlg3" style="text-align:center">
+				<p:panelGrid>
+					<p:outputLabel value="#{msg.modificarInstruccionEmbarqueConfirm}" styleClass="negrita" />
+					<p:panelGrid columns="2">
+					 	<p:commandButton id="yesButton" value="Si" 
+					 		action="#{terminosTransporteMB.actualizarInstruccionEmbarque}"
+					 		process="@this" 
+					 		oncomplete="PF('confirmDlg').hide(),PF('successDlg').show()" />
+					 	<p:commandButton id="noButton" value="No"
+					 		oncomplete="PF('confirmDlg').hide()" />
+					</p:panelGrid>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="successDlg" modal="true" showEffect="fade" header="#{msg.TituloModInstruccionEmbarque}"
+			hideEffect="fade" resizable="false" dynamic="true" id="successDialog" >
+			<h:form id="formaDlg4" style="text-align:center">
+					<p:outputLabel value="#{msg.actualizacionExitosa}" styleClass="negrita" />
+			</h:form>
+		</p:dialog>
 	</ui:define>
 
 </ui:composition>
