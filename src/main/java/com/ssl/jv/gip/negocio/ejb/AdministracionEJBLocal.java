@@ -4,15 +4,12 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
-import com.ssl.jv.gip.jpa.pojo.CuentaContable;
+import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 import com.ssl.jv.gip.jpa.pojo.HistorialContrasena;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
-import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.Rol;
-import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 
 @Local
@@ -47,6 +44,5 @@ public interface AdministracionEJBLocal {
 	public void actualizarHistorialContrasena(HistorialContrasena hc);
 	public void eliminarHistorialContrasena(HistorialContrasena hc);
 	
-	
-	
+	public List<Ciudad> getCiudadesByIdPais(String idPais);
 }
