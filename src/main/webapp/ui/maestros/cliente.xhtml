@@ -411,12 +411,12 @@
 
 						<h:outputLabel value="#{msg.maestroClienteModoFactura}"
 							for="factIngles" styleClass="negrita" />
-						<p:selectOneButton style="font-size:15px;" id="factIngles"
+						<p:selectOneMenu style="font-size:15px;" id="factIngles"
 							value="#{clienteMB.seleccionado.modoFactura}">
 							<f:selectItem itemLabel="#{msg.maestroClienteModoFacturaIngles}" itemValue="0" />
 							<f:selectItem itemLabel="#{msg.maestroClienteModoFacturaNombreMaestroProd}" itemValue="1" />
 							<f:selectItem itemLabel="#{msg.maestroClienteModoFacturaNombreProdProv}" itemValue="2" />
-						</p:selectOneButton>
+						</p:selectOneMenu>
 						<p:message for="factIngles"></p:message>
 
 						<h:outputLabel value="#{msg.generalActivo}" for="activo"
