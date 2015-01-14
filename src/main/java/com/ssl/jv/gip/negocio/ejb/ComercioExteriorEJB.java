@@ -557,6 +557,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		documentoXNegociacionDAO.add(documentoPorNegociacion);
 		for (ProductosXDocumento pxd : productos) {
 			pxd.getId().setIdDocumento(documento.getId());
+			this.productoXDocumentoDAO.add(pxd);
 		}
 		for (MovimientosInventarioComext mic : mice) {
 			mic = (MovimientosInventarioComext) movimientosInventarioComextDAO
