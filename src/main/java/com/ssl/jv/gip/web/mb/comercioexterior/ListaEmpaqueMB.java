@@ -2,8 +2,6 @@ package com.ssl.jv.gip.web.mb.comercioexterior;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,8 +9,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.apache.log4j.Logger;
 import org.primefaces.component.tabview.TabView;
-import org.primefaces.event.TabChangeEvent;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
@@ -39,6 +37,7 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 public class ListaEmpaqueMB extends UtilMB {
 	
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = Logger.getLogger(ListaEmpaqueMB.class);
 	private Timestamp currentTimeStamp;
 	private String consecutivoFacturaProforma;
 	private List<ListaEmpaqueDTO> listaEmpaqueList;
@@ -58,22 +57,20 @@ public class ListaEmpaqueMB extends UtilMB {
 	
 	@PostConstruct
 	public void init(){
-		System.out.println("init");
-		Calendar calendar = Calendar.getInstance();
-		Date now = calendar.getTime();
+		LOGGER.debug("init");
 		currentTimeStamp = new Timestamp(System.currentTimeMillis());
 	}
 	
-	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(){
+	public String consultarDocumentoPorFacturaProforma(){
 		listaEmpaqueList = comercioEjb.consultarDocumentoPorFacturaProforma(consecutivoFacturaProforma);
-		return listaEmpaqueList;
+		return null;
 	}
 	
-	public List<ProductoDTO> consultarProductoPorDocumento(){
+	public String consultarProductoPorDocumento(){
 		productoList = comercioEjb.consultarProductoPorDocumento(listaEmpaqueSeleccionada);
 		actualizarTotales();
 		tabView.setActiveIndex(1);
-		return productoList;
+		return null;
 	}
 	
 	public void actualizarTotales(){

@@ -2,6 +2,7 @@ package com.ssl.jv.gip.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -37,8 +38,10 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jxls.transformer.XLSTransformer;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 
 
@@ -50,7 +53,7 @@ public class GeneradorReportes {
 
 		try {
 			
-			String tipo = parametrosGenerador.get("tipo"); //pdf, xml, html, rtf, xls, jxl, csv, odt, ods, docx, xlsx, pptx, xhtml
+			String tipo = parametrosGenerador.get("tipo"); //pdf, xml, html, rtf, xls, jxl, csv, odt, ods, docx, xlsx, pptx, xhtml, jxls
 			//String dataSource = parametrosR.get("datasource");
 			//String tipoDatasource = parametrosR.get("tipoDatasource"); //1:Connection, 2:JRDataSource, 
 			//String reporte = parametrosR.get("reporte");
@@ -134,7 +137,7 @@ public class GeneradorReportes {
 				configuration.setOnePagePerSheet(true);
 				exporter.setConfiguration(configuration);
 				exporter.exportReport();
-			}else if (tipo.equals("jxls")){
+			}else if (tipo.equals("jxl")){
 				net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
 						new net.sf.jasperreports.engine.export.JExcelApiExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
@@ -193,6 +196,23 @@ public class GeneradorReportes {
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 				exporter.setExporterOutput(new SimpleHtmlExporterOutput(os));
 				exporter.exportReport();
+			}else if (tipo.equals("jxls")){
+				response.setContentType("application/x-msexcel");
+				XLSTransformer transformer = new XLSTransformer();
+				Map datos=(Map)session.getAttribute("datos");
+				File f =new File(nombreReporte);
+				File salida2=new File(f.getName()+"xls");
+				transformer.transformXLS(nombreReporte, datos, salida2.getAbsolutePath());
+				try{
+					transformer.transformXLS(nombreReporte, datos, salida2.getAbsolutePath());
+					FileInputStream fis=new FileInputStream(salida2);
+					int tamano=fis.available();
+					byte d[]=new byte[tamano];
+					fis.read(d);
+					os.write(d);
+				}catch(InvalidFormatException e){
+					logger.error(e);
+				}
 			}
 			os.flush();
 			System.err.println("Creation time : " + (System.currentTimeMillis() - start));

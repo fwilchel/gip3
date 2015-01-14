@@ -1,8 +1,11 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -12,12 +15,15 @@ import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
@@ -75,6 +81,7 @@ public class ProductosMB extends UtilMB{
 	private AplicacionMB appMB;
 	
 	private Integer language=AplicacionMB.SPANISH;
+	private StreamedContent reporteExcel;
 	
 	public ProductosMB(){
 		
@@ -294,6 +301,24 @@ public class ProductosMB extends UtilMB{
 
 	}
 	
-	
+	public StreamedContent getReporteExcel() {
+		try {
+			
+			Hashtable<String, String> parametrosR=new Hashtable<String, String>();
+			parametrosR.put("tipo", "jxls");
+			String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_LE.xls");
+			ByteArrayOutputStream os=(ByteArrayOutputStream)com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, null, null);
+			reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "Reporte_LE.pdf");
+			
+		} catch (Exception e) {
+			this.addMensajeError(e);
+		}
+		return this.reporteExcel;
+	}
 
+	public void setReporteExcel(StreamedContent reporteExcel) {
+		this.reporteExcel = reporteExcel;
+	}
+	
+	
 }
