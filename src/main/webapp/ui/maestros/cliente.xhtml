@@ -91,10 +91,10 @@
 							<h:outputText value="#{cliente.direccion}" />
 						</p:column>
 
-						<p:column filterBy="#{cliente.ciudad.idPais}" style="width:100px"
+						<p:column filterBy="#{cliente.ciudad.pais.nombre}" style="width:100px"
 							headerText="#{msg.maestroCLientePais}" filterMatchMode="contains"
-							sortBy="#{cliente.ciudad.idPais}">
-							<h:outputText value="#{cliente.ciudad.idPais}" />
+							sortBy="#{cliente.ciudad.pais.nombre}">
+							<h:outputText value="#{cliente.ciudad.pais.nombre}" />
 						</p:column>
 
 						<p:column filterBy="#{cliente.ciudad.nombre}" style="width:100px"

@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -26,6 +28,10 @@ public class Ciudad implements Serializable {
 
 	@Column(name="id_pais")
 	private String idPais;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_pais", insertable=false, updatable=false)
+	private Pais pais;
 
 	private String nombre;
 
@@ -114,6 +120,14 @@ public class Ciudad implements Serializable {
 		terminosTransporte.setCiudade(null);
 
 		return terminosTransporte;
+	}
+
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 
 }

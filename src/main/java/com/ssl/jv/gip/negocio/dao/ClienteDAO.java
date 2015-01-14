@@ -50,5 +50,10 @@ public class ClienteDAO extends GenericDAO<Cliente> implements ClienteDAOLocal {
 		cliente = em.merge(cliente);
 		em.flush();		
 	}
+	
+	@Override
+	public List<Cliente> findAll(){
+		return (List<Cliente>)em.createQuery("SELECT c FROM Cliente c JOIN FETCH c.ciudad ciu JOIN FETCH ciu.pais p").getResultList();
+	}
 
 }
