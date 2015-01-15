@@ -132,7 +132,7 @@
 					</p:panelGrid>
 
 					<p:dataTable var="producto" widgetVar="productoDoc"
-						id="tablaProductos" sortBy="#{producto.id}"
+						id="tablaProductos" sortBy="#{producto.idDocumento}"
 						rendered="#{not empty ordenesDespachoMB.productos}"
 						value="#{ordenesDespachoMB.productos}">
 
