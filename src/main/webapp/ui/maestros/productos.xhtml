@@ -87,6 +87,11 @@
 										title="#{msg.generalAdicionarRegistro}"
 										icon="ui-icon-document"
 										value="#{msg.generalAdicionarRegistro}" />
+										
+									<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false"  icon="ui-icon-calculator" >
+        								<p:fileDownload value="#{productosMB.reporteExcel}" />
+    								</p:commandButton>
+										
 									<p:commandButton action="introduccion"
 										title="#{msg.generalCancelar}" ajax="false"
 										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />

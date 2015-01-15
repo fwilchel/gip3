@@ -98,12 +98,14 @@ public class GeneradorReportes {
 			System.out.println(new File(salida).getAbsolutePath());
 			
 			
-			JasperPrint jasperPrint;
+			JasperPrint jasperPrint=null;
 			
-			if (jrDatasource!=null){
-				jasperPrint=JasperFillManager.fillReport(nombreReporte, parameters, jrDatasource);
-			}else{
-				jasperPrint=JasperFillManager.fillReport(nombreReporte, parameters, dataSource.getConnection());
+			if (!tipo.equals("jxls")){
+				if (jrDatasource!=null){
+					jasperPrint=JasperFillManager.fillReport(nombreReporte, parameters, jrDatasource);
+				}else{
+					jasperPrint=JasperFillManager.fillReport(nombreReporte, parameters, dataSource.getConnection());
+				}
 			}
 			
 			long start = System.currentTimeMillis();
@@ -197,14 +199,11 @@ public class GeneradorReportes {
 				exporter.setExporterOutput(new SimpleHtmlExporterOutput(os));
 				exporter.exportReport();
 			}else if (tipo.equals("jxls")){
-				response.setContentType("application/x-msexcel");
 				XLSTransformer transformer = new XLSTransformer();
-				Map datos=(Map)session.getAttribute("datos");
 				File f =new File(nombreReporte);
-				File salida2=new File(f.getName()+"xls");
-				transformer.transformXLS(nombreReporte, datos, salida2.getAbsolutePath());
+				File salida2=new File("salida"+(int)(Math.random()*1000000000)+".xls");
 				try{
-					transformer.transformXLS(nombreReporte, datos, salida2.getAbsolutePath());
+					transformer.transformXLS(nombreReporte, parametrosReporte, salida2.getAbsolutePath());
 					FileInputStream fis=new FileInputStream(salida2);
 					int tamano=fis.available();
 					byte d[]=new byte[tamano];
