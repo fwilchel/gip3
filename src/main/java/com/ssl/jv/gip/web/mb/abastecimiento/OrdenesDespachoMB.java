@@ -150,7 +150,7 @@ public class OrdenesDespachoMB extends UtilMB{
 			} else {
 				this.orden.actualizarOrdenDeDespacho(seleccionado);
 			}
-			this.addMensajeInfo(AplicacionMB.getMessage("Operación generar orden despacho realizada con éxito", language));
+			this.addMensajeInfo(AplicacionMB.getMessage("Operacion generar orden despacho realizada con exito", language));
 		} catch (Exception ex) {
 			this.addMensajeError(AplicacionMB.getMessage("generarOrdenDespachoBotonError", language));
 		}
@@ -165,10 +165,10 @@ public class OrdenesDespachoMB extends UtilMB{
 		totalCantidadPorEmbalaje=0;
 		for (ProductoDTO p : productos) {
 			this.totalCantidad+=p.getCantidad().doubleValue();
-			this.totalPesoNeto+=p.getPesoNeto().doubleValue();
-			this.totalPesoBruto+=p.getPesoBruto().doubleValue();
-			this.totalCantidadCajas+=p.getCantidadCajas().doubleValue();
-			this.totalCantidadPorEmbalaje+=p.getCantidadPorEmbalaje().doubleValue();
+//			this.totalPesoNeto+=p.getPesoNeto().doubleValue();
+//			this.totalPesoBruto+=p.getPesoBruto().doubleValue();
+//			this.totalCantidadCajas+=p.getCantidadCajas().doubleValue();
+//			this.totalCantidadPorEmbalaje+=p.getCantidadPorEmbalaje().doubleValue();
 		}
 	}
 	

@@ -36,13 +36,14 @@ public class OrdenDespachoEJB implements OrdenDespachoEJBLocal{
 	ProductosXDocumentoDAO productoXDocumentoDao;
 
 	@Override
-	public List<Documento> consultarOrdenesDeDespacho() {
+	public List<Documento> consultarOrdenesDeDespacho() {	
 		try {
 			return ordenes.consultarOrdenesDeDespacho("");
 		} catch (Exception e) {
 			LOGGER.error(e + "Error consultando ordenes de despacho");
 			return null;
 		}
+		
 	}
 
 	@Override
@@ -93,6 +94,7 @@ public class OrdenDespachoEJB implements OrdenDespachoEJBLocal{
 			p.setCantidadPallets(producto.getCantidadPalletsItem());
 			p.setValorUnitarioUsd(producto.getValorUnitarioUsd());
 			p.setValorTotal(producto.getValorTotal());
+			productos.add(p);
 		}
 		return productos ;
 	}
