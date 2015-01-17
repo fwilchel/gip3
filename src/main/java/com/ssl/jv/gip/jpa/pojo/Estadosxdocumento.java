@@ -1,34 +1,41 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.List;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 /**
  * The persistent class for the estadosxdocumento database table.
  * 
  */
 @Entity
-@NamedQuery(name="Estadosxdocumento.findAll", query="SELECT e FROM Estadosxdocumento e")
+@NamedQuery(name = "Estadosxdocumento.findAll", query = "SELECT e FROM Estadosxdocumento e")
 public class Estadosxdocumento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private EstadosxdocumentoPK id;
-	
+
 	@ManyToOne
-	@JoinColumn(name="id_estado", insertable=false, updatable=false)
+	@JoinColumn(name = "id_estado", insertable = false, updatable = false)
 	private Estado estado;
 
-	//bi-directional many-to-one association to Documento
-	@OneToMany(mappedBy="estadosxdocumento")
+	@ManyToOne
+	@JoinColumn(name = "id_tipo_documento", insertable = false, updatable = false)
+	private TipoDocumento tipoDocumento;
+
+	// bi-directional many-to-one association to Documento
+	@OneToMany(mappedBy = "estadosxdocumento")
 	private List<Documento> documentos;
 
-	//bi-directional many-to-one association to Documento2
-	@OneToMany(mappedBy="estadosxdocumento")
+	// bi-directional many-to-one association to Documento2
+	@OneToMany(mappedBy = "estadosxdocumento")
 	private List<Documento2> documentos2s;
 
 	public Estadosxdocumento() {
@@ -93,7 +100,13 @@ public class Estadosxdocumento implements Serializable {
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-	
-	
+
+	public TipoDocumento getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(TipoDocumento tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
 
 }

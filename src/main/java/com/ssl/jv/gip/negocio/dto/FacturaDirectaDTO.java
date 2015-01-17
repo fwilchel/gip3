@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+
+
 /**
  * The Class ListaEmpaqueDTO.
  */
@@ -24,6 +26,68 @@ public class FacturaDirectaDTO implements Serializable {
 	private String estadoNombre;
 	private String observacionDocumento;
 	private UbicacionDTO ubicacion;
+	
+	private BigDecimal  valorDescuento;
+	private BigDecimal  valorIva10;
+	private BigDecimal  valorIva16;
+	private BigDecimal  valorIva5;
+	private BigDecimal  valorTotal;
+	private BigDecimal  valorSubtotal;
+	
+	//private PuntoVentaDTO puntoventa;
+	
+	
+
+	public BigDecimal getValorDescuento() {
+		return valorDescuento;
+	}
+
+	public void setValorDescuento(BigDecimal valorDescuento) {
+		this.valorDescuento = valorDescuento;
+	}
+
+	public BigDecimal getValorIva10() {
+		return valorIva10;
+	}
+
+	public void setValorIva10(BigDecimal valorIva10) {
+		this.valorIva10 = valorIva10;
+	}
+
+	public BigDecimal getValorIva16() {
+		return valorIva16;
+	}
+
+	public void setValorIva16(BigDecimal valorIva16) {
+		this.valorIva16 = valorIva16;
+	}
+
+	public BigDecimal getValorIva5() {
+		return valorIva5;
+	}
+
+	public void setValorIva5(BigDecimal valorIva5) {
+		this.valorIva5 = valorIva5;
+	}
+
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public BigDecimal getValorSubtotal() {
+		return valorSubtotal;
+	}
+
+	public void setValorSubtotal(BigDecimal valorSubtotal) {
+		this.valorSubtotal = valorSubtotal;
+	}
+
+
+
 	
 	
 	

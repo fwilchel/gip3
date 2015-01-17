@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -8,6 +9,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
@@ -18,7 +20,19 @@ import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 
 @Local
 public interface ProductoClienteComercioExteriorDAOLocal {
+	
+	public void crearFacturaProforma(DocumentoIncontermDTO documento,ProductoPorClienteComExtDTO producto);
+	
+	public void modificarFacturaProforma(DocumentoIncontermDTO documento,ProductoPorClienteComExtDTO producto);
+	
+	public void eliminarFacturaProforma(DocumentoIncontermDTO documento,ProductoPorClienteComExtDTO producto);
+	
+	public BigDecimal consultarUltimoSaldoProducto(Long idProducto);
 
+	public Boolean consultarProductoCliente(Long idDocumento, Long idProducto);
+	
+	public void crearSaldo(DocumentoIncontermDTO documento,ProductoPorClienteComExtDTO producto);
+	
 	public List<ProductoPorClienteComExtDTO> consultarListaSolicitudesPedido(Long idDocumento, Long idCliente);
 	
 	public List<ProductoPorClienteComExtDTO> consultarListaProductosPorClienteCE(Long idCliente, String idsProductos, Boolean solicitudCafe);
@@ -42,4 +56,6 @@ public interface ProductoClienteComercioExteriorDAOLocal {
 
 	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento,
 			Long idCliente);
+	
+	public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku);
 }

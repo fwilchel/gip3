@@ -4,15 +4,21 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -24,7 +30,7 @@ import javax.persistence.Table;
 @NamedQueries({
 		@NamedQuery(name = Cliente.CLIENTE_FIND_ALL, query = "SELECT c FROM Cliente c"),
 		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.activo = true AND u.id = :idUsuario ORDER BY c.nombre ASC") })
-public class Cliente implements Serializable {
+public class Cliente implements Serializable, Comparable {
 
 	/**
 	 * 
@@ -34,6 +40,8 @@ public class Cliente implements Serializable {
 	public static final String CLIENTE_ACTIVO_FIND_BY_USUARIO = "Cliente.findActivoFindByUsuario";
 
 	@Id
+	@SequenceGenerator( name = "clientes_id_seq", sequenceName = "clientes_id_seq", allocationSize = 1)
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "clientes_id_seq" )
 	private Long id;
 
 	private Boolean activo;
@@ -105,7 +113,16 @@ public class Cliente implements Serializable {
 	private TipoPrecio tipoPrecio;
 
 	// bi-directional many-to-many association to TerminoIncoterm
-	@ManyToMany(mappedBy = "clientes")
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+			name="incoterm_x_cliente"
+			, joinColumns={
+					@JoinColumn(name="id_cliente")
+			}
+			, inverseJoinColumns={
+					@JoinColumn(name="id_incoterm")
+			}
+			)
 	private List<TerminoIncoterm> terminoIncoterms;
 
 	// bi-directional many-to-one association to ProductosXClienteComext
@@ -389,5 +406,12 @@ public class Cliente implements Serializable {
 	public void setCiudad(Ciudad ciudad) {
 		this.ciudad = ciudad;
 	}
+
+	@Override
+	public int compareTo(Object o) {
+		return this.nombre.compareTo(((Cliente)o).getNombre());
+	}
+	
+	
 
 }

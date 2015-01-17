@@ -122,6 +122,30 @@
 	        <from-outcome>listado_factura</from-outcome>
             <to-view-id>/ui/reportes/facturaDirecta.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+	        <from-outcome>listado_maestro_Clientes</from-outcome>
+            <to-view-id>/ui/maestros/cliente.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>ingresar_solicitud_pedido</from-outcome>
+            <to-view-id>/ui/comercioexterior/ingresarSolicitudPedido.xhtml</to-view-id>
+        </navigation-case>
+		<navigation-case>
+			<from-outcome>lista_sugerencia</from-outcome>
+			<to-view-id>/ui/compras/listaSugerenciasCompra.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>sugerencia_compra</from-outcome>
+			<to-view-id>/ui/compras/sugerenciaCompra.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>listado_LE4</from-outcome>
+			<to-view-id>/ui/comercioexterior/listadoListaEmpaque.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modificar_lista_empaque</from-outcome>
+			<to-view-id>/ui/comercioexterior/modificarListaEmpaque.xhtml</to-view-id>
+		</navigation-case>
     </navigation-rule>
     
     

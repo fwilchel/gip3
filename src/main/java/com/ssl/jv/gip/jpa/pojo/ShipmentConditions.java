@@ -1,6 +1,8 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -67,6 +69,11 @@ public class ShipmentConditions implements Serializable{
 	}
 	
 	public String getShipmentDateString() {
-		return Utilidad.convertirDateToString(shipmentDate);
+		DateFormat formatter = new SimpleDateFormat("yyyy-MMM-dd");
+		return formatter.format(shipmentDate);
+	}
+	
+	public Integer getIdNum(){
+		return Integer.getInteger(id);
 	}
 }

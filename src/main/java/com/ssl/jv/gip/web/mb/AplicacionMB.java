@@ -11,6 +11,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
 
+import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
 import com.ssl.jv.gip.web.util.Parametro;
@@ -39,7 +40,7 @@ public class AplicacionMB {
 	};
 	
 	@EJB
-	private AdministracionEJB admonEjb;	
+	private static AdministracionEJB admonEjb;	
 	
 	static{
 		images = new ArrayList<String>();
@@ -182,5 +183,45 @@ public class AplicacionMB {
 		tipos.add(item2);
 		
 		return tipos;
+	}
+	
+	/**
+	 * Metodo que consulta las ciudades de una ciudad
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @param idPais
+	 * @return
+	 */ 
+	public static List<SelectItem> getCiudadesList(String idPais){
+		List<SelectItem> ciudadesList = new ArrayList<SelectItem>();
+		List<Ciudad> ciudades = admonEjb.getCiudadesByIdPais(idPais);
+		for(Ciudad city : ciudades){
+			SelectItem item1 = new SelectItem();
+			item1.setLabel(city.getNombre());
+			item1.setValue(city);
+			
+			ciudadesList.add(item1);
+		}
+		return ciudadesList;
+	}
+	
+	/**
+	 * Metodo que retorna el listado de paises
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @return
+	 */ 
+	public List<SelectItem> getPaisesList(){
+		List<SelectItem> listPaises = new ArrayList<SelectItem>();
+		for(Pais p : paises){
+			SelectItem item = new SelectItem();
+			item.setLabel(p.getNombre());
+			item.setValue(p.getId());
+			
+			listPaises.add(item);
+		}
+		return listPaises;
 	}
 }

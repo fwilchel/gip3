@@ -117,6 +117,42 @@
     NAME="output23" PATH="/ui/reportes/facturaDirecta.xhtml"
     TARGET="rules:#ui#reportes#facturaDirecta.xhtml"
     TITLE="listado_factura" model-entity="JSFProcessItemOutput"/>
+<<<<<<< HEAD
+=======
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_maestro_Clientes::#ui#maestros#cliente.xhtml"
+    NAME="output24" PATH="/ui/maestros/cliente.xhtml"
+    TARGET="rules:#ui#maestros#cliente.xhtml"
+    TITLE="listado_maestro_Clientes" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="ingresar_solicitud_pedido::#ui#comercioexterior#ingresarSolicitudPedido.xhtml"
+    NAME="output25"
+    PATH="/ui/comercioexterior/ingresarSolicitudPedido.xhtml"
+    TARGET="rules:#ui#comercioexterior#ingresarSolicitudPedido.xhtml"
+    TITLE="ingresar_solicitud_pedido" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="lista_sugerencia::#ui#compras#listaSugerenciasCompra.xhtml"
+    NAME="output26" PATH="/ui/compras/listaSugerenciasCompra.xhtml"
+    TARGET="rules:#ui#compras#listaSugerenciasCompra.xhtml"
+    TITLE="lista_sugerencia" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sugerencia_compra::#ui#compras#sugerenciaCompra.xhtml"
+    NAME="output27" PATH="/ui/compras/sugerenciaCompra.xhtml"
+    TARGET="rules:#ui#compras#sugerenciaCompra.xhtml"
+    TITLE="sugerencia_compra" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_LE4::#ui#comercioexterior#listadoListaEmpaque.xhtml"
+    NAME="output28"
+    PATH="/ui/comercioexterior/listadoListaEmpaque.xhtml"
+    TARGET="rules:#ui#comercioexterior#listadoListaEmpaque.xhtml"
+    TITLE="listado_LE4" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="modificar_lista_empaque::#ui#comercioexterior#modificarListaEmpaque.xhtml"
+    NAME="output29"
+    PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
+    TARGET="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
+    TITLE="modificar_lista_empaque" model-entity="JSFProcessItemOutput"/>
+>>>>>>> 9a9cdfab2d59d54632922a52fe4dc1d55232035c
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
@@ -182,5 +218,27 @@
  <PROCESS-ITEM NAME="rules:#ui#comercioexterior#asignarLotesOIC.xhtml"
   PATH="/ui/comercioexterior/asignarLotesOIC.xhtml" SHAPE="304,817,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#reportes#facturaDirecta.xhtml"
+<<<<<<< HEAD
   PATH="/ui/reportes/facturaDirecta.xhtml" SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+=======
+  PATH="/ui/reportes/facturaDirecta.xhtml" SHAPE="304,849,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#cliente.xhtml"
+  PATH="/ui/maestros/cliente.xhtml" SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#ingresarSolicitudPedido.xhtml"
+  PATH="/ui/comercioexterior/ingresarSolicitudPedido.xhtml"
+  SHAPE="304,945,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#compras#listaSugerenciasCompra.xhtml"
+  PATH="/ui/compras/listaSugerenciasCompra.xhtml" SHAPE="304,1009,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#compras#sugerenciaCompra.xhtml"
+  PATH="/ui/compras/sugerenciaCompra.xhtml" SHAPE="304,1121,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#listadoListaEmpaque.xhtml"
+  PATH="/ui/comercioexterior/listadoListaEmpaque.xhtml"
+  SHAPE="304,1041,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
+  PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
+  SHAPE="304,1073,0,0" model-entity="JSFProcessGroup"/>
+>>>>>>> 9a9cdfab2d59d54632922a52fe4dc1d55232035c
 </PROCESS>

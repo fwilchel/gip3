@@ -5,13 +5,12 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 /**
@@ -22,7 +21,8 @@ import javax.persistence.Table;
 @Table(name="termino_incoterm")
 @NamedQueries(value={
 @NamedQuery(name="TerminoIncoterm.findAll", query="SELECT t FROM TerminoIncoterm t"),
-@NamedQuery(name="TerminoIncoterm.findByMedioTrans", query="SELECT t FROM TerminoIncoterm t join t.terminosTransportes r ")
+@NamedQuery(name="TerminoIncoterm.findByMedioTrans", query="SELECT t FROM TerminoIncoterm t join t.terminosTransportes r "),
+@NamedQuery(name="TerminoIncoterm.findByCliente", query="SELECT DISTINCT t FROM TerminoIncoterm t JOIN t.clientes c WHERE c.id= :idCliente ORDER BY t.descripcion"),
 })
 public class TerminoIncoterm implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -33,21 +33,15 @@ public class TerminoIncoterm implements Serializable {
 	private String descripcion;
 
 	//bi-directional many-to-many association to Cliente
-	@ManyToMany
-	@JoinTable(
-			name="incoterm_x_cliente"
-			, joinColumns={
-					@JoinColumn(name="id_incoterm")
-			}
-			, inverseJoinColumns={
-					@JoinColumn(name="id_cliente")
-			}
-			)
+	@ManyToMany(mappedBy = "terminoIncoterms")
 	private List<Cliente> clientes;
 
 	//bi-directional many-to-one association to TerminosTransporte
 	@OneToMany(mappedBy="terminoIncoterm")
 	private List<TerminosTransporte> terminosTransportes;
+	
+	@Transient
+	private boolean seleccionado;
 
 	
 
@@ -100,7 +94,15 @@ public class TerminoIncoterm implements Serializable {
 		return terminosTransporte;
 	}
 
+	public boolean isSeleccionado() {
+		return seleccionado;
+	}
 
+	public void setSeleccionado(boolean seleccionado) {
+		this.seleccionado = seleccionado;
+	}
+
+	
 
 
 

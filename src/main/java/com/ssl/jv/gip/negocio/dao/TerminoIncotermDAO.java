@@ -22,8 +22,8 @@ public class TerminoIncotermDAO extends GenericDAO<TerminoIncoterm> implements T
 	}
 	
 	public List<TerminoIncoterm> consultarListaIncontermPorCliente(Long idCliente){
-		
-		List<TerminoIncoterm> lista = new ArrayList<TerminoIncoterm>();
+		return em.createNamedQuery("TerminoIncoterm.findByCliente").setParameter("idCliente", idCliente).getResultList();
+		/*List<TerminoIncoterm> lista = new ArrayList<TerminoIncoterm>();
 
 		String sql= "SELECT  incoterm_x_cliente.id_incoterm,termino_incoterm.descripcion AS NOMBRE_INCOTERM "
 		          + "FROM incoterm_x_cliente " 
@@ -45,7 +45,18 @@ public class TerminoIncotermDAO extends GenericDAO<TerminoIncoterm> implements T
 		}
 		
 		return lista;
+		 */
+	}
 
+	/**
+	 * @see com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal#getAll()
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public List<TerminoIncoterm> getAll() {
+		return (List<TerminoIncoterm>) this.findAll();
 	}
 	
 }

@@ -9,9 +9,11 @@ import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
-import com.ssl.jv.gip.negocio.dao.ProductoClienteDAOLocal;
 
+
+import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 
 /**
  * Session Bean implementation class VentasFacturacionEJB
@@ -30,8 +32,10 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     @EJB
 	private DocumentoDAOLocal documentoDAO;
     
-    //@EJB
-	//private ProductoClienteDAOLocal productoClienteDAO;
+    @EJB
+	private ProductosXDocumentoDAOLocal productoDocumentoDAO;
+    
+    
     
     
     @Override
@@ -47,16 +51,19 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 		// TODO Auto-generated method stub
 		return documentoDAO.consultarDocumento(parametros);
 	}
-    
-    /*
-    
+
+
     @Override
-    public  List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(String strConsecutivoDocumento)
-    {
-    return productoClienteDAO.consultarProductoFacturaDirecta(strConsecutivoDocumento);
-    }
+	public List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(String strConsecutivoDocumento) {
+		// TODO Auto-generated method stub
+		return  productoDocumentoDAO.consultarProductoFacturaDirecta(strConsecutivoDocumento);
+	}
     
-    */
+    
+    
+    
+    
+    
     
   
 

@@ -12,5 +12,9 @@ public interface ProductoClienteDAOLocal  extends IGenericDAO<ProductosXCliente>
 
 	//List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(String strConsecutivoDocumento);
 
-	
+
+
+		
 }
+
+

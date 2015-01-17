@@ -45,4 +45,10 @@ public class ClienteDAO extends GenericDAO<Cliente> implements ClienteDAOLocal {
 		return query.getResultList();
 	}
 
+	@Override
+	public void guardarCliente(Cliente cliente) {
+		cliente = em.merge(cliente);
+		em.flush();		
+	}
+
 }

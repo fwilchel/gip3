@@ -12,39 +12,45 @@
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
 		<h:form prependId="false" id="forma">
-
-			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
-				showIcon="true"></p:messages>
-
-			<p:dataTable var="cond" widgetVar="condEmbarque"
-				id="tablaCondicionesEmbarque" value="#{terminosTransporteMB.terminosTransporteList}" rows="10"
-				emptyMessage="#{msg.condicionesEmbarqueNoEncontrados}"
-				paginator="true" paginatorPosition="bottom"
-				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="5,10,15">
-
-				<p:column style="width:32px;text-align: center">
-					<p:commandButton oncomplete="PF('editarDlg').show()"
-						icon="ui-icon-pencil" title="bleh" action="#{terminosTransporteMB.getShipmentConditionsById}"
-						update=":editarDialog">
-						<f:setPropertyActionListener value="#{cond}"
-									target="#{terminosTransporteMB.selectedShipmentCond}" />
-					</p:commandButton>
-				</p:column>
-
-				<p:column headerText="#{msg.condicionesEmbarqueIdLabel}">
-						<h:outputText value="#{cond.id}" />
-				</p:column>
-
-				<p:column headerText="#{msg.condicionesEmbarqueClienteLabel}">
-					<h:outputText value="#{cond.clientName}" />
-				</p:column>
-
-				<p:column headerText="#{msg.condicionesEmbarqueFechaEmbarqueLabel}">
-					<h:outputText value="#{cond.shipmentDateString}" />
-				</p:column>
-
-			</p:dataTable>
+		
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.TituloModInstruccionEmbarque}">
+					<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+						showIcon="true"></p:messages>
+		
+					<p:dataTable var="cond" widgetVar="condEmbarque"
+						id="tablaCondicionesEmbarque" value="#{terminosTransporteMB.terminosTransporteList}" rows="10"
+						emptyMessage="#{msg.condicionesEmbarqueNoEncontrados}"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+		
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton oncomplete="PF('editarDlg').show()"
+								icon="ui-icon-pencil" title="bleh" action="#{terminosTransporteMB.getShipmentConditionsById}"
+								update=":editarDialog">
+								<f:setPropertyActionListener value="#{cond}"
+											target="#{terminosTransporteMB.selectedShipmentCond}" />
+							</p:commandButton>
+						</p:column>
+		
+						<p:column headerText="#{msg.condicionesEmbarqueIdLabel}" filterBy="#{cond.id}" filterMatchMode="contains"
+							sortBy="#{cond.idNum}">
+								<h:outputText value="#{cond.id}" />
+						</p:column>
+		
+						<p:column headerText="#{msg.condicionesEmbarqueClienteLabel}" filterBy="#{cond.clientName}" filterMatchMode="contains">
+							<h:outputText value="#{cond.clientName}" />
+						</p:column>
+		
+						<p:column headerText="#{msg.condicionesEmbarqueFechaEmbarqueLabel}"
+							sortBy="#{cond.shipmentDate}">
+							<h:outputText value="#{cond.shipmentDateString}" />
+						</p:column>
+		
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
 		</h:form>
 
 		<p:dialog widgetVar="editarDlg" modal="true" showEffect="fade" style="width: 300px" header="#{msg.TituloModInstruccionEmbarque}"
@@ -216,12 +222,103 @@
 								required="true" id="precintos"/>
 							<p:message for="precintos" />
 							
+							<p:outputLabel value="#{msg.CampointModalidadEmbarque}" styleClass="negrita" />
+							<p:selectOneMenu id="modalidadEmbarque"  required="true"
+								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.modalidadEmbarque}">
+								<f:selectItems value="#{terminosTransporteMB.modalidadEmbarqueList}"/>
+							</p:selectOneMenu>
+							<p:message for="modalidadEmbarque" />
+							
+							<p:outputLabel value="#{msg.CampoIncotermDespacho}" styleClass="negrita" />
+							<p:selectOneMenu id="incotermDespacho"  required="true"
+								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.terminoIncoterm}">
+								<f:selectItems value="#{terminosTransporteMB.incotermList}"/>
+							</p:selectOneMenu>
+							<p:message for="incotermDespacho" />
+							
+							<p:outputLabel value="#{msg.CampoObservacionTerminosTransporte}" styleClass="negrita" />
+							<p:inputTextarea value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.observacion}" 
+								rows="4" cols="40" rorequired="true" id="observaciones1"/>
+							<p:message for="observaciones1" />
+							
+							<p:outputLabel value="#{msg.CampoObservacionTerminosTransporte2}" styleClass="negrita" />
+							<p:inputTextarea value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.observacion2}" 
+								rows="4" cols="40" rorequired="true" id="observaciones2"/>
+							<p:message for="observaciones2" />
+		
+							<ui:remove>
+								<p:outputLabel value="#{msg.CampoFechaETA}" styleClass="negrita" />
+								<p:calendar id="campoFechaETA" required="true" pattern="yyyy-MM-dd"
+									value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.}" />
+								<p:message for="campoFechaETA" />
+							</ui:remove>
+							
+							<p:outputLabel value="#{msg.CampoNumeroBooking}" styleClass="negrita" />
+							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.numeroBooking}" 
+								required="true" id="numeroBooking"/>
+							<p:message for="numeroBooking" />
 						</p:panelGrid>
 					</p:panelGrid>
+				</p:panelGrid>
+				
+				<p:panelGrid id="PnlGrd" columns="3">
+					<p:outputLabel value="#{msg.fleteExterno}" styleClass="negrita" />
+					<p:selectOneRadio id="fleteExterno"  required="true"
+						value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.fleteExterno}">
+						<f:selectItems value="#{terminosTransporteMB.extFeesList}"/>
+					</p:selectOneRadio>
+					<p:message for="incotermDespacho" />
+				</p:panelGrid>
+					
+				<p:panelGrid id="PnlGrd2" columns="6">
+					<p:outputLabel value="#{msg.CampoPaisDestino}" styleClass="negrita" />
+					<p:selectOneMenu id="paises"  required="true" 
+						value="#{terminosTransporteMB.selectedIdPais}">
+						<f:selectItem itemLabel="Seleccionar..." itemValue="null"/>
+						<f:selectItems value="#{aplicacionMB.paisesList}"/>
+						<p:ajax listener="#{terminosTransporteMB.loadCiudades}" update="PnlGrd2"/>
+					</p:selectOneMenu>
+					<p:message for="paises" />
+
+					<p:outputLabel value="#{msg.CampoCiudadDestino}" styleClass="negrita" />
+					<p:selectOneMenu id="ciudades"  required="true"
+						value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.ciudade}">
+						<f:selectItems value="#{terminosTransporteMB.ciudadesList}"/>
+					</p:selectOneMenu>
+					<p:message for="ciudades" />
+				</p:panelGrid>
+				<p:spacer height="10"/>
+				<p:panelGrid id="updatePnlGrd" columns="2">
+					<p:spacer width="400" height="10"/>
+				 	<p:commandButton id="updateButton" value="#{msg.BotonActualizarIE}"
+				 		oncomplete="PF('confirmDlg').show()" process="@form"/>
 				</p:panelGrid>
 			</h:form>
 		</p:dialog>
 
+		<p:dialog widgetVar="confirmDlg" modal="true" showEffect="fade" style="width: 80px" header="#{msg.TituloModInstruccionEmbarque}"
+			hideEffect="fade" resizable="false" dynamic="true" id="confirmDialog" height="50">
+			<h:form id="formaDlg3" style="text-align:center">
+				<p:panelGrid>
+					<p:outputLabel value="#{msg.modificarInstruccionEmbarqueConfirm}" styleClass="negrita" />
+					<p:panelGrid columns="2">
+					 	<p:commandButton id="yesButton" value="Si" 
+					 		action="#{terminosTransporteMB.actualizarInstruccionEmbarque}"
+					 		process="@this" 
+					 		oncomplete="PF('confirmDlg').hide(),PF('successDlg').show()" />
+					 	<p:commandButton id="noButton" value="No"
+					 		oncomplete="PF('confirmDlg').hide()" />
+					</p:panelGrid>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="successDlg" modal="true" showEffect="fade" header="#{msg.TituloModInstruccionEmbarque}"
+			hideEffect="fade" resizable="false" dynamic="true" id="successDialog" >
+			<h:form id="formaDlg4" style="text-align:center">
+					<p:outputLabel value="#{msg.actualizacionExitosa}" styleClass="negrita" />
+			</h:form>
+		</p:dialog>
 	</ui:define>
 
 </ui:composition>

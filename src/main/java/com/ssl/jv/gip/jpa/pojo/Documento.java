@@ -1,124 +1,152 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the documentos database table.
  * 
  */
 @Entity
-@Table(name="documentos")
-@NamedQuery(name="Documento.findAll", query="SELECT d FROM Documento d")
+@Table(name = "documentos")
+@NamedQueries({
+		@NamedQuery(name = "Documento.findAll", query = "SELECT d FROM Documento d"),
+		@NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado ORDER BY d.id"),
+		@NamedQuery(name = Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idEstado = :idEstado AND d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id") })
 public class Documento implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5401061913463904605L;
+
+	public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADO = "Documento.findByTipoDocumentoAndEstado";
+	public static final String LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO = "Documento.findByEstadoTipoDocumentoConsecutivoDocumento";
 
 	@Id
-	@SequenceGenerator(name="documentoSeq",sequenceName="documentos_id_seq",allocationSize=1)
-	@GeneratedValue(generator="documentoSeq",strategy=GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)
+	@GeneratedValue(generator = "documentoSeq", strategy = GenerationType.SEQUENCE)
 	private Long id;
 
-	@Column(name="consecutivo_documento")
+	@Column(name = "consecutivo_documento")
 	private String consecutivoDocumento;
 
 	private BigDecimal descuento;
 
-	@Column(name="descuento_cliente")
+	@Column(name = "descuento_cliente")
 	private BigDecimal descuentoCliente;
 
-	@Column(name="documento_cliente")
+	@Column(name = "documento_cliente")
 	private String documentoCliente;
 
-	@Column(name="estado_novedad")
+	@Column(name = "estado_novedad")
 	private Boolean estadoNovedad;
 
-	@Column(name="fecha_entrega")
-	private Timestamp fechaEntrega;
+	@Column(name = "fecha_entrega")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEntrega;
 
-	@Column(name="fecha_esperada_entrega")
-	private Timestamp fechaEsperadaEntrega;
+	@Column(name = "fecha_esperada_entrega")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEsperadaEntrega;
 
-	@Column(name="fecha_eta")
-	private Timestamp fechaEta;
+	@Column(name = "fecha_eta")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEta;
 
-	@Column(name="fecha_generacion")
-	private Timestamp fechaGeneracion;
+	@Column(name = "fecha_generacion")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaGeneracion;
 
 	@ManyToOne
-	@JoinColumn(name="id_cliente")
+	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 
-	@Column(name="id_punto_venta")
+	@Column(name = "id_punto_venta")
 	private Long idPuntoVenta;
 
-	@Column(name="numero_factura")
+	@Column(name = "numero_factura")
 	private String numeroFactura;
 
-	@Column(name="observacion_documento")
+	@Column(name = "observacion_documento")
 	private String observacionDocumento;
 
 	private String observacion2;
 
 	private String observacion3;
 
-	@Column(name="sitio_entrega")
+	@Column(name = "sitio_entrega")
 	private String sitioEntrega;
 
 	private BigDecimal subtotal;
 
-	@Column(name="valor_iva10")
+	@Column(name = "valor_iva10")
 	private BigDecimal valorIva10;
 
-	@Column(name="valor_iva16")
+	@Column(name = "valor_iva16")
 	private BigDecimal valorIva16;
 
-	@Column(name="valor_iva5")
+	@Column(name = "valor_iva5")
 	private BigDecimal valorIva5;
 
-	@Column(name="valor_total")
+	@Column(name = "valor_total")
 	private BigDecimal valorTotal;
 
-	//bi-directional many-to-one association to DocumentoXLotesoic
-	@OneToMany(mappedBy="documento")
+	// bi-directional many-to-one association to DocumentoXLotesoic
+	@OneToMany(mappedBy = "documento")
 	private List<DocumentoXLotesoic> documentoXLotesoics;
 
-	//bi-directional many-to-one association to DocumentoXNegociacion
-	@OneToMany(mappedBy="documento")
+	// bi-directional many-to-one association to DocumentoXNegociacion
+	@OneToMany(mappedBy = "documento")
 	private List<DocumentoXNegociacion> documentoXNegociacions;
 
-	//bi-directional many-to-one association to Estadosxdocumento
+	// bi-directional many-to-one association to Estadosxdocumento
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="id_estado", referencedColumnName="id_estado"),
-		@JoinColumn(name="id_tipo_documento", referencedColumnName="id_tipo_documento")
-		})
+			@JoinColumn(name = "id_estado", referencedColumnName = "id_estado"),
+			@JoinColumn(name = "id_tipo_documento", referencedColumnName = "id_tipo_documento") })
 	private Estadosxdocumento estadosxdocumento;
 
-	//bi-directional many-to-one association to Proveedor
+	// bi-directional many-to-one association to Proveedor
 	@ManyToOne
-	@JoinColumn(name="id_proveedor")
+	@JoinColumn(name = "id_proveedor")
 	private Proveedor proveedore;
 
-	//bi-directional many-to-one association to Ubicacion
+	// bi-directional many-to-one association to Ubicacion
 	@ManyToOne
-	@JoinColumn(name="id_ubicacion_destino")
+	@JoinColumn(name = "id_ubicacion_destino")
 	private Ubicacion ubicacionDestino;
 
-	//bi-directional many-to-one association to Ubicacion
+	// bi-directional many-to-one association to Ubicacion
 	@ManyToOne
-	@JoinColumn(name="id_ubicacion_origen")
+	@JoinColumn(name = "id_ubicacion_origen")
 	private Ubicacion ubicacionOrigen;
 
-	//bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy="documento")
+	// bi-directional many-to-one association to MovimientosInventario
+	@OneToMany(mappedBy = "documento")
 	private List<MovimientosInventario> movimientosInventarios;
 
-	//bi-directional many-to-many association to TerminosTransporte
-	@ManyToMany(mappedBy="documentos")
+	// bi-directional many-to-many association to TerminosTransporte
+	@ManyToMany(mappedBy = "documentos")
 	private List<TerminosTransporte> terminosTransportes;
 
 	public Documento() {
@@ -172,38 +200,38 @@ public class Documento implements Serializable {
 		this.estadoNovedad = estadoNovedad;
 	}
 
-	public Timestamp getFechaEntrega() {
+	public Date getFechaEntrega() {
 		return this.fechaEntrega;
 	}
 
-	public void setFechaEntrega(Timestamp fechaEntrega) {
+	public void setFechaEntrega(Date fechaEntrega) {
 		this.fechaEntrega = fechaEntrega;
 	}
 
-	public Timestamp getFechaEsperadaEntrega() {
+	public Date getFechaEsperadaEntrega() {
 		return this.fechaEsperadaEntrega;
 	}
 
-	public void setFechaEsperadaEntrega(Timestamp fechaEsperadaEntrega) {
+	public void setFechaEsperadaEntrega(Date fechaEsperadaEntrega) {
 		this.fechaEsperadaEntrega = fechaEsperadaEntrega;
 	}
 
-	public Timestamp getFechaEta() {
+	public Date getFechaEta() {
 		return this.fechaEta;
 	}
 
-	public void setFechaEta(Timestamp fechaEta) {
+	public void setFechaEta(Date fechaEta) {
 		this.fechaEta = fechaEta;
 	}
 
-	public Timestamp getFechaGeneracion() {
+	public Date getFechaGeneracion() {
 		return this.fechaGeneracion;
 	}
 
-	public void setFechaGeneracion(Timestamp fechaGeneracion) {
+	public void setFechaGeneracion(Date fechaGeneracion) {
 		this.fechaGeneracion = fechaGeneracion;
 	}
-	
+
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -304,18 +332,21 @@ public class Documento implements Serializable {
 		return this.documentoXLotesoics;
 	}
 
-	public void setDocumentoXLotesoics(List<DocumentoXLotesoic> documentoXLotesoics) {
+	public void setDocumentoXLotesoics(
+			List<DocumentoXLotesoic> documentoXLotesoics) {
 		this.documentoXLotesoics = documentoXLotesoics;
 	}
 
-	public DocumentoXLotesoic addDocumentoXLotesoic(DocumentoXLotesoic documentoXLotesoic) {
+	public DocumentoXLotesoic addDocumentoXLotesoic(
+			DocumentoXLotesoic documentoXLotesoic) {
 		getDocumentoXLotesoics().add(documentoXLotesoic);
 		documentoXLotesoic.setDocumento(this);
 
 		return documentoXLotesoic;
 	}
 
-	public DocumentoXLotesoic removeDocumentoXLotesoic(DocumentoXLotesoic documentoXLotesoic) {
+	public DocumentoXLotesoic removeDocumentoXLotesoic(
+			DocumentoXLotesoic documentoXLotesoic) {
 		getDocumentoXLotesoics().remove(documentoXLotesoic);
 		documentoXLotesoic.setDocumento(null);
 
@@ -326,18 +357,21 @@ public class Documento implements Serializable {
 		return this.documentoXNegociacions;
 	}
 
-	public void setDocumentoXNegociacions(List<DocumentoXNegociacion> documentoXNegociacions) {
+	public void setDocumentoXNegociacions(
+			List<DocumentoXNegociacion> documentoXNegociacions) {
 		this.documentoXNegociacions = documentoXNegociacions;
 	}
 
-	public DocumentoXNegociacion addDocumentoXNegociacion(DocumentoXNegociacion documentoXNegociacion) {
+	public DocumentoXNegociacion addDocumentoXNegociacion(
+			DocumentoXNegociacion documentoXNegociacion) {
 		getDocumentoXNegociacions().add(documentoXNegociacion);
 		documentoXNegociacion.setDocumento(this);
 
 		return documentoXNegociacion;
 	}
 
-	public DocumentoXNegociacion removeDocumentoXNegociacion(DocumentoXNegociacion documentoXNegociacion) {
+	public DocumentoXNegociacion removeDocumentoXNegociacion(
+			DocumentoXNegociacion documentoXNegociacion) {
 		getDocumentoXNegociacions().remove(documentoXNegociacion);
 		documentoXNegociacion.setDocumento(null);
 
@@ -380,18 +414,21 @@ public class Documento implements Serializable {
 		return this.movimientosInventarios;
 	}
 
-	public void setMovimientosInventarios(List<MovimientosInventario> movimientosInventarios) {
+	public void setMovimientosInventarios(
+			List<MovimientosInventario> movimientosInventarios) {
 		this.movimientosInventarios = movimientosInventarios;
 	}
 
-	public MovimientosInventario addMovimientosInventario(MovimientosInventario movimientosInventario) {
+	public MovimientosInventario addMovimientosInventario(
+			MovimientosInventario movimientosInventario) {
 		getMovimientosInventarios().add(movimientosInventario);
 		movimientosInventario.setDocumento(this);
 
 		return movimientosInventario;
 	}
 
-	public MovimientosInventario removeMovimientosInventario(MovimientosInventario movimientosInventario) {
+	public MovimientosInventario removeMovimientosInventario(
+			MovimientosInventario movimientosInventario) {
 		getMovimientosInventarios().remove(movimientosInventario);
 		movimientosInventario.setDocumento(null);
 
@@ -402,7 +439,8 @@ public class Documento implements Serializable {
 		return this.terminosTransportes;
 	}
 
-	public void setTerminosTransportes(List<TerminosTransporte> terminosTransportes) {
+	public void setTerminosTransportes(
+			List<TerminosTransporte> terminosTransportes) {
 		this.terminosTransportes = terminosTransportes;
 	}
 

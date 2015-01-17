@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.maestroClienteInicio}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.maestroClienteInicio}">
+					<p:dataTable var="cliente" widgetVar="clientesTabla" id="tabla"
+						scrollable="true" scrollWidth="1000px"
+						value="#{clienteMB.clientes}" rows="10"
+						emptyMessage="#{msg.maestroClienteNoEncontrado}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel>
+
+									<p:commandButton action="#{clienteMB.nuevo}"
+										update=":clienteDlg" oncomplete="PF('clienteDialog').show()"
+										title="#{msg.generalAdicionarRegistro}"
+										icon="ui-icon-document"
+										value="#{msg.generalAdicionarRegistro}" />
+									<p:spacer width="30"></p:spacer>
+									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+									<p:inputText id="globalFilter"
+										onkeyup="PF('clientesTabla').filter()" style="width:150px"
+										placeholder="#{msg.generalPalabrasBuscar}" />
+									<p:spacer width="30"></p:spacer>
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+
+								</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton oncomplete="PF('clienteDialog').show()"
+								icon="ui-icon-pencil" title="#{msg.generalEditar}"
+								update=":clienteDlg">
+								<f:setPropertyActionListener value="#{cliente}"
+									target="#{clienteMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column filterBy="#{cliente.id}" style="width:100px"
+							headerText="#{msg.maestroIdCliente}" filterMatchMode="contains"
+							sortBy="#{cliente.id}">
+							<h:outputText value="#{cliente.id}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.nit}" style="width:100px"
+							headerText="#{msg.maestroNitCliente}" filterMatchMode="contains"
+							sortBy="#{cliente.nit}">
+							<h:outputText value="#{cliente.nit}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.nombre}" style="width:100px"
+							headerText="#{msg.maestroNombreCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.nombre}">
+							<h:outputText value="#{cliente.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.codigoSap}" style="width:100px"
+							headerText="#{msg.maestroCodigoSAPCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.codigoSap}">
+							<h:outputText value="#{cliente.codigoSap}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.direccion}" style="width:100px"
+							headerText="#{msg.maestroDireccionCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.direccion}">
+							<h:outputText value="#{cliente.direccion}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.ciudad.idPais}" style="width:100px"
+							headerText="#{msg.maestroCLientePais}" filterMatchMode="contains"
+							sortBy="#{cliente.ciudad.idPais}">
+							<h:outputText value="#{cliente.ciudad.idPais}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.ciudad.nombre}" style="width:100px"
+							headerText="#{msg.maestroCiudadCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.ciudad.nombre}">
+							<h:outputText value="#{cliente.ciudad.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.telefono}" style="width:100px"
+							headerText="#{msg.maestroTelefonoCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.telefono}">
+							<h:outputText value="#{cliente.telefono}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.fax}" style="width:100px"
+							headerText="#{msg.maestroFaxCliente}" filterMatchMode="contains"
+							sortBy="#{cliente.fax}">
+							<h:outputText value="#{cliente.fax}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.codigoBarras}" style="width:100px"
+							headerText="#{msg.maestroCodigoBarrasCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.codigoBarras}">
+							<h:outputText value="#{cliente.codigoBarras}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.descuentoCliente}"
+							style="width:100px"
+							headerText="#{msg.maestroClienteDescuentoCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.descuentoCliente}">
+							<h:outputText value="#{cliente.descuentoCliente}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.tipoCanal.nombre}"
+							style="width:100px" headerText="#{msg.maestroTipoCanalCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.tipoCanal.nombre}">
+							<h:outputText value="#{cliente.tipoCanal.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.agenteAduana.nombre}"
+							style="width:100px" headerText="#{msg.maestroAgenteCliente}"
+							filterMatchMode="contains"
+							sortBy="#{cliente.agenteAduana.nombre}">
+							<h:outputText value="#{cliente.agenteAduana.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.observacionesMarcacion1}"
+							style="width:100px"
+							headerText="#{msg.maestroObservaciones1Cliente}"
+							filterMatchMode="contains"
+							sortBy="#{cliente.observacionesMarcacion1}">
+							<h:outputText value="#{cliente.observacionesMarcacion1}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.contacto}" style="width:100px"
+							headerText="#{msg.maestroContactoCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.contacto}">
+							<h:outputText value="#{cliente.contacto}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.email}" style="width:100px"
+							headerText="#{msg.maestroEmailCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.email}">
+							<h:outputText value="#{cliente.email}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.celular}" style="width:100px"
+							headerText="#{msg.maestroCelularCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.celular}">
+							<h:outputText value="#{cliente.celular}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.codigoPostal}" style="width:100px"
+							headerText="#{msg.maestroCodigoPostalCliente}"
+							filterMatchMode="contains" sortBy="#{cliente.codigoPostal}">
+							<h:outputText value="#{cliente.codigoPostal}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.metodoPago.descripcion}"
+							style="width:100px" headerText="#{msg.maestroMetodoPagoCliente}"
+							filterMatchMode="contains"
+							sortBy="#{cliente.metodoPago.descripcion}">
+							<h:outputText value="#{cliente.metodoPago.descripcion}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.cuentaContable.descripcion}"
+							style="width:100px" headerText="#{msg.maestroCuentaContable}"
+							filterMatchMode="contains"
+							sortBy="#{cliente.cuentaContable.descripcion}">
+							<h:outputText value="#{cliente.cuentaContable.descripcion}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.tipoPrecio.nombre}"
+							style="width:100px" headerText="#{msg.maestroTipoPrecio}"
+							filterMatchMode="contains" sortBy="#{cliente.tipoPrecio.nombre}">
+							<h:outputText value="#{cliente.tipoPrecio.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{cliente.activo?'Si':'No'}"
+							style="width:100px" headerText="#{msg.generalActivo}"
+							filterMatchMode="exact" sortBy="#{cliente.activo}">
+							<f:facet name="filter">
+								<p:selectOneMenu onchange="PF('clientesTabla').filter()"
+									style="width:120px">
+									<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItem itemLabel="Si" itemValue="Si" />
+									<f:selectItem itemLabel="No" itemValue="No" />
+								</p:selectOneMenu>
+							</f:facet>
+							<h:outputText value="#{cliente.activo?'Si':'No'}" />
+						</p:column>
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+		<p:dialog
+			header="#{clienteMB.creacion?msg.maestrosCrearCliente:msg.maestroModificarCliente}"
+			widgetVar="clienteDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="clienteDlg">
+			<h:form id="formaDlg">
+				<p:outputPanel id="clienteDetalle" style="text-align:center;">
+
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+					<p:panelGrid columns="3"
+						rendered="#{not empty clienteMB.seleccionado}"
+						columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.maestroCreNitCliente}" for="nit"
+							styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.nit}" id="nit"
+							required="true" maxlength="40" readonly="#{clienteMB.editar}"
+							label="#{msg.maestroCreNitCliente}" />
+						<p:message for="nit"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCreModNombreCliente}"
+							for="nombre" styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.nombre}" id="nombre"
+							required="true" maxlength="49"
+							label="#{msg.maestroCreModNombreCliente}" />
+						<p:message for="nombre"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCreModCodigoSAPCliente}"
+							for="codigoSAP" styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.codigoSap}"
+							id="codigoSAP" required="true" maxlength="49"
+							label="#{msg.maestroCreModCodigoSAPCliente}" />
+						<p:message for="codigoSAP"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCreModDireccionCliente}"
+							for="direccion" styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.direccion}"
+							id="direccion" required="true" maxlength="40"
+							label="#{msg.maestroCreModDireccionCliente}" />
+						<p:message for="direccion"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCreModTelefonoCliente}"
+							for="telefono" styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.telefono}"
+							id="telefono" required="true" maxlength="49"
+							label="#{msg.maestroCreModTelefonoCliente}" />
+						<p:message for="telefono"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCreModPaisCliente}" for="pais"
+							styleClass="negrita" />
+						<p:selectOneMenu id="pais" value="#{clienteMB.idPais}"
+							valueChangeListener="#{clienteMB.cambioPais}" immediate="true"
+							label="#{msg.maestroCreModPaisCliente}">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"
+								itemValue="" />
+							<f:selectItems value="#{clienteMB.listaPaises}" var="pais"
+								itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+							<p:ajax event="change" update="ciudad" />
+						</p:selectOneMenu>
+						<p:message for="pais"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCreModCiudadCliente}"
+							for="ciudad" styleClass="negrita" />
+						<p:selectOneMenu id="ciudad"
+							value="#{clienteMB.seleccionado.ciudad.id}"
+							label="#{msg.maestroCreModCiudadCliente}">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"
+								itemValue="" />
+							<f:selectItems value="#{clienteMB.listaCiudades}" var="ciudad"
+								itemValue="#{ciudad.id}" itemLabel="#{ciudad.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="ciudad"></p:message>
+
+						<p:outputLabel value="#{msg.maestroFaxCliente}" for="fax"
+							styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.fax}" id="fax"
+							required="false" maxlength="49" label="#{msg.maestroFaxCliente}" />
+						<p:message for="fax"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCodigoBarrasCliente}"
+							for="codigoBarras" styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.codigoBarras}"
+							id="codigoBarras" required="false" maxlength="49"
+							label="#{msg.maestroCodigoBarrasCliente}" />
+						<p:message for="codigoBarras"></p:message>
+
+						<p:outputLabel value="#{msg.maestroClienteDescuentoCliente}"
+							for="descCliente" styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.descuentoCliente}"
+							id="descCliente" required="false" maxlength="49"
+							label="#{msg.maestroClienteDescuentoCliente}" />
+						<p:message for="descCliente"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCanalCliente}" for="tipoCanal"
+							styleClass="negrita" />
+						<p:selectOneMenu id="tipoCanal"
+							value="#{clienteMB.seleccionado.tipoCanal.id}"
+							label="#{msg.maestroCanalCliente}" required="true">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"
+								itemValue="" />
+							<f:selectItems value="#{clienteMB.listaTiposCanal}" var="canal"
+								itemValue="#{canal.id}" itemLabel="#{canal.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="tipoCanal"></p:message>
+
+						<p:outputLabel value="#{msg.maestroAgenteCliente}" for="agente"
+							styleClass="negrita" />
+						<p:selectOneMenu id="agente"
+							value="#{clienteMB.seleccionado.agenteAduana.id}"
+							label="#{msg.maestroAgenteCliente}" required="false">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"
+								itemValue="" />
+							<f:selectItems value="#{clienteMB.listaAgentesAduana}"
+								var="agente" itemValue="#{agente.id}"
+								itemLabel="#{agente.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="agente"></p:message>
+
+						<p:outputLabel value="#{msg.maestroObservaciones1Cliente}"
+							for="obsMarc" styleClass="negrita" />
+						<h:inputText
+							value="#{clienteMB.seleccionado.observacionesMarcacion1}"
+							id="obsMarc" required="false" maxlength="49"
+							label="#{msg.maestroObservaciones1Cliente}" />
+						<p:message for="obsMarc"></p:message>
+
+						<p:outputLabel value="#{msg.maestroContactoCliente}"
+							for="contacto" styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.contacto}"
+							id="contacto" required="false" maxlength="49"
+							label="#{msg.maestroContactoCliente}" />
+						<p:message for="contacto"></p:message>
+
+						<p:outputLabel value="#{msg.maestroEmailCliente}" for="email"
+							styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.email}" id="email"
+							required="false" maxlength="100"
+							label="#{msg.maestroEmailCliente}"
+							validatorMessage="#{msg.generalCorreoInvalido}" size="45">
+							<f:validateRegex
+								pattern="(^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$)?"
+								for="email" />
+						</h:inputText>
+						<p:message for="email"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCelularCliente}" for="celular"
+							styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.celular}"
+							id="celular" required="false" maxlength="49"
+							label="#{msg.maestroCelularCliente}" />
+						<p:message for="celular"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCodigoPostalCliente}"
+							for="codPostal" styleClass="negrita" />
+						<h:inputText value="#{clienteMB.seleccionado.codigoPostal}"
+							id="codPostal" required="false" maxlength="49"
+							label="#{msg.maestroCodigoPostalCliente}" />
+						<p:message for="codPostal"></p:message>
+
+						<p:outputLabel value="#{msg.maestroMetodoPagoCliente}"
+							for="metodoPago" styleClass="negrita" />
+						<p:selectOneMenu id="metodoPago"
+							value="#{clienteMB.seleccionado.metodoPago.id}"
+							label="#{msg.maestroMetodoPagoCliente}" required="false">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"
+								itemValue="" />
+							<f:selectItems value="#{clienteMB.listaMetodosPago}" var="metodo"
+								itemValue="#{metodo.id}" itemLabel="#{metodo.descripcion}" />
+						</p:selectOneMenu>
+						<p:message for="metodoPago"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCuentaContable}"
+							for="cuentaContable" styleClass="negrita" />
+						<p:selectOneMenu id="cuentaContable"
+							value="#{clienteMB.seleccionado.cuentaContable.id}"
+							label="#{msg.maestroCuentaContable}" required="false">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"
+								itemValue="" />
+							<f:selectItems value="#{clienteMB.listaCuentaContable}"
+								var="cuentas" itemValue="#{cuentas.id}"
+								itemLabel="#{cuentas.descripcion}" />
+						</p:selectOneMenu>
+						<p:message for="cuentaContable"></p:message>
+
+						<p:outputLabel value="#{msg.maestroTipoPrecio}" for="tipoPrecio"
+							styleClass="negrita" />
+						<p:selectOneMenu id="tipoPrecio"
+							value="#{clienteMB.seleccionado.tipoPrecio.id}"
+							label="#{msg.maestroTipoPrecio}" required="false">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"
+								itemValue="" />
+							<f:selectItems value="#{clienteMB.listaTiposPrecio}" var="precio"
+								itemValue="#{precio.id}" itemLabel="#{precio.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="tipoPrecio"></p:message>
+
+						<h:outputLabel value="#{msg.maestroClienteModoFactura}"
+							for="factIngles" styleClass="negrita" />
+						<p:selectOneButton style="font-size:15px;" id="factIngles"
+							value="#{clienteMB.seleccionado.modoFactura}">
+							<f:selectItem itemLabel="#{msg.maestroClienteModoFacturaIngles}" itemValue="0" />
+							<f:selectItem itemLabel="#{msg.maestroClienteModoFacturaNombreMaestroProd}" itemValue="1" />
+							<f:selectItem itemLabel="#{msg.maestroClienteModoFacturaNombreProdProv}" itemValue="2" />
+						</p:selectOneButton>
+						<p:message for="factIngles"></p:message>
+
+						<h:outputLabel value="#{msg.generalActivo}" for="activo"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox value="#{clienteMB.seleccionado.activo}"
+							id="activo" label="#{msg.generalActivo}" />
+						<p:message for="activo"></p:message>
+
+					</p:panelGrid>
+
+					<p:dataTable id="checkboxDT" var="termino"
+						value="#{clienteMB.listaTerminosIncoterm}"
+						selection="#{clienteMB.listaTerminosIncotermSeleccionados}"
+						rowKey="#{termino.id}" style="margin-bottom:0">
+						<f:facet name="header">Términos Incoterm</f:facet>
+						<p:column selectionMode="multiple"
+							style="width:16px;text-align:center" />
+						<p:column headerText="#{msg.buscadorCodigoIncoterm}">
+							<h:outputText value="#{termino.id}" />
+						</p:column>
+						<p:column headerText="#{msg.buscadorNombreIncoterm}">
+							<h:outputText value="#{termino.descripcion}" />
+						</p:column>
+					</p:dataTable>
+
+
+					<p:panelGrid columns="3" columnClasses="label,value">
+
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+							action="#{clienteMB.guardar}"
+							update=":formaDlg:clienteDetalle, :forma:tabPanel:tabla"></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}" process="@this"
+							oncomplete="PF('clienteDialog').hide();" icon="ui-icon-cancel">
+							<p:resetInput target="clienteDetalle" />
+						</p:commandButton>
+
+
+
+					</p:panelGrid>
+
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+
+
+
+
+	</ui:define>
+
+</ui:composition>
+

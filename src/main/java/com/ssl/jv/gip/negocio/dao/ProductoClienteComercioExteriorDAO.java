@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.negocio.dao;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
+import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
@@ -51,6 +53,162 @@ public class ProductoClienteComercioExteriorDAO extends
 	 */
 	public ProductoClienteComercioExteriorDAO() {
 		this.persistentClass = ProductosXClienteComext.class;
+	}
+	
+	/**
+	 * Crea factura proforma.
+	 *
+	 */
+	public void crearFacturaProforma(DocumentoIncontermDTO documento,
+			ProductoPorClienteComExtDTO producto) {
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("INSERT INTO productosXdocumentos(id_documento,id_producto,cantidad1,"
+					+ "fecha_estimada_entrega,fecha_entrega,id_ml,id_unidades,total_peso_neto_item,"
+					+ "valor_unitario_usd,valor_total,total_peso_bruto_item,cantidad_cajas_item,"
+					+ "cantidad_pallets_item,cantidad_x_embalaje) "
+					+ "VALUES "
+					+ " (" 
+					+ documento.getIdDocumento() + ","
+					+ producto.getIntIdProductoInventario() + ","
+					+ producto.getDblCantidad1ProductoxDocumento() + ","
+					+ "current_timestamp + '2 days'" + ","
+					+ "current_timestamp + '2 days'" + ","
+					+ "'USD'" + ","
+					+ "(select id_ud from productos_inventario where id = " + producto.getIntIdProductoInventario() + ")" + ","
+					+ producto.getDblTotalPesoNeto() + ","
+					+ producto.getDblPrecioUSD() + ","
+					+ producto.getDblValorTotalProductoxDocumento() + ","
+					+ producto.getDblTotalPesoBruto() + ","
+					+ producto.getDblTotalCajas() + ","
+					+ producto.getDblTotalCajasPallet() + ","
+					+ producto.getDblTotalCajasTendido() + ")"
+			);
+
+			int q = em.createNativeQuery(sql.toString()).executeUpdate();
+
+		} catch (Exception e) {
+
+		}
+	}
+	
+	/**
+	 * modificar factura proforma.
+	 *
+	 */
+	public void modificarFacturaProforma(DocumentoIncontermDTO documento,
+			ProductoPorClienteComExtDTO producto) {
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE productosXdocumentos SET "
+					+ " total_peso_neto_item = " + producto.getDblTotalPesoNeto()
+					+ " , total_peso_bruto_item = " + producto.getDblTotalPesoBruto()
+					+ " , valor_unitario_usd = " + producto.getDblPrecioUSD()
+					+ " , cantidad1 = " + producto.getDblCantidad1ProductoxDocumento()
+					+ " , valor_total = " + producto.getDblValorTotalProductoxDocumento()
+					+ " , cantidad_cajas_item = " + producto.getDblTotalCajas()
+					+ " , cantidad_pallets_item = " + producto.getDblTotalCajasPallet()
+					+ " , cantidad_x_embalaje = " + producto.getDblTotalCajasTendido());
+
+			sql.append(" WHERE  id_documento = " + documento.getIdDocumento() + " AND id_producto = " + producto.getIntIdProductoInventario());
+
+			int q = em.createNativeQuery(sql.toString()).executeUpdate();
+
+		} catch (Exception e) {
+
+		}
+	}
+	
+	/**
+	 * eliminar factura proforma.
+	 *
+	 */
+	public void eliminarFacturaProforma(DocumentoIncontermDTO documento,
+			ProductoPorClienteComExtDTO producto) {
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("DELETE FROM productosXdocumentos "
+					+ " WHERE  id_documento = " + documento.getIdDocumento() + " AND id_producto = " + producto.getIntIdProductoInventario());
+
+			int q = em.createNativeQuery(sql.toString()).executeUpdate();
+
+		} catch (Exception e) {
+
+		}
+	}
+	
+	/**
+	 * Consulta si existe un producto cliente
+	 *
+	 */
+	public BigDecimal consultarUltimoSaldoProducto(Long idProducto){
+		BigDecimal vSaldo = null;
+		
+		try {
+
+			String sqlSec = "select mov1.saldo from  movimientos_inventario_comext mov1"
+							+ " where mov1.fecha = (select max(mov2.fecha) from movimientos_inventario_comext mov2 where mov1.id_producto=mov2.id_producto)"  
+							+ " and mov1.id_producto = " + idProducto;
+			vSaldo = (BigDecimal) em.createNativeQuery(sqlSec).getSingleResult();		
+
+		} catch (Exception e) {
+
+		}
+		return vSaldo;
+	}
+	
+	/**
+	 * Consulta si existe un producto cliente
+	 *
+	 */
+	public Boolean consultarProductoCliente(Long idDocumento, Long idProducto){
+		Boolean vRespuesta = false;
+		
+		try {
+
+			String sqlSec = "select count(id_documento) as EXISTE from productosXdocumentos "+
+					  "where id_documento = " + idDocumento + " and id_producto = " + idProducto;
+			BigInteger existe = (BigInteger) em.createNativeQuery(sqlSec).getSingleResult();
+			
+			if(existe!=null && (existe.compareTo(BigInteger.valueOf(0))==1)){
+				vRespuesta = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return vRespuesta;
+	}
+	
+	/**
+	 * Crea el saldo del producto.
+	 *
+	 */
+	public void crearSaldo(DocumentoIncontermDTO documento,
+			ProductoPorClienteComExtDTO producto) {
+		try {
+			String sqlSec = "select nextval('movimientos_inventario_comext_id_seq') AS SEQ";
+			String secuencia = (String) em.createNativeQuery(sqlSec).getSingleResult();
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("INSERT INTO movimientos_inventario_comext(consecutivo_documento,id_tipo_movimiento,id_producto,cantidad,fecha,saldo,id) "
+					+ "VALUES "
+					+ " (" 
+					+ documento.getConsecutivoDocumento() + ","
+					+ producto.getIdTipoMovimiento() + ","
+					+ producto.getIntIdProducto() + ","
+					+ producto.getDblCantidad1ProductoxDocumento() + ","
+					+ producto.getDtmFecha() + ","
+					+ producto.getDblSaldo() + ","
+					+ secuencia + ")"
+			);
+
+			int q = em.createNativeQuery(sql.toString()).executeUpdate();
+
+		} catch (Exception e) {
+
+		}
 	}
 
 	/**
@@ -92,7 +250,7 @@ public class ProductoClienteComercioExteriorDAO extends
 				+ "productos_inventario_comext.descripcion, "
 				+ "productos_inventario_comext.peso_neto_embalaje, "
 				+ "productos_inventario_comext.peso_bruto_embalaje, "
-				// + "productos_inventario_comext.controlstock, "
+				+ "productos_inventario_comext.controlstock, "
 				+ "productos_inventario_comext.nombre_prd_proveedor as PRODUCTO_CLIENTE"
 				+ " FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
 				+ " LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto"
@@ -118,6 +276,9 @@ public class ProductoClienteComercioExteriorDAO extends
 						.parseLong(objs[3].toString()) : null);
 
 				dto.setDblCantidad1ProductoxDocumento(objs[4] != null ? new BigDecimal(
+						objs[4].toString()) : null);
+				
+				dto.setDblCantidad1ActualProductoxDocumento(objs[4] != null ? new BigDecimal(
 						objs[4].toString()) : null);
 
 				dto.setDblPrecioUSD(objs[5] != null ? new BigDecimal(objs[5]
@@ -166,9 +327,8 @@ public class ProductoClienteComercioExteriorDAO extends
 						objs[22].toString()) : null);
 				dto.setDblPesoBrutoEmbalajeProductoInventarioCE(objs[23] != null ? new BigDecimal(
 						objs[23].toString()) : null);
-				// dto.setControlStockProductoInventarioCE((Boolean) (objs[24]
-				// != null ? objs[24] : null));
-				dto.setNombrePrdProveedorProductoInventarioCE(objs[24] != null ? objs[24]
+				dto.setControlStockProductoInventarioCE((Boolean) (objs[24] != null ? objs[24] : null));
+				dto.setNombrePrdProveedorProductoInventarioCE(objs[25] != null ? objs[25]
 						.toString() : null);
 
 				dto.setBlnIncluirBusqueda(true);
@@ -265,27 +425,27 @@ public class ProductoClienteComercioExteriorDAO extends
 				dto.setStrNombreProductoInventario(objs[3] != null ? objs[3]
 						.toString() : null);
 				dto.setDblPrecioUSD(objs[4] != null ? new BigDecimal(objs[4]
-						.toString()) : null);
+						.toString()) : new BigDecimal(0));
 				dto.setDblPesoNetoProductoInventarioCE(objs[5] != null ? new BigDecimal(
-						objs[5].toString()) : null);
+						objs[5].toString()) : new BigDecimal(0.00));
 				dto.setDblPesoBrutoProductoInventarioCE(objs[6] != null ? new BigDecimal(
-						objs[6].toString()) : null);
+						objs[6].toString()) : new BigDecimal(0.00));
 				dto.setDblCantCajasXTendidoProductoInventarioCE(objs[7] != null ? new BigDecimal(
-						objs[7].toString()) : null);
+						objs[7].toString()) : new BigDecimal(0.00));
 				dto.setDblTotalCajasXPalletProductoInventarioCE(objs[8] != null ? new BigDecimal(
-						objs[8].toString()) : null);
+						objs[8].toString()) : new BigDecimal(0.00));
 
 				dto.setDblCantidad1ProductoxDocumento(objs[9] != null ? new BigDecimal(
-						objs[9].toString()) : null);
+						objs[9].toString()) : new BigDecimal(0.00));
 				dto.setDblValorTotalProductoxDocumento(objs[10] != null ? new BigDecimal(
-						objs[10].toString()) : null);
+						objs[10].toString()) : new BigDecimal(0.00));
 
 				dto.setDblCantidadXEmbalajeProductoInventarioCE(objs[11] != null ? new BigDecimal(
-						objs[11].toString()) : null);
+						objs[11].toString()) : new BigDecimal(0.00));
 				dto.setDblPesoNetoEmbalajeProductoInventarioCE(objs[12] != null ? new BigDecimal(
-						objs[12].toString()) : null);
+						objs[12].toString()) : new BigDecimal(0.00));
 				dto.setDblPesoBrutoEmbalajeProductoInventarioCE(objs[13] != null ? new BigDecimal(
-						objs[13].toString()) : null);
+						objs[13].toString()) : new BigDecimal(0.00));
 
 				dto.setBlnIncluirBusqueda(false);
 
@@ -589,7 +749,7 @@ public class ProductoClienteComercioExteriorDAO extends
 	
 	
 	
-	
+	@Override
 	public ProductosXClienteComext consultarPorPK(ProductosXClienteComextPK pk) {
 		ProductosXClienteComext productosClienteComExt = null;
 		try {
@@ -597,5 +757,12 @@ public class ProductoClienteComercioExteriorDAO extends
 		} catch (NoResultException e) {
 		}
 		return productosClienteComExt;
+	}
+	
+	@Override
+	public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku) {
+		Query query = em
+				.createNamedQuery(ProductosXClienteComext.PRODUCTOS_X_CLIENTE_SKU).setParameter("idCliente", idCliente).setParameter("sku", sku);
+		return (ProductosXClienteComext)query.getSingleResult();
 	}
 }

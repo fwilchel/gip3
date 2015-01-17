@@ -245,3 +245,19 @@ border: none !important;
 
 }
 
+.rojoNegrita{
+	color:red;
+	font-weight:bold	
+}
+
+.verdeNegrita{
+	color:green;
+	font-weight:bold	
+}
+
+.naranjaNegrita{
+	color:orange;
+	font-weight:bold	
+}
+
+
