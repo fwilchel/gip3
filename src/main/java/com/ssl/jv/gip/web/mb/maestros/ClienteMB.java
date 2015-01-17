@@ -119,6 +119,33 @@ public class ClienteMB extends UtilMB{
 				clientes = servicio.consultarClientes();
 			}
 			listaTerminosIncotermSeleccionados = new ArrayList<TerminoIncoterm>();
+			this.seleccionado = new Cliente();
+			if(this.seleccionado.getAgenteAduana() == null){
+				this.seleccionado.setAgenteAduana(new AgenteAduana());
+			}
+			
+			if(this.seleccionado.getMetodoPago() == null){
+				this.seleccionado.setMetodoPago(new MetodoPago());
+			}
+			
+			if(this.seleccionado.getCuentaContable() == null){
+				this.seleccionado.setCuentaContable(new CuentaContable());
+			}
+			
+			if(this.seleccionado.getTipoPrecio() == null){
+				this.seleccionado.setTipoPrecio(new TipoPrecio());
+			}
+			
+			if(this.seleccionado.getCiudad() == null){
+				seleccionado.setCiudad(new Ciudad());
+			}
+			
+			if(this.seleccionado.getTipoCanal() == null){
+				seleccionado.setTipoCanal(new TipoCanal());
+			}
+			
+			
+
 			this.addMensajeInfo("Cliente almacenado exitosamente");
 
 		}catch(EJBTransactionRolledbackException e){
@@ -212,6 +239,14 @@ public class ClienteMB extends UtilMB{
 		
 		if(this.seleccionado.getTipoPrecio() == null){
 			this.seleccionado.setTipoPrecio(new TipoPrecio());
+		}
+		
+		if(this.seleccionado.getCiudad() == null){
+			this.seleccionado.setCiudad(new Ciudad());
+		}
+		
+		if(this.seleccionado.getTipoCanal() == null){
+			this.seleccionado.setTipoCanal(new TipoCanal());
 		}
 		
 	}
