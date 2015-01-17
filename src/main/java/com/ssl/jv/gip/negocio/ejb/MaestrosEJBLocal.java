@@ -1,6 +1,5 @@
 package com.ssl.jv.gip.negocio.ejb;
 
-import java.io.InputStream;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -302,45 +301,44 @@ public interface MaestrosEJBLocal {
 	public void guardarRelacionProductosClienteComercioExterior(
 			List<ProductosXClienteComext> productosXClienteComexts);
 
-	public void cargarProductosPorClienteComExtDesdeArchivo(
-			InputStream inputStream);
-	
+	public void cargarProductosPorClienteComExtDesdeArchivo(List<String[]> lines);
+
 	/**
 	 * Consultar paises.
 	 *
 	 * @return the list
 	 */
 	public List<Pais> consultarPaises();
-	
+
 	/**
 	 * Consultar ciudades por pais.
 	 *
-	 * @param idPais the id pais
+	 * @param idPais
+	 *            the id pais
 	 * @return the list
 	 */
 	public List<Ciudad> consultarCiudadesPorPais(String idPais);
-	
-	
+
 	/**
 	 * Consultar tipos canal.
 	 *
 	 * @return the list
 	 */
 	public List<TipoCanal> consultarTiposCanal();
-	
+
 	/**
 	 * Consultar metodos pago.
 	 *
 	 * @return the list
 	 */
 	public List<MetodoPago> consultarMetodosPago();
-	
+
 	/**
 	 * Consultar tipos precio.
 	 *
 	 * @return the list
 	 */
 	public List<TipoPrecio> consultarTiposPrecio();
-	
+
 	public ProductosInventario consultarPorSku(String sku);
 }

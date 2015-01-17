@@ -1,9 +1,5 @@
 package com.ssl.jv.gip.negocio.ejb;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -122,19 +118,19 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private CategoriaInventarioDAOLocal categoriaInventarioDAO;
-	
+
 	@EJB
 	private PaisDAOLocal paisDAO;
-	
+
 	@EJB
 	private CiudadDAOLocal ciudadDAO;
-	
+
 	@EJB
 	private TipoCanalDAOLocal tipoCanalDAO;
-	
+
 	@EJB
 	private MetodoPagoDAOLocal metodoPagoDAO;
-	
+
 	@EJB
 	private TipoPrecioDAOLocal tipoPrecioDAO;
 
@@ -655,75 +651,32 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public void cargarProductosPorClienteComExtDesdeArchivo(
-			InputStream inputStream) {
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					inputStream));
-			String line = null;
-			List<String[]> lines = new ArrayList<String[]>();
-			boolean error = true;
-			while ((line = reader.readLine()) != null) {
-				if (!line.isEmpty()) {
-					error = false;
-					String[] values = line.split("\\|");
-					if (values.length < 13 || values.length > 14) {
-						throw new RuntimeException("Archivo inválido");
-					}
+	public void cargarProductosPorClienteComExtDesdeArchivo(List<String[]> lines) {
 
-					if (values[0].trim().isEmpty()) {
-						error = true;
-					}
+		int numLinea = 1;
+		List<ProductosXClienteComext> productosXClienteComexts = new ArrayList<ProductosXClienteComext>();
+		for (String[] lineFile : lines) {
+			productosXClienteComexts.add(getProductoXClienteComExt(numLinea,
+					lineFile));
+			numLinea++;
+		}
 
-					try {
-						Long.parseLong(values[1]);
-						new BigDecimal(values[6]);
-						new BigDecimal(values[8]);
-						new BigDecimal(values[9]);
-						new BigDecimal(values[10]);
-						Boolean.parseBoolean(values[12]);
-					} catch (NumberFormatException e) {
-						error = true;
-					}
-
-					lines.add(values);
-				}
-			}
-			reader.close();
-
-			if (error) {
-				throw new RuntimeException(
-						"Archivo con errores en sus registros");
-			}
-
-			int numLinea = 1;
-			List<ProductosXClienteComext> productosXClienteComexts = new ArrayList<ProductosXClienteComext>();
-			for (String[] lineFile : lines) {
-				productosXClienteComexts.add(getProductoXClienteComExt(
-						numLinea, lineFile));
-				numLinea++;
-			}
-
-			for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
-				ProductosXClienteComext consultarPorPK = productoClienteComercioExteriorDAO
-						.consultarPorPK(productosXClienteComext.getPk());
-				if (consultarPorPK != null) {
-					productoClienteComercioExteriorDAO
-							.update(productosXClienteComext);
+		for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
+			ProductosXClienteComext consultarPorPK = productoClienteComercioExteriorDAO
+					.consultarPorPK(productosXClienteComext.getPk());
+			if (consultarPorPK != null) {
+				productoClienteComercioExteriorDAO
+						.update(productosXClienteComext);
+			} else {
+				Number max = productoClienteComercioExteriorDAO
+						.consultarMaximoValorColumna("id");
+				if (max == null) {
+					productosXClienteComext.setId(1L);
 				} else {
-					Number max = productoClienteComercioExteriorDAO
-							.consultarMaximoValorColumna("id");
-					if (max == null) {
-						productosXClienteComext.setId(1L);
-					} else {
-						productosXClienteComext.setId(max.longValue() + 1);
-					}
-					productoClienteComercioExteriorDAO
-							.add(productosXClienteComext);
+					productosXClienteComext.setId(max.longValue() + 1);
 				}
+				productoClienteComercioExteriorDAO.add(productosXClienteComext);
 			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
 
 	}
@@ -773,7 +726,7 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Pais> consultarPaises() {
-		return (List<Pais>)paisDAO.findAll();
+		return (List<Pais>) paisDAO.findAll();
 	}
 
 	@Override
@@ -798,16 +751,15 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	public List<TipoPrecio> consultarTiposPrecio() {
 		return (List<TipoPrecio>) tipoPrecioDAO.findAll();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public ProductosInventario consultarPorSku(String sku){
-		ProductosInventario pi=productoInventarioDao.consultarPorSku(sku);
+	public ProductosInventario consultarPorSku(String sku) {
+		ProductosInventario pi = productoInventarioDao.consultarPorSku(sku);
 		pi.getProductosInventarioComext(); // Para hacer fetch
 		pi.getProductosInventarioComext().getTipoLoteoic(); // Para hacer fetch
 		pi.getUnidadVenta();// Para hacer fetch
 		return pi;
 	}
-	
-	
+
 }

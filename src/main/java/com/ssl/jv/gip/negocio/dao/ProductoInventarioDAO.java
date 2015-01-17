@@ -30,7 +30,10 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
 
 		String query = "SELECT "
 				+ (count ? "COUNT(pi)" : "pi")
-				+ " FROM ProductosInventario pi "+ (count ? "": "LEFT JOIN FETCH pi.productosInventarioComext pic LEFT JOIN FETCH pi.unidadVenta uv LEFT JOIN FETCH pi.unidadDespacho ud LEFT JOIN FETCH pic.unidadEmbalaje ue LEFT JOIN FETCH pic.tipoLoteoic tl ")+" WHERE 1=1 "
+				+ " FROM ProductosInventario pi "
+				+ (count ? ""
+						: "LEFT JOIN FETCH pi.productosInventarioComext pic LEFT JOIN FETCH pi.unidadVenta uv LEFT JOIN FETCH pi.unidadDespacho ud LEFT JOIN FETCH pic.unidadEmbalaje ue LEFT JOIN FETCH pic.tipoLoteoic tl ")
+				+ " WHERE 1=1 "
 				+ (pi.getSku() != null && !pi.getSku().equals("") ? " AND pi.sku= :sku "
 						: "")
 				+ (pi.getNombre() != null && !pi.getNombre().equals("") ? " AND pi.nombre like :nombre "
@@ -125,5 +128,13 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
 				.createNamedQuery(ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKU);
 		query.setParameter("sku", sku);
 		return (ProductosInventario) query.getSingleResult();
+	}
+
+	@Override
+	public List<ProductosInventario> consultarPorSkus(List<String> skus) {
+		Query query = em
+				.createNamedQuery(ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKUs);
+		query.setParameter("skus", skus);
+		return query.getResultList();
 	}
 }

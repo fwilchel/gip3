@@ -37,4 +37,12 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
 		return query.getResultList();
 	}
 
+	@Override
+	public void modificarProductosXDocumentos(
+			List<ProductosXDocumento> productosXDocumentos) {
+		for (ProductosXDocumento productosXDocumento : productosXDocumentos) {
+			this.update(productosXDocumento);
+		}
+	}
+
 }

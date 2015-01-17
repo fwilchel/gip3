@@ -11,4 +11,7 @@ public interface ProductosXDocumentoDAOLocal extends
 		IGenericDAO<ProductosXDocumento> {
 
 	public List<ProductosXDocumento> consultarPorDocumento(Long id);
+
+	public void modificarProductosXDocumentos(
+			List<ProductosXDocumento> productosXDocumentos);
 }

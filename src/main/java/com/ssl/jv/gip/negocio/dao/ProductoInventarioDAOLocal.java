@@ -25,4 +25,6 @@ public interface ProductoInventarioDAOLocal extends
 
 	public ProductosInventario consultarPorSku(String sku);
 
+	public List<ProductosInventario> consultarPorSkus(List<String> skus);
+
 }

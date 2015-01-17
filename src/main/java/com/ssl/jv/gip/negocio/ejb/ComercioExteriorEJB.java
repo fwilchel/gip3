@@ -21,6 +21,7 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
@@ -32,6 +33,7 @@ import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
@@ -89,9 +91,15 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 	@EJB
 	private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAO;
-	
+
 	@EJB
 	private ProductosXDocumentoDAOLocal productoXDocumentoDAO;
+
+	@EJB
+	private ProductoInventarioDAOLocal productoInventarioDAOLocal;
+
+	@EJB
+	private ProductosXDocumentoDAOLocal productosXDocumentoDAOLocal;
 
 	/**
 	 * Default constructor.
@@ -626,7 +634,41 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 				.consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
 						Estado.ACTIVO.getCodigo(), idTipoDocumento,
 						consecutivoDocumento);
+		for (Documento documento : listaEmpaques) {
+			documento.getDocumentoXLotesoics().iterator().hasNext();
+		}
 		return listaEmpaques;
+	}
+
+	@Override
+	public List<ProductosInventario> consultarProductosInventariosPorSkus(
+			List<String> skus) {
+		return this.productoInventarioDAOLocal.consultarPorSkus(skus);
+	}
+
+	@Override
+	public List<ProductosXDocumento> consultarProductosXDocumentosPorDocumento(
+			Long idDocumento) {
+		return productosXDocumentoDAOLocal.consultarPorDocumento(idDocumento);
+	}
+
+	@Override
+	public void modificarListaEmpaque(Documento documento,
+			List<ProductosXDocumento> productosXDocumentos) {
+		this.productosXDocumentoDAOLocal
+				.modificarProductosXDocumentos(productosXDocumentos);
+
+		List<DocumentoXNegociacion> documentoXNegociacions = documento
+				.getDocumentoXNegociacions();
+		for (DocumentoXNegociacion documentoXNegociacion : documentoXNegociacions) {
+			documentoXNegociacionDAO.update(documentoXNegociacion);
+		}
+
+		List<DocumentoXLotesoic> documentoXLotesoics = documento
+				.getDocumentoXLotesoics();
+		for (DocumentoXLotesoic documentoXLotesoic : documentoXLotesoics) {
+			documentoLotesOICDAO.update(documentoXLotesoic);
+		}
 	}
 
 }

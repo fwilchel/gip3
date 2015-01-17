@@ -13,6 +13,7 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
@@ -187,5 +188,14 @@ public interface ComercioExteriorEJBLocal {
 
 	public List<Documento> consultarDocumentosActivosPorTipoDocumentoYConsecutivoDocumento(
 			Long idTipoDocumento, String consecutivoDocumento);
+
+	public List<ProductosInventario> consultarProductosInventariosPorSkus(
+			List<String> skus);
+
+	public List<ProductosXDocumento> consultarProductosXDocumentosPorDocumento(
+			Long idDocumento);
+
+	public void modificarListaEmpaque(Documento documento,
+			List<ProductosXDocumento> productosXDocumentos);
 
 }
