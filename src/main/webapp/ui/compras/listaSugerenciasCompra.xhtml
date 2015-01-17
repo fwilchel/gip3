@@ -31,9 +31,6 @@
 						<f:facet name="header">
 							<div align="right">
 								<p:outputPanel>
-								
-									<p:fileUpload fileUploadListener="#{sugerenciaCompraMB.cargarArchivo}" label="#{msg.generalSeleccionarArchivo}" uploadLabel="#{msg.generalImportar}" cancelLabel="#{msg.generalCancelar}" invalidFileMessage="#{msg.generalTipoArchivoNoValido}" allowTypes="/(\.|\/)(txt)$/"></p:fileUpload>
-									<p:spacer width="30"></p:spacer>
 									<p:commandButton action="#{sugerenciaCompraMB.nuevo}" title="#{msg.generalAdicionarRegistro}"
 										icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
 									<p:spacer width="30"></p:spacer>	

@@ -87,6 +87,11 @@
 										title="#{msg.generalAdicionarRegistro}"
 										icon="ui-icon-document"
 										value="#{msg.generalAdicionarRegistro}" />
+										
+									<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false"  icon="ui-icon-calculator" >
+        								<p:fileDownload value="#{productosMB.reporteExcel}" />
+    								</p:commandButton>
+										
 									<p:commandButton action="introduccion"
 										title="#{msg.generalCancelar}" ajax="false"
 										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
@@ -138,8 +143,8 @@
 						</p:column>
 
 						<p:column headerText="#{msg.generalNombrePais}"
-							sortBy="#{registro.pais.id}">
-							<h:outputText value="#{registro.pais.id}" />
+							sortBy="#{registro.pais.nombre}">
+							<h:outputText value="#{registro.pais.nombre}" />
 						</p:column>
 
 						<p:column headerText="#{msg.generalActivo}"

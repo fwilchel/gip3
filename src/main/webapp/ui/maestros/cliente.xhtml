@@ -91,10 +91,10 @@
 							<h:outputText value="#{cliente.direccion}" />
 						</p:column>
 
-						<p:column filterBy="#{cliente.ciudad.idPais}" style="width:100px"
+						<p:column filterBy="#{cliente.ciudad.pais.nombre}" style="width:100px"
 							headerText="#{msg.maestroCLientePais}" filterMatchMode="contains"
-							sortBy="#{cliente.ciudad.idPais}">
-							<h:outputText value="#{cliente.ciudad.idPais}" />
+							sortBy="#{cliente.ciudad.pais.nombre}">
+							<h:outputText value="#{cliente.ciudad.pais.nombre}" />
 						</p:column>
 
 						<p:column filterBy="#{cliente.ciudad.nombre}" style="width:100px"
@@ -411,12 +411,12 @@
 
 						<h:outputLabel value="#{msg.maestroClienteModoFactura}"
 							for="factIngles" styleClass="negrita" />
-						<p:selectOneButton style="font-size:15px;" id="factIngles"
+						<p:selectOneMenu style="font-size:15px;" id="factIngles"
 							value="#{clienteMB.seleccionado.modoFactura}">
 							<f:selectItem itemLabel="#{msg.maestroClienteModoFacturaIngles}" itemValue="0" />
 							<f:selectItem itemLabel="#{msg.maestroClienteModoFacturaNombreMaestroProd}" itemValue="1" />
 							<f:selectItem itemLabel="#{msg.maestroClienteModoFacturaNombreProdProv}" itemValue="2" />
-						</p:selectOneButton>
+						</p:selectOneMenu>
 						<p:message for="factIngles"></p:message>
 
 						<h:outputLabel value="#{msg.generalActivo}" for="activo"
@@ -427,10 +427,10 @@
 
 					</p:panelGrid>
 
-					<p:dataTable id="checkboxDT" var="termino"
+					<p:dataTable id="checkboxDT" var="termino" 
 						value="#{clienteMB.listaTerminosIncoterm}"
 						selection="#{clienteMB.listaTerminosIncotermSeleccionados}"
-						rowKey="#{termino.id}" style="margin-bottom:0">
+						rowKey="#{termino.id}" style="margin-bottom:0;width:500px">
 						<f:facet name="header">Términos Incoterm</f:facet>
 						<p:column selectionMode="multiple"
 							style="width:16px;text-align:center" />

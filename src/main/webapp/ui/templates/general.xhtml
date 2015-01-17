@@ -100,6 +100,11 @@
 		</style>
 	</h:head>
 
+<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+    <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+</p:dialog>
+
+<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 
 	<h:body>
 		<p:growl id="msg" showDetail="false" showSummary="true" />
@@ -175,11 +180,22 @@
 		</table>
 
 		 
-		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+		<!--  p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
 		    <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
-		</p:dialog>
-
+		</p:dialog-->
+		
+		
+		<script type="text/javascript">
+		function start() {
+		    PF('statusDialog').show();
+		}
+		 
+		function stop() {
+		    PF('statusDialog').hide();
+		}
+		</script>
+		
 
 	</h:body>
 

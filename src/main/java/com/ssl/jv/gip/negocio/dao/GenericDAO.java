@@ -8,9 +8,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.log4j.Logger;
+
 public class GenericDAO<T> {
 
 	public static final String PORCENTAJE_LIKE = "%";
+	private static final Logger LOGGER = Logger.getLogger(GenericDAO.class);
 
 	@PersistenceContext(unitName = "primary")
 	EntityManager em;
@@ -115,7 +118,7 @@ public class GenericDAO<T> {
 			con.close();
 
 		} catch (Exception e) {
-			System.out.println(e);
+			LOGGER.error(e);
 		}
 	}
 
