@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 		@NamedQuery(name = "Documento.findAll", query = "SELECT d FROM Documento d"),
 		@NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado ORDER BY d.id"),
-		@NamedQuery(name = Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idEstado = :idEstado AND d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC") })
+		@NamedQuery(name = Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstados) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC") })
 public class Documento implements Serializable {
 
 	/**

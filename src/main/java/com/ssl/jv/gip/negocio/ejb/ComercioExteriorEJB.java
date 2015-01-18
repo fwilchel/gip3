@@ -648,9 +648,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	public List<Documento> consultarDocumentosActivosPorTipoDocumentoYConsecutivoDocumento(
 			Long idTipoDocumento, String consecutivoDocumento) {
 		List<Documento> listaEmpaques = this.documentoDAO
-				.consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
-						Estado.ACTIVO.getCodigo(), idTipoDocumento,
-						consecutivoDocumento);
+				.consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
+						idTipoDocumento, consecutivoDocumento,
+						Estado.ACTIVO.getCodigo());
 		for (Documento documento : listaEmpaques) {
 			documento.getDocumentoXLotesoics().iterator().hasNext();
 		}

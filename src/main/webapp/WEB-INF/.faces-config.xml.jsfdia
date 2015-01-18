@@ -151,6 +151,16 @@
     PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
     TARGET="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
     TITLE="modificar_lista_empaque" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_SP_Imprimir_FP::#ui#reportes#listaFacturasProforma.xhtml"
+    NAME="output30" PATH="/ui/reportes/listaFacturasProforma.xhtml"
+    TARGET="rules:#ui#reportes#listaFacturasProforma.xhtml"
+    TITLE="listado_SP_Imprimir_FP" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="consultar_factura_proforma::#ui#reportes#imprimirFacturaProforma.xhtml"
+    NAME="output31" PATH="/ui/reportes/imprimirFacturaProforma.xhtml"
+    TARGET="rules:#ui#reportes#imprimirFacturaProforma.xhtml"
+    TITLE="consultar_factura_proforma" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
@@ -239,4 +249,8 @@
   NAME="rules:#ui#comercioexterior#consultarSolicitudPedido.xhtml"
   PATH="/ui/comercioexterior/consultarSolicitudPedido.xhtml"
   SHAPE="304,1073,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#reportes#listaFacturasProforma.xhtml"
+  PATH="/ui/reportes/listaFacturasProforma.xhtml" SHAPE="304,1105,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#reportes#imprimirFacturaProforma.xhtml"
+  PATH="/ui/reportes/imprimirFacturaProforma.xhtml" SHAPE="304,1137,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
