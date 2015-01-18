@@ -10,6 +10,7 @@ import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
+import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
@@ -45,6 +46,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 			String consecutivoDocumento);
 
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
+	
+	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
 
 	public List<Documento> consultarDocumento(Map<String, Object> parametros);
 
