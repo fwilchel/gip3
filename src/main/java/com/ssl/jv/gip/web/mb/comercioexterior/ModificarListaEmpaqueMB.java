@@ -158,13 +158,15 @@ public class ModificarListaEmpaqueMB extends UtilMB {
 								.getId());
 				for (ProductosXDocumento productosXDocumento : productosXDocumentos) {
 					actualizarConDatosDeArchivo(productosXDocumento, lines);
-					totalCantidad.add(productosXDocumento.getCantidad1());
-					totalPallets.add(productosXDocumento
+					totalCantidad = totalCantidad.add(productosXDocumento
+							.getCantidad1());
+					totalPallets = totalPallets.add(productosXDocumento
 							.getCantidadPalletsItem());
-					totalCajas.add(productosXDocumento.getCantidadCajasItem());
-					totalPesoNeto.add(productosXDocumento
+					totalCajas = totalCajas.add(productosXDocumento
+							.getCantidadCajasItem());
+					totalPesoNeto = totalPesoNeto.add(productosXDocumento
 							.getTotalPesoNetoItem());
-					totalPesoBruto.add(productosXDocumento
+					totalPesoBruto = totalPesoBruto.add(productosXDocumento
 							.getTotalPesoBrutoItem());
 				}
 
@@ -197,13 +199,14 @@ public class ModificarListaEmpaqueMB extends UtilMB {
 			if (productosXDocumento.getProductosInventario().getSku()
 					.equals(line[0])) {
 				productosXDocumento.setCantidadPalletsItem(new BigDecimal(
-						line[1]));
-				productosXDocumento
-						.setCantidadCajasItem(new BigDecimal(line[2]));
-				productosXDocumento
-						.setTotalPesoNetoItem(new BigDecimal(line[3]));
+						line[1].trim()));
+				productosXDocumento.setCantidadCajasItem(new BigDecimal(line[2]
+						.trim()));
+				productosXDocumento.setTotalPesoNetoItem(new BigDecimal(line[3]
+						.trim()));
 				productosXDocumento.setTotalPesoBrutoItem(new BigDecimal(
-						line[4]));
+						line[4].trim()));
+				break;
 			}
 		}
 

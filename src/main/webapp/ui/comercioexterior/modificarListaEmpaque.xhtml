@@ -70,53 +70,53 @@
 						</p:column>
 	
 						<p:column headerText="#{msg.modificarListaEmpaque_Cantidad}"
-							sortBy="#{dato.cantidad}">
+							sortBy="#{dato.cantidad}" style="text-align:right" >
+							<p:outputLabel value="#{dato.cantidad1}" />
 							<f:facet name="footer">
-                 				<p:outputLabel value="#{modificarListaEmpaqueMB.totalCantidad}" style="text-align:right;width:100px;">
+                 				<p:outputLabel id="totalCantidad" value="#{modificarListaEmpaqueMB.totalCantidad}" style="text-align:right;width:100px;">
                  					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 		 		</p:outputLabel>                  
 							</f:facet>
-							<p:outputLabel value="#{dato.cantidad1}" />
 						</p:column>
 	
 						<p:column headerText="#{msg.modificarListaEmpaque_CantidadPallets}"
-							 sortBy="#{dato.cantidadPallets}">
+							 sortBy="#{dato.cantidadPallets}" style="text-align:right">
+							<p:outputLabel value="#{dato.cantidadPalletsItem}" />
 							<f:facet name="footer">
-                 				<p:outputLabel value="#{modificarListaEmpaqueMB.totalPallets}" style="text-align:right;width:100px;">
+                 				<p:outputLabel id="totalPallets" value="#{modificarListaEmpaqueMB.totalPallets}" style="text-align:right;width:100px;">
                  					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 		 		</p:outputLabel>                  
 							</f:facet>
-							<p:outputLabel value="#{dato.cantidadPalletsItem}" />
 						</p:column>
 	
 						<p:column headerText="#{msg.modificarListaEmpaque_CantidadCajas}"
-							 sortBy="#{dato.cantidadCajas}">
+							 sortBy="#{dato.cantidadCajas}" style="text-align:right">
+							<p:outputLabel value="#{dato.cantidadCajasItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{modificarListaEmpaqueMB.totalCajas}" style="text-align:right;width:100px;">
                  					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 		 		</p:outputLabel>                  
 							</f:facet>
-							<p:outputLabel value="#{dato.cantidadCajasItem}" />
 						</p:column>
 						
 						<p:column headerText="#{msg.modificarListaEmpaque_PesoNeto}"
-							sortBy="#{dato.pesoNeto}" >
+							sortBy="#{dato.pesoNeto}" style="text-align:right" >
+							<p:outputLabel value="#{dato.totalPesoNetoItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{modificarListaEmpaqueMB.totalPesoNeto}" style="text-align:right;width:100px;">
                  					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 		 		</p:outputLabel>                  
 							</f:facet>
-							<p:outputLabel value="#{dato.totalPesoNetoItem}" />
 						</p:column>
 						
 						<p:column headerText="#{msg.modificarListaEmpaque_PesoBruto}"
-							sortBy="#{dato.pesoBruto}" footerText="hola">
+							sortBy="#{dato.pesoBruto}" style="text-align:right" >
+							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{modificarListaEmpaqueMB.totalPesoBruto}" style="text-align:right;width:100px;">
                  					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 		 		</p:outputLabel>                  
 							</f:facet>
-							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
 						</p:column>
 						
 					</p:dataTable>
