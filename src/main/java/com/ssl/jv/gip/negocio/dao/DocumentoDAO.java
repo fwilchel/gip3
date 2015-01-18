@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -1065,12 +1066,13 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Documento> consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
-			Long idEstado, Long idTipoDocumento, String consecutivoDocumento) {
+	public List<Documento> consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
+			Long idTipoDocumento, String consecutivoDocumento,
+			Long... idEstados) {
 		Query query = em
 				.createNamedQuery(Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO);
-		query.setParameter("idEstado", idEstado);
 		query.setParameter("idTipoDocumento", idTipoDocumento);
+		query.setParameter("idEstados", Arrays.asList(idEstados));
 		query.setParameter("consecutivoDocumento", consecutivoDocumento);
 		return query.getResultList();
 	}
