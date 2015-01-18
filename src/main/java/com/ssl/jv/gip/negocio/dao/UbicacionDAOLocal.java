@@ -7,7 +7,7 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 
 @Local
-public interface UbicacionDAOLocal extends IGenericDAO<Ubicacion>{
+public interface UbicacionDAOLocal extends IGenericDAO<Ubicacion>{ 
 
 	public List<Ubicacion> consultarUbicacionPorFiltro(Ubicacion pFiltro);
 	

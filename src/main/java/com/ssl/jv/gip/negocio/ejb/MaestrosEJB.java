@@ -36,26 +36,29 @@ import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 import com.ssl.jv.gip.jpa.pojo.TipoPrecio;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
-import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
-import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAO;
+import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAOLocal;
+import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAOLocal;
+import com.ssl.jv.gip.negocio.dao.CategoriaCostoLogisticoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CiudadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
-import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAO;
-import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
-import com.ssl.jv.gip.negocio.dao.MedioTransporteDAO;
+import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ItemCostoLogisticoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.LugarIncotermDAOLocal;
+import com.ssl.jv.gip.negocio.dao.MedioTransporteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MetodoPagoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MonedaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
-import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
+import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosInventarioComextDAOLocal;
-import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
+import com.ssl.jv.gip.negocio.dao.RangoCostoLogisticoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoCanalDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoLoteOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoPrecioDAOLocal;
-import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
+import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 
@@ -69,28 +72,28 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	private static final Logger LOGGER = Logger.getLogger(MaestrosEJB.class);
 
 	@EJB
-	private UbicacionDAO ubicacionDAO;
+	private UbicacionDAOLocal ubicacionDAO;
 
 	@EJB
-	private AgenciaCargaDAO agenciaCargaDAO;
+	private AgenciaCargaDAOLocal agenciaCargaDAO;
 
 	@EJB
-	private AgenteAduanaDAO agenteAduanaDAO;
+	private AgenteAduanaDAOLocal agenteAduanaDAO;
 
 	@EJB
-	private LugarIncotermDAO lugarIncotermDAO;
+	private LugarIncotermDAOLocal lugarIncotermDAO;
 
 	@EJB
-	private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
+	private ProductoClienteComercioExteriorDAOLocal productoClienteComercioExteriorDAO;
 
 	@EJB
-	private IncotermXMedioTransDAO incotermXMedioTransDAO;
+	private IncotermXMedioTransDAOLocal incotermXMedioTransDAO;
 
 	@EJB
-	private TerminoIncotermDAO terminoIncotermDAO;
+	private TerminoIncotermDAOLocal terminoIncotermDAO;
 
 	@EJB
-	private MedioTransporteDAO medioTransporteDAO;
+	private MedioTransporteDAOLocal medioTransporteDAO;
 
 	@EJB
 	private UnidadDAOLocal unidadDao;
@@ -133,6 +136,15 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private TipoPrecioDAOLocal tipoPrecioDAO;
+	
+	@EJB
+	private CategoriaCostoLogisticoDAOLocal categoriaCostoLogisticoDAO;
+	
+	@EJB
+	private ItemCostoLogisticoDAOLocal itemCostoLogisticoDAO;
+	
+	@EJB
+	private RangoCostoLogisticoDAOLocal rangoCostoLogisticoDAO;
 
 	/**
 	 * Default constructor.
@@ -761,5 +773,7 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		pi.getUnidadVenta();// Para hacer fetch
 		return pi;
 	}
+	
+	
 
 }
