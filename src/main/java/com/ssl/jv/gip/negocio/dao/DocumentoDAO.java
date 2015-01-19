@@ -1270,4 +1270,11 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		return listado;
 	}
 
+	@Override
+	public List<Documento> consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
+			Long idEstado, Long idTipoDocumento, String consecutivoDocumento) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

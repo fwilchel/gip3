@@ -35,8 +35,8 @@ public enum EFleteExterno {
 		List<SelectItem> items = new ArrayList<SelectItem>();
 		for(EFleteExterno efe : EFleteExterno.values()){
 			SelectItem item = new SelectItem();
-			item.setDescription(efe.getDescription());
-			item.setLabel(efe.getCode());
+			item.setValue(efe.getCode());
+			item.setLabel(efe.getDescription());
 			items.add(item);
 		}
 		return items;

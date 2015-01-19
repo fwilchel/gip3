@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
@@ -65,4 +66,14 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
 	 * @return
 	 */ 
 	List<ModalidadEmbarque> getAllShipmentMod();
+	
+	/**
+	 * Metodo que retorna los documentos de una instruccion de embarque
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @param idShipmntCond
+	 * @return
+	 */ 
+	List<Documento> getDocumentsByShipCondId(Long idShipmntCond);
 }
