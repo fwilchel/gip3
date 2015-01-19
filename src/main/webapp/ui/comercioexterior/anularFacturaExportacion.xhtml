@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.maestroUbicacionesTituloFrame}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.TituloAnularFX}">
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{anularFacturaExportacionMB.documentos}" rows="10"
+						emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton oncomplete="PF('datoDialog').show()"
+								process="@this"
+								action="#{anularFacturaExportacionMB.anularFactura()}"
+								icon="ui-icon-search" update=":datoDlg">
+								<f:setPropertyActionListener value="#{dato}"
+									target="#{anularFacturaExportacionMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column filterBy="#{dato.id}"
+							headerText="#{msg.documentoConsecutivo}"
+							filterMatchMode="contains" sortBy="#{dato.id}">
+							<h:outputText value="#{dato.id}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.consecutivoDocumento}"
+							headerText="#{msg.ConsecutivoFP}" filterMatchMode="contains"
+							sortBy="#{dato.consecutivoDocumento}">
+							<h:outputText value="#{dato.consecutivoDocumento}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.fechaGeneracion}"
+							headerText="#{msg.documentoFechaGeneracion}"
+							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
+							<h:outputText value="#{dato.fechaGeneracion}" />
+						</p:column>
+
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+		<p:dialog header="#{msg.generarOrdenDespachoTituloFrame}"
+			widgetVar="datoDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+			<h:form id="formaDlg">
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

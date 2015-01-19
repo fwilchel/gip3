@@ -12,6 +12,7 @@
 		<class>com.ssl.jv.gip.jpa.pojo.Aprobacion</class>
 		<class>com.ssl.jv.gip.jpa.pojo.BodegasLogica</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Categoria</class>
+		<class>com.ssl.jv.gip.jpa.pojo.CategoriaCostoLogistico</class>
 		<class>com.ssl.jv.gip.jpa.pojo.CategoriasInventario</class>
 		<class>com.ssl.jv.gip.jpa.pojo.CategoriasReceta</class>
 		<class>com.ssl.jv.gip.jpa.pojo.CierreInventario</class>
@@ -60,6 +61,7 @@
 		<class>com.ssl.jv.gip.jpa.pojo.HistorialContrasenaPK</class>
 		<class>com.ssl.jv.gip.jpa.pojo.HistorialCosto</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Insumo</class>
+		<class>com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico</class>
 		<class>com.ssl.jv.gip.jpa.pojo.LogAuditoria</class>
 		<class>com.ssl.jv.gip.jpa.pojo.LugarIncoterm</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Maxfecha</class>
@@ -101,6 +103,7 @@
 		<class>com.ssl.jv.gip.jpa.pojo.ProveedorXCiudad</class>
 		<class>com.ssl.jv.gip.jpa.pojo.ProveedorXCiudadPK</class>
 		<class>com.ssl.jv.gip.jpa.pojo.PuntoVenta</class>
+		<class>com.ssl.jv.gip.jpa.pojo.RangoCostoLogistico</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Receta</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Region</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Rol</class>

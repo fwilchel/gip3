@@ -1,5 +1,9 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +22,10 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
@@ -61,6 +68,8 @@ public class ModificarListaEmpaqueMB extends UtilMB {
 
 	private List<ProductosInventario> productosInventarios;
 
+	private List<ProductosXDocumento> productosXDocumentos;
+
 	private BigDecimal totalCantidad;
 	private BigDecimal totalPallets;
 	private BigDecimal totalCajas;
@@ -70,6 +79,7 @@ public class ModificarListaEmpaqueMB extends UtilMB {
 	@PostConstruct
 	public void init() {
 		productosInventarios = new ArrayList<ProductosInventario>();
+		productosXDocumentos = new ArrayList<ProductosXDocumento>();
 		totalCantidad = BigDecimal.ZERO;
 		totalPallets = BigDecimal.ZERO;
 		totalCajas = BigDecimal.ZERO;
@@ -107,6 +117,13 @@ public class ModificarListaEmpaqueMB extends UtilMB {
 		String outcome = null;
 		try {
 			this.modo = Modo.EDICION;
+			this.productosInventarios = new ArrayList<ProductosInventario>();
+			this.productosXDocumentos = new ArrayList<ProductosXDocumento>();
+			totalCantidad = BigDecimal.ZERO;
+			totalPallets = BigDecimal.ZERO;
+			totalCajas = BigDecimal.ZERO;
+			totalPesoNeto = BigDecimal.ZERO;
+			totalPesoBruto = BigDecimal.ZERO;
 			outcome = "modificar_lista_empaque";
 		} catch (Exception e) {
 			LOGGER.error(e);
@@ -118,7 +135,46 @@ public class ModificarListaEmpaqueMB extends UtilMB {
 	public void cargarArchivo(FileUploadEvent fileUploadEvent) {
 		try {
 			UploadedFile uploadedFile = fileUploadEvent.getFile();
-			this.addMensajeInfo("Archivo cargado con éxito");
+			// this.comercioExteriorEJBLocal
+
+			List<String[]> lines = obtenerDatosDesdeArchivo(uploadedFile
+					.getContents());
+
+			if (lines.isEmpty()) {
+				this.addMensajeError("Archivo vacío");
+			} else {
+				List<String> skus = new ArrayList<String>();
+				for (String[] line : lines) {
+					skus.add(line[0]);
+				}
+				List<ProductosInventario> productos = comercioExteriorEJBLocal
+						.consultarProductosInventariosPorSkus(skus);
+
+				this.productosInventarios = obtenerProductosInexistentes(skus,
+						productos);
+
+				this.productosXDocumentos = comercioExteriorEJBLocal
+						.consultarProductosXDocumentosPorDocumento(seleccionado
+								.getId());
+				for (ProductosXDocumento productosXDocumento : productosXDocumentos) {
+					actualizarConDatosDeArchivo(productosXDocumento, lines);
+					totalCantidad = totalCantidad.add(productosXDocumento
+							.getCantidad1());
+					totalPallets = totalPallets.add(productosXDocumento
+							.getCantidadPalletsItem());
+					totalCajas = totalCajas.add(productosXDocumento
+							.getCantidadCajasItem());
+					totalPesoNeto = totalPesoNeto.add(productosXDocumento
+							.getTotalPesoNetoItem());
+					totalPesoBruto = totalPesoBruto.add(productosXDocumento
+							.getTotalPesoBrutoItem());
+				}
+
+				this.addMensajeInfo("Vista preliminar cargada con éxito");
+			}
+
+		} catch (IOException e) {
+			this.addMensajeError("Error al leer el archivo");
 		} catch (Exception e) {
 			LOGGER.error(e);
 			Exception unrollException = (Exception) this.unrollException(e,
@@ -137,14 +193,146 @@ public class ModificarListaEmpaqueMB extends UtilMB {
 		}
 	}
 
+	private void actualizarConDatosDeArchivo(
+			ProductosXDocumento productosXDocumento, List<String[]> lines) {
+		for (String[] line : lines) {
+			if (productosXDocumento.getProductosInventario().getSku()
+					.equals(line[0])) {
+				productosXDocumento.setCantidadPalletsItem(new BigDecimal(
+						line[1].trim()));
+				productosXDocumento.setCantidadCajasItem(new BigDecimal(line[2]
+						.trim()));
+				productosXDocumento.setTotalPesoNetoItem(new BigDecimal(line[3]
+						.trim()));
+				productosXDocumento.setTotalPesoBrutoItem(new BigDecimal(
+						line[4].trim()));
+				break;
+			}
+		}
+
+	}
+
+	private List<ProductosInventario> obtenerProductosInexistentes(
+			List<String> skus, List<ProductosInventario> productos) {
+		List<ProductosInventario> inexistentes = new ArrayList<ProductosInventario>();
+		boolean existe = false;
+		for (String sku : skus) {
+			existe = false;
+			for (ProductosInventario productosInventario : productos) {
+				if (sku.equals(productosInventario.getSku())) {
+					existe = true;
+					break;
+				}
+			}
+
+			if (!existe) {
+				inexistentes.add(getProductoInexistente(sku));
+			}
+		}
+		return inexistentes;
+	}
+
+	private ProductosInventario getProductoInexistente(String sku) {
+		ProductosInventario productosInventario = new ProductosInventario();
+		productosInventario.setSku(sku);
+		productosInventario.setNombre("PRODUCTO NO EXISTE");
+		return productosInventario;
+	}
+
+	private List<String[]> obtenerDatosDesdeArchivo(byte[] archivo)
+			throws IOException {
+		List<String[]> lines = new ArrayList<String[]>();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				new ByteArrayInputStream(archivo)));
+		boolean error = false;
+		String message = null;
+		int numLinea = 0;
+		String line = reader.readLine();
+		while ((line = reader.readLine()) != null) {
+			numLinea++;
+			if (!line.isEmpty()) {
+				String[] values = line.split("\\|");
+				if (values.length != 5) {
+					message = "Error de estructura en la línea " + numLinea;
+					error = true;
+					break;
+				}
+
+				// if (values[0].trim().isEmpty()) {
+				// mensaje = "Error de datos en el archivo";
+				// error = true;
+				// break;
+				// }
+
+				try {
+					new BigDecimal(values[1].trim());
+					new BigDecimal(values[2].trim());
+					new BigDecimal(values[3].trim());
+					new BigDecimal(values[4].trim());
+				} catch (NumberFormatException e) {
+					message = "Error de datos en la línea " + numLinea;
+					error = true;
+					break;
+				}
+
+				lines.add(values);
+			}
+		}
+		reader.close();
+
+		if (error) {
+			throw new RuntimeException(message);
+		}
+
+		return lines;
+	}
+
 	public String modificarListaEmpaque() {
 		String outcome = null;
 		try {
+
+			List<DocumentoXNegociacion> documentoXNegociacions = seleccionado
+					.getDocumentoXNegociacions();
+			if (!documentoXNegociacions.isEmpty()) {
+				for (DocumentoXNegociacion documentoXNegociacion : documentoXNegociacions) {
+					documentoXNegociacion.setTotalPallets(totalPallets);
+					documentoXNegociacion.setTotalTendidos(totalCajas);
+					documentoXNegociacion.setTotalPesoBruto(totalPesoBruto);
+					documentoXNegociacion.setTotalPesoNeto(totalPesoNeto);
+				}
+
+			}
+
+			List<DocumentoXLotesoic> documentoXLotesoics = seleccionado
+					.getDocumentoXLotesoics();
+			if (!documentoXLotesoics.isEmpty()) {
+				for (DocumentoXLotesoic documentoXLotesoic : documentoXLotesoics) {
+					documentoXLotesoic.setTotalCajas(totalCajas);
+					documentoXLotesoic.setTotalPesoNeto(totalPesoNeto);
+				}
+			}
+
+			comercioExteriorEJBLocal.modificarListaEmpaque(seleccionado,
+					productosXDocumentos);
+
 			consecutivoDocumento = null;
+			this.modo = Modo.CREACION;
 			outcome = "listado_LE4";
 		} catch (Exception e) {
 			LOGGER.error(e);
-			this.addMensajeError(e);
+			Exception unrollException = (Exception) this.unrollException(e,
+					ConstraintViolationException.class);
+			if (unrollException != null) {
+				this.addMensajeError(unrollException.getLocalizedMessage());
+			} else {
+				unrollException = (Exception) this.unrollException(e,
+						RuntimeException.class);
+				if (unrollException != null) {
+					this.addMensajeError(unrollException.getLocalizedMessage());
+				} else {
+					this.addMensajeError(e);
+				}
+			}
 		}
 		return outcome;
 	}
@@ -260,6 +448,15 @@ public class ModificarListaEmpaqueMB extends UtilMB {
 	public void setProductosInventarios(
 			List<ProductosInventario> productosInventarios) {
 		this.productosInventarios = productosInventarios;
+	}
+
+	public List<ProductosXDocumento> getProductosXDocumentos() {
+		return productosXDocumentos;
+	}
+
+	public void setProductosXDocumentos(
+			List<ProductosXDocumento> productosXDocumentos) {
+		this.productosXDocumentos = productosXDocumentos;
 	}
 
 }

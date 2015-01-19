@@ -13,6 +13,7 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
@@ -123,6 +124,7 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
 				LOGGER.info("Resultado consulta de documentos de instruccion de embarque: " + answer);
 				
 				answer.setTerminosTransporte(this.findByPK(Long.parseLong(shipCondId)));
+				//answer.getTerminosTransporte().setDocumentos(this.getDocumentsByShipCondId(Long.valueOf(shipCondId)));
 				
 			}
 		} catch (NoResultException ne){
@@ -283,6 +285,31 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
 			String query = "SELECT me FROM ModalidadEmbarque me";
 			Query q = this.em.createQuery(query);
 			
+			list = q.getResultList();
+		} catch (NoResultException ne) {
+			LOGGER.error(ErrorConstants.NO_RESULT.getDescription());
+		} catch (Exception e) {
+			LOGGER.error(ErrorConstants.UNHANDLED_EXCEPTION.getDescription());
+		}
+		return list;
+	}
+
+	/**
+	 * @see com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal#getDocumentsByShipCondId(java.lang.Long)
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public List<Documento> getDocumentsByShipCondId(Long idShipmntCond) {
+		List<Documento> list = null;
+		try {
+			String query = "SELECT * FROM documentos d WHERE d.id IN "
+					+ " (SELECT ttd.id_documento FROM terminos_transporte_x_documento ttd WHERE ttd.id_terminos_transporte = ?)";
+			
+			Query q = this.em.createNativeQuery(query);
+			q.setParameter(0, idShipmntCond);
+						
 			list = q.getResultList();
 		} catch (NoResultException ne) {
 			LOGGER.error(ErrorConstants.NO_RESULT.getDescription());

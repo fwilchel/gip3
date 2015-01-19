@@ -27,7 +27,8 @@ import javax.persistence.Transient;
 		@NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_ALL, query = "SELECT p FROM ProductosInventario p"),
 		@NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_ACTIVOS, query = "SELECT p FROM ProductosInventario p WHERE p.desactivado = false"),
 		@NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_CATEGORIA_SKU_NOMBRE_ESTADO, query = "SELECT p FROM ProductosInventario p LEFT JOIN p.categoriasInventario ci JOIN p.pais pa JOIN pa.usuarios u WHERE u.id = :idUsuario AND (false = :paramDesactivado OR p.desactivado = :desactivado) AND (false = :paramCategoria OR ci.id = :idCategoria) AND (false = :paramSku OR p.sku like :sku) AND (false = :paramNombre OR p.nombre like :nombre)"),
-		@NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKU, query = "SELECT p FROM ProductosInventario p WHERE p.sku = :sku") })
+		@NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKU, query = "SELECT p FROM ProductosInventario p WHERE p.sku = :sku"),
+		@NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKUs, query = "SELECT p FROM ProductosInventario p WHERE p.sku in (:skus)") })
 public class ProductosInventario implements Serializable {
 
 	/**
@@ -38,6 +39,7 @@ public class ProductosInventario implements Serializable {
 	public static final String PRODUCTOS_INVENTARIO_FIND_ACTIVOS = "ProductosInventario.findActivos";
 	public static final String PRODUCTOS_INVENTARIO_FIND_BY_CATEGORIA_SKU_NOMBRE_ESTADO = "ProductosInventario.findByCategoriaSkuNombreEstado";
 	public static final String PRODUCTOS_INVENTARIO_FIND_BY_SKU = "ProductosInventario.findBySku";
+	public static final String PRODUCTOS_INVENTARIO_FIND_BY_SKUs = "ProductosInventario.findBySkus";
 
 	@Id
 	private Long id;

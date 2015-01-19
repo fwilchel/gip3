@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.itemsCLTitulo}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.itemsCLTitulo}">
+
+					<p:dataTable var="registro" widgetVar="registrosTabla" sortField="nombre"
+						id="tablaRegistros" value="#{itemsCLMB.items}" rows="15"
+						emptyMessage="#{msg.itemsCLNoCategorias}" sortMode="single" 
+						paginator="true" paginatorPosition="bottom" 
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel>
+
+									<p:commandButton action="#{itemsCLMB.nuevo}"
+										update=":editarDlg" oncomplete="PF('editarDialog').show()"
+										title="#{msg.generalAdicionarRegistro}"
+										icon="ui-icon-document"
+										value="#{msg.generalAdicionarRegistro}" />
+										
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+
+								</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column style="width:64px;text-align: center">
+							<p:commandButton oncomplete="PF('editarDialog').show()"
+								icon="ui-icon-pencil" title="#{msg.generalEditar}"
+								update=":editarDlg">
+								<f:setPropertyActionListener value="#{registro}"
+									target="#{itemsCLMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column headerText="#{msg.itemsCLid}" 
+							sortBy="#{registro.id}">
+							<h:outputText
+								value="#{registro.id}" />
+						</p:column>
+
+						<p:column headerText="#{msg.itemsCLNombre}"
+							sortBy="#{registro.nombre}">
+							<h:outputText value="#{registro.nombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.itemsCLDescripcion}"
+							sortBy="#{registro.descripcion}">
+							<h:outputText value="#{registro.descripcion}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLCategoria}"
+							sortBy="#{registro.categoriaCostoLogistico.nombre}">
+							<h:outputText value="#{registro.categoriaCostoLogistico.nombre}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLTipo}"
+							sortBy="#{registro.tipoNombre}">
+							<h:outputText value="#{registro.tipoNombre}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLPuertos}">
+							<h:outputText value="#{registro.nombrePuertoNal}" />
+							<h:outputText value="#{registro.nombrePuertosNalInternal}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLValorUSD}"
+							sortBy="#{registro.valorUsd}">
+							<h:outputText value="#{registro.valorUsd}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLaplicaFOB}"
+							sortBy="#{registro.aplicaFob}">
+							<h:outputText value="#{registro.aplicaFob?'SI':'NO'}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLaplicaCFR}"
+							sortBy="#{registro.aplicaCfr}">
+							<h:outputText value="#{registro.aplicaCfr?'SI':'NO'}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLaplicaCIF}"
+							sortBy="#{registro.aplicaCif}">
+							<h:outputText value="#{registro.aplicaCif?'SI':'NO'}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLaplicaFCA}"
+							sortBy="#{registro.aplicaFca}">
+							<h:outputText value="#{registro.aplicaFca?'SI':'NO'}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLaplicaCIP}"
+							sortBy="#{registro.aplicaCip}">
+							<h:outputText value="#{registro.aplicaCip?'SI':'NO'}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLaplicaDAP}"
+							sortBy="#{registro.aplicaDap}">
+							<h:outputText value="#{registro.aplicaDap?'SI':'NO'}" />
+						</p:column>
+						
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+		<p:dialog
+			header="#{itemsCLMB.creacion?msg.itemsCLCrear:msg.itemsCLModificar}"
+			widgetVar="editarDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="editarDlg">
+			<h:form id="formaDlg">
+				<p:outputPanel id="registroDetalle" style="text-align:center;">
+
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+
+					<p:panelGrid columns="3"
+						rendered="#{not empty itemsCLMB.seleccionado}"
+						columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.itemsCLid}" for="codigo"
+							styleClass="negrita" />
+						<h:inputText value="#{itemsCLMB.seleccionado.id}" id="codigo"
+							required="true" disabled="true"
+							label="#{msg.itemsCLid}" />
+						<p:message for="codigo"></p:message>
+
+						<p:outputLabel value="#{msg.itemsCLNombre}" for="nombre"
+							styleClass="negrita" />
+						<h:inputText value="#{itemsCLMB.seleccionado.nombre}"
+							id="nombre" maxlength="100" required="true" size="50"
+							label="#{msg.itemsCLNombre}" />
+						<p:message for="nombre"></p:message>
+
+						<p:outputLabel value="#{msg.itemsCLDescripcion}" for="descripcion"
+							styleClass="negrita" />
+						<h:inputText value="#{itemsCLMB.seleccionado.descripcion}" size="100"
+							id="descripcion" maxlength="200" required="false"
+							label="#{msg.itemsCLDescripcion}" />
+						<p:message for="descripcion"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLCategoria}" for="categoria"
+							styleClass="negrita" />
+						<p:selectOneMenu id="categoria" value="#{itemsCLMB.seleccionado.categoriaCostoLogistico.id}" label="#{msg.itemsCLCategoria}">
+							<f:selectItems value="#{itemsCLMB.categorias}" var="categoria" itemLabel="#{categoria.nombre}" itemValue="#{categoria.id}"  />
+						</p:selectOneMenu>
+						<p:message for="categoria"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLTipo}" for="tipo"
+							styleClass="negrita" />
+						<p:selectOneMenu id="tipo" value="#{itemsCLMB.seleccionado.tipo}" label="#{msg.itemsCLTipo}">
+							<f:selectItems value="#{itemsCLMB.tipos}" var="tipo"  />
+						</p:selectOneMenu>
+						<p:message for="tipo"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLValorUSD}" for="valor"
+							styleClass="negrita" />
+						<h:inputText value="#{itemsCLMB.seleccionado.valorUsd}"
+							id="valor" 
+							label="#{msg.itemsCLValorUSD}" />
+						<p:message for="valor"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLValorMinimo}" for="minimo"
+							styleClass="negrita" />
+						<h:inputText value="#{itemsCLMB.seleccionado.valorMinimoUsd}"
+							id="minimo" 
+							label="#{msg.itemsCLValorMinimo}" />
+						<p:message for="minimo"></p:message>
+
+						<p:outputLabel value="#{msg.itemsCLPuertoNal}" for="puerto"
+							styleClass="negrita" />
+						<h:inputText value="#{itemsCLMB.seleccionado.nombrePuertoNal}"
+							id="puerto" maxlength="100" size="50"
+							label="#{msg.itemsCLPuertoNal}" />
+						<p:message for="puerto"></p:message>
+
+						<p:outputLabel value="#{msg.itemsCLPuertosNalInternal}" for="puertos"
+							styleClass="negrita" />
+						<h:inputText value="#{itemsCLMB.seleccionado.nombrePuertosNalInternal}"
+							id="puertos" maxlength="500" size="50"
+							label="#{msg.itemsCLPuertosNalInternal}" />
+						<p:message for="puertos"></p:message>
+												
+						<p:outputLabel value="#{msg.itemsCLaplicaFOB}" for="fob"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.aplicaFob}" id="fob"
+							label="#{msg.itemsCLaplicaFOB}" />
+						<p:message for="fob"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLaplicaCFR}" for="cfr"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.aplicaCfr}" id="cfr"
+							label="#{msg.itemsCLaplicaCFR}" />
+						<p:message for="cfr"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLaplicaCIF}" for="cif"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.aplicaCif}" id="cif"
+							label="#{msg.itemsCLaplicaCIF}" />
+						<p:message for="cif"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLaplicaFCA}" for="fca"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.aplicaFca}" id="fca"
+							label="#{msg.itemsCLaplicaFCA}" />
+						<p:message for="fca"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLaplicaCIP}" for="cip"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.aplicaCip}" id="cip"
+							label="#{msg.itemsCLaplicaCIP}" />
+						<p:message for="cip"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLaplicaDAP}" for="dap"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.aplicaDap}" id="dap"
+							label="#{msg.itemsCLaplicaDAP}" />
+						<p:message for="dap"></p:message>
+
+						<p:outputLabel value="#{msg.itemsCLPais}" for="pais"
+							styleClass="negrita" />
+						<p:selectOneMenu id="pais" value="#{itemsCLMB.seleccionado.idPaisDestino}" label="#{msg.itemsCLPais}">
+							<f:selectItems value="#{aplicacionMB.paises}" var="pais" itemLabel="#{pais.nombre}" itemValue="#{pais.id}" />
+						</p:selectOneMenu>
+						<p:message for="pais"></p:message>
+
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+							action="#{itemsCLMB.guardar}"
+							update=":formaDlg:registroDetalle, :forma:tabPanel:tablaRegistros"></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}" process="@this"
+							oncomplete="PF('editarDialog').hide();" icon="ui-icon-cancel">
+							<p:resetInput target="registroDetalle" />
+						</p:commandButton>
+
+					</p:panelGrid>
+
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
+

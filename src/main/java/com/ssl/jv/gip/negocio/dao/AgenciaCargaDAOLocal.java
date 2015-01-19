@@ -7,7 +7,7 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 
 @Local
-public interface AgenciaCargaDAOLocal {
+public interface AgenciaCargaDAOLocal extends IGenericDAO<AgenciaCarga>{ 
 	
 	public List<AgenciaCarga> consultarAgenciaCargaPorFiltro(AgenciaCarga pFiltro);
 		

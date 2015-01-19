@@ -9,6 +9,7 @@ import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
@@ -93,4 +94,13 @@ public interface TerminosTransporteEJBLocal {
 	 * @return
 	 */ 
 	TerminosTransporte actualizarInstruccionEmbarque(TerminosTransporte tt);
+	
+	/**
+	 * Metodo que actualiza un documento
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @param documento
+	 */ 
+	Documento actualizarDocumento(Documento documento);
 }

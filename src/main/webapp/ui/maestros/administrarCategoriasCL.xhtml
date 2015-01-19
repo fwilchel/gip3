@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.categoriasCLTitulo}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.categoriasCLTitulo}">
+
+					<p:dataTable var="registro" widgetVar="registrosTabla" sortField="nombre"
+						id="tablaRegistros" value="#{categoriasCLMB.categorias}" rows="15"
+						emptyMessage="#{msg.categoriasCLNoCategorias}" sortMode="single" 
+						paginator="true" paginatorPosition="bottom" 
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel>
+
+									<p:commandButton action="#{categoriasCLMB.nuevo}"
+										update=":editarDlg" oncomplete="PF('editarDialog').show()"
+										title="#{msg.generalAdicionarRegistro}"
+										icon="ui-icon-document"
+										value="#{msg.generalAdicionarRegistro}" />
+										
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+
+								</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column style="width:64px;text-align: center">
+							<p:commandButton oncomplete="PF('editarDialog').show()"
+								icon="ui-icon-pencil" title="#{msg.generalEditar}"
+								update=":editarDlg">
+								<f:setPropertyActionListener value="#{registro}"
+									target="#{categoriasCLMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column headerText="#{msg.categoriasCLid}" 
+							sortBy="#{registro.id}">
+							<h:outputText
+								value="#{registro.id}" />
+						</p:column>
+
+						<p:column headerText="#{msg.categoriasCLNombre}"
+							sortBy="#{registro.nombre}">
+							<h:outputText value="#{registro.nombre}" />
+						</p:column>
+
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+		<p:dialog
+			header="#{categoriasCLMB.creacion?msg.categoriasCLCrear:msg.categoriasCLModificar}"
+			widgetVar="editarDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="editarDlg">
+			<h:form id="formaDlg">
+				<p:outputPanel id="registroDetalle" style="text-align:center;">
+
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+
+					<p:panelGrid columns="3"
+						rendered="#{not empty categoriasCLMB.seleccionado}"
+						columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.categoriasCLid}" for="codigo"
+							styleClass="negrita" />
+						<h:inputText value="#{categoriasCLMB.seleccionado.id}" id="codigo"
+							required="true" disabled="true"
+							label="#{msg.categoriasCLid}" />
+						<p:message for="codigo"></p:message>
+
+						<p:outputLabel value="#{msg.categoriasCLNombre}" for="nombre"
+							styleClass="negrita" />
+						<h:inputText value="#{categoriasCLMB.seleccionado.nombre}"
+							id="nombre" maxlength="100" required="true"
+							label="#{msg.categoriasCLNombre}" />
+						<p:message for="nombre"></p:message>
+
+
+
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+							action="#{categoriasCLMB.guardar}"
+							update=":formaDlg:registroDetalle, :forma:tabPanel:tablaRegistros"></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}" process="@this"
+							oncomplete="PF('editarDialog').hide();" icon="ui-icon-cancel">
+							<p:resetInput target="registroDetalle" />
+						</p:commandButton>
+
+					</p:panelGrid>
+
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
+

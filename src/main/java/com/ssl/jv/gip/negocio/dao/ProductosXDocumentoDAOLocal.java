@@ -12,8 +12,7 @@ public interface ProductosXDocumentoDAOLocal extends
 		IGenericDAO<ProductosXDocumento> {
 
 	public List<ProductosXDocumento> consultarPorDocumento(Long id);
-	
 	public List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(String strConsecutivoDocumento); 
-	
-	
+	public void modificarProductosXDocumentos(List<ProductosXDocumento> productosXDocumentos);
+	public List<ProductosXDocumento> consultarPorDocumentoYCliente(Long idDocumento, Long idCliente);
 }

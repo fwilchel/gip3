@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
@@ -62,6 +64,7 @@ public class TerminosTransporteMB extends UtilMB{
 	private String selectedIdPais;
 	private List<SelectItem> extFeesList;
 	private List<SelectItem> ciudadesList;
+	private Date selectedFechaETA;
 	
 
 	private TerminosTransporte selectedTerminosTransporte;
@@ -194,6 +197,14 @@ public class TerminosTransporteMB extends UtilMB{
 		this.selectedTerminosTransporte = selectedTerminosTransporte;
 	}
 
+	public Date getSelectedFechaETA() {
+		return selectedFechaETA;
+	}
+
+	public void setSelectedFechaETA(Date selectedFechaETA) {
+		this.selectedFechaETA = selectedFechaETA;
+	}
+
 	public List<SelectItem> getModalidadEmbarqueList() {
 		return modalidadEmbarqueList;
 	}
@@ -238,6 +249,10 @@ public class TerminosTransporteMB extends UtilMB{
 		try {
 			instruccionesEmbarqueDTO = terminosTransporteEjb.
 					consultarTerminosTransportePorId(selectedShipmentCond.getId());
+			if(instruccionesEmbarqueDTO != null && instruccionesEmbarqueDTO.getTerminosTransporte() != null
+					&& instruccionesEmbarqueDTO.getTerminosTransporte().getDocumentos() != null){
+				selectedFechaETA = instruccionesEmbarqueDTO.getTerminosTransporte().getDocumentos().get(0).getFechaEta(); 
+			}
 			selectedIdPais = null;
 			ciudadesList = null;
 		} catch (Exception e) {
@@ -265,7 +280,11 @@ public class TerminosTransporteMB extends UtilMB{
 	 */ 
 	public void actualizarInstruccionEmbarque(){
 		try {
+			for(Documento doc : instruccionesEmbarqueDTO.getTerminosTransporte().getDocumentos()){
+				doc.setFechaEta(this.selectedFechaETA);
+			}
 			terminosTransporteEjb.actualizarInstruccionEmbarque(instruccionesEmbarqueDTO.getTerminosTransporte());
+			
 		} catch (Exception e) {
 			this.addMensajeError("Ocurrio un error al actualizar la instruccion de embarque, intente de nuevo mas tarde");
 		}
