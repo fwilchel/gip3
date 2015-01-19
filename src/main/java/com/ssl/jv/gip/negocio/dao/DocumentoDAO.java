@@ -1075,4 +1075,31 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		return query.getResultList();
 	}
 
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Documento> consultarDocumentosFacturaExportacion(
+			String consecutivoDocumento) {
+		List<Documento> listado = new ArrayList<Documento>();
+		String query;
+		try {
+			query = "SELECT d FROM Documento d "
+					+ "JOIN FETCH d.estadosxdocumento exd "
+					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento"
+					+ " ORDER BY d.id DESC";
+
+			listado = em
+					.createQuery(query)
+					.setParameter("tipoDocumento",
+							(long) ConstantesTipoDocumento.FACTURA_EXPORTACION)
+					.getResultList();
+		} catch (Exception e) {
+			LOGGER.error(e
+					+ "********Error consultando Documentos por tipo de documento ORDEN DE DESPACHO");
+			return null;
+		}
+		return listado;
+	}
+
 }

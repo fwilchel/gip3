@@ -150,6 +150,12 @@
     PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
     TARGET="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
     TITLE="modificar_lista_empaque" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_FX_Anular::#ui#comercioexterior#anularFacturaExportacion.xhtml"
+    NAME="output30"
+    PATH="/ui/comercioexterior/anularFacturaExportacion.xhtml"
+    TARGET="rules:#ui#comercioexterior#anularFacturaExportacion.xhtml"
+    TITLE="listado_FX_Anular" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
@@ -234,4 +240,8 @@
   NAME="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
   PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
   SHAPE="304,1073,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#anularFacturaExportacion.xhtml"
+  PATH="/ui/comercioexterior/anularFacturaExportacion.xhtml"
+  SHAPE="304,1105,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

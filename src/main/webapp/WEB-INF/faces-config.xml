@@ -146,6 +146,10 @@
 			<from-outcome>modificar_lista_empaque</from-outcome>
 			<to-view-id>/ui/comercioexterior/modificarListaEmpaque.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>listado_FX_Anular</from-outcome>
+			<to-view-id>/ui/comercioexterior/anularFacturaExportacion.xhtml</to-view-id>
+		</navigation-case>
     </navigation-rule>
     
     

@@ -198,4 +198,10 @@ public interface ComercioExteriorEJBLocal {
 	public void modificarListaEmpaque(Documento documento,
 			List<ProductosXDocumento> productosXDocumentos);
 
+	public List<Documento> consultarFacturasDeExportacion();
+	
+	public List<Documento> consultarFacturasDeExportacionFiltro(Documento documento);
+	
+	public void actualizarFacturaDeExportacionFiltro(Documento documento);
+	
 }
