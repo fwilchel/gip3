@@ -1,21 +1,23 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import sun.font.EAttribute;
-
-import com.ssl.jv.gip.web.util.Utilidad;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import com.ssl.jv.gip.web.util.Utilidad;
 
 
 /**
@@ -124,6 +126,7 @@ public class TerminosTransporte implements Serializable {
 	private TerminoIncoterm terminoIncoterm;
 
 	//bi-directional many-to-many association to Documento
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(
 		name="terminos_transporte_x_documento"
 		, joinColumns={
