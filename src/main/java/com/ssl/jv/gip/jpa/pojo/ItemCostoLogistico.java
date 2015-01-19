@@ -1,7 +1,11 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.ssl.jv.gip.util.TipoItemCostoLogistico;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -12,7 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="item_costo_logistico")
-@NamedQuery(name="ItemCostoLogistico.findAll", query="SELECT i FROM ItemCostoLogistico i")
+@NamedQuery(name="ItemCostoLogistico.findAll", query="SELECT i FROM ItemCostoLogistico i LEFT JOIN FETCH i.categoriaCostoLogistico ccl LEFT JOIN FETCH i.rangoCostoLogisticos r")
 public class ItemCostoLogistico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,8 +25,8 @@ public class ItemCostoLogistico implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ITEM_COSTO_LOGISTICO_ID_GENERATOR")
 	private Long id;
 
-	@Column(name="aplica_cfa")
-	private Boolean aplicaCfa;
+	@Column(name="aplica_fca")
+	private Boolean aplicaFca;
 
 	@Column(name="aplica_cfr")
 	private Boolean aplicaCfr;
@@ -66,7 +70,7 @@ public class ItemCostoLogistico implements Serializable {
 	//bi-directional many-to-one association to CategoriasCostosLogistico
 	@ManyToOne
 	@JoinColumn(name="id_categoria")
-	private CategoriaCostoLogistico categoriasCostosLogistico;
+	private CategoriaCostoLogistico categoriaCostoLogistico;
 
 	//bi-directional many-to-one association to RangoCostoLogistico
 	@OneToMany(mappedBy="itemCostoLogistico")
@@ -83,12 +87,12 @@ public class ItemCostoLogistico implements Serializable {
 		this.id = id;
 	}
 
-	public Boolean getAplicaCfa() {
-		return this.aplicaCfa;
+	public Boolean getAplicaFca() {
+		return this.aplicaFca;
 	}
 
-	public void setAplicaCfa(Boolean aplicaCfa) {
-		this.aplicaCfa = aplicaCfa;
+	public void setAplicaFca(Boolean aplicaFca) {
+		this.aplicaFca = aplicaFca;
 	}
 
 	public Boolean getAplicaCfr() {
@@ -203,12 +207,12 @@ public class ItemCostoLogistico implements Serializable {
 		this.valorUsd = valorUsd;
 	}
 
-	public CategoriaCostoLogistico getCategoriasCostosLogistico() {
-		return this.categoriasCostosLogistico;
+	public CategoriaCostoLogistico getCategoriaCostoLogistico() {
+		return this.categoriaCostoLogistico;
 	}
 
-	public void setCategoriasCostosLogistico(CategoriaCostoLogistico categoriasCostosLogistico) {
-		this.categoriasCostosLogistico = categoriasCostosLogistico;
+	public void setCategoriaCostoLogistico(CategoriaCostoLogistico categoriaCostoLogistico) {
+		this.categoriaCostoLogistico = categoriaCostoLogistico;
 	}
 
 	public List<RangoCostoLogistico> getRangoCostoLogisticos() {
@@ -231,6 +235,15 @@ public class ItemCostoLogistico implements Serializable {
 		rangoCostoLogistico.setItemCostoLogistico(null);
 
 		return rangoCostoLogistico;
+	}
+	
+	@Transient
+	public String getTipoNombre(){
+		for (TipoItemCostoLogistico i:TipoItemCostoLogistico.values()){
+			if (i.getId().equals(this.tipo))
+				return i.getDescripcion();
+		}
+		return null;
 	}
 
 }

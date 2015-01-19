@@ -109,17 +109,17 @@
 						rowsPerPageTemplate="5,10,15">
 	
 						<p:column headerText="#{msg.imprimirFacturaProforma_SKU}"
-							sortBy="#{dato.sku}">
+							sortBy="#{dato.productosInventario.sku}">
 							<h:outputText value="#{dato.productosInventario.sku}" />
 						</p:column>
 	
 						<p:column headerText="#{msg.imprimirFacturaProforma_NombreDelproducto}"
-							sortBy="#{dato.nombre}">
+							sortBy="#{dato.productosInventario.nombre}">
 							<h:outputText value="#{dato.productosInventario.nombre}" />
 						</p:column>
 	
 						<p:column headerText="#{msg.imprimirFacturaProforma_Cantidad}"
-							sortBy="#{dato.cantidad}" style="text-align:right" >
+							sortBy="#{dato.cantidad1}" style="text-align:right" >
 							<p:outputLabel value="#{dato.cantidad1}" />
 							<f:facet name="footer">
                  				<p:outputLabel id="totalCantidad" value="#{imprimirFacturaProformaMB.totalCantidad}" style="text-align:right;width:100px;">
@@ -129,7 +129,7 @@
 						</p:column>
 	
 						<p:column headerText="#{msg.imprimirFacturaProforma_ValorUnitario}"
-							 sortBy="#{dato.cantidadPallets}" style="text-align:right">
+							 sortBy="#{dato.cantidadPalletsItem}" style="text-align:right">
 							<p:outputLabel value="#{dato.cantidadPalletsItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel id="totalPallets" value="#{imprimirFacturaProformaMB.totalValorUnitario}" style="text-align:right;width:100px;">
@@ -139,7 +139,7 @@
 						</p:column>
 	
 						<p:column headerText="#{msg.imprimirFacturaProforma_ValorTotal}"
-							 sortBy="#{dato.cantidadCajas}" style="text-align:right">
+							 sortBy="#{dato.cantidadCajasItem}" style="text-align:right">
 							<p:outputLabel value="#{dato.cantidadCajasItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{imprimirFacturaProformaMB.totalValorTotal}" style="text-align:right;width:100px;">
@@ -149,7 +149,7 @@
 						</p:column>
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_PesoNetoKg}"
-							sortBy="#{dato.pesoNeto}" style="text-align:right" >
+							sortBy="#{dato.totalPesoNetoItem}" style="text-align:right" >
 							<p:outputLabel value="#{dato.totalPesoNetoItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{imprimirFacturaProformaMB.totalPesoNeto}" style="text-align:right;width:100px;">
@@ -159,7 +159,7 @@
 						</p:column>
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_PesoBrutoKg}"
-							sortBy="#{dato.pesoBruto}" style="text-align:right" >
+							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
 							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{imprimirFacturaProformaMB.totalPesoBruto}" style="text-align:right;width:100px;">
@@ -169,7 +169,7 @@
 						</p:column>
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_CantidadCajas}"
-							sortBy="#{dato.pesoBruto}" style="text-align:right" >
+							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
 							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadCajas}" style="text-align:right;width:100px;">
@@ -179,7 +179,7 @@
 						</p:column>
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_CantidadTendidos}"
-							sortBy="#{dato.pesoBruto}" style="text-align:right" >
+							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
 							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadTendidos}" style="text-align:right;width:100px;">
@@ -189,7 +189,7 @@
 						</p:column>
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_CantidadPallets}"
-							sortBy="#{dato.pesoBruto}" style="text-align:right" >
+							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
 							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadPallets}" style="text-align:right;width:100px;">

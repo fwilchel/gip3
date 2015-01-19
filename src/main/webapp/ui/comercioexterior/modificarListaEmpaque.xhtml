@@ -60,17 +60,17 @@
 						rowsPerPageTemplate="5,10,15">
 	
 						<p:column headerText="#{msg.modificarListaEmpaque_SKU}"
-							sortBy="#{dato.sku}">
+							sortBy="#{dato.productosInventario.sku}">
 							<h:outputText value="#{dato.productosInventario.sku}" />
 						</p:column>
 	
 						<p:column headerText="#{msg.modificarListaEmpaque_NombreDelProducto}"
-							sortBy="#{dato.nombre}">
+							sortBy="#{dato.productosInventario.nombre}">
 							<h:outputText value="#{dato.productosInventario.nombre}" />
 						</p:column>
 	
 						<p:column headerText="#{msg.modificarListaEmpaque_Cantidad}"
-							sortBy="#{dato.cantidad}" style="text-align:right" >
+							sortBy="#{dato.cantidad1}" style="text-align:right" >
 							<p:outputLabel value="#{dato.cantidad1}" />
 							<f:facet name="footer">
                  				<p:outputLabel id="totalCantidad" value="#{modificarListaEmpaqueMB.totalCantidad}" style="text-align:right;width:100px;">
@@ -80,7 +80,7 @@
 						</p:column>
 	
 						<p:column headerText="#{msg.modificarListaEmpaque_CantidadPallets}"
-							 sortBy="#{dato.cantidadPallets}" style="text-align:right">
+							 sortBy="#{dato.cantidadPalletsItem}" style="text-align:right">
 							<p:outputLabel value="#{dato.cantidadPalletsItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel id="totalPallets" value="#{modificarListaEmpaqueMB.totalPallets}" style="text-align:right;width:100px;">
@@ -90,7 +90,7 @@
 						</p:column>
 	
 						<p:column headerText="#{msg.modificarListaEmpaque_CantidadCajas}"
-							 sortBy="#{dato.cantidadCajas}" style="text-align:right">
+							 sortBy="#{dato.cantidadCajasItem}" style="text-align:right">
 							<p:outputLabel value="#{dato.cantidadCajasItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{modificarListaEmpaqueMB.totalCajas}" style="text-align:right;width:100px;">
@@ -100,7 +100,7 @@
 						</p:column>
 						
 						<p:column headerText="#{msg.modificarListaEmpaque_PesoNeto}"
-							sortBy="#{dato.pesoNeto}" style="text-align:right" >
+							sortBy="#{dato.totalPesoNetoItem}" style="text-align:right" >
 							<p:outputLabel value="#{dato.totalPesoNetoItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{modificarListaEmpaqueMB.totalPesoNeto}" style="text-align:right;width:100px;">
@@ -110,7 +110,7 @@
 						</p:column>
 						
 						<p:column headerText="#{msg.modificarListaEmpaque_PesoBruto}"
-							sortBy="#{dato.pesoBruto}" style="text-align:right" >
+							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
 							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{modificarListaEmpaqueMB.totalPesoBruto}" style="text-align:right;width:100px;">

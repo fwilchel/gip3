@@ -166,11 +166,11 @@
 						<p:message for="strObservacionMar"></p:message>
 
 
-						<p:outputLabel value="#{msg.TérminoIncotermSP}"
+						<p:outputLabel value="#{msg.TerminoIncotermSP}"
 							for="idTerminoIncoterm" styleClass="negrita" />
 						<p:selectOneMenu id="idTerminoIncoterm"
 							value="#{solicitudPedidoMB.seleccionado.idTerminoIncoterm}"
-							label="#{msg.TérminoIncotermSP}">
+							label="#{msg.TerminoIncotermSP}">
 							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}" />
 							<f:selectItems value="#{solicitudPedidoMB.listaTerminoInconterm}"
 								var="categoria" itemValue="#{categoria.id}"
@@ -308,7 +308,7 @@
 
 					<p:panelGrid columns="1"
 						rendered="#{not empty solicitudPedidoMB.seleccionado}">
-						<p:commandButton value="#{msg.generarOrdenComptraTotalñizar}"
+						<p:commandButton value="#{msg.generarOrdenCompraTotalizar}"
 							action="#{solicitudPedidoMB.refrescarTotales}"
 							update=":formaDlg:datoDetalle"></p:commandButton>
 					</p:panelGrid>

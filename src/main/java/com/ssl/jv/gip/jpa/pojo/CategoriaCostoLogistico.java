@@ -23,8 +23,8 @@ public class CategoriaCostoLogistico implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to ItemCostoLogistico
-	@OneToMany(mappedBy="categoriasCostosLogistico")
-	private List<ItemCostoLogistico> itemCostoLogisticos;
+	@OneToMany(mappedBy="categoriaCostoLogistico")
+	private List<ItemCostoLogistico> itemsCostosLogisticos;
 
 	public CategoriaCostoLogistico() {
 	}
@@ -45,24 +45,24 @@ public class CategoriaCostoLogistico implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<ItemCostoLogistico> getItemCostoLogisticos() {
-		return this.itemCostoLogisticos;
+	public List<ItemCostoLogistico> getItemsCostosLogisticos() {
+		return this.itemsCostosLogisticos;
 	}
 
-	public void setItemCostoLogisticos(List<ItemCostoLogistico> itemCostoLogisticos) {
-		this.itemCostoLogisticos = itemCostoLogisticos;
+	public void setItemsCostosLogisticos(List<ItemCostoLogistico> itemsCostosLogisticos) {
+		this.itemsCostosLogisticos = itemsCostosLogisticos;
 	}
 
 	public ItemCostoLogistico addItemCostoLogistico(ItemCostoLogistico itemCostoLogistico) {
-		getItemCostoLogisticos().add(itemCostoLogistico);
-		itemCostoLogistico.setCategoriasCostosLogistico(this);
+		getItemsCostosLogisticos().add(itemCostoLogistico);
+		itemCostoLogistico.setCategoriaCostoLogistico(this);
 
 		return itemCostoLogistico;
 	}
 
 	public ItemCostoLogistico removeItemCostoLogistico(ItemCostoLogistico itemCostoLogistico) {
-		getItemCostoLogisticos().remove(itemCostoLogistico);
-		itemCostoLogistico.setCategoriasCostosLogistico(null);
+		getItemsCostosLogisticos().remove(itemCostoLogistico);
+		itemCostoLogistico.setCategoriaCostoLogistico(null);
 
 		return itemCostoLogistico;
 	}

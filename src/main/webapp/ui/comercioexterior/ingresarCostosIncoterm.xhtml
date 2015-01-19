@@ -131,11 +131,11 @@
 							label="#{msg.maestroContactoAgente}" />
 							
 							
-						<p:outputLabel value="#{msg.TérminoIncotermSP}"
+						<p:outputLabel value="#{msg.TerminoIncotermSP}"
 							for="strTerminoIncoterm" styleClass="negrita" />
 						<h:inputText value="#{ingresarCostosIncotermMB.seleccionado.descripcionTerminoIncoterm}"
 							id="strTerminoIncoterm" disabled = "true"
-							label="#{msg.TérminoIncotermSP}" />
+							label="#{msg.TerminoIncotermSP}" />
 													
 						<p:outputLabel value="#{msg.LugarIncoterm}"
 							for="strLugarIncoterm" styleClass="negrita" />
@@ -241,7 +241,7 @@
 					<p:panelGrid columns="1"
 						rendered="#{not empty ingresarCostosIncotermMB.seleccionado}"
 						columnClasses="label,value">
-						<p:commandButton value="#{msg.generarOrdenComptraTotalñizar}"
+						<p:commandButton value="#{msg.generarOrdenCompraTotalizar}"
 							action="#{ingresarCostosIncotermMB.refrescarTotales}"
 							update=":formaDlg:dblValorNeg, :formaDlg:dblValorFOB"></p:commandButton>						
 					</p:panelGrid>

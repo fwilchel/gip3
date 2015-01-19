@@ -24,7 +24,7 @@
 					<p:dataTable var="registro" widgetVar="registrosTabla" sortField="nombre"
 						id="tablaRegistros" value="#{categoriasCLMB.categorias}" rows="15"
 						emptyMessage="#{msg.categoriasCLNoCategorias}" sortMode="single" 
-						paginator="true" paginatorPosition="bottom" lazy="true"
+						paginator="true" paginatorPosition="bottom" 
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
 
@@ -97,7 +97,7 @@
 						<p:outputLabel value="#{msg.categoriasCLNombre}" for="nombre"
 							styleClass="negrita" />
 						<h:inputText value="#{categoriasCLMB.seleccionado.nombre}"
-							id="nombre" maxlength="50" required="true"
+							id="nombre" maxlength="100" required="true"
 							label="#{msg.categoriasCLNombre}" />
 						<p:message for="nombre"></p:message>
 
