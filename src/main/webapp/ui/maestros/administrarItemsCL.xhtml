@@ -189,7 +189,21 @@
 							id="minimo" 
 							label="#{msg.itemsCLValorMinimo}" />
 						<p:message for="minimo"></p:message>
-						
+
+						<p:outputLabel value="#{msg.itemsCLPuertoNal}" for="puerto"
+							styleClass="negrita" />
+						<h:inputText value="#{itemsCLMB.seleccionado.nombrePuertoNal}"
+							id="puerto" maxlength="100" size="50"
+							label="#{msg.itemsCLPuertoNal}" />
+						<p:message for="puerto"></p:message>
+
+						<p:outputLabel value="#{msg.itemsCLPuertosNalInternal}" for="puertos"
+							styleClass="negrita" />
+						<h:inputText value="#{itemsCLMB.seleccionado.nombrePuertosNalInternal}"
+							id="puertos" maxlength="500" size="50"
+							label="#{msg.itemsCLPuertosNalInternal}" />
+						<p:message for="puertos"></p:message>
+												
 						<p:outputLabel value="#{msg.itemsCLaplicaFOB}" for="fob"
 							styleClass="negrita" />
 						<p:selectBooleanCheckbox
