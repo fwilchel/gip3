@@ -21,6 +21,7 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
@@ -32,12 +33,14 @@ import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
+import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
@@ -89,9 +92,15 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 	@EJB
 	private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAO;
-	
+
 	@EJB
 	private ProductosXDocumentoDAOLocal productoXDocumentoDAO;
+
+	@EJB
+	private ProductoInventarioDAOLocal productoInventarioDAOLocal;
+
+	@EJB
+	private ProductosXDocumentoDAOLocal productosXDocumentoDAOLocal;
 
 	/**
 	 * Default constructor.
@@ -207,6 +216,22 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 		try {
 			listado = documentoDAO.consultarDocumentosSolicitudPedido();
+		} catch (Exception e) {
+
+		}
+
+		return listado;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#consultarDocumentosSolicitudPedido(com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO)
+	 */
+	@Override
+	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro) {
+		List<DocumentoIncontermDTO> listado = new ArrayList<DocumentoIncontermDTO>();
+
+		try {
+			listado = documentoDAO.consultarDocumentosSolicitudPedido(filtro);
 		} catch (Exception e) {
 
 		}
@@ -623,10 +648,75 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	public List<Documento> consultarDocumentosActivosPorTipoDocumentoYConsecutivoDocumento(
 			Long idTipoDocumento, String consecutivoDocumento) {
 		List<Documento> listaEmpaques = this.documentoDAO
-				.consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
-						Estado.ACTIVO.getCodigo(), idTipoDocumento,
-						consecutivoDocumento);
+				.consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
+						idTipoDocumento, consecutivoDocumento,
+						Estado.ACTIVO.getCodigo());
+		for (Documento documento : listaEmpaques) {
+			documento.getDocumentoXLotesoics().iterator().hasNext();
+		}
 		return listaEmpaques;
+	}
+
+	@Override
+	public List<ProductosInventario> consultarProductosInventariosPorSkus(
+			List<String> skus) {
+		return this.productoInventarioDAOLocal.consultarPorSkus(skus);
+	}
+
+	@Override
+	public List<ProductosXDocumento> consultarProductosXDocumentosPorDocumento(
+			Long idDocumento) {
+		return productosXDocumentoDAOLocal.consultarPorDocumento(idDocumento);
+	}
+
+	@Override
+	public void modificarListaEmpaque(Documento documento,
+			List<ProductosXDocumento> productosXDocumentos) {
+		this.productosXDocumentoDAOLocal
+				.modificarProductosXDocumentos(productosXDocumentos);
+
+		List<DocumentoXNegociacion> documentoXNegociacions = documento
+				.getDocumentoXNegociacions();
+		for (DocumentoXNegociacion documentoXNegociacion : documentoXNegociacions) {
+			documentoXNegociacionDAO.update(documentoXNegociacion);
+		}
+
+		List<DocumentoXLotesoic> documentoXLotesoics = documento
+				.getDocumentoXLotesoics();
+		for (DocumentoXLotesoic documentoXLotesoic : documentoXLotesoics) {
+			documentoLotesOICDAO.update(documentoXLotesoic);
+		}
+	}
+
+	@Override
+	public List<Documento> consultarFacturasDeExportacion() {
+		try {
+			return documentoDAO.consultarDocumentosFacturaExportacion("");
+		} catch (Exception e) {
+			LOGGER.error(e + "Error consultando facturas de exportación");
+			return null;
+		}
+	}
+
+	@Override
+	public List<Documento> consultarFacturasDeExportacionFiltro(
+			Documento documento) {
+		try {
+			return documentoDAO.consultarDocumentosFacturaExportacion(documento.getConsecutivoDocumento());
+		} catch (Exception e) {
+			LOGGER.error(e + "Error consultando facturas de exportación");
+			return null;
+		}
+	}
+
+	
+	@Override
+	public void actualizarFacturaDeExportacionFiltro(Documento documento) {
+		try {
+			documentoDAO.update(documento);
+		} catch (Exception e) {
+			LOGGER.error(e + "Error actualizando facturas de exportación");
+		}
 	}
 
 }

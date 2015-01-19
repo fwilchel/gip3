@@ -1,11 +1,10 @@
 package com.ssl.jv.gip.negocio.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 public interface IGenericDAO<T> {
 
-	public Serializable add(T pojo);
+	public T add(T pojo);
 
 	public void update(T pojo);
 
@@ -24,4 +23,7 @@ public interface IGenericDAO<T> {
 	public Long consultarProximoValorSecuencia(String secuenceName);
 
 	public Number consultarMaximoValorColumna(String column);
+	
+	public List<?> findAllActivoBoolean();
+	
 }

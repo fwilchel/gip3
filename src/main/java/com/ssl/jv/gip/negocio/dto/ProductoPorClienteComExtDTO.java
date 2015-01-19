@@ -48,6 +48,8 @@ public class ProductoPorClienteComExtDTO implements Serializable{
 	
 	private Long intUnidadProductoInventario;
 	
+	private String strPosicionArancelariaProductoInventario;
+	
 	//Producto x documento
 	
 	private BigDecimal dblCantidad1ProductoxDocumento;
@@ -486,6 +488,15 @@ public class ProductoPorClienteComExtDTO implements Serializable{
 	public void setDblCantidad1ActualProductoxDocumento(
 			BigDecimal dblCantidad1ActualProductoxDocumento) {
 		this.dblCantidad1ActualProductoxDocumento = dblCantidad1ActualProductoxDocumento;
+	}
+
+	public String getStrPosicionArancelariaProductoInventario() {
+		return strPosicionArancelariaProductoInventario;
+	}
+
+	public void setStrPosicionArancelariaProductoInventario(
+			String strPosicionArancelariaProductoInventario) {
+		this.strPosicionArancelariaProductoInventario = strPosicionArancelariaProductoInventario;
 	}
 
 	

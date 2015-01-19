@@ -7,7 +7,7 @@ import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 
 
 @Local
-public interface IncotermXMedioTransDAOLocal {
+public interface IncotermXMedioTransDAOLocal extends IGenericDAO<TerminoIncotermXMedioTransporte> {
 	
 	public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte();
 

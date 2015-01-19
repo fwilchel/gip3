@@ -7,19 +7,18 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
-import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
-import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
-import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
-import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 
 
 @Local
-public interface ProductoClienteComercioExteriorDAOLocal {
+public interface ProductoClienteComercioExteriorDAOLocal extends IGenericDAO<ProductosXClienteComext>{
 	
 	public void crearFacturaProforma(DocumentoIncontermDTO documento,ProductoPorClienteComExtDTO producto);
 	

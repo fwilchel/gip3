@@ -13,6 +13,7 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
@@ -20,6 +21,7 @@ import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
+import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
@@ -80,6 +82,13 @@ public interface ComercioExteriorEJBLocal {
 	 * @return the list
 	 */
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
+	
+	/**
+	 * Consultar documentos solicitud pedido.
+	 *
+	 * @return the list
+	 */
+	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
 
 	/**
 	 * Consultar lista solicitudes pedido.
@@ -188,4 +197,19 @@ public interface ComercioExteriorEJBLocal {
 	public List<Documento> consultarDocumentosActivosPorTipoDocumentoYConsecutivoDocumento(
 			Long idTipoDocumento, String consecutivoDocumento);
 
+	public List<ProductosInventario> consultarProductosInventariosPorSkus(
+			List<String> skus);
+
+	public List<ProductosXDocumento> consultarProductosXDocumentosPorDocumento(
+			Long idDocumento);
+
+	public void modificarListaEmpaque(Documento documento,
+			List<ProductosXDocumento> productosXDocumentos);
+
+	public List<Documento> consultarFacturasDeExportacion();
+	
+	public List<Documento> consultarFacturasDeExportacionFiltro(Documento documento);
+	
+	public void actualizarFacturaDeExportacionFiltro(Documento documento);
+	
 }

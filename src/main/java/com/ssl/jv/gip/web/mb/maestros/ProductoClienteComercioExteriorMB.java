@@ -1,5 +1,9 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -305,11 +309,19 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 	public void cargarArchivo(FileUploadEvent fileUploadEvent) {
 		try {
 			uploadedFile = fileUploadEvent.getFile();
-			String fileName = uploadedFile.getFileName();
-			maestroFacade
-					.cargarProductosPorClienteComExtDesdeArchivo(uploadedFile
-							.getInputstream());
-			this.addMensajeInfo("Archivo cargado con éxito");
+
+			List<String[]> lines = obtenerDatosDesdeArchivo(uploadedFile
+					.getContents());
+
+			if (lines.isEmpty()) {
+				this.addMensajeError("Archivo vacío");
+			} else {
+				maestroFacade
+						.cargarProductosPorClienteComExtDesdeArchivo(lines);
+				this.addMensajeInfo("Archivo cargado con éxito");
+			}
+		} catch (IOException e) {
+			this.addMensajeError("Error al leer el archivo");
 		} catch (Exception e) {
 			LOGGER.error(e);
 			Exception unrollException = (Exception) this.unrollException(e,
@@ -320,6 +332,57 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 				this.addMensajeError(e);
 			}
 		}
+	}
+
+	private List<String[]> obtenerDatosDesdeArchivo(byte[] archivo)
+			throws IOException {
+		List<String[]> lines = new ArrayList<String[]>();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				new ByteArrayInputStream(archivo)));
+		boolean error = false;
+		String message = null;
+		int numLinea = 0;
+		String line = null;
+		while ((line = reader.readLine()) != null) {
+			numLinea++;
+			if (!line.isEmpty()) {
+				String[] values = line.split("\\|");
+
+				if (values.length < 13 || values.length > 14) {
+					message = "Error de estructura en la línea " + numLinea;
+					error = true;
+					break;
+				}
+
+				if (values[0].trim().isEmpty()) {
+					message = "Error de datos en la línea " + numLinea;
+					error = true;
+					break;
+				}
+
+				try {
+					Long.parseLong(values[1]);
+					new BigDecimal(values[6]);
+					new BigDecimal(values[8]);
+					new BigDecimal(values[9]);
+					new BigDecimal(values[10]);
+					Boolean.parseBoolean(values[12]);
+				} catch (NumberFormatException e) {
+					message = "Error de datos en la línea " + numLinea;
+					error = true;
+					break;
+				}
+
+				lines.add(values);
+			}
+		}
+		reader.close();
+
+		if (error) {
+			throw new RuntimeException(message);
+		}
+
+		return lines;
 	}
 
 	public List<ProductosXClienteComext> getProductosXClienteComExteriorList() {

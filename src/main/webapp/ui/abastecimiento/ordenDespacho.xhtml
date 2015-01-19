@@ -26,9 +26,10 @@
 
 						<p:column style="width:32px;text-align: center">
 							<p:commandButton oncomplete="PF('datoDialog').show()"
+								process="@this"
 								action="#{ordenesDespachoMB.consultarOrdenDeDespacho}"
 								icon="ui-icon-search" update=":datoDlg">
-								<f:setPropertyActionListener value="#{doc}"
+								<f:setPropertyActionListener value="#{dato}"
 									target="#{ordenesDespachoMB.seleccionado}" />
 							</p:commandButton>
 						</p:column>
@@ -68,8 +69,7 @@
 
 						<p:outputLabel value="#{msg.recibiProductoDcoumento}"
 							for="documento" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.id}"
+						<h:inputText value="#{ordenesDespachoMB.seleccionado.id}"
 							id="documento" label="#{msg.recibiProductoDcoumento}"
 							disabled="true" />
 
@@ -122,34 +122,6 @@
 							value="#{ordenesDespachoMB.seleccionado.cliente.contacto}"
 							id="clienteContacto" label="#{msg.maestroContactoAgente}"
 							disabled="true" />
-
-						<p:outputLabel value="#{msg.TérminoIncotermSP}"
-							for="terminoIncoterm" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).terminoIncoterm.descripcion}"
-							id="terminoIncoterm" label="#{msg.TérminoIncotermSP}"
-							disabled="true" />
-
-						<p:outputLabel value="#{msg.LugarIncoterm}" for="lugarIncoterm"
-							styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
-							id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true" />
-
-						<p:outputLabel value="#{msg.CantidadContenedores20}"
-							for="cantidadContenedores20" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe20}"
-							id="cantidadContenedores20" label="#{msg.CantidadContenedores20}"
-							disabled="true" />
-
-						<p:outputLabel value="#{msg.CantidadContenedores40}"
-							for="cantidadContenedores40" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe40}"
-							id="cantidadContenedores40" label="#{msg.LugarIncoterm}"
-							disabled="true" />
-
 						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaDespacho"
 							styleClass="negrita" />
 						<h:inputText
@@ -157,22 +129,15 @@
 							id="fechaDespacho" label="#{msg.FechaDespacho}" disabled="true">
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
-
-						<p:outputLabel value="#{msg.DiasVigenciaFP}" for="diasVigencia"
-							styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).cantidadDiasVigencia}"
-							id="diasVigencia" label="#{msg.DiasVigenciaFP}" disabled="true" />
-
 					</p:panelGrid>
 
 					<p:dataTable var="producto" widgetVar="productoDoc"
-						id="tablaProductos" sortBy="#{producto.id}"
+						id="tablaProductos" sortBy="#{producto.idDocumento}"
 						rendered="#{not empty ordenesDespachoMB.productos}"
 						value="#{ordenesDespachoMB.productos}">
 
 						<p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
-							<h:outputText value="#{producto.sku}" />
+							<h:outputText value="#{producto.id}" />
 						</p:column>
 
 						<p:column headerText="#{msg.buscadorNombreProducto}">
@@ -185,71 +150,15 @@
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
-
-						<p:column styleClass="derecha" headerText="#{msg.PesoNetoVista}">
-							<h:outputText value="#{producto.pesoNeto}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-							</h:outputText>
-						</p:column>
-
-						<p:column styleClass="derecha" headerText="#{msg.PesoBrutoVista}">
-							<h:outputText value="#{producto.pesoBruto}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-							</h:outputText>
-						</p:column>
-
-
-						<p:column styleClass="derecha" headerText="#{msg.SPcantidadCajas}">
-							<h:outputText value="#{producto.cantidadCajas}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-							</h:outputText>
-						</p:column>
-
-						<p:column styleClass="derecha"
-							headerText="#{msg.SPcantidadTendido}">
-							<h:outputText value="#{producto.cantidadPorEmbalaje}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-							</h:outputText>
-						</p:column>
-
-
 						<p:summaryRow>
 							<p:column colspan="2" styleClass="derecha">
 								<h:outputText value="TOTALES " />
 							</p:column>
-							<p:column styleClass="derecha">
-								<h:outputText value="#{ordenesDespachoMB.totalCantidad}">
-									<f:convertNumber maxFractionDigits="2" />
-								</h:outputText>
-							</p:column>
-							<p:column styleClass="derecha">
-								<h:outputText value="#{ordenesDespachoMB.totalPesoNeto}">
-									<f:convertNumber maxFractionDigits="2" />
-								</h:outputText>
-							</p:column>
-							<p:column styleClass="derecha">
-								<h:outputText value="#{ordenesDespachoMB.totalPesoBruto}">
-									<f:convertNumber maxFractionDigits="2" />
-								</h:outputText>
-							</p:column>
-							<p:column styleClass="derecha">
-								<h:outputText value="#{ordenesDespachoMB.totalCantidadCajas}">
-									<f:convertNumber maxFractionDigits="2" />
-								</h:outputText>
-							</p:column>
-							<p:column styleClass="derecha">
-								<h:outputText
-									value="#{ordenesDespachoMB.totalCantidadPorEmbalaje}">
-									<f:convertNumber maxFractionDigits="2" />
-								</h:outputText>
-							</p:column>
 						</p:summaryRow>
-						
-						
 					</p:dataTable>
-					
+
 					<p:spacer height="10"></p:spacer>
-					
+
 				</p:outputPanel>
 			</h:form>
 		</p:dialog>

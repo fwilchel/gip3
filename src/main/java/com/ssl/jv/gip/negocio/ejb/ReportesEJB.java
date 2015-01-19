@@ -6,8 +6,14 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.ComextFormatoNovedadesDAO;
+import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ComextFormatoNovedadesDTO;
+import com.ssl.jv.gip.util.Estado;
+import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 /**
  * Session Bean implementation class ReportesEJB
@@ -18,16 +24,40 @@ public class ReportesEJB implements ReportesEJBLocal {
 
 	@EJB
 	private ComextFormatoNovedadesDAO comextFormatoNovedadesDAO;
-	
-    /**
-     * Default constructor. 
-     */
-    public ReportesEJB() {
-        // TODO Auto-generated constructor stub
-    }
-    
-    public List<ComextFormatoNovedadesDTO> consultarComextFormatoNovedades(){
-    	return comextFormatoNovedadesDAO.consultarComextFormatoNovedades();
-    }
+
+	@EJB
+	private DocumentoDAOLocal documentoDAO;
+
+	@EJB
+	private ProductosXDocumentoDAOLocal productosXDocumentoDAOLocal;
+
+	/**
+	 * Default constructor.
+	 */
+	public ReportesEJB() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public List<ComextFormatoNovedadesDTO> consultarComextFormatoNovedades() {
+		return comextFormatoNovedadesDAO.consultarComextFormatoNovedades();
+	}
+
+	@Override
+	public List<Documento> consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(
+			String consecutivo) {
+		return documentoDAO
+				.consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
+						(long) ConstantesTipoDocumento.FACTURA_PROFORMA,
+						consecutivo, Estado.ACTIVO.getCodigo(),
+						Estado.APROBADA.getCodigo(),
+						Estado.ASIGNADA.getCodigo());
+	}
+
+	@Override
+	public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
+			Long idDocumento, Long idCliente) {
+		return productosXDocumentoDAOLocal.consultarPorDocumentoYCliente(
+				idDocumento, idCliente);
+	}
 
 }

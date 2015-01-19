@@ -12,7 +12,9 @@ import org.apache.log4j.Logger;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
+import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAO;
+import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 
 /**
@@ -30,13 +32,13 @@ public class OrdenDespachoEJB implements OrdenDespachoEJBLocal{
 	private static final Logger LOGGER = Logger.getLogger(MaestrosEJB.class);
 	
 	@EJB
-	DocumentoDAO ordenes;
+	DocumentoDAOLocal ordenes;
 	
 	@EJB
-	ProductosXDocumentoDAO productoXDocumentoDao;
+	ProductosXDocumentoDAOLocal productoXDocumentoDao;
 
 	@Override
-	public List<Documento> consultarOrdenesDeDespacho() {
+	public List<Documento> consultarOrdenesDeDespacho() {	
 		try {
 			return ordenes.consultarOrdenesDeDespacho("");
 		} catch (Exception e) {
@@ -93,6 +95,7 @@ public class OrdenDespachoEJB implements OrdenDespachoEJBLocal{
 			p.setCantidadPallets(producto.getCantidadPalletsItem());
 			p.setValorUnitarioUsd(producto.getValorUnitarioUsd());
 			p.setValorTotal(producto.getValorTotal());
+			productos.add(p);
 		}
 		return productos ;
 	}

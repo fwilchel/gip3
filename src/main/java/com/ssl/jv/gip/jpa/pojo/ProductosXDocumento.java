@@ -23,7 +23,8 @@ import javax.persistence.TemporalType;
 @Table(name = "productosxdocumentos")
 @NamedQueries({
 		@NamedQuery(name = "ProductosXDocumento.findAll", query = "SELECT p FROM ProductosXDocumento p"),
-		@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO, query = "SELECT p FROM ProductosXDocumento p WHERE p.id.idDocumento = :idDocumento") })
+		@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO, query = "SELECT p FROM ProductosXDocumento p WHERE p.id.idDocumento = :idDocumento"),
+		@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_AND_CLIENTE, query = "SELECT p FROM ProductosXDocumento p LEFT JOIN p.productosInventario.productosXClienteComexts pcce WHERE p.id.idDocumento = :idDocumento AND pcce.cliente.id = :idCliente ORDER BY pcce.regSanitario") })
 public class ProductosXDocumento implements Serializable {
 
 	/**
@@ -32,6 +33,7 @@ public class ProductosXDocumento implements Serializable {
 	private static final long serialVersionUID = 1420770172594917035L;
 
 	public static final String FIND_BY_DOCUMENTO = "ProductosXDocumento.findByDocumento";
+	public static final String FIND_BY_DOCUMENTO_AND_CLIENTE = "ProductosXDocumento.findByDocumentoAndCliente";
 
 	@EmbeddedId
 	private ProductosXDocumentoPK id;

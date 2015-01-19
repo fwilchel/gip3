@@ -1,9 +1,5 @@
 package com.ssl.jv.gip.negocio.ejb;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,10 +15,12 @@ import org.primefaces.model.SortOrder;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
+import com.ssl.jv.gip.jpa.pojo.CategoriaCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
+import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.MetodoPago;
@@ -33,6 +31,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
+import com.ssl.jv.gip.jpa.pojo.RangoCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TipoCanal;
@@ -40,26 +39,29 @@ import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 import com.ssl.jv.gip.jpa.pojo.TipoPrecio;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
-import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAO;
-import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAO;
+import com.ssl.jv.gip.negocio.dao.AgenciaCargaDAOLocal;
+import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAOLocal;
+import com.ssl.jv.gip.negocio.dao.CategoriaCostoLogisticoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CiudadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
-import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAO;
-import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
-import com.ssl.jv.gip.negocio.dao.MedioTransporteDAO;
+import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ItemCostoLogisticoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.LugarIncotermDAOLocal;
+import com.ssl.jv.gip.negocio.dao.MedioTransporteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MetodoPagoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MonedaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
-import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
+import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosInventarioComextDAOLocal;
-import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAO;
+import com.ssl.jv.gip.negocio.dao.RangoCostoLogisticoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoCanalDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoLoteOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoPrecioDAOLocal;
-import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
+import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 
@@ -73,28 +75,28 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	private static final Logger LOGGER = Logger.getLogger(MaestrosEJB.class);
 
 	@EJB
-	private UbicacionDAO ubicacionDAO;
+	private UbicacionDAOLocal ubicacionDAO;
 
 	@EJB
-	private AgenciaCargaDAO agenciaCargaDAO;
+	private AgenciaCargaDAOLocal agenciaCargaDAO;
 
 	@EJB
-	private AgenteAduanaDAO agenteAduanaDAO;
+	private AgenteAduanaDAOLocal agenteAduanaDAO;
 
 	@EJB
-	private LugarIncotermDAO lugarIncotermDAO;
+	private LugarIncotermDAOLocal lugarIncotermDAO;
 
 	@EJB
-	private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
+	private ProductoClienteComercioExteriorDAOLocal productoClienteComercioExteriorDAO;
 
 	@EJB
-	private IncotermXMedioTransDAO incotermXMedioTransDAO;
+	private IncotermXMedioTransDAOLocal incotermXMedioTransDAO;
 
 	@EJB
-	private TerminoIncotermDAO terminoIncotermDAO;
+	private TerminoIncotermDAOLocal terminoIncotermDAO;
 
 	@EJB
-	private MedioTransporteDAO medioTransporteDAO;
+	private MedioTransporteDAOLocal medioTransporteDAO;
 
 	@EJB
 	private UnidadDAOLocal unidadDao;
@@ -122,21 +124,30 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private CategoriaInventarioDAOLocal categoriaInventarioDAO;
-	
+
 	@EJB
 	private PaisDAOLocal paisDAO;
-	
+
 	@EJB
 	private CiudadDAOLocal ciudadDAO;
-	
+
 	@EJB
 	private TipoCanalDAOLocal tipoCanalDAO;
-	
+
 	@EJB
 	private MetodoPagoDAOLocal metodoPagoDAO;
-	
+
 	@EJB
 	private TipoPrecioDAOLocal tipoPrecioDAO;
+	
+	@EJB
+	private CategoriaCostoLogisticoDAOLocal categoriaCostoLogisticoDAO;
+	
+	@EJB
+	private ItemCostoLogisticoDAOLocal itemCostoLogisticoDAO;
+	
+	@EJB
+	private RangoCostoLogisticoDAOLocal rangoCostoLogisticoDAO;
 
 	/**
 	 * Default constructor.
@@ -655,75 +666,32 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public void cargarProductosPorClienteComExtDesdeArchivo(
-			InputStream inputStream) {
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					inputStream));
-			String line = null;
-			List<String[]> lines = new ArrayList<String[]>();
-			boolean error = true;
-			while ((line = reader.readLine()) != null) {
-				if (!line.isEmpty()) {
-					error = false;
-					String[] values = line.split("\\|");
-					if (values.length < 13 || values.length > 14) {
-						throw new RuntimeException("Archivo inválido");
-					}
+	public void cargarProductosPorClienteComExtDesdeArchivo(List<String[]> lines) {
 
-					if (values[0].trim().isEmpty()) {
-						error = true;
-					}
+		int numLinea = 1;
+		List<ProductosXClienteComext> productosXClienteComexts = new ArrayList<ProductosXClienteComext>();
+		for (String[] lineFile : lines) {
+			productosXClienteComexts.add(getProductoXClienteComExt(numLinea,
+					lineFile));
+			numLinea++;
+		}
 
-					try {
-						Long.parseLong(values[1]);
-						new BigDecimal(values[6]);
-						new BigDecimal(values[8]);
-						new BigDecimal(values[9]);
-						new BigDecimal(values[10]);
-						Boolean.parseBoolean(values[12]);
-					} catch (NumberFormatException e) {
-						error = true;
-					}
-
-					lines.add(values);
-				}
-			}
-			reader.close();
-
-			if (error) {
-				throw new RuntimeException(
-						"Archivo con errores en sus registros");
-			}
-
-			int numLinea = 1;
-			List<ProductosXClienteComext> productosXClienteComexts = new ArrayList<ProductosXClienteComext>();
-			for (String[] lineFile : lines) {
-				productosXClienteComexts.add(getProductoXClienteComExt(
-						numLinea, lineFile));
-				numLinea++;
-			}
-
-			for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
-				ProductosXClienteComext consultarPorPK = productoClienteComercioExteriorDAO
-						.consultarPorPK(productosXClienteComext.getPk());
-				if (consultarPorPK != null) {
-					productoClienteComercioExteriorDAO
-							.update(productosXClienteComext);
+		for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
+			ProductosXClienteComext consultarPorPK = productoClienteComercioExteriorDAO
+					.consultarPorPK(productosXClienteComext.getPk());
+			if (consultarPorPK != null) {
+				productoClienteComercioExteriorDAO
+						.update(productosXClienteComext);
+			} else {
+				Number max = productoClienteComercioExteriorDAO
+						.consultarMaximoValorColumna("id");
+				if (max == null) {
+					productosXClienteComext.setId(1L);
 				} else {
-					Number max = productoClienteComercioExteriorDAO
-							.consultarMaximoValorColumna("id");
-					if (max == null) {
-						productosXClienteComext.setId(1L);
-					} else {
-						productosXClienteComext.setId(max.longValue() + 1);
-					}
-					productoClienteComercioExteriorDAO
-							.add(productosXClienteComext);
+					productosXClienteComext.setId(max.longValue() + 1);
 				}
+				productoClienteComercioExteriorDAO.add(productosXClienteComext);
 			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
 
 	}
@@ -773,7 +741,7 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Pais> consultarPaises() {
-		return (List<Pais>)paisDAO.findAll();
+		return (List<Pais>) paisDAO.findAll();
 	}
 
 	@Override
@@ -798,16 +766,59 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	public List<TipoPrecio> consultarTiposPrecio() {
 		return (List<TipoPrecio>) tipoPrecioDAO.findAll();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public ProductosInventario consultarPorSku(String sku){
-		ProductosInventario pi=productoInventarioDao.consultarPorSku(sku);
+	public ProductosInventario consultarPorSku(String sku) {
+		ProductosInventario pi = productoInventarioDao.consultarPorSku(sku);
 		pi.getProductosInventarioComext(); // Para hacer fetch
 		pi.getProductosInventarioComext().getTipoLoteoic(); // Para hacer fetch
 		pi.getUnidadVenta();// Para hacer fetch
 		return pi;
 	}
 	
+	public List<CategoriaCostoLogistico> consultarCategoriasCostosLogisticos(){
+		return (List<CategoriaCostoLogistico>)this.categoriaCostoLogisticoDAO.findAll();
+	}
+	public CategoriaCostoLogistico consultarCategoriaCostoLogistico(Long id){
+		return this.categoriaCostoLogisticoDAO.findByPK(id);
+	}
 	
+	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(CategoriaCostoLogistico ccl){
+		this.categoriaCostoLogisticoDAO.update(ccl);
+		return ccl;
+	}
+	public CategoriaCostoLogistico crearCategoriaCostoLogistico(CategoriaCostoLogistico ccl){
+		return this.categoriaCostoLogisticoDAO.add(ccl);
+	}
+	
+	public List<ItemCostoLogistico> consultarItemsCostosLogisticos(){
+		return (List<ItemCostoLogistico>)this.itemCostoLogisticoDAO.findAll();
+	}
+	public ItemCostoLogistico consultarItemCostoLogistico(Long id){
+		return this.itemCostoLogisticoDAO.findByPK(id);
+	}
+	public ItemCostoLogistico actualizarItemCostoLogistico(ItemCostoLogistico icl){
+		this.itemCostoLogisticoDAO.update(icl);
+		return icl;
+	}
+	public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl){
+		return this.itemCostoLogisticoDAO.add(icl);
+	}
+	
+	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(ItemCostoLogistico icl){
+		return (List<RangoCostoLogistico>)this.rangoCostoLogisticoDAO.findByItem(icl);
+	}
+	public RangoCostoLogistico consultarRangoCostoLogistico(Long id){
+		return this.rangoCostoLogisticoDAO.findByPK(id);
+	}
+	public RangoCostoLogistico actualizarRangoCostoLogistico(RangoCostoLogistico icl){
+		this.rangoCostoLogisticoDAO.update(icl);
+		return icl;
+	}
+	public RangoCostoLogistico crearRangoCostoLogistico(RangoCostoLogistico icl){
+		return this.rangoCostoLogisticoDAO.add(icl);
+	}
+	
+
 }
