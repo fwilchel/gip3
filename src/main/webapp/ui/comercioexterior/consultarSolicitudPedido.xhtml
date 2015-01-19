@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloConsultarSolicitudPedido}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.TituloConsultarSolicitudPedido}">
+					
+					<p:panelGrid columns="3" id="panelFiltro"
+						columnClasses="label,value,">
+
+						<p:outputLabel value="#{msg.ConsecutivoSP}" for="filtroconsecutivo"
+							styleClass="negrita" />
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.filtro.consecutivoDocumento}"
+							id="filtroconsecutivo"
+							label="#{msg.ConsecutivoSP}" />
+						<p:message for="filtroconsecutivo"></p:message>
+						
+						<p:outputLabel value="#{msg.NumeroPedidoWeb}" for="filtronumeropedido"
+							styleClass="negrita" />
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.filtro.numeroPedido}"
+							id="filtronumeropedido"
+							label="#{msg.NumeroPedidoWeb}" />
+						<p:message for="filtronumeropedido"></p:message>
+
+						<p:outputLabel value="#{msg.FechaBusqueda}" for="filtrofecha"
+							styleClass="negrita" />
+						<p:calendar id="filtrofecha"
+							value="#{consultarSolicitudPedidoMB.filtro.fechaBusqueda}"
+							pattern="yyyy-MM-dd">
+						</p:calendar>
+						<p:message for="filtrofecha"></p:message>
+						
+						<p:outputLabel value="#{msg.NombreClienteSP}" for="filtrocliente"
+							styleClass="negrita" />
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.filtro.nombreCliente}"
+							id="filtrocliente"
+							label="#{msg.NombreClienteSP}" />
+						<p:message for="filtrocliente"></p:message>
+
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1">
+						<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
+							update="tabPanel"
+							action="#{consultarSolicitudPedidoMB.consultarDocumentos}"></p:commandButton>
+					</p:panelGrid>
+					
+					
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{consultarSolicitudPedidoMB.listaDocumentos}" rows="10"
+						emptyMessage="#{msg.comercioDocumentosIncotermNoEncontrados}"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton oncomplete="PF('datoDialog').show()"
+								icon="ui-icon-zoomin" title="Consultar Solicitud Pedido"
+								update=":datoDlg"
+								action="#{consultarSolicitudPedidoMB.consultarSolicitudPedido}">
+								<f:setPropertyActionListener value="#{dato}"
+									target="#{consultarSolicitudPedidoMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column headerText="#{msg.CodigoGipSP}">
+							<h:outputText value="#{dato.idDocumento}" />
+						</p:column>
+
+						<p:column headerText="#{msg.ConsecutivoSP}">
+							<h:outputText value="#{dato.consecutivoDocumento}" />
+						</p:column>
+
+						<p:column headerText="#{msg.NumeroPedidoWeb}">
+							<h:outputText value="#{dato.documentoCliente}" />
+						</p:column>
+
+						<p:column headerText="#{msg.NombreClienteSP}">
+							<h:outputText value="#{dato.clientesNombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.EstadoSP}">
+							<h:outputText value="#{dato.estadoNombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.RequisicionNombreFechaGenerado}">
+							<h:outputText value="#{dato.fechaGeneracion}">
+								<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText>
+						</p:column>
+
+
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+		<p:dialog header="#{msg.TituloConsultarSolicitudPedidoD}" widgetVar="datoDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+			dynamic="true" id="datoDlg">
+			<h:form id="formaDlg">
+				<p:outputPanel id="datoDetalle" style="text-align:center;">
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+					<p:panelGrid columns="4"
+						rendered="#{not empty consultarSolicitudPedidoMB.seleccionado}"
+						columnClasses="label,value,label,value">
+
+						<p:outputLabel value="#{msg.recibiProductoDcoumento}" for="strId"
+							styleClass="negrita" />
+						<h:inputText value="#{consultarSolicitudPedidoMB.seleccionado.idDocumento}"
+							id="strId" disabled="true" label="#{msg.recibiProductoDcoumento}" />
+
+						<p:outputLabel value="#{msg.RequisicionNombreCons}"
+							for="strConsecutivo" styleClass="negrita" />
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.seleccionado.consecutivoDocumento}"
+							id="strConsecutivo" disabled="true"
+							label="#{msg.RequisicionNombreCons}" />
+
+						<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
+							for="strFechaGeneracion" styleClass="negrita" />
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.seleccionado.fechaGeneracion}"
+							id="strFechaGeneracion" disabled="true"
+							label="#{msg.RequisicionNombreFechaGenerado}">
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.nomCliente}" for="strNombreCliente"
+							styleClass="negrita" />
+						<h:inputText size="50"
+							value="#{consultarSolicitudPedidoMB.seleccionado.clientesNombre}"
+							id="strNombreCliente" disabled="true" label="#{msg.nomCliente}" />
+
+						<p:outputLabel value="#{msg.NumeroPedidoWeb}"
+							for="strDocumentoCliente" styleClass="negrita" />
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.seleccionado.documentoCliente}"
+							id="strDocumentoCliente" disabled="true"
+							label="#{msg.NumeroPedidoWeb}" />
+
+						<p:outputLabel value="#{msg.maestroDireccionCliente}"
+							for="strDocumentoClienteDir" styleClass="negrita" />
+						<h:inputText size="50"
+							value="#{consultarSolicitudPedidoMB.seleccionado.clientesDireccion}"
+							id="strDocumentoClienteDir" disabled="true"
+							label="#{msg.maestroDireccionCliente}" />
+
+						<p:outputLabel value="#{msg.maestroTelefonoCliente}"
+							for="strDocumentoClienteTel" styleClass="negrita" />
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.seleccionado.clientesTelefono}"
+							id="strDocumentoClienteTel" disabled="true"
+							label="#{msg.maestroTelefonoCliente}" />
+
+						<p:outputLabel value="#{msg.maestroContactoAgente}"
+							for="strDocumentoClienteCont" styleClass="negrita" />
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.seleccionado.clientesContacto}"
+							id="strDocumentoClienteCont" disabled="true"
+							label="#{msg.maestroContactoAgente}" />
+						
+						<p:outputLabel value="#{msg.TérminoIncotermSP}"
+							for="strTerminoIncoterm" styleClass="negrita" />
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.seleccionado.descripcionTerminoIncoterm}"
+							id="strTerminoIncoterm" disabled="true"
+							label="#{msg.maestroTelefonoCliente}" />
+
+						<p:outputLabel value="#{msg.LugarIncoterm}" for="strLugarIncoterm"
+							styleClass="negrita" />
+						<h:inputText maxlength="50"
+							value="#{consultarSolicitudPedidoMB.seleccionado.lugarIncoterm}"
+							id="strLugarIncoterm" disabled="true"
+							label="#{msg.LugarIncoterm}" />
+
+						<p:outputLabel value="#{msg.CantidadContenedores20}"
+							for="dblCantidadContenedores20" styleClass="negrita" />
+						<h:inputText disabled="true"
+							value="#{consultarSolicitudPedidoMB.seleccionado.cantidadContenedores20}"
+							id="dblCantidadContenedores20"
+							label="#{msg.CantidadContenedores20}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.CantidadContenedores40}"
+							for="dblCantidadContenedores40" styleClass="negrita" />
+						<h:inputText 
+							value="#{consultarSolicitudPedidoMB.seleccionado.cantidadContenedores40}"
+							id="dblCantidadContenedores40" disabled="true"
+							label="#{msg.CantidadContenedores40}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.FechaDespacho}" for="dtmFechaDespacho"
+							styleClass="negrita" />
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.seleccionado.fechaEsperadaEntregaDate}"
+							id="dtmFechaDespacho" disabled="true"
+							label="#{msg.FechaDespacho}">
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.observacionDocumento}"
+							for="strObservacionDoc" styleClass="negrita" />
+						<h:inputTextarea
+							value="#{consultarSolicitudPedidoMB.seleccionado.observacionDocumento}"
+							id="strObservacionDoc" readonly="true" rows="4" cols="40"
+							label="#{msg.observacionDocumento}" />
+
+						<p:outputLabel value="#{msg.observacionMarcacion2}"
+							for="strObservacionMar" styleClass="negrita" />
+						<h:inputTextarea
+							value="#{consultarSolicitudPedidoMB.seleccionado.observacionesMarcacion2}"
+							id="strObservacionMar" readonly="true" rows="4" cols="40"
+							label="#{msg.observacionMarcacion2}" />
+
+
+					</p:panelGrid>
+
+					<p:dataTable var="producto" widgetVar="productoTabla"
+						id="tablaProductos"
+						value="#{consultarSolicitudPedidoMB.listaSolicitudPedido}" rows="10"
+						emptyMessage="No se encontraron productos" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<p:column headerText="#{msg.buscadorPxCSKU}">
+							<h:outputText value="#{producto.strSkuProductoInventario}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorNombreProducto}">
+							<h:outputText value="#{producto.strNombreProductoInventario}" />
+						</p:column>
+
+						<p:column headerText="#{msg.comprasCantidadSola}">
+							<h:outputText value="#{producto.dblCantidad1ProductoxDocumento}"
+								id="cantidadProd1">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.costeoComperasValorUnitarioML}">
+							<h:outputText value="#{producto.dblPrecioUSD}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.VentasRemisionValorTotal}">
+							<h:outputText value="#{producto.dblValorTotalProductoxDocumento}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.PesoNetoVista}">
+							<h:outputText value="#{producto.dblTotalPesoNeto}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.PesoBrutoVista}">
+							<h:outputText value="#{producto.dblTotalPesoBruto}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.SPcantidadCajas}">
+							<h:outputText value="#{producto.dblTotalCajas}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.SPcantidadTendido}">
+							<h:outputText value="#{producto.dblTotalCajasTendido}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.SPcantidadPallet}">
+							<h:outputText value="#{producto.dblTotalCajasPallet}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>						
+
+					</p:dataTable>
+
+	
+					<p:panelGrid columns="16" id="panelTotales"
+						rendered="#{not empty consultarSolicitudPedidoMB.seleccionado}"
+						columnClasses="label,value,label,value,label,value,label,value,label,value,label,value,label,value,label,value">
+
+						<p:outputLabel value="#{msg.comprasCantidadSola}" for="total0"
+							styleClass="negrita" />
+						<h:outputText id="total0"
+							value="#{consultarSolicitudPedidoMB.cantidadValorT}">
+							<f:convertNumber maxFractionDigits="2" />
+						</h:outputText>
+
+						<p:outputLabel value="#{msg.costeoComperasValorUnitarioML}"
+							for="total1" styleClass="negrita" />
+						<h:outputText id="total1" value="">
+							<f:convertNumber maxFractionDigits="2" />
+						</h:outputText>
+
+						<p:outputLabel value="#{msg.VentasRemisionValorTotal}"
+							for="total2" styleClass="negrita" />
+						<h:outputText id="total2" value="#{consultarSolicitudPedidoMB.totalValorT}">
+							<f:convertNumber maxFractionDigits="2" />
+						</h:outputText>
+
+						<p:outputLabel value="#{msg.PesoNetoVista}" for="total3"
+							styleClass="negrita" />
+						<h:outputText id="total3"
+							value="#{consultarSolicitudPedidoMB.valorPesoNetoT}">
+							<f:convertNumber maxFractionDigits="2" />
+						</h:outputText>
+
+						<p:outputLabel value="#{msg.PesoBrutoVista}" for="total4"
+							styleClass="negrita" />
+						<h:outputText id="total4"
+							value="#{consultarSolicitudPedidoMB.valorPesoBrutoT}">
+							<f:convertNumber maxFractionDigits="2" />
+						</h:outputText>
+
+						<p:outputLabel value="#{msg.SPcantidadCajas}" for="total5"
+							styleClass="negrita" />
+						<h:outputText id="total5" value="#{consultarSolicitudPedidoMB.valorCajasT}">
+							<f:convertNumber maxFractionDigits="2" />
+						</h:outputText>
+
+						<p:outputLabel value="#{msg.SPcantidadTendido}" for="total6"
+							styleClass="negrita" />
+						<h:outputText id="total6"
+							value="#{consultarSolicitudPedidoMB.valorCajasTendidoT}">
+							<f:convertNumber maxFractionDigits="2" />
+						</h:outputText>
+
+						<p:outputLabel value="#{msg.SPcantidadPallet}" for="total7"
+							styleClass="negrita" />
+						<h:outputText id="total7"
+							value="#{consultarSolicitudPedidoMB.valorCajasPalletT}">
+							<f:convertNumber maxFractionDigits="2" />
+						</h:outputText>
+
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2"
+						rendered="#{not empty consultarSolicitudPedidoMB.seleccionado}"
+						columnClasses="label,value">
+
+						
+						<p:outputLabel value="#{msg.SP_CostoEntrega}"
+							for="dblValorFOB" styleClass="negrita" />
+						<h:inputText id="dblValorFOB" value="#{consultarSolicitudPedidoMB.dblValorFOB}" 
+							disabled="true" label="#{msg.SP_CostoEntrega}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+		      			
+		      			<p:outputLabel value="#{msg.SP_CostoSeguro}"
+							for="dblValorSeguro" styleClass="negrita" />
+						<h:inputText id="dblValorSeguro" value="#{consultarSolicitudPedidoMB.dblValorSeguro}" 
+							disabled="true" label="#{msg.SP_CostoSeguro}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+						
+						<p:outputLabel value="#{msg.SP_CostoFlete}"
+							for="dblValorFletes" styleClass="negrita" />
+						<h:inputText id="dblValorFletes" value="#{consultarSolicitudPedidoMB.dblValorFletes}" 
+							disabled="true" label="#{msg.ValorFletes}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+												
+						<p:outputLabel value="#{msg.SP_OtrosGastos}"
+							for="dblValorOtrosGastos" styleClass="negrita" />
+						<h:inputText id="dblValorOtrosGastos" value="#{consultarSolicitudPedidoMB.dblValorOtrosGastos}" 
+							disabled="true" label="#{msg.SP_OtrosGastos}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+		      			
+		      			<p:outputLabel value="#{msg.SP_TotalCostos}"
+							for="dblTotalGastos" styleClass="negrita" />
+						<h:inputText id="dblTotalGastos" value="#{consultarSolicitudPedidoMB.dblTotalValorT}" 
+							disabled="true" label="#{msg.SP_TotalCostos}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+						
+						<p:outputLabel value="#{msg.TotalNegociacion}"
+							for="dblValorNeg" styleClass="negrita" />
+						<h:inputText id="dblValorNeg" value="#{consultarSolicitudPedidoMB.dblValorTotalNeg}" 
+							disabled = "true" label="#{msg.TotalNegociacion}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+
+						
+					</p:panelGrid>
+					
+
+					<p:panelGrid columns="2"
+						rendered="#{not empty consultarSolicitudPedidoMB.seleccionado}"
+						columnClasses="label,value">
+						
+						<p:commandButton value="#{msg.ReporteExcel}" ajax="false" icon="ui-icon-document">
+					        <p:fileDownload value="#{consultarSolicitudPedidoMB.reportePDF}" />
+					    </p:commandButton>
+					    
+					    <p:commandButton value="#{msg.ReportePdf}" ajax="false" icon="ui-icon-document">
+					        <p:fileDownload value="#{consultarSolicitudPedidoMB.reportePDF}" />
+					    </p:commandButton>
+					    
+						<p:commandButton value="#{msg.generalCancelar}"
+							update=":formaDlg:datoDetalle,:forma:tabPanel:tablaDatos"
+							action="#{consultarSolicitudPedidoMB.cancelar}"
+							oncomplete="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+					</p:panelGrid>
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+</ui:composition>
+

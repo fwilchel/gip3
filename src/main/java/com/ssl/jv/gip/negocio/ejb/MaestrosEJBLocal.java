@@ -8,10 +8,12 @@ import org.primefaces.model.SortOrder;
 
 import com.ssl.jv.gip.jpa.pojo.AgenciaCarga;
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
+import com.ssl.jv.gip.jpa.pojo.CategoriaCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
+import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.MetodoPago;
@@ -21,6 +23,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.RangoCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TipoCanal;
@@ -341,4 +344,20 @@ public interface MaestrosEJBLocal {
 	public List<TipoPrecio> consultarTiposPrecio();
 
 	public ProductosInventario consultarPorSku(String sku);
+	
+	public List<CategoriaCostoLogistico> consultarCategoriasCostosLogisticos();
+	public CategoriaCostoLogistico consultarCategoriaCostoLogistico(Long id);
+	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(CategoriaCostoLogistico ccl);
+	public CategoriaCostoLogistico crearCategoriaCostoLogistico(CategoriaCostoLogistico ccl);
+	
+	public List<ItemCostoLogistico> consultarItemsCostosLogisticos();
+	public ItemCostoLogistico consultarItemCostoLogistico(Long id);
+	public ItemCostoLogistico actualizarItemCostoLogistico(ItemCostoLogistico icl);
+	public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl);
+	
+	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(ItemCostoLogistico icl);
+	public RangoCostoLogistico consultarRangoCostoLogistico(Long id);
+	public RangoCostoLogistico actualizarRangoCostoLogistico(RangoCostoLogistico icl);
+	public RangoCostoLogistico crearRangoCostoLogistico(RangoCostoLogistico icl);
+	
 }

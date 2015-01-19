@@ -40,6 +40,7 @@ import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
+import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
@@ -215,6 +216,22 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 		try {
 			listado = documentoDAO.consultarDocumentosSolicitudPedido();
+		} catch (Exception e) {
+
+		}
+
+		return listado;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#consultarDocumentosSolicitudPedido(com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO)
+	 */
+	@Override
+	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro) {
+		List<DocumentoIncontermDTO> listado = new ArrayList<DocumentoIncontermDTO>();
+
+		try {
+			listado = documentoDAO.consultarDocumentosSolicitudPedido(filtro);
 		} catch (Exception e) {
 
 		}
@@ -631,9 +648,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	public List<Documento> consultarDocumentosActivosPorTipoDocumentoYConsecutivoDocumento(
 			Long idTipoDocumento, String consecutivoDocumento) {
 		List<Documento> listaEmpaques = this.documentoDAO
-				.consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
-						Estado.ACTIVO.getCodigo(), idTipoDocumento,
-						consecutivoDocumento);
+				.consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
+						idTipoDocumento, consecutivoDocumento,
+						Estado.ACTIVO.getCodigo());
 		for (Documento documento : listaEmpaques) {
 			documento.getDocumentoXLotesoics().iterator().hasNext();
 		}

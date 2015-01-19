@@ -11,12 +11,12 @@ import java.util.List;
  */
 @Entity
 @Table(name="categorias_costos_logisticos")
-@NamedQuery(name="CategoriasCostosLogistico.findAll", query="SELECT c FROM CategoriasCostosLogistico c")
+@NamedQuery(name="CategoriaCostoLogistico.findAll", query="SELECT c FROM CategoriaCostoLogistico c")
 public class CategoriaCostoLogistico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="CATEGORIAS_COSTOS_LOGISTICOS_ID_GENERATOR", sequenceName="CATEGORIAS_COSTOS_ID_SEQ")
+	@SequenceGenerator(name="CATEGORIAS_COSTOS_LOGISTICOS_ID_GENERATOR", sequenceName="CATEGORIAS_COSTOS_ID_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CATEGORIAS_COSTOS_LOGISTICOS_ID_GENERATOR")
 	private Long id;
 

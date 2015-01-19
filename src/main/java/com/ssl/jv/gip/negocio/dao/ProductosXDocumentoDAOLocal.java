@@ -14,4 +14,7 @@ public interface ProductosXDocumentoDAOLocal extends
 
 	public void modificarProductosXDocumentos(
 			List<ProductosXDocumento> productosXDocumentos);
+
+	public List<ProductosXDocumento> consultarPorDocumentoYCliente(
+			Long idDocumento, Long idCliente);
 }

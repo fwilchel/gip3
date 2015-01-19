@@ -17,7 +17,7 @@ public class ItemCostoLogistico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="ITEM_COSTO_LOGISTICO_ID_GENERATOR", sequenceName="ITEMS_COSTOS_ID_SEQ")
+	@SequenceGenerator(name="ITEM_COSTO_LOGISTICO_ID_GENERATOR", sequenceName="ITEMS_COSTOS_ID_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ITEM_COSTO_LOGISTICO_ID_GENERATOR")
 	private Long id;
 

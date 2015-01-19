@@ -71,6 +71,10 @@
             <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
+	        <from-outcome>listado_SP_General</from-outcome>
+            <to-view-id>/ui/comercioexterior/consultarSolicitudPedido.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 	        <from-outcome>listado_FX_AsignarContribucionCafe</from-outcome>
             <to-view-id>/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml</to-view-id>
         </navigation-case>
@@ -150,8 +154,22 @@
 			<from-outcome>listado_FX_Anular</from-outcome>
 			<to-view-id>/ui/comercioexterior/anularFacturaExportacion.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>listado_SP_Imprimir_FP</from-outcome>
+			<to-view-id>/ui/reportes/listaFacturasProforma.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>consultar_factura_proforma</from-outcome>
+			<to-view-id>/ui/reportes/imprimirFacturaProforma.xhtml</to-view-id>
+		</navigation-case>
+        <navigation-case>
+	        <from-outcome>categorias_costos_logisticos</from-outcome>
+            <to-view-id>/ui/maestros/administrarCategoriasCL.xhtml</to-view-id>
+        </navigation-case>
+		<navigation-case>
+	        <from-outcome>items_costos_logisticos</from-outcome>
+            <to-view-id>/ui/maestros/administrarItemsCL.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
-    
-    
 
 </faces-config>
