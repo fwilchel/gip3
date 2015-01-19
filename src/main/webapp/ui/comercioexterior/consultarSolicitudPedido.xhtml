@@ -75,7 +75,7 @@
 
 						<p:column style="width:32px;text-align: center">
 							<p:commandButton oncomplete="PF('datoDialog').show()"
-								icon="ui-icon-pencil" title="Consultar Solicitud Pedido"
+								icon="ui-icon-zoomin" title="Consultar Solicitud Pedido"
 								update=":datoDlg"
 								action="#{consultarSolicitudPedidoMB.consultarSolicitudPedido}">
 								<f:setPropertyActionListener value="#{dato}"
@@ -421,12 +421,15 @@
 					<p:panelGrid columns="2"
 						rendered="#{not empty consultarSolicitudPedidoMB.seleccionado}"
 						columnClasses="label,value">
-						<p:commandButton value="#{msg.ReporteExcel}" icon="ui-icon-disk"
-							action="#{consultarSolicitudPedidoMB.cancelar}">
-						</p:commandButton>
-						<p:commandButton value="#{msg.ReportePdf}" icon="ui-icon-disk"
-							action="#{consultarSolicitudPedidoMB.cancelar}">
-						</p:commandButton>
+						
+						<p:commandButton value="#{msg.ReporteExcel}" ajax="false" icon="ui-icon-document">
+					        <p:fileDownload value="#{consultarSolicitudPedidoMB.reportePDF}" />
+					    </p:commandButton>
+					    
+					    <p:commandButton value="#{msg.ReportePdf}" ajax="false" icon="ui-icon-document">
+					        <p:fileDownload value="#{consultarSolicitudPedidoMB.reportePDF}" />
+					    </p:commandButton>
+					    
 						<p:commandButton value="#{msg.generalCancelar}"
 							update=":formaDlg:datoDetalle,:forma:tabPanel:tablaDatos"
 							action="#{consultarSolicitudPedidoMB.cancelar}"
