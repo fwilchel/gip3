@@ -150,6 +150,16 @@
     PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
     TARGET="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
     TITLE="modificar_lista_empaque" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="categorias_costos_logisticos::#ui#maestros#administrarCategoriasCL.xhtml"
+    NAME="output30" PATH="/ui/maestros/administrarCategoriasCL.xhtml"
+    TARGET="rules:#ui#maestros#administrarCategoriasCL.xhtml"
+    TITLE="categorias_costos_logisticos" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="items_costos_logisticos::#ui#maestros#administrarItemsCL.xhtml"
+    NAME="output31" PATH="/ui/maestros/administrarItemsCL.xhtml"
+    TARGET="rules:#ui#maestros#administrarItemsCL.xhtml"
+    TITLE="items_costos_logisticos" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
@@ -234,4 +244,8 @@
   NAME="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
   PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
   SHAPE="304,1073,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#administrarCategoriasCL.xhtml"
+  PATH="/ui/maestros/administrarCategoriasCL.xhtml" SHAPE="304,1137,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#administrarItemsCL.xhtml"
+  PATH="/ui/maestros/administrarItemsCL.xhtml" SHAPE="304,1249,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

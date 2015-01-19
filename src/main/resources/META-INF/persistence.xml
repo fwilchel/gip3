@@ -12,7 +12,7 @@
 		<class>com.ssl.jv.gip.jpa.pojo.Aprobacion</class>
 		<class>com.ssl.jv.gip.jpa.pojo.BodegasLogica</class>
 		<class>com.ssl.jv.gip.jpa.pojo.Categoria</class>
-		<class>com.ssl.jv.gip.jpa.pojo.CategoriasCostosLogistico</class>
+		<class>com.ssl.jv.gip.jpa.pojo.CategoriaCostoLogistico</class>
 		<class>com.ssl.jv.gip.jpa.pojo.CategoriasInventario</class>
 		<class>com.ssl.jv.gip.jpa.pojo.CategoriasReceta</class>
 		<class>com.ssl.jv.gip.jpa.pojo.CierreInventario</class>
