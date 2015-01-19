@@ -7,10 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,12 +18,11 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
-import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletResponse;
 
-import sun.misc.BASE64Encoder;
 import sun.misc.BASE64Decoder;
-//import org.apache.poi.hssf.dev.EFHSSF;
+import sun.misc.BASE64Encoder;
+
 
 /**
  * <p>
@@ -51,11 +48,11 @@ import sun.misc.BASE64Decoder;
  */
 @SuppressWarnings("restriction")
 public class Utilidad {
-	private static ArrayList listaUbicaciones = new ArrayList();
+	//private static List listaUbicaciones = new ArrayList();
 	
 	public final static String stringFormat(String sql, String[] params) {
 
-		String resultado = sql;
+		//String resultado = sql;
 
 		String patron = "";
 
@@ -695,10 +692,10 @@ public class Utilidad {
 	}
 	
 	public static void main(String args[]){
-		Utilidad u=new Utilidad();
-		String c=u.cifrar("Fwilches750930"); //vA8JBDmgfXLHPPumFEqPAA==
+
+		String c=Utilidad.cifrar("Fwilches750930"); //vA8JBDmgfXLHPPumFEqPAA==
 		System.out.println("1 "+c);
-		String d=u.descifrar(c);
+		String d=Utilidad.descifrar(c);
 		System.out.println("2 "+d);
 	}
 

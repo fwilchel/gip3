@@ -1,5 +1,7 @@
 package com.ssl.jv.gip.negocio.dao;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -15,6 +17,12 @@ public class ItemCostoLogisticoDAO extends GenericDAO<ItemCostoLogistico> implem
 	
 	public ItemCostoLogisticoDAO(){
 		this.persistentClass = ItemCostoLogistico.class;
+	}
+	
+	public List<ItemCostoLogistico> findAll() {
+		List list = em.createNamedQuery("ItemCostoLogistico.findAll")
+				.getResultList();
+		return list;
 	}	
 
 }

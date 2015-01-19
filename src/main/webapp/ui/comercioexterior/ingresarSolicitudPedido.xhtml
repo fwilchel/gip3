@@ -32,10 +32,10 @@
 						</p:selectOneMenu>
 						<p:message for="cliente"></p:message>
 
-						<p:outputLabel value="#{msg.TérminoIncotermSP}" for="terminos"
+						<p:outputLabel value="#{msg.TerminoIncotermSP}" for="terminos"
 							styleClass="negrita" />
 						<p:selectOneMenu id="terminos" value="#{ingresarSolicitudPedidoMB.idTerminoIncoterm}"
-							label="#{msg.TérminoIncotermSP}">
+							label="#{msg.TerminoIncotermSP}">
 							<f:selectItems value="#{ingresarSolicitudPedidoMB.terminosIncoterm}"  />
 							<p:ajax event="change" process="terminos"></p:ajax>
 						</p:selectOneMenu>

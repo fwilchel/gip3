@@ -170,13 +170,13 @@
 						</div>
 					</f:facet>
 
-					<p:column filterBy="#{dato.productosInventario.sku}" headerText="#{msg.maestroProductosXClienteCESKU}"
-						filterMatchMode="contains" sortBy="#{dato.productosInventario.sku}">
+					<p:column filterBy="#{dato.sku}" headerText="#{msg.maestroProductosXClienteCESKU}"
+						filterMatchMode="contains" sortBy="#{dato.sku}">
 						<h:outputText value="#{dato.sku}" />
 					</p:column>
 
-					<p:column filterBy="#{dato.productosInventario.nombre}" headerText="#{msg.maestroProductosXClienteCENombredelProducto}"
-						filterMatchMode="contains" sortBy="#{dato.productosInventario.nombre}">
+					<p:column filterBy="#{dato.nombre}" headerText="#{msg.maestroProductosXClienteCENombredelProducto}"
+						filterMatchMode="contains" sortBy="#{dato.nombre}">
 						<h:outputText value="#{dato.nombre}" />
 					</p:column>
 						
