@@ -1,21 +1,30 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
@@ -26,6 +35,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.Numero_a_Letra_Ingles;
 
 
 /**
@@ -38,18 +48,13 @@ public class ConsultarSolicitudPedidoMB extends UtilMB{
 	/** The lista documentos. */
 	private ArrayList<DocumentoIncontermDTO> listaDocumentos = new ArrayList<DocumentoIncontermDTO>();
 
-	/** The lista termino inconterm. */
-	private List<TerminoIncoterm> listaTerminoInconterm;
-
-	/** The lista ubicaciones. */
-	private List<Ubicacion> listaUbicaciones;
-
 	/** The lista solicitud pedido. */
 	private List<ProductoPorClienteComExtDTO> listaSolicitudPedido = new ArrayList<ProductoPorClienteComExtDTO>();
 
 	/** The seleccionado. */
 	private DocumentoIncontermDTO seleccionado;
 	
+	/** The filtro. */
 	private FiltroConsultaSolicitudDTO filtro;
 
 	/** The total valor t. */
@@ -93,6 +98,9 @@ public class ConsultarSolicitudPedidoMB extends UtilMB{
 	
 	/** The dbl total valor t. */
 	private BigDecimal dblTotalValorT;
+	
+	/** The reporte pdf. */
+	private StreamedContent reportePDF;
 
 	/** The comercio ejb. */
 	@EJB
@@ -117,6 +125,9 @@ public class ConsultarSolicitudPedidoMB extends UtilMB{
 		filtro = new FiltroConsultaSolicitudDTO();
 	}
 
+	/**
+	 * Consultar documentos.
+	 */
 	public void consultarDocumentos(){
 		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido(filtro);		
 	}
@@ -251,15 +262,16 @@ public class ConsultarSolicitudPedidoMB extends UtilMB{
 		dblTotalValorT=dblValorFletes.add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
 		dblValorTotalNeg=seleccionado.getValorTotalDocumento().add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
 		//Consultar la lista inconterm poor cliente
-		listaTerminoInconterm = comercioEjb.consultarListaIncontermPorCliente(seleccionado.getClientesId());
 		listaSolicitudPedido = comercioEjb.consultarListaSolicitudesPedido(seleccionado.getIdDocumento(), seleccionado.getClientesId());
 		refrescarTotales();
 
 		return "";
 	}
 	
+	/**
+	 * Cancelar.
+	 */
 	public void cancelar(){
-		listaTerminoInconterm = null;
 		listaSolicitudPedido = new ArrayList<ProductoPorClienteComExtDTO>();
 		totalValorT  =  new BigDecimal(0.00);
 		cantidadValorT  =  new BigDecimal(0.00);
@@ -289,25 +301,6 @@ public class ConsultarSolicitudPedidoMB extends UtilMB{
 	 */
 	public void setListaDocumentos(ArrayList<DocumentoIncontermDTO> listaDocumentos) {
 		this.listaDocumentos = listaDocumentos;
-	}
-
-	/**
-	 * Gets the lista termino inconterm.
-	 *
-	 * @return the lista termino inconterm
-	 */
-	public List<TerminoIncoterm> getListaTerminoInconterm() {
-		return listaTerminoInconterm;
-	}
-
-	/**
-	 * Sets the lista termino inconterm.
-	 *
-	 * @param listaTerminoInconterm the new lista termino inconterm
-	 */
-	public void setListaTerminoInconterm(
-			List<TerminoIncoterm> listaTerminoInconterm) {
-		this.listaTerminoInconterm = listaTerminoInconterm;
 	}
 
 	/**
@@ -473,35 +466,6 @@ public class ConsultarSolicitudPedidoMB extends UtilMB{
 		this.dblTotalPrecio = dblTotalPrecio;
 	}
 
-
-	/**
-	 * Gets the lista ubicaciones.
-	 *
-	 * @return the lista ubicaciones
-	 */
-	public List<Ubicacion> getListaUbicaciones() {
-		if(listaUbicaciones==null){
-			Usuario objUsuario;
-
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
-			HttpSession session = (HttpSession) context.getSession(true);
-			objUsuario = (Usuario) session.getAttribute("usuarioLogin");
-
-			listaUbicaciones = comercioEjb.consultarUbicacionesPorUsuario(menu.getUsuario().getId());
-		}
-		return listaUbicaciones;
-	}
-
-	/**
-	 * Sets the lista ubicaciones.
-	 *
-	 * @param listaUbicaciones the new lista ubicaciones
-	 */
-	public void setListaUbicaciones(List<Ubicacion> listaUbicaciones) {
-		this.listaUbicaciones = listaUbicaciones;
-	}
-
 	/**
 	 * Gets the menu.
 	 *
@@ -520,60 +484,196 @@ public class ConsultarSolicitudPedidoMB extends UtilMB{
 		this.menu = menu;
 	}
 
+	/**
+	 * Gets the filtro.
+	 *
+	 * @return the filtro
+	 */
 	public FiltroConsultaSolicitudDTO getFiltro() {
 		return filtro;
 	}
 
+	/**
+	 * Sets the filtro.
+	 *
+	 * @param filtro the new filtro
+	 */
 	public void setFiltro(FiltroConsultaSolicitudDTO filtro) {
 		this.filtro = filtro;
 	}
 
+	/**
+	 * Gets the dbl valor total neg.
+	 *
+	 * @return the dbl valor total neg
+	 */
 	public BigDecimal getDblValorTotalNeg() {
 		return dblValorTotalNeg;
 	}
 
+	/**
+	 * Sets the dbl valor total neg.
+	 *
+	 * @param dblValorTotalNeg the new dbl valor total neg
+	 */
 	public void setDblValorTotalNeg(BigDecimal dblValorTotalNeg) {
 		this.dblValorTotalNeg = dblValorTotalNeg;
 	}
 
+	/**
+	 * Gets the dbl valor fob.
+	 *
+	 * @return the dbl valor fob
+	 */
 	public BigDecimal getDblValorFOB() {
 		return dblValorFOB;
 	}
 
+	/**
+	 * Sets the dbl valor fob.
+	 *
+	 * @param dblValorFOB the new dbl valor fob
+	 */
 	public void setDblValorFOB(BigDecimal dblValorFOB) {
 		this.dblValorFOB = dblValorFOB;
 	}
 
+	/**
+	 * Gets the dbl valor fletes.
+	 *
+	 * @return the dbl valor fletes
+	 */
 	public BigDecimal getDblValorFletes() {
 		return dblValorFletes;
 	}
 
+	/**
+	 * Sets the dbl valor fletes.
+	 *
+	 * @param dblValorFletes the new dbl valor fletes
+	 */
 	public void setDblValorFletes(BigDecimal dblValorFletes) {
 		this.dblValorFletes = dblValorFletes;
 	}
 
+	/**
+	 * Gets the dbl valor seguro.
+	 *
+	 * @return the dbl valor seguro
+	 */
 	public BigDecimal getDblValorSeguro() {
 		return dblValorSeguro;
 	}
 
+	/**
+	 * Sets the dbl valor seguro.
+	 *
+	 * @param dblValorSeguro the new dbl valor seguro
+	 */
 	public void setDblValorSeguro(BigDecimal dblValorSeguro) {
 		this.dblValorSeguro = dblValorSeguro;
 	}
 
+	/**
+	 * Gets the dbl valor otros gastos.
+	 *
+	 * @return the dbl valor otros gastos
+	 */
 	public BigDecimal getDblValorOtrosGastos() {
 		return dblValorOtrosGastos;
 	}
 
+	/**
+	 * Sets the dbl valor otros gastos.
+	 *
+	 * @param dblValorOtrosGastos the new dbl valor otros gastos
+	 */
 	public void setDblValorOtrosGastos(BigDecimal dblValorOtrosGastos) {
 		this.dblValorOtrosGastos = dblValorOtrosGastos;
 	}
 
+	/**
+	 * Gets the dbl total valor t.
+	 *
+	 * @return the dbl total valor t
+	 */
 	public BigDecimal getDblTotalValorT() {
 		return dblTotalValorT;
 	}
 
+	/**
+	 * Sets the dbl total valor t.
+	 *
+	 * @param dblTotalValorT the new dbl total valor t
+	 */
 	public void setDblTotalValorT(BigDecimal dblTotalValorT) {
 		this.dblTotalValorT = dblTotalValorT;
+	}
+
+	/**
+	 * Gets the reporte pdf.
+	 *
+	 * @return the reporte pdf
+	 */
+	public StreamedContent getReportePDF() {
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		
+		 SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
+		 String fechaStringGeneracion = ft.format(seleccionado.getFechaGeneracion());
+
+		  parametros.put("cliente",seleccionado.getClientesNombre());		 
+		  parametros.put("nit",seleccionado.getClientesId()+"");
+		  parametros.put("ciudad",seleccionado.getLugarIncoterm());		 
+		  parametros.put("direccion",seleccionado.getClientesDireccion());
+		  parametros.put("telefono",seleccionado.getClientesTelefono());
+		  parametros.put("contacto",seleccionado.getClientesContacto());
+		  parametros.put("documento",seleccionado.getDocumentoCliente());
+		  parametros.put("fecha",fechaStringGeneracion);
+		  parametros.put("numFactura", seleccionado.getConsecutivoDocumento());
+		  parametros.put("dblCantidadContenedores40", seleccionado.getCantidadContenedores40());
+		  parametros.put("solicitud", seleccionado.getClientesNombre());
+		  parametros.put("observacionDoc",seleccionado.getObservacionDocumento());
+		  parametros.put("observacionMar", seleccionado.getObservacionesMarcacion2());
+		  parametros.put("strLugarIncoterm", seleccionado.getLugarIncoterm());
+		  parametros.put("strNombreIncoterm", seleccionado.getDescripcionTerminoIncoterm());
+		  parametros.put("dblCantidadContenedores20", seleccionado.getCantidadContenedores20());
+		  parametros.put("dtmFechaDespacho",seleccionado.getFechaEsperadaEntrega());
+		  parametros.put("incoterm", seleccionado.getDescripcionTerminoIncoterm());
+		  parametros.put("lugarIncoterm", "(" + seleccionado.getLugarIncoterm() + ")");
+		  
+		  double dblTotalValorT = totalValorT.doubleValue();
+		  
+		  double totalValorTotal = Math.rint(dblTotalValorT*100)/100;			
+
+		  Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
+		  String valorLetrasIngles = NumLetraIng.convert(totalValorTotal);
+
+		  parametros.put("valorLetras",valorLetrasIngles);
+		  
+		
+		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaSolicitudPedido);
+		try {
+			
+			Hashtable<String, String> parametrosR=new Hashtable<String, String>();
+			parametrosR.put("tipo", "pdf");
+			String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_SP2.jasper");
+			ByteArrayOutputStream os=(ByteArrayOutputStream)com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
+			reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "SolicitudPedido"+seleccionado.getConsecutivoDocumento()+".pdf");
+			
+		} catch (Exception e) {
+			this.addMensajeError(e);
+		}
+		
+		return reportePDF;
+	}
+
+	/**
+	 * Sets the reporte pdf.
+	 *
+	 * @param reportePDF the new reporte pdf
+	 */
+	public void setReportePDF(StreamedContent reportePDF) {
+		this.reportePDF = reportePDF;
 	}
 
 	

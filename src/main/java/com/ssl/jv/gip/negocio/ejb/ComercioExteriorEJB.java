@@ -688,4 +688,35 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		}
 	}
 
+	@Override
+	public List<Documento> consultarFacturasDeExportacion() {
+		try {
+			return documentoDAO.consultarDocumentosFacturaExportacion("");
+		} catch (Exception e) {
+			LOGGER.error(e + "Error consultando facturas de exportación");
+			return null;
+		}
+	}
+
+	@Override
+	public List<Documento> consultarFacturasDeExportacionFiltro(
+			Documento documento) {
+		try {
+			return documentoDAO.consultarDocumentosFacturaExportacion(documento.getConsecutivoDocumento());
+		} catch (Exception e) {
+			LOGGER.error(e + "Error consultando facturas de exportación");
+			return null;
+		}
+	}
+
+	
+	@Override
+	public void actualizarFacturaDeExportacionFiltro(Documento documento) {
+		try {
+			documentoDAO.update(documento);
+		} catch (Exception e) {
+			LOGGER.error(e + "Error actualizando facturas de exportación");
+		}
+	}
+
 }
