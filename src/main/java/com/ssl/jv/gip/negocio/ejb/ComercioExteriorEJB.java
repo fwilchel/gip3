@@ -704,7 +704,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		try {
 			return documentoDAO.consultarDocumentosFacturaExportacion(documento.getConsecutivoDocumento());
 		} catch (Exception e) {
-			LOGGER.error(e + "Error consultando facturas de exportaci�n");
+			LOGGER.error(e + "Error consultando facturas de exportacion");
 			return null;
 		}
 	}
