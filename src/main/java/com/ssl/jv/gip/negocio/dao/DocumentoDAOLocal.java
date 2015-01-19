@@ -65,5 +65,4 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 	public List<Documento> consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
 			Long idEstado, Long idTipoDocumento, String consecutivoDocumento);
-
 }

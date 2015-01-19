@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import sun.font.EAttribute;
+
 import com.ssl.jv.gip.web.util.Utilidad;
 
 import java.math.BigDecimal;
@@ -119,7 +124,6 @@ public class TerminosTransporte implements Serializable {
 	private TerminoIncoterm terminoIncoterm;
 
 	//bi-directional many-to-many association to Documento
-	@ManyToMany
 	@JoinTable(
 		name="terminos_transporte_x_documento"
 		, joinColumns={

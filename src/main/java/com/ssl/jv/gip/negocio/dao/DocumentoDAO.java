@@ -1074,5 +1074,4 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		query.setParameter("consecutivoDocumento", consecutivoDocumento);
 		return query.getResultList();
 	}
-
 }

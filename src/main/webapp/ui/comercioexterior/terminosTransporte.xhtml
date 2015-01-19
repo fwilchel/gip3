@@ -246,12 +246,10 @@
 								rows="4" cols="40" rorequired="true" id="observaciones2"/>
 							<p:message for="observaciones2" />
 		
-							<ui:remove>
-								<p:outputLabel value="#{msg.CampoFechaETA}" styleClass="negrita" />
-								<p:calendar id="campoFechaETA" required="true" pattern="yyyy-MM-dd"
-									value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.}" />
-								<p:message for="campoFechaETA" />
-							</ui:remove>
+							<p:outputLabel value="#{msg.CampoFechaETA}" styleClass="negrita" />
+							<p:calendar id="campoFechaETA" required="true" pattern="yyyy-MM-dd"
+								value="#{terminosTransporteMB.selectedFechaETA}" />
+							<p:message for="campoFechaETA" />
 							
 							<p:outputLabel value="#{msg.CampoNumeroBooking}" styleClass="negrita" />
 							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.numeroBooking}" 

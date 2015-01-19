@@ -14,6 +14,7 @@ import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
@@ -29,6 +30,7 @@ import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAO;
 import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
+import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAO;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
@@ -66,6 +68,9 @@ public class TerminosTransporteEJB implements TerminosTransporteEJBLocal {
 	
 	@EJB
 	private TerminoIncotermDAOLocal terminoIncotermDAO; 
+	
+	@EJB
+	private DocumentoDAOLocal documentoDAO; 
 	
 	
 	/**
@@ -133,5 +138,18 @@ public class TerminosTransporteEJB implements TerminosTransporteEJBLocal {
 	public TerminosTransporte actualizarInstruccionEmbarque(TerminosTransporte tt) {
 		terminosTransporteDAO.update(tt);
 		return terminosTransporteDAO.findByPK(tt.getId());
+	}
+
+	/**
+	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#actualizarDocumento(com.ssl.jv.gip.jpa.pojo.Documento)
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @return 
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public Documento actualizarDocumento(Documento documento) {
+		documentoDAO.update(documento);
+		return documentoDAO.findByPK(documento.getId());
 	}
 }
