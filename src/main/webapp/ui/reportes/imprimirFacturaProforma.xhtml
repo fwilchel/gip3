@@ -239,7 +239,10 @@
 					
 					<p:spacer height="30"></p:spacer>
 					
-					<p:commandButton value="#{msg.imprimirFacturaProforma_ImprimirFactura}" icon="ui-icon-disk" action="#{imprimirFacturaProformaMB.imprimirFacturaProforma}" ></p:commandButton>
+					<p:commandButton value="#{msg.imprimirFacturaProforma_ImprimirFactura}" icon="ui-icon-disk" 
+						ajax="false" >
+						<p:fileDownload value="#{imprimirFacturaProformaMB.reporteFacturaProforma}" />
+					</p:commandButton>
 					<p:commandButton value="#{msg.generalCancelar}" process="@this" icon="ui-icon-cancel" action="listado_SP_Imprimir_FP" ></p:commandButton>
 				
 				</p:tab>

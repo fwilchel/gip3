@@ -11,12 +11,16 @@ import java.math.BigDecimal;
  */
 @Entity
 @Table(name="rango_costo_logistico")
-@NamedQuery(name="RangoCostoLogistico.findAll", query="SELECT r FROM RangoCostoLogistico r")
+@NamedQueries({
+	@NamedQuery(name="RangoCostoLogistico.findAll", query="SELECT r FROM RangoCostoLogistico r"),
+	@NamedQuery(name="RangoCostoLogistico.findByItem", query="SELECT r FROM RangoCostoLogistico r WHERE r.itemCostoLogistico= :itemCostoLogistico")
+})
+
 public class RangoCostoLogistico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RANGO_COSTO_LOGISTICO_ID_GENERATOR", sequenceName="RANGOS_COSTOS_LOGISTICOS_ID_SEQ")
+	@SequenceGenerator(name="RANGO_COSTO_LOGISTICO_ID_GENERATOR", sequenceName="RANGOS_COSTOS_LOGISTICOS_ID_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RANGO_COSTO_LOGISTICO_ID_GENERATOR")
 	private Long id;
 

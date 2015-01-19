@@ -1,19 +1,32 @@
 package com.ssl.jv.gip.web.mb.reportes;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
@@ -166,15 +179,89 @@ public class ImprimirFacturaProformaMB extends UtilMB {
 		return outcome;
 	}
 
-	public String imprimirFacturaProforma() {
-		String outcome = null;
+	public StreamedContent getReporteFacturaProforma() {
+		StreamedContent reportePDF = null;
 		try {
-			outcome = "listado_SP_Imprimir_FP";
+			Map<String, Object> parametros = new HashMap<String, Object>();
+			Cliente cliente = seleccionado.getCliente();
+			DocumentoXNegociacion documentoXNegociacion = new DocumentoXNegociacion();
+			List<DocumentoXNegociacion> documentoXNegociacions = seleccionado
+					.getDocumentoXNegociacions();
+			if (documentoXNegociacions != null
+					&& !documentoXNegociacions.isEmpty()) {
+				documentoXNegociacion = documentoXNegociacions.get(0);
+			}
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+			Date fechaGeneracion = seleccionado.getFechaGeneracion();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(fechaGeneracion);
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+			parametros.put("cliente", cliente.getNombre());
+			parametros.put("nit", cliente.getNit());
+			parametros.put("ciudad", cliente.getCiudad().getNombre());
+			parametros.put("direccion", cliente.getDireccion());
+			parametros.put("telefono", cliente.getTelefono());
+			parametros.put("contacto", cliente.getContacto());
+			parametros.put("documento", seleccionado.getDocumentoCliente());
+			parametros.put("fecha", sdf.format(fechaGeneracion));
+			parametros
+					.put("numFactura", seleccionado.getConsecutivoDocumento());
+			parametros.put("tipoImp", "Original");
+			parametros.put("fechaVigencia",
+					sdf.format(seleccionado.getFechaEsperadaEntrega()));
+			parametros.put("fechaDespacho", sdf.format(calendar.getTime()));
+			parametros.put("totalPesoNeto", totalPesoNeto);
+			parametros.put("totalPesoBruto", totalPesoBruto);
+			parametros.put("totalCajas", totalCantidadCajas);
+			parametros.put("totalPallets", totalCantidadPallets);
+			parametros.put("costoEntrega",
+					documentoXNegociacion.getCostoEntrega());
+			parametros.put("costoSeguro",
+					documentoXNegociacion.getCostoSeguro());
+			parametros.put("costoFlete", documentoXNegociacion.getCostoFlete());
+			parametros.put("otrosCostos",
+					documentoXNegociacion.getOtrosGastos());
+			parametros.put("totalNegociacion", this.totalNegociacion);
+			parametros.put("incoterm", documentoXNegociacion
+					.getTerminoIncoterm() == null ? "" : documentoXNegociacion
+					.getTerminoIncoterm().getDescripcion());
+			parametros.put("lugarIncoterm",
+					"(" + documentoXNegociacion.getLugarIncoterm() == null ? ""
+							: documentoXNegociacion.getLugarIncoterm() + ")");
+			parametros.put("valorLetras", "");
+			parametros.put("solicitud", seleccionado.getObservacionDocumento());
+
+			if (cliente.getModoFactura() != null
+					&& cliente.getModoFactura() == 1) {
+				parametros.put("metodoPago", cliente.getMetodoPago()
+						.getDescripcionIngles());
+			} else {
+				parametros.put("metodoPago", cliente.getMetodoPago()
+						.getDescripcion());
+			}
+
+			JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(
+					productosXDocumentos);
+
+			Hashtable<String, String> parametrosR = new Hashtable<String, String>();
+			parametrosR.put("tipo", "pdf");
+			String reporte = FacesContext.getCurrentInstance()
+					.getExternalContext()
+					.getRealPath("/reportes/Report_FP.jasper");
+			ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes
+					.generar(parametrosR, reporte, null, null, null,
+							parametros, ds);
+
+			reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(
+					os.toByteArray()), "application/pdf ", "Report_FP.pdf");
 		} catch (Exception e) {
 			LOGGER.error(e);
 			this.addMensajeError(e);
 		}
-		return outcome;
+		return reportePDF;
 	}
 
 	public boolean isCreacion() {
