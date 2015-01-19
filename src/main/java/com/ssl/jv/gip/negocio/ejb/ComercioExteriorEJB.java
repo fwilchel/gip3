@@ -693,7 +693,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		try {
 			return documentoDAO.consultarDocumentosFacturaExportacion("");
 		} catch (Exception e) {
-			LOGGER.error(e + "Error consultando facturas de exportación");
+			LOGGER.error(e + "Error consultando facturas de exportacion");
 			return null;
 		}
 	}
@@ -704,7 +704,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		try {
 			return documentoDAO.consultarDocumentosFacturaExportacion(documento.getConsecutivoDocumento());
 		} catch (Exception e) {
-			LOGGER.error(e + "Error consultando facturas de exportación");
+			LOGGER.error(e + "Error consultando facturas de exportaciï¿½n");
 			return null;
 		}
 	}
@@ -715,7 +715,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		try {
 			documentoDAO.update(documento);
 		} catch (Exception e) {
-			LOGGER.error(e + "Error actualizando facturas de exportación");
+			LOGGER.error(e + "Error actualizando facturas de exportacion");
 		}
 	}
 

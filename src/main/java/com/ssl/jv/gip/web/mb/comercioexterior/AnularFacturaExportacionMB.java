@@ -16,7 +16,7 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.util.Modo;
 
-/**Managed Bean para anular factura de exportación
+/**Managed Bean para anular factura de exportacion
  * 
  * @author Daniel Cortes
  * @version 1.0
