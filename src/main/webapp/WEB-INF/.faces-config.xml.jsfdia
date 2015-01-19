@@ -51,16 +51,17 @@
     TARGET="rules:#ui#comercioexterior#solicitudPedido.xhtml"
     TITLE="listado_solicitud_pedido" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="listado_FX_AsignarContribucionCafe::#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
+    ID="listado_SP_General::#ui#comercioexterior#consultarSolicitudPedido.xhtml"
     NAME="output11"
+    PATH="/ui/comercioexterior/consultarSolicitudPedido.xhtml"
+    TARGET="rules:#ui#comercioexterior#consultarSolicitudPedido.xhtml"
+    TITLE="listado_SP_General" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_FX_AsignarContribucionCafe::#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
+    NAME="output12"
     PATH="/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml"
     TARGET="rules:#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
     TITLE="listado_FX_AsignarContribucionCafe" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="listado_Formato_Novedad::#ui#reportes#formatoNovedades.xhtml"
-    NAME="output12" PATH="/ui/reportes/formatoNovedades.xhtml"
-    TARGET="rules:#ui#reportes#formatoNovedades.xhtml"
-    TITLE="listado_Formato_Novedad" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_maestro_ProductosPorCliente_CE::#ui#maestros#productosClienteComExt.xhtml"
     NAME="output13" PATH="/ui/maestros/productosClienteComExt.xhtml"
@@ -151,6 +152,7 @@
     TARGET="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
     TITLE="modificar_lista_empaque" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
+<<<<<<< HEAD
     ID="categorias_costos_logisticos::#ui#maestros#administrarCategoriasCL.xhtml"
     NAME="output30" PATH="/ui/maestros/administrarCategoriasCL.xhtml"
     TARGET="rules:#ui#maestros#administrarCategoriasCL.xhtml"
@@ -160,6 +162,17 @@
     NAME="output31" PATH="/ui/maestros/administrarItemsCL.xhtml"
     TARGET="rules:#ui#maestros#administrarItemsCL.xhtml"
     TITLE="items_costos_logisticos" model-entity="JSFProcessItemOutput"/>
+=======
+    ID="listado_SP_Imprimir_FP::#ui#reportes#listaFacturasProforma.xhtml"
+    NAME="output30" PATH="/ui/reportes/listaFacturasProforma.xhtml"
+    TARGET="rules:#ui#reportes#listaFacturasProforma.xhtml"
+    TITLE="listado_SP_Imprimir_FP" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="consultar_factura_proforma::#ui#reportes#imprimirFacturaProforma.xhtml"
+    NAME="output31" PATH="/ui/reportes/imprimirFacturaProforma.xhtml"
+    TARGET="rules:#ui#reportes#imprimirFacturaProforma.xhtml"
+    TITLE="consultar_factura_proforma" model-entity="JSFProcessItemOutput"/>
+>>>>>>> 9fdaadf4766df873619a625ba8b240b9a29badc8
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
@@ -243,9 +256,21 @@
  <PROCESS-ITEM
   NAME="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
   PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
+<<<<<<< HEAD
   SHAPE="304,1073,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#administrarCategoriasCL.xhtml"
   PATH="/ui/maestros/administrarCategoriasCL.xhtml" SHAPE="304,1137,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#administrarItemsCL.xhtml"
   PATH="/ui/maestros/administrarItemsCL.xhtml" SHAPE="304,1249,0,0" model-entity="JSFProcessGroup"/>
+=======
+  SHAPE="304,1073,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#consultarSolicitudPedido.xhtml"
+  PATH="/ui/comercioexterior/consultarSolicitudPedido.xhtml"
+  SHAPE="304,1073,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#reportes#listaFacturasProforma.xhtml"
+  PATH="/ui/reportes/listaFacturasProforma.xhtml" SHAPE="304,1105,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#reportes#imprimirFacturaProforma.xhtml"
+  PATH="/ui/reportes/imprimirFacturaProforma.xhtml" SHAPE="304,1137,0,0" model-entity="JSFProcessGroup"/>
+>>>>>>> 9fdaadf4766df873619a625ba8b240b9a29badc8
 </PROCESS>

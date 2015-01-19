@@ -45,4 +45,15 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProductosXDocumento> consultarPorDocumentoYCliente(
+			Long idDocumento, Long idCliente) {
+		Query query = em
+				.createNamedQuery(ProductosXDocumento.FIND_BY_DOCUMENTO_AND_CLIENTE);
+		query.setParameter("idDocumento", idDocumento);
+		query.setParameter("idCliente", idCliente);
+		return query.getResultList();
+	}
+
 }
