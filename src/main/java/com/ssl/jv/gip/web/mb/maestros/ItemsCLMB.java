@@ -116,6 +116,7 @@ public class ItemsCLMB extends UtilMB{
 	
 	public void nuevo(){
 		seleccionado=new ItemCostoLogistico();
+		seleccionado.setCategoriaCostoLogistico(new CategoriaCostoLogistico());
 		this.modo=Modo.CREACION;
 	}
 	
