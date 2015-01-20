@@ -359,5 +359,6 @@ public interface MaestrosEJBLocal {
 	public RangoCostoLogistico consultarRangoCostoLogistico(Long id);
 	public RangoCostoLogistico actualizarRangoCostoLogistico(RangoCostoLogistico icl);
 	public RangoCostoLogistico crearRangoCostoLogistico(RangoCostoLogistico icl);
+	public void eliminarRangoCostoLogistico(RangoCostoLogistico icl);
 	
 }

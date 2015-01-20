@@ -173,15 +173,70 @@
 							styleClass="negrita" />
 						<p:selectOneMenu id="tipo" value="#{itemsCLMB.seleccionado.tipo}" label="#{msg.itemsCLTipo}">
 							<f:selectItems value="#{itemsCLMB.tipos}" var="tipo"  />
+							<p:ajax process="@this" event="change" update="formaDlg"></p:ajax>
 						</p:selectOneMenu>
 						<p:message for="tipo"></p:message>
 						
 						<p:outputLabel value="#{msg.itemsCLValorUSD}" for="valor"
-							styleClass="negrita" />
+							styleClass="negrita" rendered="#{itemsCLMB.seleccionado.tipo != 7}"/>
 						<h:inputText value="#{itemsCLMB.seleccionado.valorUsd}"
-							id="valor" 
+							id="valor" rendered="#{itemsCLMB.seleccionado.tipo != 7}"
 							label="#{msg.itemsCLValorUSD}" />
-						<p:message for="valor"></p:message>
+						<p:message for="valor" rendered="#{itemsCLMB.seleccionado.tipo != 7}"></p:message>
+						
+					</p:panelGrid>	
+					<p:panelGrid columns="1" rendered="#{itemsCLMB.seleccionado.tipo eq 7}" style="width:430px">
+						
+						<p:commandButton value="#{msg.itemsCLAdicionarRango}" update="rangos" action="#{itemsCLMB.adicionarRango}"></p:commandButton>
+						
+						<p:dataTable id="rangos" var="rango" value="#{itemsCLMB.seleccionado.rangoCostoLogisticos}" editable="true" style="margin-bottom:20px" emptyMessage="">
+					 
+					       <p:ajax event="rowEdit" listener="#{itemsCLMB.onRowEdit}" update=":forma:tabPanel:tablaRegistros" />
+					       <p:ajax event="rowEditCancel" listener="#{itemsCLMB.onRowCancel}"  />
+					 
+					       <p:column headerText="#{msg.rangosCLdesde}" style="width:100px">
+					           <p:cellEditor>
+					               <f:facet name="output"><h:outputText value="#{rango.desde}" /></f:facet>
+					               <f:facet name="input"><p:inputText value="#{rango.desde}" size="10" /></f:facet>
+					           </p:cellEditor>
+					       </p:column>
+					 
+					       <p:column headerText="#{msg.rangosCLhasta}" style="width:100px">
+					           <p:cellEditor>
+					               <f:facet name="output"><h:outputText value="#{rango.hasta}" /></f:facet>
+					               <f:facet name="input"><p:inputText value="#{rango.hasta}" size="10" /></f:facet>
+					           </p:cellEditor>
+					       </p:column>
+					 
+					       <p:column headerText="#{msg.rangosCLunidad}" style="width:100px">
+					           <p:cellEditor>
+					               <f:facet name="output"><h:outputText value="#{rango.unidad.abreviacion}" /></f:facet>
+					               <f:facet name="input">
+					                   <h:selectOneMenu value="#{rango.unidad.id}" style="width:90px">
+					                       <f:selectItems value="#{itemsCLMB.unidades}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad.id}" />
+					                   </h:selectOneMenu>
+					               </f:facet>
+					           </p:cellEditor>
+					       </p:column>
+					       
+					       <p:column headerText="#{msg.rangosCLvalorUSD}" style="width:100px">
+					           <p:cellEditor>
+					               <f:facet name="output"><h:outputText value="#{rango.valorUsd}" /></f:facet>
+					               <f:facet name="input"><p:inputText value="#{rango.valorUsd}" size="10" /></f:facet>
+					           </p:cellEditor>
+					       </p:column>
+					 
+					       <p:column style="width:32px">
+					           <p:rowEditor />
+					           <p:commandButton icon="ui-icon-close" action="#{itemsCLMB.eliminarRango}" title="#{msg.itemsCLEliminarRango}" update="rangos">
+									<f:setPropertyActionListener value="#{rango}" target="#{itemsCLMB.seleccionado2}" />					           
+					           </p:commandButton>
+					       </p:column>
+					   </p:dataTable>
+					  </p:panelGrid>
+					<p:panelGrid columns="3"
+						rendered="#{not empty itemsCLMB.seleccionado}"
+						columnClasses="label,value">					
 						
 						<p:outputLabel value="#{msg.itemsCLValorMinimo}" for="minimo"
 							styleClass="negrita" />
