@@ -315,6 +315,9 @@ public class ProductoClienteComercioExteriorDAO extends
 
 				dto.setPosicionArancelariaProductoInventarioCE(objs[18] != null ? objs[18]
 						.toString() : null);
+				
+				dto.setStrPosicionArancelariaProductoInventario(objs[18] != null ? objs[18]
+						.toString() : null);
 
 				dto.setNombreUnidad(objs[19] != null ? objs[19].toString()
 						: null);
@@ -330,6 +333,8 @@ public class ProductoClienteComercioExteriorDAO extends
 				dto.setControlStockProductoInventarioCE((Boolean) (objs[24] != null ? objs[24] : null));
 				dto.setNombrePrdProveedorProductoInventarioCE(objs[25] != null ? objs[25]
 						.toString() : null);
+				
+				
 
 				dto.setBlnIncluirBusqueda(true);
 

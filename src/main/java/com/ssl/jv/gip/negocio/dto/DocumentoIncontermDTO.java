@@ -56,6 +56,9 @@ public class DocumentoIncontermDTO implements Serializable{
 	private Long clientesId;
 	
 	/** The clientes nombre. */
+	private String clientesNit;
+	
+	/** The clientes nombre. */
 	private String clientesNombre;
 	
 	/** The clientes direccion. */
@@ -744,6 +747,14 @@ public class DocumentoIncontermDTO implements Serializable{
 
 	public void setTotalPallets(BigDecimal totalPallets) {
 		this.totalPallets = totalPallets;
+	}
+
+	public String getClientesNit() {
+		return clientesNit;
+	}
+
+	public void setClientesNit(String clientesNit) {
+		this.clientesNit = clientesNit;
 	}
 
 		
