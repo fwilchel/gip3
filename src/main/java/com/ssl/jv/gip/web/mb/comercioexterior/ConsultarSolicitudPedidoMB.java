@@ -5,8 +5,10 @@ import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -651,6 +653,14 @@ public class ConsultarSolicitudPedidoMB extends UtilMB{
 		  String valorLetrasIngles = NumLetraIng.convert(totalValorTotal);
 
 		  parametros.put("valorLetras",valorLetrasIngles);
+		  
+		  Calendar Calendario = Calendar.getInstance();
+		  Calendario.setTimeInMillis(seleccionado.getFechaGeneracion().getTime());
+		  Integer intCantidadDiasVigencia=seleccionado.getCantidadDiasVigencia();
+		  Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
+		  Timestamp tmsFecha = new Timestamp(Calendario.getTimeInMillis());
+		  String fechaStringVigencia = ft.format(tmsFecha); 
+		  parametros.put("fechaVigencia", fechaStringVigencia);
 		  
 		
 		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaSolicitudPedido);

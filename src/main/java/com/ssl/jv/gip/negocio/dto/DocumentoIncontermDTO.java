@@ -123,6 +123,9 @@ public class DocumentoIncontermDTO implements Serializable{
 	
 	private BigDecimal totalPallets;
 	
+	/** The id tipo documento. */
+	private Integer cantidadDiasVigencia;
+	
 	/**
 	 * Gets the id documento.
 	 *
@@ -755,6 +758,14 @@ public class DocumentoIncontermDTO implements Serializable{
 
 	public void setClientesNit(String clientesNit) {
 		this.clientesNit = clientesNit;
+	}
+
+	public Integer getCantidadDiasVigencia() {
+		return cantidadDiasVigencia;
+	}
+
+	public void setCantidadDiasVigencia(Integer cantidadDiasVigencia) {
+		this.cantidadDiasVigencia = cantidadDiasVigencia;
 	}
 
 		
