@@ -486,7 +486,8 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				+ "Documento_x_Negociacion.solicitud_cafe, 	"
 				+ "documentos.observacion_documento, 	"
 				+ "Documento_x_Negociacion.observaciones_marcacion_2,   "
-				+ "clientes.nit 	"
+				+ "clientes.nit, "
+				+ "Documento_x_Negociacion.cantidad_dias_vigencia   "
 				+ "FROM documentos,clientes,Documento_x_Negociacion,termino_incoterm,ciudades,estados   "
 				+ "WHERE documentos.id_cliente = clientes.id  "
 				+ "AND documentos.id=Documento_x_Negociacion.id_documento   "
@@ -603,6 +604,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				
 				dto.setClientesNit(objs[32] != null ? objs[32].toString()
 						: null);
+				
+				dto.setCantidadDiasVigencia(objs[33] != null ? new Integer(objs[33]
+						.toString()) : null);
 
 				lista.add(dto);
 			}
