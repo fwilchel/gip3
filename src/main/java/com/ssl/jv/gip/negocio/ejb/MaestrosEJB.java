@@ -800,10 +800,27 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	}
 	public ItemCostoLogistico actualizarItemCostoLogistico(ItemCostoLogistico icl){
 		this.itemCostoLogisticoDAO.update(icl);
+		for (RangoCostoLogistico rcl:icl.getRangoCostoLogisticos()){
+			if (rcl.getId()!=null && rcl.getId()!=0){
+				this.rangoCostoLogisticoDAO.update(rcl);
+			}else{
+				RangoCostoLogistico rcl2=this.rangoCostoLogisticoDAO.add(rcl);
+				rcl.setId(rcl2.getId());
+			}
+		}
 		return icl;
 	}
 	public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl){
-		return this.itemCostoLogisticoDAO.add(icl);
+		icl=this.itemCostoLogisticoDAO.add(icl);
+		for (RangoCostoLogistico rcl:icl.getRangoCostoLogisticos()){
+			if (rcl.getId()!=null && rcl.getId()!=0){
+				this.rangoCostoLogisticoDAO.update(rcl);
+			}else{
+				RangoCostoLogistico rcl2=this.rangoCostoLogisticoDAO.add(rcl);
+				rcl.setId(rcl2.getId());
+			}
+		}
+		return icl;
 	}
 	
 	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(ItemCostoLogistico icl){
@@ -819,6 +836,9 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	public RangoCostoLogistico crearRangoCostoLogistico(RangoCostoLogistico icl){
 		return this.rangoCostoLogisticoDAO.add(icl);
 	}
-	
+
+	public void eliminarRangoCostoLogistico(RangoCostoLogistico icl){
+		this.rangoCostoLogisticoDAO.delete(icl);
+	}
 
 }
