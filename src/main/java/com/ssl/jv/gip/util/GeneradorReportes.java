@@ -131,7 +131,7 @@ public class GeneradorReportes {
 				exporter.setExporterOutput(new SimpleWriterExporterOutput(os));
 				exporter.exportReport();
 			}else if (tipo.equals("xls")){
-				response.setContentType("application/x-msexcel");
+//				response.setContentType("application/x-msexcel");
 				JRXlsExporter exporter = new JRXlsExporter();
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));

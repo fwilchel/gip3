@@ -346,7 +346,8 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				+ "estados.nombre nombreestados, 	"
 				+ "Documento_x_Negociacion.solicitud_cafe, 	"
 				+ "documentos.observacion_documento, 	"
-				+ "Documento_x_Negociacion.observaciones_marcacion_2   "
+				+ "Documento_x_Negociacion.observaciones_marcacion_2,   "
+				+ "clientes.nit 	"
 				+ "FROM documentos,clientes,Documento_x_Negociacion,termino_incoterm,ciudades,estados   "
 				+ "WHERE documentos.id_cliente = clientes.id  "
 				+ "AND documentos.id=Documento_x_Negociacion.id_documento   "
@@ -432,6 +433,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 						.toString() : null);
 				dto.setObservacionesMarcacion2(objs[31] != null ? objs[31]
 						.toString() : null);
+				
+				dto.setClientesNit(objs[32] != null ? objs[32].toString()
+						: null);
 
 				lista.add(dto);
 			}
@@ -481,7 +485,8 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				+ "estados.nombre nombreestados, 	"
 				+ "Documento_x_Negociacion.solicitud_cafe, 	"
 				+ "documentos.observacion_documento, 	"
-				+ "Documento_x_Negociacion.observaciones_marcacion_2   "
+				+ "Documento_x_Negociacion.observaciones_marcacion_2,   "
+				+ "clientes.nit 	"
 				+ "FROM documentos,clientes,Documento_x_Negociacion,termino_incoterm,ciudades,estados   "
 				+ "WHERE documentos.id_cliente = clientes.id  "
 				+ "AND documentos.id=Documento_x_Negociacion.id_documento   "
@@ -595,6 +600,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 						.toString() : null);
 				dto.setObservacionesMarcacion2(objs[31] != null ? objs[31]
 						.toString() : null);
+				
+				dto.setClientesNit(objs[32] != null ? objs[32].toString()
+						: null);
 
 				lista.add(dto);
 			}
