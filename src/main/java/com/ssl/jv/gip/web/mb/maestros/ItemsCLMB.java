@@ -178,6 +178,8 @@ public class ItemsCLMB extends UtilMB{
 		RangoCostoLogistico r=new RangoCostoLogistico();
 		r.setUnidad(this.unidades.get(0));
 		r.setItemCostoLogistico(this.seleccionado);
+		if (this.seleccionado.getRangoCostoLogisticos()==null)
+			this.seleccionado.setRangoCostoLogisticos(new ArrayList<RangoCostoLogistico>());
 		this.seleccionado.getRangoCostoLogisticos().add(r);
 		return null;
 	}
