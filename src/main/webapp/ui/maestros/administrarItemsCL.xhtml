@@ -173,7 +173,7 @@
 							styleClass="negrita" />
 						<p:selectOneMenu id="tipo" value="#{itemsCLMB.seleccionado.tipo}" label="#{msg.itemsCLTipo}">
 							<f:selectItems value="#{itemsCLMB.tipos}" var="tipo"  />
-							<p:ajax process="@this" event="change" update="formaDlg"></p:ajax>
+							<p:ajax process="@form" immediate="true" event="change" update="formaDlg"></p:ajax>
 						</p:selectOneMenu>
 						<p:message for="tipo"></p:message>
 						
@@ -304,6 +304,7 @@
 						<p:outputLabel value="#{msg.itemsCLPais}" for="pais"
 							styleClass="negrita" />
 						<p:selectOneMenu id="pais" value="#{itemsCLMB.seleccionado.idPaisDestino}" label="#{msg.itemsCLPais}">
+							<f:selectItem itemLabel="" itemValue=""/>
 							<f:selectItems value="#{aplicacionMB.paises}" var="pais" itemLabel="#{pais.nombre}" itemValue="#{pais.id}" />
 						</p:selectOneMenu>
 						<p:message for="pais"></p:message>
