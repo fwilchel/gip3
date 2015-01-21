@@ -16,6 +16,7 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -26,6 +27,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
@@ -101,6 +103,10 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 	@EJB
 	private ProductosXDocumentoDAOLocal productosXDocumentoDAOLocal;
+	
+	@EJB
+	private ClienteDAOLocal clienteDao;
+	
 
 	/**
 	 * Default constructor.
@@ -158,6 +164,19 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	@Override
 	public Integer reiniciarConsecutivoLoteOIC() {
 		return documentoXLoteDAO.reiniciarConsecutivoLoteOIC();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#consultarClientePorId(java.lang.Long)
+	 */
+	@Override
+	public Cliente consultarClientePorId(Long idCliente) {
+		try {
+			return (Cliente) clienteDao.findByPK(idCliente);
+		} catch (Exception e) {
+			LOGGER.error(e + " Error consultando cliente");
+			return null;
+		}
 	}
 
 	/*

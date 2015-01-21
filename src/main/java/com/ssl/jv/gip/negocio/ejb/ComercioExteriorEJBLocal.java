@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -49,6 +50,14 @@ public interface ComercioExteriorEJBLocal {
 	 * @return the integer
 	 */
 	public Integer reiniciarConsecutivoLoteOIC();
+	
+	/**
+	 * Consultar cliente por id.
+	 *
+	 * @param idCliente the id cliente
+	 * @return the cliente
+	 */
+	public Cliente consultarClientePorId(Long idCliente);
 
 	/**
 	 * Consultar documentos costos inconterm

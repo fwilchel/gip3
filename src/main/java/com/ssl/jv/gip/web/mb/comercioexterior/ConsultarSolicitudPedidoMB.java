@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
@@ -661,6 +662,42 @@ public class ConsultarSolicitudPedidoMB extends UtilMB{
 		  Timestamp tmsFecha = new Timestamp(Calendario.getTimeInMillis());
 		  String fechaStringVigencia = ft.format(tmsFecha); 
 		  parametros.put("fechaVigencia", fechaStringVigencia);
+		  
+		  Cliente cliente = comercioEjb.consultarClientePorId(seleccionado.getClientesId());
+		  
+		  if(cliente.getModoFactura().equals(new Integer(1))){
+			  parametros.put("metodoPago", seleccionado.getDescripcionInglesMetodoPago());
+		  }else{
+			  parametros.put("metodoPago", seleccionado.getDescripcionMetodoPago());
+		  }
+		  
+		  if (cliente.getModoFactura().equals(new Integer(1))){
+			  String productoIngles;
+			  String unidadIngles;
+			  
+			  for(ProductoPorClienteComExtDTO producto:listaSolicitudPedido){
+				  productoIngles = producto.getDescripcionProductoInventarioCE();
+				  unidadIngles = producto.getNombreInglesUnidad();
+				  
+				  producto.setStrNombreProductoInventario(productoIngles);
+				  producto.setNombreUnidad(unidadIngles);
+			  }
+		  }else{
+			  if (cliente.getModoFactura().equals(new Integer(3))){
+				  String productoIngles;
+				  String unidadIngles;
+				  
+				  for(ProductoPorClienteComExtDTO producto:listaSolicitudPedido){
+					  productoIngles = producto.getNombrePrdProveedorProductoInventarioCE();
+					  unidadIngles = producto.getNombreUnidad();
+					  
+					  producto.setStrNombreProductoInventario(productoIngles);
+					  producto.setNombreUnidad(unidadIngles);
+				  }
+				  
+			  }
+		  }
+
 		  
 		
 		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaSolicitudPedido);
