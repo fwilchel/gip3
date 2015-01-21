@@ -487,14 +487,17 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				+ "documentos.observacion_documento, 	"
 				+ "Documento_x_Negociacion.observaciones_marcacion_2,   "
 				+ "clientes.nit, "
-				+ "Documento_x_Negociacion.cantidad_dias_vigencia   "
-				+ "FROM documentos,clientes,Documento_x_Negociacion,termino_incoterm,ciudades,estados   "
+				+ "Documento_x_Negociacion.cantidad_dias_vigencia,   "
+				+ "metodo_pago.descripcion descripcionPago, "
+				+ "metodo_pago.descripcion_ingles descripcionPagoIngles "
+				+ "FROM documentos,clientes,Documento_x_Negociacion,termino_incoterm,ciudades,estados,metodo_pago   "
 				+ "WHERE documentos.id_cliente = clientes.id  "
 				+ "AND documentos.id=Documento_x_Negociacion.id_documento   "
 				+ "AND Documento_x_Negociacion.id_termino_incoterm=termino_incoterm.id   "
 				+ "AND clientes.id_ciudad=ciudades.id  	"
 				+ "AND documentos.id_estado=estados.id  "
 				+ "AND documentos.id_tipo_documento=22  "
+				+ "AND clientes.id_metodo_pago = metodo_pago.id "
 				+ "AND documentos.id_estado IN (:estado1, :estado2, :estado3)  ");
 		
 		if(filtro.getFechaBusqueda()!=null){
@@ -607,6 +610,12 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				
 				dto.setCantidadDiasVigencia(objs[33] != null ? new Integer(objs[33]
 						.toString()) : null);
+				
+				dto.setDescripcionMetodoPago(objs[34] != null ? objs[34].toString()
+						: null);
+				
+				dto.setDescripcionInglesMetodoPago(objs[35] != null ? objs[35].toString()
+						: null);
 
 				lista.add(dto);
 			}
