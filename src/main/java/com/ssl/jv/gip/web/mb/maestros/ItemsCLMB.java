@@ -121,6 +121,8 @@ public class ItemsCLMB extends UtilMB{
 	}
 	
 	public void guardar(){
+		if (this.seleccionado.getIdPaisDestino().equals(""))
+			this.seleccionado.setIdPaisDestino(null);
 		if (this.modo.equals(Modo.CREACION)){
 			this.seleccionado=this.maestrosEjb.crearItemCostoLogistico(this.seleccionado);
 			this.items=this.maestrosEjb.consultarItemsCostosLogisticos();
