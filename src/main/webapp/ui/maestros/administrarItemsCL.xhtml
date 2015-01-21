@@ -21,7 +21,7 @@
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.itemsCLTitulo}">
 
-					<p:dataTable var="registro" widgetVar="registrosTabla" sortField="nombre"
+					<p:dataTable var="registro" widgetVar="registrosTabla" 
 						id="tablaRegistros" value="#{itemsCLMB.items}" rows="15"
 						emptyMessage="#{msg.itemsCLNoCategorias}" sortMode="single" 
 						paginator="true" paginatorPosition="bottom" 
@@ -87,7 +87,7 @@
 							<h:outputText value="#{registro.nombrePuertosNalInternal}" />
 						</p:column>
 						
-						<p:column headerText="#{msg.itemsCLValorUSD}"
+						<p:column headerText="#{msg.itemsCLValorUSD}" styleClass="derecha"
 							sortBy="#{registro.valorUsd}">
 							<h:outputText value="#{registro.valorUsd}" />
 						</p:column>
