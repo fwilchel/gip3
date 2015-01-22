@@ -40,7 +40,9 @@
 						<p:outputLabel value="#{msg.imprimirFacturaProforma_FechaGeneracion}"
 							for="fechaGeneracion" styleClass="negrita" />
 						<p:inputText value="#{imprimirFacturaProformaMB.seleccionado.fechaGeneracion}"
-							id="fechaGeneracion" label="#{msg.imprimirFacturaProforma_FechaGeneracion}" disabled="true"/>
+							id="fechaGeneracion" label="#{msg.imprimirFacturaProforma_FechaGeneracion}" disabled="true">
+							<f:convertDateTime pattern="dd-MMM-yyyy"/>
+						</p:inputText>
 			
 						<p:outputLabel value="#{msg.imprimirFacturaProforma_Cliente}"
 							for="clienteNombre" styleClass="negrita" />
@@ -90,7 +92,9 @@
 						<p:outputLabel value="#{msg.imprimirFacturaProforma_FechaDespacho}"
 							for="cantidadEstibas" styleClass="negrita" />
 						<p:inputText value="#{imprimirFacturaProformaMB.seleccionado.fechaEsperadaEntrega}"
-							id="cantidadEstibas" label="#{msg.imprimirFacturaProforma_FechaDespacho}" disabled="true" />
+							id="cantidadEstibas" label="#{msg.imprimirFacturaProforma_FechaDespacho}" disabled="true" >
+							<f:convertDateTime pattern="dd-MMM-yyyy"/>
+						</p:inputText>
 						
 						<p:outputLabel value="#{msg.imprimirFacturaProforma_DiasVigenciaFP}"
 							for="pesoBrutoEstibas" styleClass="negrita" />
