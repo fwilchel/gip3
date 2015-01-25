@@ -3,6 +3,7 @@ package com.ssl.jv.gip.web.mb.reportes;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,6 +37,7 @@ import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.comercioexterior.ModificarListaEmpaqueMB;
 import com.ssl.jv.gip.web.util.Modo;
+import com.ssl.jv.gip.web.util.Utilidad;
 
 @ManagedBean(name = "imprimirFacturaProformaMB")
 @SessionScoped
@@ -125,11 +127,12 @@ public class ImprimirFacturaProformaMB extends UtilMB {
 			List<DocumentoXNegociacion> documentoXNegociacions = seleccionado
 					.getDocumentoXNegociacions();
 			if (documentoXNegociacions != null
-					&& documentoXNegociacions.isEmpty()) {
+					&& !documentoXNegociacions.isEmpty()) {
 				DocumentoXNegociacion documentoXNegociacion = documentoXNegociacions
 						.get(0);
-				totalGastos = (documentoXNegociacion.getCostoEntrega() == null ? BigDecimal.ZERO
-						: documentoXNegociacion.getCostoEntrega())
+				totalGastos = totalGastos
+						.add(documentoXNegociacion.getCostoEntrega() == null ? BigDecimal.ZERO
+								: documentoXNegociacion.getCostoEntrega())
 						.add(documentoXNegociacion.getCostoFlete() == null ? BigDecimal.ZERO
 								: documentoXNegociacion.getCostoFlete())
 						.add(documentoXNegociacion.getCostoSeguro() == null ? BigDecimal.ZERO
@@ -164,9 +167,23 @@ public class ImprimirFacturaProformaMB extends UtilMB {
 				totalCantidadTendidos = totalCantidadTendidos
 						.add(productosXDocumento.getCantidadXEmbalaje() == null ? BigDecimal.ZERO
 								: productosXDocumento.getCantidadXEmbalaje());
+
 				totalCantidadPallets = totalCantidadPallets
-						.add(productosXDocumento.getCantidadPalletsItem() == null ? BigDecimal.ZERO
-								: productosXDocumento.getCantidadPalletsItem());
+						.add(productosXDocumento
+								.getCantidad1()
+								.divide(productosXDocumento
+										.getProductosInventario()
+										.getProductosInventarioComext()
+										.getCantidadXEmbalaje(), 2,
+										RoundingMode.HALF_DOWN)
+								.divide(productosXDocumento
+										.getProductosInventario()
+										.getProductosInventarioComext()
+										.getTotalCajasXPallet(), 2,
+										RoundingMode.HALF_DOWN));
+				// .add(productosXDocumento.getCantidadPalletsItem() == null ?
+				// BigDecimal.ZERO
+				// : productosXDocumento.getCantidadPalletsItem());
 			}
 
 			totalNegociacion = totalValorTotal.add(totalGastos);
@@ -231,7 +248,8 @@ public class ImprimirFacturaProformaMB extends UtilMB {
 			parametros.put("lugarIncoterm",
 					"(" + documentoXNegociacion.getLugarIncoterm() == null ? ""
 							: documentoXNegociacion.getLugarIncoterm() + ")");
-			parametros.put("valorLetras", "");
+			parametros.put("valorLetras", Utilidad
+					.convertNumberToWords(this.totalNegociacion.doubleValue()));
 			parametros.put("solicitud", seleccionado.getObservacionDocumento());
 
 			if (cliente.getModoFactura() != null
