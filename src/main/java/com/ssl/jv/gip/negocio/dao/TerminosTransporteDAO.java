@@ -124,7 +124,7 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
 				LOGGER.info("Resultado consulta de documentos de instruccion de embarque: " + answer);
 				
 				answer.setTerminosTransporte(this.findByPK(Long.parseLong(shipCondId)));
-				//answer.getTerminosTransporte().setDocumentos(this.getDocumentsByShipCondId(Long.valueOf(shipCondId)));
+				answer.getTerminosTransporte().setDocumentos(this.getDocumentsByShipCondId(Long.valueOf(shipCondId)));
 				
 			}
 		} catch (NoResultException ne){
@@ -308,7 +308,7 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
 					+ " (SELECT ttd.id_documento FROM terminos_transporte_x_documento ttd WHERE ttd.id_terminos_transporte = ?)";
 			
 			Query q = this.em.createNativeQuery(query);
-			q.setParameter(0, idShipmntCond);
+			q.setParameter(1, idShipmntCond);
 						
 			list = q.getResultList();
 		} catch (NoResultException ne) {
