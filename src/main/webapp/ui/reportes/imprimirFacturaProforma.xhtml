@@ -174,7 +174,7 @@
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_CantidadCajas}"
 							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
-							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
+							<p:outputLabel value="#{dato.cantidadCajasItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadCajas}" style="text-align:right;width:100px;">
                  					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
@@ -184,7 +184,7 @@
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_CantidadTendidos}"
 							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
-							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
+							<p:outputLabel value="#{dato.cantidadXEmbalaje}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadTendidos}" style="text-align:right;width:100px;">
                  					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
@@ -194,7 +194,7 @@
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_CantidadPallets}"
 							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
-							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
+							<p:outputLabel value="#{dato.cantidadPalletsItem}" />
 							<f:facet name="footer">
                  				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadPallets}" style="text-align:right;width:100px;">
                  					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>

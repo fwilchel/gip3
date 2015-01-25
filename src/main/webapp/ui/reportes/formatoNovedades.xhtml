@@ -157,8 +157,11 @@
 					
 					<p:panelGrid columns="3"
 						columnClasses="label,value">
-						<p:commandButton value="#{msg.ReporteExcel}" icon="ui-icon-disk"
-							actionListener="#{formatoNovedadesMB.previsualizarFN}"></p:commandButton>
+					
+						<p:commandButton value="#{msg.ReporteExcel}" icon="ui-icon-disk" 
+							ajax="false" >
+							<p:fileDownload value="#{formatoNovedadesMB.reportePDF}" />
+						</p:commandButton>
 					</p:panelGrid>
 					
 				</p:tab>
