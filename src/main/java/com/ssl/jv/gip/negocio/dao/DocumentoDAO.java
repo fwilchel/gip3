@@ -18,6 +18,7 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ClienteDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
@@ -1295,6 +1296,86 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 	public List<Documento> consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
 			Long idEstado, Long idTipoDocumento, String consecutivoDocumento) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento){
+		
+		String sql = "SELECT  documentos.id,documentos.consecutivo_documento,documentos.fecha_generacion,documentos.documento_cliente,documentos.id_cliente,"
+				+ " documentos.id_tipo_documento,documentos.id_estado,"
+				+ " cli.nombre AS NOMBRE_CLIENTE,cli.id AS ID_CLIENTE,estados.nombre AS NOMBRE_ESTADO,"
+				+ " cli.direccion,cli.telefono,cli.contacto,inc.id AS ID_INCOTERM, inc.descripcion AS NOMBRE_INCOTERM, "
+				+ " doc.costo_entrega, doc.costo_seguro, doc.costo_flete, doc.otros_gastos, doc.observaciones_marcacion_2, "
+				+ " doc.total_peso_neto, doc.total_peso_bruto, doc.total_tendidos, doc.total_pallets, documentos.fecha_esperada_entrega, "
+				+ " doc.cantidad_contenedores_de_20, doc.cantidad_contenedores_de_40, doc.lugar_incoterm, "
+				+ " ciu.nombre AS NOMBRE_CIUDAD, doc.cantidad_dias_vigencia, metodo_pago.descripcion AS DESCRIPCION_PAGO, "
+				+ " documentos.observacion_documento, metodo_pago.descripcion_ingles, doc.solicitud_cafe ,doc.cantidad_estibas ,doc.peso_bruto_estibas,"
+				+ " documentos.id_ubicacion_origen,documentos.id_ubicacion_destino,"
+			    + " (select observacion_documento from documentos docu where docu.consecutivo_documento = (select observacion_documento "
+			    + " from documentos docu2 where docu2.consecutivo_documento = documentos.observacion_documento)) as observacion_documento2, doc.descripcion"
+				+ " FROM documentos"
+				+ " INNER JOIN clientes cli on documentos.id_cliente=cli.id"							
+				+ " INNER JOIN estados on documentos.id_estado=estados.id"
+				+ " INNER JOIN Documento_x_Negociacion doc on documentos.id=doc.id_documento"
+				+ " INNER JOIN termino_incoterm inc on inc.id = doc.id_termino_incoterm"
+				+ " INNER JOIN ciudades ciu on ciu.id = cli.id_ciudad"	
+				+ " INNER JOIN metodo_pago on cli.id_metodo_pago = metodo_pago.id"							
+				+ " WHERE documentos.id_tipo_documento=" + ConstantesTipoDocumento.FACTURA_PROFORMA;
+		
+//		if (parametros.length == 5)//Se envio un nuevo estado
+//		{
+//			int estado2 = (Integer) ConstantesDocumento.ASIGNADA;
+//			sql = sql + " AND documento.id_estado IN (" + estado + "," + estado2 + ")"
+//			+ " AND documentos.consecutivo_documento not in (select observacion_documento from documentos where observacion_documento  in ("
+//			+ " SELECT consecutivo_documento from documentos where  id_tipo_documento="+ ConstantesTipoDocumento.FACTURA_PROFORMA+" and "
+//					+ "id_estado IN ("  + ConstantesDocumento.APROBADA + "," + estado2 + ") )) ";  
+//			
+//										
+//			
+//		}
+//		else
+//			
+//			if (parametros.length == 4)//Se envio un nuevo estado
+//			{
+//				
+//				sql = sql + " AND documento.id_estado IN (" + ConstantesDocumento.APROBADA + ")";
+//			}
+//		
+//		
+//			else
+//				if (parametros.length == 6)//Se envio un nuevo estado
+//				{
+					int estado2 = (Integer) ConstantesDocumento.ASIGNADA;
+					int estado3 = (Integer) ConstantesDocumento.ACTIVO;
+					sql = sql + " AND documentos.id_estado IN (" + ConstantesDocumento.APROBADA + "," + estado2 + ","+ estado3+")";
+//				}
+	
+		
+		sql = sql + " AND UPPER(documentos.consecutivo_documento) LIKE UPPER('" + consecutivoDocumento + "')"
+				  + " ORDER BY documentos.id DESC";	
+		
+		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
+		
+		List<AutorizarDocumentoDTO> listadoAutorizar = new ArrayList<AutorizarDocumentoDTO>();
+		
+		if (listado != null) {
+			for (Object[] objs : listado) {
+				
+				AutorizarDocumentoDTO dto = new AutorizarDocumentoDTO();
+
+				dto.setIdDocumento(objs[0] != null ? new Long(objs[0].toString()) : null);
+				dto.setConsecutivoDocumento(objs[1] != null ? objs[1]
+						.toString() : null);
+				dto.setFechaGeneracion((Date) (objs[2] != null ? objs[2]
+						: null));
+				
+				listadoAutorizar.add(dto);
+
+			}
+			
+			return listadoAutorizar;
+		}
+		
 		return null;
 	}
 
