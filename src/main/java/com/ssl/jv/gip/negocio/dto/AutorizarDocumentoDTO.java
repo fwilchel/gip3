@@ -21,6 +21,10 @@ public class AutorizarDocumentoDTO implements Serializable{
 	
 	/** The fecha generacion. */
 	private Date fechaGeneracion;
+	
+	private boolean seleccionado;
+	
+	private String documentoCliente;
 
 	public Long getIdDocumento() {
 		return idDocumento;
@@ -44,6 +48,22 @@ public class AutorizarDocumentoDTO implements Serializable{
 
 	public void setFechaGeneracion(Date fechaGeneracion) {
 		this.fechaGeneracion = fechaGeneracion;
+	}
+
+	public boolean isSeleccionado() {
+		return seleccionado;
+	}
+
+	public void setSeleccionado(boolean seleccionado) {
+		this.seleccionado = seleccionado;
+	}
+
+	public String getDocumentoCliente() {
+		return documentoCliente;
+	}
+
+	public void setDocumentoCliente(String documentoCliente) {
+		this.documentoCliente = documentoCliente;
 	}	
 
 }

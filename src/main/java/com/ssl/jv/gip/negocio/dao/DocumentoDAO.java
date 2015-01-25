@@ -1301,7 +1301,13 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 	
 	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento){
 		
-		String sql = "SELECT  documentos.id,documentos.consecutivo_documento,documentos.fecha_generacion,documentos.documento_cliente,documentos.id_cliente,"
+		if(consecutivoDocumento != null && !consecutivoDocumento.equals("")){
+			consecutivoDocumento = "%" + consecutivoDocumento + "%";
+		} else {
+			consecutivoDocumento = "%";
+		}
+		
+		String sql = "SELECT  documentos.id,documentos.consecutivo_documento,documentos.fecha_generacion,documentos.documento_cliente,documentos.id_cliente doc_id_cliente,"
 				+ " documentos.id_tipo_documento,documentos.id_estado,"
 				+ " cli.nombre AS NOMBRE_CLIENTE,cli.id AS ID_CLIENTE,estados.nombre AS NOMBRE_ESTADO,"
 				+ " cli.direccion,cli.telefono,cli.contacto,inc.id AS ID_INCOTERM, inc.descripcion AS NOMBRE_INCOTERM, "
@@ -1368,6 +1374,8 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 						.toString() : null);
 				dto.setFechaGeneracion((Date) (objs[2] != null ? objs[2]
 						: null));
+				dto.setDocumentoCliente(objs[3] != null ? objs[3]
+						.toString() : null);
 				
 				listadoAutorizar.add(dto);
 
@@ -1379,4 +1387,24 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		return null;
 	}
 
+	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado){
+		
+		for(AutorizarDocumentoDTO dto : listado){
+			
+			String sql = "UPDATE documentos SET id_estado = " + ConstantesDocumento.AUTORIZADO + "   WHERE  id = " + dto.getIdDocumento() + " ";
+			
+			String sql2 = "UPDATE documentos SET id_estado = " + ConstantesDocumento.AUTORIZADO + "  , documento_cliente = " + (dto.getDocumentoCliente() != null && !dto.getDocumentoCliente().equals("") ? "'" + dto.getDocumentoCliente() + "'" : "") + "  WHERE  id = " + dto.getIdDocumento() + " ";
+			
+			int num = 3;
+			
+			if (dto.getDocumentoCliente() != null && !dto.getDocumentoCliente().equals("")) {
+				sql = sql2;
+			}
+
+			em.createNativeQuery(sql).executeUpdate();
+			
+		}
+		
+	}
+	
 }
