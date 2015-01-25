@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-01-25T12:18:29 -->
+<!-- 2015-01-09T10:39:21 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_FN" pageWidth="1550" pageHeight="800" columnWidth="1550" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="370e9ef0-b4c1-44a3-801d-0d0ff810e9bf">
 	<property name="ireport.zoom" value="2.9230756500000337"/>
 	<property name="ireport.x" value="3021"/>
@@ -557,18 +557,20 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="distribucionOptima" class="java.lang.String"/>
-	<field name="consecutivo" class="java.lang.String"/>
-	<field name="docSolicitado" class="java.lang.String"/>
-	<field name="formatoDiligenciado" class="java.lang.String"/>
-	<field name="prodCompleto" class="java.lang.String"/>
-	<field name="prodBuenEstado" class="java.lang.String"/>
-	<field name="prodTiempo" class="java.lang.String"/>
-	<field name="obsprodcompleto" class="java.lang.String"/>
-	<field name="obsdocsolicitados" class="java.lang.String"/>
-	<field name="obsprodtiempo" class="java.lang.String"/>
-	<field name="obsprodbuenestado" class="java.lang.String"/>
-	<field name="obsdistoptima" class="java.lang.String"/>
+	<field name="strDistribucion_Optima" class="java.lang.String"/>
+	<field name="objDocumento.strConsecutivoDocumento" class="java.lang.String"/>
+	<field name="strDocumentos_Solicitados" class="java.lang.String"/>
+	<field name="strFormatoDiligenciado" class="java.lang.String"/>
+	<field name="strProducto_Completo" class="java.lang.String"/>
+	<field name="strProductos_Buen_Estado" class="java.lang.String"/>
+	<field name="strProductos_Tiempo" class="java.lang.String"/>
+	<field name="strBuenaApilacion" class="java.lang.String"/>
+	<field name="strObsProdCompleto" class="java.lang.String"/>
+	<field name="strObsBuenaApilacion" class="java.lang.String"/>
+	<field name="strObsDocSolicitados" class="java.lang.String"/>
+	<field name="strObsProdTiempo" class="java.lang.String"/>
+	<field name="strObsProdBuenEstado" class="java.lang.String"/>
+	<field name="strObsDistOptima" class="java.lang.String"/>
 	<title>
 		<band height="42">
 			<staticText>
@@ -593,7 +595,7 @@
 				<text><![CDATA[Documentos Solicitados]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1107" y="16" width="66" height="26" uuid="7f25fef9-d526-4cda-a36b-6c22a212f83d"/>
+				<reportElement x="1257" y="16" width="66" height="26" uuid="7f25fef9-d526-4cda-a36b-6c22a212f83d"/>
 				<textElement textAlignment="Center">
 					<font size="7" isBold="true"/>
 				</textElement>
@@ -628,6 +630,13 @@
 				<text><![CDATA[Observación Producto Completo]]></text>
 			</staticText>
 			<staticText>
+				<reportElement x="1107" y="16" width="150" height="26" uuid="841d1f84-e606-4db0-847c-a6c571a7a40c"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observación Buena Apilación]]></text>
+			</staticText>
+			<staticText>
 				<reportElement x="348" y="16" width="150" height="26" uuid="719304a5-5c37-4dad-a28b-03e43b735bc3"/>
 				<textElement textAlignment="Center">
 					<font size="7" isBold="true"/>
@@ -656,7 +665,7 @@
 				<text><![CDATA[Observación Distribución Optima]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="4" width="1173" height="12" uuid="20d07c79-b6d7-40d3-abec-2795b335a8e3"/>
+				<reportElement x="0" y="4" width="1550" height="12" uuid="20d07c79-b6d7-40d3-abec-2795b335a8e3"/>
 				<textElement textAlignment="Center">
 					<font size="9" isBold="true"/>
 				</textElement>
@@ -671,84 +680,91 @@
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{distribucionOptima}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{strDistribucion_Optima}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="73" height="19" uuid="e6a6dd75-2282-4078-b377-6475d691bdfd"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{consecutivo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{objDocumento.strConsecutivoDocumento}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="281" y="0" width="67" height="19" uuid="7b54486f-27ea-4246-af0e-dc3192029a70"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{docSolicitado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{strDocumentos_Solicitados}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1107" y="0" width="66" height="19" uuid="dee1c181-b895-4221-897d-f7abedf257fb"/>
+				<reportElement x="1257" y="0" width="66" height="19" uuid="dee1c181-b895-4221-897d-f7abedf257fb"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{formatoDiligenciado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{strFormatoDiligenciado}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="498" y="0" width="53" height="19" uuid="c15a258c-881f-4e99-9696-33a82b4d3a74"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{prodCompleto}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{strProducto_Completo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="701" y="0" width="53" height="19" uuid="bc677fa4-6b59-48a1-95e1-5407a4aa1083"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{prodBuenEstado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{strProductos_Buen_Estado}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="904" y="0" width="53" height="19" uuid="c04af496-311d-4d67-b257-b4344866f832"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{prodTiempo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{strProductos_Tiempo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="551" y="0" width="150" height="19" uuid="8d3b777d-cd89-4d23-ab6f-c30f364f3f49"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{obsprodcompleto}==null)?"Sin Observación":$F{obsprodcompleto}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{strObsProdCompleto}==null)?"Sin Observación":$F{strObsProdCompleto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1107" y="0" width="150" height="19" uuid="f76b7046-91c0-4243-9ef2-8f22d10f5b99"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{strObsBuenaApilacion}==null)?"Sin Observación":$F{strObsBuenaApilacion}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="348" y="0" width="150" height="19" uuid="a564aac3-9e4d-4133-800a-3862ad3fb504"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{obsdocsolicitados}==null)?"Sin Observación":$F{obsdocsolicitados}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{strObsDocSolicitados}==null)?"Sin Observación":$F{strObsDocSolicitados}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="957" y="0" width="150" height="19" uuid="002944e0-fe7f-4e9d-aec3-ab61fb47a35f"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{obsprodtiempo}==null)?"Sin Observación":$F{obsprodtiempo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{strObsProdTiempo}==null)?"Sin Observación":$F{strObsProdTiempo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="754" y="0" width="150" height="19" uuid="1bf4bf26-5728-45f4-bb7d-b0aa76b8333a"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{obsprodbuenestado}==null)?"Sin Observación":$F{obsprodbuenestado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{strObsProdBuenEstado}==null)?"Sin Observación":$F{strObsProdBuenEstado}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement x="131" y="0" width="150" height="19" uuid="a3bd5ec8-7843-4f55-81f8-c205fe41c583"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{obsdistoptima}==null)?"Sin Observación":$F{obsdistoptima}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{strObsDistOptima}==null)?"Sin Observación":$F{strObsDistOptima}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
