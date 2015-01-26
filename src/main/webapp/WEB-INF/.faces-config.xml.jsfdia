@@ -187,6 +187,16 @@
     NAME="output36" PATH="/ui/comercioexterior/autorizarFacturaPF.xhtml"
     TARGET="rules:#ui#comercioexterior#autorizarFacturaPF.xhtml"
     TITLE="listado_FP_Autorizar" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_maestro_inventario_ce::#ui#maestros#listaInventarioComercioExt.xhtml"
+    NAME="output37" PATH="/ui/maestros/listaInventarioComercioExt.xhtml"
+    TARGET="rules:#ui#maestros#listaInventarioComercioExt.xhtml"
+    TITLE="listado_maestro_inventario_ce" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="crear_maestro_inventario_ce::#ui#maestros#inventarioComercioExt.xhtml"
+    NAME="output38" PATH="/ui/maestros/inventarioComercioExt.xhtml"
+    TARGET="rules:#ui#maestros#inventarioComercioExt.xhtml"
+    TITLE="crear_maestro_inventario_ce" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM
@@ -291,4 +301,10 @@
   NAME="rules:#ui#comercioexterior#autorizarFacturaPF.xhtml"
   PATH="/ui/comercioexterior/autorizarFacturaPF.xhtml"
   SHAPE="304,1297,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#maestros#listaInventarioComercioExt.xhtml"
+  PATH="/ui/maestros/listaInventarioComercioExt.xhtml"
+  SHAPE="304,1329,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#inventarioComercioExt.xhtml"
+  PATH="/ui/maestros/inventarioComercioExt.xhtml" SHAPE="304,1361,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

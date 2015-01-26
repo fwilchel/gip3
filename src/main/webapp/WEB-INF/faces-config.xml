@@ -174,6 +174,14 @@
 			<from-outcome>listado_FP_Autorizar</from-outcome>
 			<to-view-id>/ui/comercioexterior/autorizarFacturaPF.xhtml</to-view-id>
 		</navigation-case>
+        <navigation-case>
+			<from-outcome>listado_maestro_inventario_ce</from-outcome>
+			<to-view-id>/ui/maestros/listaInventarioComercioExt.xhtml</to-view-id>
+		</navigation-case>
+        <navigation-case>
+			<from-outcome>crear_maestro_inventario_ce</from-outcome>
+			<to-view-id>/ui/maestros/inventarioComercioExt.xhtml</to-view-id>
+		</navigation-case>
     </navigation-rule>
 
 </faces-config>
