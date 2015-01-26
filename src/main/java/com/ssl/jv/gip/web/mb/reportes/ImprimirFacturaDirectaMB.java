@@ -15,9 +15,9 @@ import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
+import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 
 
@@ -40,7 +40,7 @@ import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
 
 @ManagedBean(name="imprimirFacturaDirectaMB")
 @SessionScoped
-public class ImprimirFacturaDirectaMB {
+public class ImprimirFacturaDirectaMB extends UtilMB {
 	
 	
 	

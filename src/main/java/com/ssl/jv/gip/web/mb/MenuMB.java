@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.web.mb;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.el.MethodExpression;
@@ -168,6 +169,7 @@ public class MenuMB extends UtilMB{
         	if (o.getRuta()!=null && o.getRuta().equals(req.getParameter("opcion"))){
         		this.opcionActual = o.getNombre();
         		this.idOpcionActual=o.getId();
+        		liberarRecursos();
         		break;
         	}
         }
@@ -211,6 +213,38 @@ public class MenuMB extends UtilMB{
 		this.opciones = opciones;
 	}
 
+    /**
+     * Metodo para liberar los bean de sessión de la aplicación al cambiar de menú
+     */
+    private void liberarRecursos() {
+           FacesContext fc = FacesContext.getCurrentInstance();
+           ExternalContext ec = fc.getExternalContext();
+           HttpServletRequest req = (HttpServletRequest)ec.getRequest();
+           HttpSession session = req.getSession(false);
+           if (session != null) {
+               Enumeration attrNames = session.getAttributeNames();
+               while (attrNames.hasMoreElements()) {
+                   String nombre = (String)attrNames.nextElement();
+                   Class superClase = session.getAttribute(nombre).getClass().getSuperclass();
+                   if (superClase != null && !"menuMB".equals(nombre) && buscarSuperClaseAbstract(superClase)) {
+                	   LOGGER.debug("Removiendo : "+nombre);
+                       session.removeAttribute(nombre);
+                   }
+               }
+           }
+       }
 
+   private boolean buscarSuperClaseAbstract( Class superClase) {
+       if (superClase == null || superClase.equals(Object.class)) {
+           return false;
+       }
+
+       if (superClase.equals(UtilMB.class)) {
+           return true;
+       } else {
+
+           return buscarSuperClaseAbstract( superClase.getSuperclass());
+       }
+   }
 	
 }
