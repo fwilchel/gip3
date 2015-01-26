@@ -275,7 +275,7 @@
 					<p:selectOneRadio id="fleteExterno"  required="true"
 						value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.fleteExterno}">
 						<f:selectItems value="#{terminosTransporteMB.extFeesList}" var="ef" 
-							itemLabel="#{ef.description}" itemValue="#{ef}"/>
+							itemLabel="#{ef.description}" itemValue="#{ef.code}"/>
 						<p:ajax process="@this"/>
 					</p:selectOneRadio>
 					<p:message for="incotermDespacho" />
