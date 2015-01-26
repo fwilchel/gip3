@@ -136,8 +136,7 @@ public class TerminosTransporteEJB implements TerminosTransporteEJBLocal {
 	 */
 	@Override
 	public TerminosTransporte actualizarInstruccionEmbarque(TerminosTransporte tt) {
-		terminosTransporteDAO.update(tt);
-		return terminosTransporteDAO.findByPK(tt.getId());
+		return terminosTransporteDAO.updateTerminoTransporte(tt);
 	}
 
 	/**

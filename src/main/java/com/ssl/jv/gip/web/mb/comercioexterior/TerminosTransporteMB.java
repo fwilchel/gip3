@@ -10,9 +10,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.util.StringUtil;
+import org.primefaces.context.RequestContext;
 
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
+import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
@@ -56,15 +60,17 @@ public class TerminosTransporteMB extends UtilMB{
 	
 	private InstruccionesEmbarqueDTO instruccionesEmbarqueDTO;
 	
-	private List<SelectItem> agenteAduanaSelectList = null;
-	private List<SelectItem> modalidadEmbarqueList = null;
-	private List<SelectItem> incotermList = null;
+	private List<AgenteAduana> agenteAduanaSelectList = null;
+	private List<ModalidadEmbarque> modalidadEmbarqueList = null;
+	private List<TerminoIncoterm> incotermList = null;
 	private SelectItem selectedAduanaAgent1;
 	private SelectItem selectedAduanaAgent2;
 	private String selectedIdPais;
-	private List<SelectItem> extFeesList;
-	private List<SelectItem> ciudadesList;
+	private EFleteExterno[] extFeesList;
+	private List<Ciudad> ciudadesList;
 	private Date selectedFechaETA;
+	
+	private String viewAnswer;
 	
 
 	private TerminosTransporte selectedTerminosTransporte;
@@ -81,70 +87,33 @@ public class TerminosTransporteMB extends UtilMB{
 		selectedTerminosTransporte = null;
 		
 		// Listado de agentes de aduana disponibles
-		List<AgenteAduana> agentesAduana = terminosTransporteEjb.consultarAgentesAduanaActivos();
-		if(agentesAduana != null){
-			for(AgenteAduana aa : agentesAduana){
-				SelectItem item = new SelectItem();
-				item.setLabel(aa.getNombre());
-				item.setValue(aa.getId());
-			
-				if(agenteAduanaSelectList == null){
-					agenteAduanaSelectList = new ArrayList<SelectItem>();
-				}
-				
-				agenteAduanaSelectList.add(item);
-			}
-		}
+		agenteAduanaSelectList = terminosTransporteEjb.consultarAgentesAduanaActivos();
 		
 		//Listado de modalidades de embarque
-		List<ModalidadEmbarque> modalidadesEmbarque = terminosTransporteEjb.consultarModalidadesEmbarque();
-		if(modalidadesEmbarque != null){
-			for(ModalidadEmbarque me : modalidadesEmbarque){
-				SelectItem item = new SelectItem();
-				item.setLabel(me.getDescripcion());
-				item.setValue(me.getId());
-				
-				if(modalidadEmbarqueList == null){
-					modalidadEmbarqueList = new ArrayList<SelectItem>();
-				}
-				modalidadEmbarqueList.add(item);
-			}
-		}
+		modalidadEmbarqueList = terminosTransporteEjb.consultarModalidadesEmbarque();
 		
 		//Listado de incoterm de decpacho
-		List<TerminoIncoterm> incotermShList = terminosTransporteEjb.consultarIncoterms();
-		if(incotermShList != null){
-			for(TerminoIncoterm ti : incotermShList){
-				SelectItem item = new SelectItem();
-				item.setLabel(ti.getDescripcion());
-				item.setValue(ti);
-				
-				if(incotermList == null){
-					incotermList = new ArrayList<SelectItem>();
-				}
-				
-				incotermList.add(item);
-			}
-		}
+		incotermList = terminosTransporteEjb.consultarIncoterms();
 		
-		extFeesList = EFleteExterno.getList();
+		extFeesList = EFleteExterno.values();
 		ciudadesList = null;
-	}
-
-	public List<SelectItem> getExtFeesList() {
-		return extFeesList;
 	}
 
 	public List<ShipmentConditions> getTerminosTransporteList() {
 		return terminosTransporteList;
 	}
 	
+	public String getViewAnswer() {
+		return viewAnswer;
+	}
+	
+	public void setViewAnswer(String viewAnswer) {
+		this.viewAnswer = viewAnswer;
+	}
+	
 	public void setTerminosTransporteList(
 			List<ShipmentConditions> terminosTransporteList) {
 		this.terminosTransporteList = terminosTransporteList;
-	}
-	public List<SelectItem> getCiudadesList() {
-		return ciudadesList;
 	}
 
 	public ShipmentConditions getSelectedShipmentCond() {
@@ -164,20 +133,32 @@ public class TerminosTransporteMB extends UtilMB{
 		this.instruccionesEmbarqueDTO = instruccionesEmbarqueDTO;
 	}
 
-	public List<SelectItem> getAgenteAduanaSelectList() {
-		return agenteAduanaSelectList;
-	}
-
-	public void setAgenteAduanaSelectList(List<SelectItem> agenteAduanaSelectList) {
-		this.agenteAduanaSelectList = agenteAduanaSelectList;
-	}
-
 	public SelectItem getSelectedAduanaAgent1() {
 		return selectedAduanaAgent1;
 	}
 
 	public void setSelectedAduanaAgent1(SelectItem selectedAduanaAgent1) {
 		this.selectedAduanaAgent1 = selectedAduanaAgent1;
+	}
+
+	public List<AgenteAduana> getAgenteAduanaSelectList() {
+		return agenteAduanaSelectList;
+	}
+
+	public List<ModalidadEmbarque> getModalidadEmbarqueList() {
+		return modalidadEmbarqueList;
+	}
+
+	public List<TerminoIncoterm> getIncotermList() {
+		return incotermList;
+	}
+
+	public EFleteExterno[] getExtFeesList() {
+		return extFeesList;
+	}
+
+	public List<Ciudad> getCiudadesList() {
+		return ciudadesList;
 	}
 
 	public SelectItem getSelectedAduanaAgent2() {
@@ -205,28 +186,12 @@ public class TerminosTransporteMB extends UtilMB{
 		this.selectedFechaETA = selectedFechaETA;
 	}
 
-	public List<SelectItem> getModalidadEmbarqueList() {
-		return modalidadEmbarqueList;
-	}
-
-	public List<SelectItem> getIncotermList() {
-		return incotermList;
-	}
-
-	public void setIncotermList(List<SelectItem> incotermList) {
-		this.incotermList = incotermList;
-	}
-
 	public String getSelectedIdPais() {
 		return selectedIdPais;
 	}
 
 	public void setSelectedIdPais(String selectedIdPais) {
 		this.selectedIdPais = selectedIdPais;
-	}
-
-	public void setModalidadEmbarqueList(List<SelectItem> modalidadEmbarqueList) {
-		this.modalidadEmbarqueList = modalidadEmbarqueList;
 	}
 
 	public Integer getLanguage() {
@@ -253,8 +218,9 @@ public class TerminosTransporteMB extends UtilMB{
 					&& instruccionesEmbarqueDTO.getTerminosTransporte().getDocumentos() != null){
 				selectedFechaETA = instruccionesEmbarqueDTO.getTerminosTransporte().getDocumentos().get(0).getFechaEta(); 
 			}
-			selectedIdPais = null;
-			ciudadesList = null;
+
+			this.loadCiudades();
+			viewAnswer = "";
 		} catch (Exception e) {
 			this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
 			LOGGER.error(e);
@@ -269,7 +235,11 @@ public class TerminosTransporteMB extends UtilMB{
 	 * @return
 	 */ 
 	public void loadCiudades(){
-		ciudadesList = AplicacionMB.getCiudadesList(selectedIdPais);
+		if(instruccionesEmbarqueDTO != null && instruccionesEmbarqueDTO.getTerminosTransporte() != null
+				&& instruccionesEmbarqueDTO.getTerminosTransporte().getCiudade() != null){
+			ciudadesList = AplicacionMB.getCiudadesList(
+					instruccionesEmbarqueDTO.getTerminosTransporte().getCiudade().getIdPais());
+		}
 	}
 	
 	/**
@@ -280,10 +250,28 @@ public class TerminosTransporteMB extends UtilMB{
 	 */ 
 	public void actualizarInstruccionEmbarque(){
 		try {
-			for(Documento doc : instruccionesEmbarqueDTO.getTerminosTransporte().getDocumentos()){
-				doc.setFechaEta(this.selectedFechaETA);
+			TerminosTransporte tt = instruccionesEmbarqueDTO.getTerminosTransporte(); 
+			if(!(tt.getIdAgenteAduana1() == null || tt.getIdAgenteAduana2() == null ||
+					tt.getMesEmbarque() == null || tt.getPuertoEmbarque() == null ||
+					tt.getFechaEmbarque() == null || tt.getNaviera() == null ||
+					tt.getLinea() == null || tt.getBuque() == null ||
+					tt.getSeguro() == null || tt.getTipoContenedor() == null ||
+					tt.getCantidadContenedores() == null || tt.getNumeroContenedor() == null ||
+					tt.getSellosSeg() == null || tt.getPrecintos() == null ||
+					tt.getModalidadEmbarque() == null || tt.getTerminoIncoterm() == null ||
+					tt.getObservacion() == null || tt.getObservacion2() == null ||
+					selectedFechaETA == null || tt.getNumeroBooking() == null ||
+					tt.getFleteExterno() == null || tt.getCiudade() == null ||
+					tt.getCiudade().getIdPais() == null)){
+				
+				for(Documento doc : tt.getDocumentos()){
+					doc.setFechaEta(this.selectedFechaETA);
+				}
+				terminosTransporteEjb.actualizarInstruccionEmbarque(tt);
+				terminosTransporteList = terminosTransporteEjb.consultarListadoTerminosTransporte();
+				RequestContext.getCurrentInstance().execute("PF('successDlg').show()");
 			}
-			terminosTransporteEjb.actualizarInstruccionEmbarque(instruccionesEmbarqueDTO.getTerminosTransporte());
+			
 			
 		} catch (Exception e) {
 			this.addMensajeError("Ocurrio un error al actualizar la instruccion de embarque, intente de nuevo mas tarde");

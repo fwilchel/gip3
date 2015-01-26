@@ -123,8 +123,7 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
 				
 				LOGGER.info("Resultado consulta de documentos de instruccion de embarque: " + answer);
 				
-				answer.setTerminosTransporte(this.findByPK(Long.parseLong(shipCondId)));
-				answer.getTerminosTransporte().setDocumentos(this.getDocumentsByShipCondId(Long.valueOf(shipCondId)));
+				answer.setTerminosTransporte(findTerminosTransporteByIdFetchDocuments(Long.parseLong(shipCondId))); 
 				
 			}
 		} catch (NoResultException ne){
@@ -133,6 +132,24 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
 			LOGGER.error(ErrorConstants.UNHANDLED_EXCEPTION.getDescription());
 		}
 		LOGGER.info("Resultado consulta : " + answer);
+		return answer;
+	}
+	
+	private TerminosTransporte findTerminosTransporteByIdFetchDocuments(Long idTermTrans){
+		LOGGER.info("Entrando al metodo findTerminosTransporteByIdFetchDocuments");
+		TerminosTransporte answer = null;
+		try {
+			Query q = this.em.createQuery("SELECT tt FROM TerminosTransporte tt "
+					+ " JOIN FETCH tt.documentos "
+					+ " WHERE tt.id = :idTermTrans ");
+			q.setParameter("idTermTrans", idTermTrans);
+			
+			answer = (TerminosTransporte) q.getSingleResult();
+		} catch (NoResultException ne){
+			LOGGER.error(ErrorConstants.NO_RESULT.getDescription());
+		} catch (Exception e) {
+			LOGGER.error(ErrorConstants.UNHANDLED_EXCEPTION.getDescription());
+		}
 		return answer;
 	}
 	
@@ -317,5 +334,19 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
 			LOGGER.error(ErrorConstants.UNHANDLED_EXCEPTION.getDescription());
 		}
 		return list;
+	}
+
+	/**
+	 * @see com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal#updateTerminoTransporte(com.ssl.jv.gip.jpa.pojo.TerminosTransporte)
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public TerminosTransporte updateTerminoTransporte(
+			TerminosTransporte terminosTransporte) {
+		update(terminosTransporte);
+		this.em.flush();		
+		return findByPK(terminosTransporte.getId());
 	}
 }
