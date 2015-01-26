@@ -1,6 +1,8 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -97,6 +99,9 @@ public class TerminosTransporteMB extends UtilMB{
 		
 		extFeesList = EFleteExterno.values();
 		ciudadesList = null;
+		Collections.sort(agenteAduanaSelectList);
+		Collections.sort(modalidadEmbarqueList);
+		Collections.sort(incotermList);
 	}
 
 	public List<ShipmentConditions> getTerminosTransporteList() {
@@ -240,6 +245,7 @@ public class TerminosTransporteMB extends UtilMB{
 			ciudadesList = AplicacionMB.getCiudadesList(
 					instruccionesEmbarqueDTO.getTerminosTransporte().getCiudade().getIdPais());
 		}
+		Collections.sort(ciudadesList);
 	}
 	
 	/**
