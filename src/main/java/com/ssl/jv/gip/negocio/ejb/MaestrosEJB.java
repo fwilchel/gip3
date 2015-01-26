@@ -25,6 +25,7 @@ import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.MetodoPago;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
+import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
@@ -52,6 +53,7 @@ import com.ssl.jv.gip.negocio.dao.LugarIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MedioTransporteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MetodoPagoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MonedaDAOLocal;
+import com.ssl.jv.gip.negocio.dao.MovimientosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
@@ -139,15 +141,18 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private TipoPrecioDAOLocal tipoPrecioDAO;
-	
+
 	@EJB
 	private CategoriaCostoLogisticoDAOLocal categoriaCostoLogisticoDAO;
-	
+
 	@EJB
 	private ItemCostoLogisticoDAOLocal itemCostoLogisticoDAO;
-	
+
 	@EJB
 	private RangoCostoLogisticoDAOLocal rangoCostoLogisticoDAO;
+
+	@EJB
+	private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAO;
 
 	/**
 	 * Default constructor.
@@ -776,73 +781,96 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		pi.getUnidadVenta();// Para hacer fetch
 		return pi;
 	}
-	
-	public List<CategoriaCostoLogistico> consultarCategoriasCostosLogisticos(){
-		return (List<CategoriaCostoLogistico>)this.categoriaCostoLogisticoDAO.findAll();
+
+	public List<CategoriaCostoLogistico> consultarCategoriasCostosLogisticos() {
+		return (List<CategoriaCostoLogistico>) this.categoriaCostoLogisticoDAO
+				.findAll();
 	}
-	public CategoriaCostoLogistico consultarCategoriaCostoLogistico(Long id){
+
+	public CategoriaCostoLogistico consultarCategoriaCostoLogistico(Long id) {
 		return this.categoriaCostoLogisticoDAO.findByPK(id);
 	}
-	
-	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(CategoriaCostoLogistico ccl){
+
+	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(
+			CategoriaCostoLogistico ccl) {
 		this.categoriaCostoLogisticoDAO.update(ccl);
 		return ccl;
 	}
-	public CategoriaCostoLogistico crearCategoriaCostoLogistico(CategoriaCostoLogistico ccl){
+
+	public CategoriaCostoLogistico crearCategoriaCostoLogistico(
+			CategoriaCostoLogistico ccl) {
 		return this.categoriaCostoLogisticoDAO.add(ccl);
 	}
-	
-	public List<ItemCostoLogistico> consultarItemsCostosLogisticos(){
-		return (List<ItemCostoLogistico>)this.itemCostoLogisticoDAO.findAll();
+
+	public List<ItemCostoLogistico> consultarItemsCostosLogisticos() {
+		return (List<ItemCostoLogistico>) this.itemCostoLogisticoDAO.findAll();
 	}
-	public ItemCostoLogistico consultarItemCostoLogistico(Long id){
+
+	public ItemCostoLogistico consultarItemCostoLogistico(Long id) {
 		return this.itemCostoLogisticoDAO.findByPK(id);
 	}
-	public ItemCostoLogistico actualizarItemCostoLogistico(ItemCostoLogistico icl){
+
+	public ItemCostoLogistico actualizarItemCostoLogistico(
+			ItemCostoLogistico icl) {
 		this.itemCostoLogisticoDAO.update(icl);
-		if (icl.getRangoCostoLogisticos()!=null){
-			for (RangoCostoLogistico rcl:icl.getRangoCostoLogisticos()){
-				if (rcl.getId()!=null && rcl.getId()!=0){
+		if (icl.getRangoCostoLogisticos() != null) {
+			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
+				if (rcl.getId() != null && rcl.getId() != 0) {
 					this.rangoCostoLogisticoDAO.update(rcl);
-				}else{
-					RangoCostoLogistico rcl2=this.rangoCostoLogisticoDAO.add(rcl);
+				} else {
+					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO
+							.add(rcl);
 					rcl.setId(rcl2.getId());
 				}
 			}
 		}
 		return icl;
 	}
-	public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl){
-		icl=this.itemCostoLogisticoDAO.add(icl);
-		if (icl.getRangoCostoLogisticos()!=null){
-			for (RangoCostoLogistico rcl:icl.getRangoCostoLogisticos()){
-				if (rcl.getId()!=null && rcl.getId()!=0){
+
+	public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl) {
+		icl = this.itemCostoLogisticoDAO.add(icl);
+		if (icl.getRangoCostoLogisticos() != null) {
+			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
+				if (rcl.getId() != null && rcl.getId() != 0) {
 					this.rangoCostoLogisticoDAO.update(rcl);
-				}else{
-					RangoCostoLogistico rcl2=this.rangoCostoLogisticoDAO.add(rcl);
+				} else {
+					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO
+							.add(rcl);
 					rcl.setId(rcl2.getId());
 				}
 			}
 		}
 		return icl;
 	}
-	
-	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(ItemCostoLogistico icl){
-		return (List<RangoCostoLogistico>)this.rangoCostoLogisticoDAO.findByItem(icl);
+
+	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(
+			ItemCostoLogistico icl) {
+		return (List<RangoCostoLogistico>) this.rangoCostoLogisticoDAO
+				.findByItem(icl);
 	}
-	public RangoCostoLogistico consultarRangoCostoLogistico(Long id){
+
+	public RangoCostoLogistico consultarRangoCostoLogistico(Long id) {
 		return this.rangoCostoLogisticoDAO.findByPK(id);
 	}
-	public RangoCostoLogistico actualizarRangoCostoLogistico(RangoCostoLogistico icl){
+
+	public RangoCostoLogistico actualizarRangoCostoLogistico(
+			RangoCostoLogistico icl) {
 		this.rangoCostoLogisticoDAO.update(icl);
 		return icl;
 	}
-	public RangoCostoLogistico crearRangoCostoLogistico(RangoCostoLogistico icl){
+
+	public RangoCostoLogistico crearRangoCostoLogistico(RangoCostoLogistico icl) {
 		return this.rangoCostoLogisticoDAO.add(icl);
 	}
 
-	public void eliminarRangoCostoLogistico(RangoCostoLogistico icl){
+	public void eliminarRangoCostoLogistico(RangoCostoLogistico icl) {
 		this.rangoCostoLogisticoDAO.delete(icl);
+	}
+
+	@Override
+	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(
+			String sku) {
+		return movimientosInventarioComextDAO.consultarPorSKU(sku);
 	}
 
 }

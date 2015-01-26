@@ -1,43 +1,58 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the movimientos_inventario database table.
  * 
  */
 @Entity
-@Table(name="movimientos_inventario_comext")
+@Table(name = "movimientos_inventario_comext")
 @NamedQueries({
-	@NamedQuery(name="MovimientosInventarioComext.findAll", query="SELECT m FROM MovimientosInventarioComext m"),
-	@NamedQuery(name="MovimientosInventarioComext.ultimosSaldos", query="SELECT m FROM MovimientosInventarioComext m WHERE m.fecha = (SELECT max(m2.fecha) FROM MovimientosInventarioComext m2 WHERE m2.productosInventarioComext.idProducto=m.productosInventarioComext.idProducto) "),
-})
-
+		@NamedQuery(name = "MovimientosInventarioComext.findAll", query = "SELECT m FROM MovimientosInventarioComext m"),
+		@NamedQuery(name = "MovimientosInventarioComext.ultimosSaldos", query = "SELECT m FROM MovimientosInventarioComext m WHERE m.fecha = (SELECT max(m2.fecha) FROM MovimientosInventarioComext m2 WHERE m2.productosInventarioComext.idProducto=m.productosInventarioComext.idProducto) "),
+		@NamedQuery(name = MovimientosInventarioComext.FIND_BY_SKU, query = "SELECT m FROM MovimientosInventarioComext m JOIN m.productosInventarioComext pice JOIN pice.productosInventario pi WHERE UPPER(pi.sku) LIKE UPPER(:sku) ORDER BY m.fecha DESC ") })
 public class MovimientosInventarioComext implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6177643071198857825L;
+
+	public static final String FIND_BY_SKU = "MovimientosInventarioComext.findBySku";
 
 	@Id
 	private Long id;
-	
-	@Column(name="consecutivo_documento")
+
+	@Column(name = "consecutivo_documento")
 	private String consecutivoDocumento;
-	
+
 	@ManyToOne
-	@JoinColumn(name="id_tipo_movimiento")
+	@JoinColumn(name = "id_tipo_movimiento")
 	private TipoMovimiento tipoMovimiento;
-	
+
 	@ManyToOne
-	@JoinColumn(name="id_producto")
+	@JoinColumn(name = "id_producto")
 	private ProductosInventarioComext productosInventarioComext;
 
 	private BigDecimal cantidad;
-	
-	private Timestamp fecha;
-	
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fecha;
+
 	private BigDecimal saldo;
 
 	public Long getId() {
@@ -81,11 +96,11 @@ public class MovimientosInventarioComext implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	public Timestamp getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Timestamp fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 
@@ -96,5 +111,5 @@ public class MovimientosInventarioComext implements Serializable {
 	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
-	
+
 }

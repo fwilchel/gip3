@@ -7,8 +7,11 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 
 @Local
-public interface MovimientosInventarioComextDAOLocal extends IGenericDAO<MovimientosInventarioComext>{
+public interface MovimientosInventarioComextDAOLocal extends
+		IGenericDAO<MovimientosInventarioComext> {
 
 	public List<MovimientosInventarioComext> getUltimosSaldos();
-	
+
+	public List<MovimientosInventarioComext> consultarPorSKU(String sku);
+
 }
