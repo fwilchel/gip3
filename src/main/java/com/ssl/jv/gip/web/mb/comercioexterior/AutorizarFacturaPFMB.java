@@ -107,7 +107,7 @@ public class AutorizarFacturaPFMB extends UtilMB{
 				
 				String mensaje = AplicacionMB.getMessage("debeSeleccionarFacturaProforma", language);
 				
-				this.addMensajeInfo("Autorización generada");
+				this.addMensajeInfo("AutorizaciÃ³n generada");
 				
 				buscarDocumentos();
 				
