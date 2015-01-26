@@ -19,6 +19,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
@@ -220,5 +221,9 @@ public interface ComercioExteriorEJBLocal {
 	public List<Documento> consultarFacturasDeExportacionFiltro(Documento documento);
 	
 	public void actualizarFacturaDeExportacionFiltro(Documento documento);
+	
+	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
+	
+	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
 	
 }

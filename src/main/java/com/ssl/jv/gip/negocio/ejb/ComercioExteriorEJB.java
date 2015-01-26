@@ -39,6 +39,7 @@ import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
+import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
@@ -735,6 +736,23 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 			documentoDAO.update(documento);
 		} catch (Exception e) {
 			LOGGER.error(e + "Error actualizando facturas de exportacion");
+		}
+	}
+	
+	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento){
+		try {
+			return documentoDAO.consultarDocumentosAutorizar(consecutivoDocumento);
+		} catch (Exception e) {
+			LOGGER.error(e + "Error consultando facturas a autorizar");
+		}
+		return null;
+	}
+	
+	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado){
+		try {
+			documentoDAO.cambiarEstadoFacturaProforma(listado);
+		} catch (Exception e) {
+			LOGGER.error(e + "Error cambiando estado factura proforma");
 		}
 	}
 
