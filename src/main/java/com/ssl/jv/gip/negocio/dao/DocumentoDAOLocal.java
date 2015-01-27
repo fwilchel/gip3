@@ -49,6 +49,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
 	
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
+	
+	public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
 
 	public List<Documento> consultarDocumento(Map<String, Object> parametros);
 

@@ -99,6 +99,13 @@ public interface ComercioExteriorEJBLocal {
 	 * @return the list
 	 */
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
+	
+	/**
+	 * Consultar documentos aprobar solicitud pedido.
+	 *
+	 * @return the list
+	 */
+	public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
 
 	/**
 	 * Consultar lista solicitudes pedido.

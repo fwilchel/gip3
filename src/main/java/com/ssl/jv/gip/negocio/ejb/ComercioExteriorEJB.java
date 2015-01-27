@@ -258,6 +258,22 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 		return listado;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#consultarDocumentosAprobarSolicitudPedido()
+	 */
+	@Override
+	public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido() {
+		List<DocumentoIncontermDTO> listado = new ArrayList<DocumentoIncontermDTO>();
+
+		try {
+			listado = documentoDAO.consultarDocumentosAprobarSolicitudPedido();
+		} catch (Exception e) {
+
+		}
+
+		return listado;
+	}
 
 	/*
 	 * (non-Javadoc)

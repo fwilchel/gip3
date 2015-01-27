@@ -71,6 +71,10 @@
             <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
+	        <from-outcome>listado_solicitud_pedido2</from-outcome>
+            <to-view-id>/ui/comercioexterior/aprobarSolicitudPedido.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 	        <from-outcome>listado_SP_General</from-outcome>
             <to-view-id>/ui/comercioexterior/consultarSolicitudPedido.xhtml</to-view-id>
 		</navigation-case>
