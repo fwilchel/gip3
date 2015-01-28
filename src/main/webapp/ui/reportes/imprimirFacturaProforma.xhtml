@@ -124,7 +124,9 @@
 	
 						<p:column headerText="#{msg.imprimirFacturaProforma_Cantidad}"
 							sortBy="#{dato.cantidad1}" style="text-align:right" >
-							<p:outputLabel value="#{dato.cantidad1}" />
+							<p:outputLabel value="#{dato.cantidad1}"  >
+	           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+	          		 		</p:outputLabel>
 							<f:facet name="footer">
                  				<p:outputLabel id="totalCantidad" value="#{imprimirFacturaProformaMB.totalCantidad}" style="text-align:right;width:100px;">
                  					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
@@ -134,7 +136,9 @@
 	
 						<p:column headerText="#{msg.imprimirFacturaProforma_ValorUnitario}"
 							 sortBy="#{dato.cantidadPalletsItem}" style="text-align:right">
-							<p:outputLabel value="#{dato.cantidadPalletsItem}" />
+							<p:outputLabel value="#{dato.valorUnitarioUsd}"  >
+	           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+	          		 		</p:outputLabel>
 							<f:facet name="footer">
                  				<p:outputLabel id="totalPallets" value="#{imprimirFacturaProformaMB.totalValorUnitario}" style="text-align:right;width:100px;">
                  					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
@@ -144,61 +148,73 @@
 	
 						<p:column headerText="#{msg.imprimirFacturaProforma_ValorTotal}"
 							 sortBy="#{dato.cantidadCajasItem}" style="text-align:right">
-							<p:outputLabel value="#{dato.cantidadCajasItem}" />
+							<p:outputLabel value="#{dato.valorTotal}" >
+	           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+	          		 		</p:outputLabel>
 							<f:facet name="footer">
-                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalValorTotal}" style="text-align:right;width:100px;">
-                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-                		 		</p:outputLabel>                  
+                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalValorTotal}" style="text-align:right;width:100px;" >
+		           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		          		 		</p:outputLabel>                  
 							</f:facet>
 						</p:column>
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_PesoNetoKg}"
 							sortBy="#{dato.totalPesoNetoItem}" style="text-align:right" >
-							<p:outputLabel value="#{dato.totalPesoNetoItem}" />
+							<p:outputLabel value="#{dato.totalPesoNetoItem}"  >
+	           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+	          		 		</p:outputLabel>
 							<f:facet name="footer">
-                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalPesoNeto}" style="text-align:right;width:100px;">
-                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-                		 		</p:outputLabel>                  
+                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalPesoNeto}" style="text-align:right;width:100px;" >
+		           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		          		 		</p:outputLabel>                  
 							</f:facet>
 						</p:column>
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_PesoBrutoKg}"
 							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
-							<p:outputLabel value="#{dato.totalPesoBrutoItem}" />
+							<p:outputLabel value="#{dato.totalPesoBrutoItem}" >
+	           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+	          		 		</p:outputLabel>
 							<f:facet name="footer">
-                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalPesoBruto}" style="text-align:right;width:100px;">
-                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-                		 		</p:outputLabel>                  
+                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalPesoBruto}" style="text-align:right;width:100px;" >
+		           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		          		 		</p:outputLabel>                  
 							</f:facet>
 						</p:column>
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_CantidadCajas}"
 							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
-							<p:outputLabel value="#{dato.cantidadCajasItem}" />
+							<p:outputLabel value="#{dato.cantidadCajasItem}" >
+	           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+	          		 		</p:outputLabel>
 							<f:facet name="footer">
-                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadCajas}" style="text-align:right;width:100px;">
-                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-                		 		</p:outputLabel>                  
+                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadCajas}" style="text-align:right;width:100px;" >
+		           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		          		 		</p:outputLabel>                 
 							</f:facet>
 						</p:column>
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_CantidadTendidos}"
 							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
-							<p:outputLabel value="#{dato.cantidadXEmbalaje}" />
+							<p:outputLabel value="#{dato.cantidadXEmbalaje}" >
+	           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+	          		 		</p:outputLabel>
 							<f:facet name="footer">
-                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadTendidos}" style="text-align:right;width:100px;">
-                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-                		 		</p:outputLabel>
+                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadTendidos}" style="text-align:right;width:100px;" >
+		           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		          		 		</p:outputLabel>
 							</f:facet>
 						</p:column>
 						
 						<p:column headerText="#{msg.imprimirFacturaProforma_CantidadPallets}"
 							sortBy="#{dato.totalPesoBrutoItem}" style="text-align:right" >
-							<p:outputLabel value="#{dato.cantidadPalletsItem}" />
+							<p:outputLabel value="#{dato.cantidadPalletsItem}"  >
+	           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+	          		 		</p:outputLabel>
 							<f:facet name="footer">
-                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadPallets}" style="text-align:right;width:100px;">
-                 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-                		 		</p:outputLabel>                  
+                 				<p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadPallets}" style="text-align:right;width:100px;" >
+	           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+	          		 		</p:outputLabel>                  
 							</f:facet>
 						</p:column>
 						

@@ -145,6 +145,7 @@ public class ImprimirFacturaProformaMB extends UtilMB {
 					.consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
 							seleccionado.getId(), seleccionado.getCliente()
 									.getId());
+
 			for (ProductosXDocumento productosXDocumento : productosXDocumentos) {
 				totalCantidad = totalCantidad.add(productosXDocumento
 						.getCantidad1() == null ? BigDecimal.ZERO
@@ -184,6 +185,21 @@ public class ImprimirFacturaProformaMB extends UtilMB {
 				// .add(productosXDocumento.getCantidadPalletsItem() == null ?
 				// BigDecimal.ZERO
 				// : productosXDocumento.getCantidadPalletsItem());
+
+				// productosXDocumento.setCantidad1(productosXDocumento.getCantidad1().setScale(2,
+				// BigDecimal.ROUND_HALF_EVEN));
+				// productosXDocumento.setValorUnitarioUsd(productosXDocumento.getValorUnitarioUsd().setScale(2,
+				// BigDecimal.ROUND_HALF_EVEN));
+				// productosXDocumento.setValorTotal(productosXDocumento.getValorTotal().setScale(2,
+				// BigDecimal.ROUND_HALF_EVEN));
+				// productosXDocumento.setTotalPesoBrutoItem(productosXDocumento.getTotalPesoBrutoItem().setScale(2,
+				// BigDecimal.ROUND_HALF_EVEN));
+				// productosXDocumento.setTotalPesoNetoItem(productosXDocumento.getTotalPesoNetoItem().setScale(2,
+				// BigDecimal.ROUND_HALF_EVEN));
+				// productosXDocumento.setCantidadCajasItem(productosXDocumento.getCantidadCajasItem().setScale(2,
+				// BigDecimal.ROUND_HALF_EVEN));
+				// productosXDocumento.setCantidadXEmbalaje(productosXDocumento.getCantidadXEmbalaje().setScale(2,
+				// BigDecimal.ROUND_HALF_EVEN));
 			}
 
 			totalNegociacion = totalValorTotal.add(totalGastos);
