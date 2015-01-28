@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="a18bf358-73ac-445b-b19b-f0921c907396">
-	<property name="ireport.zoom" value="2.143588810000107"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="703"/>
+	<property name="ireport.zoom" value="1.7715610000000883"/>
+	<property name="ireport.x" value="2"/>
+	<property name="ireport.y" value="554"/>
 	<property name="ireport.background.image.properties" value="true,true,0.75,-9,-4,0,0,625,796"/>
 	<parameter name="nit" class="java.lang.String"/>
 	<parameter name="direccion" class="java.lang.String"/>
@@ -42,6 +42,7 @@
 	<field name="precio" class="java.math.BigDecimal"/>
 	<field name="valorTotal" class="java.math.BigDecimal"/>
 	<field name="valorDescuento" class="java.math.BigDecimal"/>
+	<field name="marca" class="java.lang.String"/>
 	<variable name="cantidad_1" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{cantidad}]]></variableExpression>
 	</variable>
@@ -502,6 +503,13 @@ Bogotá - Colombia]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorDescuento}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement uuid="4a28eed5-a75a-4a36-a91a-d425fa5e2b13" x="30" y="0" width="13" height="12"/>
+				<textElement textAlignment="Justified">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
@@ -701,7 +709,7 @@ En los términos de la ley 1231 de 2008, concordante con el art. 774 del C.C.]]>
 				<reportElement uuid="eb0fef7c-d16b-4e81-aace-475f6b41daf8" x="21" y="0" width="567" height="1"/>
 			</line>
 			<staticText>
-				<reportElement uuid="629930e6-1335-40e6-a877-c5464fb8a07b" x="29" y="110" width="98" height="15"/>
+				<reportElement uuid="629930e6-1335-40e6-a877-c5464fb8a07b" x="29" y="110" width="57" height="15"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -733,21 +741,21 @@ En los términos de la ley 1231 de 2008, concordante con el art. 774 del C.C.]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{valorSubtotal}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0">
+			<textField pattern="¤ #,##0" isBlankWhenNull="true">
 				<reportElement uuid="46ea0d39-393e-4b71-b07c-02810a90603a" x="482" y="40" width="100" height="18"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{valorDescuento}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0">
+			<textField pattern="¤ #,##0" isBlankWhenNull="true">
 				<reportElement uuid="199ee2df-0657-4ccd-b9be-0fe2bcb3d08a" x="485" y="61" width="97" height="16"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{valorIva5}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0">
+			<textField pattern="¤ #,##0" isBlankWhenNull="true">
 				<reportElement uuid="141b35d8-89aa-4db0-890a-d94bfca4fd13" x="485" y="82" width="97" height="17" isPrintWhenDetailOverflows="true"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
@@ -769,11 +777,32 @@ En los términos de la ley 1231 de 2008, concordante con el art. 774 del C.C.]]>
 				<textFieldExpression><![CDATA[$P{valorLetras}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0">
-				<reportElement uuid="e8984e98-7015-4264-929a-a0a527223565" x="127" y="110" width="102" height="15"/>
+				<reportElement uuid="e8984e98-7015-4264-929a-a0a527223565" x="86" y="110" width="102" height="15"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{cantidad_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d1f910f5-ef3a-4230-9f8a-2b8b3d819577" x="29" y="77" width="345" height="33"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{observaciones}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c5c9b7ba-9723-4f7d-a7ed-cc9da866b5db" x="382" y="40" width="15" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mark}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0bdb6932-6dec-4668-8028-d1075e2d9929" x="450" y="40" width="29" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{descuentoCliente}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

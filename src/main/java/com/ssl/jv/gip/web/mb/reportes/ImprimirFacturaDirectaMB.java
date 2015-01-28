@@ -45,9 +45,9 @@ import com.ssl.jv.gip.web.util.Numero_a_Letra;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
 
 /**
- * <p>Title: ImprimirListaEmpaqueMB</p>
+ * <p>Title: ImprimirFacturaDirectaMB</p>
  *
- * <p>Description: ManagedBean para las imprimir Listas de Empaque</p>
+ * <p>Description: ManagedBean para las imprimir Factura Directa</p>
  *
  * <p>Copyright: Copyright (c) 2014</p>
  *
@@ -116,15 +116,11 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 	}
 
 	public void setSeleccionado(Documento seleccionado) {
-		this.seleccionado = seleccionado;
-		
 	
-		
-		
-		
-		
+		this.seleccionado = seleccionado;
+	
 		this.setSeleccionado2(this.ventasFacturacionEjb.consultarDocumentoFacturaDirecta(seleccionado.getConsecutivoDocumento()));
-		//listaEmpaqueDetalle = comercioEjb.consultarProductoListaEmpaque(seleccionado.getConsecutivoDocumento());
+		
 		
 		listaDetalle = this.ventasFacturacionEjb.consultarProductoFacturaDirecta(seleccionado.getConsecutivoDocumento());
 		
@@ -133,6 +129,7 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 		System.out.println("cliente: "+ seleccionado.getCliente().getId());
 		
 		//lotes = comercioEjb.consultarProductoPorDocumentoLoteAsignarLotesOIC(seleccionado.getId(), seleccionado.getCliente().getId());
+		
 		
 		
 		
@@ -194,7 +191,7 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		//Cliente c=seleccionado.getCliente();
 		
-		
+		int n = 0;
 		
 		 /*parametros.put("despachado_a",pv.getStrNombre());
 		 parametros.put("direccionpv",pv.getStrDireccion());
@@ -220,6 +217,7 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 			//parametros.put("solicitud", seleccionado.getObservacionDocumento());
 			parametros.put("numFactura",seleccionado2.getConsecutivoDocumento());
 		 
+			
 			
 			/*System.out.println("cliente: "+c.getNombre());
 			System.out.println("NIT: "+c.getNit());
@@ -270,10 +268,31 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 			 }
 			 
 			 
+			 for (ProductoFacturaDirectaDTO p:listaDetalle){
+					
+					String mark = p.getMarca();
+					if (mark.equals("(*)"))
+					{n = n + 1;}
+					
+				}
+				
+				
+				if (n > 0){ //Existe algún registro con descuento adicioanl
+					 parametros.put("descuentoCliente",seleccionado2.getDescuentoCliente().toString()+ "%");
+					 parametros.put("observaciones", "Los productos marcados con (*) incluyen descuento adicional.");
+					 parametros.put("mark", "(*)");				 
+				}
+				else{
+					 parametros.put("descuentoCliente","");
+					 parametros.put("observaciones", "");
+					 parametros.put("mark", "");				 
+				}		 
 			 
-			 parametros.put("mark", "(*)");	
-			 parametros.put("descuentoCliente","%");
-			 parametros.put("observaciones", "Los productos marcados con (*) incluyen descuento adicional.");
+			 
+			 
+			// parametros.put("mark", "(*)");	
+			// parametros.put("descuentoCliente","%");
+			// parametros.put("observaciones", "Los productos marcados con (*) incluyen descuento adicional.");
 			 
 			 JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDetalle);
 				try {

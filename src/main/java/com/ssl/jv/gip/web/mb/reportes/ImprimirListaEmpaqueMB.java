@@ -240,7 +240,7 @@ public class ImprimirListaEmpaqueMB extends UtilMB{
 		parametros.put("estado",array);
 		
 		listaEmpaqueList = comercioEjb.consultarDocumento(parametros,array);		
-		System.out.println("tamaña lista:"+listaEmpaqueList.size());
+		
 		
 		return listaEmpaqueList;
 	}

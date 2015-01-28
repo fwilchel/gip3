@@ -58,6 +58,8 @@ public class FacturaDirectaDTO implements Serializable {
 	
 	private long estado;
 	
+	private BigDecimal descuentoCliente;
+	
 	
 	
 	public BigDecimal getValorIva5() {
@@ -301,6 +303,14 @@ public class FacturaDirectaDTO implements Serializable {
 
 	public void setEstado(long estado) {
 		this.estado = estado;
+	}
+
+	public BigDecimal getDescuentoCliente() {
+		return descuentoCliente;
+	}
+
+	public void setDescuentoCliente(BigDecimal descuentoCliente) {
+		this.descuentoCliente = descuentoCliente;
 	}
 
 
