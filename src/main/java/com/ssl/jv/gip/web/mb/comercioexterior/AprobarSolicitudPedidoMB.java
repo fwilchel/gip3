@@ -38,6 +38,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.Numero_a_Letra_Ingles;
 
 
@@ -127,6 +128,10 @@ public class AprobarSolicitudPedidoMB extends UtilMB{
 	 * Aprobar solicitud.
 	 */
 	public void aprobarSolicitud(){
+		seleccionado.setIdEstado(new Long(ConstantesDocumento.APROBADA));
+		comercioEjb.actualizarEstadoDocumento(seleccionado);
+		this.addMensajeInfo("Se aprobo la solicitud de pedido exitosamente");
+		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosAprobarSolicitudPedido();
 		
 	}
 

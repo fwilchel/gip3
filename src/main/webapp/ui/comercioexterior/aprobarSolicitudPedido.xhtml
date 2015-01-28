@@ -23,7 +23,7 @@
 					
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{aprobarSolicitudPedidoMB.listaDocumentos}" rows="10"
-						emptyMessage="#{msg.comercioDocumentosIncotermNoEncontrados}"
+						emptyMessage="No se encontraron solicitudes de pedido para aprobar"
 						paginator="true" paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
@@ -39,19 +39,19 @@
 							</p:commandButton>
 						</p:column>
 
-						<p:column headerText="#{msg.CodigoGipSP}">
+						<p:column headerText="#{msg.recibiProductoDcoumento}">
 							<h:outputText value="#{dato.idDocumento}" />
 						</p:column>
 
-						<p:column headerText="#{msg.ConsecutivoSP}">
+						<p:column headerText="#{msg.RequisicionNombreCons}">
 							<h:outputText value="#{dato.consecutivoDocumento}" />
 						</p:column>
 
-						<p:column headerText="#{msg.NumeroPedidoWeb}">
+						<p:column headerText="#{msg.DocumentoClienteSP}">
 							<h:outputText value="#{dato.documentoCliente}" />
 						</p:column>
 
-						<p:column headerText="#{msg.NombreClienteSP}">
+						<p:column headerText="#{msg.nomCliente}">
 							<h:outputText value="#{dato.clientesNombre}" />
 						</p:column>
 
@@ -109,6 +109,7 @@
 						<h:inputText size="50"
 							value="#{aprobarSolicitudPedidoMB.seleccionado.clientesNombre}"
 							id="strNombreCliente" disabled="true" label="#{msg.nomCliente}" />
+							
 
 						<p:outputLabel value="#{msg.NumeroPedidoWeb}"
 							for="strDocumentoCliente" styleClass="negrita" />
@@ -123,6 +124,7 @@
 							value="#{aprobarSolicitudPedidoMB.seleccionado.clientesDireccion}"
 							id="strDocumentoClienteDir" disabled="true"
 							label="#{msg.maestroDireccionCliente}" />
+							
 
 						<p:outputLabel value="#{msg.maestroTelefonoCliente}"
 							for="strDocumentoClienteTel" styleClass="negrita" />
@@ -137,7 +139,23 @@
 							value="#{aprobarSolicitudPedidoMB.seleccionado.clientesContacto}"
 							id="strDocumentoClienteCont" disabled="true"
 							label="#{msg.maestroContactoAgente}" />
-						
+							
+							
+						<p:outputLabel value="#{msg.observacionDocumento}"
+							for="strObservacionDoc" styleClass="negrita" />
+						<h:inputTextarea
+							value="#{aprobarSolicitudPedidoMB.seleccionado.observacionDocumento}"
+							id="strObservacionDoc" readonly="true" rows="4" cols="40"
+							label="#{msg.observacionDocumento}" />
+
+						<p:outputLabel value="#{msg.observacionMarcacion2}"
+							for="strObservacionMar" styleClass="negrita" />
+						<h:inputTextarea
+							value="#{aprobarSolicitudPedidoMB.seleccionado.observacionesMarcacion2}"
+							id="strObservacionMar" readonly="true" rows="4" cols="40"
+							label="#{msg.observacionMarcacion2}" />
+							
+													
 						<p:outputLabel value="#{msg.TerminoIncotermSP}"
 							for="strTerminoIncoterm" styleClass="negrita" />
 						<h:inputText
@@ -151,6 +169,7 @@
 							value="#{aprobarSolicitudPedidoMB.seleccionado.lugarIncoterm}"
 							id="strLugarIncoterm" disabled="true"
 							label="#{msg.LugarIncoterm}" />
+							
 
 						<p:outputLabel value="#{msg.CantidadContenedores20}"
 							for="dblCantidadContenedores20" styleClass="negrita" />
@@ -169,6 +188,7 @@
 							label="#{msg.CantidadContenedores40}">
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:inputText>
+						
 
 						<p:outputLabel value="#{msg.FechaDespacho}" for="dtmFechaDespacho"
 							styleClass="negrita" />
@@ -179,19 +199,7 @@
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
 
-						<p:outputLabel value="#{msg.observacionDocumento}"
-							for="strObservacionDoc" styleClass="negrita" />
-						<h:inputTextarea
-							value="#{aprobarSolicitudPedidoMB.seleccionado.observacionDocumento}"
-							id="strObservacionDoc" readonly="true" rows="4" cols="40"
-							label="#{msg.observacionDocumento}" />
-
-						<p:outputLabel value="#{msg.observacionMarcacion2}"
-							for="strObservacionMar" styleClass="negrita" />
-						<h:inputTextarea
-							value="#{aprobarSolicitudPedidoMB.seleccionado.observacionesMarcacion2}"
-							id="strObservacionMar" readonly="true" rows="4" cols="40"
-							label="#{msg.observacionMarcacion2}" />
+						
 
 
 					</p:panelGrid>
@@ -213,10 +221,13 @@
 						</p:column>
 
 						<p:column headerText="#{msg.comprasCantidadSola}">
-							<h:outputText value="#{producto.dblCantidad1ProductoxDocumento}"
-								id="cantidadProd1">
-								<f:convertNumber maxFractionDigits="2" />
-							</h:outputText>
+							<p:panelGrid columns="1">
+								<h:inputText value="#{producto.dblCantidad1ProductoxDocumento}"
+									required="true" maxlength="10" size="10" id="cantidadProd1">
+									<f:convertNumber maxFractionDigits="2" />
+								</h:inputText>
+								<p:message for="cantidadProd1"></p:message>
+							</p:panelGrid>
 						</p:column>
 
 						<p:column headerText="#{msg.costeoComperasValorUnitarioML}">
@@ -259,7 +270,11 @@
 							<h:outputText value="#{producto.dblTotalCajasPallet}">
 								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 							</h:outputText>
-						</p:column>						
+						</p:column>	
+						
+						<p:column headerText="#{msg.buscadorIncluirProducto}">
+							<p:selectBooleanCheckbox value="#{producto.blnIncluirBusqueda}" />
+						</p:column>					
 
 					</p:dataTable>
 

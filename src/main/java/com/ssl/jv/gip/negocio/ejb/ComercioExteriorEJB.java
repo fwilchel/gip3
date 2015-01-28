@@ -317,6 +317,13 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 		return listado;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#actualizarEstadoDocumento(com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO)
+	 */
+	public void actualizarEstadoDocumento(DocumentoIncontermDTO documento){
+		documentoDAO.actualizarEstadoDocumento(documento);
+	}
 
 	/*
 	 * (non-Javadoc)

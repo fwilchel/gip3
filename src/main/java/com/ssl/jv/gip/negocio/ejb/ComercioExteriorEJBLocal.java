@@ -139,6 +139,13 @@ public interface ComercioExteriorEJBLocal {
 	 */
 	public void guardarSolicitudPedido(DocumentoIncontermDTO documento,
 			List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
+	
+	/**
+	 * Actualizar estado documento.
+	 *
+	 * @param documento the documento
+	 */
+	public void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
 
 	/**
 	 * Consultar ubicaciones por usuario.
