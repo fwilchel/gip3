@@ -851,33 +851,63 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		return listado;
 	}
 
-	public List<Documento> consultarDocumento(Map<String, Object> parametros) {
+	public List<Documento> consultarDocumento(Map<String, Object> parametros ,Long... idEstados) {
 		// TODO Auto-generated method stub
 
 		List<Documento> lista = new ArrayList<Documento>();
 
 		int tipo = (Integer) parametros.get("tipo");
-		int estado = (Integer) parametros.get("estado");
-
 		String parametroConseDoc = (String) parametros.get("parametroConseDoc");
+		//int estado = (Integer) parametros.get("estado");
+		
+		//long[] idEstados = (long[])parametros.get("estado");
+		
+		//ZFSZFSD
 
+		//parametros.get("estado2").
+	/*	
+		System.out.println("tamaño:"+ estado.length);
+		
+		if  (estado.length==2)
+		{
+			
+		}
+		
+	
+		
+		
 		// System.out.println("tipo doc:"+tipo);
 		// System.out.println("estado doc:"+estado);
 		// System.out.println("parametroConseDoc:"+parametroConseDoc);
+		 * 
+		 * 
+		 */
+		//Long... idEstados =(11,12);
+		
+		
 
 		try {
 			// String query =
 			// "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
 
-			String query = "select d from Documento d where id_tipo_documento= :tipo AND id_estado = :estado AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
+			String query = "select d from Documento d where id_tipo_documento= :tipo AND id_estado in( :estados) AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
 
 			lista = em.createQuery(query).setParameter("tipo", tipo)
-					.setParameter("estado", estado)
+					//.setParameter("estado",(long) estado)
 					.setParameter("parametroConseDoc", parametroConseDoc)
+					.setParameter("estados", Arrays.asList(idEstados))
 					.getResultList();
 			// lista = em.createQuery(query).setParameter("tipo", tipo)
 
-			System.out.println("query LE" + lista.size());
+			System.out.println("query tamaño" + lista.size());
+			System.out.println("query documento: " + query);
+			
+			
+			
+			
+			
+			
+			
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
@@ -1068,24 +1098,31 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 	public FacturaDirectaDTO consultarDocumentoFacturaDirecta(
 			String strConsecutivoDocumento) {
 
-		FacturaDirectaDTO dto = new FacturaDirectaDTO();
+		FacturaDirectaDTO dto ;
 
 		String query = "";
-		query = "SELECT  d.id,d.consecutivo_documento,d.fecha_generacion,"
-				+ " cli.nombre as cliente,cli.direccion,cli.telefono,cli.contacto,"
-				+ " d.observacion_documento , u.nombre as ubicacion,"
-				+ " d.subtotal,d.descuento,d.valor_iva10 ,d.valor_iva16,d.valor_iva5,d.valor_total"
-				+ " pv.nombre,pv.direccion,pv.telefono ,ciu.nombre"
+		query = "SELECT  d.id as idDocumento,d.consecutivo_documento as consecutivoDocumento, d.fecha_generacion as fechaGeneracion,"
+				+ " cli.nombre as nombreCliente,cli.direccion as direccionCliente ,cli.telefono  as telefonoCliente,cli.contacto as contactoCliente,"
+				+ " d.observacion_documento as observacionDocumento , u.nombre as nombreUbicacion,"
+				+ " d.subtotal as valorSubtotal ,d.descuento as valorDescuento ,d.valor_iva10 as  valorIva10  ,d.valor_iva16 as valorIva16, d.valor_iva5 as valorIva5, d.valor_total as valorTotal, "
+				+ " pv.nombre as nombrePuntoVenta ,pv.direccion as direccionPuntoVenta ,pv.telefono as telefonoPuntoVenta,ciupv.nombre as nombreCiudadPuntoVenta, "
+				+ " cli.nit as nitCliente,"
+				+ " ciucli.nombre as nombreCiudadCliente, d.id_estado as estado"
 				+ " FROM documentos d INNER JOIN clientes cli on d.id_cliente=cli.id "
 				+ " INNER JOIN ubicaciones u on d.id_ubicacion_destino=u.id "
 				+ " INNER JOIN punto_venta pv on pv.id=d.id_punto_venta "
-				+ " INNER JOIN ciudades ciu on ciu.id=pv.id_ciudad "
- 				+ " WHERE d.consecutivo_documento='" + strConsecutivoDocumento
-				+ "'";
+				+ " INNER JOIN ciudades ciupv on ciupv.id=pv.id_ciudad" 
+				+ " INNER JOIN ciudades ciucli on ciucli.id=cli.id_ciudad" 
+ 				+ " WHERE d.consecutivo_documento= :consecutivoDocumento";
+		
+		
+		
+		
+		
+		dto = (FacturaDirectaDTO)em.createNativeQuery(query, FacturaDirectaDTO.class).setParameter("consecutivoDocumento", strConsecutivoDocumento).getSingleResult();
+		
 
-		List<Object[]> listado = em.createNativeQuery(query).getResultList();
-
-		if (listado != null) {
+		/*if (listado != null) {
 			for (Object[] objs : listado) {
 
 				dto.setIdDocumento(objs[0] != null ? objs[0].toString() : null);
@@ -1128,7 +1165,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 						.toString()) : null);
 				
 			}
-		}
+		}*/
 
 		return dto;
 
@@ -1261,8 +1298,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Documento> consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
-			Long idTipoDocumento, String consecutivoDocumento,
-			Long... idEstados) {
+			Long idTipoDocumento, String consecutivoDocumento,	Long... idEstados) {
 		Query query = em
 				.createNamedQuery(Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO);
 		query.setParameter("idTipoDocumento", idTipoDocumento);

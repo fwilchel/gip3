@@ -13,6 +13,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 
 
+import com.ssl.jv.gip.negocio.dao.ProductoClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 
 /**
@@ -35,21 +36,22 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     @EJB
 	private ProductosXDocumentoDAOLocal productoDocumentoDAO;
     
-    
+    @EJB
+	private ProductoClienteDAOLocal productoClienteDAO;
     
     
     @Override
     public FacturaDirectaDTO consultarDocumentoFacturaDirecta(String strConsecutivoDocumento)
     {
-    return documentoDAO.consultarDocumentoFacturaDirecta(strConsecutivoDocumento);
+    	return documentoDAO.consultarDocumentoFacturaDirecta(strConsecutivoDocumento);
     }
     
     
     
     @Override
-	public List<Documento> consultarDocumento(Map<String, Object> parametros) {
+	public List<Documento> consultarDocumento(Map<String, Object> parametros, Long[] idEstados) {
 		// TODO Auto-generated method stub
-		return documentoDAO.consultarDocumento(parametros);
+		return documentoDAO.consultarDocumento(parametros , idEstados);
 	}
 
 

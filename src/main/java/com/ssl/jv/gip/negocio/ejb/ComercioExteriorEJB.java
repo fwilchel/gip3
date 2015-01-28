@@ -532,9 +532,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	}
 
 	@Override
-	public List<Documento> consultarDocumento(Map<String, Object> parametros) {
+	public List<Documento> consultarDocumento(Map<String, Object> parametros, Long[] idEstados) {
 		// TODO Auto-generated method stub
-		return documentoDAO.consultarDocumento(parametros);
+		return documentoDAO.consultarDocumento(parametros, idEstados);
 	}
 
 	@Override

@@ -144,7 +144,7 @@ public interface ComercioExteriorEJBLocal {
 	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(
 			String consecutivoFacturaProforma);
 
-	public List<Documento> consultarDocumento(Map<String, Object> parametros);
+	public List<Documento> consultarDocumento(Map<String, Object> parametros ,Long[] idEstados);
 
 	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
 			String consecutivoDocumento);

@@ -49,7 +49,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
 
-	public List<Documento> consultarDocumento(Map<String, Object> parametros);
+	public List<Documento> consultarDocumento(Map<String, Object> parametros ,Long... idEstados);
 
 	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
 			String consecutivoDocumento);

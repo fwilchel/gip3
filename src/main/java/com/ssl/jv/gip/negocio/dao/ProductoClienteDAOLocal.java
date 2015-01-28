@@ -8,7 +8,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 
 @Local
-public interface ProductoClienteDAOLocal  extends IGenericDAO<ProductosXCliente>{
+public interface ProductoClienteDAOLocal extends IGenericDAO<ProductosXCliente>{
 
 	//List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(String strConsecutivoDocumento);
 

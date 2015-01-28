@@ -24,6 +24,7 @@ import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
@@ -35,6 +36,10 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
+
+import com.ssl.jv.gip.web.util.Numero_a_Letra;
+
+
 
 
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
@@ -56,7 +61,7 @@ import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
 
 @ManagedBean(name="imprimirFacturaDirectaMB")
 @SessionScoped
-public class ImprimirFacturaDirectaMB  extends UtilMB{
+public class ImprimirFacturaDirectaMB  extends UtilMB {
 	
 	
 	
@@ -130,7 +135,7 @@ public class ImprimirFacturaDirectaMB  extends UtilMB{
 		System.out.println("doc: "+seleccionado.getId());
 		System.out.println("cliente: "+ seleccionado.getCliente().getId());
 		
-		lotes = comercioEjb.consultarProductoPorDocumentoLoteAsignarLotesOIC(seleccionado.getId(), seleccionado.getCliente().getId());
+		//lotes = comercioEjb.consultarProductoPorDocumentoLoteAsignarLotesOIC(seleccionado.getId(), seleccionado.getCliente().getId());
 		
 		
 		
@@ -170,10 +175,18 @@ public class ImprimirFacturaDirectaMB  extends UtilMB{
 		
 		
 		parametros.put("tipo", ConstantesTipoDocumento.FACTURA);
-		parametros.put("estado", ConstantesDocumento.IMPRESO);
+		//parametros.put("estado", ConstantesDocumento.IMPRESO);
+		//parametros.put("estado2", ConstantesDocumento.ANULADO);
+		
+					
+					Long[] array = new Long[2];
+					array[0]=(long) ConstantesDocumento.IMPRESO;
+					array[1]= (long) ConstantesDocumento.ANULADO;
+					parametros.put("estado",array);
+					
 		parametros.put("parametroConseDoc",parametroConseDoc);
 		
-		list = ventasFacturacionEjb.consultarDocumento(parametros);
+		list = ventasFacturacionEjb.consultarDocumento(parametros,array);
 		
 		
 		return list;
@@ -182,7 +195,7 @@ public class ImprimirFacturaDirectaMB  extends UtilMB{
 	
 	public StreamedContent getReportePDF() {
 		Map<String, Object> parametros = new HashMap<String, Object>();
-		Cliente c=seleccionado.getCliente();
+		//Cliente c=seleccionado.getCliente();
 		
 		
 		
@@ -193,25 +206,25 @@ public class ImprimirFacturaDirectaMB  extends UtilMB{
 		 parametros.put("documento",docCabecera.getStrDocumentoCliente());
 		 parametros.put("fecha",fechaStringGeneracion);
 		 parametros.put("sku","A28");*/
-//parametros.put("numFactura", docCabecera.getStrConsecutivoDocumento());
+		//parametros.put("numFactura", docCabecera.getStrConsecutivoDocumento());
 		 //parametros.put("tipoImp", "Copia");
 		 
 		 SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
 		 String fechaStringGeneracion = ft.format( seleccionado2.getFechaGeneracion());
 		
 		 
-		    parametros.put("cliente",c.getNombre());		 
-			parametros.put("nit", c.getNit());
-			parametros.put("ciudad",c.getCiudad().getNombre());		 
-			parametros.put("direccion", c.getDireccion());
-			parametros.put("telefono", c.getTelefono());
+		    parametros.put("cliente",seleccionado2.getNombreCliente());		 
+			parametros.put("nit", seleccionado2.getNitCliente());
+			parametros.put("ciudad",seleccionado2.getNombreCiudadCliente());		 
+			parametros.put("direccion", seleccionado2.getDireccionCliente());
+			parametros.put("telefono", seleccionado2.getTelefonoCliente());
 			//parametros.put("contacto", c.getContacto());
 			//parametros.put("id_documento", seleccionado.getConsecutivoDocumento());
 			//parametros.put("solicitud", seleccionado.getObservacionDocumento());
-			parametros.put("numFactura",seleccionado.getConsecutivoDocumento());
+			parametros.put("numFactura",seleccionado2.getConsecutivoDocumento());
 		 
 			
-			System.out.println("cliente: "+c.getNombre());
+			/*System.out.println("cliente: "+c.getNombre());
 			System.out.println("NIT: "+c.getNit());
 			System.out.println("ciudad: "+c.getCiudad().getNombre());
 			System.out.println("numFactura"+seleccionado.getConsecutivoDocumento());
@@ -219,7 +232,7 @@ public class ImprimirFacturaDirectaMB  extends UtilMB{
 			System.out.println("direccion"+ c.getDireccion());
 			System.out.println("telefono"+ c.getTelefono());
 			System.out.println("fecha"+fechaStringGeneracion);
-			System.out.println("documento"+seleccionado.getDocumentoCliente());
+			System.out.println("documento"+seleccionado.getDocumentoCliente());*/
 			//System.out.println("contacto"+ c.getContacto());
 			//parametros.put("id_documento", seleccionado.getConsecutivoDocumento());
 			
@@ -227,16 +240,40 @@ public class ImprimirFacturaDirectaMB  extends UtilMB{
 			
 			
 			
-			 //parametros.put("despachado_a",seleccionado2.);
-			 parametros.put("direccionpv","N/A");
-			 parametros.put("telefonopv","Teléfono: " + "N/A");		 
-			 parametros.put("ciudadpv","N/A");
+			 parametros.put("despachado_a",seleccionado2.getNombrePuntoVenta());
+			 parametros.put("direccionpv",seleccionado2.getDireccionPuntoVenta());
+			 parametros.put("telefonopv","Teléfono: " + seleccionado2.getTelefonoPuntoVenta());		 
+			 parametros.put("ciudadpv",seleccionado2.getNombreCiudadPuntoVenta());
 			 parametros.put("documento",seleccionado.getDocumentoCliente());
 			 parametros.put("fecha",fechaStringGeneracion);
 			 parametros.put("tipoImp", "Copia");
 			 
 			 
-			 parametros.put("anulada", "N/A");
+			 parametros.put("valorSubtotal", seleccionado2.getValorSubtotal());
+			 parametros.put("valorDescuento", seleccionado2.getValorDescuento());
+			 parametros.put("valorIva5", seleccionado2.getValorIva5());
+			 parametros.put("valorIva16", seleccionado2.getValorIva16());
+			 parametros.put("valorTotal", seleccionado2.getValorTotal());
+			 
+			 
+			 
+					 
+
+						Numero_a_Letra NumLetra = new Numero_a_Letra();										
+						parametros.put("valorLetras",NumLetra.Convertir(seleccionado2.getValorTotal().toString(),true));
+			 
+			 if (seleccionado2.getEstado()==ConstantesDocumento.ANULADO)
+				 
+			 {
+				 parametros.put("anulada", "ANULADA");
+			 }
+			 else
+			 {
+				 parametros.put("anulada", "");
+			 }
+			 
+			 
+			 
 			 parametros.put("mark", "(*)");	
 			 parametros.put("descuentoCliente","%");
 			 parametros.put("observaciones", "Los productos marcados con (*) incluyen descuento adicional.");

@@ -2,9 +2,7 @@ package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
 
-/**
- * The Class ListaEmpaqueDTO.
- */
+
 public class ClienteDTO implements Serializable {
 
 	private static final long serialVersionUID = 6826470281110432159L;
