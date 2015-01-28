@@ -32,7 +32,7 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
 	/**
 	 * Metodo que obtiene el listado de los terminos de transporte por cliente
 	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
+	 * @email sebas.gamba02@gmail.com
 	 * @phone 311 8376670
 	 * @return
 	 */ 
@@ -41,7 +41,7 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
 	/**
 	 * Metodo que consulta la informacion de una instruccion de embarque por su id
 	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
+	 * @email sebas.gamba02@gmail.com
 	 * @phone 311 8376670
 	 * @param shipCondId
 	 * @return
@@ -51,7 +51,7 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
 	/**
 	 * Metodo que consulta una instruccion de embarque por su identificador
 	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
+	 * @email sebas.gamba02@gmail.com
 	 * @phone 311 8376670
 	 * @param idTerminosTrans
 	 * @return
@@ -61,7 +61,7 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
 	/**
 	 * Metodo que retorna todas las modalidades de embarque
 	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
+	 * @email sebas.gamba02@gmail.com
 	 * @phone 311 8376670
 	 * @return
 	 */ 
@@ -70,10 +70,21 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
 	/**
 	 * Metodo que retorna los documentos de una instruccion de embarque
 	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
+	 * @email sebas.gamba02@gmail.com
 	 * @phone 311 8376670
 	 * @param idShipmntCond
 	 * @return
 	 */ 
 	List<Documento> getDocumentsByShipCondId(Long idShipmntCond);
+	
+	/**
+	 * Metodo que actualiza un termino de transporte y lo retorna
+	 * 
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email sebas.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @param terminosTransporte
+	 * @return
+	 */ 
+	TerminosTransporte updateTerminoTransporte(TerminosTransporte terminosTransporte);
 }

@@ -15,7 +15,7 @@ import java.util.List;
 		@NamedQuery(name="AgenteAduana.findAll", query="SELECT a FROM AgenteAduana a"),
 		@NamedQuery(name="AgenteAduana.findAllActive", query="SELECT a FROM AgenteAduana a WHERE a.activo = true")
 })
-public class AgenteAduana implements Serializable {
+public class AgenteAduana implements Serializable, Comparable<AgenteAduana> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -137,6 +137,17 @@ public class AgenteAduana implements Serializable {
 		cliente.setAgenteAduana(null);
 
 		return cliente;
+	}
+
+	/**
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public int compareTo(AgenteAduana o) {
+		return nombre.compareTo(o.nombre);
 	}
 
 }

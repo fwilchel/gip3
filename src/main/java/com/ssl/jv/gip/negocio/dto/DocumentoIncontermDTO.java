@@ -56,6 +56,9 @@ public class DocumentoIncontermDTO implements Serializable{
 	private Long clientesId;
 	
 	/** The clientes nombre. */
+	private String clientesNit;
+	
+	/** The clientes nombre. */
 	private String clientesNombre;
 	
 	/** The clientes direccion. */
@@ -112,13 +115,26 @@ public class DocumentoIncontermDTO implements Serializable{
 	/** The observaciones marcacion2. */
 	private String observacionesMarcacion2;
 	
+	/** The total peso neto. */
 	private BigDecimal totalPesoNeto;
 	
+	/** The total peso bruto. */
 	private BigDecimal totalPesoBruto;
 
+	/** The total tendidos. */
 	private BigDecimal totalTendidos;
 	
+	/** The total pallets. */
 	private BigDecimal totalPallets;
+	
+	/** The id tipo documento. */
+	private Integer cantidadDiasVigencia;
+	
+	/** The descripcion ingles metodo pago. */
+	private String descripcionInglesMetodoPago;
+	
+	/** The descripcion metodo pago. */
+	private String descripcionMetodoPago;
 	
 	/**
 	 * Gets the id documento.
@@ -714,36 +730,148 @@ public class DocumentoIncontermDTO implements Serializable{
 		this.fechaEsperadaEntregaDate = fechaEsperadaEntregaDate;
 	}
 
+	/**
+	 * Gets the total peso neto.
+	 *
+	 * @return the total peso neto
+	 */
 	public BigDecimal getTotalPesoNeto() {
 		return totalPesoNeto;
 	}
 
+	/**
+	 * Sets the total peso neto.
+	 *
+	 * @param totalPesoNeto the new total peso neto
+	 */
 	public void setTotalPesoNeto(BigDecimal totalPesoNeto) {
 		this.totalPesoNeto = totalPesoNeto;
 	}
 
+	/**
+	 * Gets the total peso bruto.
+	 *
+	 * @return the total peso bruto
+	 */
 	public BigDecimal getTotalPesoBruto() {
 		return totalPesoBruto;
 	}
 
+	/**
+	 * Sets the total peso bruto.
+	 *
+	 * @param totalPesoBruto the new total peso bruto
+	 */
 	public void setTotalPesoBruto(BigDecimal totalPesoBruto) {
 		this.totalPesoBruto = totalPesoBruto;
 	}
 
+	/**
+	 * Gets the total tendidos.
+	 *
+	 * @return the total tendidos
+	 */
 	public BigDecimal getTotalTendidos() {
 		return totalTendidos;
 	}
 
+	/**
+	 * Sets the total tendidos.
+	 *
+	 * @param totalTendidos the new total tendidos
+	 */
 	public void setTotalTendidos(BigDecimal totalTendidos) {
 		this.totalTendidos = totalTendidos;
 	}
 
+	/**
+	 * Gets the total pallets.
+	 *
+	 * @return the total pallets
+	 */
 	public BigDecimal getTotalPallets() {
 		return totalPallets;
 	}
 
+	/**
+	 * Sets the total pallets.
+	 *
+	 * @param totalPallets the new total pallets
+	 */
 	public void setTotalPallets(BigDecimal totalPallets) {
 		this.totalPallets = totalPallets;
+	}
+
+	/**
+	 * Gets the clientes nit.
+	 *
+	 * @return the clientes nit
+	 */
+	public String getClientesNit() {
+		return clientesNit;
+	}
+
+	/**
+	 * Sets the clientes nit.
+	 *
+	 * @param clientesNit the new clientes nit
+	 */
+	public void setClientesNit(String clientesNit) {
+		this.clientesNit = clientesNit;
+	}
+
+	/**
+	 * Gets the cantidad dias vigencia.
+	 *
+	 * @return the cantidad dias vigencia
+	 */
+	public Integer getCantidadDiasVigencia() {
+		return cantidadDiasVigencia;
+	}
+
+	/**
+	 * Sets the cantidad dias vigencia.
+	 *
+	 * @param cantidadDiasVigencia the new cantidad dias vigencia
+	 */
+	public void setCantidadDiasVigencia(Integer cantidadDiasVigencia) {
+		this.cantidadDiasVigencia = cantidadDiasVigencia;
+	}
+
+	/**
+	 * Gets the descripcion ingles metodo pago.
+	 *
+	 * @return the descripcion ingles metodo pago
+	 */
+	public String getDescripcionInglesMetodoPago() {
+		return descripcionInglesMetodoPago;
+	}
+
+	/**
+	 * Sets the descripcion ingles metodo pago.
+	 *
+	 * @param descripcionInglesMetodoPago the new descripcion ingles metodo pago
+	 */
+	public void setDescripcionInglesMetodoPago(String descripcionInglesMetodoPago) {
+		this.descripcionInglesMetodoPago = descripcionInglesMetodoPago;
+	}
+
+	/**
+	 * Gets the descripcion metodo pago.
+	 *
+	 * @return the descripcion metodo pago
+	 */
+	public String getDescripcionMetodoPago() {
+		return descripcionMetodoPago;
+	}
+
+	/**
+	 * Sets the descripcion metodo pago.
+	 *
+	 * @param descripcionMetodoPago the new descripcion metodo pago
+	 */
+	public void setDescripcionMetodoPago(String descripcionMetodoPago) {
+		this.descripcionMetodoPago = descripcionMetodoPago;
 	}
 
 		

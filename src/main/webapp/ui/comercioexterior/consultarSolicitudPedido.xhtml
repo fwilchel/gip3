@@ -7,7 +7,7 @@
 	xmlns:misc="http://java.sun.com/jsf/composite/misc"
 	template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloConsultarSolicitudPedido}::.</ui:define>
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloConsultarSolicitudPedido}::.</ui:define>
 
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
@@ -423,7 +423,7 @@
 						columnClasses="label,value">
 						
 						<p:commandButton value="#{msg.ReporteExcel}" ajax="false" icon="ui-icon-document">
-					        <p:fileDownload value="#{consultarSolicitudPedidoMB.reportePDF}" />
+					        <p:fileDownload value="#{consultarSolicitudPedidoMB.reporteExcel}" />
 					    </p:commandButton>
 					    
 					    <p:commandButton value="#{msg.ReportePdf}" ajax="false" icon="ui-icon-document">

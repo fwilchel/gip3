@@ -11,9 +11,12 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
+import org.primefaces.event.RowEditEvent;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriaCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
+import com.ssl.jv.gip.jpa.pojo.RangoCostoLogistico;
+import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.util.TipoItemCostoLogistico;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
@@ -48,6 +51,7 @@ public class ItemsCLMB extends UtilMB{
 	private List<ItemCostoLogistico> items;
 	private List<CategoriaCostoLogistico> categorias;
 	private ItemCostoLogistico seleccionado;
+	private RangoCostoLogistico seleccionado2;
 	
 	private Modo modo;
 	
@@ -59,7 +63,8 @@ public class ItemsCLMB extends UtilMB{
 	
 	private Integer language=AplicacionMB.SPANISH;
 	private List<SelectItem> tipos;
-
+	
+	private List<Unidad> unidades;
 	
 	public ItemsCLMB(){
 		
@@ -73,6 +78,7 @@ public class ItemsCLMB extends UtilMB{
 			tipos.add(new SelectItem(i.getId(), i.getDescripcion()));
 		}
 		categorias=this.maestrosEjb.consultarCategoriasCostosLogisticos();
+		unidades=this.maestrosEjb.consultarUnidades();
 	}
 
 	public AplicacionMB getAppMB() {
@@ -110,10 +116,13 @@ public class ItemsCLMB extends UtilMB{
 	
 	public void nuevo(){
 		seleccionado=new ItemCostoLogistico();
+		seleccionado.setCategoriaCostoLogistico(new CategoriaCostoLogistico());
 		this.modo=Modo.CREACION;
 	}
 	
 	public void guardar(){
+		if (this.seleccionado.getIdPaisDestino().equals(""))
+			this.seleccionado.setIdPaisDestino(null);
 		if (this.modo.equals(Modo.CREACION)){
 			this.seleccionado=this.maestrosEjb.crearItemCostoLogistico(this.seleccionado);
 			this.items=this.maestrosEjb.consultarItemsCostosLogisticos();
@@ -156,7 +165,55 @@ public class ItemsCLMB extends UtilMB{
 	public void setCategorias(List<CategoriaCostoLogistico> categorias) {
 		this.categorias = categorias;
 	}
+
+	public List<Unidad> getUnidades() {
+		return unidades;
+	}
+
+	public void setUnidades(List<Unidad> unidades) {
+		this.unidades = unidades;
+	}
 	
+	public String adicionarRango(){
+		RangoCostoLogistico r=new RangoCostoLogistico();
+		r.setUnidad(this.unidades.get(0));
+		r.setItemCostoLogistico(this.seleccionado);
+		if (this.seleccionado.getRangoCostoLogisticos()==null)
+			this.seleccionado.setRangoCostoLogisticos(new ArrayList<RangoCostoLogistico>());
+		this.seleccionado.getRangoCostoLogisticos().add(r);
+		return null;
+	}
 	
+	public String eliminarRango(){
+		if (this.seleccionado2.getId()!=null && this.seleccionado2.getId()!=0){
+			this.seleccionado2.setItemCostoLogistico(null);
+			this.maestrosEjb.eliminarRangoCostoLogistico(this.seleccionado2);
+			this.seleccionado.getRangoCostoLogisticos().remove(this.seleccionado2);
+		}else{
+			this.seleccionado.getRangoCostoLogisticos().remove(this.seleccionado2);
+		}
+		return null;
+	}
 	
+	public void onRowEdit(RowEditEvent event) {
+		RangoCostoLogistico rcl=(RangoCostoLogistico)event.getObject();
+		for (Unidad u:this.unidades){
+			if (u.getId().equals(rcl.getUnidad().getId())){
+				rcl.setUnidad(u);
+				break;
+			}
+		}
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+    }
+
+	public RangoCostoLogistico getSeleccionado2() {
+		return seleccionado2;
+	}
+
+	public void setSeleccionado2(RangoCostoLogistico seleccionado2) {
+		this.seleccionado2 = seleccionado2;
+	}
+
 }

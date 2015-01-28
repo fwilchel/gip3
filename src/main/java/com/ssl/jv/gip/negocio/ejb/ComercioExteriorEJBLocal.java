@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -18,6 +19,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
@@ -49,6 +51,14 @@ public interface ComercioExteriorEJBLocal {
 	 * @return the integer
 	 */
 	public Integer reiniciarConsecutivoLoteOIC();
+	
+	/**
+	 * Consultar cliente por id.
+	 *
+	 * @param idCliente the id cliente
+	 * @return the cliente
+	 */
+	public Cliente consultarClientePorId(Long idCliente);
 
 	/**
 	 * Consultar documentos costos inconterm
@@ -89,6 +99,13 @@ public interface ComercioExteriorEJBLocal {
 	 * @return the list
 	 */
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
+	
+	/**
+	 * Consultar documentos aprobar solicitud pedido.
+	 *
+	 * @return the list
+	 */
+	public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
 
 	/**
 	 * Consultar lista solicitudes pedido.
@@ -122,6 +139,13 @@ public interface ComercioExteriorEJBLocal {
 	 */
 	public void guardarSolicitudPedido(DocumentoIncontermDTO documento,
 			List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
+	
+	/**
+	 * Actualizar estado documento.
+	 *
+	 * @param documento the documento
+	 */
+	public void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
 
 	/**
 	 * Consultar ubicaciones por usuario.
@@ -211,5 +235,9 @@ public interface ComercioExteriorEJBLocal {
 	public List<Documento> consultarFacturasDeExportacionFiltro(Documento documento);
 	
 	public void actualizarFacturaDeExportacionFiltro(Documento documento);
+	
+	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
+	
+	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
 	
 }

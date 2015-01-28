@@ -62,9 +62,6 @@ import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
 @ManagedBean(name="imprimirFacturaDirectaMB")
 @SessionScoped
 public class ImprimirFacturaDirectaMB  extends UtilMB {
-	
-	
-	
 	private List<Documento> list;
 	private StreamedContent reportePDF;
 	

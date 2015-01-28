@@ -7,7 +7,7 @@
 	xmlns:misc="http://java.sun.com/jsf/composite/misc"
 	template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.condicionesEmbarqueTitulo}::.</ui:define>
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.condicionesEmbarqueTitulo}::.</ui:define>
 
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
@@ -133,32 +133,38 @@
 					
 					<p:spacer height="10"/>
 					
-					<p:panelGrid >
+					<p:panelGrid id="ttPnlGrd">
 						<p:panelGrid id="terminTransPnlgrd" columns="6">
 							<p:outputLabel value="#{msg.CampoSociedadAduanera1}" styleClass="negrita" />
-							<p:selectOneMenu id="aduanaAgentelist1" required="true"
+							<p:selectOneMenu id="aduanaAgentelist1" required="true" 
 								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.idAgenteAduana1}">
-								<f:selectItems value="#{terminosTransporteMB.agenteAduanaSelectList}"/>
+								<f:selectItems value="#{terminosTransporteMB.agenteAduanaSelectList}" 
+									var="aa" itemLabel="#{aa.nombre}" itemValue="#{aa.id}"/>
+								<p:ajax process="@this"/>
 							</p:selectOneMenu>
 							<p:message for="aduanaAgentelist1" />
 							
 							<p:outputLabel value="#{msg.CampoSociedadAduanera2}" styleClass="negrita" />
 							<p:selectOneMenu id="aduanaAgentelist2"  required="true"
 								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.idAgenteAduana2}">
-								<f:selectItems value="#{terminosTransporteMB.agenteAduanaSelectList}"/>
+								<f:selectItems value="#{terminosTransporteMB.agenteAduanaSelectList}"
+									var="aa2" itemLabel="#{aa2.nombre}" itemValue="#{aa2.id}"/>
+								<p:ajax process="@this"/>
 							</p:selectOneMenu>
 							<p:message for="aduanaAgentelist2" />
 							
 							<p:outputLabel value="#{msg.CampoMesEmbarque}" styleClass="negrita" />
 							<p:selectOneMenu id="mesEmbarqueList" required="true"
 								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.mesEmbarque}">
-								<f:selectItems value="#{aplicacionMB.monthsEs}"/>
+								<f:selectItems value="#{aplicacionMB.monthsEs}" var="month"
+									itemLabel="#{month}" itemValue="#{month}"/>
+								<p:ajax process="@this"/>
 							</p:selectOneMenu>
 							<p:message for="mesEmbarqueList" />
 
 							<p:outputLabel value="#{msg.CampoPuertoEmbarque}" styleClass="negrita" />
 							<p:inputText value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.puertoEmbarque}" 
-								required="true" id="puertoEmbarque"/>
+								required="true" id="puertoEmbarque" />
 							<p:message for="puertoEmbarque" />
 
 							<p:outputLabel value="#{msg.CampoFechaEmbarque}" styleClass="negrita" />
@@ -194,7 +200,9 @@
 							<p:outputLabel value="#{msg.CampoTipoContenedor}" styleClass="negrita" />
 							<p:selectOneMenu id="tipoContenedor"  required="true"
 								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.tipoContenedor}">
-								<f:selectItems value="#{aplicacionMB.tiposContenedorTerminosTrans}"/>
+								<f:selectItems value="#{aplicacionMB.tiposContenedorTerminosTrans}" var="tc"
+									itemLabel="#{tc}" itemValue="#{tc}"/>
+								<p:ajax process="@this"/>
 							</p:selectOneMenu>
 							<p:message for="tipoContenedor" />
 						
@@ -225,14 +233,17 @@
 							<p:outputLabel value="#{msg.CampointModalidadEmbarque}" styleClass="negrita" />
 							<p:selectOneMenu id="modalidadEmbarque"  required="true"
 								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.modalidadEmbarque}">
-								<f:selectItems value="#{terminosTransporteMB.modalidadEmbarqueList}"/>
+								<f:selectItems value="#{terminosTransporteMB.modalidadEmbarqueList}" var="me"
+									itemLabel="#{me.descripcion}" itemValue="#{me}"/>
 							</p:selectOneMenu>
 							<p:message for="modalidadEmbarque" />
 							
 							<p:outputLabel value="#{msg.CampoIncotermDespacho}" styleClass="negrita" />
 							<p:selectOneMenu id="incotermDespacho"  required="true"
 								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.terminoIncoterm}">
-								<f:selectItems value="#{terminosTransporteMB.incotermList}"/>
+								<f:selectItems value="#{terminosTransporteMB.incotermList}" var="ic"
+									itemLabel="#{ic.descripcion}" itemValue="#{ic}"/>
+								<p:ajax process="@this"/>
 							</p:selectOneMenu>
 							<p:message for="incotermDespacho" />
 							
@@ -263,7 +274,9 @@
 					<p:outputLabel value="#{msg.fleteExterno}" styleClass="negrita" />
 					<p:selectOneRadio id="fleteExterno"  required="true"
 						value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.fleteExterno}">
-						<f:selectItems value="#{terminosTransporteMB.extFeesList}"/>
+						<f:selectItems value="#{terminosTransporteMB.extFeesList}" var="ef" 
+							itemLabel="#{ef.description}" itemValue="#{ef.code}"/>
+						<p:ajax process="@this"/>
 					</p:selectOneRadio>
 					<p:message for="incotermDespacho" />
 				</p:panelGrid>
@@ -271,50 +284,41 @@
 				<p:panelGrid id="PnlGrd2" columns="6">
 					<p:outputLabel value="#{msg.CampoPaisDestino}" styleClass="negrita" />
 					<p:selectOneMenu id="paises"  required="true" 
-						value="#{terminosTransporteMB.selectedIdPais}">
+						value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.ciudade.idPais}">
 						<f:selectItem itemLabel="Seleccionar..." itemValue="null"/>
-						<f:selectItems value="#{aplicacionMB.paisesList}"/>
-						<p:ajax listener="#{terminosTransporteMB.loadCiudades}" update="PnlGrd2"/>
+						<f:selectItems value="#{aplicacionMB.paises}" var="pais"
+							itemLabel="#{pais.nombre}" itemValue="#{pais.id}"/>
+						<p:ajax listener="#{terminosTransporteMB.loadCiudades}" update="PnlGrd2" process="@this"/>
 					</p:selectOneMenu>
 					<p:message for="paises" />
 
 					<p:outputLabel value="#{msg.CampoCiudadDestino}" styleClass="negrita" />
 					<p:selectOneMenu id="ciudades"  required="true"
 						value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.ciudade}">
-						<f:selectItems value="#{terminosTransporteMB.ciudadesList}"/>
+						<f:selectItems value="#{terminosTransporteMB.ciudadesList}" var="ciu" 
+							itemLabel="#{ciu.nombre}" itemValue="#{ciu}"/>
+						<p:ajax process="@this"/>
 					</p:selectOneMenu>
 					<p:message for="ciudades" />
 				</p:panelGrid>
 				<p:spacer height="10"/>
 				<p:panelGrid id="updatePnlGrd" columns="2">
 					<p:spacer width="400" height="10"/>
-				 	<p:commandButton id="updateButton" value="#{msg.BotonActualizarIE}"
-				 		oncomplete="PF('confirmDlg').show()" process="@form"/>
+				 	<p:commandButton id="updateButton" value="#{msg.BotonActualizarIE}" 
+   				 		action="#{terminosTransporteMB.actualizarInstruccionEmbarque}" update=":formaDlg2"
+   				 		process="ttPnlGrd">
+				 		</p:commandButton>
 				</p:panelGrid>
 			</h:form>
 		</p:dialog>
 
-		<p:dialog widgetVar="confirmDlg" modal="true" showEffect="fade" style="width: 80px" header="#{msg.TituloModInstruccionEmbarque}"
-			hideEffect="fade" resizable="false" dynamic="true" id="confirmDialog" height="50">
-			<h:form id="formaDlg3" style="text-align:center">
-				<p:panelGrid>
-					<p:outputLabel value="#{msg.modificarInstruccionEmbarqueConfirm}" styleClass="negrita" />
-					<p:panelGrid columns="2">
-					 	<p:commandButton id="yesButton" value="Si" 
-					 		action="#{terminosTransporteMB.actualizarInstruccionEmbarque}"
-					 		process="@this" 
-					 		oncomplete="PF('confirmDlg').hide(),PF('successDlg').show()" />
-					 	<p:commandButton id="noButton" value="No"
-					 		oncomplete="PF('confirmDlg').hide()" />
-					</p:panelGrid>
-				</p:panelGrid>
-			</h:form>
-		</p:dialog>
-		
 		<p:dialog widgetVar="successDlg" modal="true" showEffect="fade" header="#{msg.TituloModInstruccionEmbarque}"
 			hideEffect="fade" resizable="false" dynamic="true" id="successDialog" >
 			<h:form id="formaDlg4" style="text-align:center">
 					<p:outputLabel value="#{msg.actualizacionExitosa}" styleClass="negrita" />
+				 	<p:commandButton id="yesButton" value="OK" 
+				 		update=":forma"
+				 		oncomplete="PF('successDlg').hide(), PF('editarDlg').hide()" />
 			</h:form>
 		</p:dialog>
 	</ui:define>

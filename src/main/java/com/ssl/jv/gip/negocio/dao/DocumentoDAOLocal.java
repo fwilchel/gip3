@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
@@ -48,6 +49,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
 	
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
+	
+	public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
 
 	public List<Documento> consultarDocumento(Map<String, Object> parametros ,Long... idEstados);
 
@@ -74,4 +77,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 			Long... idEstados);
 
 	public List<Documento> consultarDocumentosFacturaExportacion(String consecutivoDocumento);
+	
+	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
+	
+	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
 }

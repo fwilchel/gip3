@@ -44,7 +44,7 @@ public class GenericDAO<T> {
 	}
 
 	public void delete(T pojo) {
-		em.remove(pojo);
+		em.remove(em.contains(pojo) ? pojo : em.merge(pojo));
 		em.flush();
 	}
 

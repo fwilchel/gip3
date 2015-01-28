@@ -71,6 +71,10 @@
             <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
+	        <from-outcome>listado_solicitud_pedido2</from-outcome>
+            <to-view-id>/ui/comercioexterior/aprobarSolicitudPedido.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 	        <from-outcome>listado_SP_General</from-outcome>
             <to-view-id>/ui/comercioexterior/consultarSolicitudPedido.xhtml</to-view-id>
 		</navigation-case>
@@ -170,6 +174,18 @@
 	        <from-outcome>items_costos_logisticos</from-outcome>
             <to-view-id>/ui/maestros/administrarItemsCL.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+			<from-outcome>listado_FP_Autorizar</from-outcome>
+			<to-view-id>/ui/comercioexterior/autorizarFacturaPF.xhtml</to-view-id>
+		</navigation-case>
+        <navigation-case>
+			<from-outcome>listado_maestro_inventario_ce</from-outcome>
+			<to-view-id>/ui/maestros/listaInventarioComercioExt.xhtml</to-view-id>
+		</navigation-case>
+        <navigation-case>
+			<from-outcome>crear_maestro_inventario_ce</from-outcome>
+			<to-view-id>/ui/maestros/inventarioComercioExt.xhtml</to-view-id>
+		</navigation-case>
     </navigation-rule>
 
 </faces-config>

@@ -24,7 +24,7 @@ import javax.persistence.Transient;
 @NamedQuery(name="TerminoIncoterm.findByMedioTrans", query="SELECT t FROM TerminoIncoterm t join t.terminosTransportes r "),
 @NamedQuery(name="TerminoIncoterm.findByCliente", query="SELECT DISTINCT t FROM TerminoIncoterm t JOIN t.clientes c WHERE c.id= :idCliente ORDER BY t.descripcion"),
 })
-public class TerminoIncoterm implements Serializable {
+public class TerminoIncoterm implements Serializable, Comparable<TerminoIncoterm> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -100,6 +100,17 @@ public class TerminoIncoterm implements Serializable {
 
 	public void setSeleccionado(boolean seleccionado) {
 		this.seleccionado = seleccionado;
+	}
+
+	/**
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public int compareTo(TerminoIncoterm o) {
+		return descripcion.compareTo(o.descripcion);
 	}
 
 	

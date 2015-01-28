@@ -16,6 +16,7 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -26,6 +27,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
@@ -37,6 +39,7 @@ import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
+import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
@@ -101,6 +104,10 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 	@EJB
 	private ProductosXDocumentoDAOLocal productosXDocumentoDAOLocal;
+	
+	@EJB
+	private ClienteDAOLocal clienteDao;
+	
 
 	/**
 	 * Default constructor.
@@ -158,6 +165,19 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	@Override
 	public Integer reiniciarConsecutivoLoteOIC() {
 		return documentoXLoteDAO.reiniciarConsecutivoLoteOIC();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#consultarClientePorId(java.lang.Long)
+	 */
+	@Override
+	public Cliente consultarClientePorId(Long idCliente) {
+		try {
+			return (Cliente) clienteDao.findByPK(idCliente);
+		} catch (Exception e) {
+			LOGGER.error(e + " Error consultando cliente");
+			return null;
+		}
 	}
 
 	/*
@@ -238,6 +258,22 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 		return listado;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#consultarDocumentosAprobarSolicitudPedido()
+	 */
+	@Override
+	public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido() {
+		List<DocumentoIncontermDTO> listado = new ArrayList<DocumentoIncontermDTO>();
+
+		try {
+			listado = documentoDAO.consultarDocumentosAprobarSolicitudPedido();
+		} catch (Exception e) {
+
+		}
+
+		return listado;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -280,6 +316,13 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		}
 
 		return listado;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#actualizarEstadoDocumento(com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO)
+	 */
+	public void actualizarEstadoDocumento(DocumentoIncontermDTO documento){
+		documentoDAO.actualizarEstadoDocumento(documento);
 	}
 
 	/*
@@ -716,6 +759,23 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 			documentoDAO.update(documento);
 		} catch (Exception e) {
 			LOGGER.error(e + "Error actualizando facturas de exportacion");
+		}
+	}
+	
+	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento){
+		try {
+			return documentoDAO.consultarDocumentosAutorizar(consecutivoDocumento);
+		} catch (Exception e) {
+			LOGGER.error(e + "Error consultando facturas a autorizar");
+		}
+		return null;
+	}
+	
+	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado){
+		try {
+			documentoDAO.cambiarEstadoFacturaProforma(listado);
+		} catch (Exception e) {
+			LOGGER.error(e + "Error cambiando estado factura proforma");
 		}
 	}
 

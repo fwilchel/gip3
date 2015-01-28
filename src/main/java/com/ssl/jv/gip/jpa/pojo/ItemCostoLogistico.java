@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="item_costo_logistico")
-@NamedQuery(name="ItemCostoLogistico.findAll", query="SELECT i FROM ItemCostoLogistico i LEFT JOIN FETCH i.categoriaCostoLogistico ccl LEFT JOIN FETCH i.rangoCostoLogisticos r")
+@NamedQuery(name="ItemCostoLogistico.findAll", query="SELECT DISTINCT i FROM ItemCostoLogistico i LEFT JOIN FETCH i.categoriaCostoLogistico ccl LEFT JOIN FETCH i.rangoCostoLogisticos r LEFT JOIN FETCH r.unidad u")
 public class ItemCostoLogistico implements Serializable {
 	private static final long serialVersionUID = 1L;
 

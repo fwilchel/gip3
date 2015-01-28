@@ -121,7 +121,7 @@ public class AplicacionMB {
 	 * @phone 311 8376670
 	 * @return
 	 */ 
-	public List<SelectItem> getMonthsEn(){
+	public List<String> getMonthsEn(){
 		return getMonthsByLanguage(ENGLISH);
 	}
 	
@@ -132,7 +132,7 @@ public class AplicacionMB {
 	 * @phone 311 8376670
 	 * @return
 	 */ 
-	public List<SelectItem> getMonthsEs(){
+	public List<String> getMonthsEs(){
 		return getMonthsByLanguage(SPANISH);
 	}
 	
@@ -144,17 +144,13 @@ public class AplicacionMB {
 	 * @param language
 	 * @return
 	 */ 
-	private List<SelectItem> getMonthsByLanguage(Integer language){
-		List<SelectItem> monthList = null;
+	private List<String> getMonthsByLanguage(Integer language){
+		List<String> monthList = null;
 		MONTHS = getMessage("meses", language).split(",");
 		if(MONTHS != null){
-			monthList = new ArrayList<SelectItem>();
+			monthList = new ArrayList<String>();
 			for(String m : MONTHS){
-				SelectItem item = new SelectItem();
-				item.setLabel(m);
-				item.setValue(m);
-				
-				monthList.add(item);
+				monthList.add(m);
 			}
 		}
 		return monthList;
@@ -167,21 +163,10 @@ public class AplicacionMB {
 	 * @phone 311 8376670
 	 * @return
 	 */ 
-	public List<SelectItem> getTiposContenedorTerminosTrans(){
-		List<SelectItem> tipos = new ArrayList<SelectItem>();
-		
-		SelectItem item1 = new SelectItem();
-		item1.setLabel("20");
-		item1.setValue(new Integer(20));
-		
-		tipos.add(item1);
-		
-		SelectItem item2 = new SelectItem();
-		item2.setLabel("40");
-		item2.setValue(new Integer(40));
-		
-		tipos.add(item2);
-		
+	public List<Integer> getTiposContenedorTerminosTrans(){
+		List<Integer> tipos = new ArrayList<Integer>();
+		tipos.add(new Integer(20));
+		tipos.add(new Integer(40));
 		return tipos;
 	}
 	
@@ -193,35 +178,26 @@ public class AplicacionMB {
 	 * @param idPais
 	 * @return
 	 */ 
-	public static List<SelectItem> getCiudadesList(String idPais){
-		List<SelectItem> ciudadesList = new ArrayList<SelectItem>();
-		List<Ciudad> ciudades = admonEjb.getCiudadesByIdPais(idPais);
-		for(Ciudad city : ciudades){
-			SelectItem item1 = new SelectItem();
-			item1.setLabel(city.getNombre());
-			item1.setValue(city);
-			
-			ciudadesList.add(item1);
-		}
-		return ciudadesList;
+	public static List<Ciudad> getCiudadesList(String idPais){
+		return admonEjb.getCiudadesByIdPais(idPais);
 	}
 	
-	/**
-	 * Metodo que retorna el listado de paises
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 * @return
-	 */ 
-	public List<SelectItem> getPaisesList(){
-		List<SelectItem> listPaises = new ArrayList<SelectItem>();
-		for(Pais p : paises){
-			SelectItem item = new SelectItem();
-			item.setLabel(p.getNombre());
-			item.setValue(p.getId());
-			
-			listPaises.add(item);
-		}
-		return listPaises;
-	}
+//	/**
+//	 * Metodo que retorna el listado de paises
+//	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+//	 * @email seba.gamba02@gmail.com
+//	 * @phone 311 8376670
+//	 * @return
+//	 */ 
+//	public List<Pais> getPaisesList(){
+//		List<SelectItem> listPaises = new ArrayList<SelectItem>();
+//		for(Pais p : paises){
+//			SelectItem item = new SelectItem();
+//			item.setLabel(p.getNombre());
+//			item.setValue(p.getId());
+//			
+//			listPaises.add(item);
+//		}
+//		return listPaises;
+//	}
 }

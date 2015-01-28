@@ -17,7 +17,7 @@ import java.util.List;
 @NamedQuery(name="Ciudad.findAll", query="SELECT c FROM Ciudad c"),
 @NamedQuery(name="Ciudad.findByPais", query="SELECT c FROM Ciudad c where c.idPais = :idPais")
 })
-public class Ciudad implements Serializable {
+public class Ciudad implements Serializable, Comparable<Ciudad> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -128,6 +128,17 @@ public class Ciudad implements Serializable {
 
 	public void setPais(Pais pais) {
 		this.pais = pais;
+	}
+
+	/**
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public int compareTo(Ciudad o) {
+		return nombre.compareTo(o.nombre);
 	}
 
 }
