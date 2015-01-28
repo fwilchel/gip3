@@ -50,7 +50,8 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
 		try {
 			
 			
-			String query="select pi.sku, pi.nombre ,u.abreviacion ,pxd.cantidad1,pxd.valor_unitatrio_ml,pxd.descuentoxproducto, pxd.valor_total,pxd.otros_descuentos,pxd.iva"
+			String query="select pi.sku, pi.nombre ,u.abreviacion ,pxd.cantidad1,pxd.valor_unitatrio_ml,pxd.descuentoxproducto, pxd.valor_total,pxd.otros_descuentos,pxd.iva,"
+			+ " (CASE WHEN pxd.otros_descuentos > 0 THEN '(*)' ELSE '' END) AS MARCA"		
 			+ " from productosxdocumentos pxd inner join documentos d on pxd.id_documento=d.id" 
 			+ " inner join productos_inventario pi on pi.id=pxd.id_producto"
 			+ " inner join unidades u on u.id=pi.id_ud"
@@ -78,6 +79,7 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
 					dto.setValorTotal(objs[6] != null ? new BigDecimal(objs[6].toString()) : null);
 					dto.setValorOtrosDescuento(objs[7] != null ? new BigDecimal(objs[7].toString()) : null);
 					dto.setValorIva(objs[8] != null ? new BigDecimal(objs[8].toString()) : null);
+					dto.setMarca(objs[9] != null ? objs[9].toString() : null);
 					
 									lista.add(dto);
 				}

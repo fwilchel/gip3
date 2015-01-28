@@ -34,6 +34,8 @@ public class ProductoFacturaDirectaDTO implements Serializable {
 	private BigDecimal  valorIva16;
 	private BigDecimal  valorIva5;
 	private BigDecimal  valorOtrosDescuento;
+	private String marca;
+	
 	
 	
 	public BigDecimal getValorOtrosDescuento() {
@@ -197,6 +199,16 @@ public class ProductoFacturaDirectaDTO implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+
+	public String getMarca() {
+		return marca;
+	}
+
+
+	public void setMarca(String marca) {
+		this.marca = marca;
 	}
 
 

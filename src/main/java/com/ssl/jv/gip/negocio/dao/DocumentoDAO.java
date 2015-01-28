@@ -1035,8 +1035,8 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		//int estado = (Integer) parametros.get("estado");
 
 		//long[] idEstados = (long[])parametros.get("estado");
-		//ZFSZFSD
-		//parametros.get("estado2").
+    //ZFSZFSD
+    //parametros.get("estado2").
 	/*	
      System.out.println("tama�o:"+ estado.length);
 		
@@ -1054,9 +1054,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
      * 
      * 
      */
-		//Long... idEstados =(11,12);
+    //Long... idEstados =(11,12);
     try {
-			// String query =
+      // String query =
       // "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
 
       String query = "select d from Documento d where id_tipo_documento= :tipo AND id_estado in( :estados) AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
@@ -1149,7 +1149,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
     List<ProductoImprimirLEDTO> lista = new ArrayList<ProductoImprimirLEDTO>();
 
     try {
-			// String query =
+      // String query =
       // "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
       // String query
       // ="select d from Documento d where id_tipo_documento= :tipo AND id_estado = :estado AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
@@ -1225,7 +1225,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
                   .toString() : null);
           dto.setCajasPorPallets(objs[10] != null ? new BigDecimal(
                   objs[10].toString()) : null);
-					//dto.setNombreIngles(objs[11] != null ? objs[11].toString()
+          //dto.setNombreIngles(objs[11] != null ? objs[11].toString()
           //		: null);
           //dto.setUnidad(objs[12] != null ? objs[12].toString() : null);
           //dto.setUnidadIngles(objs[13] != null ? objs[13].toString()
@@ -1270,7 +1270,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
             + " d.subtotal as valorSubtotal ,d.descuento as valorDescuento ,d.valor_iva10 as  valorIva10  ,d.valor_iva16 as valorIva16, d.valor_iva5 as valorIva5, d.valor_total as valorTotal, "
             + " pv.nombre as nombrePuntoVenta ,pv.direccion as direccionPuntoVenta ,pv.telefono as telefonoPuntoVenta,ciupv.nombre as nombreCiudadPuntoVenta, "
             + " cli.nit as nitCliente,"
-            + " ciucli.nombre as nombreCiudadCliente, d.id_estado as estado"
+            + " ciucli.nombre as nombreCiudadCliente, d.id_estado as estado , cli.descuento_cliente as descuentoCliente"
             + " FROM documentos d INNER JOIN clientes cli on d.id_cliente=cli.id "
             + " INNER JOIN ubicaciones u on d.id_ubicacion_destino=u.id "
             + " INNER JOIN punto_venta pv on pv.id=d.id_punto_venta "
@@ -1279,7 +1279,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
             + " WHERE d.consecutivo_documento= :consecutivoDocumento";
 
     dto = (FacturaDirectaDTO) em.createNativeQuery(query, FacturaDirectaDTO.class).setParameter("consecutivoDocumento", strConsecutivoDocumento).getSingleResult();
-
 
     /*if (listado != null) {
      for (Object[] objs : listado) {
@@ -1335,7 +1334,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
     String sqlSec = "select nextval('documentos_id_seq') AS SEQ";
     BigInteger secuence = (BigInteger) em.createNativeQuery(sqlSec)
             .getSingleResult();
-		// SimpleDateFormat dateFormat = new
+    // SimpleDateFormat dateFormat = new
     // SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     // String fechaoshig =
     // dateFormat.format(listaEmpaqueDTO.getFechaEsperadaEntrega());

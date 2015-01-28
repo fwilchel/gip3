@@ -45,9 +45,9 @@ import com.ssl.jv.gip.web.util.Numero_a_Letra;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
 
 /**
- * <p>Title: ImprimirFacturaDirectaMB</p>
+ * <p>Title: ImprimirRemisionMB</p>
  *
- * <p>Description: ManagedBean para las imprimir Factura Directa</p>
+ * <p>Description: ManagedBean para las imprimir Remision</p>
  *
  * <p>Copyright: Copyright (c) 2014</p>
  *
@@ -59,9 +59,9 @@ import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
  * @version 1.0
  */
 
-@ManagedBean(name="imprimirFacturaDirectaMB")
+@ManagedBean(name="imprimirRemisionMB")
 @SessionScoped
-public class ImprimirFacturaDirectaMB  extends UtilMB {
+public class ImprimirRemisionMB  extends UtilMB {
 	private List<Documento> list;
 	private StreamedContent reportePDF;
 	
@@ -118,22 +118,14 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 	public void setSeleccionado(Documento seleccionado) {
 	
 		this.seleccionado = seleccionado;
-	
 		this.setSeleccionado2(this.ventasFacturacionEjb.consultarDocumentoFacturaDirecta(seleccionado.getConsecutivoDocumento()));
-		
-		
 		listaDetalle = this.ventasFacturacionEjb.consultarProductoFacturaDirecta(seleccionado.getConsecutivoDocumento());
-		
-		
+	
 		System.out.println("doc: "+seleccionado.getId());
 		System.out.println("cliente: "+ seleccionado.getCliente().getId());
 		
-		//lotes = comercioEjb.consultarProductoPorDocumentoLoteAsignarLotesOIC(seleccionado.getId(), seleccionado.getCliente().getId());
 		
-		
-		
-		
-		
+		//this.getReportePDF();
 	}
 
 	public String getStrConsecutivoDocumento() {
@@ -168,14 +160,12 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 		}
 		
 		
-		parametros.put("tipo", ConstantesTipoDocumento.FACTURA);
-		//parametros.put("estado", ConstantesDocumento.IMPRESO);
-		//parametros.put("estado2", ConstantesDocumento.ANULADO);
+		parametros.put("tipo", ConstantesTipoDocumento.REMISION);
 		
 					
-					Long[] array = new Long[2];
-					array[0]=(long) ConstantesDocumento.IMPRESO;
-					array[1]= (long) ConstantesDocumento.ANULADO;
+					Long[] array = new Long[1];
+					array[0]=(long) ConstantesDocumento.PENDIENTE_POR_RECIBIR;
+					//array[1]= (long) ConstantesDocumento.ANULADO;
 					parametros.put("estado",array);
 					
 		parametros.put("parametroConseDoc",parametroConseDoc);
@@ -189,19 +179,11 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 	
 	public StreamedContent getReportePDF() {
 		Map<String, Object> parametros = new HashMap<String, Object>();
-		//Cliente c=seleccionado.getCliente();
+		
+		System.out.println("INGRESO A GENERAR PDF");
 		
 		int n = 0;
 		
-		 /*parametros.put("despachado_a",pv.getStrNombre());
-		 parametros.put("direccionpv",pv.getStrDireccion());
-		 parametros.put("telefonopv","Teléfono: " + pv.getStrTelefono());		 
-		 parametros.put("ciudadpv",pv.getStrNomCiudad());
-		 parametros.put("documento",docCabecera.getStrDocumentoCliente());
-		 parametros.put("fecha",fechaStringGeneracion);
-		 parametros.put("sku","A28");*/
-		//parametros.put("numFactura", docCabecera.getStrConsecutivoDocumento());
-		 //parametros.put("tipoImp", "Copia");
 		 
 		 SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
 		 String fechaStringGeneracion = ft.format( seleccionado2.getFechaGeneracion());
@@ -212,22 +194,10 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 			parametros.put("ciudad",seleccionado2.getNombreCiudadCliente());		 
 			parametros.put("direccion", seleccionado2.getDireccionCliente());
 			parametros.put("telefono", seleccionado2.getTelefonoCliente());
-			//parametros.put("contacto", c.getContacto());
-			//parametros.put("id_documento", seleccionado.getConsecutivoDocumento());
-			//parametros.put("solicitud", seleccionado.getObservacionDocumento());
-			parametros.put("numFactura",seleccionado2.getConsecutivoDocumento());
-		 
+			parametros.put("numRemision",seleccionado2.getConsecutivoDocumento());
+		 	parametros.put("numVD",seleccionado.getObservacionDocumento());
 			
-			
-			/*System.out.println("cliente: "+c.getNombre());
-			System.out.println("NIT: "+c.getNit());
-			System.out.println("ciudad: "+c.getCiudad().getNombre());
-			System.out.println("numFactura"+seleccionado.getConsecutivoDocumento());
-			
-			System.out.println("direccion"+ c.getDireccion());
-			System.out.println("telefono"+ c.getTelefono());
-			System.out.println("fecha"+fechaStringGeneracion);
-			System.out.println("documento"+seleccionado.getDocumentoCliente());*/
+		
 			//System.out.println("contacto"+ c.getContacto());
 			//parametros.put("id_documento", seleccionado.getConsecutivoDocumento());
 			
@@ -241,9 +211,27 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 			 parametros.put("ciudadpv",seleccionado2.getNombreCiudadPuntoVenta());
 			 parametros.put("documento",seleccionado.getDocumentoCliente());
 			 parametros.put("fecha",fechaStringGeneracion);
-			 parametros.put("tipoImp", "Copia");
+			 parametros.put("fechaVentaDirecta",fechaStringGeneracion);
 			 
 			 
+				
+				System.out.println("cliente: "+seleccionado2.getNombreCliente());
+				System.out.println("NIT: "+seleccionado2.getNitCliente());
+				System.out.println("ciudad: "+seleccionado2.getNombreCiudadCliente());
+				System.out.println("numFactura"+seleccionado.getConsecutivoDocumento());
+				System.out.println("direccion"+ seleccionado2.getDireccionCliente());
+				System.out.println("telefono"+seleccionado2.getTelefonoCliente());
+				System.out.println("fecha"+fechaStringGeneracion);
+				System.out.println("documento"+seleccionado.getDocumentoCliente());
+				System.out.println("despachado_a"+seleccionado2.getNombrePuntoVenta());
+				
+				System.out.println("direccionpv"+seleccionado2.getDireccionPuntoVenta());
+				System.out.println("telefonopv"+"Teléfono: " + seleccionado2.getTelefonoPuntoVenta());		 
+				System.out.println("ciudadpv"+seleccionado2.getNombreCiudadPuntoVenta());
+				System.out.println("documento"+seleccionado.getDocumentoCliente());
+				System.out.println("fechaVentaDirecta"+fechaStringGeneracion);
+			 
+			/* parametros.put("tipoImp", "Copia");
 			 parametros.put("valorSubtotal", seleccionado2.getValorSubtotal());
 			 parametros.put("valorDescuento", seleccionado2.getValorDescuento());
 			 parametros.put("valorIva5", seleccionado2.getValorIva5());
@@ -288,23 +276,19 @@ public class ImprimirFacturaDirectaMB  extends UtilMB {
 					 parametros.put("mark", "");				 
 				}		 
 			 
-			 
-			 
-			// parametros.put("mark", "(*)");	
-			// parametros.put("descuentoCliente","%");
-			// parametros.put("observaciones", "Los productos marcados con (*) incluyen descuento adicional.");
+			 */
 			 
 			 JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDetalle);
 				try {
 					
 					Hashtable<String, String> parametrosR=new Hashtable<String, String>();
 					parametrosR.put("tipo", "pdf");
-					String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report2.jasper");
+					String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report_Remision.jasper");
 					
 					
 					
 					ByteArrayOutputStream os=(ByteArrayOutputStream)com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-					reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "report2.pdf");
+					reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "remision.pdf");
 					
 					
 					/*String xmlfile = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report2.jrxml");
