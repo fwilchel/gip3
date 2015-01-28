@@ -1045,9 +1045,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 			
      }
 		
-	
-		
-		
      // System.out.println("tipo doc:"+tipo);
      // System.out.println("estado doc:"+estado);
      // System.out.println("parametroConseDoc:"+parametroConseDoc);
