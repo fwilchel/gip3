@@ -130,7 +130,7 @@ public class ItemsCLMB extends UtilMB{
 		String moneda=null;
 		if (this.seleccionado.getIdPaisDestino().equals(""))
 			this.seleccionado.setIdPaisDestino(null);
-		if (this.seleccionado.getMoneda().getId()!=null && this.seleccionado.getMoneda().getId().equals(""))
+		if (this.seleccionado.getMoneda().getId()==null || this.seleccionado.getMoneda().getId().equals(""))
 			this.seleccionado.setMoneda(null);
 		else
 			moneda=this.seleccionado.getMoneda().getId();
@@ -153,6 +153,8 @@ public class ItemsCLMB extends UtilMB{
 				}
 			}
 		}
+		if (this.seleccionado.getMoneda()==null)
+			this.seleccionado.setMoneda(new Moneda());
 		this.addMensajeInfo(AplicacionMB.getMessage("itemsCLGuardado", language));
 	}
 	
