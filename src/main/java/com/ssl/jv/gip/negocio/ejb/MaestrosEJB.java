@@ -828,9 +828,11 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	}
 
 	public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl) {
-		icl = this.itemCostoLogisticoDAO.add(icl);
+		ItemCostoLogistico icl2 = this.itemCostoLogisticoDAO.add(icl);
+		icl.setId(icl2.getId());
 		if (icl.getRangoCostoLogisticos() != null) {
 			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
+				rcl.setItemCostoLogistico(icl);
 				if (rcl.getId() != null && rcl.getId() != 0) {
 					this.rangoCostoLogisticoDAO.update(rcl);
 				} else {

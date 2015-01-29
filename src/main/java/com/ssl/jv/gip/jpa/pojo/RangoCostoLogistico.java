@@ -31,9 +31,13 @@ public class RangoCostoLogistico implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_unidad")
 	private Unidad unidad;
+	
+	@ManyToOne
+	@JoinColumn(name="id_moneda")
+	private Moneda moneda;
 
-	@Column(name="valor_usd")
-	private BigDecimal valorUsd;
+	@Column(name="valor")
+	private BigDecimal valor;
 
 	//bi-directional many-to-one association to ItemCostoLogistico
 	@ManyToOne
@@ -67,12 +71,12 @@ public class RangoCostoLogistico implements Serializable {
 		this.hasta = hasta;
 	}
 
-	public BigDecimal getValorUsd() {
-		return this.valorUsd;
+	public BigDecimal getValor() {
+		return this.valor;
 	}
 
-	public void setValorUsd(BigDecimal valorUsd) {
-		this.valorUsd = valorUsd;
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 
 	public ItemCostoLogistico getItemCostoLogistico() {
@@ -89,6 +93,14 @@ public class RangoCostoLogistico implements Serializable {
 
 	public void setUnidad(Unidad unidad) {
 		this.unidad = unidad;
+	}
+
+	public Moneda getMoneda() {
+		return moneda;
+	}
+
+	public void setMoneda(Moneda moneda) {
+		this.moneda = moneda;
 	}
 
 }
