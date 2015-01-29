@@ -815,11 +815,12 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		this.itemCostoLogisticoDAO.update(icl);
 		if (icl.getRangoCostoLogisticos() != null) {
 			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
+				if(rcl.getMoneda()!=null && (rcl.getMoneda().getId()==null || rcl.getMoneda().getId().equals("")))
+					rcl.setMoneda(null);
 				if (rcl.getId() != null && rcl.getId() != 0) {
 					this.rangoCostoLogisticoDAO.update(rcl);
 				} else {
-					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO
-							.add(rcl);
+					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO.add(rcl);
 					rcl.setId(rcl2.getId());
 				}
 			}

@@ -209,7 +209,7 @@
 						
 						<p:dataTable id="rangos" var="rango" value="#{itemsCLMB.seleccionado.rangoCostoLogisticos}" editable="true" style="margin-bottom:20px" emptyMessage="">
 					 
-					       <p:ajax event="rowEdit" listener="#{itemsCLMB.onRowEdit}" update=":forma:tabPanel:tablaRegistros"  />
+					       <p:ajax event="rowEdit" listener="#{itemsCLMB.onRowEdit}" update=":forma:tabPanel:tablaRegistros" process="@form" immediate="true"  />
 					       <p:ajax event="rowEditCancel" listener="#{itemsCLMB.onRowCancel}"  />
 					 
 					       <p:column headerText="#{msg.rangosCLdesde}" style="width:100px">
@@ -248,10 +248,10 @@
 					           <p:cellEditor>
 					               <f:facet name="output"><h:outputText value="#{rango.moneda.id}" /></f:facet>
 					               <f:facet name="input">						
-					               		<p:selectOneMenu id="moneda2" value="#{rango.moneda.id}" label="#{msg.rangosCLmoneda}" style="width:90px">
+					               		<h:selectOneMenu id="moneda2" value="#{rango.moneda.id}" label="#{msg.rangosCLmoneda}" style="width:90px">
 											<f:selectItem itemLabel="" itemValue=""/>
 											<f:selectItems value="#{itemsCLMB.monedas}" var="moneda" itemLabel="#{moneda.id}" itemValue="#{moneda.id}" />
-										</p:selectOneMenu>
+										</h:selectOneMenu>
 									</f:facet>
 					           </p:cellEditor>
 					       </p:column>

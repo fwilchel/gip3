@@ -117,6 +117,12 @@ public class ItemsCLMB extends UtilMB{
 		this.modo=Modo.EDICION;
 		if (this.seleccionado.getMoneda()==null)
 			this.seleccionado.setMoneda(new Moneda());
+		if (this.seleccionado.getRangoCostoLogisticos()!=null){
+			for (RangoCostoLogistico rcl:this.seleccionado.getRangoCostoLogisticos()){
+				if (rcl.getMoneda()==null)
+					rcl.setMoneda(new Moneda());
+			}
+		}
 	}
 	
 	public void nuevo(){
@@ -155,6 +161,12 @@ public class ItemsCLMB extends UtilMB{
 		}
 		if (this.seleccionado.getMoneda()==null)
 			this.seleccionado.setMoneda(new Moneda());
+		if (this.seleccionado.getRangoCostoLogisticos()!=null){
+			for (RangoCostoLogistico rcl:this.seleccionado.getRangoCostoLogisticos()){
+				if (rcl.getMoneda()==null)
+					rcl.setMoneda(new Moneda());
+			}
+		}
 		this.addMensajeInfo(AplicacionMB.getMessage("itemsCLGuardado", language));
 	}
 	
@@ -248,8 +260,9 @@ public class ItemsCLMB extends UtilMB{
 
 	public void setSeleccionado2(RangoCostoLogistico seleccionado2) {
 		this.seleccionado2 = seleccionado2;
-		if (this.seleccionado2.getMoneda()==null)
+		if (this.seleccionado2.getMoneda()==null){
 			this.seleccionado2.setMoneda(new Moneda());
+		}
 	}
 
 	public List<Moneda> getMonedas() {
