@@ -12,6 +12,7 @@ import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Utilidad;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ViewScoped;
@@ -132,6 +133,15 @@ public class AnularSolicitudPedidoMB extends UtilMB {
       this.addMensajeWarn("msgConfirmacion", mensajeAdvertencia);
       return mensajeAdvertencia;
     }
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Date getFechaActual() {
+    LOGGER.debug("Metodo: <<getFechaActual>>");
+    return new Date();
   }
 
   /**
