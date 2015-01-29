@@ -207,7 +207,7 @@ public class ImprimirRemisionMB  extends UtilMB {
 			
 			 parametros.put("despachado_a",seleccionado2.getNombrePuntoVenta());
 			 parametros.put("direccionpv",seleccionado2.getDireccionPuntoVenta());
-			 parametros.put("telefonopv","TelÈfono: " + seleccionado2.getTelefonoPuntoVenta());		 
+			 parametros.put("telefonopv","Tel√©fono: " + seleccionado2.getTelefonoPuntoVenta());		 
 			 parametros.put("ciudadpv",seleccionado2.getNombreCiudadPuntoVenta());
 			 parametros.put("documento",seleccionado.getDocumentoCliente());
 			 parametros.put("fecha",fechaStringGeneracion);
@@ -226,7 +226,7 @@ public class ImprimirRemisionMB  extends UtilMB {
 				System.out.println("despachado_a"+seleccionado2.getNombrePuntoVenta());
 				
 				System.out.println("direccionpv"+seleccionado2.getDireccionPuntoVenta());
-				System.out.println("telefonopv"+"TelÈfono: " + seleccionado2.getTelefonoPuntoVenta());		 
+				System.out.println("telefonopv"+"Tel√©fono: " + seleccionado2.getTelefonoPuntoVenta());		 
 				System.out.println("ciudadpv"+seleccionado2.getNombreCiudadPuntoVenta());
 				System.out.println("documento"+seleccionado.getDocumentoCliente());
 				System.out.println("fechaVentaDirecta"+fechaStringGeneracion);
@@ -265,7 +265,7 @@ public class ImprimirRemisionMB  extends UtilMB {
 				}
 				
 				
-				if (n > 0){ //Existe alg˙n registro con descuento adicioanl
+				if (n > 0){ //Existe alg√∫n registro con descuento adicioanl
 					 parametros.put("descuentoCliente",seleccionado2.getDescuentoCliente().toString()+ "%");
 					 parametros.put("observaciones", "Los productos marcados con (*) incluyen descuento adicional.");
 					 parametros.put("mark", "(*)");				 
