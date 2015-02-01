@@ -170,6 +170,10 @@
 	        <from-outcome>items_costos_logisticos</from-outcome>
             <to-view-id>/ui/maestros/administrarItemsCL.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+	        <from-outcome>listado_FX_ReImprimir_FX</from-outcome>
+            <to-view-id>/ui/reportesComercioExterior/reimprimirFacturaExpo.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
 
 </faces-config>

@@ -10,7 +10,10 @@ import java.math.BigDecimal;
  * 
  */
 @Entity
-@NamedQuery(name="Muestrasxlote.findAll", query="SELECT m FROM Muestrasxlote m")
+@NamedQueries({
+@NamedQuery(name="Muestrasxlote.findAll", query="SELECT m FROM Muestrasxlote m"),
+@NamedQuery(name="Muestrasxlote.findByCantidad", query="SELECT m FROM Muestrasxlote m where :cantidad >= rangoInicial and :cantidad1 <= rangoFinal")
+})
 public class Muestrasxlote implements Serializable {
 	private static final long serialVersionUID = 1L;
 

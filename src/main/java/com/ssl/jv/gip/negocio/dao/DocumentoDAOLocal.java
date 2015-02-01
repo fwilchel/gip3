@@ -74,4 +74,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 			Long... idEstados);
 
 	public List<Documento> consultarDocumentosFacturaExportacion(String consecutivoDocumento);
+	
+	public List<Documento> consultarDocumentosPorTipoDocumentoYEstados(
+			FiltroDocumentoDTO filtro);
 }

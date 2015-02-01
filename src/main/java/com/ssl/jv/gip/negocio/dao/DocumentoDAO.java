@@ -1298,4 +1298,15 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		return null;
 	}
 
+	@Override
+	public List<Documento> consultarDocumentosPorTipoDocumentoYEstados(
+			FiltroDocumentoDTO filtro) {
+		Query query = em
+				.createNamedQuery(Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS);
+		query.setParameter("idTipoDocumento", filtro.getIdTipoDocumento());
+		query.setParameter("idEstado", filtro.getIdEstado());
+		query.setParameter("idEstado2", filtro.getIdEstado2());
+		return query.getResultList();
+	}
+
 }

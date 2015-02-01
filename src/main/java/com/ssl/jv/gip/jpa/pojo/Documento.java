@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 /**
  * The persistent class for the documentos database table.
  * 
@@ -31,6 +35,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 		@NamedQuery(name = "Documento.findAll", query = "SELECT d FROM Documento d"),
 		@NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado ORDER BY d.id"),
+		@NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstado,:idEstado2) ORDER BY d.id"),
 		@NamedQuery(name = Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstados) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC") })
 public class Documento implements Serializable {
 
@@ -41,6 +46,7 @@ public class Documento implements Serializable {
 
 	public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADO = "Documento.findByTipoDocumentoAndEstado";
 	public static final String LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO = "Documento.findByEstadoTipoDocumentoConsecutivoDocumento";
+	public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS = "Documento.findByTipoDocumentoAndEstados";
 
 	@Id
 	@SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)
@@ -117,6 +123,7 @@ public class Documento implements Serializable {
 
 	// bi-directional many-to-one association to DocumentoXNegociacion
 	@OneToMany(mappedBy = "documento")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<DocumentoXNegociacion> documentoXNegociacions;
 
 	// bi-directional many-to-one association to Estadosxdocumento
