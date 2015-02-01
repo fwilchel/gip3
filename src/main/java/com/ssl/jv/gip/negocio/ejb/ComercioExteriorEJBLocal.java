@@ -8,21 +8,28 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
+import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoPorLotesInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
@@ -250,4 +257,25 @@ public interface ComercioExteriorEJBLocal {
    * @param documento
    */
   void anularSolicitudPedido(Documento documento);
+  
+  public List<Cliente> listadoClientesInstruccionEmbarque(String idUsuario);
+  
+  public List<DocumentoInstruccionEmbarqueDTO> listadoDocumentosInstruccionEmbarque(Long idCliente);
+  
+  public List<DocumentoPorLotesInstruccionEmbarqueDTO> consultarDocumentosPorLotes(String strDocs, String strDocsMerca);
+  
+  public List<AgenteAduana> consultarAgenteAduana();
+  
+  public List<Pais> findByPaisTodos();
+  
+  public List<TerminoIncoterm> findTerminoIncotermAll();
+  
+  public List<Ciudad> findCiudadesAll(String idPais);
+  
+  public List<ModalidadEmbarque> findModalidadEmbarque();
+  
+  public TerminosTransporte updateTerminoTransporte(
+			TerminosTransporte terminosTransporte);
+  
+  public String guardarInstruccionEmbarque(List<DocumentoInstruccionEmbarqueDTO> listadoDocumentos, TerminosTransporte terminosTransporte);
 }

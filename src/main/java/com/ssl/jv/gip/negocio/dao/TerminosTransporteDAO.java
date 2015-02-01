@@ -20,7 +20,6 @@ import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 import com.ssl.jv.gip.web.util.ErrorConstants;
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 
 /**
  * <p>Title: TerminosTransporteDAO</p>
@@ -348,5 +347,13 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
 		update(terminosTransporte);
 		this.em.flush();		
 		return findByPK(terminosTransporte.getId());
+	}
+	
+	public void guardarTerminosTransporteDocumento(Long idDocumento, Long idTerminos){
+		String sql = "INSERT INTO terminos_transporte_x_documento (id_documento,id_terminos_transporte) "
+				+ "VALUES (" + idDocumento + "," + idTerminos + ")";
+		
+		em.createNativeQuery(sql).executeUpdate();
+		
 	}
 }

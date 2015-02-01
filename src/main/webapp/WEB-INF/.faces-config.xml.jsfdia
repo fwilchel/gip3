@@ -204,10 +204,17 @@
     TARGET="rules:#ui#maestros#inventarioComercioExt.xhtml"
     TITLE="crear_maestro_inventario_ce" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="generar_reporte_remision::#ui#reportes#imprimirRemision.xhtml"
-    NAME="output40" PATH="/ui/reportes/imprimirRemision.xhtml"
-    TARGET="rules:#ui#reportes#imprimirRemision.xhtml"
-    TITLE="generar_reporte_remision" model-entity="JSFProcessItemOutput"/>
+    ID="listado_SP_Anular::#ui#comercioexterior#anularSolicitudPedido.xhtml"
+    NAME="output40"
+    PATH="/ui/comercioexterior/anularSolicitudPedido.xhtml"
+    TARGET="rules:#ui#comercioexterior#anularSolicitudPedido.xhtml"
+    TITLE="listado_SP_Anular" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_FX_InstruccionEmbarque::#ui#comercioexterior#generarInstruccionEmbarque.xhtml"
+    NAME="output41"
+    PATH="/ui/comercioexterior/generarInstruccionEmbarque.xhtml"
+    TARGET="rules:#ui#comercioexterior#generarInstruccionEmbarque.xhtml"
+    TITLE="listado_FX_InstruccionEmbarque" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM
@@ -322,6 +329,12 @@
   SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#reportes#listaFacturasProforma.xhtml"
   PATH="/ui/reportes/listaFacturasProforma.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#reportes#imprimirRemision.xhtml"
-  PATH="/ui/reportes/imprimirRemision.xhtml" SHAPE="304,1425,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#anularSolicitudPedido.xhtml"
+  PATH="/ui/comercioexterior/anularSolicitudPedido.xhtml"
+  SHAPE="304,1425,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#generarInstruccionEmbarque.xhtml"
+  PATH="/ui/comercioexterior/generarInstruccionEmbarque.xhtml"
+  SHAPE="304,1457,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

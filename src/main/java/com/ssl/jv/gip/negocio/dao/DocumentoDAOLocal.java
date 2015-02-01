@@ -10,6 +10,7 @@ import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
@@ -100,4 +101,6 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
    * @param documento
    */
   void anularSolicitudPedido(Documento documento);
+  
+  public List<DocumentoInstruccionEmbarqueDTO> consultarDocumentosInstruccionEmbarque(Long idCliente);
 }

@@ -87,4 +87,6 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
 	 * @return
 	 */ 
 	TerminosTransporte updateTerminoTransporte(TerminosTransporte terminosTransporte);
+	
+	public void guardarTerminosTransporteDocumento(Long idDocumento, Long idTerminos);
 }
