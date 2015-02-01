@@ -22,9 +22,9 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "productosxdocumentos")
 @NamedQueries({
-		@NamedQuery(name = "ProductosXDocumento.findAll", query = "SELECT p FROM ProductosXDocumento p"),
-		@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO, query = "SELECT p FROM ProductosXDocumento p WHERE p.id.idDocumento = :idDocumento"),
-		@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_AND_CLIENTE, query = "SELECT p FROM ProductosXDocumento p LEFT JOIN p.productosInventario.productosXClienteComexts pcce WHERE p.id.idDocumento = :idDocumento AND pcce.cliente.id = :idCliente ORDER BY pcce.regSanitario") })
+	@NamedQuery(name = "ProductosXDocumento.findAll", query = "SELECT p FROM ProductosXDocumento p"),
+	@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO, query = "SELECT p FROM ProductosXDocumento p WHERE p.id.idDocumento = :idDocumento"),
+	@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_AND_CLIENTE, query = "SELECT p FROM ProductosXDocumento p LEFT JOIN p.productosInventario.productosXClienteComexts pcce WHERE p.id.idDocumento = :idDocumento AND pcce.cliente.id = :idCliente ORDER BY pcce.regSanitario") })
 public class ProductosXDocumento implements Serializable {
 
 	/**
@@ -121,6 +121,7 @@ public class ProductosXDocumento implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_unidades")
 	private Unidad unidade;
+
 
 	public ProductosXDocumento() {
 	}
@@ -340,5 +341,7 @@ public class ProductosXDocumento implements Serializable {
 	public void setUnidade(Unidad unidade) {
 		this.unidade = unidade;
 	}
+	
+	
 
 }

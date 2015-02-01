@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.tituloImprimirRemision}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+				
+				
+		
+					
+
+
+
+	
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.tituloImprimirRemision}">
+				
+				
+				<p:panelGrid columns="2"  styleClass="noBorders">
+
+						<p:outputLabel value="#{msg.ingresarNumeroRemision}" for="codigo"
+							styleClass="negrita" />
+						<h:inputText value="#{imprimirRemisionMB.strConsecutivoDocumento}" id="codigo"
+							required="false" maxlength="10" label="#{msg.buscadorSKU}" />
+						<p:message for="codigo"></p:message>
+
+						
+						
+							<p:commandButton value="#{msg.documentoEjecutarBusqueda}" icon="ui-icon-search" action="#{imprimirRemisionMB.consultarDocumento}"
+							update="tablaDatos">
+							</p:commandButton>
+							
+
+					</p:panelGrid>
+				
+				
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{imprimirRemisionMB.list}" rows="10"
+						emptyMessage="#{msg.ConsultarRemisionNoEncontrados}"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						
+						
+						
+						<p:column style="width:64px;text-align: center">
+					
+							
+								<p:commandButton  ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-document">
+								<f:setPropertyActionListener value="#{dato}"
+									target="#{imprimirRemisionMB.seleccionado}" />
+        <p:fileDownload value="#{imprimirRemisionMB.reportePDF}" />
+    </p:commandButton>
+							
+							
+						</p:column>
+						
+						<p:column filterBy="#{dato.id}"
+							headerText="#{msg.CodigoGipSP}"
+							filterMatchMode="contains" sortBy="#{dato.id}">
+							<h:outputText value="#{dato.id}" />
+						</p:column>
+
+						<p:column filterBy="#{dato.consecutivoDocumento}"
+							headerText="#{msg.RequisicionNombreCons}"
+							filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
+							<h:outputText value="#{dato.consecutivoDocumento}" />
+						</p:column>
+						
+						<p:column filterBy="#{dato.fechaGeneracion}"
+							headerText="#{msg.RequisicionNombreFechaGenerado}"
+							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
+							<h:outputText value="#{dato.fechaGeneracion}" />
+						</p:column>
+
+						
+
+					</p:dataTable>
+					
+					
+					
+				</p:tab>
+			</p:tabView>
+		</h:form>
+		
+		
+		<p:dialog
+			header="#{msg.TituloVentasImpFacturaDirecta}"
+			widgetVar="editarDialog2" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="editarDlg2">
+			<h:form id="formaDlg2">
+			<p:panelGrid columns="8"  styleClass="noBorders" >
+							
+						
+			<p:outputLabel value="#{msg.recibiProductoDcoumento}" for="idDocumento" styleClass="negrita" />
+			<h:outputText  styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.idDocumento}" id="idDocumento"/>
+			
+			<p:outputLabel value="#{msg.RequisicionNombreCons}" for="consecutivoDocumento" styleClass="negrita" />
+			<h:outputText  styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.consecutivoDocumento}" id="consecutivoDocumento"/>
+							
+			
+			<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"  styleClass="negrita" />
+			<h:outputText styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.fechaGeneracion}" />
+			
+			<p:outputLabel value="#{msg.VentasVDRel}"  styleClass="negrita" />
+			<h:outputText styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.observacionDocumento}" />
+			
+			
+			<p:outputLabel value="#{msg.nomCliente}"  styleClass="negrita" />
+			<h:outputText  styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.nombreCliente}" />
+			
+			<p:outputLabel value="#{msg.maestroDireccionCliente}"  styleClass="negrita" />
+			<h:outputText styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.direccionCliente}" />	
+			
+			<p:outputLabel value="#{msg.maestroTelefonoCliente}"  styleClass="negrita" />
+			<h:outputText styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.telefonoCliente}" />
+			
+							
+			
+			
+				
+			   
+			     
+			   	
+			     
+			   		     
+			     			     
+			     			
+							</p:panelGrid>
+							
+							
+							
+							<p:dataTable var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirRemisionMB.seleccionado2.idDocumento}"
+						value="#{imprimirRemisionMB.listaDetalle}"
+						rendered="#{not empty imprimirRemisionMB.listaDetalle}">
+						
+						
+						
+						
+						
+						
+					
+						
+						<p:column headerText="#{msg.buscadorPxCSKU}">
+							<h:outputText value="#{dato2.sku}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorNombreProducto}">
+							<h:outputText value="#{dato2.nombre}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.recibiProductoUnidadVenta}">
+							<h:outputText value="#{dato2.unidad}" />
+						</p:column>
+						
+						
+						<p:column headerText="#{msg.cantidadRemisionada}" styleClass="derecha">
+							<h:outputText value="#{dato2.cantidad}" >
+							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							   </h:outputText>
+						</p:column>
+						
+						
+						
+						
+						<p:column headerText="#{msg.ventasVrUnitario}" styleClass="derecha">
+							<h:outputText value="#{dato2.precio}" >
+							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							    <f:convertNumber pattern="$#####,###,###,###.0"/>
+							   </h:outputText>
+						</p:column>
+						
+						<p:column headerText="#{msg.VentasRemisionPorcDctoProd}" styleClass="derecha">
+							<h:outputText value="#{dato2.valorDescuento}" >
+							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							   </h:outputText>
+						</p:column>
+						
+						
+						<p:column headerText="#{msg.VentasRemisionValorTotal}" styleClass="derecha">
+							<h:outputText value="#{dato2.valorTotal}" >
+							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							    <f:convertNumber pattern="$#####,###,###,###.0"/>
+							   </h:outputText>
+						</p:column>
+						
+						<p:column headerText="#{msg.VentasRemisionPorcOtrosDctos}" styleClass="derecha">
+							<h:outputText value="#{dato2.valorOtrosDescuento}" >
+							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							   </h:outputText>
+						</p:column>
+						
+						
+						<p:column headerText="#{msg.VentasRemisionPorcIva}" styleClass="derecha">
+							<h:outputText value="#{dato2.valorIva}" >
+							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							   </h:outputText>
+						</p:column>
+											
+											
+												
+	
+	
+	
+
+	
+												
+						
+							
+					</p:dataTable>
+					
+					
+					
+					
+							
+						<p:spacer  height="30"></p:spacer>
+						
+						
+						<p:panelGrid  styleClass="noBorders">
+					
+				<p:column>  <p:spacer width="800" height="10" /></p:column>
+						
+						<p:column>
+						
+						 
+						 
+							<p:panelGrid columns="2"  styleClass="noBorders">
+					
+					<p:outputLabel value="#{msg.VentasRemisionValorSubTotal}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.valorSubtotal}">
+					 <f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+					
+					<p:outputLabel value="#{msg.VentasRemisionValorDescuento}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.valorDescuento}">
+					<f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+					
+					<p:outputLabel value="#{msg.VentasValorIva10}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.valorIva10}">
+					<f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+					
+					<p:outputLabel value="#{msg.VentasValorIva16}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.valorIva16}">
+					<f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+					
+					<p:outputLabel value="#{msg.VentasValorIva5}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.valorIva5}">
+					<f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+					
+					<p:outputLabel value="#{msg.VentasRemisionVRTotal}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirRemisionMB.seleccionado2.valorTotal}">
+					<f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+												
+												
+												
+					</p:panelGrid>
+					
+					</p:column>
+						
+						</p:panelGrid>
+						
+				
+					<p:commandButton value="Reporte PDF" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-document">
+        <p:fileDownload value="#{imprimirRemisionMB.reportePDF}" />
+    </p:commandButton>		
+
+	</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+
+
+</ui:composition>
+

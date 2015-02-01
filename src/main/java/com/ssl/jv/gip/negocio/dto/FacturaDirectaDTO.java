@@ -4,36 +4,149 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+
+
 /**
  * The Class ListaEmpaqueDTO.
  */
+@Entity
 public class FacturaDirectaDTO implements Serializable {
 
 	private static final long serialVersionUID = 6826470281110432159L;
-
+	@Id
 	private String idDocumento;
 	private String consecutivoDocumento;
 	private Timestamp fechaGeneracion;
-	private ClienteDTO cliente;
-	private Long idUbicacionOrigen;
-	private Long idUbicacionDestino;
-	private Long idTipoDocumento;
-	private Timestamp fechaEntrega;
-	private Long idProveedor;
-	private Long idEstado;
-	private String estadoNombre;
+	//private ClienteDTO cliente;
+	//private Long idUbicacionOrigen;
+	//private Long idUbicacionDestino;
+	//private Long idTipoDocumento;
+	//private Timestamp fechaEntrega;
+	//private Long idProveedor;
+	//private Long idEstado;
+	//private String estadoNombre;
 	private String observacionDocumento;
-	private UbicacionDTO ubicacion;
+	//private UbicacionDTO ubicacion;
+	
+	private BigDecimal  valorDescuento;
+	
+
+	private BigDecimal  valorIva10;
+	private BigDecimal  valorIva16;
+	private BigDecimal  valorIva5;
+	private BigDecimal  valorTotal;
+	private BigDecimal  valorSubtotal;
+	
+	//private PuntoVentaDTO puntoventa;
+	
+	
+	private String telefonoCliente;
+	private String direccionCliente;
+	private String contactoCliente;
+	private String nitCliente;	
+	private String nombrePuntoVenta;
+	private String direccionPuntoVenta;
+	private String telefonoPuntoVenta;
+	private String nombreUbicacion;
+	private String nombreCliente;
+	
+	private String nombreCiudadPuntoVenta;
+	private String nombreCiudadCliente;
+	
+	private long estado;
+	
+	private BigDecimal descuentoCliente;
 	
 	
 	
-	public UbicacionDTO getUbicacion() {
-		return ubicacion;
+	public BigDecimal getValorIva5() {
+		return valorIva5;
 	}
 
-	public void setUbicacion(UbicacionDTO ubicacion) {
-		this.ubicacion = ubicacion;
+	public void setValorIva5(BigDecimal valorIva5) {
+		this.valorIva5 = valorIva5;
 	}
+	public String getNitCliente() {
+		return nitCliente;
+	}
+
+	public void setNitCliente(String nitCliente) {
+		this.nitCliente = nitCliente;
+	}
+
+	
+	
+
+	public String getNombreUbicacion() {
+		return nombreUbicacion;
+	}
+
+	public void setNombreUbicacion(String nombreUbicacion) {
+		this.nombreUbicacion = nombreUbicacion;
+	}
+
+
+	
+	public String getNombreCliente() {
+		return nombreCliente;
+	}
+
+	public void setNombreCliente(String nombreCliente) {
+		this.nombreCliente = nombreCliente;
+	}
+
+	public String getTelefonoCliente() {
+		return telefonoCliente;
+	}
+
+	public void setTelefonoCliente(String telefonoCliente) {
+		this.telefonoCliente = telefonoCliente;
+	}
+
+	public String getDireccionCliente() {
+		return direccionCliente;
+	}
+
+	public void setDireccionCliente(String direccionCliente) {
+		this.direccionCliente = direccionCliente;
+	}
+
+	public String getContactoCliente() {
+		return contactoCliente;
+	}
+
+	public void setContactoCliente(String contactoCliente) {
+		this.contactoCliente = contactoCliente;
+	}
+
+	public String getNombrePuntoVenta() {
+		return nombrePuntoVenta;
+	}
+
+	public void setNombrePuntoVenta(String nombrePuntoVenta) {
+		this.nombrePuntoVenta = nombrePuntoVenta;
+	}
+
+	public String getDireccionPuntoVenta() {
+		return direccionPuntoVenta;
+	}
+
+	public void setDireccionPuntoVenta(String direccionPuntoVenta) {
+		this.direccionPuntoVenta = direccionPuntoVenta;
+	}
+
+	public String getTelefonoPuntoVenta() {
+		return telefonoPuntoVenta;
+	}
+
+	public void setTelefonoPuntoVenta(String telefonoPuntoVenta) {
+		this.telefonoPuntoVenta = telefonoPuntoVenta;
+	}
+
+
 
 	public String getIdDocumento() {
 		return idDocumento;
@@ -59,14 +172,7 @@ public class FacturaDirectaDTO implements Serializable {
 		this.fechaGeneracion = fechaGeneracion;
 	}
 
-	public ClienteDTO getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(ClienteDTO cliente) {
-		this.cliente = cliente;
-	}
-
+	/*
 	public Long getIdUbicacionOrigen() {
 		return idUbicacionOrigen;
 	}
@@ -124,7 +230,7 @@ public class FacturaDirectaDTO implements Serializable {
 	public void setEstadoNombre(String estadoNombre) {
 		this.estadoNombre = estadoNombre;
 	}
-
+*/
 	
 	public String getObservacionDocumento() {
 		return observacionDocumento;
@@ -134,6 +240,79 @@ public class FacturaDirectaDTO implements Serializable {
 	public void setObservacionDocumento(String observacionDocumento) {
 		this.observacionDocumento = observacionDocumento;
 	}
+	
+	public BigDecimal getValorDescuento() {
+		return valorDescuento;
+	}
+
+	public void setValorDescuento(BigDecimal valorDescuento) {
+		this.valorDescuento = valorDescuento;
+	}
+
+	public BigDecimal getValorIva10() {
+		return valorIva10;
+	}
+
+	public void setValorIva10(BigDecimal valorIva10) {
+		this.valorIva10 = valorIva10;
+	}
+
+	public BigDecimal getValorIva16() {
+		return valorIva16;
+	}
+
+	public void setValorIva16(BigDecimal valorIva16) {
+		this.valorIva16 = valorIva16;
+	}
+
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public BigDecimal getValorSubtotal() {
+		return valorSubtotal;
+	}
+
+	public void setValorSubtotal(BigDecimal valorSubtotal) {
+		this.valorSubtotal = valorSubtotal;
+	}
+
+	public String getNombreCiudadPuntoVenta() {
+		return nombreCiudadPuntoVenta;
+	}
+
+	public void setNombreCiudadPuntoVenta(String nombreCiudadPuntoVenta) {
+		this.nombreCiudadPuntoVenta = nombreCiudadPuntoVenta;
+	}
+
+	public String getNombreCiudadCliente() {
+		return nombreCiudadCliente;
+	}
+
+	public void setNombreCiudadCliente(String nombreCiudadCliente) {
+		this.nombreCiudadCliente = nombreCiudadCliente;
+	}
+
+	public long getEstado() {
+		return estado;
+	}
+
+	public void setEstado(long estado) {
+		this.estado = estado;
+	}
+
+	public BigDecimal getDescuentoCliente() {
+		return descuentoCliente;
+	}
+
+	public void setDescuentoCliente(BigDecimal descuentoCliente) {
+		this.descuentoCliente = descuentoCliente;
+	}
+
 
 	
 }

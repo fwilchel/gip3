@@ -230,12 +230,17 @@ public class ImprimirListaEmpaqueMB extends UtilMB{
 		
 		
 		parametros.put("tipo", ConstantesTipoDocumento.LISTA_EMPAQUE);
-		parametros.put("estado", ConstantesDocumento.ACTIVO);
+		//parametros.put("estado", ConstantesDocumento.ACTIVO);
 		parametros.put("parametroConseDoc",parametroConseDoc);
 		
-		listaEmpaqueList = comercioEjb.consultarDocumento(parametros);
 		
-		System.out.println("tamaña lista:"+listaEmpaqueList.size());
+		
+		Long[] array = new Long[1];
+		array[0]=(long) ConstantesDocumento.ACTIVO;
+		parametros.put("estado",array);
+		
+		listaEmpaqueList = comercioEjb.consultarDocumento(parametros,array);		
+		
 		
 		return listaEmpaqueList;
 	}
@@ -252,19 +257,21 @@ public class ImprimirListaEmpaqueMB extends UtilMB{
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		Cliente c=seleccionado.getCliente();
 		
+		
 		parametros.put("cliente",c.getNombre());		 
 		parametros.put("nit", c.getNit());
 		parametros.put("ciudad",c.getCiudad().getNombre());		 
 		parametros.put("direccion", c.getDireccion());
 		parametros.put("telefono", c.getTelefono());
-		parametros.put("contacto", c.getContacto());
+		//parametros.put("contacto", c.getContacto());
 		parametros.put("id_documento", seleccionado.getConsecutivoDocumento());
 		parametros.put("solicitud", seleccionado.getObservacionDocumento());
 		
-		parametros.put("qEstibas", 0.0); //dblCantidadEstibas	
+		//parametros.put("qEstibas", seleccionado2.getCantidadEstibas()); //dblCantidadEstibas
+		//parametros.put("qEstibas", 0.0); //dblCantidadEstibas
 		parametros.put("PesoBrutoEstibas", 0.0 ); //dblPesoBrutoEstibas 
 		
-		parametros.put("observacion", ""); // seleccionado2.getDocumentoXNegociacions().get(0).getDescripcion()
+		parametros.put("observacion", seleccionado2.getObservacionDocumento()); // seleccionado2.getDocumentoXNegociacions().get(0).getDescripcion()
 		
 		if (this.blnActivo ) {
 			 parametros.put("titulo","PACKING LIST No. "+seleccionado.getConsecutivoDocumento());

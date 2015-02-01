@@ -105,9 +105,9 @@ public class AutorizarFacturaPFMB extends UtilMB{
 				
 				comercioEjb.cambiarEstadoFacturaProforma(listado);
 				
-				String mensaje = AplicacionMB.getMessage("debeSeleccionarFacturaProforma", language);
+				String mensaje = AplicacionMB.getMessage("PedidoExitoPaginaBoton", language);
 				
-				this.addMensajeInfo("Autorización generada");
+				this.addMensajeInfo(mensaje);
 				
 				buscarDocumentos();
 				

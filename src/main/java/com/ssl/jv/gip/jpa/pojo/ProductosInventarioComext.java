@@ -55,7 +55,8 @@ public class ProductosInventarioComext implements Serializable {
 	@Column(name="codigo_sap")
 	private String codigoSap;
 	
-	@Column(name="controlstock")
+	//@Column(name="controlstock")
+	@Transient
 	private Boolean controlStock;
 
 	private String descripcion;

@@ -30,4 +30,14 @@ public class PaisDAO extends GenericDAO<Pais> implements PaisDAOLocal{
     	}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Pais> findByPaisTodos(){
+		try{
+			return this.em.createNamedQuery("Pais.findAll").getResultList();
+    	}catch(NoResultException e){
+    		LOGGER.warn(e);
+    		return null;
+    	}
+	}
+	
 }
