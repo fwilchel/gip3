@@ -371,10 +371,11 @@
 						rendered="#{not empty reimprimirFacturaExpoMB.seleccionado}"
 						columnClasses="label,value">
 
-						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
-							action="#{reimprimirFacturaExpoMB.reimprimir}"
-							update=":formaDlg:facturaDetalle, :forma:tabPanel:tabla"></p:commandButton>
-						
+						<p:commandButton value="Reporte PDF" ajax="false"
+							icon="ui-icon-document">
+							<p:fileDownload value="#{reimprimirFacturaExpoMB.reportePDF}" />
+						</p:commandButton>
+
 
 					</p:panelGrid>
 
