@@ -106,5 +106,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	 void anularSolicitudPedido(Documento documento);
 
 	 public List<DocumentoInstruccionEmbarqueDTO> consultarDocumentosInstruccionEmbarque(Long idCliente);
+	 
+	 public List<Documento> consultarDocumentosPorTipoDocumentoYFechas(
+				FiltroDocumentoDTO filtro);
 
 }

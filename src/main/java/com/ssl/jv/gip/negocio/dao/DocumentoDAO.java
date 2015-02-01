@@ -1732,5 +1732,16 @@ DocumentoDAOLocal {
 
 	}
 
+	@Override
+	public List<Documento> consultarDocumentosPorTipoDocumentoYFechas(
+			FiltroDocumentoDTO filtro) {
+		Query query = em
+				.createNamedQuery(Documento.FIND_BY_FECHAS_TIPO_DOCUMENTO);
+		query.setParameter("idTipoDocumento", filtro.getIdTipoDocumento());
+		query.setParameter("fechaInicio", filtro.getFechaInicio());
+		query.setParameter("fechaFin", filtro.getFechaFin());
+		return query.getResultList();
+	}
+
 
 }

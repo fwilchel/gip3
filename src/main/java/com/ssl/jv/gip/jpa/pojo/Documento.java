@@ -36,6 +36,7 @@ import org.hibernate.annotations.LazyCollectionOption;
   @NamedQuery(name = Documento.FIND_ALL, query = "SELECT d FROM Documento d"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado ORDER BY d.id"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstado,:idEstado2) ORDER BY d.id"),
+  @NamedQuery(name = Documento.FIND_BY_FECHAS_TIPO_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.fechaGeneracion BETWEEN :fechaInicio AND :fechaFin ORDER BY d.fechaGeneracion"),
   @NamedQuery(name = Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstados) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
   @NamedQuery(name = Documento.FIND_BY_PENDIENTE_POR_ANULAR, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.tipoDocumento.id = :tipoDocumento AND d.estadosxdocumento.estado.id NOT IN (:cerrado, :anulado) AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.estadosxdocumento.tipoDocumento.id = :facturaProforma) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC")})
 public class Documento implements Serializable {
@@ -52,6 +53,7 @@ public class Documento implements Serializable {
   public static final String LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO = "Documento.findByEstadoTipoDocumentoConsecutivoDocumento";
   public static final String FIND_BY_PENDIENTE_POR_ANULAR = "Documento.findByPendientePorAnular";
   public static final String JPQL_UPDATE_ESTADO_DOCUMENTO = "UPDATE documentos SET id_estado = :id_estado WHERE id = :id";
+  public static final String FIND_BY_FECHAS_TIPO_DOCUMENTO = "Documento.findByFechasAndTipoDocumento";
 
   @Id
   @SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)

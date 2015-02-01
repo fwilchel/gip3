@@ -53,4 +53,10 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 		return muestrasXLoteDAOLocal.consultarMuestrasPorCantidad(cantidad);
 	}
 
+	@Override
+	public List<Documento> consultarFacturasExportacionFechaTipo(
+			FiltroDocumentoDTO filtro) {
+		return documentoDAO.consultarDocumentosPorTipoDocumentoYFechas(filtro);
+	}
+
 }
