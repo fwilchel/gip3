@@ -26,7 +26,7 @@
 						rowsPerPageTemplate="5,10,15">
 		
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete="PF('editarDlg').show()"
+							<p:commandButton oncomplete="PF('editarDlg').show()" process="@this"
 								icon="ui-icon-pencil" title="bleh" action="#{terminosTransporteMB.getShipmentConditionsById}"
 								update=":editarDialog">
 								<f:setPropertyActionListener value="#{cond}"
@@ -140,7 +140,6 @@
 								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.idAgenteAduana1}">
 								<f:selectItems value="#{terminosTransporteMB.agenteAduanaSelectList}" 
 									var="aa" itemLabel="#{aa.nombre}" itemValue="#{aa.id}"/>
-								<p:ajax process="@this"/>
 							</p:selectOneMenu>
 							<p:message for="aduanaAgentelist1" />
 							
@@ -149,7 +148,6 @@
 								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.idAgenteAduana2}">
 								<f:selectItems value="#{terminosTransporteMB.agenteAduanaSelectList}"
 									var="aa2" itemLabel="#{aa2.nombre}" itemValue="#{aa2.id}"/>
-								<p:ajax process="@this"/>
 							</p:selectOneMenu>
 							<p:message for="aduanaAgentelist2" />
 							

@@ -225,7 +225,6 @@ public class TerminosTransporteMB extends UtilMB{
 			}
 
 			this.loadCiudades();
-			viewAnswer = "";
 		} catch (Exception e) {
 			this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
 			LOGGER.error(e);
