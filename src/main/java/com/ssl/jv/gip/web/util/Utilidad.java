@@ -6,6 +6,7 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
-
 
 /**
  * <p>
@@ -48,11 +48,11 @@ import sun.misc.BASE64Encoder;
  */
 @SuppressWarnings("restriction")
 public class Utilidad {
-	//private static List listaUbicaciones = new ArrayList();
-	
+	// private static List listaUbicaciones = new ArrayList();
+
 	public final static String stringFormat(String sql, String[] params) {
 
-		//String resultado = sql;
+		// String resultado = sql;
 
 		String patron = "";
 
@@ -401,7 +401,7 @@ public class Utilidad {
 
 			byte cipherText[] = cipher.doFinal(clearText.getBytes());
 			// Codificamos el texto cifrado en base 64
-			
+
 			BASE64Encoder base64encoder = new BASE64Encoder();
 			cipherTextB64 = base64encoder.encode(cipherText);
 		}
@@ -425,41 +425,39 @@ public class Utilidad {
 		return cipherTextB64;
 
 	}
-	
-    private static byte[] transformByte(char[] hexa) {
-        int length = hexa.length / 2;
-        byte[] bytes = new byte[length];
-        for (int i = 0; i < length; i++) {
-            //CHECKSTYLE:OFF
-            int alto = Character.digit(hexa[i * 2], 16);
-            int bajo = Character.digit(hexa[i * 2 + 1], 16);
-            int valor = (alto << 4) | bajo;
-            if (valor > 127) {
-                valor -= 256;
-            }
-            //CHECKSTYLE:ON
-            bytes[i] = (byte) valor;
-        }
-        return bytes;
-    }
-	
+
+	private static byte[] transformByte(char[] hexa) {
+		int length = hexa.length / 2;
+		byte[] bytes = new byte[length];
+		for (int i = 0; i < length; i++) {
+			// CHECKSTYLE:OFF
+			int alto = Character.digit(hexa[i * 2], 16);
+			int bajo = Character.digit(hexa[i * 2 + 1], 16);
+			int valor = (alto << 4) | bajo;
+			if (valor > 127) {
+				valor -= 256;
+			}
+			// CHECKSTYLE:ON
+			bytes[i] = (byte) valor;
+		}
+		return bytes;
+	}
 
 	public static String descifrar(String textIni) {
 		// Tres claves de 64 bits tipo DES
 		// Por lo tanto este algoritmo es compatible con DES
-		
-		
-		//byte[] encriptada = transformByte(text.toCharArray());
-		
+
+		// byte[] encriptada = transformByte(text.toCharArray());
+
 		String cipherTextB64 = "";
 		try {
 			byte[] secret = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
 					0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x01, 0x02,
 					0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
-			
+
 			BASE64Decoder base64decoder = new BASE64Decoder();
 			byte encriptada[] = base64decoder.decodeBuffer(textIni);
-			
+
 			Key key = null;
 			SecretKeyFactory skf = SecretKeyFactory.getInstance("DESede");
 			key = skf.generateSecret(new DESedeKeySpec(secret));
@@ -471,8 +469,8 @@ public class Utilidad {
 
 			byte cipherText[] = cipher.doFinal(encriptada);
 			// Codificamos el texto cifrado en base 64
-			cipherTextB64 =new String(cipherText);
-			
+			cipherTextB64 = new String(cipherText);
+
 		}
 
 		catch (NoSuchAlgorithmException nsae) {
@@ -619,6 +617,7 @@ public class Utilidad {
 
 	/*
 	 * Metodo que Convierte una un Date a un String @return string con la fecha
+	 * 
 	 * @pre Date instanciado
 	 */
 	public static String convertirDateToString(Date fecha) {
@@ -690,13 +689,138 @@ public class Utilidad {
 		return strFechaGeneracion;
 
 	}
-	
-	public static void main(String args[]){
 
-		String c=Utilidad.cifrar("Fwilches750930"); //vA8JBDmgfXLHPPumFEqPAA==
-		System.out.println("1 "+c);
-		String d=Utilidad.descifrar(c);
-		System.out.println("2 "+d);
+	private static final String[] tensNames = { "", " ten", " twenty",
+			" thirty", " forty", " fifty", " sixty", " seventy", " eighty",
+			" ninety" };
+
+	private static final String[] numNames = { "", " one", " two", " three",
+			" four", " five", " six", " seven", " eight", " nine", " ten",
+			" eleven", " twelve", " thirteen", " fourteen", " fifteen",
+			" sixteen", " seventeen", " eighteen", " nineteen" };
+
+	private static String convertLessThanOneThousand(int number) {
+		String soFar;
+
+		if (number % 100 < 20) {
+			soFar = numNames[number % 100];
+			number /= 100;
+		} else {
+			soFar = numNames[number % 10];
+			number /= 10;
+
+			soFar = tensNames[number % 10] + soFar;
+			number /= 10;
+		}
+		if (number == 0)
+			return soFar;
+		return numNames[number] + " hundred" + soFar;
+	}
+
+	public static String convertNumberToWords(Double number) {
+
+		String numero_original, numero_original2;
+		String parte_decimal;
+
+		// 0 to 999 999 999 999
+		if (number == 0) {
+			return "zero";
+		}
+
+		String snumber = String.valueOf(number);
+
+		numero_original = snumber.replace(".", ",");
+		numero_original2 = snumber.replace(".", ";");
+
+		String strTmp = numero_original2;
+		String[] arrayCadena = strTmp.split(";");
+		int intTmp = Integer.parseInt(arrayCadena[0]);
+
+		// pad with "0"
+		String mask = "000000000000";
+		DecimalFormat df = new DecimalFormat(mask);
+		// snumber = df.format(number);
+		snumber = df.format(intTmp);
+
+		// XXXnnnnnnnnn
+		int billions = Integer.parseInt(snumber.substring(0, 3));
+		// nnnXXXnnnnnn
+		int millions = Integer.parseInt(snumber.substring(3, 6));
+		// nnnnnnXXXnnn
+		int hundredThousands = Integer.parseInt(snumber.substring(6, 9));
+		// nnnnnnnnnXXX
+
+		int thousands = Integer.parseInt(snumber.substring(9, 12));
+
+		String tradBillions;
+		switch (billions) {
+		case 0:
+			tradBillions = "";
+			break;
+		case 1:
+			tradBillions = convertLessThanOneThousand(billions) + " billion ";
+			break;
+		default:
+			tradBillions = convertLessThanOneThousand(billions) + " billion ";
+		}
+		String result = tradBillions;
+
+		String tradMillions;
+		switch (millions) {
+		case 0:
+			tradMillions = "";
+			break;
+		case 1:
+			tradMillions = convertLessThanOneThousand(millions) + " million ";
+			break;
+		default:
+			tradMillions = convertLessThanOneThousand(millions) + " million ";
+		}
+		result = result + tradMillions;
+
+		String tradHundredThousands;
+		switch (hundredThousands) {
+		case 0:
+			tradHundredThousands = "";
+			break;
+		case 1:
+			tradHundredThousands = "one thousand ";
+			break;
+		default:
+			tradHundredThousands = convertLessThanOneThousand(hundredThousands)
+					+ " thousand ";
+		}
+		result = result + tradHundredThousands;
+
+		String tradThousand;
+
+		tradThousand = convertLessThanOneThousand(thousands);
+		result = result + tradThousand;
+
+		String Num[] = numero_original.split(",");
+
+		if (Num[1].equals("0") || Num[1].equals("00")) // Parte decimal
+		{
+			// de da formato al numero decimal
+			parte_decimal = "DOLLARS";
+
+		} else {
+			// de da formato al numero decimal
+			parte_decimal = "AND " + Num[1] + "/100 DOLLARS";
+		}
+
+		// remove extra spaces!
+		return result.replaceAll("^\\s+", "").replaceAll("\\b\\s{2,}\\b", " ")
+				.toUpperCase()
+				+ " " + parte_decimal;
+	}
+
+	public static void main(String args[]) {
+
+		String c = Utilidad.cifrar("Fwilches750930"); // vA8JBDmgfXLHPPumFEqPAA==
+		System.out.println("1 " + c);
+		String d = Utilidad.descifrar(c);
+		System.out.println("2 " + d);
 	}
 
 }

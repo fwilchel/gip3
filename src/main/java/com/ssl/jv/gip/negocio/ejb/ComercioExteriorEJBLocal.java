@@ -8,20 +8,28 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
+import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoPorLotesInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
@@ -37,188 +45,237 @@ import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 @Local
 public interface ComercioExteriorEJBLocal {
 
-	/**
-	 * Consultar documentos por lote oic.
-	 *
-	 * @return the list
-	 */
-	public List<DocumentoXLotesoic> consultarDocumentosPorLoteOIC();
+  /**
+   * Consultar documentos por lote oic.
+   *
+   * @return the list
+   */
+  public List<DocumentoXLotesoic> consultarDocumentosPorLoteOIC();
 
-	/**
-	 * Reiniciar consecutivo lote oic.
-	 *
-	 * @return the integer
-	 */
-	public Integer reiniciarConsecutivoLoteOIC();
-	
-	/**
-	 * Consultar cliente por id.
-	 *
-	 * @param idCliente the id cliente
-	 * @return the cliente
-	 */
-	public Cliente consultarClientePorId(Long idCliente);
+  /**
+   * Reiniciar consecutivo lote oic.
+   *
+   * @return the integer
+   */
+  public Integer reiniciarConsecutivoLoteOIC();
 
-	/**
-	 * Consultar documentos costos inconterm
-	 *
-	 * @return the list
-	 */
-	public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm();
+  /**
+   * Consultar cliente por id.
+   *
+   * @param idCliente the id cliente
+   * @return the cliente
+   */
+  public Cliente consultarClientePorId(Long idCliente);
 
-	/**
-	 * Actualizar documento por negociacion.
-	 *
-	 * @param documento
-	 *            the documento
-	 */
-	public void actualizarDocumentoPorNegociacion(
-			DocumentoIncontermDTO documento);
+  /**
+   * Consultar documentos costos inconterm
+   *
+   * @return the list
+   */
+  public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm();
 
-	/**
-	 * Consultar lista inconterm por cliente.
-	 *
-	 * @param idCliente
-	 *            the id cliente
-	 * @return the list
-	 */
-	public List<TerminoIncoterm> consultarListaIncontermPorCliente(
-			Long idCliente);
+  /**
+   * Actualizar documento por negociacion.
+   *
+   * @param documento the documento
+   */
+  public void actualizarDocumentoPorNegociacion(
+          DocumentoIncontermDTO documento);
 
-	/**
-	 * Consultar documentos solicitud pedido.
-	 *
-	 * @return the list
-	 */
-	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
-	
-	/**
-	 * Consultar documentos solicitud pedido.
-	 *
-	 * @return the list
-	 */
-	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
+  /**
+   * Consultar lista inconterm por cliente.
+   *
+   * @param idCliente the id cliente
+   * @return the list
+   */
+  public List<TerminoIncoterm> consultarListaIncontermPorCliente(
+          Long idCliente);
 
-	/**
-	 * Consultar lista solicitudes pedido.
-	 *
-	 * @return the list
-	 */
-	public List<ProductoPorClienteComExtDTO> consultarListaSolicitudesPedido(
-			Long idDocumento, Long idCliente);
+  /**
+   * Consultar documentos solicitud pedido.
+   *
+   * @return the list
+   */
+  public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
 
-	/**
-	 * Consultar lista productos por cliente ce.
-	 *
-	 * @param idCliente
-	 *            the id cliente
-	 * @param idsProductos
-	 *            the ids productos
-	 * @param solicitudCafe
-	 *            the solicitud cafe
-	 * @return the list
-	 */
-	public List<ProductoPorClienteComExtDTO> consultarListaProductosPorClienteCE(
-			Long idCliente, String idsProductos, Boolean solicitudCafe);
+  /**
+   * Consultar documentos solicitud pedido.
+   *
+   * @return the list
+   */
+  public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
 
-	/**
-	 * Guardar solicitud pedido.
-	 *
-	 * @param documento
-	 *            the documento
-	 * @param listaSolicitudPedido
-	 *            the lista solicitud pedido
-	 */
-	public void guardarSolicitudPedido(DocumentoIncontermDTO documento,
-			List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
+  /**
+   * Consultar documentos aprobar solicitud pedido.
+   *
+   * @return the list
+   */
+  public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
 
-	/**
-	 * Consultar ubicaciones por usuario.
-	 *
-	 * @param idUsuario
-	 *            the id usuario
-	 * @return the list
-	 */
-	public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
+  /**
+   * Consultar lista solicitudes pedido.
+   *
+   * @return the list
+   */
+  public List<ProductoPorClienteComExtDTO> consultarListaSolicitudesPedido(
+          Long idDocumento, Long idCliente);
 
-	public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(
-			Map<String, Object> parametros);
+  /**
+   * Consultar lista productos por cliente ce.
+   *
+   * @param idCliente the id cliente
+   * @param idsProductos the ids productos
+   * @param solicitudCafe the solicitud cafe
+   * @return the list
+   */
+  public List<ProductoPorClienteComExtDTO> consultarListaProductosPorClienteCE(
+          Long idCliente, String idsProductos, Boolean solicitudCafe);
 
-	public List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(
-			Map<String, Object> parametros);
+  /**
+   * Guardar solicitud pedido.
+   *
+   * @param documento the documento
+   * @param listaSolicitudPedido the lista solicitud pedido
+   */
+  public void guardarSolicitudPedido(DocumentoIncontermDTO documento,
+          List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
 
-	public List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(
-			List<DocumentoLotesContribucionCafeteriaDTO> documentos);
+  /**
+   * Actualizar estado documento.
+   *
+   * @param documento the documento
+   */
+  public void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
 
-	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(
-			String consecutivoFacturaProforma);
+  /**
+   * Consultar ubicaciones por usuario.
+   *
+   * @param idUsuario the id usuario
+   * @return the list
+   */
+  public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
 
-	public List<Documento> consultarDocumento(Map<String, Object> parametros);
+  public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(
+          Map<String, Object> parametros);
 
-	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
-			String consecutivoDocumento);
+  public List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(
+          Map<String, Object> parametros);
 
-	public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(
-			String strConsecutivoDocumento);
+  public List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(
+          List<DocumentoLotesContribucionCafeteriaDTO> documentos);
 
-	public List<Documento> consultarDocumentosSolicitudPedido(
-			String consecutivoDocumento);
+  public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(
+          String consecutivoFacturaProforma);
 
-	public List<Documento> consultarDocumentosFacturaPF(
-			String consecutivoDocumento);
+  public List<Documento> consultarDocumento(Map<String, Object> parametros, Long[] idEstados);
 
-	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(
-			Long idDocumento, Long idCliente);
+  public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
+          String consecutivoDocumento);
 
-	public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(
-			Long idDocumento, Long idCliente);
+  public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(
+          String strConsecutivoDocumento);
 
-	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(
-			Long idDocumento, Long idCliente);
+  public List<Documento> consultarDocumentosSolicitudPedido(
+          String consecutivoDocumento);
 
-	List<ProductoDTO> consultarProductoPorDocumento(
-			ListaEmpaqueDTO listaEmpaqueDTO);
+  public List<Documento> consultarDocumentosFacturaPF(
+          String consecutivoDocumento);
 
-	BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
+  public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(
+          Long idDocumento, Long idCliente);
 
-	Documento consultarDocumentoPorId(Long pId);
+  public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(
+          Long idDocumento, Long idCliente);
 
-	void generarListaEmpaque(ProductoDTO productoDTO);
+  public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(
+          Long idDocumento, Long idCliente);
 
-	public Documento crearFactura(Documento documento, LogAuditoria auditoria,
-			DocumentoXNegociacion documentoPorNegociacion,
-			List<ProductosXDocumento> productos, Documento original);
+  List<ProductoDTO> consultarProductoPorDocumento(
+          ListaEmpaqueDTO listaEmpaqueDTO);
 
-	public List<DocumentoXLotesoic> guardarLotes(
-			List<DocumentoXLotesoic> lista, Documento documento);
+  BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
 
-	public Documento crearSolicitudPedido(Documento documento,
-			LogAuditoria auditoria,
-			DocumentoXNegociacion documentoPorNegociacion,
-			List<ProductosXDocumento> productos,
-			List<MovimientosInventarioComext> mice);
+  Documento consultarDocumentoPorId(Long pId);
 
-	public Hashtable<Long, BigDecimal> consultarUltimosSaldos();
+  void generarListaEmpaque(ProductoDTO productoDTO);
 
-	public ProductosXClienteComext consultarPorClienteSku(Long idCliente,
-			String sku);
+  public Documento crearFactura(Documento documento, LogAuditoria auditoria,
+          DocumentoXNegociacion documentoPorNegociacion,
+          List<ProductosXDocumento> productos, Documento original);
 
-	public List<Documento> consultarDocumentosActivosPorTipoDocumentoYConsecutivoDocumento(
-			Long idTipoDocumento, String consecutivoDocumento);
+  public List<DocumentoXLotesoic> guardarLotes(
+          List<DocumentoXLotesoic> lista, Documento documento);
 
-	public List<ProductosInventario> consultarProductosInventariosPorSkus(
-			List<String> skus);
+  public Documento crearSolicitudPedido(Documento documento,
+          LogAuditoria auditoria,
+          DocumentoXNegociacion documentoPorNegociacion,
+          List<ProductosXDocumento> productos,
+          List<MovimientosInventarioComext> mice);
 
-	public List<ProductosXDocumento> consultarProductosXDocumentosPorDocumento(
-			Long idDocumento);
+  public Hashtable<Long, BigDecimal> consultarUltimosSaldos();
 
-	public void modificarListaEmpaque(Documento documento,
-			List<ProductosXDocumento> productosXDocumentos);
+  public ProductosXClienteComext consultarPorClienteSku(Long idCliente,
+          String sku);
 
-	public List<Documento> consultarFacturasDeExportacion();
-	
-	public List<Documento> consultarFacturasDeExportacionFiltro(Documento documento);
-	
-	public void actualizarFacturaDeExportacionFiltro(Documento documento);
-	
+  public List<Documento> consultarDocumentosActivosPorTipoDocumentoYConsecutivoDocumento(
+          Long idTipoDocumento, String consecutivoDocumento);
+
+  public List<ProductosInventario> consultarProductosInventariosPorSkus(
+          List<String> skus);
+
+  public List<ProductosXDocumento> consultarProductosXDocumentosPorDocumento(
+          Long idDocumento);
+
+  public void modificarListaEmpaque(Documento documento,
+          List<ProductosXDocumento> productosXDocumentos);
+
+  public List<Documento> consultarFacturasDeExportacion();
+
+  public List<Documento> consultarFacturasDeExportacionFiltro(Documento documento);
+
+  public void actualizarFacturaDeExportacionFiltro(Documento documento);
+
+  public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
+
+  public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
+
+  /**
+   *
+   * @return
+   */
+  List<Documento> consultarTodosLosDocumentos();
+
+  /**
+   *
+   * @param consecutivoDocumento
+   * @return
+   */
+  List<Documento> consultarSolicitudesPedidoPorAnular(String consecutivoDocumento);
+
+  /**
+   *
+   * @param documento
+   */
+  void anularSolicitudPedido(Documento documento);
+  
+  public List<Cliente> listadoClientesInstruccionEmbarque(String idUsuario);
+  
+  public List<DocumentoInstruccionEmbarqueDTO> listadoDocumentosInstruccionEmbarque(Long idCliente);
+  
+  public List<DocumentoPorLotesInstruccionEmbarqueDTO> consultarDocumentosPorLotes(String strDocs, String strDocsMerca);
+  
+  public List<AgenteAduana> consultarAgenteAduana();
+  
+  public List<Pais> findByPaisTodos();
+  
+  public List<TerminoIncoterm> findTerminoIncotermAll();
+  
+  public List<Ciudad> findCiudadesAll(String idPais);
+  
+  public List<ModalidadEmbarque> findModalidadEmbarque();
+  
+  public TerminosTransporte updateTerminoTransporte(
+			TerminosTransporte terminosTransporte);
+  
+  public String guardarInstruccionEmbarque(List<DocumentoInstruccionEmbarqueDTO> listadoDocumentos, TerminosTransporte terminosTransporte);
 }

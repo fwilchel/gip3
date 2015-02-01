@@ -1,7 +1,11 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.hibernate.metamodel.source.annotations.xml.mocker.MockHelper;
+
 import java.util.List;
 
 
@@ -12,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name="modalidad_embarque")
 @NamedQuery(name="ModalidadEmbarque.findAll", query="SELECT m FROM ModalidadEmbarque m")
-public class ModalidadEmbarque implements Serializable {
+public class ModalidadEmbarque implements Serializable, Comparable<ModalidadEmbarque> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -63,6 +67,17 @@ public class ModalidadEmbarque implements Serializable {
 		terminosTransporte.setModalidadEmbarque(null);
 
 		return terminosTransporte;
+	}
+
+	/**
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 */
+	@Override
+	public int compareTo(ModalidadEmbarque o) {
+		return descripcion.compareTo(o.descripcion);
 	}
 
 }

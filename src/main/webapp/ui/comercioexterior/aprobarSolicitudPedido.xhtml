@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.solicitudPedidoInicio}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.solicitudPedidoInicio}">
+					
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{aprobarSolicitudPedidoMB.listaDocumentos}" rows="10"
+						emptyMessage="No se encontraron solicitudes de pedido para aprobar"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton oncomplete="PF('datoDialog').show()"
+								icon="ui-icon-zoomin" title="Consultar Solicitud Pedido"
+								update=":datoDlg"
+								action="#{aprobarSolicitudPedidoMB.consultarSolicitudPedido}">
+								<f:setPropertyActionListener value="#{dato}"
+									target="#{aprobarSolicitudPedidoMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column headerText="#{msg.recibiProductoDcoumento}">
+							<h:outputText value="#{dato.idDocumento}" />
+						</p:column>
+
+						<p:column headerText="#{msg.RequisicionNombreCons}">
+							<h:outputText value="#{dato.consecutivoDocumento}" />
+						</p:column>
+
+						<p:column headerText="#{msg.DocumentoClienteSP}">
+							<h:outputText value="#{dato.documentoCliente}" />
+						</p:column>
+
+						<p:column headerText="#{msg.nomCliente}">
+							<h:outputText value="#{dato.clientesNombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.EstadoSP}">
+							<h:outputText value="#{dato.estadoNombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.RequisicionNombreFechaGenerado}">
+							<h:outputText value="#{dato.fechaGeneracion}">
+								<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText>
+						</p:column>
+
+
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+		<p:dialog header="#{msg.solicitudPedidoAprobar}" widgetVar="datoDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+			dynamic="true" id="datoDlg">
+			<h:form id="formaDlg">
+				<p:outputPanel id="datoDetalle" style="text-align:center;">
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+					<p:panelGrid columns="4"
+						rendered="#{not empty aprobarSolicitudPedidoMB.seleccionado}"
+						columnClasses="label,value,label,value">
+
+						<p:outputLabel value="#{msg.recibiProductoDcoumento}" for="strId"
+							styleClass="negrita" />
+						<h:inputText value="#{aprobarSolicitudPedidoMB.seleccionado.idDocumento}"
+							id="strId" disabled="true" label="#{msg.recibiProductoDcoumento}" />
+
+						<p:outputLabel value="#{msg.RequisicionNombreCons}"
+							for="strConsecutivo" styleClass="negrita" />
+						<h:inputText
+							value="#{aprobarSolicitudPedidoMB.seleccionado.consecutivoDocumento}"
+							id="strConsecutivo" disabled="true"
+							label="#{msg.RequisicionNombreCons}" />
+
+						<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
+							for="strFechaGeneracion" styleClass="negrita" />
+						<h:inputText
+							value="#{aprobarSolicitudPedidoMB.seleccionado.fechaGeneracion}"
+							id="strFechaGeneracion" disabled="true"
+							label="#{msg.RequisicionNombreFechaGenerado}">
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.nomCliente}" for="strNombreCliente"
+							styleClass="negrita" />
+						<h:inputText size="50"
+							value="#{aprobarSolicitudPedidoMB.seleccionado.clientesNombre}"
+							id="strNombreCliente" disabled="true" label="#{msg.nomCliente}" />
+							
+
+						<p:outputLabel value="#{msg.NumeroPedidoWeb}"
+							for="strDocumentoCliente" styleClass="negrita" />
+						<h:inputText
+							value="#{aprobarSolicitudPedidoMB.seleccionado.documentoCliente}"
+							id="strDocumentoCliente" disabled="true"
+							label="#{msg.NumeroPedidoWeb}" />
+
+						<p:outputLabel value="#{msg.maestroDireccionCliente}"
+							for="strDocumentoClienteDir" styleClass="negrita" />
+						<h:inputText size="50"
+							value="#{aprobarSolicitudPedidoMB.seleccionado.clientesDireccion}"
+							id="strDocumentoClienteDir" disabled="true"
+							label="#{msg.maestroDireccionCliente}" />
+							
+
+						<p:outputLabel value="#{msg.maestroTelefonoCliente}"
+							for="strDocumentoClienteTel" styleClass="negrita" />
+						<h:inputText
+							value="#{aprobarSolicitudPedidoMB.seleccionado.clientesTelefono}"
+							id="strDocumentoClienteTel" disabled="true"
+							label="#{msg.maestroTelefonoCliente}" />
+
+						<p:outputLabel value="#{msg.maestroContactoAgente}"
+							for="strDocumentoClienteCont" styleClass="negrita" />
+						<h:inputText
+							value="#{aprobarSolicitudPedidoMB.seleccionado.clientesContacto}"
+							id="strDocumentoClienteCont" disabled="true"
+							label="#{msg.maestroContactoAgente}" />
+							
+							
+						<p:outputLabel value="#{msg.observacionDocumento}"
+							for="strObservacionDoc" styleClass="negrita" />
+						<h:inputTextarea
+							value="#{aprobarSolicitudPedidoMB.seleccionado.observacionDocumento}"
+							id="strObservacionDoc" readonly="true" rows="4" cols="40"
+							label="#{msg.observacionDocumento}" />
+
+						<p:outputLabel value="#{msg.observacionMarcacion2}"
+							for="strObservacionMar" styleClass="negrita" />
+						<h:inputTextarea
+							value="#{aprobarSolicitudPedidoMB.seleccionado.observacionesMarcacion2}"
+							id="strObservacionMar" readonly="true" rows="4" cols="40"
+							label="#{msg.observacionMarcacion2}" />
+							
+													
+						<p:outputLabel value="#{msg.TerminoIncotermSP}"
+							for="strTerminoIncoterm" styleClass="negrita" />
+						<h:inputText
+							value="#{aprobarSolicitudPedidoMB.seleccionado.descripcionTerminoIncoterm}"
+							id="strTerminoIncoterm" disabled="true"
+							label="#{msg.maestroTelefonoCliente}" />
+
+						<p:outputLabel value="#{msg.LugarIncoterm}" for="strLugarIncoterm"
+							styleClass="negrita" />
+						<h:inputText maxlength="50"
+							value="#{aprobarSolicitudPedidoMB.seleccionado.lugarIncoterm}"
+							id="strLugarIncoterm" disabled="true"
+							label="#{msg.LugarIncoterm}" />
+							
+
+						<p:outputLabel value="#{msg.CantidadContenedores20}"
+							for="dblCantidadContenedores20" styleClass="negrita" />
+						<h:inputText disabled="true"
+							value="#{aprobarSolicitudPedidoMB.seleccionado.cantidadContenedores20}"
+							id="dblCantidadContenedores20"
+							label="#{msg.CantidadContenedores20}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.CantidadContenedores40}"
+							for="dblCantidadContenedores40" styleClass="negrita" />
+						<h:inputText 
+							value="#{aprobarSolicitudPedidoMB.seleccionado.cantidadContenedores40}"
+							id="dblCantidadContenedores40" disabled="true"
+							label="#{msg.CantidadContenedores40}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:inputText>
+						
+
+						<p:outputLabel value="#{msg.FechaDespacho}" for="dtmFechaDespacho"
+							styleClass="negrita" />
+						<h:inputText
+							value="#{aprobarSolicitudPedidoMB.seleccionado.fechaEsperadaEntregaDate}"
+							id="dtmFechaDespacho" disabled="true"
+							label="#{msg.FechaDespacho}">
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
+						</h:inputText>
+
+						
+
+
+					</p:panelGrid>
+
+					<p:dataTable var="producto" widgetVar="productoTabla"
+						id="tablaProductos"
+						value="#{aprobarSolicitudPedidoMB.listaSolicitudPedido}" rows="10"
+						emptyMessage="No se encontraron productos" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<p:column headerText="#{msg.buscadorPxCSKU}">
+							<h:outputText value="#{producto.strSkuProductoInventario}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorNombreProducto}">
+							<h:outputText value="#{producto.strNombreProductoInventario}" />
+						</p:column>
+
+						<p:column headerText="#{msg.comprasCantidadSola}">
+							<p:panelGrid columns="1">
+								<h:inputText value="#{producto.dblCantidad1ProductoxDocumento}"
+									required="true" maxlength="10" size="10" id="cantidadProd1">
+									<f:convertNumber maxFractionDigits="2" />
+								</h:inputText>
+								<p:message for="cantidadProd1"></p:message>
+							</p:panelGrid>
+						</p:column>
+
+						<p:column headerText="#{msg.costeoComperasValorUnitarioML}">
+							<h:outputText value="#{producto.dblPrecioUSD}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.VentasRemisionValorTotal}">
+							<h:outputText value="#{producto.dblValorTotalProductoxDocumento}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.PesoNetoVista}">
+							<h:outputText value="#{producto.dblTotalPesoNeto}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.PesoBrutoVista}">
+							<h:outputText value="#{producto.dblTotalPesoBruto}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.SPcantidadCajas}">
+							<h:outputText value="#{producto.dblTotalCajas}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.SPcantidadTendido}">
+							<h:outputText value="#{producto.dblTotalCajasTendido}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.SPcantidadPallet}">
+							<h:outputText value="#{producto.dblTotalCajasPallet}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>	
+						
+						<p:column headerText="#{msg.buscadorIncluirProducto}">
+							<p:selectBooleanCheckbox value="#{producto.blnIncluirBusqueda}" />
+						</p:column>					
+
+					</p:dataTable>
+
+					
+					<p:panelGrid columns="2"
+						rendered="#{not empty aprobarSolicitudPedidoMB.seleccionado}"
+						columnClasses="label,value">
+
+						
+						<p:outputLabel value="#{msg.SP_CostoEntrega}"
+							for="dblValorFOB" styleClass="negrita" />
+						<h:inputText id="dblValorFOB" value="#{aprobarSolicitudPedidoMB.dblValorFOB}" 
+							disabled="true" label="#{msg.SP_CostoEntrega}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+		      			
+		      			<p:outputLabel value="#{msg.SP_CostoSeguro}"
+							for="dblValorSeguro" styleClass="negrita" />
+						<h:inputText id="dblValorSeguro" value="#{aprobarSolicitudPedidoMB.dblValorSeguro}" 
+							disabled="true" label="#{msg.SP_CostoSeguro}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+						
+						<p:outputLabel value="#{msg.SP_CostoFlete}"
+							for="dblValorFletes" styleClass="negrita" />
+						<h:inputText id="dblValorFletes" value="#{aprobarSolicitudPedidoMB.dblValorFletes}" 
+							disabled="true" label="#{msg.ValorFletes}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+												
+						<p:outputLabel value="#{msg.SP_OtrosGastos}"
+							for="dblValorOtrosGastos" styleClass="negrita" />
+						<h:inputText id="dblValorOtrosGastos" value="#{aprobarSolicitudPedidoMB.dblValorOtrosGastos}" 
+							disabled="true" label="#{msg.SP_OtrosGastos}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+		      			
+		      			<p:outputLabel value="#{msg.SP_TotalCostos}"
+							for="dblTotalGastos" styleClass="negrita" />
+						<h:inputText id="dblTotalGastos" value="#{aprobarSolicitudPedidoMB.dblTotalValorT}" 
+							disabled="true" label="#{msg.SP_TotalCostos}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+						
+						<p:outputLabel value="#{msg.TotalNegociacion}"
+							for="dblValorNeg" styleClass="negrita" />
+						<h:inputText id="dblValorNeg" value="#{aprobarSolicitudPedidoMB.dblValorTotalNeg}" 
+							disabled = "true" label="#{msg.TotalNegociacion}" >
+		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+		      			</h:inputText>
+
+						
+					</p:panelGrid>
+					
+
+					<p:panelGrid columns="2"
+						rendered="#{not empty aprobarSolicitudPedidoMB.seleccionado}"
+						columnClasses="label,value">
+						
+						<p:commandButton value="#{msg.buscadorIncluirSolicitudPedidoAprobar}" icon="ui-icon-disk"
+							action="#{aprobarSolicitudPedidoMB.aprobarSolicitud}"
+							update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos">
+						</p:commandButton>
+					    
+						<p:commandButton value="#{msg.generalCancelar}"
+							update=":formaDlg:datoDetalle,:forma:tabPanel:tablaDatos"
+							action="#{aprobarSolicitudPedidoMB.cancelar}"
+							oncomplete="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+					</p:panelGrid>
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+
+</ui:composition>
+

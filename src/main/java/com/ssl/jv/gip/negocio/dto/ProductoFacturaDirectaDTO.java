@@ -33,7 +33,21 @@ public class ProductoFacturaDirectaDTO implements Serializable {
 	private BigDecimal  valorIva10;
 	private BigDecimal  valorIva16;
 	private BigDecimal  valorIva5;
+	private BigDecimal  valorOtrosDescuento;
+	private String marca;
 	
+	
+	
+	public BigDecimal getValorOtrosDescuento() {
+		return valorOtrosDescuento;
+	}
+
+
+	public void setValorOtrosDescuento(BigDecimal valorOtrosDescuento) {
+		this.valorOtrosDescuento = valorOtrosDescuento;
+	}
+
+
 	public ProductoFacturaDirectaDTO(){
 		
 	}
@@ -185,6 +199,16 @@ public class ProductoFacturaDirectaDTO implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+
+	public String getMarca() {
+		return marca;
+	}
+
+
+	public void setMarca(String marca) {
+		this.marca = marca;
 	}
 
 

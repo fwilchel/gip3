@@ -18,6 +18,7 @@ import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.MetodoPago;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
+import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
@@ -344,21 +345,39 @@ public interface MaestrosEJBLocal {
 	public List<TipoPrecio> consultarTiposPrecio();
 
 	public ProductosInventario consultarPorSku(String sku);
-	
+
 	public List<CategoriaCostoLogistico> consultarCategoriasCostosLogisticos();
+
 	public CategoriaCostoLogistico consultarCategoriaCostoLogistico(Long id);
-	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(CategoriaCostoLogistico ccl);
-	public CategoriaCostoLogistico crearCategoriaCostoLogistico(CategoriaCostoLogistico ccl);
-	
+
+	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(
+			CategoriaCostoLogistico ccl);
+
+	public CategoriaCostoLogistico crearCategoriaCostoLogistico(
+			CategoriaCostoLogistico ccl);
+
 	public List<ItemCostoLogistico> consultarItemsCostosLogisticos();
+
 	public ItemCostoLogistico consultarItemCostoLogistico(Long id);
-	public ItemCostoLogistico actualizarItemCostoLogistico(ItemCostoLogistico icl);
+
+	public ItemCostoLogistico actualizarItemCostoLogistico(
+			ItemCostoLogistico icl);
+
 	public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl);
-	
-	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(ItemCostoLogistico icl);
+
+	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(
+			ItemCostoLogistico icl);
+
 	public RangoCostoLogistico consultarRangoCostoLogistico(Long id);
-	public RangoCostoLogistico actualizarRangoCostoLogistico(RangoCostoLogistico icl);
+
+	public RangoCostoLogistico actualizarRangoCostoLogistico(
+			RangoCostoLogistico icl);
+
 	public RangoCostoLogistico crearRangoCostoLogistico(RangoCostoLogistico icl);
+
 	public void eliminarRangoCostoLogistico(RangoCostoLogistico icl);
-	
+
+	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(
+			String sku);
+
 }

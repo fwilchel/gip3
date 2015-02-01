@@ -7,7 +7,7 @@
 	xmlns:misc="http://java.sun.com/jsf/composite/misc"
 	template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloVentasImpFacturaDirecta}::.</ui:define>
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloVentasImpFacturaDirecta}::.</ui:define>
 
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
@@ -118,16 +118,15 @@
 			
 			
 			<p:outputLabel value="#{msg.nomCliente}"  styleClass="negrita" />
-			<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.cliente.nombre}" />
+			<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.nombreCliente}" />
 			
 			<p:outputLabel value="#{msg.maestroDireccionCliente}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.cliente.direccion}" />	
+			<h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.direccionCliente}" />	
 			
 			<p:outputLabel value="#{msg.maestroTelefonoCliente}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.cliente.telefono}" />
+			<h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.telefonoCliente}" />
 			
-			<p:outputLabel value="#{msg.maestroContactoAgente}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.cliente.contacto}" />				
+							
 			
 			
 				
@@ -143,8 +142,8 @@
 							
 							
 							<p:dataTable var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirFacturaDirectaMB.seleccionado2.idDocumento}"
-						value="#{imprimirFacturaDirectaMB.listaEmpaqueDetalle}"
-						rendered="#{not empty imprimirFacturaDirectaMB.listaEmpaqueDetalle}">
+						value="#{imprimirFacturaDirectaMB.listaDetalle}"
+						rendered="#{not empty imprimirFacturaDirectaMB.listaDetalle}">
 						
 						
 						
@@ -161,6 +160,10 @@
 							<h:outputText value="#{dato2.nombre}" />
 						</p:column>
 						
+						<p:column headerText="#{msg.recibiProductoUnidadVenta}">
+							<h:outputText value="#{dato2.unidad}" />
+						</p:column>
+						
 						
 						<p:column headerText="#{msg.cantidadRemisionada}" styleClass="derecha">
 							<h:outputText value="#{dato2.cantidad}" >
@@ -169,130 +172,113 @@
 						</p:column>
 						
 						
-						<p:column headerText="#{msg.unidadxembalaje}"	styleClass="derecha">
-							<h:outputText value="#{dato2.cantidadPorEmbalaje}" >
+						
+						
+						<p:column headerText="#{msg.ventasVrUnitario}" styleClass="derecha">
+							<h:outputText value="#{dato2.precio}" >
 							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							    <f:convertNumber pattern="$#####,###,###,###.0"/>
 							   </h:outputText>
 						</p:column>
 						
-						<p:column	headerText="#{msg.SPcantidadCajas}"	styleClass="derecha" >
-							<h:outputText value="#{dato2.cantidadCajas}" >
-							  <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-							   </h:outputText>
-						</p:column>
-						
-						
-						<p:column headerText="#{msg.PesoNeto}"	styleClass="derecha">
-							<h:outputText value="#{dato2.pesoNeto}" >
-							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-							   </h:outputText>
-						</p:column>
-
-						<p:column headerText="#{msg.PesoBruto}"	styleClass="derecha">
-							<h:outputText value="#{dato2.pesoBruto}" >
+						<p:column headerText="#{msg.VentasRemisionPorcDctoProd}" styleClass="derecha">
+							<h:outputText value="#{dato2.valorDescuento}" >
 							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
 							   </h:outputText>
 						</p:column>
 						
 						
-							<p:summaryRow>
-				            <p:column colspan="3" styleClass="derecha">
-				                <h:outputText value="TOTALES " />
-				            </p:column>
-				            <p:column styleClass="derecha">
-				                <h:outputText value="#{imprimirFacturaDirectaMB.totalCantidad}" >
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            <p:column styleClass="derecha">
-				                <h:outputText value="#{imprimirFacturaDirectaMB.totalCantidadPorEmbalaje}" >
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-				             <p:column styleClass="derecha">
-				                <h:outputText value="#{imprimirFacturaDirectaMB.totalCantidadCajas}">
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-				            <p:column styleClass="derecha">
-				                <h:outputText value="#{imprimirFacturaDirectaMB.totalPesoNeto}" >
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            <p:column styleClass="derecha">
-				                <h:outputText value="#{imprimirFacturaDirectaMB.totalPesoBruto}" >
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				           
-				           
-				            
-
-				        </p:summaryRow>
+						<p:column headerText="#{msg.VentasRemisionValorTotal}" styleClass="derecha">
+							<h:outputText value="#{dato2.valorTotal}" >
+							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							    <f:convertNumber pattern="$#####,###,###,###.0"/>
+							   </h:outputText>
+						</p:column>
+						
+						<p:column headerText="#{msg.VentasRemisionPorcOtrosDctos}" styleClass="derecha">
+							<h:outputText value="#{dato2.valorOtrosDescuento}" >
+							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							   </h:outputText>
+						</p:column>
+						
+						
+						<p:column headerText="#{msg.VentasRemisionPorcIva}" styleClass="derecha">
+							<h:outputText value="#{dato2.valorIva}" >
+							   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							   </h:outputText>
+						</p:column>
+											
+											
+												
 	
+	
+	
+
+	
+												
+						
+							
 					</p:dataTable>
 					
 					
 					
 					
 							
-						<p:spacer height="30"></p:spacer>
-					<p:panelGrid columns="3">
-						<p:dataTable var="lote" widgetVar="loteDoc" id="tablaLotes" sortBy="#{lote.tipoLote}"
-						rendered="#{not empty imprimirFacturaDirectaMB.lotes}" 
-						value="#{imprimirFacturaDirectaMB.lotes}" >
+						<p:spacer  height="30"></p:spacer>
 						
-							<f:facet name="header">
-								#{msg.TotalesPorLote}
-						    </f:facet>
-							<p:column styleClass="izquierda"
-								headerText="#{msg.TipoLoteOIC}">
-								<h:outputText value="#{lote.descripcionLote}"/>
-							</p:column>
-							
-							<p:column styleClass="derecha"
-								headerText="#{msg.comprasCantidadSola}">
-				                <h:outputText value="#{lote.totalCantidad}" >
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-				            <p:column styleClass="derecha"
-								headerText="#{msg.PesoNetoVista}">
-				                <h:outputText value="#{lote.totalPesoNeto}" >
-				                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-							<p:column styleClass="derecha"
-								headerText="#{msg.PesoBrutoVista}">
-				                <h:outputText value="#{lote.totalPesoBruto}" >
-				                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-				            <p:column styleClass="derecha"
-								headerText="#{msg.SPcantidadCajas}">
-				                <h:outputText value="#{lote.totalCajas}" >
-				                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-				            <p:column styleClass="derecha"
-								headerText="#{msg.SPcantidadPallet}">
-				                <h:outputText value="#{lote.totalCajasPallet}" >
-				                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-				            
-				            
-						</p:dataTable>	
 						
+						<p:panelGrid  styleClass="noBorders">
+					
+				<p:column>  <p:spacer width="800" height="10" /></p:column>
+						
+						<p:column>
+						
+						 
+						 
+							<p:panelGrid columns="2"  styleClass="noBorders">
+					
+					<p:outputLabel value="#{msg.VentasRemisionValorSubTotal}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorSubtotal}">
+					 <f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+					
+					<p:outputLabel value="#{msg.VentasRemisionValorDescuento}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorDescuento}">
+					<f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+					
+					<p:outputLabel value="#{msg.VentasValorIva10}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorIva10}">
+					<f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+					
+					<p:outputLabel value="#{msg.VentasValorIva16}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorIva16}">
+					<f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+					
+					<p:outputLabel value="#{msg.VentasValorIva5}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorIva5}">
+					<f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+					
+					<p:outputLabel value="#{msg.VentasRemisionVRTotal}"  styleClass="negrita" />
+					<h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorTotal}">
+					<f:convertNumber pattern="$#####,###,###,###.0"/>
+					 </h:outputText>
+												
+												
+												
 					</p:panelGrid>
+					
+					</p:column>
 						
+						</p:panelGrid>
+						
+				
+					<p:commandButton value="Reporte PDF" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-document">
+        <p:fileDownload value="#{imprimirFacturaDirectaMB.reportePDF}" />
+    </p:commandButton>		
 
 	</h:form>
 		</p:dialog>

@@ -7,13 +7,23 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 
 @Local
 public interface VentasFacturacionEJBLocal {
 
-	FacturaDirectaDTO consultarDocumentoFacturaDirecta(
-			String strConsecutivoDocumento);
+	FacturaDirectaDTO consultarDocumentoFacturaDirecta(String strConsecutivoDocumento);
 
-	List<Documento> consultarDocumento(Map<String, Object> parametros);
+	//List<Documento> consultarDocumento(Map<String, Object> parametros);
+
+	List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(
+			String consecutivoDocumento);
+
+	List<Documento> consultarDocumento(Map<String, Object> parametros,
+			Long[] idEstados);
+
+	//List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(String strConsecutivoDocumento);
+
+	
 
 }

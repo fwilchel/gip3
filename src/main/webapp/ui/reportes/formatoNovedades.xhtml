@@ -7,7 +7,7 @@
 	xmlns:misc="http://java.sun.com/jsf/composite/misc"
 	template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloConsultarFormatoNovedad}::.</ui:define>
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloConsultarFormatoNovedad}::.</ui:define>
 
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
@@ -157,8 +157,11 @@
 					
 					<p:panelGrid columns="3"
 						columnClasses="label,value">
-						<p:commandButton value="#{msg.ReporteExcel}" icon="ui-icon-disk"
-							actionListener="#{formatoNovedadesMB.previsualizarFN}"></p:commandButton>
+					
+						<p:commandButton value="#{msg.ReporteExcel}" icon="ui-icon-disk" 
+							ajax="false" >
+							<p:fileDownload value="#{formatoNovedadesMB.reportePDF}" />
+						</p:commandButton>
 					</p:panelGrid>
 					
 				</p:tab>
