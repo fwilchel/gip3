@@ -201,6 +201,11 @@
 	        <from-outcome>listado_FX_ReImprimir_FX</from-outcome>
             <to-view-id>/ui/reportesComercioExterior/reimprimirFacturaExpo.xhtml</to-view-id>
         </navigation-case>
+     
+     <navigation-case>
+	        <from-outcome>generar_comprobante_inf_diarioFX</from-outcome>
+            <to-view-id>/ui/reportesComercioExterior/comprobanteInformeDiarioFX.xhtml</to-view-id>
+        </navigation-case>
     
   </navigation-rule>
 
