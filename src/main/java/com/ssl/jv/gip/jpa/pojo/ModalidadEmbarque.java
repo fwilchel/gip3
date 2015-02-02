@@ -80,4 +80,14 @@ public class ModalidadEmbarque implements Serializable, Comparable<ModalidadEmba
 		return descripcion.compareTo(o.descripcion);
 	}
 
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof TerminosTransporte){
+			TerminosTransporte tt = (TerminosTransporte) o;
+			if(tt.getId() != null){
+				return tt.getId().equals(id);
+			}
+		}
+		return false;
+	}
 }

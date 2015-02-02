@@ -19,27 +19,27 @@
 
 			<p:tabView id="tabPanel">
 			
-				<p:tab title="#{msg.modificarListaEmpaque_Titulo}">
+				<p:tab title="#{msg.generarListaEmpaque_Titulo}">
 					
 					<p:panelGrid columns="3"
 						columnClasses="label,value">
 
-						<p:outputLabel value="#{msg.modificarListaEmpaque_FechaActual}" for="fecha" styleClass="negrita" />
-						<p:outputLabel value="#{modificarListaEmpaqueMB.fechaActual}" id="fecha" >
+						<p:outputLabel value="#{msg.generarListaEmpaque_fechaActual}:" for="fecha" styleClass="negrita" />
+						<p:outputLabel value="#{generarListaEmpaqueMB.fechaActual}" id="fecha" >
 							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
 						</p:outputLabel>
 						<p:message for="fecha"></p:message>
 
-						<p:outputLabel value="#{msg.modificarListaEmpaque_ConsecutivoListaEmpaque}" for="consecutivo" styleClass="negrita" />
-						<p:inputText value="#{modificarListaEmpaqueMB.consecutivoDocumento}" id="consecutivo" required="false" disabled="false" label="#{msg.modificarListaEmpaque_ConsecutivoListaEmpaque}" />
+						<p:outputLabel value="#{msg.generarListaEmpaque_consecutivoFactura}:" for="consecutivo" styleClass="negrita" />
+						<p:inputText value="#{generarListaEmpaqueMB.consecutivoDocumento}" id="consecutivo" required="false" disabled="false" label="#{msg.modificarListaEmpaque_ConsecutivoListaEmpaque}" />
 						<p:message for="consecutivo"></p:message>
 
 					</p:panelGrid>
 					
-					<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{modificarListaEmpaqueMB.consultarListaEmpaques}" update=":forma:tabPanel:tablaDatos2" ></p:commandButton>
+					<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{generarListaEmpaqueMB.consultarFacturasProforma}" update=":forma:tabPanel:tablaDatos2" ></p:commandButton>
 				
 					<p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
-							value="#{modificarListaEmpaqueMB.listaEmpaques}" rows="10"
+							value="#{generarListaEmpaqueMB.facturasProforma}" rows="10"
 							emptyMessage="#{msg.generalNoDatos}" paginator="true"
 							paginatorPosition="bottom"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -59,27 +59,27 @@
 						</f:facet>
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton action="#{modificarListaEmpaqueMB.editar}"
+							<p:commandButton action="#{generarListaEmpaqueMB.editar}"
 								icon="ui-icon-pencil" title="#{msg.generalEditar}" >
 								<f:setPropertyActionListener value="#{dato}"
-									target="#{modificarListaEmpaqueMB.seleccionado}" />
+									target="#{generarListaEmpaqueMB.seleccionado}" />
 							</p:commandButton>
 						</p:column>
 
 						<p:column filterBy="#{dato.id}"
-							headerText="#{msg.modificarListaEmpaque_CodigoGIP}"
+							headerText="#{msg.generarListaEmpaque_codigoGip}"
 							filterMatchMode="contains" sortBy="#{dato.id}">
 							<p:outputLabel value="#{dato.id}"/>
 						</p:column>
 
 						<p:column filterBy="#{dato.consecutivoDocumento}"
-							headerText="#{msg.modificarListaEmpaque_ConsecutivoFactura}"
+							headerText="#{msg.generarListaEmpaque_consecutivoFactura}"
 							filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
 							<p:outputLabel value="#{dato.consecutivoDocumento}" />
 						</p:column>
 
 						<p:column filterBy="#{dato.fechaGeneracion}"
-							headerText="#{msg.modificarListaEmpaque_FechaGeneracion}"
+							headerText="#{msg.generarListaEmpaque_FechaGeneracion}"
 							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
 							<p:outputLabel value="#{dato.fechaGeneracion}" >
 								<f:convertDateTime pattern="dd-MMM-yyyy"/>
