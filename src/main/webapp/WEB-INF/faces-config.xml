@@ -111,8 +111,8 @@
       <to-view-id>/ui/maestros/crearProductoClienteComExt.xhtml</to-view-id>
     </navigation-case>
     <navigation-case>
-      <from-outcome>listado_GenerarOrdenDespacho</from-outcome>
-      <to-view-id>/ui/abastecimiento/ordenDespacho.xhtml</to-view-id>
+      <from-outcome>listado_OD</from-outcome>
+      <to-view-id>/ui/comercioexterior/ordenDespacho.xhtml</to-view-id>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_SP_Generar_FP</from-outcome>
