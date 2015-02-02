@@ -1,7 +1,5 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -12,14 +10,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.poi.util.StringUtil;
 import org.primefaces.context.RequestContext;
 
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
-import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
@@ -29,8 +24,8 @@ import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 import com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import com.ssl.jv.gip.web.mb.maestros.ProductosMB;
 import com.ssl.jv.gip.web.mb.util.EFleteExterno;
+import com.ssl.jv.gip.web.util.Utilidad;
 
 /**
  * <p>Title: Terminos de transporte</p>
@@ -71,6 +66,7 @@ public class TerminosTransporteMB extends UtilMB{
 	private EFleteExterno[] extFeesList;
 	private List<Ciudad> ciudadesList;
 	private Date selectedFechaETA;
+	private Date selectedFechaEmbarque;
 	
 	private String viewAnswer;
 	
@@ -191,6 +187,14 @@ public class TerminosTransporteMB extends UtilMB{
 		this.selectedFechaETA = selectedFechaETA;
 	}
 
+	public Date getSelectedFechaEmbarque() {
+		return selectedFechaEmbarque;
+	}
+
+	public void setSelectedFechaEmbarque(Date selectedFechaEmbarque) {
+		this.selectedFechaEmbarque = selectedFechaEmbarque;
+	}
+
 	public String getSelectedIdPais() {
 		return selectedIdPais;
 	}
@@ -225,6 +229,7 @@ public class TerminosTransporteMB extends UtilMB{
 			}
 
 			this.loadCiudades();
+			this.selectedFechaEmbarque = instruccionesEmbarqueDTO.getTerminosTransporte().getFechaEmbarqueDate();
 		} catch (Exception e) {
 			this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
 			LOGGER.error(e);
@@ -256,30 +261,71 @@ public class TerminosTransporteMB extends UtilMB{
 	public void actualizarInstruccionEmbarque(){
 		try {
 			TerminosTransporte tt = instruccionesEmbarqueDTO.getTerminosTransporte(); 
-			if(!(tt.getIdAgenteAduana1() == null || tt.getIdAgenteAduana2() == null ||
-					tt.getMesEmbarque() == null || tt.getPuertoEmbarque() == null ||
-					tt.getFechaEmbarque() == null || tt.getNaviera() == null ||
-					tt.getLinea() == null || tt.getBuque() == null ||
-					tt.getSeguro() == null || tt.getTipoContenedor() == null ||
-					tt.getCantidadContenedores() == null || tt.getNumeroContenedor() == null ||
-					tt.getSellosSeg() == null || tt.getPrecintos() == null ||
-					tt.getModalidadEmbarque() == null || tt.getTerminoIncoterm() == null ||
-					tt.getObservacion() == null || tt.getObservacion2() == null ||
-					selectedFechaETA == null || tt.getNumeroBooking() == null ||
-					tt.getFleteExterno() == null || tt.getCiudade() == null ||
-					tt.getCiudade().getIdPais() == null)){
-				
-				for(Documento doc : tt.getDocumentos()){
-					doc.setFechaEta(this.selectedFechaETA);
-				}
-				terminosTransporteEjb.actualizarInstruccionEmbarque(tt);
-				terminosTransporteList = terminosTransporteEjb.consultarListadoTerminosTransporte();
-				RequestContext.getCurrentInstance().execute("PF('successDlg').show()");
+			
+			for(Documento doc : tt.getDocumentos()){
+				doc.setFechaEta(this.selectedFechaETA);
 			}
 			
-			
+			tt.setFechaEmbarque(Utilidad.convertirDateTotimestampCompleto(selectedFechaEmbarque));
+			tt.setModalidadEmbarque(getModalidadEmbarqueById(tt.getModalidadEmbarque().getId()));
+			tt.setTerminoIncoterm(getTerminoIncotermById(tt.getTerminoIncoterm().getId()));
+			tt.setCiudade(getCiudadById(tt.getCiudade().getId()));
+			terminosTransporteEjb.actualizarInstruccionEmbarque(tt);
+			terminosTransporteList = terminosTransporteEjb.consultarListadoTerminosTransporte();
+			RequestContext.getCurrentInstance().execute("PF('successDlg').show()");
 		} catch (Exception e) {
 			this.addMensajeError("Ocurrio un error al actualizar la instruccion de embarque, intente de nuevo mas tarde");
 		}
+	}
+	
+	/**
+	 * retorna la modalidad de embarque segun la seleccionada
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @param id
+	 * @return
+	 */ 
+	private ModalidadEmbarque getModalidadEmbarqueById(Long id){
+		for (ModalidadEmbarque me : modalidadEmbarqueList){
+			if(me.getId().equals(id)){
+				return me;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Retorna le termino incoterm con el id seleccionado
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @param id
+	 * @return
+	 */ 
+	private TerminoIncoterm getTerminoIncotermById(Long id){
+		for(TerminoIncoterm ti : incotermList){
+			if(ti.getId().equals(id)){
+				return ti;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Retorna la ciudad segun el id seleccionado
+	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+	 * @email seba.gamba02@gmail.com
+	 * @phone 311 8376670
+	 * @param id
+	 * @return
+	 */ 
+	private Ciudad getCiudadById(Long id){
+		for(Ciudad ci : ciudadesList){
+			if(ci.getId().equals(id)){
+				return ci;
+			}
+		}
+		return null;
 	}
 }
