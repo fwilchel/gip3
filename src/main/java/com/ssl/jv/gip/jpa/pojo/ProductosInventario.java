@@ -17,6 +17,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 /**
  * The persistent class for the productos_inventario database table.
  * 
@@ -145,7 +148,8 @@ public class ProductosInventario implements Serializable {
 	private List<ProductosXClienteComext> productosXClienteComexts;
 
 	// bi-directional many-to-one association to ProductosXCliente
-	@OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "productosInventario")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<ProductosXCliente> productosxclientes;
 
 	// bi-directional many-to-one association to ProductosXDocumento

@@ -20,87 +20,105 @@ import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 @Local
 public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
-  public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(
-          Map<String, Object> parametros);
+	public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(
+			Map<String, Object> parametros);
 
-  public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm();
+	public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm();
 
-  public void actualizarDocumentoPorNegociacion(
-          DocumentoIncontermDTO documento);
+	public void actualizarDocumentoPorNegociacion(
+			DocumentoIncontermDTO documento);
 
-  public void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
+	public void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
 
-  public void actualizarEstadoDocumentoPorConsecutivo(
-          DocumentoIncontermDTO documento);
+	public void actualizarEstadoDocumentoPorConsecutivo(
+			DocumentoIncontermDTO documento);
 
-  List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(
-          String consecutivoFacturaProforma);
+	List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(
+			String consecutivoFacturaProforma);
 
-  BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
+	BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
 
-  public List<Documento> consultarDocumentosSolicitudPedido(
-          String consecutivoDocumento);
+	public List<Documento> consultarDocumentosSolicitudPedido(
+			String consecutivoDocumento);
 
-  public List<Documento> consultarDocumentosFacturaPF(
-          String consecutivoDocumento);
+	public List<Documento> consultarDocumentosFacturaPF(
+			String consecutivoDocumento);
 
-  public List<Documento> consultarDocumentosPorConsecutivoPedido(
-          String consecutivoDocumento);
+	public List<Documento> consultarDocumentosPorConsecutivoPedido(
+			String consecutivoDocumento);
 
-  public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
+	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
 
-  public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
+	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(
+			FiltroConsultaSolicitudDTO filtro);
 
-  public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
+	public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
 
-  public List<Documento> consultarDocumento(Map<String, Object> parametros, Long... idEstados);
+	public List<Documento> consultarDocumento(Map<String, Object> parametros,
+			Long... idEstados);
 
-  public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
-          String consecutivoDocumento);
+	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
+			String consecutivoDocumento);
 
-  public List<Documento> consultarOrdenesDeDespacho(
-          String consecutivoDocumento);
+	public List<Documento> consultarOrdenesDeDespacho(
+			String consecutivoDocumento);
 
-  public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(
-          String consecutivoDocumento);
+	public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(
+			String consecutivoDocumento);
 
-  public FacturaDirectaDTO consultarDocumentoFacturaDirecta(
-          String strConsecutivoDocumento);
+	public FacturaDirectaDTO consultarDocumentoFacturaDirecta(
+			String strConsecutivoDocumento);
 
-  public List<Documento> consultarDocumentosPorTipoDocumentoYEstado(
-          FiltroDocumentoDTO filtro);
+	public List<Documento> consultarDocumentosPorTipoDocumentoYEstado(
+			FiltroDocumentoDTO filtro);
 
-  public List<Documento> consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
-          Long idEstado, Long idTipoDocumento, String consecutivoDocumento);
+	public List<Documento> consultarDocumentosFacturaExportacion(
+			String consecutivoDocumento);
 
-  public List<Documento> consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
-          Long idTipoDocumento, String consecutivoDocumento,
-          Long... idEstados);
+	public List<Documento> consultarDocumentosPorTipoDocumentoYEstados(
+			FiltroDocumentoDTO filtro);
 
-  public List<Documento> consultarDocumentosFacturaExportacion(String consecutivoDocumento);
+	public List<Documento> consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
+			Long idEstado, Long idTipoDocumento, String consecutivoDocumento);
 
-  public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
+	public List<Documento> consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
+			Long idTipoDocumento, String consecutivoDocumento,
+			Long... idEstados);
 
-  public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
+	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(
+			String consecutivoDocumento);
 
-  /**
-   *
-   * @return
-   */
-  List<Documento> consultarTodosLosDocumentos();
+	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
 
-  /**
-   *
-   * @param consecutivoDocumento
-   * @return
-   */
-  List<Documento> consultarSolicitudesPedidoPorAnular(String consecutivoDocumento);
+	/**
+	 *
+	 * @return
+	 */
+	List<Documento> consultarTodosLosDocumentos();
 
-  /**
-   *
-   * @param documento
-   */
-  void anularSolicitudPedido(Documento documento);
-  
-  public List<DocumentoInstruccionEmbarqueDTO> consultarDocumentosInstruccionEmbarque(Long idCliente);
+	/**
+	 *
+	 * @param consecutivoDocumento
+	 * @return
+	 */
+	List<Documento> consultarSolicitudesPedidoPorAnular(
+			String consecutivoDocumento);
+
+	/**
+	 *
+	 * @param documento
+	 */
+	void anularSolicitudPedido(Documento documento);
+
+	public List<DocumentoInstruccionEmbarqueDTO> consultarDocumentosInstruccionEmbarque(
+			Long idCliente);
+
+	public List<Documento> consultarDocumentosPorTipoDocumentoYFechas(
+			FiltroDocumentoDTO filtro);
+
+	public List<Documento> consultarDocumentosParaGenerarListaEmpaque(
+			String consecutivoDocumento);
+
+	public Documento consultarDocumentoPorConsecutivo(String consecutivo);
+
 }

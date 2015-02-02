@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.tituloComprobanteInfDiarioFX}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.tituloComprobanteInfDiarioFX}">
+					
+					<p:panelGrid columns="3" id="panelFiltro"
+						columnClasses="label,value,">
+
+					
+
+						<p:outputLabel value="#{msg.FechaBusqueda}" for="filtrofechaInicial"
+							styleClass="negrita" />
+						<p:calendar id="filtrofechaInicial" required="true"
+							value="#{comprobanteInformeDiarioFXMB.fechaInicial}"
+							pattern="yyyy-MM-dd">
+						</p:calendar>
+						<p:message for="filtrofechaInicial"></p:message>
+						
+						<p:outputLabel value="#{msg.FechaBusqueda}" for="filtrofechaFinal"
+							styleClass="negrita" />
+						<p:calendar id="filtrofechaFinal" required="true"
+							value="#{comprobanteInformeDiarioFXMB.fechaFinal}"
+							pattern="yyyy-MM-dd">
+						</p:calendar>
+						<p:message for="filtrofechaFinal"></p:message>
+						
+						
+
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1">
+						<p:commandButton value="Reporte PDF" ajax="false"
+							icon="ui-icon-document">
+							<p:fileDownload value="#{comprobanteInformeDiarioFXMB.reportePDF}" />
+						</p:commandButton>
+					</p:panelGrid>
+					
+					
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+		
+
+	</ui:define>
+
+</ui:composition>
+

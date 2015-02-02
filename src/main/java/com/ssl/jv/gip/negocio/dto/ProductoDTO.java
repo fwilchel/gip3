@@ -14,6 +14,7 @@ public class ProductoDTO implements Serializable {
 	private String idDocumento;
 	private String sku;
 	private String nombre;
+	private Long idUnidadVenta;
 	private BigDecimal cantidad;
 	private BigDecimal pesoNeto;
 	private BigDecimal pesoBruto;
@@ -23,7 +24,6 @@ public class ProductoDTO implements Serializable {
 	private BigDecimal valorUnitarioUsd;
 	private BigDecimal valorTotal;
 
-	
 	public String getId() {
 		return id;
 	}
@@ -118,6 +118,14 @@ public class ProductoDTO implements Serializable {
 
 	public void setValorTotal(BigDecimal valorTotal) {
 		this.valorTotal = valorTotal;
+	}
+
+	public Long getIdUnidadVenta() {
+		return idUnidadVenta;
+	}
+
+	public void setIdUnidadVenta(Long idUnidadVenta) {
+		this.idUnidadVenta = idUnidadVenta;
 	}
 
 }

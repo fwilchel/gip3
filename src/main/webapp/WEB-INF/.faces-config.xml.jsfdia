@@ -110,231 +110,252 @@
     TARGET="rules:#ui#comercioexterior#ordenDespacho.xhtml"
     TITLE="listado_OD" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="listado_SP_Generar_FP::#ui#comercioexterior#generarFacturaProforma.xhtml"
-    NAME="output22"
-    PATH="/ui/comercioexterior/generarFacturaProforma.xhtml"
-    TARGET="rules:#ui#comercioexterior#generarFacturaProforma.xhtml"
-    TITLE="listado_SP_Generar_FP" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="listado_LE2::#ui#reportes#listaEmpaque.xhtml" NAME="output23"
+    ID="listado_LE2::#ui#reportes#listaEmpaque.xhtml" NAME="output22"
     PATH="/ui/reportes/listaEmpaque.xhtml"
     TARGET="rules:#ui#reportes#listaEmpaque.xhtml" TITLE="listado_LE2" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_FP_Asignar_LotesOIC::#ui#comercioexterior#asignarLotesOIC.xhtml"
-    NAME="output24" PATH="/ui/comercioexterior/asignarLotesOIC.xhtml"
+    NAME="output23" PATH="/ui/comercioexterior/asignarLotesOIC.xhtml"
     TARGET="rules:#ui#comercioexterior#asignarLotesOIC.xhtml"
     TITLE="listado_FP_Asignar_LotesOIC" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_factura::#ui#reportes#facturaDirecta.xhtml"
-    NAME="output25" PATH="/ui/reportes/facturaDirecta.xhtml"
+    NAME="output24" PATH="/ui/reportes/facturaDirecta.xhtml"
     TARGET="rules:#ui#reportes#facturaDirecta.xhtml"
     TITLE="listado_factura" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_maestro_Clientes::#ui#maestros#cliente.xhtml"
-    NAME="output26" PATH="/ui/maestros/cliente.xhtml"
+    NAME="output25" PATH="/ui/maestros/cliente.xhtml"
     TARGET="rules:#ui#maestros#cliente.xhtml"
     TITLE="listado_maestro_Clientes" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="ingresar_solicitud_pedido::#ui#comercioexterior#ingresarSolicitudPedido.xhtml"
-    NAME="output27"
+    NAME="output26"
     PATH="/ui/comercioexterior/ingresarSolicitudPedido.xhtml"
     TARGET="rules:#ui#comercioexterior#ingresarSolicitudPedido.xhtml"
     TITLE="ingresar_solicitud_pedido" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="lista_sugerencia::#ui#compras#listaSugerenciasCompra.xhtml"
-    NAME="output28" PATH="/ui/compras/listaSugerenciasCompra.xhtml"
+    NAME="output27" PATH="/ui/compras/listaSugerenciasCompra.xhtml"
     TARGET="rules:#ui#compras#listaSugerenciasCompra.xhtml"
     TITLE="lista_sugerencia" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="sugerencia_compra::#ui#compras#sugerenciaCompra.xhtml"
-    NAME="output29" PATH="/ui/compras/sugerenciaCompra.xhtml"
+    NAME="output28" PATH="/ui/compras/sugerenciaCompra.xhtml"
     TARGET="rules:#ui#compras#sugerenciaCompra.xhtml"
     TITLE="sugerencia_compra" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_LE4::#ui#comercioexterior#listadoListaEmpaque.xhtml"
-    NAME="output30"
+    NAME="output29"
     PATH="/ui/comercioexterior/listadoListaEmpaque.xhtml"
     TARGET="rules:#ui#comercioexterior#listadoListaEmpaque.xhtml"
     TITLE="listado_LE4" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="modificar_lista_empaque::#ui#comercioexterior#modificarListaEmpaque.xhtml"
-    NAME="output31"
+    NAME="output30"
     PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
     TARGET="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
     TITLE="modificar_lista_empaque" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_FX_Anular::#ui#comercioexterior#anularFacturaExportacion.xhtml"
-    NAME="output32"
+    NAME="output31"
     PATH="/ui/comercioexterior/anularFacturaExportacion.xhtml"
     TARGET="rules:#ui#comercioexterior#anularFacturaExportacion.xhtml"
     TITLE="listado_FX_Anular" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_SP_Imprimir_FP::#ui#reportes#listaFacturasProforma.xhtml"
-    NAME="output33" PATH="/ui/reportes/listaFacturasProforma.xhtml"
+    NAME="output32" PATH="/ui/reportes/listaFacturasProforma.xhtml"
     TARGET="rules:#ui#reportes#listaFacturasProforma.xhtml"
     TITLE="listado_SP_Imprimir_FP" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="consultar_factura_proforma::#ui#reportes#imprimirFacturaProforma.xhtml"
-    NAME="output34" PATH="/ui/reportes/imprimirFacturaProforma.xhtml"
+    NAME="output33" PATH="/ui/reportes/imprimirFacturaProforma.xhtml"
     TARGET="rules:#ui#reportes#imprimirFacturaProforma.xhtml"
     TITLE="consultar_factura_proforma" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="categorias_costos_logisticos::#ui#maestros#administrarCategoriasCL.xhtml"
-    NAME="output35" PATH="/ui/maestros/administrarCategoriasCL.xhtml"
+    NAME="output34" PATH="/ui/maestros/administrarCategoriasCL.xhtml"
     TARGET="rules:#ui#maestros#administrarCategoriasCL.xhtml"
     TITLE="categorias_costos_logisticos" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="items_costos_logisticos::#ui#maestros#administrarItemsCL.xhtml"
-    NAME="output36" PATH="/ui/maestros/administrarItemsCL.xhtml"
+    NAME="output35" PATH="/ui/maestros/administrarItemsCL.xhtml"
     TARGET="rules:#ui#maestros#administrarItemsCL.xhtml"
     TITLE="items_costos_logisticos" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_FP_Autorizar::#ui#comercioexterior#autorizarFacturaPF.xhtml"
-    NAME="output37" PATH="/ui/comercioexterior/autorizarFacturaPF.xhtml"
+    NAME="output36" PATH="/ui/comercioexterior/autorizarFacturaPF.xhtml"
     TARGET="rules:#ui#comercioexterior#autorizarFacturaPF.xhtml"
     TITLE="listado_FP_Autorizar" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_maestro_inventario_ce::#ui#maestros#listaInventarioComercioExt.xhtml"
-    NAME="output38" PATH="/ui/maestros/listaInventarioComercioExt.xhtml"
+    NAME="output37" PATH="/ui/maestros/listaInventarioComercioExt.xhtml"
     TARGET="rules:#ui#maestros#listaInventarioComercioExt.xhtml"
     TITLE="listado_maestro_inventario_ce" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="crear_maestro_inventario_ce::#ui#maestros#inventarioComercioExt.xhtml"
-    NAME="output39" PATH="/ui/maestros/inventarioComercioExt.xhtml"
+    NAME="output38" PATH="/ui/maestros/inventarioComercioExt.xhtml"
     TARGET="rules:#ui#maestros#inventarioComercioExt.xhtml"
     TITLE="crear_maestro_inventario_ce" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_SP_Anular::#ui#comercioexterior#anularSolicitudPedido.xhtml"
-    NAME="output40"
+    NAME="output39"
     PATH="/ui/comercioexterior/anularSolicitudPedido.xhtml"
     TARGET="rules:#ui#comercioexterior#anularSolicitudPedido.xhtml"
     TITLE="listado_SP_Anular" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="listado_FX_InstruccionEmbarque::#ui#comercioexterior#generarInstruccionEmbarque.xhtml"
-    NAME="output41"
+    NAME="output40"
     PATH="/ui/comercioexterior/generarInstruccionEmbarque.xhtml"
     TARGET="rules:#ui#comercioexterior#generarInstruccionEmbarque.xhtml"
     TITLE="listado_FX_InstruccionEmbarque" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_FX_ReImprimir_FX::#ui#reportesComercioExterior#reimprimirFacturaExpo.xhtml"
+    NAME="output41"
+    PATH="/ui/reportesComercioExterior/reimprimirFacturaExpo.xhtml"
+    TARGET="rules:#ui#reportesComercioExterior#reimprimirFacturaExpo.xhtml"
+    TITLE="listado_FX_ReImprimir_FX" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="generar_comprobante_inf_diarioFX::#ui#reportesComercioExterior#comprobanteInformeDiarioFX.xhtml"
+    NAME="output42"
+    PATH="/ui/reportesComercioExterior/comprobanteInformeDiarioFX.xhtml"
+    TARGET="rules:#ui#reportesComercioExterior#comprobanteInformeDiarioFX.xhtml"
+    TITLE="generar_comprobante_inf_diarioFX" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#generarListaEmpaque.xhtml"
-  PATH="/ui/comercioexterior/generarListaEmpaque.xhtml"
-  SHAPE="304,3409,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#inventarioComercioExt.xhtml"
-  PATH="/ui/maestros/inventarioComercioExt.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#productosClienteComExt.xhtml"
-  PATH="/ui/maestros/productosClienteComExt.xhtml" SHAPE="304,2961,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#anularFacturaExportacion.xhtml"
-  PATH="/ui/comercioexterior/anularFacturaExportacion.xhtml"
-  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#agenteAduana.xhtml"
-  PATH="/ui/maestros/agenteAduana.xhtml" SHAPE="304,1841,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#consultarSolicitudPedido.xhtml"
-  PATH="/ui/comercioexterior/consultarSolicitudPedido.xhtml"
-  SHAPE="304,2625,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#maestros#listaInventarioComercioExt.xhtml"
-  PATH="/ui/maestros/listaInventarioComercioExt.xhtml"
-  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#comercioexterior#asignarLotesOIC.xhtml"
   PATH="/ui/comercioexterior/asignarLotesOIC.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#terminosTransporte.xhtml"
-  PATH="/ui/comercioexterior/terminosTransporte.xhtml"
-  SHAPE="304,3297,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
-  PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
-  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#cliente.xhtml"
-  PATH="/ui/maestros/cliente.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#reportes#listaEmpaque.xhtml"
-  PATH="/ui/reportes/listaEmpaque.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#administracion#usuarios.xhtml"
-  PATH="/ui/administracion/usuarios.xhtml" SHAPE="304,1617,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#compras#listaSugerenciasCompra.xhtml"
-  PATH="/ui/compras/listaSugerenciasCompra.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#aprobarSolicitudPedido.xhtml"
-  PATH="/ui/comercioexterior/aprobarSolicitudPedido.xhtml"
-  SHAPE="304,2513,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
-  PATH="/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml"
-  SHAPE="304,2737,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#administrarCategoriasCL.xhtml"
-  PATH="/ui/maestros/administrarCategoriasCL.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
-  PATH="/ui/introduccion.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#reportes#imprimirFacturaProforma.xhtml"
-  PATH="/ui/reportes/imprimirFacturaProforma.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#reportes#facturaDirecta.xhtml"
-  PATH="/ui/reportes/facturaDirecta.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#comercioexterior#solicitudPedido.xhtml"
-  PATH="/ui/comercioexterior/solicitudPedido.xhtml" SHAPE="304,2401,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#listadoListaEmpaque.xhtml"
-  PATH="/ui/comercioexterior/listadoListaEmpaque.xhtml"
-  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
-  PATH="/ui/cambiarContrasena.xhtml" SHAPE="304,1393,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#compras#sugerenciaCompra.xhtml"
-  PATH="/ui/compras/sugerenciaCompra.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#ubicacion.xhtml"
-  PATH="/ui/maestros/ubicacion.xhtml" SHAPE="304,1729,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#autorizarFacturaPF.xhtml"
-  PATH="/ui/comercioexterior/autorizarFacturaPF.xhtml"
-  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#ingresarSolicitudPedido.xhtml"
-  PATH="/ui/comercioexterior/ingresarSolicitudPedido.xhtml"
-  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#reportes#listaFacturasProforma.xhtml"
+  PATH="/ui/reportes/listaFacturasProforma.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#maestros#productos.xhtml"
-  PATH="/ui/maestros/productos.xhtml" SHAPE="304,3185,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#lugarIncoterm.xhtml"
-  PATH="/ui/maestros/lugarIncoterm.xhtml" SHAPE="304,2065,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#administrarItemsCL.xhtml"
-  PATH="/ui/maestros/administrarItemsCL.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#login.xhtml" PATH="/ui/login.xhtml"
-  SHAPE="304,1505,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#reportes#formatoNovedades.xhtml"
-  PATH="/ui/reportes/formatoNovedades.xhtml" SHAPE="304,2849,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#maestros#crearProductoClienteComExt.xhtml"
-  PATH="/ui/maestros/crearProductoClienteComExt.xhtml"
-  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
-  PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
-  SHAPE="304,2177,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#maestros#terminoIncotermXMedioTrans.xhtml"
-  PATH="/ui/maestros/terminoIncotermXMedioTrans.xhtml"
-  SHAPE="304,3073,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#maestros#agenciaCarga.xhtml"
-  PATH="/ui/maestros/agenciaCarga.xhtml" SHAPE="304,1953,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM
-  NAME="rules:#ui#comercioexterior#ingresarCostosIncoterm.xhtml"
-  PATH="/ui/comercioexterior/ingresarCostosIncoterm.xhtml"
-  SHAPE="304,2289,0,0" model-entity="JSFProcessGroup"/>
+  PATH="/ui/maestros/productos.xhtml" SHAPE="304,2977,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#ui#comercioexterior#generarFacturaProforma.xhtml"
   PATH="/ui/comercioexterior/generarFacturaProforma.xhtml"
   SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#ui#reportes#listaFacturasProforma.xhtml"
-  PATH="/ui/reportes/listaFacturasProforma.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#cambiarContrasena.xhtml"
+  PATH="/ui/cambiarContrasena.xhtml" SHAPE="304,1297,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#reportes#listaEmpaque.xhtml"
+  PATH="/ui/reportes/listaEmpaque.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#maestros#terminoIncotermXMedioTrans.xhtml"
+  PATH="/ui/maestros/terminoIncotermXMedioTrans.xhtml"
+  SHAPE="304,2865,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#ubicacion.xhtml"
+  PATH="/ui/maestros/ubicacion.xhtml" SHAPE="304,1633,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#reportesComercioExterior#reimprimirFacturaExpo.xhtml"
+  PATH="/ui/reportesComercioExterior/reimprimirFacturaExpo.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#reportes#imprimirFacturaProforma.xhtml"
+  PATH="/ui/reportes/imprimirFacturaProforma.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#productosClienteComExt.xhtml"
+  PATH="/ui/maestros/productosClienteComExt.xhtml" SHAPE="304,2753,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#maestros#crearProductoClienteComExt.xhtml"
+  PATH="/ui/maestros/crearProductoClienteComExt.xhtml"
+  SHAPE="304,3313,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#administrarItemsCL.xhtml"
+  PATH="/ui/maestros/administrarItemsCL.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#anularFacturaExportacion.xhtml"
+  PATH="/ui/comercioexterior/anularFacturaExportacion.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#reportes#facturaDirecta.xhtml"
+  PATH="/ui/reportes/facturaDirecta.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#ingresarCostosIncoterm.xhtml"
+  PATH="/ui/comercioexterior/ingresarCostosIncoterm.xhtml"
+  SHAPE="304,2193,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#compras#sugerenciaCompra.xhtml"
+  PATH="/ui/compras/sugerenciaCompra.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#ingresarSolicitudPedido.xhtml"
+  PATH="/ui/comercioexterior/ingresarSolicitudPedido.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#inventarioComercioExt.xhtml"
+  PATH="/ui/maestros/inventarioComercioExt.xhtml" SHAPE="304,1761,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#reportesComercioExterior#comprobanteInformeDiarioFX.xhtml"
+  PATH="/ui/reportesComercioExterior/comprobanteInformeDiarioFX.xhtml"
+  SHAPE="304,1489,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#reiniciarConsecutivoOic.xhtml"
+  PATH="/ui/comercioexterior/reiniciarConsecutivoOic.xhtml"
+  SHAPE="304,2081,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#compras#listaSugerenciasCompra.xhtml"
+  PATH="/ui/compras/listaSugerenciasCompra.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#comercioexterior#solicitudPedido.xhtml"
+  PATH="/ui/comercioexterior/solicitudPedido.xhtml" SHAPE="304,2305,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#cliente.xhtml"
+  PATH="/ui/maestros/cliente.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#administrarCategoriasCL.xhtml"
+  PATH="/ui/maestros/administrarCategoriasCL.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#agenciaCarga.xhtml"
+  PATH="/ui/maestros/agenciaCarga.xhtml" SHAPE="304,1857,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#lugarIncoterm.xhtml"
+  PATH="/ui/maestros/lugarIncoterm.xhtml" SHAPE="304,1969,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#generarInstruccionEmbarque.xhtml"
+  PATH="/ui/comercioexterior/generarInstruccionEmbarque.xhtml"
+  SHAPE="304,1985,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#reportes#formatoNovedades.xhtml"
+  PATH="/ui/reportes/formatoNovedades.xhtml" SHAPE="304,2641,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#terminosTransporte.xhtml"
+  PATH="/ui/comercioexterior/terminosTransporte.xhtml"
+  SHAPE="304,3089,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#autorizarFacturaPF.xhtml"
+  PATH="/ui/comercioexterior/autorizarFacturaPF.xhtml"
+  SHAPE="304,1537,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#introduccion.xhtml"
+  PATH="/ui/introduccion.xhtml" SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#listadoGenerarListaEmpaque.xhtml"
+  PATH="/ui/comercioexterior/listadoGenerarListaEmpaque.xhtml"
+  SHAPE="304,3569,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#modificarListaEmpaque.xhtml"
+  PATH="/ui/comercioexterior/modificarListaEmpaque.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#listadoListaEmpaque.xhtml"
+  PATH="/ui/comercioexterior/listadoListaEmpaque.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#administracion#usuarios.xhtml"
+  PATH="/ui/administracion/usuarios.xhtml" SHAPE="304,1521,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#aprobarSolicitudPedido.xhtml"
+  PATH="/ui/comercioexterior/aprobarSolicitudPedido.xhtml"
+  SHAPE="304,1425,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#maestros#listaInventarioComercioExt.xhtml"
+  PATH="/ui/maestros/listaInventarioComercioExt.xhtml"
+  SHAPE="304,1649,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#ui#comercioexterior#anularSolicitudPedido.xhtml"
   PATH="/ui/comercioexterior/anularSolicitudPedido.xhtml"
-  SHAPE="304,1425,0,0" model-entity="JSFProcessGroup"/>
+  SHAPE="304,1873,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
   NAME="rules:#ui#comercioexterior#generarInstruccionEmbarque.xhtml"
   PATH="/ui/comercioexterior/generarInstruccionEmbarque.xhtml"
   SHAPE="304,1457,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#comercioexterior#ordenDespacho.xhtml"
   PATH="/ui/comercioexterior/ordenDespacho.xhtml" SHAPE="304,1457,0,0" model-entity="JSFProcessGroup"/>
+  NAME="rules:#ui#comercioexterior#consultarSolicitudPedido.xhtml"
+  PATH="/ui/comercioexterior/consultarSolicitudPedido.xhtml"
+  SHAPE="304,2417,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#login.xhtml" PATH="/ui/login.xhtml"
+  SHAPE="304,1409,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#agenteAduana.xhtml"
+  PATH="/ui/maestros/agenteAduana.xhtml" SHAPE="304,1745,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#asignarDatosContribucionCafetera.xhtml"
+  PATH="/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml"
+  SHAPE="304,2529,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#comercioexterior#generaListaEmpaque.xhtml"
+  PATH="/ui/comercioexterior/generaListaEmpaque.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

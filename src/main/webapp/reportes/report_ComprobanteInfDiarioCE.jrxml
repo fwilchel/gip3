@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-01-09T10:39:41 -->
+<!-- 2015-02-01T21:04:30 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_ComprobanteInfDiarioCE" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="706ef0ef-94fa-432e-9271-f2674d7e0bf1">
 	<property name="ireport.zoom" value="1.6105100000000032"/>
 	<property name="ireport.x" value="176"/>
@@ -28,9 +28,7 @@
 		</box>
 	</style>
 	<subDataset name="Table Dataset 1" uuid="395c8c4c-743a-4d28-9dee-1c1e6225b837"/>
-	<parameter name="size" class="java.lang.Number">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
+	<parameter name="size" class="java.lang.Number"/>
 	<parameter name="cIni" class="java.lang.String"/>
 	<parameter name="cFin" class="java.lang.String"/>
 	<parameter name="fechaIni" class="java.lang.String"/>
@@ -43,11 +41,11 @@
 	<parameter name="suma6" class="java.lang.Double"/>
 	<parameter name="suma7" class="java.lang.Double"/>
 	<parameter name="ubicacion" class="java.lang.String"/>
-	<queryString>
+	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
-	<field name="strDescripcion" class="java.lang.String"/>
-	<field name="dblTotal" class="java.lang.Double"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="total" class="java.lang.Double"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -144,14 +142,14 @@ Cantidad de Facturas]]></text>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{strDescripcion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
 				<reportElement x="355" y="0" width="82" height="12" uuid="74eda445-e0e4-42d5-ad8e-a705e66b7744"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{dblTotal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
