@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -30,6 +31,7 @@ import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
+import com.ssl.jv.gip.negocio.dto.ReporteReimprimirFacturaDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.util.Estado;
@@ -268,21 +270,21 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 		parametros.put("tipoImp", "COPY");
 		parametros.put("fechaVigencia", fechaStringVigencia);
 		parametros.put("fechaDespacho", fechaStringDespacho);
-		parametros.put("totalPesoNeto", this.totalPesoNeto);
-		parametros.put("totalPesoBruto", this.totalPesoBruto);
-		parametros.put("totalCajas", this.totalValorTotal);
-		parametros.put("totalPallets", this.totalPallets);
-		parametros.put("costoEntrega", this.totalCostoEntrega);
-		parametros.put("costoSeguro", this.totalCostoSeguro);
-		parametros.put("costoFlete", this.totalCostoFlete);
-		parametros.put("otrosCostos", this.totalOtrosGastos);
-		parametros.put("totalNegociacion", this.totalValorNeg);
+		parametros.put("totalPesoNeto", this.totalPesoNeto.doubleValue());
+		parametros.put("totalPesoBruto", this.totalPesoBruto.doubleValue());
+		parametros.put("totalCajas", this.totalValorTotal.doubleValue());
+		parametros.put("totalPallets", this.totalPallets.doubleValue());
+		parametros.put("costoEntrega", this.totalCostoEntrega.doubleValue());
+		parametros.put("costoSeguro", this.totalCostoSeguro.doubleValue());
+		parametros.put("costoFlete", this.totalCostoFlete.doubleValue());
+		parametros.put("otrosCostos", this.totalOtrosGastos.doubleValue());
+		parametros.put("totalNegociacion", this.totalValorNeg.doubleValue());
 		parametros.put("incoterm", strNombreIncoterm);
 		parametros.put("lugarIncoterm", "(" + strLugarIncoterm + ")");
 		parametros.put("valorLetras",valorLetrasIngles);
 		parametros.put("solicitud", this.seleccionado.getConsecutivoDocumento());
-		parametros.put("qEstibas", cantidadEstibas);	
-		parametros.put("PesoBrutoEstibas",pesoBrutoEstibas ); 
+		parametros.put("qEstibas", cantidadEstibas.doubleValue());	
+		parametros.put("PesoBrutoEstibas",pesoBrutoEstibas.doubleValue() ); 
 		parametros.put("descripcion_envio", strObservacionMarcacion2);
 
 		if (this.seleccionado.getEstadosxdocumento().getEstado().getId().equals(Estado.ANULADO)) {
@@ -335,8 +337,48 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 
 			}
 		}
+		
+		List<ReporteReimprimirFacturaDTO> reporteDTOS = new ArrayList<ReporteReimprimirFacturaDTO>();
+		for(ProductosXDocumento prod:listaProductosDocumento){
+			ReporteReimprimirFacturaDTO registro =  new ReporteReimprimirFacturaDTO();
+			
+			registro.setProductoInventarioNombre(prod.getProductosInventario().getNombre());
+			registro.setCantidad1(prod.getCantidad1().doubleValue());
+			registro.setTotalPesoNetoItem(prod.getTotalPesoNetoItem().doubleValue());
+			registro.setProductoInventarioSku(prod.getProductosInventario().getSku());
+			registro.setValorTotal(prod.getValorTotal().doubleValue());
+			
+			Double precioUS = 0.0;
+			if(prod.getProductosInventario() != null && prod.getProductosInventario().getProductosxclientes() != null && !prod.getProductosInventario().getProductosxclientes().isEmpty()){
+				precioUS=prod.getProductosInventario().getProductosxclientes().get(0).getPrecioUsd().doubleValue();
+			}			
+			registro.setPrecioUSD(precioUS);
+			
+			registro.setPosicionArancelaria(prod.getProductosInventario().getProductosInventarioComext().getPosicionArancelaria());
+			
+			registro.setUnidadNombre(prod.getUnidade().getNombre());
+			
+			registro.setTipoLoteOICDesc(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDescripcion());
+			
+			String consecDocxlote="";
+			if(prod.getProductosInventario() != null && prod.getProductosInventario().getProductosInventarioComext() != null && 
+					prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic() != null &&
+					prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDocumentoXLotesoics() != null &&
+					!prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDocumentoXLotesoics().isEmpty()){
+				consecDocxlote = prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDocumentoXLotesoics().get(0).getConsecutivo();
+				
+			}
+			registro.setDocxLoteOICConsec(consecDocxlote);
+			
+			registro.setValorUnitarioUSD(prod.getValorUnitarioUsd().doubleValue());
+			
+			registro.setTotalCajasPallet(prod.getCantidadPalletsItem().doubleValue());
+			
+			reporteDTOS.add(registro);
+			
+		}
 
-		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosDocumento);
+		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reporteDTOS);
 
 		try {
 			Hashtable<String, String> parametrosR=new Hashtable<String, String>();

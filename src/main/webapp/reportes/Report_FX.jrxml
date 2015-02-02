@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-01-09T10:38:54 -->
+<!-- 2015-02-01T20:32:15 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_FX" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7b96cc99-4a12-4081-b476-5cf0acd2e8c0">
 	<property name="ireport.zoom" value="2.593742460100138"/>
 	<property name="ireport.x" value="842"/>
@@ -12,12 +12,8 @@
 	<parameter name="ciudad" class="java.lang.String"/>
 	<parameter name="cliente" class="java.lang.String"/>
 	<parameter name="documento" class="java.lang.String"/>
-	<parameter name="telefono" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="fecha" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
+	<parameter name="telefono" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
 	<parameter name="numFactura" class="java.lang.String"/>
 	<parameter name="tipoImp" class="java.lang.String"/>
 	<parameter name="fechaVigencia" class="java.lang.String"/>
@@ -42,38 +38,38 @@
 	<parameter name="PesoBrutoEstibas" class="java.lang.Double"/>
 	<parameter name="descripcion_envio" class="java.lang.String"/>
 	<parameter name="costoLogistico" class="java.lang.Double"/>
-	<queryString>
+	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
-	<field name="objProductoInventario.strNombre" class="java.lang.String"/>
-	<field name="dblCantidad1" class="java.lang.Double"/>
-	<field name="dblTotalPesoNetoItem" class="java.lang.Double"/>
-	<field name="objProductoInventario.strSku" class="java.lang.String"/>
-	<field name="dblValorTotal" class="java.lang.Double"/>
-	<field name="objProductoPorClienteComExt.dblPrecioUSD" class="java.lang.Double"/>
-	<field name="objProductoInventarioCE.strPosicionArancelaria" class="java.lang.String"/>
-	<field name="objUnidad.strNombre" class="java.lang.String"/>
-	<field name="objTipoLoteOIC.strDescripcion" class="java.lang.String"/>
-	<field name="objDocumentoxLotesOic.strConsecutivo" class="java.lang.String"/>
-	<field name="dblValorUnitarioUsd" class="java.lang.Double"/>
-	<field name="dblTotalCajasPalletItem" class="java.lang.Double"/>
+	<field name="productoInventarioNombre" class="java.lang.String"/>
+	<field name="cantidad1" class="java.lang.Double"/>
+	<field name="totalPesoNetoItem" class="java.lang.Double"/>
+	<field name="productoInventarioSku" class="java.lang.String"/>
+	<field name="valorTotal" class="java.lang.Double"/>
+	<field name="precioUSD" class="java.lang.Double"/>
+	<field name="posicionArancelaria" class="java.lang.String"/>
+	<field name="unidadNombre" class="java.lang.String"/>
+	<field name="tipoLoteOICDesc" class="java.lang.String"/>
+	<field name="docxLoteOICConsec" class="java.lang.String"/>
+	<field name="valorUnitarioUSD" class="java.lang.Double"/>
+	<field name="totalCajasPallet" class="java.lang.Double"/>
 	<variable name="dblCantidad1_1" class="java.lang.Double" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
-		<variableExpression><![CDATA[$F{dblCantidad1}]]></variableExpression>
+		<variableExpression><![CDATA[$F{cantidad1}]]></variableExpression>
 	</variable>
 	<variable name="dblTotalPesoNetoItem_1" class="java.lang.Double" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
-		<variableExpression><![CDATA[$F{dblTotalPesoNetoItem}]]></variableExpression>
+		<variableExpression><![CDATA[$F{totalPesoNetoItem}]]></variableExpression>
 	</variable>
 	<variable name="dblValorTotal_1" class="java.lang.Double" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
-		<variableExpression><![CDATA[$F{dblValorTotal}]]></variableExpression>
+		<variableExpression><![CDATA[$F{valorTotal}]]></variableExpression>
 	</variable>
 	<variable name="dblValorSubTotal" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{dblValorTotal}]]></variableExpression>
+		<variableExpression><![CDATA[$F{valorTotal}]]></variableExpression>
 	</variable>
 	<variable name="dblTotalCajasPalletItem" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{dblTotalCajasPalletItem}]]></variableExpression>
+		<variableExpression><![CDATA[$F{totalCajasPallet}]]></variableExpression>
 	</variable>
 	<group name="TipoLoteOIC">
-		<groupExpression><![CDATA[$F{objTipoLoteOIC.strDescripcion}]]></groupExpression>
+		<groupExpression><![CDATA[$F{tipoLoteOICDesc}]]></groupExpression>
 		<groupHeader>
 			<band height="44">
 				<textField>
@@ -81,7 +77,7 @@
 					<textElement>
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[($F{objDocumentoxLotesOic.strConsecutivo}==null || $F{objDocumentoxLotesOic.strConsecutivo}.equals("0"))?"": $F{objTipoLoteOIC.strDescripcion} +"        Lote " + $F{objDocumentoxLotesOic.strConsecutivo}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{docxLoteOICConsec}==null || $F{docxLoteOICConsec}.equals("0"))?"": $F{tipoLoteOICDesc} +"        Lote " + $F{docxLoteOICConsec}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="23" y="29" width="48" height="14" forecolor="#000000" uuid="94c9dd41-dc09-42a8-85fa-618af20eb29b"/>
@@ -208,7 +204,7 @@
 		<band height="700" splitType="Stretch">
 			<image>
 				<reportElement x="142" y="266" width="317" height="321" uuid="d54b19df-be66-4b7c-88be-8cf0e31350da"/>
-				<imageExpression><![CDATA["/usr/local/apache-tomcat-6.0.24/webapps/gip2/jsp/ventas/reporte/JuanValdez_MarcaAgua1.JPG"]]></imageExpression>
+				<imageExpression><![CDATA["JuanValdez_MarcaAgua1.JPG"]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="233" y="55" width="172" height="638" uuid="18daacf8-a19a-4503-a18e-71e4d6d6c2a6"/>
@@ -283,7 +279,7 @@ Bogotá - Colombia]]></text>
 			</staticText>
 			<image>
 				<reportElement x="21" y="18" width="163" height="43" uuid="76e0a6fb-b476-4e73-9225-90cb056da8b0"/>
-				<imageExpression><![CDATA["/usr/local/apache-tomcat-6.0.24/webapps/gip2/jsp/ventas/reporte/LogoProcafecol.JPG"]]></imageExpression>
+				<imageExpression><![CDATA["LogoProcafecol.JPG"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="23" y="60" width="156" height="16" uuid="7df6c9c4-cca9-4f6c-8b57-72a617c2068e"/>
@@ -461,7 +457,7 @@ Bogotá - Colombia]]></text>
 			</textField>
 			<image>
 				<reportElement x="344" y="18" width="80" height="66" uuid="7d539aba-b73d-434b-b24e-5a973633f8c9"/>
-				<imageExpression><![CDATA["/usr/local/apache-tomcat-6.0.24/webapps/gip2/jsp/ventas/reporte/LogoBasc.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["LogoBasc.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="353" y="84" width="54" height="15" uuid="3931aa3c-d8e9-4f6e-b1ed-aee4ce0f87b0"/>
@@ -489,56 +485,56 @@ Bogotá - Colombia]]></text>
 				<textElement>
 					<font size="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{objProductoInventario.strNombre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{productoInventarioNombre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0">
 				<reportElement x="255" y="2" width="53" height="10" uuid="7903e311-bca4-4923-b504-177d34270cfd"/>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{dblCantidad1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cantidad1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
 				<reportElement x="355" y="2" width="70" height="10" uuid="f891132a-8e63-48ab-b6c8-49f2dca197a5"/>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{dblTotalPesoNetoItem}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{totalPesoNetoItem}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="69" y="2" width="43" height="10" uuid="1235a855-6fa9-4cd5-af08-8155df34d8f7"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{objProductoInventario.strSku}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{productoInventarioSku}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
 				<reportElement x="509" y="2" width="74" height="10" uuid="ad52f3fb-0657-4651-8825-0c81127ffd49"/>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{dblValorTotal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="22" y="2" width="46" height="10" uuid="613632ef-3b43-4672-b150-a9095733c84e"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{objProductoInventarioCE.strPosicionArancelaria}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{posicionArancelaria}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="308" y="2" width="47" height="10" uuid="78e99b98-4c5e-4338-817b-c547cbcee2ee"/>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{objUnidad.strNombre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{unidadNombre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
 				<reportElement x="426" y="2" width="81" height="10" uuid="fd5142b3-3cb1-4f0e-a3eb-b2da5df1cb24"/>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{dblValorUnitarioUsd}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{valorUnitarioUSD}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
