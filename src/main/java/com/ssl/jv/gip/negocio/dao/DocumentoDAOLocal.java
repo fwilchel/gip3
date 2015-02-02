@@ -49,11 +49,13 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
 
-	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
+	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(
+			FiltroConsultaSolicitudDTO filtro);
 
 	public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
 
-	public List<Documento> consultarDocumento(Map<String, Object> parametros, Long... idEstados);
+	public List<Documento> consultarDocumento(Map<String, Object> parametros,
+			Long... idEstados);
 
 	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
 			String consecutivoDocumento);
@@ -70,7 +72,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	public List<Documento> consultarDocumentosPorTipoDocumentoYEstado(
 			FiltroDocumentoDTO filtro);
 
-	public List<Documento> consultarDocumentosFacturaExportacion(String consecutivoDocumento);
+	public List<Documento> consultarDocumentosFacturaExportacion(
+			String consecutivoDocumento);
 
 	public List<Documento> consultarDocumentosPorTipoDocumentoYEstados(
 			FiltroDocumentoDTO filtro);
@@ -82,7 +85,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 			Long idTipoDocumento, String consecutivoDocumento,
 			Long... idEstados);
 
-	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
+	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(
+			String consecutivoDocumento);
 
 	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
 
@@ -90,24 +94,31 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	 *
 	 * @return
 	 */
-	 List<Documento> consultarTodosLosDocumentos();
+	List<Documento> consultarTodosLosDocumentos();
 
 	/**
 	 *
 	 * @param consecutivoDocumento
 	 * @return
 	 */
-	 List<Documento> consultarSolicitudesPedidoPorAnular(String consecutivoDocumento);
+	List<Documento> consultarSolicitudesPedidoPorAnular(
+			String consecutivoDocumento);
 
-	 /**
-	  *
-	  * @param documento
-	  */
-	 void anularSolicitudPedido(Documento documento);
+	/**
+	 *
+	 * @param documento
+	 */
+	void anularSolicitudPedido(Documento documento);
 
-	 public List<DocumentoInstruccionEmbarqueDTO> consultarDocumentosInstruccionEmbarque(Long idCliente);
-	 
-	 public List<Documento> consultarDocumentosPorTipoDocumentoYFechas(
-				FiltroDocumentoDTO filtro);
+	public List<DocumentoInstruccionEmbarqueDTO> consultarDocumentosInstruccionEmbarque(
+			Long idCliente);
+
+	public List<Documento> consultarDocumentosPorTipoDocumentoYFechas(
+			FiltroDocumentoDTO filtro);
+
+	public List<Documento> consultarDocumentosParaGenerarListaEmpaque(
+			String consecutivoDocumento);
+
+	public Documento consultarDocumentoPorConsecutivo(String consecutivo);
 
 }

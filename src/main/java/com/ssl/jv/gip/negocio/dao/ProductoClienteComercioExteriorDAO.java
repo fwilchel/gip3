@@ -24,9 +24,9 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
-import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
@@ -54,7 +54,7 @@ public class ProductoClienteComercioExteriorDAO extends
 	public ProductoClienteComercioExteriorDAO() {
 		this.persistentClass = ProductosXClienteComext.class;
 	}
-	
+
 	/**
 	 * Crea factura proforma.
 	 *
@@ -62,29 +62,43 @@ public class ProductoClienteComercioExteriorDAO extends
 	public void crearFacturaProforma(DocumentoIncontermDTO documento,
 			ProductoPorClienteComExtDTO producto) {
 		try {
-			
+
 			StringBuilder sql = new StringBuilder();
 			sql.append("INSERT INTO productosXdocumentos(id_documento,id_producto,cantidad1,"
 					+ "fecha_estimada_entrega,fecha_entrega,id_ml,id_unidades,total_peso_neto_item,"
 					+ "valor_unitario_usd,valor_total,total_peso_bruto_item,cantidad_cajas_item,"
 					+ "cantidad_pallets_item,cantidad_x_embalaje) "
 					+ "VALUES "
-					+ " (" 
-					+ documento.getIdDocumento() + ","
-					+ producto.getIntIdProductoInventario() + ","
-					+ producto.getDblCantidad1ProductoxDocumento() + ","
-					+ "current_timestamp + '2 days'" + ","
-					+ "current_timestamp + '2 days'" + ","
-					+ "'USD'" + ","
-					+ "(select id_ud from productos_inventario where id = " + producto.getIntIdProductoInventario() + ")" + ","
-					+ producto.getDblTotalPesoNeto() + ","
-					+ producto.getDblPrecioUSD() + ","
-					+ producto.getDblValorTotalProductoxDocumento() + ","
-					+ producto.getDblTotalPesoBruto() + ","
-					+ producto.getDblTotalCajas() + ","
-					+ producto.getDblTotalCajasPallet() + ","
-					+ producto.getDblTotalCajasTendido() + ")"
-			);
+					+ " ("
+					+ documento.getIdDocumento()
+					+ ","
+					+ producto.getIntIdProductoInventario()
+					+ ","
+					+ producto.getDblCantidad1ProductoxDocumento()
+					+ ","
+					+ "current_timestamp + '2 days'"
+					+ ","
+					+ "current_timestamp + '2 days'"
+					+ ","
+					+ "'USD'"
+					+ ","
+					+ "(select id_ud from productos_inventario where id = "
+					+ producto.getIntIdProductoInventario()
+					+ ")"
+					+ ","
+					+ producto.getDblTotalPesoNeto()
+					+ ","
+					+ producto.getDblPrecioUSD()
+					+ ","
+					+ producto.getDblValorTotalProductoxDocumento()
+					+ ","
+					+ producto.getDblTotalPesoBruto()
+					+ ","
+					+ producto.getDblTotalCajas()
+					+ ","
+					+ producto.getDblTotalCajasPallet()
+					+ ","
+					+ producto.getDblTotalCajasTendido() + ")");
 
 			int q = em.createNativeQuery(sql.toString()).executeUpdate();
 
@@ -92,7 +106,7 @@ public class ProductoClienteComercioExteriorDAO extends
 
 		}
 	}
-	
+
 	/**
 	 * modificar factura proforma.
 	 *
@@ -102,16 +116,24 @@ public class ProductoClienteComercioExteriorDAO extends
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("UPDATE productosXdocumentos SET "
-					+ " total_peso_neto_item = " + producto.getDblTotalPesoNeto()
-					+ " , total_peso_bruto_item = " + producto.getDblTotalPesoBruto()
+					+ " total_peso_neto_item = "
+					+ producto.getDblTotalPesoNeto()
+					+ " , total_peso_bruto_item = "
+					+ producto.getDblTotalPesoBruto()
 					+ " , valor_unitario_usd = " + producto.getDblPrecioUSD()
-					+ " , cantidad1 = " + producto.getDblCantidad1ProductoxDocumento()
-					+ " , valor_total = " + producto.getDblValorTotalProductoxDocumento()
+					+ " , cantidad1 = "
+					+ producto.getDblCantidad1ProductoxDocumento()
+					+ " , valor_total = "
+					+ producto.getDblValorTotalProductoxDocumento()
 					+ " , cantidad_cajas_item = " + producto.getDblTotalCajas()
-					+ " , cantidad_pallets_item = " + producto.getDblTotalCajasPallet()
-					+ " , cantidad_x_embalaje = " + producto.getDblTotalCajasTendido());
+					+ " , cantidad_pallets_item = "
+					+ producto.getDblTotalCajasPallet()
+					+ " , cantidad_x_embalaje = "
+					+ producto.getDblTotalCajasTendido());
 
-			sql.append(" WHERE  id_documento = " + documento.getIdDocumento() + " AND id_producto = " + producto.getIntIdProductoInventario());
+			sql.append(" WHERE  id_documento = " + documento.getIdDocumento()
+					+ " AND id_producto = "
+					+ producto.getIntIdProductoInventario());
 
 			int q = em.createNativeQuery(sql.toString()).executeUpdate();
 
@@ -119,7 +141,7 @@ public class ProductoClienteComercioExteriorDAO extends
 
 		}
 	}
-	
+
 	/**
 	 * eliminar factura proforma.
 	 *
@@ -129,7 +151,9 @@ public class ProductoClienteComercioExteriorDAO extends
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("DELETE FROM productosXdocumentos "
-					+ " WHERE  id_documento = " + documento.getIdDocumento() + " AND id_producto = " + producto.getIntIdProductoInventario());
+					+ " WHERE  id_documento = " + documento.getIdDocumento()
+					+ " AND id_producto = "
+					+ producto.getIntIdProductoInventario());
 
 			int q = em.createNativeQuery(sql.toString()).executeUpdate();
 
@@ -137,41 +161,46 @@ public class ProductoClienteComercioExteriorDAO extends
 
 		}
 	}
-	
+
 	/**
 	 * Consulta si existe un producto cliente
 	 *
 	 */
-	public BigDecimal consultarUltimoSaldoProducto(Long idProducto){
+	public BigDecimal consultarUltimoSaldoProducto(Long idProducto) {
 		BigDecimal vSaldo = null;
-		
+
 		try {
 
 			String sqlSec = "select mov1.saldo from  movimientos_inventario_comext mov1"
-							+ " where mov1.fecha = (select max(mov2.fecha) from movimientos_inventario_comext mov2 where mov1.id_producto=mov2.id_producto)"  
-							+ " and mov1.id_producto = " + idProducto;
-			vSaldo = (BigDecimal) em.createNativeQuery(sqlSec).getSingleResult();		
+					+ " where mov1.fecha = (select max(mov2.fecha) from movimientos_inventario_comext mov2 where mov1.id_producto=mov2.id_producto)"
+					+ " and mov1.id_producto = " + idProducto;
+			vSaldo = (BigDecimal) em.createNativeQuery(sqlSec)
+					.getSingleResult();
 
 		} catch (Exception e) {
 
 		}
 		return vSaldo;
 	}
-	
+
 	/**
 	 * Consulta si existe un producto cliente
 	 *
 	 */
-	public Boolean consultarProductoCliente(Long idDocumento, Long idProducto){
+	public Boolean consultarProductoCliente(Long idDocumento, Long idProducto) {
 		Boolean vRespuesta = false;
-		
+
 		try {
 
-			String sqlSec = "select count(id_documento) as EXISTE from productosXdocumentos "+
-					  "where id_documento = " + idDocumento + " and id_producto = " + idProducto;
-			BigInteger existe = (BigInteger) em.createNativeQuery(sqlSec).getSingleResult();
-			
-			if(existe!=null && (existe.compareTo(BigInteger.valueOf(0))==1)){
+			String sqlSec = "select count(id_documento) as EXISTE from productosXdocumentos "
+					+ "where id_documento = "
+					+ idDocumento
+					+ " and id_producto = " + idProducto;
+			BigInteger existe = (BigInteger) em.createNativeQuery(sqlSec)
+					.getSingleResult();
+
+			if (existe != null
+					&& (existe.compareTo(BigInteger.valueOf(0)) == 1)) {
 				vRespuesta = true;
 			}
 
@@ -180,7 +209,7 @@ public class ProductoClienteComercioExteriorDAO extends
 		}
 		return vRespuesta;
 	}
-	
+
 	/**
 	 * Crea el saldo del producto.
 	 *
@@ -189,20 +218,25 @@ public class ProductoClienteComercioExteriorDAO extends
 			ProductoPorClienteComExtDTO producto) {
 		try {
 			String sqlSec = "select nextval('movimientos_inventario_comext_id_seq') AS SEQ";
-			String secuencia = (String) em.createNativeQuery(sqlSec).getSingleResult();
-			
+			String secuencia = (String) em.createNativeQuery(sqlSec)
+					.getSingleResult();
+
 			StringBuilder sql = new StringBuilder();
 			sql.append("INSERT INTO movimientos_inventario_comext(consecutivo_documento,id_tipo_movimiento,id_producto,cantidad,fecha,saldo,id) "
 					+ "VALUES "
-					+ " (" 
-					+ documento.getConsecutivoDocumento() + ","
-					+ producto.getIdTipoMovimiento() + ","
-					+ producto.getIntIdProducto() + ","
-					+ producto.getDblCantidad1ProductoxDocumento() + ","
-					+ producto.getDtmFecha() + ","
-					+ producto.getDblSaldo() + ","
-					+ secuencia + ")"
-			);
+					+ " ("
+					+ documento.getConsecutivoDocumento()
+					+ ","
+					+ producto.getIdTipoMovimiento()
+					+ ","
+					+ producto.getIntIdProducto()
+					+ ","
+					+ producto.getDblCantidad1ProductoxDocumento()
+					+ ","
+					+ producto.getDtmFecha()
+					+ ","
+					+ producto.getDblSaldo()
+					+ "," + secuencia + ")");
 
 			int q = em.createNativeQuery(sql.toString()).executeUpdate();
 
@@ -277,7 +311,7 @@ public class ProductoClienteComercioExteriorDAO extends
 
 				dto.setDblCantidad1ProductoxDocumento(objs[4] != null ? new BigDecimal(
 						objs[4].toString()) : null);
-				
+
 				dto.setDblCantidad1ActualProductoxDocumento(objs[4] != null ? new BigDecimal(
 						objs[4].toString()) : null);
 
@@ -315,7 +349,7 @@ public class ProductoClienteComercioExteriorDAO extends
 
 				dto.setPosicionArancelariaProductoInventarioCE(objs[18] != null ? objs[18]
 						.toString() : null);
-				
+
 				dto.setStrPosicionArancelariaProductoInventario(objs[18] != null ? objs[18]
 						.toString() : null);
 
@@ -330,11 +364,10 @@ public class ProductoClienteComercioExteriorDAO extends
 						objs[22].toString()) : null);
 				dto.setDblPesoBrutoEmbalajeProductoInventarioCE(objs[23] != null ? new BigDecimal(
 						objs[23].toString()) : null);
-				dto.setControlStockProductoInventarioCE((Boolean) (objs[24] != null ? objs[24] : null));
+				dto.setControlStockProductoInventarioCE((Boolean) (objs[24] != null ? objs[24]
+						: null));
 				dto.setNombrePrdProveedorProductoInventarioCE(objs[25] != null ? objs[25]
 						.toString() : null);
-				
-				
 
 				dto.setBlnIncluirBusqueda(true);
 
@@ -553,10 +586,11 @@ public class ProductoClienteComercioExteriorDAO extends
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProductoDTO> consultarProductoPorDocumento(ListaEmpaqueDTO listaEmpaqueDTO){
+	public List<ProductoDTO> consultarProductoPorDocumento(
+			ListaEmpaqueDTO listaEmpaqueDTO) {
 		List<ProductoDTO> lista = new ArrayList<ProductoDTO>();
 		String sql = "";
-		if (listaEmpaqueDTO.getSolicitudCafe()){
+		if (listaEmpaqueDTO.getSolicitudCafe()) {
 			sql = "SELECT  productos_inventario.id,"
 					+ " productos_inventario.sku,"
 					+ " productos_inventario.nombre,"
@@ -568,6 +602,7 @@ public class ProductoClienteComercioExteriorDAO extends
 					+ " ((CASE WHEN (pi_ce.cantidad_x_embalaje = 0 or pi_ce.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje)/pi_ce.total_cajas_x_pallet END)) AS TotalCajasPallet,"
 					+ " productosXdocumentos.valor_unitario_usd, "
 					+ " productosXdocumentos.valor_total, "
+					+ " productos_inventario.id_uv, "
 					+ "	tl.descripcion as DESCRIPCION_LOTE, "
 					+ " dxl.consecutivo as CONSECUTIVO_LOTE "
 					+ " FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
@@ -575,12 +610,16 @@ public class ProductoClienteComercioExteriorDAO extends
 					+ "	 LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=productos_inventario.id"
 					+ "	 left join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id"
 					+ "  LEFT join documento_x_lotesoic dxl on dxl.id_tipo_lote=tl.id"
-					+ "	 WHERE productosXdocumentos.id_documento = " + listaEmpaqueDTO.getIdDocumento()
-					+ "  AND (dxl.id_documento = " + listaEmpaqueDTO.getIdDocumento() + " or dxl.id_documento is null) "
-					+ "		 AND productos_x_cliente_comext.id_cliente = " + listaEmpaqueDTO.getCliente().getId() 
+					+ "	 WHERE productosXdocumentos.id_documento = "
+					+ listaEmpaqueDTO.getIdDocumento()
+					+ "  AND (dxl.id_documento = "
+					+ listaEmpaqueDTO.getIdDocumento()
+					+ " or dxl.id_documento is null) "
+					+ "		 AND productos_x_cliente_comext.id_cliente = "
+					+ listaEmpaqueDTO.getCliente().getId()
 					+ "  order by CONSECUTIVO_LOTE";
-			
-		} else if (!listaEmpaqueDTO.getSolicitudCafe()){
+
+		} else if (!listaEmpaqueDTO.getSolicitudCafe()) {
 			sql = "SELECT  productos_inventario.id,"
 					+ " productos_inventario.sku,"
 					+ " productos_inventario.nombre,"
@@ -597,11 +636,12 @@ public class ProductoClienteComercioExteriorDAO extends
 					+ " LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
 					+ " LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto"
 					+ " LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=productos_inventario.id"
-					+ " WHERE productosXdocumentos.id_documento = " + listaEmpaqueDTO.getIdDocumento() 
-					+ " AND (productos_x_cliente_comext.id_cliente = " + listaEmpaqueDTO.getCliente().getId()
+					+ " WHERE productosXdocumentos.id_documento = "
+					+ listaEmpaqueDTO.getIdDocumento()
+					+ " AND (productos_x_cliente_comext.id_cliente = "
+					+ listaEmpaqueDTO.getCliente().getId()
 					+ " or productos_x_cliente_comext.id_cliente is null)";
 		}
-
 
 		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
 
@@ -612,44 +652,61 @@ public class ProductoClienteComercioExteriorDAO extends
 				dto.setSku(objs[1] != null ? objs[1].toString() : null);
 				dto.setNombre(objs[2] != null ? objs[2].toString() : null);
 				dto.setCantidad(objs[3] != null ? new BigDecimal(objs[3]
-						.toString()) : null);
+						.toString()) : BigDecimal.ZERO);
 				dto.setCantidadPorEmbalaje(objs[4] != null ? new BigDecimal(
-						objs[4].toString()) : null);
+						objs[4].toString()) : BigDecimal.ZERO);
 				dto.setCantidadCajas(objs[5] != null ? new BigDecimal(objs[5]
-						.toString()) : null);
+						.toString()) : BigDecimal.ZERO);
 				dto.setPesoNeto(objs[6] != null ? new BigDecimal(objs[6]
-						.toString()) : null);
+						.toString()) : BigDecimal.ZERO);
 				dto.setPesoBruto(objs[7] != null ? new BigDecimal(objs[7]
-						.toString()) : null);
+						.toString()) : BigDecimal.ZERO);
 				dto.setCantidadPallets(objs[8] != null ? new BigDecimal(objs[8]
+						.toString()) : BigDecimal.ZERO);
+				dto.setValorUnitarioUsd(objs[9] != null ? new BigDecimal(
+						objs[9].toString()) : BigDecimal.ZERO);
+				dto.setValorTotal(objs[10] != null ? new BigDecimal(objs[10]
+						.toString()) : BigDecimal.ZERO);
+				dto.setIdUnidadVenta(objs[11] != null ? Long.valueOf(objs[11]
 						.toString()) : null);
 				lista.add(dto);
 			}
 		}
 		return lista;
 	}
-	
+
 	@Override
-	public void generarListaEmpaque(ProductoDTO productoDTO){
-		
+	public void generarListaEmpaque(ProductoDTO productoDTO) {
+
 		String sql = "INSERT INTO productosXdocumentos (id_documento, id_producto, cantidad1, "
 				+ "	fecha_estimada_entrega, fecha_entrega, id_ml, "
 				+ " id_unidades, total_peso_neto_item, valor_unitario_usd,"
 				+ " valor_total, total_peso_bruto_item, cantidad_cajas_item,"
-				+ " cantidad_pallets_item, cantidad_x_embalaje)"
-				+ " VALUES (" + productoDTO.getIdDocumento() + "," 
-				+ productoDTO.getId() + "," 
-				+ productoDTO.getCantidad() + ","
+				+ " cantidad_pallets_item, cantidad_x_embalaje)" + " VALUES ("
+				+ productoDTO.getIdDocumento()
+				+ ","
+				+ productoDTO.getId()
+				+ ","
+				+ productoDTO.getCantidad()
+				+ ","
 				+ " current_timestamp + '2 days', current_timestamp + '2 days', 'USD', "
-				+ " (select id_ud from productos_inventario where id = " + productoDTO.getId() + "), "
-				+ productoDTO.getPesoNeto() + "," 
-				+ productoDTO.getValorUnitarioUsd() + "," 
-				+ productoDTO.getValorTotal() + "," 
-				+ productoDTO.getPesoBruto() + "," 
-				+ productoDTO.getCantidadCajas() + "," 
-				+ productoDTO.getCantidadPallets() + "," 
-				+ productoDTO.getCantidadPorEmbalaje() + ")"; 
-		
+				+ " (select id_ud from productos_inventario where id = "
+				+ productoDTO.getId()
+				+ "), "
+				+ productoDTO.getPesoNeto()
+				+ ","
+				+ productoDTO.getValorUnitarioUsd()
+				+ ","
+				+ productoDTO.getValorTotal()
+				+ ","
+				+ productoDTO.getPesoBruto()
+				+ ","
+				+ productoDTO.getCantidadCajas()
+				+ ","
+				+ productoDTO.getCantidadPallets()
+				+ ","
+				+ productoDTO.getCantidadPorEmbalaje() + ")";
+
 		em.createNativeQuery(sql).executeUpdate();
 	}
 
@@ -663,25 +720,27 @@ public class ProductoClienteComercioExteriorDAO extends
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento,
-			Long idCliente) {
+	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(
+			Long idDocumento, Long idCliente) {
 
-		String sql = "SELECT productos_inventario.id, productos_inventario.nombre, productos_inventario.sku, productosXdocumentos.cantidad1 as cantidad, productos_x_cliente_comext.precio, productosXdocumentos.cantidad1*productos_x_cliente_comext.precio as valorTotal, "+ 
-				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE round((productos_inventario_comext.peso_neto_embalaje/productos_inventario_comext.cantidad_x_embalaje),3)*productosXdocumentos.cantidad1 END) as totalPesoNeto,  "+
-				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productos_inventario_comext.peso_bruto_embalaje/productos_inventario_comext.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END) as totalPesoBruto,  "+
-				"productos_x_cliente_comext.id_cliente as idCliente, productos_inventario_comext.peso_bruto as pesoBruto, productos_inventario_comext.peso_neto as pesoneto, productos_inventario_comext.cant_cajas_x_tendido as cantidadCajas, productos_inventario_comext.total_cajas_x_pallet as cajasPorPallets, "+
-				"productos_inventario_comext.cantidad_x_embalaje as cantidadPorEmbalaje,productos_inventario.id_ud as idUnidad, (CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje) END) as totalCajas, "+ 
-				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.cant_cajas_x_tendido = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.cant_cajas_x_tendido END) AS totalCajasTendido, "+ 
-				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.total_cajas_x_pallet END) AS totalCajasPallet, "+ 
-				"productos_inventario_comext.posicion_arancelaria as posicionArancelaria, unidades.nombre AS unidad, unidades.nombre_ingles as nombreIngles, productos_inventario_comext.descripcion, productos_inventario_comext.peso_neto_embalaje as pesoNetoEmbalaje, "+ 
-				"productos_inventario_comext.peso_bruto_embalaje as pesoBrutoEmbalaje, productos_inventario_comext.controlstock as controlStock "+
-				"FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id "+ 
-				"LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto  "+
-				"LEFT JOIN productos_inventario_comext ON productos_inventario_comext.id_producto=productos_inventario.id  "+
-				"INNER JOIN unidades ON productos_inventario.id_uv=unidades.id  "+
-				"WHERE productosXdocumentos.id_documento= :idDocumento AND (productos_x_cliente_comext.id_cliente= :idCliente or productos_x_cliente_comext.id_cliente is null) ";
+		String sql = "SELECT productos_inventario.id, productos_inventario.nombre, productos_inventario.sku, productosXdocumentos.cantidad1 as cantidad, productos_x_cliente_comext.precio, productosXdocumentos.cantidad1*productos_x_cliente_comext.precio as valorTotal, "
+				+ "(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE round((productos_inventario_comext.peso_neto_embalaje/productos_inventario_comext.cantidad_x_embalaje),3)*productosXdocumentos.cantidad1 END) as totalPesoNeto,  "
+				+ "(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productos_inventario_comext.peso_bruto_embalaje/productos_inventario_comext.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END) as totalPesoBruto,  "
+				+ "productos_x_cliente_comext.id_cliente as idCliente, productos_inventario_comext.peso_bruto as pesoBruto, productos_inventario_comext.peso_neto as pesoneto, productos_inventario_comext.cant_cajas_x_tendido as cantidadCajas, productos_inventario_comext.total_cajas_x_pallet as cajasPorPallets, "
+				+ "productos_inventario_comext.cantidad_x_embalaje as cantidadPorEmbalaje,productos_inventario.id_ud as idUnidad, (CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje) END) as totalCajas, "
+				+ "(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.cant_cajas_x_tendido = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.cant_cajas_x_tendido END) AS totalCajasTendido, "
+				+ "(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.total_cajas_x_pallet END) AS totalCajasPallet, "
+				+ "productos_inventario_comext.posicion_arancelaria as posicionArancelaria, unidades.nombre AS unidad, unidades.nombre_ingles as nombreIngles, productos_inventario_comext.descripcion, productos_inventario_comext.peso_neto_embalaje as pesoNetoEmbalaje, "
+				+ "productos_inventario_comext.peso_bruto_embalaje as pesoBrutoEmbalaje, productos_inventario_comext.controlstock as controlStock "
+				+ "FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id "
+				+ "LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto  "
+				+ "LEFT JOIN productos_inventario_comext ON productos_inventario_comext.id_producto=productos_inventario.id  "
+				+ "INNER JOIN unidades ON productos_inventario.id_uv=unidades.id  "
+				+ "WHERE productosXdocumentos.id_documento= :idDocumento AND (productos_x_cliente_comext.id_cliente= :idCliente or productos_x_cliente_comext.id_cliente is null) ";
 
-		return em.createNativeQuery(sql, ProductoGenerarFacturaPFDTO.class).setParameter("idDocumento", idDocumento).setParameter("idCliente", idCliente).getResultList();
+		return em.createNativeQuery(sql, ProductoGenerarFacturaPFDTO.class)
+				.setParameter("idDocumento", idDocumento)
+				.setParameter("idCliente", idCliente).getResultList();
 
 	}
 
@@ -695,31 +754,34 @@ public class ProductoClienteComercioExteriorDAO extends
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento,
-			Long idCliente) {
+	public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(
+			Long idDocumento, Long idCliente) {
 
-		String sql = "SELECT productos_inventario.id, productos_inventario.nombre, productos_inventario.sku, productosXdocumentos.cantidad1 as cantidad, productos_x_cliente_comext.precio, productosXdocumentos.cantidad1*productos_x_cliente_comext.precio as valorTotal, "+ 
-				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productos_inventario_comext.peso_neto_embalaje/productos_inventario_comext.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END) as totalPesoNeto,  "+
-				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productos_inventario_comext.peso_bruto_embalaje/productos_inventario_comext.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END) as totalPesoBruto,  "+
-				"productos_x_cliente_comext.id_cliente as idCliente, productos_inventario_comext.peso_bruto as pesoBruto, productos_inventario_comext.peso_neto as pesoneto, productos_inventario_comext.cant_cajas_x_tendido as cantidadCajas, productos_inventario_comext.total_cajas_x_pallet as cajasPorPallets, "+
-				"productos_inventario_comext.cantidad_x_embalaje as cantidadPorEmbalaje,productos_inventario.id_ud as idUnidad, (CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje) END) as totalCajas, "+ 
-				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.cant_cajas_x_tendido = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.cant_cajas_x_tendido END) AS totalCajasTendido, "+ 
-				"(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.total_cajas_x_pallet END) AS totalCajasPallet, "+ 
-				"productos_inventario_comext.posicion_arancelaria as posicionArancelaria, unidades.nombre AS unidad, unidades.nombre_ingles as nombreIngles, productos_inventario_comext.descripcion, productos_inventario_comext.peso_neto_embalaje as pesoNetoEmbalaje, "+ 
-				"productos_inventario_comext.peso_bruto_embalaje as pesoBrutoEmbalaje, productos_inventario_comext.id_tipo_loteoic as tipoLote, tipo_loteoic.descripcion as descripcionLote "+
-				"FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id "+ 
-				"LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto  "+
-				"LEFT JOIN productos_inventario_comext ON productos_inventario_comext.id_producto=productos_inventario.id  "+
-				"LEFT JOIN tipo_loteoic ON tipo_loteoic.id = productos_inventario_comext.id_tipo_loteoic "+
-				"INNER JOIN unidades ON productos_inventario.id_uv=unidades.id  "+
-				"WHERE productosXdocumentos.id_documento= :idDocumento AND (productos_x_cliente_comext.id_cliente= :idCliente or productos_x_cliente_comext.id_cliente is null) ";
+		String sql = "SELECT productos_inventario.id, productos_inventario.nombre, productos_inventario.sku, productosXdocumentos.cantidad1 as cantidad, productos_x_cliente_comext.precio, productosXdocumentos.cantidad1*productos_x_cliente_comext.precio as valorTotal, "
+				+ "(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productos_inventario_comext.peso_neto_embalaje/productos_inventario_comext.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END) as totalPesoNeto,  "
+				+ "(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productos_inventario_comext.peso_bruto_embalaje/productos_inventario_comext.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END) as totalPesoBruto,  "
+				+ "productos_x_cliente_comext.id_cliente as idCliente, productos_inventario_comext.peso_bruto as pesoBruto, productos_inventario_comext.peso_neto as pesoneto, productos_inventario_comext.cant_cajas_x_tendido as cantidadCajas, productos_inventario_comext.total_cajas_x_pallet as cajasPorPallets, "
+				+ "productos_inventario_comext.cantidad_x_embalaje as cantidadPorEmbalaje,productos_inventario.id_ud as idUnidad, (CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje) END) as totalCajas, "
+				+ "(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.cant_cajas_x_tendido = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.cant_cajas_x_tendido END) AS totalCajasTendido, "
+				+ "(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0 or productos_inventario_comext.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/productos_inventario_comext.cantidad_x_embalaje)/productos_inventario_comext.total_cajas_x_pallet END) AS totalCajasPallet, "
+				+ "productos_inventario_comext.posicion_arancelaria as posicionArancelaria, unidades.nombre AS unidad, unidades.nombre_ingles as nombreIngles, productos_inventario_comext.descripcion, productos_inventario_comext.peso_neto_embalaje as pesoNetoEmbalaje, "
+				+ "productos_inventario_comext.peso_bruto_embalaje as pesoBrutoEmbalaje, productos_inventario_comext.id_tipo_loteoic as tipoLote, tipo_loteoic.descripcion as descripcionLote "
+				+ "FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id "
+				+ "LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto  "
+				+ "LEFT JOIN productos_inventario_comext ON productos_inventario_comext.id_producto=productos_inventario.id  "
+				+ "LEFT JOIN tipo_loteoic ON tipo_loteoic.id = productos_inventario_comext.id_tipo_loteoic "
+				+ "INNER JOIN unidades ON productos_inventario.id_uv=unidades.id  "
+				+ "WHERE productosXdocumentos.id_documento= :idDocumento AND (productos_x_cliente_comext.id_cliente= :idCliente or productos_x_cliente_comext.id_cliente is null) ";
 
-		return em.createNativeQuery(sql, ProductoAsignarLoteOICDTO.class).setParameter("idDocumento", idDocumento).setParameter("idCliente", idCliente).getResultList();
+		return em.createNativeQuery(sql, ProductoAsignarLoteOICDTO.class)
+				.setParameter("idDocumento", idDocumento)
+				.setParameter("idCliente", idCliente).getResultList();
 
 	}
-	
+
 	/**
-	 * Consulta productos por documento para Asignar Lotes OIC agrupados por Lote
+	 * Consulta productos por documento para Asignar Lotes OIC agrupados por
+	 * Lote
 	 * 
 	 * @author Fredy Wilches
 	 * @email fredy.wilches@softstudio.co
@@ -728,32 +790,30 @@ public class ProductoClienteComercioExteriorDAO extends
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento,
-			Long idCliente) {
+	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(
+			Long idDocumento, Long idCliente) {
 
 		String sql = "SELECT pic.id_tipo_loteoic as tipoLote, tipo_loteoic.descripcion as descripcionLote, SUM(productosXdocumentos.cantidad1) as totalCantidad,"
-			+ " SUM ((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (pic.peso_neto_embalaje/pic.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as totalPesoNeto,"
-			+ " SUM((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (pic.peso_bruto_embalaje/pic.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as totalPesoBruto,"
-			+ " SUM((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pic.cantidad_x_embalaje) END)) as totalCajas,"
-			+ " SUM((CASE WHEN (pic.cantidad_x_embalaje = 0 or pic.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pic.cantidad_x_embalaje)/pic.total_cajas_x_pallet END)) AS totalCajasPallet"
-			+ " FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
-			+ " LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto"
-			+ " LEFT JOIN productos_inventario_comext pic ON pic.id_producto=productos_inventario.id"
-			+ " LEFT JOIN tipo_loteoic ON tipo_loteoic.id = pic.id_tipo_loteoic"
-			+ " INNER JOIN unidades ON productos_inventario.id_uv=unidades.id"
-			+ " WHERE productosxdocumentos.id_documento= :idDocumento "
-			+ " AND (productos_x_cliente_comext.id_cliente= :idCliente or productos_x_cliente_comext.id_cliente is null)"
-			+ " GROUP BY pic.id_tipo_loteoic, tipo_loteoic.descripcion"
-			+ " ORDER BY tipo_loteoic.descripcion DESC";
+				+ " SUM ((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (pic.peso_neto_embalaje/pic.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as totalPesoNeto,"
+				+ " SUM((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (pic.peso_bruto_embalaje/pic.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as totalPesoBruto,"
+				+ " SUM((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pic.cantidad_x_embalaje) END)) as totalCajas,"
+				+ " SUM((CASE WHEN (pic.cantidad_x_embalaje = 0 or pic.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pic.cantidad_x_embalaje)/pic.total_cajas_x_pallet END)) AS totalCajasPallet"
+				+ " FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id"
+				+ " LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto"
+				+ " LEFT JOIN productos_inventario_comext pic ON pic.id_producto=productos_inventario.id"
+				+ " LEFT JOIN tipo_loteoic ON tipo_loteoic.id = pic.id_tipo_loteoic"
+				+ " INNER JOIN unidades ON productos_inventario.id_uv=unidades.id"
+				+ " WHERE productosxdocumentos.id_documento= :idDocumento "
+				+ " AND (productos_x_cliente_comext.id_cliente= :idCliente or productos_x_cliente_comext.id_cliente is null)"
+				+ " GROUP BY pic.id_tipo_loteoic, tipo_loteoic.descripcion"
+				+ " ORDER BY tipo_loteoic.descripcion DESC";
 
-		return em.createNativeQuery(sql, ProductoLoteAsignarLoteOICDTO.class).setParameter("idDocumento", idDocumento).setParameter("idCliente", idCliente).getResultList();
+		return em.createNativeQuery(sql, ProductoLoteAsignarLoteOICDTO.class)
+				.setParameter("idDocumento", idDocumento)
+				.setParameter("idCliente", idCliente).getResultList();
 
-	}	
-	
-	
-	
-	
-	
+	}
+
 	@Override
 	public ProductosXClienteComext consultarPorPK(ProductosXClienteComextPK pk) {
 		ProductosXClienteComext productosClienteComExt = null;
@@ -763,11 +823,14 @@ public class ProductoClienteComercioExteriorDAO extends
 		}
 		return productosClienteComExt;
 	}
-	
+
 	@Override
-	public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku) {
+	public ProductosXClienteComext consultarPorClienteSku(Long idCliente,
+			String sku) {
 		Query query = em
-				.createNamedQuery(ProductosXClienteComext.PRODUCTOS_X_CLIENTE_SKU).setParameter("idCliente", idCliente).setParameter("sku", sku);
-		return (ProductosXClienteComext)query.getSingleResult();
+				.createNamedQuery(
+						ProductosXClienteComext.PRODUCTOS_X_CLIENTE_SKU)
+				.setParameter("idCliente", idCliente).setParameter("sku", sku);
+		return (ProductosXClienteComext) query.getSingleResult();
 	}
 }

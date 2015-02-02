@@ -1,80 +1,91 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the movimientos_inventario database table.
  * 
  */
 @Entity
-@Table(name="movimientos_inventario")
-@NamedQuery(name="MovimientosInventario.findAll", query="SELECT m FROM MovimientosInventario m")
+@Table(name = "movimientos_inventario")
+@NamedQuery(name = "MovimientosInventario.findAll", query = "SELECT m FROM MovimientosInventario m")
 public class MovimientosInventario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name = "movimientosInventarioSeq", sequenceName = "movimientos_inventario_id_seq", allocationSize = 1)
+	@GeneratedValue(generator = "movimientosInventarioSeq", strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	private BigDecimal cantidad;
 
-	@Column(name="corte_cierre")
+	@Column(name = "corte_cierre")
 	private String corteCierre;
 
 	private Timestamp fecha;
 
-	@Column(name="valor_unitario_ml")
+	@Column(name = "valor_unitario_ml")
 	private double valorUnitarioMl;
 
-	@Column(name="valot_unitario_usd")
+	@Column(name = "valot_unitario_usd")
 	private double valotUnitarioUsd;
 
-	//bi-directional many-to-one association to BodegasLogica
+	// bi-directional many-to-one association to BodegasLogica
 	@ManyToOne
-	@JoinColumn(name="id_bodega_logica_destino")
+	@JoinColumn(name = "id_bodega_logica_destino")
 	private BodegasLogica bodegasLogica1;
 
-	//bi-directional many-to-one association to BodegasLogica
+	// bi-directional many-to-one association to BodegasLogica
 	@ManyToOne
-	@JoinColumn(name="id_bodega_logica_origen")
+	@JoinColumn(name = "id_bodega_logica_origen")
 	private BodegasLogica bodegasLogica2;
 
-	//bi-directional many-to-one association to Documento
+	// bi-directional many-to-one association to Documento
 	@ManyToOne
-	@JoinColumn(name="id_documento")
+	@JoinColumn(name = "id_documento")
 	private Documento documento;
 
-	//bi-directional many-to-one association to Moneda
+	// bi-directional many-to-one association to Moneda
 	@ManyToOne
-	@JoinColumn(name="id_ml")
+	@JoinColumn(name = "id_ml")
 	private Moneda moneda;
 
-	//bi-directional many-to-one association to ProductosInventario
+	// bi-directional many-to-one association to ProductosInventario
 	@ManyToOne
-	@JoinColumn(name="id_producto")
+	@JoinColumn(name = "id_producto")
 	private ProductosInventario productosInventario;
 
-	//bi-directional many-to-one association to TipoMovimiento
+	// bi-directional many-to-one association to TipoMovimiento
 	@ManyToOne
-	@JoinColumn(name="id_tipo_movimiento")
+	@JoinColumn(name = "id_tipo_movimiento")
 	private TipoMovimiento tipoMovimiento;
 
-	//bi-directional many-to-one association to Ubicacion
+	// bi-directional many-to-one association to Ubicacion
 	@ManyToOne
-	@JoinColumn(name="id_ubicacion_destino")
+	@JoinColumn(name = "id_ubicacion_destino")
 	private Ubicacion ubicacionDestino;
 
-	//bi-directional many-to-one association to Ubicacion
+	// bi-directional many-to-one association to Ubicacion
 	@ManyToOne
-	@JoinColumn(name="id_ubicacion_origen")
+	@JoinColumn(name = "id_ubicacion_origen")
 	private Ubicacion ubicacionOrigen;
 
-	//bi-directional many-to-one association to Unidad
+	// bi-directional many-to-one association to Unidad
 	@ManyToOne
-	@JoinColumn(name="id_unidad")
+	@JoinColumn(name = "id_unidad")
 	private Unidad unidade;
 
 	public MovimientosInventario() {
