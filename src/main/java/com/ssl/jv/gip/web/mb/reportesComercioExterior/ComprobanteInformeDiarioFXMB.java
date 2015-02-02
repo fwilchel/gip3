@@ -29,6 +29,7 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.ReporteComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.util.Estado;
 import com.ssl.jv.gip.web.mb.UtilMB;
@@ -72,6 +73,7 @@ public class ComprobanteInformeDiarioFXMB extends UtilMB{
 		Map<String, Object> parametros = new HashMap<String, Object>();
 
 		try {
+			filtroDocumentoDTO = new FiltroDocumentoDTO();
 			filtroDocumentoDTO
 			.setIdTipoDocumento((long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
 			filtroDocumentoDTO.setFechaInicio(fechaInicial);
@@ -123,9 +125,15 @@ public class ComprobanteInformeDiarioFXMB extends UtilMB{
 			 
 			 for (Documento doc:listaFacturasExportacion)
 			 {
-				 resSuma2 = resSuma2 + doc.getDescuento().doubleValue();
-				 resSuma3 = resSuma3 + doc.getValorIva16().doubleValue();
-				 resSuma4 = resSuma4 + doc.getValorIva10().doubleValue();
+				 if(doc.getDescuento() != null){
+					 resSuma2 = resSuma2 + doc.getDescuento().doubleValue();
+				 }
+				 if(doc.getValorIva16() != null){
+					 resSuma3 = resSuma3 + doc.getValorIva16().doubleValue();
+				 }
+				 if(doc.getValorIva10()!= null){
+					 resSuma4 = resSuma4 + doc.getValorIva10().doubleValue();
+				 }
 				 							 
 			 }	 
 			 
@@ -145,18 +153,35 @@ public class ComprobanteInformeDiarioFXMB extends UtilMB{
 			LOGGER.error(e);
 			this.addMensajeError(e);
 		}
+		
+		List<ReporteComprobanteInformeDiarioDTO> registros = new ArrayList<ReporteComprobanteInformeDiarioDTO>();
+
+		for(ProductosXDocumento prod:listaProductosxDocumento){
+			ReporteComprobanteInformeDiarioDTO registro = new ReporteComprobanteInformeDiarioDTO();
+			String desc = "";
+			if(prod.getProductosInventario() != null && prod.getProductosInventario().getProductosInventarioComext() != null 
+					&& prod.getProductosInventario().getProductosInventarioComext().getCuentaContable() != null ){
+				desc = prod.getProductosInventario().getProductosInventarioComext().getCuentaContable().getDescripcion();
+			}
+			
+			registro.setDescripcion(desc);
+			
+			registro.setTotal(prod.getValorTotal().doubleValue());
+			
+			
+			registros.add(registro);
+			
+		}
 
 
-
-
-		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosxDocumento);
+		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(registros);
 
 		try {
 			Hashtable<String, String> parametrosR=new Hashtable<String, String>();
 			parametrosR.put("tipo", "pdf");
-			String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_FX.jasper");
+			String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report_ComprobanteInfDiarioCE.jasper");
 			ByteArrayOutputStream os=(ByteArrayOutputStream)com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-			reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "Report_FX.pdf");
+			reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "report_ComprobanteInfDiarioCE.pdf");
 
 		} catch (Exception e) {
 			this.addMensajeError(e);

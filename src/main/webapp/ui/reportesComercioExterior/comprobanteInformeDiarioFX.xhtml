@@ -28,7 +28,7 @@
 
 						<p:outputLabel value="#{msg.FechaBusqueda}" for="filtrofechaInicial"
 							styleClass="negrita" />
-						<p:calendar id="filtrofechaInicial"
+						<p:calendar id="filtrofechaInicial" required="true"
 							value="#{comprobanteInformeDiarioFXMB.fechaInicial}"
 							pattern="yyyy-MM-dd">
 						</p:calendar>
@@ -36,7 +36,7 @@
 						
 						<p:outputLabel value="#{msg.FechaBusqueda}" for="filtrofechaFinal"
 							styleClass="negrita" />
-						<p:calendar id="filtrofechaFinal"
+						<p:calendar id="filtrofechaFinal" required="true"
 							value="#{comprobanteInformeDiarioFXMB.fechaFinal}"
 							pattern="yyyy-MM-dd">
 						</p:calendar>
@@ -49,7 +49,7 @@
 					<p:panelGrid columns="1">
 						<p:commandButton value="Reporte PDF" ajax="false"
 							icon="ui-icon-document">
-							<p:fileDownload value="#{reimprimirFacturaExpoMB.reportePDF}" />
+							<p:fileDownload value="#{comprobanteInformeDiarioFXMB.reportePDF}" />
 						</p:commandButton>
 					</p:panelGrid>
 					
