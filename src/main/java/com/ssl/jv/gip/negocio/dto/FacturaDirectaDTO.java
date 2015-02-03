@@ -60,6 +60,12 @@ public class FacturaDirectaDTO implements Serializable {
 	
 	private BigDecimal descuentoCliente;
 	
+	private Timestamp fechaGeneracionVD;
+	
+	private String numeroFactura;
+	
+	
+
 	
 	
 	public BigDecimal getValorIva5() {
@@ -312,6 +318,23 @@ public class FacturaDirectaDTO implements Serializable {
 	public void setDescuentoCliente(BigDecimal descuentoCliente) {
 		this.descuentoCliente = descuentoCliente;
 	}
+
+	public Timestamp getFechaGeneracionVD() {
+		return fechaGeneracionVD;
+	}
+
+	public void setFechaGeneracionVD(Timestamp fechaGeneracionVD) {
+		this.fechaGeneracionVD = fechaGeneracionVD;
+	}
+
+	public String getNumeroFactura() {
+		return numeroFactura;
+	}
+
+	public void setNumeroFactura(String numeroFactura) {
+		this.numeroFactura = numeroFactura;
+	}
+
 
 
 	

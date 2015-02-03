@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_Remision" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="86901381-be00-48d4-ad72-aae755a16816">
-	<property name="ireport.zoom" value="1.4641000000000621"/>
+	<property name="ireport.zoom" value="2.357947691000101"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="701"/>
-	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
+	<property name="ireport.y" value="424"/>
 	<property name="ireport.background.image.properties" value="true,true,0.75,-9,-4,0,0,625,796"/>
 	<parameter name="nit" class="java.lang.String"/>
 	<parameter name="direccion" class="java.lang.String"/>
@@ -14,7 +13,6 @@
 	<parameter name="sku" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="DataFile" class="java.lang.String"/>
 	<parameter name="telefono" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -32,7 +30,8 @@
 	</queryString>
 	<field name="sku" class="java.lang.String"/>
 	<field name="nombre" class="java.lang.String"/>
-	<field name="cantidad" class="java.lang.Double"/>
+	<field name="cantidad" class="java.math.BigDecimal"/>
+	<field name="unidad" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -410,13 +409,41 @@ Bogotá - Colombia]]></text>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="15" splitType="Prevent">
+		<band height="12" splitType="Prevent">
 			<line>
-				<reportElement uuid="c6e5e31b-693a-436d-a7e1-71500efd05e7" x="586" y="0" width="1" height="15"/>
+				<reportElement uuid="c6e5e31b-693a-436d-a7e1-71500efd05e7" x="586" y="0" width="1" height="12"/>
 			</line>
 			<line>
-				<reportElement uuid="8d3597e7-e8c8-4ea3-a657-275c37c2e50e" x="22" y="0" width="1" height="15"/>
+				<reportElement uuid="8d3597e7-e8c8-4ea3-a657-275c37c2e50e" x="22" y="0" width="1" height="12"/>
 			</line>
+			<textField>
+				<reportElement uuid="c1abe835-ebab-44c2-872d-fce2ca9bdd21" x="52" y="0" width="48" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sku}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="12ad7224-3345-460b-b6cf-b95d2589b416" x="184" y="0" width="192" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1018c89a-c63e-47a5-b7b0-099c6d37a450" x="519" y="0" width="30" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidad}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement uuid="414fb997-fdf3-4821-b04a-125bbbc69505" x="387" y="0" width="74" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

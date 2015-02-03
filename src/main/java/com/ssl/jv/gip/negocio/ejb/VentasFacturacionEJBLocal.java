@@ -22,6 +22,8 @@ public interface VentasFacturacionEJBLocal {
 	List<Documento> consultarDocumento(Map<String, Object> parametros,
 			Long[] idEstados);
 
+	
+
 	//List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(String strConsecutivoDocumento);
 
 	
