@@ -212,6 +212,11 @@
 	        <from-outcome>generar_comprobante_inf_diarioFX</from-outcome>
             <to-view-id>/ui/reportesComercioExterior/comprobanteInformeDiarioFX.xhtml</to-view-id>
         </navigation-case>
+        
+      <navigation-case>
+	        <from-outcome>generar_RepMenu_ContaFactFX</from-outcome>
+            <to-view-id>/ui/reportes/reporteContabilidadFacturasFX.xhtml</to-view-id>
+        </navigation-case>
     
   </navigation-rule>
 
