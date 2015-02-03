@@ -25,9 +25,9 @@
 						columnClasses="label,value">
 
 						<p:outputLabel value="#{msg.modificarListaEmpaque_FechaActual}" for="fecha" styleClass="negrita" />
-						<p:inputText value="#{modificarListaEmpaqueMB.fechaActual}" id="fecha" required="false" disabled="true" >
+						<p:outputLabel value="#{modificarListaEmpaqueMB.fechaActual}" id="fecha" >
 							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
-						</p:inputText>
+						</p:outputLabel>
 						<p:message for="fecha"></p:message>
 
 						<p:outputLabel value="#{msg.modificarListaEmpaque_ConsecutivoListaEmpaque}" for="consecutivo" styleClass="negrita" />
@@ -82,7 +82,7 @@
 							headerText="#{msg.modificarListaEmpaque_FechaGeneracion}"
 							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
 							<p:outputLabel value="#{dato.fechaGeneracion}" >
-								<f:convertDateTime pattern="dd-MM-yyyy"/>
+								<f:convertDateTime pattern="dd-MMM-yyyy"/>
 							</p:outputLabel>
 						</p:column>
 						

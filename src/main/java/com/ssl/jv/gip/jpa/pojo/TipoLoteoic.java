@@ -1,7 +1,12 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.util.List;
 
 
@@ -25,6 +30,7 @@ public class TipoLoteoic implements Serializable {
 
 	//bi-directional many-to-one association to DocumentoXLotesoic
 	@OneToMany(mappedBy="tipoLoteoic")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<DocumentoXLotesoic> documentoXLotesoics;
 
 	//bi-directional many-to-one association to ProductosInventarioComext

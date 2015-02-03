@@ -15,6 +15,7 @@ import org.primefaces.event.RowEditEvent;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriaCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
+import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.RangoCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
@@ -52,6 +53,7 @@ public class ItemsCLMB extends UtilMB{
 	private List<CategoriaCostoLogistico> categorias;
 	private ItemCostoLogistico seleccionado;
 	private RangoCostoLogistico seleccionado2;
+	private List<Moneda> monedas;
 	
 	private Modo modo;
 	
@@ -79,6 +81,7 @@ public class ItemsCLMB extends UtilMB{
 		}
 		categorias=this.maestrosEjb.consultarCategoriasCostosLogisticos();
 		unidades=this.maestrosEjb.consultarUnidades();
+		monedas=this.maestrosEjb.consultarMonedas();
 	}
 
 	public AplicacionMB getAppMB() {
@@ -112,17 +115,31 @@ public class ItemsCLMB extends UtilMB{
 	public void setSeleccionado(ItemCostoLogistico seleccionado) {
 		this.seleccionado = seleccionado;
 		this.modo=Modo.EDICION;
+		if (this.seleccionado.getMoneda()==null)
+			this.seleccionado.setMoneda(new Moneda());
+		if (this.seleccionado.getRangoCostoLogisticos()!=null){
+			for (RangoCostoLogistico rcl:this.seleccionado.getRangoCostoLogisticos()){
+				if (rcl.getMoneda()==null)
+					rcl.setMoneda(new Moneda());
+			}
+		}
 	}
 	
 	public void nuevo(){
 		seleccionado=new ItemCostoLogistico();
 		seleccionado.setCategoriaCostoLogistico(new CategoriaCostoLogistico());
+		seleccionado.setMoneda(new Moneda());
 		this.modo=Modo.CREACION;
 	}
 	
 	public void guardar(){
+		String moneda=null;
 		if (this.seleccionado.getIdPaisDestino().equals(""))
 			this.seleccionado.setIdPaisDestino(null);
+		if (this.seleccionado.getMoneda().getId()==null || this.seleccionado.getMoneda().getId().equals(""))
+			this.seleccionado.setMoneda(null);
+		else
+			moneda=this.seleccionado.getMoneda().getId();
 		if (this.modo.equals(Modo.CREACION)){
 			this.seleccionado=this.maestrosEjb.crearItemCostoLogistico(this.seleccionado);
 			this.items=this.maestrosEjb.consultarItemsCostosLogisticos();
@@ -130,7 +147,26 @@ public class ItemsCLMB extends UtilMB{
 		}else{
 			this.seleccionado=this.maestrosEjb.actualizarItemCostoLogistico(this.seleccionado);
 		}
-		
+		if (moneda!=null){
+			this.seleccionado.setMoneda(new Moneda());
+			this.seleccionado.getMoneda().setId(moneda);
+		}
+		if (this.seleccionado.getMoneda()!=null && this.seleccionado.getMoneda().getId()!=null){
+			for (Moneda m:this.monedas){
+				if (m.getId().equals(this.seleccionado.getMoneda().getId())){
+					this.seleccionado.setMoneda(m);
+					break;
+				}
+			}
+		}
+		if (this.seleccionado.getMoneda()==null)
+			this.seleccionado.setMoneda(new Moneda());
+		if (this.seleccionado.getRangoCostoLogisticos()!=null){
+			for (RangoCostoLogistico rcl:this.seleccionado.getRangoCostoLogisticos()){
+				if (rcl.getMoneda()==null)
+					rcl.setMoneda(new Moneda());
+			}
+		}
 		this.addMensajeInfo(AplicacionMB.getMessage("itemsCLGuardado", language));
 	}
 	
@@ -178,6 +214,7 @@ public class ItemsCLMB extends UtilMB{
 		RangoCostoLogistico r=new RangoCostoLogistico();
 		r.setUnidad(this.unidades.get(0));
 		r.setItemCostoLogistico(this.seleccionado);
+		r.setMoneda(new Moneda());
 		if (this.seleccionado.getRangoCostoLogisticos()==null)
 			this.seleccionado.setRangoCostoLogisticos(new ArrayList<RangoCostoLogistico>());
 		this.seleccionado.getRangoCostoLogisticos().add(r);
@@ -203,6 +240,15 @@ public class ItemsCLMB extends UtilMB{
 				break;
 			}
 		}
+		if (rcl.getMoneda()!=null && rcl.getMoneda().getId()!=null){
+			for (Moneda m:this.monedas){
+				if (m.getId().equals(rcl.getMoneda().getId())){
+					rcl.setMoneda(m);
+					break;
+				}
+			}
+		}
+		
     }
      
     public void onRowCancel(RowEditEvent event) {
@@ -214,6 +260,17 @@ public class ItemsCLMB extends UtilMB{
 
 	public void setSeleccionado2(RangoCostoLogistico seleccionado2) {
 		this.seleccionado2 = seleccionado2;
+		if (this.seleccionado2.getMoneda()==null){
+			this.seleccionado2.setMoneda(new Moneda());
+		}
+	}
+
+	public List<Moneda> getMonedas() {
+		return monedas;
+	}
+
+	public void setMonedas(List<Moneda> monedas) {
+		this.monedas = monedas;
 	}
 
 }

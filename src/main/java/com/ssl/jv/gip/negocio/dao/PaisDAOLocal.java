@@ -11,4 +11,6 @@ public interface PaisDAOLocal extends IGenericDAO<Pais>{
 
 	public List<Pais> findByRegional();
 	
+	public List<Pais> findByPaisTodos();
+	
 }

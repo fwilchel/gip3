@@ -25,8 +25,8 @@
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
 		
-						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete="PF('editarDlg').show()"
+						<p:column style="width:32px;text-align:center">
+							<p:commandButton oncomplete="PF('editarDlg').show()" process="@this"
 								icon="ui-icon-pencil" title="bleh" action="#{terminosTransporteMB.getShipmentConditionsById}"
 								update=":editarDialog">
 								<f:setPropertyActionListener value="#{cond}"
@@ -140,7 +140,6 @@
 								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.idAgenteAduana1}">
 								<f:selectItems value="#{terminosTransporteMB.agenteAduanaSelectList}" 
 									var="aa" itemLabel="#{aa.nombre}" itemValue="#{aa.id}"/>
-								<p:ajax process="@this"/>
 							</p:selectOneMenu>
 							<p:message for="aduanaAgentelist1" />
 							
@@ -149,7 +148,6 @@
 								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.idAgenteAduana2}">
 								<f:selectItems value="#{terminosTransporteMB.agenteAduanaSelectList}"
 									var="aa2" itemLabel="#{aa2.nombre}" itemValue="#{aa2.id}"/>
-								<p:ajax process="@this"/>
 							</p:selectOneMenu>
 							<p:message for="aduanaAgentelist2" />
 							
@@ -168,8 +166,10 @@
 							<p:message for="puertoEmbarque" />
 
 							<p:outputLabel value="#{msg.CampoFechaEmbarque}" styleClass="negrita" />
-							<p:calendar id="fechaEmbarque" required="true" pattern="yyyy-MM-dd"
-								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.fechaEmbarqueDate}" />
+							<p:calendar id="fechaEmbarque" required="true" pattern="yyyy-MM-dd" 
+								value="#{terminosTransporteMB.selectedFechaEmbarque}" >
+								<p:ajax process="@this"/>
+							</p:calendar>
 							<p:message for="fechaEmbarque" />
 						
 
@@ -232,17 +232,17 @@
 							
 							<p:outputLabel value="#{msg.CampointModalidadEmbarque}" styleClass="negrita" />
 							<p:selectOneMenu id="modalidadEmbarque"  required="true"
-								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.modalidadEmbarque}">
+								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.modalidadEmbarque.id}">
 								<f:selectItems value="#{terminosTransporteMB.modalidadEmbarqueList}" var="me"
-									itemLabel="#{me.descripcion}" itemValue="#{me}"/>
+									itemLabel="#{me.descripcion}" itemValue="#{me.id}"/>
 							</p:selectOneMenu>
 							<p:message for="modalidadEmbarque" />
 							
 							<p:outputLabel value="#{msg.CampoIncotermDespacho}" styleClass="negrita" />
 							<p:selectOneMenu id="incotermDespacho"  required="true"
-								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.terminoIncoterm}">
+								value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.terminoIncoterm.id}">
 								<f:selectItems value="#{terminosTransporteMB.incotermList}" var="ic"
-									itemLabel="#{ic.descripcion}" itemValue="#{ic}"/>
+									itemLabel="#{ic.descripcion}" itemValue="#{ic.id}"/>
 								<p:ajax process="@this"/>
 							</p:selectOneMenu>
 							<p:message for="incotermDespacho" />
@@ -294,9 +294,9 @@
 
 					<p:outputLabel value="#{msg.CampoCiudadDestino}" styleClass="negrita" />
 					<p:selectOneMenu id="ciudades"  required="true"
-						value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.ciudade}">
+						value="#{terminosTransporteMB.instruccionesEmbarqueDTO.terminosTransporte.ciudade.id}">
 						<f:selectItems value="#{terminosTransporteMB.ciudadesList}" var="ciu" 
-							itemLabel="#{ciu.nombre}" itemValue="#{ciu}"/>
+							itemLabel="#{ciu.nombre}" itemValue="#{ciu.id}"/>
 						<p:ajax process="@this"/>
 					</p:selectOneMenu>
 					<p:message for="ciudades" />
@@ -306,19 +306,21 @@
 					<p:spacer width="400" height="10"/>
 				 	<p:commandButton id="updateButton" value="#{msg.BotonActualizarIE}" 
    				 		action="#{terminosTransporteMB.actualizarInstruccionEmbarque}" update=":formaDlg2"
-   				 		process="ttPnlGrd">
+   				 		process="@form">
 				 		</p:commandButton>
 				</p:panelGrid>
 			</h:form>
 		</p:dialog>
 
 		<p:dialog widgetVar="successDlg" modal="true" showEffect="fade" header="#{msg.TituloModInstruccionEmbarque}"
-			hideEffect="fade" resizable="false" dynamic="true" id="successDialog" >
-			<h:form id="formaDlg4" style="text-align:center">
+			hideEffect="fade" resizable="true" dynamic="true" id="successDialog">
+			<h:form id="formaDlg4" >
+				<p:panelGrid columns="1" style="width:100%;text-align:center" >
 					<p:outputLabel value="#{msg.actualizacionExitosa}" styleClass="negrita" />
 				 	<p:commandButton id="yesButton" value="OK" 
-				 		update=":forma"
+				 		update=":forma" icon="ui-icon-check"
 				 		oncomplete="PF('successDlg').hide(), PF('editarDlg').hide()" />
+				</p:panelGrid>
 			</h:form>
 		</p:dialog>
 	</ui:define>

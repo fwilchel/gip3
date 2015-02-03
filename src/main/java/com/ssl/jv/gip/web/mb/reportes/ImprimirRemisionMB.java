@@ -179,6 +179,7 @@ public class ImprimirRemisionMB  extends UtilMB {
 			parametros.put("telefono", seleccionado2.getTelefonoCliente());
 			parametros.put("numRemision",seleccionado2.getConsecutivoDocumento());
 		 	parametros.put("numVD",seleccionado.getObservacionDocumento());
+
 		 	parametros.put("despachado_a",seleccionado2.getNombrePuntoVenta());
 			parametros.put("direccionpv",seleccionado2.getDireccionPuntoVenta());
 			parametros.put("telefonopv","TelÈfono: " + seleccionado2.getTelefonoPuntoVenta());		 
@@ -186,6 +187,24 @@ public class ImprimirRemisionMB  extends UtilMB {
 			parametros.put("documento",seleccionado.getDocumentoCliente());
 			parametros.put("fecha",fechaStringGeneracion);
 			parametros.put("fechaVentaDirecta",fechaStringGeneracionVD);
+
+			
+		
+			//System.out.println("contacto"+ c.getContacto());
+			//parametros.put("id_documento", seleccionado.getConsecutivoDocumento());
+			
+			
+			
+			
+			
+			 parametros.put("despachado_a",seleccionado2.getNombrePuntoVenta());
+			 parametros.put("direccionpv",seleccionado2.getDireccionPuntoVenta());
+			 parametros.put("telefonopv","Tel√©fono: " + seleccionado2.getTelefonoPuntoVenta());		 
+			 parametros.put("ciudadpv",seleccionado2.getNombreCiudadPuntoVenta());
+			 parametros.put("documento",seleccionado.getDocumentoCliente());
+			 parametros.put("fecha",fechaStringGeneracion);
+			 parametros.put("fechaVentaDirecta",fechaStringGeneracion);
+
 			 
 			 
 				
@@ -200,7 +219,7 @@ public class ImprimirRemisionMB  extends UtilMB {
 				System.out.println("despachado_a"+seleccionado2.getNombrePuntoVenta());
 				
 				System.out.println("direccionpv"+seleccionado2.getDireccionPuntoVenta());
-				System.out.println("telefonopv"+"TelÈfono: " + seleccionado2.getTelefonoPuntoVenta());		 
+				System.out.println("telefonopv"+"Tel√©fono: " + seleccionado2.getTelefonoPuntoVenta());		 
 				System.out.println("ciudadpv"+seleccionado2.getNombreCiudadPuntoVenta());
 				System.out.println("documento"+seleccionado.getDocumentoCliente());
 				System.out.println("fechaVentaDirecta"+fechaStringGeneracionVD);*/
@@ -209,8 +228,23 @@ public class ImprimirRemisionMB  extends UtilMB {
 			 
 			 JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDetalle);
 				
-			try {
+
+/*
+				if (n > 0){ //Existe alg√∫n registro con descuento adicioanl
+					 parametros.put("descuentoCliente",seleccionado2.getDescuentoCliente().toString()+ "%");
+					 parametros.put("observaciones", "Los productos marcados con (*) incluyen descuento adicional.");
+					 parametros.put("mark", "(*)");				 
+				}
+				else{
+					 parametros.put("descuentoCliente","");
+					 parametros.put("observaciones", "");
+					 parametros.put("mark", "");				 
+				}		 
 			 
+			 */
+
+
+try {
 			 Hashtable<String, String> parametrosR=new Hashtable<String, String>();
 					parametrosR.put("tipo", "pdf");
 					

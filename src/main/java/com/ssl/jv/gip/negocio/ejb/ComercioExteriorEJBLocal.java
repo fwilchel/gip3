@@ -8,21 +8,28 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
+import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoPorLotesInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
@@ -51,11 +58,12 @@ public interface ComercioExteriorEJBLocal {
 	 * @return the integer
 	 */
 	public Integer reiniciarConsecutivoLoteOIC();
-	
+
 	/**
 	 * Consultar cliente por id.
 	 *
-	 * @param idCliente the id cliente
+	 * @param idCliente
+	 *            the id cliente
 	 * @return the cliente
 	 */
 	public Cliente consultarClientePorId(Long idCliente);
@@ -92,14 +100,15 @@ public interface ComercioExteriorEJBLocal {
 	 * @return the list
 	 */
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
-	
+
 	/**
 	 * Consultar documentos solicitud pedido.
 	 *
 	 * @return the list
 	 */
-	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
-	
+	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(
+			FiltroConsultaSolicitudDTO filtro);
+
 	/**
 	 * Consultar documentos aprobar solicitud pedido.
 	 *
@@ -139,11 +148,12 @@ public interface ComercioExteriorEJBLocal {
 	 */
 	public void guardarSolicitudPedido(DocumentoIncontermDTO documento,
 			List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
-	
+
 	/**
 	 * Actualizar estado documento.
 	 *
-	 * @param documento the documento
+	 * @param documento
+	 *            the documento
 	 */
 	public void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
 
@@ -168,7 +178,8 @@ public interface ComercioExteriorEJBLocal {
 	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(
 			String consecutivoFacturaProforma);
 
-	public List<Documento> consultarDocumento(Map<String, Object> parametros ,Long[] idEstados);
+	public List<Documento> consultarDocumento(Map<String, Object> parametros,
+			Long[] idEstados);
 
 	public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
 			String consecutivoDocumento);
@@ -231,13 +242,66 @@ public interface ComercioExteriorEJBLocal {
 			List<ProductosXDocumento> productosXDocumentos);
 
 	public List<Documento> consultarFacturasDeExportacion();
-	
-	public List<Documento> consultarFacturasDeExportacionFiltro(Documento documento);
-	
+
+	public List<Documento> consultarFacturasDeExportacionFiltro(
+			Documento documento);
+
 	public void actualizarFacturaDeExportacionFiltro(Documento documento);
-	
-	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
-	
+
+	public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(
+			String consecutivoDocumento);
+
 	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
-	
+
+	/**
+	 *
+	 * @return
+	 */
+	List<Documento> consultarTodosLosDocumentos();
+
+	/**
+	 *
+	 * @param consecutivoDocumento
+	 * @return
+	 */
+	List<Documento> consultarSolicitudesPedidoPorAnular(
+			String consecutivoDocumento);
+
+	/**
+	 *
+	 * @param documento
+	 */
+	void anularSolicitudPedido(Documento documento);
+
+	public List<Documento> consultarFacturasProformasParaGenerarListaEmpaque(
+			String consecutivoDocumento);
+
+	public List<Cliente> listadoClientesInstruccionEmbarque(String idUsuario);
+
+	public List<DocumentoInstruccionEmbarqueDTO> listadoDocumentosInstruccionEmbarque(
+			Long idCliente);
+
+	public List<DocumentoPorLotesInstruccionEmbarqueDTO> consultarDocumentosPorLotes(
+			String strDocs, String strDocsMerca);
+
+	public List<AgenteAduana> consultarAgenteAduana();
+
+	public List<Pais> findByPaisTodos();
+
+	public List<TerminoIncoterm> findTerminoIncotermAll();
+
+	public List<Ciudad> findCiudadesAll(String idPais);
+
+	public List<ModalidadEmbarque> findModalidadEmbarque();
+
+	public TerminosTransporte updateTerminoTransporte(
+			TerminosTransporte terminosTransporte);
+
+	public String guardarInstruccionEmbarque(
+			List<DocumentoInstruccionEmbarqueDTO> listadoDocumentos,
+			TerminosTransporte terminosTransporte);
+
+	public void generarListaEmpaque(Documento documento,
+			DocumentoXNegociacion documentoXNegociacion,
+			List<ProductoDTO> productoDTOs);
 }

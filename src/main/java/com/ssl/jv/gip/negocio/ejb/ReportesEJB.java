@@ -9,9 +9,11 @@ import javax.ejb.Stateless;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.ComextFormatoNovedadesDAO;
+import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ComextFormatoNovedadesDTO;
+import com.ssl.jv.gip.negocio.dto.CuentaContableDTO;
 import com.ssl.jv.gip.util.Estado;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
@@ -30,6 +32,9 @@ public class ReportesEJB implements ReportesEJBLocal {
 
 	@EJB
 	private ProductosXDocumentoDAOLocal productosXDocumentoDAOLocal;
+	
+	@EJB
+	private CuentaContableDAOLocal cuentaContableDAOLocal;
 
 	/**
 	 * Default constructor.
@@ -58,6 +63,12 @@ public class ReportesEJB implements ReportesEJBLocal {
 			Long idDocumento, Long idCliente) {
 		return productosXDocumentoDAOLocal.consultarPorDocumentoYCliente(
 				idDocumento, idCliente);
+	}
+	
+	@Override
+	public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc, String fechaIni, String fechaFin) {
+		return cuentaContableDAOLocal.consultarReporteFacturasFX(
+				consecDoc, fechaIni, fechaFin);
 	}
 
 }

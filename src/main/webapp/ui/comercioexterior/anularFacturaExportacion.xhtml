@@ -24,8 +24,7 @@
 						rowsPerPageTemplate="5,10,15">
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton
-								action="PF('datoDialog').show()"
+							<p:commandButton action="PF('datoDialog').show()"
 								icon="ui-icon-search" update=":datoDlg">
 								<f:setPropertyActionListener value="#{dato}"
 									target="#{anularFacturaExportacionMB.seleccionado}" />
@@ -55,18 +54,21 @@
 				</p:tab>
 			</p:tabView>
 		</h:form>
-		<p:dialog header="#{msg.TituloAnularFX}"
-			widgetVar="datoDialog" modal="true" showEffect="fade"
-			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+		<p:dialog header="#{msg.TituloAnularFX}" widgetVar="datoDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+			dynamic="true" id="datoDlg">
 			<h:form id="formaDlg">
-			<p:panelGrid columns="2">
-						<h:outputLabel value="¿Esta seguro que dese anular esta factura de esportación?" />
-						<p:commandButton 
-								action="#{anularFacturaExportacionMB.anularFactura()}">
-								<f:setPropertyActionListener value="#{dato}"
-									target="#{anularFacturaExportacionMB.seleccionado}" />
+				<p:outputPanel id="datoDetalle" style="text-align:center;">
+					<p:panelGrid columns="2">
+						<h:outputLabel
+							value="¿Esta seguro que dese anular esta factura de esportación?" />
+						<p:commandButton
+							action="#{anularFacturaExportacionMB.anularFactura()}">
+							<f:setPropertyActionListener value="#{dato}"
+								target="#{anularFacturaExportacionMB.seleccionado}" />
 						</p:commandButton>
 					</p:panelGrid>
+				</p:outputPanel>
 			</h:form>
 		</p:dialog>
 	</ui:define>

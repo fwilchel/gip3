@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="item_costo_logistico")
-@NamedQuery(name="ItemCostoLogistico.findAll", query="SELECT DISTINCT i FROM ItemCostoLogistico i LEFT JOIN FETCH i.categoriaCostoLogistico ccl LEFT JOIN FETCH i.rangoCostoLogisticos r LEFT JOIN FETCH r.unidad u")
+@NamedQuery(name="ItemCostoLogistico.findAll", query="SELECT DISTINCT i FROM ItemCostoLogistico i LEFT JOIN FETCH i.categoriaCostoLogistico ccl LEFT JOIN FETCH i.rangoCostoLogisticos r LEFT JOIN FETCH r.unidad u LEFT JOIN FETCH i.moneda m")
 public class ItemCostoLogistico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -43,6 +43,9 @@ public class ItemCostoLogistico implements Serializable {
 	@Column(name="aplica_fob")
 	private Boolean aplicaFob;
 
+	@Column(name="aplica_fob_in")
+	private Boolean aplicaFobIn;
+	
 	private String descripcion;
 
 	@Column(name="id_pais_destino")
@@ -61,16 +64,20 @@ public class ItemCostoLogistico implements Serializable {
 	@Column(name="tipo_contenedor")
 	private Integer tipoContenedor;
 
-	@Column(name="valor_minimo_usd")
-	private BigDecimal valorMinimoUsd;
+	@Column(name="valor_minimo")
+	private BigDecimal valorMinimo;
 
-	@Column(name="valor_usd")
-	private BigDecimal valorUsd;
+	@Column(name="valor")
+	private BigDecimal valor;
 
 	//bi-directional many-to-one association to CategoriasCostosLogistico
 	@ManyToOne
 	@JoinColumn(name="id_categoria")
 	private CategoriaCostoLogistico categoriaCostoLogistico;
+	
+	@ManyToOne
+	@JoinColumn(name="id_moneda")
+	private Moneda moneda;
 
 	//bi-directional many-to-one association to RangoCostoLogistico
 	@OneToMany(mappedBy="itemCostoLogistico")
@@ -191,20 +198,20 @@ public class ItemCostoLogistico implements Serializable {
 		this.tipoContenedor = tipoContenedor;
 	}
 
-	public BigDecimal getValorMinimoUsd() {
-		return this.valorMinimoUsd;
+	public BigDecimal getValorMinimo() {
+		return this.valorMinimo;
 	}
 
-	public void setValorMinimoUsd(BigDecimal valorMinimoUsd) {
-		this.valorMinimoUsd = valorMinimoUsd;
+	public void setValorMinimo(BigDecimal valorMinimo) {
+		this.valorMinimo = valorMinimo;
 	}
 
-	public BigDecimal getValorUsd() {
-		return this.valorUsd;
+	public BigDecimal getValor() {
+		return this.valor;
 	}
 
-	public void setValorUsd(BigDecimal valorUsd) {
-		this.valorUsd = valorUsd;
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 
 	public CategoriaCostoLogistico getCategoriaCostoLogistico() {
@@ -244,6 +251,22 @@ public class ItemCostoLogistico implements Serializable {
 				return i.getDescripcion();
 		}
 		return null;
+	}
+
+	public Boolean getAplicaFobIn() {
+		return aplicaFobIn;
+	}
+
+	public void setAplicaFobIn(Boolean aplicaFobIn) {
+		this.aplicaFobIn = aplicaFobIn;
+	}
+
+	public Moneda getMoneda() {
+		return moneda;
+	}
+
+	public void setMoneda(Moneda moneda) {
+		this.moneda = moneda;
 	}
 
 }
