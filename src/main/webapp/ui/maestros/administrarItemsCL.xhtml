@@ -97,6 +97,11 @@
 							<h:outputText value="#{registro.moneda.id}" />
 						</p:column>
 						
+						<p:column headerText="#{msg.itemsCLBaseFOB}" style="width:30"
+							sortBy="#{registro.baseFob}">
+							<h:outputText value="#{registro.baseFob?'SI':'NO'}" />
+						</p:column>
+						
 						<p:column headerText="#{msg.itemsCLFOB}" style="width:30"
 							sortBy="#{registro.aplicaFob}">
 							<h:outputText value="#{registro.aplicaFob?'SI':'NO'}" />
@@ -291,6 +296,13 @@
 							id="puertos" maxlength="500" size="50"
 							label="#{msg.itemsCLPuertosNalInternal}" />
 						<p:message for="puertos"></p:message>
+
+						<p:outputLabel value="#{msg.itemsCLbaseFOB}" for="baseFob"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.baseFob}" id="baseFob"
+							label="#{msg.itemsCLbaseFOB}" />
+						<p:message for="baseFob"></p:message>
 												
 						<p:outputLabel value="#{msg.itemsCLaplicaFOB}" for="fob"
 							styleClass="negrita" />
