@@ -19,7 +19,9 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.ClienteDTO;
+import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
@@ -27,6 +29,7 @@ import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
+import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.negocio.dto.UbicacionDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
@@ -1037,32 +1040,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 
 		int tipo = (Integer) parametros.get("tipo");
 		String parametroConseDoc = (String) parametros.get("parametroConseDoc");
-		//int estado = (Integer) parametros.get("estado");
-		
-		//long[] idEstados = (long[])parametros.get("estado");
-		
-		//ZFSZFSD
 
-		//parametros.get("estado2").
-	/*	
-		System.out.println("tamaño:"+ estado.length);
-		
-		if  (estado.length==2)
-		{
-			
-		}
-		
-	
-		
-		
-		// System.out.println("tipo doc:"+tipo);
-		// System.out.println("estado doc:"+estado);
-		// System.out.println("parametroConseDoc:"+parametroConseDoc);
-		 * 
-		 * 
-		 */
-		//Long... idEstados =(11,12);
-		
 		
 
 		try {
@@ -1078,13 +1056,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 					.getResultList();
 			// lista = em.createQuery(query).setParameter("tipo", tipo)
 
-			System.out.println("query tamaño" + lista.size());
-			System.out.println("query documento: " + query);
-			
-			
-			
-			
-			
 			
 			
 		} catch (Exception e) {
@@ -1286,7 +1257,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				+ " d.subtotal as valorSubtotal ,d.descuento as valorDescuento ,d.valor_iva10 as  valorIva10  ,d.valor_iva16 as valorIva16, d.valor_iva5 as valorIva5, d.valor_total as valorTotal, "
 				+ " pv.nombre as nombrePuntoVenta ,pv.direccion as direccionPuntoVenta ,pv.telefono as telefonoPuntoVenta,ciupv.nombre as nombreCiudadPuntoVenta, "
 				+ " cli.nit as nitCliente,"
-				+ " ciucli.nombre as nombreCiudadCliente, d.id_estado as estado , cli.descuento_cliente as descuentoCliente"
+				+ " ciucli.nombre as nombreCiudadCliente, d.id_estado as estado , cli.descuento_cliente as descuentoCliente,"
+				+ " (select d2.fecha_generacion as fechaGeneracionVD from documentos d2 where d2.consecutivo_documento=d.observacion_documento),"
+				+ " d.numero_factura as numeroFactura"
 				+ " FROM documentos d INNER JOIN clientes cli on d.id_cliente=cli.id "
 				+ " INNER JOIN ubicaciones u on d.id_ubicacion_destino=u.id "
 				+ " INNER JOIN punto_venta pv on pv.id=d.id_punto_venta "
@@ -1294,58 +1267,10 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				+ " INNER JOIN ciudades ciucli on ciucli.id=cli.id_ciudad" 
  				+ " WHERE d.consecutivo_documento= :consecutivoDocumento";
 		
-		
-		
-		
-		
 		dto = (FacturaDirectaDTO)em.createNativeQuery(query, FacturaDirectaDTO.class).setParameter("consecutivoDocumento", strConsecutivoDocumento).getSingleResult();
 		
 
-		/*if (listado != null) {
-			for (Object[] objs : listado) {
-
-				dto.setIdDocumento(objs[0] != null ? objs[0].toString() : null);
-				dto.setConsecutivoDocumento(objs[1] != null ? objs[1]
-						.toString() : null);
-				dto.setFechaGeneracion((Timestamp) (objs[2] != null ? objs[2]
-						: null));
-
-				ClienteDTO objCli = new ClienteDTO();
-
-				objCli.setNombre(objs[3] != null ? objs[3].toString() : null);
-				objCli.setDireccion(objs[4] != null ? objs[4].toString() : null);
-				objCli.setTelefono(objs[5] != null ? objs[5].toString() : null);
-				objCli.setContacto(objs[6] != null ? objs[6].toString() : null);
-
-				dto.setCliente(objCli);
-
-				dto.setObservacionDocumento(objs[7] != null ? objs[7].toString() : null);
-
-				UbicacionDTO objUbiv = new UbicacionDTO();
-				objUbiv.setNombre(objs[8] != null ? objs[8].toString() : null);
-				
-				dto.setValorSubtotal(objs[9] != null ? new BigDecimal(objs[9]
-						.toString()) : null);
-				
-				dto.setValorDescuento(objs[10] != null ? new BigDecimal(objs[10]
-						.toString()) : null);
-				
-				dto.setValorIva10(objs[11] != null ? new BigDecimal(objs[11]
-						.toString()) : null);
-
-				dto.setValorIva16(objs[12] != null ? new BigDecimal(objs[12]
-						.toString()) : null);
-				
-				dto.setValorIva5(objs[13] != null ? new BigDecimal(objs[13]
-						.toString()) : null);
-				
-				
-				dto.setValorTotal(objs[14] != null ? new BigDecimal(objs[14]
-						.toString()) : null);
-				
-			}
-		}*/
-
+		
 		return dto;
 
 	}
@@ -1628,4 +1553,216 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		
 	}
 	
+	
+	
+	@Override
+	public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(Map<String, Object> parametros) {
+
+	//	String fechaIni = (String) parametros[0];
+	//	String fechaFin = (String) parametros[1];
+	//	Integer tipoDoc = (Integer) parametros[2];
+		
+		
+		String fechaIni = (String) parametros.get("fechaInicial");
+		String fechaFin = (String) parametros.get("fechaFinal");
+		 
+		Timestamp tsfechaIni=Timestamp.valueOf(fechaIni);
+		Timestamp tsfechaFin=Timestamp.valueOf(fechaFin);
+		
+		int tipoDoc = (Integer) parametros.get("tipo");
+
+		
+		 System.out.println("fechaini"+fechaIni );
+		 System.out.println("fechaFin"+fechaFin );
+		 System.out.println("tipodoc"+tipoDoc );
+		 
+		 
+			
+		List<CintaMagneticaDTO> lista = new ArrayList<CintaMagneticaDTO>();
+		String query = "";
+		
+		query = "select documentos.fecha_generacion as fechaGeneracion, documentos.consecutivo_documento as consecutivoDocumento,"
+		 + " CASE WHEN documentos.id_estado=11 THEN 'ANULADA' ELSE clientes.nombre END as nombreCliente,"					
+		 + " CASE WHEN documentos.id_estado=11 OR documentos.subtotal IS NULL THEN 0 ELSE documentos.subtotal END as valorSubtotal,"
+		 + " CASE WHEN documentos.id_estado=11 OR documentos.descuento IS NULL THEN 0 ELSE documentos.descuento END as valorDescuento,"
+		 + " CASE WHEN documentos.id_estado=11 OR (documentos.valor_iva5 IS NULL AND documentos.valor_iva16 IS NULL) THEN 0 ELSE documentos.valor_iva5 + documentos.valor_iva16 END as valorImpuestos,"
+		 + " CASE WHEN documentos.id_estado=11 OR documentos.valor_total IS NULL THEN 0 ELSE documentos.valor_total END as valorTotal,"
+		 + " CASE WHEN documentos.id_estado=11 OR documentos.valor_iva5 IS NULL THEN 0 ELSE documentos.valor_iva5 END as valorIva10,"
+		 + " CASE WHEN documentos.id_estado=11 OR documentos.valor_iva16 IS NULL THEN 0 ELSE documentos.valor_iva16 END as valorIva16"
+		 + " from documentos"
+		 + " inner join clientes on documentos.id_cliente = clientes.id"
+		 + " where documentos.fecha_generacion between :fechaIni and :fechaFin"
+		 + " and documentos.id_tipo_documento = :tipoDoc"
+		 + " order by documentos.fecha_generacion";
+		
+		
+		
+		lista = em.createNativeQuery(query, CintaMagneticaDTO.class).setParameter("fechaIni", tsfechaIni)
+				.setParameter("fechaFin", tsfechaFin)
+				.setParameter("tipoDoc", tipoDoc)
+				.getResultList();
+		
+		
+		
+		 System.out.println("query: "+query );
+		
+		
+		return lista;
+
+	}
+	
+	
+	@Override
+	public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(Map<String, Object> parametros) {
+
+	//	String fechaIni = (String) parametros[0];
+	//	String fechaFin = (String) parametros[1];
+	//	Integer tipoDoc = (Integer) parametros[2];
+		
+		
+		String fechaIni = (String) parametros.get("fechaInicial");
+		String fechaFin = (String) parametros.get("fechaFinal");
+		 
+		Timestamp tsfechaIni=Timestamp.valueOf(fechaIni);
+		Timestamp tsfechaFin=Timestamp.valueOf(fechaFin);
+		
+		int tipoDoc = (Integer) parametros.get("tipo");
+
+		 System.out.println("fechaini"+fechaIni );
+		 System.out.println("fechaFin"+fechaFin );
+		 System.out.println("tipodoc"+tipoDoc );
+		 
+		List<ComprobanteInformeDiarioDTO> lista = new ArrayList<ComprobanteInformeDiarioDTO>();
+		String query = "";
+		
+		query = "select pi.id_cuenta_contable as idCuentaContable, cc.descripcion as descripcionCuentaContable, sum(pxd.valor_total) as valorTotal"
+				 + " from productos_inventario pi inner join  productosXdocumentos pxd on pi.id = pxd.id_producto"  
+		 + " inner join cuenta_contable cc on cc.id=pi.id_cuenta_contable"  
+		 + " inner join documentos d on d.id = pxd.id_documento"
+		 + " where d.fecha_generacion between :fechaIni and :fechaFin"  
+		 + " and d.id_tipo_documento =   :tipoDoc" 
+		 + " and pi.id_cuenta_contable is not null" 
+		 + " and d.id_estado in (5,12)" 
+		 + " group by pi.id_cuenta_contable, cc.descripcion"; 
+		
+
+		
+		lista = em.createNativeQuery(query, ComprobanteInformeDiarioDTO.class).setParameter("fechaIni", tsfechaIni)
+				.setParameter("fechaFin", tsfechaFin)
+				.setParameter("tipoDoc", tipoDoc)
+				.getResultList();
+		
+		
+		
+		// System.out.println("query: "+query );
+		
+		
+		return lista;
+
+	}
+	
+	
+	@Override
+	public List<ReporteVentaDTO> consultarReporteVentasFD(Map<String, Object> parametros) {
+
+	//	String fechaIni = (String) parametros[0];
+	//	String fechaFin = (String) parametros[1];
+	//	Integer tipoDoc = (Integer) parametros[2];
+		
+		
+		String fechaIni = (String) parametros.get("fechaInicial");
+		String fechaFin = (String) parametros.get("fechaFinal");
+		 
+		Timestamp tsfechaIni=Timestamp.valueOf(fechaIni);
+		Timestamp tsfechaFin=Timestamp.valueOf(fechaFin);
+		
+		int tipoDoc = (Integer) parametros.get("tipo");
+
+		 System.out.println("fechaini"+fechaIni );
+		 System.out.println("fechaFin"+fechaFin );
+		 System.out.println("tipodoc"+tipoDoc );
+		 
+		List<ReporteVentaDTO> lista = new ArrayList<ReporteVentaDTO>();
+		String query = "";
+		
+		/*query = "select pi.id_cuenta_contable as idCuentaContable, cc.descripcion as descripcionCuentaContable, sum(pxd.valor_total) as valorTotal"
+				 + " from productos_inventario pi inner join  productosXdocumentos pxd on pi.id = pxd.id_producto"  
+		 + " inner join cuenta_contable cc on cc.id=pi.id_cuenta_contable"  
+		 + " inner join documentos d on d.id = pxd.id_documento"
+		 + " where d.fecha_generacion between :fechaIni and :fechaFin"  
+		 + " and d.id_tipo_documento =   :tipoDoc" 
+		 + " and pi.id_cuenta_contable is not null" 
+		 + " and d.id_estado in (5,12)" 
+		 + " group by pi.id_cuenta_contable, cc.descripcion"; 
+		*/
+		
+		query = "SELECT CASE WHEN pxd2.cantidad1 is null THEN prodVD.fecha_generacion ELSE d.fecha_generacion END as fechaGeneracion"
+				//+ " c.nombre as nombreCliente,pv.nombre as nombrePuntoVenta ,prodVD.consecutivo_documento as consecutivoDocumentoVD,"
+				//+ " CASE WHEN pxd2.cantidad1 is null THEN prodVD.observacion_documento  ELSE d.observacion_documento  END as consecutivoDocumentoRM,"
+				//+ " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE d.consecutivo_documento END consecutivoDocumentoFD,"
+				//+ " pi.sku as sku , pi.nombre as nombreProducto,"
+				//+ " prodVD.cantidad1 as cantidadVD,"
+				//+ " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE  pxd2.cantidad1  END as cantidadFD ,prodVD.valor_unitatrio_ml as valorUnitario"
+				/*+ " round(prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100)) as valorDescuentoProducto,"
+				+ " round((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))as valorSubtotal,"
+				+ " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1)*(pxd2.descuentoxproducto/100)*(d.descuento_cliente/100)) as valorDescuentoCliente,"
+				+ " round((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))*pxd2.otros_descuentos as valorOtrosDescuentos,"
+				+ " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))-("
+				+ " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1)*(pxd2.descuentoxproducto/100)*(d.descuento_cliente/100))+"
+				+ " round((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))*pxd2.otros_descuentos)) as valorBaseIva,"
+				+ " pxd2.iva as valorPorcentajeIva,"
+				+ " round((((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))-("
+				+ " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1)*(pxd2.descuentoxproducto/100)*(d.descuento_cliente/100))+"
+				+ " round((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))*pxd2.otros_descuentos))*(pxd2.iva/100),2) as valorIva,"
+				+ " round(round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))-("
+				+ " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1)*(pxd2.descuentoxproducto/100)*(d.descuento_cliente/100))+"
+				+ " ((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))*pxd2.otros_descuentos))+("
+				+ " ((((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))-("
+				+ " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1)*(pxd2.descuentoxproducto/100)*(d.descuento_cliente/100))+"
+				+ " round((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))*pxd2.otros_descuentos))*(pxd2.iva/100))),2) as valorTotal,"
+				+ " d.documento_cliente as OrdenCompra ,d.observacion2 as NumeroEntregaSap ,d.observacion3 as ConsecutivoOD, d.sitio_entrega  as NumeroPedidoSap"*/
++ " from  documentos d "
++ " inner join (SELECT  pxd.id_producto ,d.id as id_documento ,pxd.cantidad1 , d3.consecutivo_documento ,d3.observacion_documento,"
++ " pxd.valor_unitatrio_ml,d3.fecha_generacion from  documentos d "
++ " inner join (select id ,consecutivo_documento,observacion_documento from documentos ) d2 on d2.consecutivo_documento = d.observacion_documento"
++ " inner join (select id ,consecutivo_documento,observacion_documento , fecha_generacion from documentos ) d3 on d3.consecutivo_documento = d2.observacion_documento"
++ " inner join productosxdocumentos pxd  on pxd.id_documento=d3.id"
++ " where d.id_tipo_documento= :tipoDoc1"
++ " and d.fecha_generacion between  '2014-01-01 00:00:00' and '2014-01-05 23:59:59'" 
++ " and d.id_estado in (12,5) and d.sitio_entrega <> 'CS' ) prodVD on prodVD.id_documento=d.id"
++ " inner join clientes c on c.id=d.id_cliente"
++ " inner join punto_venta pv on d.id_punto_venta= pv.id"
++ " inner join productos_inventario pi on pi.id=prodVD.id_producto"
++ " left outer  join productosxdocumentos pxd2 on pxd2.id_producto=prodVD.id_producto and pxd2.id_documento=d.id" 
++ " where d.id_tipo_documento= :tipoDoc2"
++ " and d.fecha_generacion between  '2014-01-01 00:00:00' and '2014-01-05 23:59:59'" 
++ " and d.id_estado in (12,5)"
++ " and d.sitio_entrega <> 'CS'";
+//+ " order by d.consecutivo_documento";
+
+		
+		/*lista = em.createNativeQuery(query, ReporteVentaDTO.class).setParameter("fechaIni", tsfechaIni)
+				.setParameter("fechaFin", tsfechaFin)
+				.setParameter("tipoDoc", tipoDoc)
+				.getResultList();
+		*/
+		
+		List<Object[]> listado = em.createNativeQuery(query)
+				//.setParameter("fechaIni", tsfechaIni)
+				//.setParameter("fechaFin", tsfechaFin)
+				.setParameter("tipoDoc1", tipoDoc)
+				.setParameter("tipoDoc2", tipoDoc)
+				.getResultList();
+		
+		
+		
+		
+		 System.out.println("query: "+query );
+		 
+		 System.out.println("query ventas" + listado.size());
+		
+		
+		return lista;
+
+	}
 }

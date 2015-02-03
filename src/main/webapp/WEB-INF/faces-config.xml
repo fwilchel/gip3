@@ -190,6 +190,23 @@
 	        <from-outcome>generar_reporte_remision</from-outcome>
             <to-view-id>/ui/reportes/imprimirRemision.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+	        <from-outcome>listado_factura_especial</from-outcome>
+            <to-view-id>/ui/reportes/imprimirFacturaEspecial.xhtml</to-view-id>
+        </navigation-case>
+         <navigation-case>
+	        <from-outcome>generar_cinta_magneticaFD</from-outcome>
+            <to-view-id>/ui/reportes/generarCintaMagneticaFD.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>generar_comprobante_inf_diarioFD</from-outcome>
+            <to-view-id>/ui/reportes/generarComprobanteInformeDiario.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>generar_Reporte_Ventas</from-outcome>
+            <to-view-id>/ui/reportes/generarReporteVentasFD.xhtml</to-view-id>
+        </navigation-case>
+        
+       
     </navigation-rule>
-
 </faces-config>

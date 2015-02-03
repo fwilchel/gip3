@@ -8,8 +8,11 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
+import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
+import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 
 
@@ -60,6 +63,35 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 		// TODO Auto-generated method stub
 		return  productoDocumentoDAO.consultarProductoFacturaDirecta(strConsecutivoDocumento);
 	}
+
+
+
+	public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(Map<String, Object> parametros) {
+		// TODO Auto-generated method stub
+		return documentoDAO.consultarCintaTestigoMagnetica(parametros);
+	}
+
+
+
+	public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(	Map<String, Object> parametros) {
+		// TODO Auto-generated method stub
+		return documentoDAO.consultarComprobanteInformeDiario(parametros);
+	}
+
+
+
+	public List<ReporteVentaDTO> consultarReporteVentasFD(Map<String, Object> parametros) {
+		// TODO Auto-generated method stub
+		return documentoDAO.consultarReporteVentasFD(parametros);
+	}
+
+
+
+	
+	
+
+
+   
     
     
     
