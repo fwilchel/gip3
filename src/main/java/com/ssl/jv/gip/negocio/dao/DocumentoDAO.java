@@ -1822,4 +1822,28 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		}
 		return null;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Documento> consultarVentasDirectas(String string) {
+		List<Documento> listado = new ArrayList<Documento>();
+		String query;
+		try {
+			query = "SELECT d FROM Documento d "
+					+ "JOIN FETCH d.estadosxdocumento exd "
+					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento"
+					+ " ORDER BY d.id DESC";
+
+			listado = em
+					.createQuery(query)
+					.setParameter("tipoDocumento",
+							(long) ConstantesTipoDocumento.VENTA_DIRECTA)
+					.getResultList();
+		} catch (Exception e) {
+			LOGGER.error(e
+					+ "********Error consultando Documentos por tipo de documento VENTA DIRECTA");
+			return null;
+		}
+		return listado;
+	}
 }

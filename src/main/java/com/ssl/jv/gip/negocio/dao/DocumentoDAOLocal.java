@@ -121,4 +121,6 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 	public Documento consultarDocumentoPorConsecutivo(String consecutivo);
 
+	public List<Documento> consultarVentasDirectas(String string);
+
 }
