@@ -125,7 +125,7 @@ public class ReporteContabilidadFacturasFxMB extends UtilMB {
 			ByteArrayOutputStream baos =new ByteArrayOutputStream();
 
 			response = Utilidad.configureResponse2(response, "ContaFact" + "-" + datatime);
-			response.setContentLength(baos.size());
+			
 
 			// step 8: escribimos el ByteArrayOutputStream en el ServletOutputStream
 			ServletOutputStream out = null;
@@ -133,11 +133,11 @@ public class ReporteContabilidadFacturasFxMB extends UtilMB {
 			BufferedWriter writer = null;
 
 			SimpleDateFormat ft = new SimpleDateFormat(DATE_FORMAT);
-			String fechaStringGeneracionInicial = ft.format(this.fechaInicial);
-			String fechaStringGeneracionFinal = ft.format(this.fechaFinal);
+			String fechaStringGeneracionInicial = this.fechaInicial!=null ? ft.format(this.fechaInicial):"";
+			String fechaStringGeneracionFinal = this.fechaFinal!=null ? ft.format(this.fechaFinal):"";
 
 			String fechaFinalTmp = fechaStringGeneracionFinal;
-			fechaFinalTmp = fechaFinalTmp + " 23:59:59";
+			fechaFinalTmp = this.fechaFinal!=null ? (fechaFinalTmp + " 23:59:59"):"";
 
 			try {
 
@@ -204,6 +204,7 @@ public class ReporteContabilidadFacturasFxMB extends UtilMB {
 
 				writer.close();   
 				byte[] buffer = baos.toByteArray(); 	
+				response.setContentLength(baos.size());
 
 				out = response.getOutputStream();					
 				out.write(buffer);
@@ -214,6 +215,7 @@ public class ReporteContabilidadFacturasFxMB extends UtilMB {
 
 			baos.flush();
 			out.flush();
+			out.close();
 			context.responseComplete();		
 
 		} catch (Exception e) {

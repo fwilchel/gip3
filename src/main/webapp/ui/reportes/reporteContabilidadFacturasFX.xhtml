@@ -39,6 +39,10 @@
 					<p:panelGrid columns="3" id="panelFiltroFechas"
 						rendered="#{reporteContabilidadFacturasFxMB.renderGenerarArchivoFechas and !reporteContabilidadFacturasFxMB.renderPanelPrincipal}"
 						columnClasses="label,value,">
+						
+						<f:facet name="header">
+							<h:outputText value="#{msg.tituloReporteContaFactFX}" />
+						</f:facet>
 
 						<p:outputLabel value="#{msg.movimientosFechaInicial}" for="filtrofechainicial"
 							styleClass="negrita" />
@@ -61,6 +65,10 @@
 					<p:panelGrid columns="3" id="panelFiltroConsecutivo"
 						rendered="#{!reporteContabilidadFacturasFxMB.renderGenerarArchivoFechas and !reporteContabilidadFacturasFxMB.renderPanelPrincipal}"
 						columnClasses="label,value,">
+						
+						<f:facet name="header">
+							<h:outputText value="#{msg.tituloReporteContaFact2FX}" />
+						</f:facet>
 
 						<p:outputLabel value="#{msg.reporteFacturasConsecutivo}" for="filtroconsecutivo"
 							styleClass="negrita" />
