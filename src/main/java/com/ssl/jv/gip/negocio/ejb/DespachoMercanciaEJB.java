@@ -16,6 +16,7 @@ import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 
 /**
  * Session Bean implementation class OrdenDespachoEJB
@@ -38,22 +39,15 @@ public class DespachoMercanciaEJB implements DespachoMercanciaEJBLocal{
 	ProductosXDocumentoDAOLocal productoXDocumentoDao;
 
 	@Override
-	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
+	public List<ProductoDespacharMercanciaDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
 		List<ProductosXDocumento> resultado = productoXDocumentoDao.consultarPorDocumento(Long.parseLong(idDocumento));
-		List<ProductoDTO> productos= new ArrayList<ProductoDTO>();
+		List<ProductoDespacharMercanciaDTO> productos= new ArrayList<ProductoDespacharMercanciaDTO>();
 		for (ProductosXDocumento producto : resultado) {
-			ProductoDTO p= new ProductoDTO();
+			ProductoDespacharMercanciaDTO p= new ProductoDespacharMercanciaDTO();
 			p.setId(producto.getId().getIdProducto()+"");
 			p.setIdDocumento(producto.getId().getIdDocumento()+"");
 			p.setNombre("");
-			p.setCantidad(producto.getCantidad1());
-			p.setPesoBruto(producto.getTotalPesoBrutoItem());
-			p.setPesoNeto(producto.getTotalPesoNetoItem());
-			p.setCantidadCajas(producto.getCantidadCajasItem());
-			p.setCantidadPorEmbalaje(producto.getCantidadXEmbalaje());
-			p.setCantidadPallets(producto.getCantidadPalletsItem());
-			p.setValorUnitarioUsd(producto.getValorUnitarioUsd());
-			p.setValorTotal(producto.getValorTotal());
+			p.setCantidadDespachada(producto.getCantidad1());
 			productos.add(p);
 		}
 		return productos ;
