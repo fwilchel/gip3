@@ -181,6 +181,14 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 	public void setSeleccionado(Documento seleccionado) {
 		this.seleccionado = seleccionado;
 		try{
+			
+			this.totalCantitad1 = BigDecimal.ZERO;
+			this.totalValorTotal = BigDecimal.ZERO;
+			this.totalCantidadXEmbalaje = BigDecimal.ZERO;
+			this.totalCantidadCajas = BigDecimal.ZERO;
+			this.totalPesoNeto  = BigDecimal.ZERO;
+			this.totalPesoBruto = BigDecimal.ZERO;	
+			
 			listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumento(seleccionado.getId());	
 			for(ProductosXDocumento pr:listaProductosDocumento){
 				this.totalCantitad1 = this.totalCantitad1.add(pr.getCantidad1());
