@@ -8,17 +8,23 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 
 @Local
 public interface ReportesComercioExteriorEJBLocal {
-	
-	public List<Documento> consultarFacturasExportacion(FiltroDocumentoDTO filtro);
-	
-	public List<ProductosXDocumento> consultarProductosPorDocumento(Long id);
-	
-	public List<Muestrasxlote> consultarMuestrasPorCantidad(BigDecimal cantidad);
-	
-	public List<Documento> consultarFacturasExportacionFechaTipo(FiltroDocumentoDTO filtro);
 
+  public List<Documento> consultarFacturasExportacion(FiltroDocumentoDTO filtro);
+
+  public List<ProductosXDocumento> consultarProductosPorDocumento(Long id);
+
+  public List<Muestrasxlote> consultarMuestrasPorCantidad(BigDecimal cantidad);
+
+  public List<Documento> consultarFacturasExportacionFechaTipo(FiltroDocumentoDTO filtro);
+
+  /**
+   *
+   * @return
+   */
+  List<TerminosTransporte> obtenerListadoImprimirInstruccionEmbarque();
 }
