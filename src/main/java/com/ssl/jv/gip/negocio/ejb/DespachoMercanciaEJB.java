@@ -11,11 +11,8 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
-import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
-import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 
 /**
@@ -56,7 +53,7 @@ public class DespachoMercanciaEJB implements DespachoMercanciaEJBLocal{
 	@Override
 	public List<Documento> consultarVentasDirectas() {
 		try {
-			return documentoDao.consultarVentasDirectas("");
+			return documentoDao.consultarDocumentosDespacharMercancia("");
 		} catch (Exception e) {
 			LOGGER.error(e + "Error consultando ordenes de despacho");
 			return null;
@@ -66,7 +63,7 @@ public class DespachoMercanciaEJB implements DespachoMercanciaEJBLocal{
 	@Override
 	public List<Documento> consultarVentasDirectas(Documento filtro) {
 		try {
-			return documentoDao.consultarVentasDirectas(filtro.getConsecutivoDocumento());
+			return documentoDao.consultarDocumentosDespacharMercancia(filtro.getConsecutivoDocumento());
 		} catch (Exception e) {
 			LOGGER.error(e + "Error consultando ordenes de despacho con filtro");
 			return null;
