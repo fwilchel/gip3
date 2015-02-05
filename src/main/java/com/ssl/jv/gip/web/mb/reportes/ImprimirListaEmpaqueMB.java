@@ -263,7 +263,7 @@ public class ImprimirListaEmpaqueMB extends UtilMB{
 		parametros.put("ciudad",c.getCiudad().getNombre());		 
 		parametros.put("direccion", c.getDireccion());
 		parametros.put("telefono", c.getTelefono());
-		//parametros.put("contacto", c.getContacto());
+		parametros.put("contacto", c.getContacto());
 		parametros.put("id_documento", seleccionado.getConsecutivoDocumento());
 		parametros.put("solicitud", seleccionado.getObservacionDocumento());
 		

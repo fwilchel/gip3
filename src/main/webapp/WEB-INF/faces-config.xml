@@ -8,7 +8,7 @@
 
   <!-- This descriptor activates the JSF 2.0 Servlet -->
 
-<<<<<<< HEAD
+
    <!-- Write your navigation rules here. You are encouraged to use CDI for 
       creating @Named managed beans. -->
 	<application>
@@ -210,7 +210,6 @@
         
        
     </navigation-rule>
-=======
   <!-- Write your navigation rules here. You are encouraged to use CDI for 
   creating @Named managed beans. -->
   <application>
@@ -420,8 +419,16 @@
 	        <from-outcome>generar_RepMenu_ContaFactFX</from-outcome>
             <to-view-id>/ui/reportes/reporteContabilidadFacturasFX.xhtml</to-view-id>
         </navigation-case>
+        
+         <navigation-case>
+	        <from-outcome>generar_Reporte_CS</from-outcome>
+            <to-view-id>/ui/reportes/generarReporteVentasFE.xhtml</to-view-id>
+        </navigation-case>
+        
+        
+        
     
   </navigation-rule>
 
->>>>>>> 1708d72604dbca9085b24edb7fd3469ab6efa6e6
+
 </faces-config>
