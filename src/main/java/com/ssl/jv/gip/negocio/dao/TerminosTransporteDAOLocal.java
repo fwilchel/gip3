@@ -8,6 +8,8 @@ import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
+import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
+import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 
 /**
@@ -97,9 +99,11 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
 
   public void guardarTerminosTransporteDocumento(Long idDocumento, Long idTerminos);
 
+  public List<DocTerminosTransporteDTO> getDocumentosTerminosTranporteById(String idTerminos);
+
   /**
    *
    * @return
    */
-  List<TerminosTransporte> obtenerListadoImprimirInstruccionEmbarque();
+  List<InstruccionEmbarqueDTO> obtenerListadoImprimirInstruccionEmbarque();
 }

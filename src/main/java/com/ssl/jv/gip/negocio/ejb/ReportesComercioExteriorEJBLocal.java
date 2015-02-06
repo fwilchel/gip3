@@ -8,8 +8,9 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
+import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 
 @Local
 public interface ReportesComercioExteriorEJBLocal {
@@ -24,7 +25,14 @@ public interface ReportesComercioExteriorEJBLocal {
 
   /**
    *
-   * @return
+   * @return 
    */
-  List<TerminosTransporte> obtenerListadoImprimirInstruccionEmbarque();
+  List<InstruccionEmbarqueDTO> obtenerListadoImprimirInstruccionEmbarque();
+  
+  /**
+   * 
+   * @param id
+   * @return 
+   */
+  List<DocTerminosTransporteDTO> consultarListadoFacturasPorInstruccionEmabarque(Long id);
 }

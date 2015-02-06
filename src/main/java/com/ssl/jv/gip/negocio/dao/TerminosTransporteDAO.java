@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -18,6 +17,7 @@ import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.ShipmentConditions;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
+import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 import com.ssl.jv.gip.web.util.ErrorConstants;
 
@@ -165,6 +165,7 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
    * @param idTerminos
    * @return
    */
+  @Override
   public List<DocTerminosTransporteDTO> getDocumentosTerminosTranporteById(String idTerminos) {
     LOGGER.info("Consultando los documentos para la instruccion de embarque: " + idTerminos);
     List<DocTerminosTransporteDTO> docs = null;
@@ -363,9 +364,9 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
   }
 
   @Override
-  public List<TerminosTransporte> obtenerListadoImprimirInstruccionEmbarque() {
+  public List<InstruccionEmbarqueDTO> obtenerListadoImprimirInstruccionEmbarque() {
     LOGGER.debug("Metodo: <<obtenerListadoImprimirInstruccionEmbarque>>");
-    Query query = em.createNamedQuery(TerminosTransporte.LISTADO_IMPRIMIR_INSTRUCCION_EMBARQUE);
+    Query query = em.createNativeQuery(TerminosTransporte.LISTADO_IMPRIMIR_INSTRUCCION_EMBARQUE, InstruccionEmbarqueDTO.class);
     return query.getResultList();
   }
 }

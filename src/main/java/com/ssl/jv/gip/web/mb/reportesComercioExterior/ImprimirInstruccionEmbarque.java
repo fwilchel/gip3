@@ -1,7 +1,7 @@
 package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
-import com.ssl.jv.gip.jpa.pojo.Cliente;
-import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
+import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
+import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -56,11 +56,11 @@ public class ImprimirInstruccionEmbarque extends UtilMB {
   /**
    * lista de documentos que retorna la consulta a la base de datos
    */
-  private List<TerminosTransporte> listaTerminosTransporte;
+  private List<InstruccionEmbarqueDTO> listaTerminosTransporte;
   /**
    * Registro seleccionado
    */
-  private TerminosTransporte seleccionado;
+  private InstruccionEmbarqueDTO seleccionado;
   /**
    *
    */
@@ -69,30 +69,30 @@ public class ImprimirInstruccionEmbarque extends UtilMB {
   /**
    *
    */
-  private Cliente cliente;
+  private List<DocTerminosTransporteDTO> listaFacturas;
 
   @PostConstruct
   public void init() {
     LOGGER.debug("Metodo: <<init>>");
-    consultarListaTerminosTransporte();
+    consultarListadoImprimirInstruccionEmbarque();
   }
 
   /**
    *
    */
-  public void consultarListaTerminosTransporte() {
-    LOGGER.debug("Metodo: <<consultarListaTerminosTransporte>>");
+  public void consultarListadoImprimirInstruccionEmbarque() {
+    LOGGER.debug("Metodo: <<consultarListadoImprimirInstruccionEmbarque>>");
     setListaTerminosTransporte(reportesComercioExteriorEjb.obtenerListadoImprimirInstruccionEmbarque());
   }
 
   /**
    *
-   * @param terminoTransporte
+   * @param seleccionado
    */
-  public void seleccionarTerminoTransporte(TerminosTransporte terminoTransporte) {
+  public void seleccionarInstruccionEmbarque(InstruccionEmbarqueDTO seleccionado) {
     LOGGER.debug("Metodo: <<seleccionarTerminoTransporte>>");
-    setSeleccionado(terminoTransporte);
-    setCliente(comercioExteriorEJB.consultarClientePorId(9L));
+    setSeleccionado(seleccionado);
+    setListaFacturas(reportesComercioExteriorEjb.consultarListadoFacturasPorInstruccionEmabarque(seleccionado.getId()));
   }
 
   public void imprimirInstruccionEmbarque() {
@@ -127,42 +127,43 @@ public class ImprimirInstruccionEmbarque extends UtilMB {
   /**
    * @return the listaTerminosTransporte
    */
-  public List<TerminosTransporte> getListaTerminosTransporte() {
+  public List<InstruccionEmbarqueDTO> getListaTerminosTransporte() {
     return listaTerminosTransporte;
   }
 
   /**
    * @param listaTerminosTransporte the listaTerminosTransporte to set
    */
-  public void setListaTerminosTransporte(List<TerminosTransporte> listaTerminosTransporte) {
+  public void setListaTerminosTransporte(List<InstruccionEmbarqueDTO> listaTerminosTransporte) {
     this.listaTerminosTransporte = listaTerminosTransporte;
   }
 
   /**
    * @return the seleccionado
    */
-  public TerminosTransporte getSeleccionado() {
+  public InstruccionEmbarqueDTO getSeleccionado() {
     return seleccionado;
   }
 
   /**
    * @param seleccionado the seleccionado to set
    */
-  public void setSeleccionado(TerminosTransporte seleccionado) {
+  public void setSeleccionado(InstruccionEmbarqueDTO seleccionado) {
     this.seleccionado = seleccionado;
   }
 
   /**
-   * @return the cliente
+   * @return the listaFacturas
    */
-  public Cliente getCliente() {
-    return cliente;
+  public List<DocTerminosTransporteDTO> getListaFacturas() {
+    return listaFacturas;
   }
 
   /**
-   * @param cliente the cliente to set
+   * @param listaFacturas the listaFacturas to set
    */
-  public void setCliente(Cliente cliente) {
-    this.cliente = cliente;
+  public void setListaFacturas(List<DocTerminosTransporteDTO> listaFacturas) {
+    this.listaFacturas = listaFacturas;
   }
+
 }

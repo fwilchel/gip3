@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition 
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:h="http://java.sun.com/jsf/html"
@@ -32,9 +32,9 @@
           title="#{msg.iieTitle}">
 
           <p:dataTable 
-            id="tblTerminosTransporte"
-            widgetVar="tblTerminosTransporte" 
-            var="terminoTransporte" 
+            id="tblListadoInstruccionEmbarque"
+            widgetVar="tblListadoInstruccionEmbarque" 
+            var="instruccionEmbarque" 
             value="#{imprimirInstruccionEmbarque.listaTerminosTransporte}" 
             rows="10"
             emptyMessage="#{msg.generalNoDatos}" 
@@ -52,7 +52,7 @@
                     value="#{msg.generalBuscarTodosCampos}: " />
                   <p:inputText 
                     id="globalFilter"
-                    onkeyup="PF('tblTerminosTransporte').filter()" 
+                    onkeyup="PF('tblListadoInstruccionEmbarque').filter()" 
                     style="width:150px"
                     placeholder="#{msg.generalPalabrasBuscar}" />
                   <p:spacer 
@@ -72,9 +72,9 @@
             <p:column 
               style="width:32px;text-align: center">
               <p:commandButton 
-                icon="ui-icon-pencil" 
+                icon="ui-icon-zoomin" 
                 title="#{msg.iieListBtnDetalle}"
-                actionListener="#{imprimirInstruccionEmbarque.seleccionarTerminoTransporte(terminoTransporte)}"
+                actionListener="#{imprimirInstruccionEmbarque.seleccionarInstruccionEmbarque(instruccionEmbarque)}"
                 oncomplete="PF('dlgConfirmacion').show()"
                 update=":dlgConfirmacion">
               </p:commandButton>
@@ -83,31 +83,31 @@
             <!-- codigo gip -->
             <p:column   
               headerText="#{msg.iieListTblClmCodigoGip}"
-              sortBy="#{terminoTransporte.id}"
-              filterBy="#{terminoTransporte.id}"
+              sortBy="#{instruccionEmbarque.id}"
+              filterBy="#{instruccionEmbarque.id}"
               filterMatchMode="contains">
               <h:outputText 
-                value="#{terminoTransporte.id}" />
+                value="#{instruccionEmbarque.id}" />
             </p:column>
 
             <!-- cliente -->
-            <!--            <p:column 
-                          headerText="#{msg.iieListTblClmCliente}"
-                          sortBy="#{terminoTransporte.cliente.nombre}"
-                          filterBy="#{terminoTransporte.cliente.nombre}"
-                          filterMatchMode="contains">
-                          <h:outputText 
-                            value="#{terminoTransporte.cliente.nombre}" />
-                        </p:column>-->
+            <p:column 
+              headerText="#{msg.iieListTblClmCliente}"
+              sortBy="#{instruccionEmbarque.clienteNombre}"
+              filterBy="#{instruccionEmbarque.clienteNombre}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{instruccionEmbarque.clienteNombre}" />
+            </p:column>
 
             <!-- fecha embarque -->
             <p:column 
               headerText="#{msg.iieListTblClmFechaEmbarque}"
-              sortBy="#{terminoTransporte.fechaEmbarque}"
-              filterBy="#{terminoTransporte.fechaEmbarque}"
+              sortBy="#{instruccionEmbarque.fechaEmbarque}"
+              filterBy="#{instruccionEmbarque.fechaEmbarque}"
               filterMatchMode="contains">
               <h:outputText 
-                value="#{terminoTransporte.fechaEmbarque}" >
+                value="#{instruccionEmbarque.fechaEmbarque}" >
                 <f:convertDateTime 
                   pattern="dd-MMM-yyyy"/>
               </h:outputText>
@@ -146,120 +146,118 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="nombreCliente"
-                value="#{imprimirInstruccionEmbarque.cliente.nombre}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clienteNombre}" />
               <h:outputLabel 
                 for="direccionCliente"
                 value="#{msg.iieDtlLblDireccion}"
                 styleClass="negrita"/>
               <h:outputText
                 id="direccionCliente"
-                value="#{imprimirInstruccionEmbarque.cliente.direccion}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clienteDireccion}" />
               <h:outputLabel 
                 for="telefonoCliente"
                 value="#{msg.iieDtlLblTelefono}"
                 styleClass="negrita"/>
               <h:outputText
                 id="telefonoCliente"
-                value="#{imprimirInstruccionEmbarque.cliente.telefono}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clienteTelefono}" />
               <h:outputLabel 
                 for="contactoCliente"
                 value="#{msg.iieDtlLblContacto}"
                 styleClass="negrita"/>
               <h:outputText
                 id="contactoCliente"
-                value="#{imprimirInstruccionEmbarque.cliente.contacto}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clienteContacto}" />
               <h:outputLabel 
                 for="ciudadCliente"
                 value="#{msg.iieDtlLblCiudad}"
                 styleClass="negrita"/>
               <h:outputText
                 id="ciudadCliente"
-                value="#{imprimirInstruccionEmbarque.cliente.ciudad.nombre}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clienteCiudad}" />
               <h:outputLabel 
                 for="paisCliente"
                 value="#{msg.iieDtlLblPais}"
                 styleClass="negrita"/>
               <h:outputText
                 id="paisCliente"
-                value="#{imprimirInstruccionEmbarque.cliente.ciudad.pais.nombre}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clientePais}" />
             </h:panelGrid>
           </p:fieldset>
           <!---->
           <p:fieldset 
             legend="#{msg.iieDtlTitleFactura}">
-            <ui:remove>
-              <p:dataTable 
-                id="tblFacturas"
-                var="factura" 
-                value="#{imprimirInstruccionEmbarque.seleccionado.documentos}" 
-                emptyMessage="#{msg.generalNoDatos}" 
-                paginator="false">
-                <!-- Factura -->
-                <p:column   
-                  headerText="#{msg.iieDtlTblClmFactura}">
-                  <h:outputText 
-                    value="#{factura.id}" />
-                </p:column>
-                <!-- Lote -->
-                <p:column   
-                  headerText="#{msg.iieDtlTblClmLote}">
-                  <h:outputText 
-                    value="#{factura.id}" />
-                </p:column>
-                <!-- Descripción -->
-                <p:column   
-                  headerText="#{msg.iieDtlTblClmDescripcion}">
-                  <h:outputText 
-                    value="#{factura.id}" />
-                </p:column>
-                <!-- Cantidad Cajas -->
-                <p:column   
-                  headerText="#{msg.iieDtlTblClmCantidadCajas}">
-                  <h:outputText 
-                    value="#{factura.id}" />
-                </p:column>
-                <!-- Pedido No. -->
-                <p:column   
-                  headerText="#{msg.iieDtlTblClmPedidoNo}">
-                  <h:outputText 
-                    value="#{factura.id}" />
-                </p:column>
-                <!-- Asignación No. -->
-                <p:column   
-                  headerText="#{msg.iieDtlTblClmAsignacionNo}">
-                  <h:outputText 
-                    value="#{factura.id}" />
-                </p:column>
-                <!-- Aviso No. -->
-                <p:column   
-                  headerText="#{msg.iieDtlTblClmAvisoNo}">
-                  <h:outputText 
-                    value="#{factura.id}" />
-                </p:column>
-              </p:dataTable>
-            </ui:remove>
+            <p:dataTable 
+              id="tblFacturas"
+              var="factura" 
+              value="#{imprimirInstruccionEmbarque.listaFacturas}" 
+              emptyMessage="#{msg.generalNoDatos}" 
+              paginator="false">
+              <!-- Factura -->
+              <p:column   
+                headerText="#{msg.iieDtlTblClmFactura}">
+                <h:outputText 
+                  value="#{factura.factura}" />
+              </p:column>
+              <!-- Lote -->
+              <p:column   
+                headerText="#{msg.iieDtlTblClmLote}">
+                <h:outputText 
+                  value="#{factura.lote}" />
+              </p:column>
+              <!-- Descripciï¿½n -->
+              <p:column   
+                headerText="#{msg.iieDtlTblClmDescripcion}">
+                <h:outputText 
+                  value="#{factura.descripcion}" />
+              </p:column>
+              <!-- Cantidad Cajas -->
+              <p:column   
+                headerText="#{msg.iieDtlTblClmCantidadCajas}">
+                <h:outputText 
+                  value="#{factura.cantCajas}" />
+              </p:column>
+              <!-- Pedido No. -->
+              <p:column   
+                headerText="#{msg.iieDtlTblClmPedidoNo}">
+                <h:outputText 
+                  value="#{factura.pedidoNum}" />
+              </p:column>
+              <!-- Asignaciï¿½n No. -->
+              <p:column   
+                headerText="#{msg.iieDtlTblClmAsignacionNo}">
+                <h:outputText 
+                  value="#{factura.asignacionNum}" />
+              </p:column>
+              <!-- Aviso No. -->
+              <p:column   
+                headerText="#{msg.iieDtlTblClmAvisoNo}">
+                <h:outputText 
+                  value="#{factura.avisoNum}" />
+              </p:column>
+            </p:dataTable>
           </p:fieldset>
           <!---->
           <p:fieldset 
             legend="#{msg.iieDtlTitleEmbarque}" >
             <h:panelGrid 
               columns="4">
-              <!-- Sociedad de Intermediación Aduanera No.1 -->
+              <!-- Sociedad de Intermediaciï¿½n Aduanera No.1 -->
               <h:outputLabel 
                 for="sociedadIntermediacionAduanera1"
                 value="#{msg.iieDtlLblSociedadIntermediacionAduanera1}"
                 styleClass="negrita"/>
               <h:outputText
                 id="sociedadIntermediacionAduanera1"
-                value="" />
-              <!-- Sociedad de Intermediación Aduanera No.2 -->
+                value="#{imprimirInstruccionEmbarque.seleccionado.agenteAduana1Nombre}" />
+              <!-- Sociedad de Intermediaciï¿½n Aduanera No.2 -->
               <h:outputLabel 
                 for="sociedadIntermediacionAduanera2"
                 value="#{msg.iieDtlLblSociedadIntermediacionAduanera2}"
                 styleClass="negrita"/>
               <h:outputText
                 id="sociedadIntermediacionAduanera2"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.agenteAduana2Nombre}" />
               <!-- Mes de Embarque -->
               <h:outputLabel 
                 for="mesEmbarque"
@@ -267,7 +265,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="mesEmbarque"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.mesEmbarque}" />
               <!-- Puerto de Embarque -->
               <h:outputLabel 
                 for="puertoEmbarque"
@@ -275,7 +273,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="puertoEmbarque"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.puertoEmbarque}" />
               <!-- Fecha de Embarque -->
               <h:outputLabel 
                 for="fechaEmbarque"
@@ -283,7 +281,10 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="fechaEmbarque"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.fechaEmbarque}" >
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:outputText>
               <!-- Naviera -->
               <h:outputLabel 
                 for="naviera"
@@ -291,7 +292,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="naviera"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.naviera}" />
               <!-- Linea -->
               <h:outputLabel 
                 for="linea"
@@ -299,7 +300,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="linea"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.linea}" />
               <!-- Buque -->
               <h:outputLabel 
                 for="buque"
@@ -307,7 +308,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="buque"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.buque}" />
               <!-- Seguro -->
               <h:outputLabel 
                 for="seguro"
@@ -315,7 +316,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="seguro"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.seguro}" />
               <!-- Tipo Contenedor -->
               <h:outputLabel 
                 for="tipoContenedor"
@@ -323,7 +324,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="tipoContenedor"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.tipoContenedor}" />
               <!-- Cantidad de Contenedores -->
               <h:outputLabel 
                 for="cantidadContenedores"
@@ -331,7 +332,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="cantidadContenedores"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.cantidadContenedores}" />
               <!-- Numero de Contenedor -->
               <h:outputLabel 
                 for="numeroContenedor"
@@ -339,7 +340,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="numeroContenedor"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.numeroContenedor}" />
               <!-- Sello de Seguridad -->
               <h:outputLabel 
                 for="sellosSeg"
@@ -347,7 +348,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="sellosSeg"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.selloSeguridad}" />
               <!-- 	Precintos -->
               <h:outputLabel 
                 for="precintos"
@@ -355,7 +356,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="precintos"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.precintos}" />
               <!-- Modalidad de Embarque -->
               <h:outputLabel 
                 for="modalidadEmbarque"
@@ -363,7 +364,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="modalidadEmbarque"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.modalidadEmbarqueDescripcion}" />
               <!-- Incoterm de Despacho -->
               <h:outputLabel 
                 for="incotermDespacho"
@@ -371,7 +372,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="incotermDespacho"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.incotermDespachoDecripcion}" />
               <!-- Observacion 1 -->
               <h:outputLabel 
                 for="observacionTerminosTransporte"
@@ -379,7 +380,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="observacionTerminosTransporte"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.observacion}" />
               <!-- Observacion 2 -->
               <h:outputLabel 
                 for="observacionTerminosTransporte2"
@@ -387,7 +388,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="observacionTerminosTransporte2"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.observacion2}" />
               <!-- Fecha ETA -->
               <h:outputLabel 
                 for="fechaETA"
@@ -395,7 +396,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="fechaETA"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.fechaEmbarque}" />
               <!-- Numero de Booking -->
               <h:outputLabel 
                 for="numeroBooking"
@@ -403,7 +404,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="numeroBooking"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.numeroBooking}" />
               <!-- Flete Externo: -->
               <h:outputLabel 
                 for="fleteExterno"
@@ -411,7 +412,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="fleteExterno"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.fleteExterno}" />
               <!-- Pais Destino -->
               <h:outputLabel 
                 for="paisDestino"
@@ -419,7 +420,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="paisDestino"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.paisDestinoNombre}" />
               <!-- Ciudad Destino -->
               <h:outputLabel 
                 for="ciudadDestino"
@@ -427,23 +428,21 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="ciudadDestino"
-                value="" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.ciudadDestinoNombre}" />
             </h:panelGrid>
           </p:fieldset>
           <!-- botones -->
           <f:facet
             name="footer">
-            <!-- Imprimir Instrucción de Embarque -->
+            <!-- Imprimir Instrucciï¿½n de Embarque -->
             <p:commandButton 
-              value="#{msg.generalConfirmar}" 
+              value="#{msg.iieDtlBtnImprimirInstruccionEmbarque}" 
               styleClass="ui-confirmdialog-yes" 
               icon="ui-icon-check" 
-              actionListener="#{imprimirInstruccionEmbarque.imprimirInstruccionEmbarque()}"
-              oncomplete="PF('dlgConfirmacion').hide()"
-              update=":forma:msgs"/>
+              actionListener="#{imprimirInstruccionEmbarque.imprimirInstruccionEmbarque()}"/>
             <!-- cancelar -->
             <p:commandButton 
-              value="#{msg.generalCancelar}" 
+              value="#{msg.generalCerrar}" 
               styleClass="ui-confirmdialog-no" 
               icon="ui-icon-close" 
               actionListener="#{imprimirInstruccionEmbarque.cancelar()}"

@@ -10,12 +10,13 @@ import javax.ejb.Stateless;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MuestrasXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal;
+import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
 
 /**
@@ -66,8 +67,15 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   }
 
   @Override
-  public List<TerminosTransporte> obtenerListadoImprimirInstruccionEmbarque() {
+  public List<InstruccionEmbarqueDTO> obtenerListadoImprimirInstruccionEmbarque() {
     LOGGER.debug("Metodo: <<obtenerListadoImprimirInstruccionEmbarque>>");
     return terminosTransporteDAO.obtenerListadoImprimirInstruccionEmbarque();
+  }
+
+  @Override
+  public List<DocTerminosTransporteDTO> consultarListadoFacturasPorInstruccionEmabarque(Long id) {
+    LOGGER.debug("Metodo: <<consultarListadoFacturasPorInstruccionEmabarque>>");
+    String idTmp = String.valueOf(id);
+    return terminosTransporteDAO.getDocumentosTerminosTranporteById(idTmp);
   }
 }
