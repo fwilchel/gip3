@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.tituloMenuReporteCF}::.</ui:define>
+
+	<ui:define name="contenido">
+	
+		<p:spacer height="40"></p:spacer>
+		
+		<h:form prependId="false" id="forma">
+
+			<p:tabView id="tabPanel">
+			
+				<p:tab title="#{msg.tituloMenuReporteCF}">
+
+					<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+						showIcon="true" autoUpdate="true"></p:messages>
+				
+					<p:panelGrid columns="1" rendered="#{reporteContabilidadFacturasFDMB.renderPanelPrincipal}"
+						columnClasses="label">
+						
+						<p:commandLink id="generarArchivoFechas" actionListener="#{reporteContabilidadFacturasFDMB.irGenerarArchivoFechas}" immediate="true" ajax="false">
+							<h:outputText value="GENERAR ARCHIVO PLANO X FECHAS" />
+						</p:commandLink>
+						
+						<p:commandLink id="generarArchivoConsecutivo" actionListener="#{reporteContabilidadFacturasFDMB.irGenerarArchivoConsecutivo}" immediate="true" ajax="false">
+							<h:outputText value="GENERAR ARCHIVO PLANO X CONSECUTIVO" />
+						</p:commandLink>
+
+						
+					</p:panelGrid>
+					
+					<p:panelGrid columns="3" id="panelFiltroFechas"
+						rendered="#{reporteContabilidadFacturasFDMB.renderGenerarArchivoFechas and !reporteContabilidadFacturasFDMB.renderPanelPrincipal}"
+						columnClasses="label,value,">
+						
+						<f:facet name="header">
+							<h:outputText value="#{msg.tituloReporteContaFact}" />
+						</f:facet>
+
+						<p:outputLabel value="#{msg.movimientosFechaInicial}" for="filtrofechainicial"
+							styleClass="negrita" />
+						<p:calendar id="filtrofechainicial" required="true"
+							value="#{reporteContabilidadFacturasFDMB.fechaInicial}"
+							pattern="yyyy-MM-dd">
+						</p:calendar>
+						<p:message for="filtrofechainicial"></p:message>
+						
+						<p:outputLabel value="#{msg.movimientosFechaFinal}" for="filtrofechafinal"
+							styleClass="negrita" />
+						<p:calendar id="filtrofechafinal" required="true"
+							value="#{reporteContabilidadFacturasFDMB.fechaFinal}"
+							pattern="yyyy-MM-dd">
+						</p:calendar>
+						<p:message for="filtrofechafinal"></p:message>
+						
+					</p:panelGrid>
+					
+					<p:panelGrid columns="3" id="panelFiltroConsecutivo"
+						rendered="#{!reporteContabilidadFacturasFDMB.renderGenerarArchivoFechas and !reporteContabilidadFacturasFDMB.renderPanelPrincipal}"
+						columnClasses="label,value,">
+						
+						<f:facet name="header">
+							<h:outputText value="#{msg.tituloReporteContaFact}" />
+						</f:facet>
+
+						<p:outputLabel value="#{msg.reporteFacturasConsecutivo}" for="filtroconsecutivo"
+							styleClass="negrita" />
+						<h:inputText  required="true"
+							value="#{reporteContabilidadFacturasFDMB.consecutivoDocumento}"
+							id="filtroconsecutivo"
+							label="#{msg.reporteFacturasConsecutivo}" />
+						<p:message for="filtroconsecutivo"></p:message>
+						
+					</p:panelGrid>
+					
+					
+					<p:commandButton value="#{msg.generarReporteCF}" icon="ui-icon-disk" 
+						rendered="#{!reporteContabilidadFacturasFDMB.renderPanelPrincipal}"
+						ajax="false" action="#{reporteContabilidadFacturasFDMB.generarReportePlanoFD}">
+					</p:commandButton>
+					
+					<p:commandButton value="#{msg.generalCancelar}" immediate="true"
+						rendered="#{!reporteContabilidadFacturasFDMB.renderPanelPrincipal}"
+						process="@this" icon="ui-icon-cancel" update=":forma"
+						action="#{reporteContabilidadFacturasFDMB.cancelar}" ></p:commandButton>
+				
+				</p:tab>
+				
+			</p:tabView>
+			
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>

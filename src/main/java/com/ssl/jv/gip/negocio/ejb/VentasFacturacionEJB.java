@@ -12,6 +12,7 @@ import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoReporteTxtFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 
@@ -83,6 +84,13 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 	public List<ReporteVentaDTO> consultarReporteVentasFD(Map<String, Object> parametros) {
 		// TODO Auto-generated method stub
 		return documentoDAO.consultarReporteVentasFD(parametros);
+	}
+
+
+
+	public List<ProductoReporteTxtFacturaDirectaDTO> consultarReporteTxtVentasFD(Map<String, Object> parametros) {
+		// TODO Auto-generated method stub
+		return productoDocumentoDAO.consultarReporteTxtVentasFD(parametros);
 	}
 
 

@@ -127,5 +127,122 @@ public class CuentaContableDAO extends GenericDAO<CuentaContable> implements Cue
 		
 		return respuesta;
 	}
+
 	
+	
+public List<CuentaContableDTO> consultarReporteFacturasFD(String consecDoc, String fechaIni, String fechaFin){
+		
+		List<CuentaContableDTO> respuesta = new ArrayList<CuentaContableDTO>();
+		String sql;
+		
+		if (consecDoc.equals("") || consecDoc.equals(null))
+		{			
+			
+			sql = " select productos_inventario.id_cuenta_contable as id, cuenta_contable.descripcion, cuenta_contable.indicador_iva, to_char(documentos.fecha_generacion,'YYYY-MM-DD') as fecha_generacion,"
+					+ " documentos.consecutivo_documento, documentos.valor_total as total_factura, clientes.codigo_sap, ubicaciones.nombre as nombre_ubicacion, ubicaciones.objeto_co, clientes.nombre as nombre_cliente,"
+					+ " round(sum(((productosXdocumentos.valor_total) - round((productosXdocumentos.valor_total * (clientes.descuento_cliente / 100)),0) - round((productosXdocumentos.valor_total * "
+					+ " (productosXdocumentos.otros_descuentos / 100)),0)) + ((productosXdocumentos.valor_total) - round((productosXdocumentos.valor_total * (clientes.descuento_cliente / 100)),0) - "
+					+ " round((productosXdocumentos.valor_total * (productosXdocumentos.otros_descuentos / 100)),0)) * (productosXdocumentos.iva / 100)),0) as total, sum( (productosXdocumentos.valor_total) - "
+					+ " round((productosXdocumentos.valor_total * (clientes.descuento_cliente / 100)),0) - round((productosXdocumentos.valor_total * (productosXdocumentos.otros_descuentos / 100)), 0)) as base_iva"
+					+ " from productos_inventario, productosXdocumentos, cuenta_contable, documentos, clientes, ubicaciones where productos_inventario.id = productosXdocumentos.id_producto and cuenta_contable.id = "
+					+ " productos_inventario.id_cuenta_contable and documentos.id = productosXdocumentos.id_documento and clientes.id = documentos.id_cliente and ubicaciones.id = documentos.id_ubicacion_destino"
+					+ " and documentos.fecha_generacion between  '" + fechaIni + "' and '" + fechaFin + "'"
+					+ " and documentos.id_tipo_documento = 20 and productos_inventario.id_cuenta_contable is not null "
+					+ " and documentos.id_estado in (" + ConstantesDocumento.GENERADO + "," + ConstantesDocumento.IMPRESO + ") group by documentos.consecutivo_documento,productos_inventario.id_cuenta_contable, "
+					+ " cuenta_contable.descripcion, cuenta_contable.indicador_iva, documentos.fecha_generacion,  documentos.valor_total, clientes.codigo_sap, ubicaciones.nombre, ubicaciones.objeto_co, "
+					+ "clientes.nombre order by documentos.fecha_generacion";
+			
+		}
+		else
+		{
+			/*sql = "select documentos.id as id_documento, productos_inventario_comext.id_cuenta_contable_ce as id, cuenta_contable.descripcion, cuenta_contable.indicador_iva,"
+			       	   + "to_char(documentos.fecha_generacion,'YYYY-MM-DD') as fecha_generacion, documentos.consecutivo_documento," 
+			       	   + "documentos.valor_total as total_factura, clientes.codigo_sap, ubicaciones.nombre as nombre_ubicacion, ubicaciones.objeto_co,"
+			       	   + "clientes.nombre as nombre_cliente," 
+			       	   + "productosXdocumentos.valor_total as total, "
+			       	   + "0.0 as base_iva, "
+			       	   + "productosXdocumentos.valor_total + documento_x_negociacion.costo_entrega + documento_x_negociacion.costo_seguro + documento_x_negociacion.costo_flete + documento_x_negociacion.otros_gastos as total_con_costos,"
+			       	   + "documento_x_negociacion.solicitud_cafe"
+			       	   + " from productos_inventario_comext, productosXdocumentos, cuenta_contable, documentos, clientes, ubicaciones, documento_x_negociacion"
+			       	   + " where productos_inventario_comext.id_producto = productosXdocumentos.id_producto"
+			       	   + " and cuenta_contable.id = productos_inventario_comext.id_cuenta_contable_ce"
+			       	   + " and documentos.id = productosXdocumentos.id_documento"
+			       	   + " and clientes.id = documentos.id_cliente"
+			       	   + " and ubicaciones.id = documentos.id_ubicacion_destino"
+			       	   + " and documentos.id = documento_x_negociacion.id_documento"
+					   + " and documentos.consecutivo_documento = '" + consecDoc + "'"
+					   + " and documentos.id_tipo_documento = 25" 
+			       	   + " and productos_inventario_comext.id_cuenta_contable_ce is not null" 
+					   + " and documentos.id_estado in (" + ConstantesDocumento.GENERADO + "," + ConstantesDocumento.IMPRESO + ")"
+			   		   + " order by documentos.id, productos_inventario_comext.id_cuenta_contable_ce asc";		
+			
+			*/
+			
+			sql = " select productos_inventario.id_cuenta_contable as id, cuenta_contable.descripcion, cuenta_contable.indicador_iva, to_char(documentos.fecha_generacion,'YYYY-MM-DD') as fecha_generacion,"
+					+ " documentos.consecutivo_documento, documentos.valor_total as total_factura, clientes.codigo_sap, ubicaciones.nombre as nombre_ubicacion, ubicaciones.objeto_co, clientes.nombre as nombre_cliente,"
+					+ " round(sum(((productosXdocumentos.valor_total) - round((productosXdocumentos.valor_total * (clientes.descuento_cliente / 100)),0) - round((productosXdocumentos.valor_total * "
+					+ " (productosXdocumentos.otros_descuentos / 100)),0)) + ((productosXdocumentos.valor_total) - round((productosXdocumentos.valor_total * (clientes.descuento_cliente / 100)),0) - "
+					+ " round((productosXdocumentos.valor_total * (productosXdocumentos.otros_descuentos / 100)),0)) * (productosXdocumentos.iva / 100)),0) as total, sum( (productosXdocumentos.valor_total) - "
+					+ " round((productosXdocumentos.valor_total * (clientes.descuento_cliente / 100)),0) - round((productosXdocumentos.valor_total * (productosXdocumentos.otros_descuentos / 100)), 0)) as base_iva"
+					+ " from productos_inventario, productosXdocumentos, cuenta_contable, documentos, clientes, ubicaciones where productos_inventario.id = productosXdocumentos.id_producto and cuenta_contable.id = "
+					+ " productos_inventario.id_cuenta_contable and documentos.id = productosXdocumentos.id_documento and clientes.id = documentos.id_cliente and ubicaciones.id = documentos.id_ubicacion_destino"
+					+ " and documentos.consecutivo_documento = '" + consecDoc + "'"
+					+ " and documentos.id_tipo_documento = 20 and productos_inventario.id_cuenta_contable is not null "
+					+ " and documentos.id_estado in (" + ConstantesDocumento.GENERADO + "," + ConstantesDocumento.IMPRESO + ") group by documentos.consecutivo_documento,productos_inventario.id_cuenta_contable, "
+					+ " cuenta_contable.descripcion, cuenta_contable.indicador_iva, documentos.fecha_generacion,  documentos.valor_total, clientes.codigo_sap, ubicaciones.nombre, ubicaciones.objeto_co, "
+					+ "clientes.nombre order by documentos.fecha_generacion";
+			
+		
+
+			
+			
+		}
+		
+		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
+		
+		if(listado != null && !listado.isEmpty()){
+			for(Object[] obj : listado){
+				CuentaContableDTO dto = new CuentaContableDTO();
+				
+				if (consecDoc.equals("") || consecDoc.equals(null)){
+					
+					
+					//dto.setIntIdDocumento(obj[0] != null ? new Long(obj[0].toString()) : null);				
+					dto.setLngId(obj[0] != null ? new Long(obj[0].toString()) : null);				
+					dto.setStrDescripcion(obj[1] != null ? obj[1].toString() : "");
+					dto.setStrIndicadorIVA(obj[2] != null ? obj[2].toString() : "");				
+					dto.setStrFechaGeneracion(obj[3] != null ? obj[3].toString() : "");				
+					dto.setStrConsecutivoDoc(obj[4] != null ? obj[4].toString() : "");
+					dto.setDblTotalFactura(obj[5] != null ? new Double(obj[5].toString()) : null);
+					dto.setStrCodigoSAP(obj[6] != null ? obj[6].toString() : "");
+					dto.setStrNomUbicacion(obj[7] != null ? obj[7].toString() : "");
+					dto.setLngObjetoCO(obj[8] != null ? new Long(obj[8].toString()) : null);
+					dto.setStrNomCliente(obj[9] != null ? obj[9].toString() : "");									
+					dto.setDblTotal(obj[10] != null ? new Double(obj[10].toString()) : null);
+					dto.setDblBaseIva(obj[11] != null ? new Double(obj[11].toString()) : null);
+					//dto.setBlnSolicitudCafe(obj[15] != null ? new Boolean(obj[15].toString()) : null);
+					
+				}else{
+					dto.setLngId(obj[0] != null ? new Long(obj[0].toString()) : null);				
+					dto.setStrDescripcion(obj[1] != null ? obj[1].toString() : "");
+					dto.setStrIndicadorIVA(obj[2] != null ? obj[2].toString() : "");				
+					dto.setStrFechaGeneracion(obj[3] != null ? obj[3].toString() : "");				
+					dto.setStrConsecutivoDoc(obj[4] != null ? obj[4].toString() : "");
+					dto.setDblTotalFactura(obj[5] != null ? new Double(obj[5].toString()) : null);
+					dto.setStrCodigoSAP(obj[6] != null ? obj[6].toString() : "");
+					dto.setStrNomUbicacion(obj[7] != null ? obj[7].toString() : "");
+					dto.setLngObjetoCO(obj[8] != null ? new Long(obj[8].toString()) : null);
+					dto.setStrNomCliente(obj[9] != null ? obj[9].toString() : "");									
+					dto.setDblTotal(obj[10] != null ? new Double(obj[10].toString()) : null);		
+					dto.setDblBaseIva(obj[11] != null ? new Double(obj[11].toString()) : null);
+				}
+				
+				
+				
+				respuesta.add(dto);
+			}
+		}
+		
+		return respuesta;
+	}
 }
