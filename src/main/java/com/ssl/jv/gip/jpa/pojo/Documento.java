@@ -130,6 +130,7 @@ public class Documento implements Serializable {
 
 	// bi-directional many-to-one association to DocumentoXLotesoic
 	@OneToMany(mappedBy = "documento")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<DocumentoXLotesoic> documentoXLotesoics;
 
 	// bi-directional many-to-one association to DocumentoXNegociacion
