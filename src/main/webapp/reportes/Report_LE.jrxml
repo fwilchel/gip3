@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_LE" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4276114b-889a-4591-ad6e-9ff14295e24b">
 	<property name="ireport.zoom" value="2.657341500000021"/>
 	<property name="ireport.x" value="53"/>
-	<property name="ireport.y" value="415"/>
+	<property name="ireport.y" value="332"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="false,true,0.75,0,0,0,0,0,0"/>
 	<style name="table">
@@ -880,7 +880,7 @@ Bogotá - Colombia]]></text>
 				<textFieldExpression><![CDATA[$P{t1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="62376240-1c92-43a5-bfae-90bfd0ffcade" x="32" y="146" width="100" height="13"/>
+				<reportElement uuid="62376240-1c92-43a5-bfae-90bfd0ffcade" x="32" y="146" width="107" height="13"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{t2}]]></textFieldExpression>
 			</textField>

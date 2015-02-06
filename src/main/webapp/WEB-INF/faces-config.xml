@@ -9,6 +9,7 @@
   <!-- This descriptor activates the JSF 2.0 Servlet -->
 
 
+
    <!-- Write your navigation rules here. You are encouraged to use CDI for 
       creating @Named managed beans. -->
 	<application>
@@ -419,16 +420,49 @@
 	        <from-outcome>generar_RepMenu_ContaFactFX</from-outcome>
             <to-view-id>/ui/reportes/reporteContabilidadFacturasFX.xhtml</to-view-id>
         </navigation-case>
+
         
          <navigation-case>
 	        <from-outcome>generar_Reporte_CS</from-outcome>
             <to-view-id>/ui/reportes/generarReporteVentasFE.xhtml</to-view-id>
         </navigation-case>
         
-        
-        
-    
-  </navigation-rule>
 
+	<navigation-case>
+	        <from-outcome>generar_reporte_remision</from-outcome>
+            <to-view-id>/ui/reportes/imprimirRemision.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>listado_factura_especial</from-outcome>
+            <to-view-id>/ui/reportes/imprimirFacturaEspecial.xhtml</to-view-id>
+        </navigation-case>
+         <navigation-case>
+	        <from-outcome>generar_cinta_magneticaFD</from-outcome>
+            <to-view-id>/ui/reportes/generarCintaMagneticaFD.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>generar_comprobante_inf_diarioFD</from-outcome>
+            <to-view-id>/ui/reportes/generarComprobanteInformeDiario.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+	        <from-outcome>generar_Reporte_Ventas</from-outcome>
+            <to-view-id>/ui/reportes/generarReporteVentasFD.xhtml</to-view-id>
+        </navigation-case>
+	<navigation-case>
+			<from-outcome>listado_GenerarOrdenDespacho</from-outcome>
+            <to-view-id>/ui/abastecimiento/ordenDespacho.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+			<from-outcome>listado_factura2</from-outcome>
+            <to-view-id>/ui/reportes/generarReporteVentasFD2.xhtml</to-view-id>
+        </navigation-case>
+        
+          <navigation-case>
+			<from-outcome>generar_RepMenu_ContaFact</from-outcome>
+            <to-view-id>/ui/reportes/reporteContabilidadFacturasFD.xhtml</to-view-id>
+        </navigation-case>
+       
+        </navigation-rule>
 
 </faces-config>

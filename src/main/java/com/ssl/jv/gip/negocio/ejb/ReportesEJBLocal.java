@@ -21,4 +21,6 @@ public interface ReportesEJBLocal {
 			Long idDocumento, Long idCliente);
 	
 	public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc, String fechaIni, String fechaFin);
+
+	public List<CuentaContableDTO> consultarReporteFacturasFD(String consecutivoDocumento, String fechaStringGeneracionInicial,	String fechaFinalTmp);
 }

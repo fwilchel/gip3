@@ -12,4 +12,6 @@ public interface CuentaContableDAOLocal extends IGenericDAO<CuentaContable>{
 
 	public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc, String fechaIni, String fechaFin);
 
+	public List<CuentaContableDTO> consultarReporteFacturasFD(String consecDoc,	String fechaIni, String fechaFin);
+
 }

@@ -598,6 +598,48 @@
     NAME="output46" PATH="/ui/reportes/generarReporteVentasFE.xhtml"
     TARGET="rules:#ui#reportes#generarReporteVentasFE.xhtml"
     TITLE="generar_Reporte_CS" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="generar_reporte_remision::#ui#reportes#imprimirRemision.xhtml"
+    NAME="output47" PATH="/ui/reportes/imprimirRemision.xhtml"
+    TARGET="rules:#ui#reportes#imprimirRemision.xhtml"
+    TITLE="generar_reporte_remision" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_factura_especial::#ui#reportes#imprimirFacturaEspecial.xhtml"
+    NAME="output48" PATH="/ui/reportes/imprimirFacturaEspecial.xhtml"
+    TARGET="rules:#ui#reportes#imprimirFacturaEspecial.xhtml"
+    TITLE="listado_factura_especial" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="generar_cinta_magneticaFD::#ui#reportes#generarCintaMagneticaFD.xhtml"
+    NAME="output49" PATH="/ui/reportes/generarCintaMagneticaFD.xhtml"
+    TARGET="rules:#ui#reportes#generarCintaMagneticaFD.xhtml"
+    TITLE="generar_cinta_magneticaFD" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="generar_comprobante_inf_diarioFD::#ui#reportes#generarComprobanteInformeDiario.xhtml"
+    NAME="output50"
+    PATH="/ui/reportes/generarComprobanteInformeDiario.xhtml"
+    TARGET="rules:#ui#reportes#generarComprobanteInformeDiario.xhtml"
+    TITLE="generar_comprobante_inf_diarioFD" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="generar_Reporte_Ventas::#ui#reportes#generarReporteVentasFD.xhtml"
+    NAME="output51" PATH="/ui/reportes/generarReporteVentasFD.xhtml"
+    TARGET="rules:#ui#reportes#generarReporteVentasFD.xhtml"
+    TITLE="generar_Reporte_Ventas" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_GenerarOrdenDespacho::#ui#abastecimiento#ordenDespacho.xhtml"
+    NAME="output52" PATH="/ui/abastecimiento/ordenDespacho.xhtml"
+    TARGET="rules:#ui#abastecimiento#ordenDespacho.xhtml"
+    TITLE="listado_GenerarOrdenDespacho" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_factura2::#ui#reportes#generarReporteVentasFD2.xhtml"
+    NAME="output53" PATH="/ui/reportes/generarReporteVentasFD2.xhtml"
+    TARGET="rules:#ui#reportes#generarReporteVentasFD2.xhtml"
+    TITLE="listado_factura2" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="generar_RepMenu_ContaFact::#ui#reportes#reporteContabilidadFacturasFD.xhtml"
+    NAME="output54"
+    PATH="/ui/reportes/reporteContabilidadFacturasFD.xhtml"
+    TARGET="rules:#ui#reportes#reporteContabilidadFacturasFD.xhtml"
+    TITLE="generar_RepMenu_ContaFact" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM
@@ -632,4 +674,10 @@
   PATH="/ui/comercioexterior/ordenDespacho.xhtml" SHAPE="304,3217,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#ui#reportes#generarReporteVentasFE.xhtml"
   PATH="/ui/reportes/generarReporteVentasFE.xhtml" SHAPE="304,2673,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#reportes#generarReporteVentasFD2.xhtml"
+  PATH="/ui/reportes/generarReporteVentasFD2.xhtml" SHAPE="304,2673,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#reportes#reporteContabilidadFacturasFD.xhtml"
+  PATH="/ui/reportes/reporteContabilidadFacturasFD.xhtml"
+  SHAPE="304,2673,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

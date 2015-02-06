@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 import com.ssl.jv.gip.negocio.ejb.DespachoMercanciaEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
@@ -23,7 +24,7 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	private static final long serialVersionUID = 1L;
 	
 	private List<Documento> documentos;
-	private List<ProductoDTO> productos;
+	private List<ProductoDespacharMercanciaDTO> productos;
 	private Documento seleccionado;
 	private Documento filtro;
 	
@@ -37,6 +38,8 @@ public class DespacharMercanciaVDMB extends UtilMB{
 		documentos = despachoMercancia.consultarVentasDirectas();
 	}
 	
-	//Lógica de obtención de productos
+	public void consultarProductosVentaDirecta(){
+		productos=despachoMercancia.consultarProductoPorDocumento(seleccionado.getId()+"",seleccionado.getCliente().getId()+"");
+	}
 
 }

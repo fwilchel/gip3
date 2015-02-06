@@ -1075,7 +1075,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				+ " INNER JOIN termino_incoterm inc on inc.id = docxneg.id_termino_incoterm "
 				+ " WHERE  doc.consecutivo_documento='"
 				+ strConsecutivoDocumento + "'";
-
+		
 		List<Object[]> listado = em.createNativeQuery(query).getResultList();
 
 		if (listado != null) {

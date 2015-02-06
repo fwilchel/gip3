@@ -71,4 +71,10 @@ public class ReportesEJB implements ReportesEJBLocal {
 				consecDoc, fechaIni, fechaFin);
 	}
 
+	
+	
+	@Override
+	public List<CuentaContableDTO> consultarReporteFacturasFD(String consecDoc, String fechaIni, String fechaFin) {
+		return cuentaContableDAOLocal.consultarReporteFacturasFD(consecDoc, fechaIni, fechaFin);
+	}
 }

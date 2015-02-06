@@ -269,7 +269,7 @@ public class ImprimirListaEmpaqueMB extends UtilMB{
 		
 		//parametros.put("qEstibas", seleccionado2.getCantidadEstibas()); //dblCantidadEstibas
 		//parametros.put("qEstibas", 0.0); //dblCantidadEstibas
-		parametros.put("PesoBrutoEstibas", 0.0 ); //dblPesoBrutoEstibas 
+		parametros.put("PesoBrutoEstibas", 0.0 );  
 		
 		parametros.put("observacion", seleccionado2.getObservacionDocumento()); // seleccionado2.getDocumentoXNegociacions().get(0).getDescripcion()
 		
