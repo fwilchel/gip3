@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
 
@@ -14,6 +16,8 @@ import com.ssl.jv.gip.util.Estado;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
+@ManagedBean(name = "generarInformeTiendaLineaMB")
+@ViewScoped
 public class GenerarInformeTiendaLineaMB extends UtilMB{
 
 	/**
@@ -30,6 +34,8 @@ public class GenerarInformeTiendaLineaMB extends UtilMB{
 	private FiltroDocumentoDTO filtroDocumentoDTO;
 	
 	private List<Documento> listaFacturasExportacion;
+	
+	private Documento seleccionado;
 	
 	@PostConstruct
 	public void init() {
@@ -72,6 +78,14 @@ public class GenerarInformeTiendaLineaMB extends UtilMB{
 
 	public void setListaFacturasExportacion(List<Documento> listaFacturasExportacion) {
 		this.listaFacturasExportacion = listaFacturasExportacion;
+	}
+
+	public Documento getSeleccionado() {
+		return seleccionado;
+	}
+
+	public void setSeleccionado(Documento seleccionado) {
+		this.seleccionado = seleccionado;
 	}
 	
 	

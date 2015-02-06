@@ -222,6 +222,10 @@
    <from-outcome>despachar_mercancia</from-outcome>
    <to-view-id>/ui/abastecimiento/despacharMercanciaVD.xhtml</to-view-id>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>listado_LE3</from-outcome>
+   <to-view-id>/ui/reportesComercioExterior/generarInformeTiendaLinea.xhtml</to-view-id>
+  </navigation-case>
  </navigation-rule>
  <!-- This descriptor activates the JSF 2.0 Servlet 
  Write your navigation rules here. You are encouraged to use CDI for 
