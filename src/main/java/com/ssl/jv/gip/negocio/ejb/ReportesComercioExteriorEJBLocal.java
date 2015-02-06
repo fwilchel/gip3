@@ -23,16 +23,18 @@ public interface ReportesComercioExteriorEJBLocal {
 
   public List<Documento> consultarFacturasExportacionFechaTipo(FiltroDocumentoDTO filtro);
 
+  public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(FiltroDocumentoDTO filtro);
+
   /**
    *
-   * @return 
+   * @return
    */
-  List<InstruccionEmbarqueDTO> obtenerListadoImprimirInstruccionEmbarque();
-  
+  List<InstruccionEmbarqueDTO> consultarListadoImprimirInstruccionEmbarque();
+
   /**
-   * 
+   *
    * @param id
-   * @return 
+   * @return
    */
   List<DocTerminosTransporteDTO> consultarListadoFacturasPorInstruccionEmabarque(Long id);
 }

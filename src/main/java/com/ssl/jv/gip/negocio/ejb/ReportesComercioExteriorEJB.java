@@ -67,8 +67,13 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   }
 
   @Override
-  public List<InstruccionEmbarqueDTO> obtenerListadoImprimirInstruccionEmbarque() {
-    LOGGER.debug("Metodo: <<obtenerListadoImprimirInstruccionEmbarque>>");
+  public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(FiltroDocumentoDTO filtro) {
+    return documentoDAO.consultarDocumentosPorTipoDocumentoEstadoTipoCafe(filtro);
+  }
+
+  @Override
+  public List<InstruccionEmbarqueDTO> consultarListadoImprimirInstruccionEmbarque() {
+    LOGGER.debug("Metodo: <<consultarListadoImprimirInstruccionEmbarque>>");
     return terminosTransporteDAO.obtenerListadoImprimirInstruccionEmbarque();
   }
 

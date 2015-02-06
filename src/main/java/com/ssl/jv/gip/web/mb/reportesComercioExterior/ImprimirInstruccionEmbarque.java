@@ -82,7 +82,7 @@ public class ImprimirInstruccionEmbarque extends UtilMB {
    */
   public void consultarListadoImprimirInstruccionEmbarque() {
     LOGGER.debug("Metodo: <<consultarListadoImprimirInstruccionEmbarque>>");
-    setListaTerminosTransporte(reportesComercioExteriorEjb.obtenerListadoImprimirInstruccionEmbarque());
+    setListaTerminosTransporte(reportesComercioExteriorEjb.consultarListadoImprimirInstruccionEmbarque());
   }
 
   /**
