@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -15,19 +16,21 @@
 				globalOnly="false" showIcon="true"></p:messages>
 
 			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.TituloAnularFX}">
+				<p:tab title="#{msg.generarOrdenDespachoTituloFrame}">
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-						value="#{anularFacturaExportacionMB.documentos}" rows="10"
+						value="#{despacharMercanciaMB.documentos}" rows="10"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true"
 						paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton action="PF('confirmacionDLG').show()"
-								icon="ui-icon-closethick">
+							<p:commandButton oncomplete=""
+								process="@this"
+								action="#{despacharMercanciaMB.consultarProductosVentaDirecta}"
+								icon="ui-icon-search" update=":datoDlg">
 								<f:setPropertyActionListener value="#{dato}"
-									target="#{anularFacturaExportacionMB.seleccionado}" />
+									target="#{despacharMercanciaMB.seleccionado}" />
 							</p:commandButton>
 						</p:column>
 
@@ -42,13 +45,17 @@
 							sortBy="#{dato.consecutivoDocumento}">
 							<h:outputText value="#{dato.consecutivoDocumento}" />
 						</p:column>
+						
+						<p:column filterBy="#{dato.ubicacionDestino.nombre}"
+							headerText="Nombre de tienda" filterMatchMode="contains"
+							sortBy="#{dato.ubicacionDestino.nombre}">
+							<h:outputText value="#{dato.ubicacionDestino.nombre}" />
+						</p:column>
 
 						<p:column filterBy="#{dato.fechaGeneracion}"
 							headerText="#{msg.documentoFechaGeneracion}"
 							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
-							<h:outputText value="#{dato.fechaGeneracion}">
-								<f:convertDateTime pattern="dd-MMM-yyyy" />
-							</h:outputText>
+							<h:outputText value="#{dato.fechaGeneracion}" />
 						</p:column>
 
 
@@ -56,14 +63,6 @@
 				</p:tab>
 			</p:tabView>
 		</h:form>
-		<p:dialog header="#{msg.TituloAnularFX}" widgetVar="confirmacionDLG"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-			<h:outputText value="Test" />
-			<p:commandButton
-				action="#{anularFacturaExportacionMB.anularFactura()}">
-				<f:setPropertyActionListener value="#{dato}"
-					target="#{anularFacturaExportacionMB.seleccionado}" />
-			</p:commandButton>
-		</p:dialog>
 	</ui:define>
 </ui:composition>
+

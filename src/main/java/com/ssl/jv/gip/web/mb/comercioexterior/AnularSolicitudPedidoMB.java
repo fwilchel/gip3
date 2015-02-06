@@ -129,8 +129,6 @@ public class AnularSolicitudPedidoMB extends UtilMB {
       String parametros[] = new String[1];
       parametros[0] = seleccionado.getConsecutivoDocumento();
       mensajeAdvertencia = Utilidad.stringFormat(mensajeAdvertencia, parametros);
-      // TODO: retirar
-      this.addMensajeWarn("msgConfirmacion", mensajeAdvertencia);
       return mensajeAdvertencia;
     }
   }

@@ -20,5 +20,8 @@ public interface ReportesComercioExteriorEJBLocal {
 	public List<Muestrasxlote> consultarMuestrasPorCantidad(BigDecimal cantidad);
 	
 	public List<Documento> consultarFacturasExportacionFechaTipo(FiltroDocumentoDTO filtro);
+	
+	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(
+			FiltroDocumentoDTO filtro);
 
 }

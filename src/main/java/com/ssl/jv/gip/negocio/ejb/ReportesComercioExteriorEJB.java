@@ -59,4 +59,10 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 		return documentoDAO.consultarDocumentosPorTipoDocumentoYFechas(filtro);
 	}
 
+	@Override
+	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(
+			FiltroDocumentoDTO filtro) {
+		return documentoDAO.consultarDocumentosPorTipoDocumentoEstadoTipoCafe(filtro);
+	}
+
 }

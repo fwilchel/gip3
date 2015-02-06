@@ -37,9 +37,10 @@ import org.hibernate.annotations.LazyCollectionOption;
 		@NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstado,:idEstado2) ORDER BY d.id desc"),
 		@NamedQuery(name = Documento.FIND_BY_FECHAS_TIPO_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.fechaGeneracion BETWEEN :fechaInicio AND :fechaFin ORDER BY d.fechaGeneracion"),
 		@NamedQuery(name = Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstados) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
-		@NamedQuery(name = Documento.FIND_BY_PENDIENTE_POR_ANULAR, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.tipoDocumento.id = :tipoDocumento AND d.estadosxdocumento.estado.id NOT IN (:cerrado, :anulado) AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.estadosxdocumento.tipoDocumento.id = :facturaProforma) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
+		@NamedQuery(name = Documento.LISTADO_ANULAR_SOLICITUD_PEDIDO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.tipoDocumento.id = :tipoDocumento AND d.estadosxdocumento.estado.id NOT IN (:cerrado, :anulado) AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.estadosxdocumento.tipoDocumento.id = :facturaProforma) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
 		@NamedQuery(name = Documento.FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO_CUSTOM, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND ((d.estadosxdocumento.id.idEstado = :idEstado1 AND dn.solicitudCafe = false) OR (d.estadosxdocumento.id.idEstado = :idEstado2 AND dn.solicitudCafe = true)) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
-		@NamedQuery(name = Documento.FIND_BY_CONSECUTIVO, query = "SELECT d FROM Documento d  WHERE UPPER(d.consecutivoDocumento) = UPPER(:consecutivoDocumento)") })
+		@NamedQuery(name = Documento.FIND_BY_CONSECUTIVO, query = "SELECT d FROM Documento d  WHERE UPPER(d.consecutivoDocumento) = UPPER(:consecutivoDocumento)"),
+		@NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_TIPO_CAFE, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado AND dn.solicitudCafe = true ORDER BY d.id DESC")})
 public class Documento implements Serializable {
 
 	/**
@@ -51,11 +52,12 @@ public class Documento implements Serializable {
 	public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADO = "Documento.findByTipoDocumentoAndEstado";
 	public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS = "Documento.findByTipoDocumentoAndEstados";
 	public static final String LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO = "Documento.findByEstadoTipoDocumentoConsecutivoDocumento";
-	public static final String FIND_BY_PENDIENTE_POR_ANULAR = "Documento.findByPendientePorAnular";
-	public static final String JPQL_UPDATE_ESTADO_DOCUMENTO = "UPDATE documentos SET id_estado = :id_estado WHERE id = :id";
+	public static final String LISTADO_ANULAR_SOLICITUD_PEDIDO = "Documento.findByPendientePorAnular";
+	public static final String ACTUALIZAR_ESTADO_DOCUMENTO = "UPDATE documentos SET id_estado = :id_estado WHERE id = :id";
 	public static final String FIND_BY_FECHAS_TIPO_DOCUMENTO = "Documento.findByFechasAndTipoDocumento";
 	public static final String FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO_CUSTOM = "Documento.findByEstadoTipoDocumentoConsecutivoDocumentoCustom";
 	public static final String FIND_BY_CONSECUTIVO = "Documento.findByConsecutivoDocumento";
+	public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_TIPO_CAFE = "Documento.findByTipoDocumentoAndEstadoAndTipoCafe";
 
 	@Id
 	@SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)
@@ -128,6 +130,7 @@ public class Documento implements Serializable {
 
 	// bi-directional many-to-one association to DocumentoXLotesoic
 	@OneToMany(mappedBy = "documento")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<DocumentoXLotesoic> documentoXLotesoics;
 
 	// bi-directional many-to-one association to DocumentoXNegociacion

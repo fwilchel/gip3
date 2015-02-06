@@ -31,14 +31,13 @@ import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
-import com.ssl.jv.gip.negocio.dto.UbicacionDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 @Stateless
 @LocalBean
 public class DocumentoDAO extends GenericDAO<Documento> implements
-		DocumentoDAOLocal {
+DocumentoDAOLocal {
 
 	private static final Logger LOGGER = Logger.getLogger(DocumentoDAO.class);
 
@@ -816,15 +815,15 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 					.createQuery(query)
 					.setParameter("tipoDocumento",
 							(long) ConstantesTipoDocumento.SOLICITUD_PEDIDO)
-					.setParameter("estado1",
-							(long) ConstantesDocumento.VERIFICADO)
-					.setParameter("estado2",
-							(long) ConstantesDocumento.APROBADA)
-					.setParameter(
-							"consecutivo",
-							consecutivoDocumento.equals("") ? "%" : "%"
-									+ consecutivoDocumento + "%")
-					.getResultList();
+							.setParameter("estado1",
+									(long) ConstantesDocumento.VERIFICADO)
+									.setParameter("estado2",
+											(long) ConstantesDocumento.APROBADA)
+											.setParameter(
+													"consecutivo",
+													consecutivoDocumento.equals("") ? "%" : "%"
+															+ consecutivoDocumento + "%")
+															.getResultList();
 		} catch (Exception e) {
 			LOGGER.error(e
 					+ "********Error consultando Documentos por Consecutivo de Pedido");
@@ -856,13 +855,13 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 					.createQuery(query)
 					.setParameter("tipoDocumento",
 							(long) ConstantesTipoDocumento.FACTURA_PROFORMA)
-					.setParameter("estado", (long) ConstantesDocumento.APROBADA)
-					.setParameter("solicitudCafe", true)
-					.setParameter(
-							"consecutivo",
-							consecutivoDocumento.equals("") ? "%" : "%"
-									+ consecutivoDocumento + "%")
-					.getResultList();
+							.setParameter("estado", (long) ConstantesDocumento.APROBADA)
+							.setParameter("solicitudCafe", true)
+							.setParameter(
+									"consecutivo",
+									consecutivoDocumento.equals("") ? "%" : "%"
+											+ consecutivoDocumento + "%")
+											.getResultList();
 		} catch (Exception e) {
 			LOGGER.error(e
 					+ "********Error consultando Documentos por Consecutivo de Pedido");
@@ -1022,7 +1021,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 					.createQuery(query)
 					.setParameter("tipoDocumento",
 							(long) ConstantesTipoDocumento.ORDEN_DESPACHO)
-					.getResultList();
+							.getResultList();
 		} catch (Exception e) {
 			LOGGER.error(e
 					+ "********Error consultando Documentos por tipo de documento ORDEN DE DESPACHO");
@@ -1031,7 +1030,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 		return listado;
 	}
 
-	public List<Documento> consultarDocumento(Map<String, Object> parametros,Long... idEstados) {
+	public List<Documento> consultarDocumento(Map<String, Object> parametros, Long... idEstados) {
 		// TODO Auto-generated method stub
 
 		List<Documento> lista = new ArrayList<Documento>();
@@ -1049,7 +1048,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 					.setParameter("estados", Arrays.asList(idEstados))
 					.getResultList();
 
-	
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
@@ -1158,23 +1156,23 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 					// + " unidades.nombre as UNIDAD, "
 					// + "unidades.nombre_ingles as UNIDAD_INGLES,"
 
-					// + " pi_ce.nombre_prd_proveedor as PRODUCTO_CLIENTE ,"
-					// + " tl.descripcion_ingles as DESCRIPCION_LOTE_INGLES,"
-					// + " tl.descripcion as DESCRIPCION_LOTE"
-					+ " case when c.modo_factura=0 then tl.descripcion_ingles when c.modo_factura=1 then tl.descripcion when c.modo_factura=2 then tl.descripcion end as DESCRIPCION_LOTE"
-					+ " from productosXdocumentos pxd  "
-					+ " LEFT JOIN productos_inventario pi on  pxd.id_producto=pi.id"
-					+ " LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=pxd.id_producto"
-					+ " LEFT JOIN documentos d on d.id=pxd.id_documento"
-					+ " LEFT join productos_x_cliente_comext pxc_ce on pxc_ce.id_producto=pxd.id_producto and pxc_ce.id_cliente=d.id_cliente"
-					+ " LEFT join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id "
-					+ " LEFT join documento_x_lotesoic dxl on dxl.id_documento= "
-					+ " (select documentos.id from documentos where documentos.consecutivo_documento=(select documentos.observacion_documento from documentos where documentos.consecutivo_documento='"
-					+ strConsecutivoDocumento
-					+ "'))"
-					+ " and dxl.id_tipo_lote=pi_ce.id_tipo_loteoic"
-					+ " LEFT JOIN unidades on unidades.id = pi.id_uv LEFT JOIN clientes c on c.id=d.id_cliente WHERE d.consecutivo_documento='"
-					+ strConsecutivoDocumento + "'";
+              // + " pi_ce.nombre_prd_proveedor as PRODUCTO_CLIENTE ,"
+              // + " tl.descripcion_ingles as DESCRIPCION_LOTE_INGLES,"
+              // + " tl.descripcion as DESCRIPCION_LOTE"
+              + " case when c.modo_factura=0 then tl.descripcion_ingles when c.modo_factura=1 then tl.descripcion when c.modo_factura=2 then tl.descripcion end as DESCRIPCION_LOTE"
+              + " from productosXdocumentos pxd  "
+              + " LEFT JOIN productos_inventario pi on  pxd.id_producto=pi.id"
+              + " LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=pxd.id_producto"
+              + " LEFT JOIN documentos d on d.id=pxd.id_documento"
+              + " LEFT join productos_x_cliente_comext pxc_ce on pxc_ce.id_producto=pxd.id_producto and pxc_ce.id_cliente=d.id_cliente"
+              + " LEFT join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id "
+              + " LEFT join documento_x_lotesoic dxl on dxl.id_documento= "
+              + " (select documentos.id from documentos where documentos.consecutivo_documento=(select documentos.observacion_documento from documentos where documentos.consecutivo_documento='"
+              + strConsecutivoDocumento
+              + "'))"
+              + " and dxl.id_tipo_lote=pi_ce.id_tipo_loteoic"
+              + " LEFT JOIN unidades on unidades.id = pi.id_uv LEFT JOIN clientes c on c.id=d.id_cliente WHERE d.consecutivo_documento='"
+              + strConsecutivoDocumento + "'";
 
 			List<Object[]> listado = em.createNativeQuery(query)
 					.getResultList();
@@ -1259,12 +1257,11 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 				+ " FROM documentos d INNER JOIN clientes cli on d.id_cliente=cli.id "
 				+ " INNER JOIN ubicaciones u on d.id_ubicacion_destino=u.id "
 				+ " INNER JOIN punto_venta pv on pv.id=d.id_punto_venta "
-				+ " INNER JOIN ciudades ciupv on ciupv.id=pv.id_ciudad" 
-				+ " INNER JOIN ciudades ciucli on ciucli.id=cli.id_ciudad" 
- 				+ " WHERE d.consecutivo_documento= :consecutivoDocumento";
-		
-				
-dto = (FacturaDirectaDTO)em.createNativeQuery(query, FacturaDirectaDTO.class).setParameter("consecutivoDocumento", strConsecutivoDocumento).getSingleResult();
+				+ " INNER JOIN ciudades ciupv on ciupv.id=pv.id_ciudad"
+				+ " INNER JOIN ciudades ciucli on ciucli.id=cli.id_ciudad"
+				+ " WHERE d.consecutivo_documento= :consecutivoDocumento";
+
+		dto = (FacturaDirectaDTO) em.createNativeQuery(query, FacturaDirectaDTO.class).setParameter("consecutivoDocumento", strConsecutivoDocumento).getSingleResult();
 
 		dto = (FacturaDirectaDTO) em
 				.createNativeQuery(query, FacturaDirectaDTO.class)
@@ -1472,7 +1469,7 @@ dto = (FacturaDirectaDTO)em.createNativeQuery(query, FacturaDirectaDTO.class).se
 					.createQuery(query)
 					.setParameter("tipoDocumento",
 							(long) ConstantesTipoDocumento.FACTURA_EXPORTACION)
-					.getResultList();
+							.getResultList();
 		} catch (Exception e) {
 			LOGGER.error(e
 					+ "********Error consultando Documentos por tipo de documento ORDEN DE DESPACHO");
@@ -1608,8 +1605,8 @@ dto = (FacturaDirectaDTO)em.createNativeQuery(query, FacturaDirectaDTO.class).se
 					+ ConstantesDocumento.AUTORIZADO
 					+ "  , documento_cliente = "
 					+ (dto.getDocumentoCliente() != null
-							&& !dto.getDocumentoCliente().equals("") ? "'"
-							+ dto.getDocumentoCliente() + "'" : "")
+					&& !dto.getDocumentoCliente().equals("") ? "'"
+					+ dto.getDocumentoCliente() + "'" : "")
 					+ "  WHERE  id = " + dto.getIdDocumento() + " ";
 
 			int num = 3;
@@ -1633,12 +1630,9 @@ dto = (FacturaDirectaDTO)em.createNativeQuery(query, FacturaDirectaDTO.class).se
 	}
 
 	@Override
-	public List<Documento> consultarSolicitudesPedidoPorAnular(
-			String consecutivoDocumento) {
-		LOGGER.debug("Metodo: <<consultarSolicitudesPedidoPorAnular>> parametros / consecutivoDocumento ->> {"
-				+ consecutivoDocumento + "} ");
-		Query query = em
-				.createNamedQuery(Documento.FIND_BY_PENDIENTE_POR_ANULAR);
+	public List<Documento> consultarSolicitudesPedidoPorAnular(String consecutivoDocumento) {
+		LOGGER.debug("Metodo: <<consultarSolicitudesPedidoPorAnular>> parametros / consecutivoDocumento ->> {" + consecutivoDocumento + "} ");
+		Query query = em.createNamedQuery(Documento.LISTADO_ANULAR_SOLICITUD_PEDIDO);
 		query.setParameter("tipoDocumento", 22L);
 		query.setParameter("cerrado", 3L);
 		query.setParameter("anulado", 11L);
@@ -1653,10 +1647,8 @@ dto = (FacturaDirectaDTO)em.createNativeQuery(query, FacturaDirectaDTO.class).se
 
 	@Override
 	public void anularSolicitudPedido(Documento documento) {
-		LOGGER.debug("Metodo: <<anularSolicitudPedido>> parametros / documento ->> {"
-				+ documento + "} ");
-		Query query = em
-				.createNativeQuery(Documento.JPQL_UPDATE_ESTADO_DOCUMENTO);
+		LOGGER.debug("Metodo: <<anularSolicitudPedido>> parametros / documento ->> {" + documento + "} ");
+		Query query = em.createNativeQuery(Documento.ACTUALIZAR_ESTADO_DOCUMENTO);
 		query.setParameter("id_estado", 11);
 		query.setParameter("id", documento.getId());
 		query.executeUpdate();
@@ -1704,15 +1696,15 @@ dto = (FacturaDirectaDTO)em.createNativeQuery(query, FacturaDirectaDTO.class).se
 				dto.setDocumentoCliente(objs[3] != null ? objs[3].toString()
 						: null);
 				dto.setIdCliente(objs[4] != null ? new Long(objs[4].toString())
-						: null);
+				: null);
 				dto.setIdTipoDocumento(objs[5] != null ? new Long(objs[5]
 						.toString()) : null);
 				dto.setIdEstado(objs[6] != null ? new Long(objs[6].toString())
-						: null);
+				: null);
 				dto.setNombreCliente(objs[7] != null ? objs[7].toString()
 						: null);
 				dto.setIdCliente(objs[8] != null ? new Long(objs[8].toString())
-						: null);
+				: null);
 				dto.setNombreEstado(objs[9] != null ? objs[9].toString() : null);
 				dto.setDireccion(objs[10] != null ? objs[10].toString() : null);
 				dto.setTelefono(objs[11] != null ? objs[11].toString() : null);
@@ -1809,140 +1801,95 @@ dto = (FacturaDirectaDTO)em.createNativeQuery(query, FacturaDirectaDTO.class).se
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Documento> consultarVentasDirectas(String string) {
-		List<Documento> listado = new ArrayList<Documento>();
-		String query;
-		try {
-			query = "SELECT d FROM Documento d "
-					+ "JOIN FETCH d.estadosxdocumento exd "
-					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento"
-					+ " ORDER BY d.id DESC";
-
-			listado = em
-					.createQuery(query)
-					.setParameter("tipoDocumento",
-							(long) ConstantesTipoDocumento.VENTA_DIRECTA)
-					.getResultList();
-		} catch (Exception e) {
-			LOGGER.error(e
-					+ "********Error consultando Documentos por tipo de documento VENTA DIRECTA");
-			return null;
-		}
-		return listado;
-	}
-	
-	
-	
 	@Override
 	public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(Map<String, Object> parametros) {
 
-	//	String fechaIni = (String) parametros[0];
-	//	String fechaFin = (String) parametros[1];
-	//	Integer tipoDoc = (Integer) parametros[2];
-		
-		
+		//	String fechaIni = (String) parametros[0];
+		//	String fechaFin = (String) parametros[1];
+		//	Integer tipoDoc = (Integer) parametros[2];
 		String fechaIni = (String) parametros.get("fechaInicial");
 		String fechaFin = (String) parametros.get("fechaFinal");
-		 
-		Timestamp tsfechaIni=Timestamp.valueOf(fechaIni);
-		Timestamp tsfechaFin=Timestamp.valueOf(fechaFin);
-		
+
+		Timestamp tsfechaIni = Timestamp.valueOf(fechaIni);
+		Timestamp tsfechaFin = Timestamp.valueOf(fechaFin);
+
 		int tipoDoc = (Integer) parametros.get("tipo");
 
-		
-		 System.out.println("fechaini"+fechaIni );
-		 System.out.println("fechaFin"+fechaFin );
-		 System.out.println("tipodoc"+tipoDoc );
-		 
-		 
-			
+		System.out.println("fechaini" + fechaIni);
+		System.out.println("fechaFin" + fechaFin);
+		System.out.println("tipodoc" + tipoDoc);
+
 		List<CintaMagneticaDTO> lista = new ArrayList<CintaMagneticaDTO>();
 		String query = "";
-		
+
 		query = "select documentos.fecha_generacion as fechaGeneracion, documentos.consecutivo_documento as consecutivoDocumento,"
-		 + " CASE WHEN documentos.id_estado=11 THEN 'ANULADA' ELSE clientes.nombre END as nombreCliente,"					
-		 + " CASE WHEN documentos.id_estado=11 OR documentos.subtotal IS NULL THEN 0 ELSE documentos.subtotal END as valorSubtotal,"
-		 + " CASE WHEN documentos.id_estado=11 OR documentos.descuento IS NULL THEN 0 ELSE documentos.descuento END as valorDescuento,"
-		 + " CASE WHEN documentos.id_estado=11 OR (documentos.valor_iva5 IS NULL AND documentos.valor_iva16 IS NULL) THEN 0 ELSE documentos.valor_iva5 + documentos.valor_iva16 END as valorImpuestos,"
-		 + " CASE WHEN documentos.id_estado=11 OR documentos.valor_total IS NULL THEN 0 ELSE documentos.valor_total END as valorTotal,"
-		 + " CASE WHEN documentos.id_estado=11 OR documentos.valor_iva5 IS NULL THEN 0 ELSE documentos.valor_iva5 END as valorIva10,"
-		 + " CASE WHEN documentos.id_estado=11 OR documentos.valor_iva16 IS NULL THEN 0 ELSE documentos.valor_iva16 END as valorIva16"
-		 + " from documentos"
-		 + " inner join clientes on documentos.id_cliente = clientes.id"
-		 + " where documentos.fecha_generacion between :fechaIni and :fechaFin"
-		 + " and documentos.id_tipo_documento = :tipoDoc"
-		 + " order by documentos.fecha_generacion";
-		
-		
-		
+				+ " CASE WHEN documentos.id_estado=11 THEN 'ANULADA' ELSE clientes.nombre END as nombreCliente,"
+				+ " CASE WHEN documentos.id_estado=11 OR documentos.subtotal IS NULL THEN 0 ELSE documentos.subtotal END as valorSubtotal,"
+				+ " CASE WHEN documentos.id_estado=11 OR documentos.descuento IS NULL THEN 0 ELSE documentos.descuento END as valorDescuento,"
+				+ " CASE WHEN documentos.id_estado=11 OR (documentos.valor_iva5 IS NULL AND documentos.valor_iva16 IS NULL) THEN 0 ELSE documentos.valor_iva5 + documentos.valor_iva16 END as valorImpuestos,"
+				+ " CASE WHEN documentos.id_estado=11 OR documentos.valor_total IS NULL THEN 0 ELSE documentos.valor_total END as valorTotal,"
+				+ " CASE WHEN documentos.id_estado=11 OR documentos.valor_iva5 IS NULL THEN 0 ELSE documentos.valor_iva5 END as valorIva10,"
+				+ " CASE WHEN documentos.id_estado=11 OR documentos.valor_iva16 IS NULL THEN 0 ELSE documentos.valor_iva16 END as valorIva16"
+				+ " from documentos"
+				+ " inner join clientes on documentos.id_cliente = clientes.id"
+				+ " where documentos.fecha_generacion between :fechaIni and :fechaFin"
+				+ " and documentos.id_tipo_documento = :tipoDoc"
+				+ " order by documentos.fecha_generacion";
+
 		lista = em.createNativeQuery(query, CintaMagneticaDTO.class).setParameter("fechaIni", tsfechaIni)
 				.setParameter("fechaFin", tsfechaFin)
 				.setParameter("tipoDoc", tipoDoc)
 				.getResultList();
-		
-		
-		
-		 System.out.println("query: "+query );
-		
-		
+
+		System.out.println("query: " + query);
+
 		return lista;
 
 	}
-	
-	
+
 	@Override
 	public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(Map<String, Object> parametros) {
 
-	//	String fechaIni = (String) parametros[0];
-	//	String fechaFin = (String) parametros[1];
-	//	Integer tipoDoc = (Integer) parametros[2];
-		
-		
+		//	String fechaIni = (String) parametros[0];
+		//	String fechaFin = (String) parametros[1];
+		//	Integer tipoDoc = (Integer) parametros[2];
 		String fechaIni = (String) parametros.get("fechaInicial");
 		String fechaFin = (String) parametros.get("fechaFinal");
-		 
-		Timestamp tsfechaIni=Timestamp.valueOf(fechaIni);
-		Timestamp tsfechaFin=Timestamp.valueOf(fechaFin);
-		
+
+		Timestamp tsfechaIni = Timestamp.valueOf(fechaIni);
+		Timestamp tsfechaFin = Timestamp.valueOf(fechaFin);
+
 		int tipoDoc = (Integer) parametros.get("tipo");
 
-		 System.out.println("fechaini"+fechaIni );
-		 System.out.println("fechaFin"+fechaFin );
-		 System.out.println("tipodoc"+tipoDoc );
-		 
+		System.out.println("fechaini" + fechaIni);
+		System.out.println("fechaFin" + fechaFin);
+		System.out.println("tipodoc" + tipoDoc);
+
 		List<ComprobanteInformeDiarioDTO> lista = new ArrayList<ComprobanteInformeDiarioDTO>();
 		String query = "";
-		
-		query = "select pi.id_cuenta_contable as idCuentaContable, cc.descripcion as descripcionCuentaContable, sum(pxd.valor_total) as valorTotal"
-				 + " from productos_inventario pi inner join  productosXdocumentos pxd on pi.id = pxd.id_producto"  
-		 + " inner join cuenta_contable cc on cc.id=pi.id_cuenta_contable"  
-		 + " inner join documentos d on d.id = pxd.id_documento"
-		 + " where d.fecha_generacion between :fechaIni and :fechaFin"  
-		 + " and d.id_tipo_documento =   :tipoDoc" 
-		 + " and pi.id_cuenta_contable is not null" 
-		 + " and d.id_estado in (5,12)" 
-		 + " group by pi.id_cuenta_contable, cc.descripcion"; 
-		
 
-		
+		query = "select pi.id_cuenta_contable as idCuentaContable, cc.descripcion as descripcionCuentaContable, sum(pxd.valor_total) as valorTotal"
+				+ " from productos_inventario pi inner join  productosXdocumentos pxd on pi.id = pxd.id_producto"
+				+ " inner join cuenta_contable cc on cc.id=pi.id_cuenta_contable"
+				+ " inner join documentos d on d.id = pxd.id_documento"
+				+ " where d.fecha_generacion between :fechaIni and :fechaFin"
+				+ " and d.id_tipo_documento =   :tipoDoc"
+				+ " and pi.id_cuenta_contable is not null"
+				+ " and d.id_estado in (5,12)"
+				+ " group by pi.id_cuenta_contable, cc.descripcion";
+
 		lista = em.createNativeQuery(query, ComprobanteInformeDiarioDTO.class).setParameter("fechaIni", tsfechaIni)
 				.setParameter("fechaFin", tsfechaFin)
 				.setParameter("tipoDoc", tipoDoc)
 				.getResultList();
-		
-		
-		
+
 		// System.out.println("query: "+query );
-		
-		
 		return lista;
 
 	}
-	
-	
+
 	@Override
+
 	public List<ReporteVentaDTO> consultarReporteVentasFD(Map<String, Object> parametros) 
 	{
 		String fechaIni = (String) parametros.get("fechaInicial");
@@ -2008,9 +1955,44 @@ dto = (FacturaDirectaDTO)em.createNativeQuery(query, FacturaDirectaDTO.class).se
 		 System.out.println("query: "+query );
 		 System.out.println("query ventas" + lista.size());
 		
-		
-		return lista;
+		 return lista;
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Documento> consultarDocumentosDespacharMercancia(
+			String consecutivo) {
+		List<Documento> listado = new ArrayList<Documento>();
+		String query;
+		try {
+			query = "SELECT d FROM Documento d "
+					+ "JOIN FETCH d.estadosxdocumento exd "
+					+ "JOIN FETCH d.ubicacionDestino dest "
+					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento"
+					+ " ORDER BY d.id DESC";
+
+			listado = em
+					.createQuery(query)
+					.setParameter("tipoDocumento",
+							(long) ConstantesTipoDocumento.ORDEN_DESPACHO)
+							.getResultList();
+		} catch (Exception e) {
+			LOGGER.error(e
+					+ "********Error consultando Documentos por tipo de documento VENTA DIRECTA");
+			return null;
+		}
+		return listado;
+	}
+
+	@Override
+	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(
+			FiltroDocumentoDTO filtro) {
+		Query query = em
+				.createNamedQuery(Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_TIPO_CAFE);
+		query.setParameter("idTipoDocumento", filtro.getIdTipoDocumento());
+		query.setParameter("idEstado", filtro.getIdEstado());
+		return query.getResultList();
 	}
 
 }

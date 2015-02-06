@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloConsultarListaEmpaque}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.TituloConsultarListaEmpaque}">
+					<p:dataTable var="facturaExpo" widgetVar="facturasExpoTabla"
+						id="tabla" scrollable="true" scrollWidth="1000px"
+						value="#{generarInformeTiendaLineaMB.listaFacturasExportacion}"
+						rows="10" emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel>
+
+									<p:spacer width="30"></p:spacer>
+									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+									<p:inputText id="globalFilter"
+										onkeyup="PF('facturasExpoTabla').filter()" style="width:150px"
+										placeholder="#{msg.generalPalabrasBuscar}" />
+									<p:spacer width="30"></p:spacer>
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+
+								</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton ajax="false"
+								icon="ui-icon-print" title="#{msg.generalConsultar}">
+								<f:setPropertyActionListener value="#{facturaExpo}"
+									target="#{generarInformeTiendaLineaMB.seleccionado}" />
+								<p:fileDownload  value="#{generarInformeTiendaLineaMB.reporteExcel}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column filterBy="#{facturaExpo.id}" style="width:100px"
+							headerText="#{msg.CodigoGipSP}" filterMatchMode="contains"
+							sortBy="#{facturaExpo.id}">
+							<h:outputText value="#{facturaExpo.id}" />
+						</p:column>
+
+						<p:column filterBy="#{facturaExpo.consecutivoDocumento}"
+							style="width:100px" headerText="#{msg.ConsecutivoFP}"
+							filterMatchMode="contains"
+							sortBy="#{facturaExpo.consecutivoDocumento}">
+							<h:outputText value="#{facturaExpo.consecutivoDocumento}" />
+						</p:column>
+
+						<p:column filterBy="#{facturaExpo.fechaGeneracion}"
+							style="width:100px"
+							headerText="#{msg.RequisicionNombreFechaGenerado}"
+							filterMatchMode="contains"
+							sortBy="#{facturaExpo.fechaGeneracion}">
+							<h:outputText value="#{facturaExpo.fechaGeneracion}">
+								<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText>
+						</p:column>
+
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+
