@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.TipoMovimiento;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
@@ -59,7 +61,7 @@ public class InventarioComercioExteriorMB extends UtilMB {
 	private ProductosInventarioFiltroDTO productosInventarioFiltroDTO;
 	private List<ProductosInventario> productosInventarios;
 	private List<SelectItem> categoriasInventarios;
-	private List<ProductosInventarioComext> productosSeleccionados;
+	private List<MovimientosInventarioComext> productosSeleccionados;
 
 	@PostConstruct
 	public void init() {
@@ -102,9 +104,9 @@ public class InventarioComercioExteriorMB extends UtilMB {
 			seleccionado = new MovimientosInventarioComext();
 			productosInventarioFiltroDTO = new ProductosInventarioFiltroDTO();
 			productosInventarios = new ArrayList<ProductosInventario>();
-			productosSeleccionados = new ArrayList<ProductosInventarioComext>();
+			productosSeleccionados = new ArrayList<MovimientosInventarioComext>();
 			cargarCategoriasInventario();
-			// outcome = "crear_maestro_inventario_ce";
+			outcome = "crear_maestro_inventario_ce";
 		} catch (Exception e) {
 			LOGGER.error(e);
 			this.addMensajeError(e);
@@ -135,6 +137,121 @@ public class InventarioComercioExteriorMB extends UtilMB {
 			items.add(item);
 		}
 		return items.toArray(new SelectItem[categoriasInventarios.size()]);
+	}
+
+	public void buscarProductosInventarios(ActionEvent event) {
+		try {
+			productosInventarioFiltroDTO.setEstado(true);
+			if (productosInventarioFiltroDTO.getIdCategoria() == -1) {
+				productosInventarioFiltroDTO.setIdCategoria(null);
+			}
+			if (productosInventarioFiltroDTO.getNombre() != null
+					&& productosInventarioFiltroDTO.getNombre().trim()
+							.equals("")) {
+				productosInventarioFiltroDTO.setNombre("%");
+			}
+			if (productosInventarioFiltroDTO.getSku() != null
+					&& productosInventarioFiltroDTO.getSku().trim().equals("")) {
+				productosInventarioFiltroDTO.setSku("%");
+			}
+			productosInventarioFiltroDTO.setControlStock(true);
+			productosInventarios = maestrosEJBLocal
+					.consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(productosInventarioFiltroDTO);
+		} catch (Exception e) {
+			LOGGER.error(e);
+			Exception unrollException = (Exception) this.unrollException(e,
+					ConstraintViolationException.class);
+			if (unrollException != null) {
+				this.addMensajeError(unrollException.getLocalizedMessage());
+			} else {
+				unrollException = (Exception) this.unrollException(e,
+						RuntimeException.class);
+				if (unrollException != null) {
+					this.addMensajeError(unrollException.getLocalizedMessage());
+				} else {
+					this.addMensajeError(e);
+				}
+			}
+		}
+	}
+
+	public void adicionarProductosSeleccionados() {
+		try {
+			for (ProductosInventario productosInventario : productosInventarios) {
+				if (productosInventario.isIncluido()
+						&& !estaRelacionado(productosInventario)) {
+					productosSeleccionados
+							.add(crearNuevoMovimientosInventarioComext(productosInventario));
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.error(e);
+			this.addMensajeError(e);
+		}
+	}
+
+	private MovimientosInventarioComext crearNuevoMovimientosInventarioComext(
+			ProductosInventario productosInventario) {
+		MovimientosInventarioComext movimientosInventarioComext = new MovimientosInventarioComext();
+		ProductosInventarioComext productosInventarioComext = new ProductosInventarioComext();
+		productosInventarioComext.setProductosInventario(productosInventario);
+		movimientosInventarioComext
+				.setProductosInventarioComext(productosInventarioComext);
+		movimientosInventarioComext.setCantidad(BigDecimal.ZERO);
+		movimientosInventarioComext.setConsecutivoDocumento("INGRESO");
+		TipoMovimiento tipoMovimiento = new TipoMovimiento();
+		tipoMovimiento.setId(com.ssl.jv.gip.util.TipoMovimiento.ENTRADA
+				.getCodigo());
+		tipoMovimiento.setNombre(com.ssl.jv.gip.util.TipoMovimiento.ENTRADA
+				.getNombre());
+		movimientosInventarioComext.setTipoMovimiento(tipoMovimiento);
+		movimientosInventarioComext.setSaldo(BigDecimal.ZERO);
+		return movimientosInventarioComext;
+	}
+
+	private boolean estaRelacionado(ProductosInventario productosInventario) {
+		boolean relacionado = false;
+		for (MovimientosInventarioComext movimientosInventarioComext : productosSeleccionados) {
+			if (productosInventario.getId().equals(
+					movimientosInventarioComext.getProductosInventarioComext()
+							.getProductosInventario().getId())) {
+				relacionado = true;
+				break;
+			}
+		}
+		return relacionado;
+	}
+
+	public String guardarMovimientosInventario() {
+		String outcome = null;
+		try {
+			if (productosSeleccionados.isEmpty()) {
+				this.addMensajeError("No se han incluído productos");
+				return outcome;
+			}
+
+			for (MovimientosInventarioComext movimientosInventarioComext : productosSeleccionados) {
+				movimientosInventarioComext
+						.setSaldo(movimientosInventarioComext.getCantidad());
+			}
+
+			maestrosEJBLocal
+					.guardarMovimientosInventarioComercioExterior(productosSeleccionados);
+
+			movimientosInventarioComexts.addAll(0, productosSeleccionados);
+
+			outcome = "listado_maestro_inventario_ce";
+		} catch (Exception e) {
+			LOGGER.error(e);
+			Exception unrollException = (Exception) this.unrollException(e,
+					ConstraintViolationException.class);
+			if (unrollException != null) {
+				this.addMensajeError(unrollException.getLocalizedMessage());
+			} else {
+				this.addMensajeError(e);
+			}
+		}
+		return outcome;
 	}
 
 	public boolean isCreacion() {
@@ -212,12 +329,12 @@ public class InventarioComercioExteriorMB extends UtilMB {
 		this.categoriasInventarios = categoriasInventarios;
 	}
 
-	public List<ProductosInventarioComext> getProductosSeleccionados() {
+	public List<MovimientosInventarioComext> getProductosSeleccionados() {
 		return productosSeleccionados;
 	}
 
 	public void setProductosSeleccionados(
-			List<ProductosInventarioComext> productosSeleccionados) {
+			List<MovimientosInventarioComext> productosSeleccionados) {
 		this.productosSeleccionados = productosSeleccionados;
 	}
 
