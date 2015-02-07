@@ -1,8 +1,10 @@
 package com.ssl.jv.gip.negocio.dao;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -12,6 +14,10 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoReporteTxtFacturaDirectaDTO;
+import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
+import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 /**
  * Session Bean implementation class ProductosXDocumentoDAO
@@ -116,5 +122,60 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
 		query.setParameter("idCliente", idCliente);
 		return query.getResultList();
 	}
+	
+	
+	
+	@Override
+	public List<ProductoReporteTxtFacturaDirectaDTO> consultarReporteTxtVentasFD(Map<String, Object> parametros) 
+	{
+		String fechaIni = (String) parametros.get("fechaInicial");
+		String fechaFin = (String) parametros.get("fechaFinal");
+		 
+		
+		Timestamp tsfechaIni=Timestamp.valueOf(fechaIni + " 00:00:00");
+		Timestamp tsfechaFin=Timestamp.valueOf(fechaFin);
+		
+		int tipoDoc = (Integer) parametros.get("tipo");
+		int estadoDoc = (Integer) parametros.get("estado");
+
+		 
+		
+		List<ProductoReporteTxtFacturaDirectaDTO> lista = new ArrayList<ProductoReporteTxtFacturaDirectaDTO>();
+		String query = "";
+		
+			
+		
+		query = "SELECT row_number() over (ORDER BY d.consecutivo_documento) as id, d.id_ubicacion_destino as idUbicacionDestino,p.sku as sku,p.nombre as nombre,round(pxd.cantidad1) as cantidad,"
+				+ " to_char(d.fecha_generacion, 'YYYY-MM-DD') as fechaGeneracion, d.consecutivo_documento as ConsecutivoDocumento,round(pxd.valor_unitatrio_ml) as valorUnitario ,d.observacion_documento as observacionDocumento,"
+				+ " u.cliente_icg as clienteIcg,pxd.descuentoxproducto as valorDescuentoProducto,pxd.iva as ValorIva"
+				+ " FROM productosxdocumentos pxd,productos_inventario p, documentos d ,ubicaciones u" 
+				+ " WHERE  pxd.id_documento=d.id" 
+				+ " and pxd.id_producto=p.id"
+				+ " and d.id_ubicacion_destino=u.id"
+				+ " and d.fecha_generacion  between :fechaIni and :fechaFin" 
+				+ " and d.id_tipo_documento= :tipoDoc and d.id_estado= :estadoDoc"
+				+ " ORDER BY d.id,p.sku";
+		
+		
+		lista = em.createNativeQuery(query, ProductoReporteTxtFacturaDirectaDTO.class).setParameter("fechaIni", tsfechaIni)
+				.setParameter("fechaFin", tsfechaFin)
+				.setParameter("tipoDoc", tipoDoc)
+				.setParameter("estadoDoc", estadoDoc)
+				.getResultList();
+		
+		
+		
+		/* System.out.println("query: "+query );
+		 System.out.println("query arhivo Plano ventas" + lista.size());
+		 System.out.println("estado: "+ estadoDoc);
+		 System.out.println("fechaini: "+ tsfechaIni);
+		 System.out.println("fechaFin: "+ tsfechaFin);
+		 System.out.println("tipoDoc: "+ tipoDoc);
+		 */
+		
+		return lista;
+
+	}
+	
 
 }

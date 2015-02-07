@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_LE" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4276114b-889a-4591-ad6e-9ff14295e24b">
-	<property name="ireport.zoom" value="1.2396694214876123"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="126"/>
+	<property name="ireport.zoom" value="2.657341500000021"/>
+	<property name="ireport.x" value="53"/>
+	<property name="ireport.y" value="332"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="false,true,0.75,0,0,0,0,0,0"/>
 	<style name="table">
@@ -749,7 +749,7 @@
 					<text><![CDATA[SubTotal:]]></text>
 				</staticText>
 				<textField pattern="#,##0.00">
-					<reportElement uuid="7e4fc8ad-b0e7-4e31-93a2-f6037f54a164" x="349" y="1" width="61" height="16"/>
+					<reportElement uuid="7e4fc8ad-b0e7-4e31-93a2-f6037f54a164" x="349" y="1" width="59" height="16"/>
 					<textElement textAlignment="Right">
 						<font size="6" isBold="true"/>
 					</textElement>
@@ -759,21 +759,21 @@
 					<reportElement uuid="dbbe2bc6-3f44-4c1c-ac2b-08d9d8138cd6" x="30" y="-2" width="557" height="1"/>
 				</line>
 				<textField pattern="#,##0.00">
-					<reportElement uuid="5f2eb869-fd8b-426c-ae2d-79d3973a56d7" x="471" y="0" width="60" height="16"/>
+					<reportElement uuid="5f2eb869-fd8b-426c-ae2d-79d3973a56d7" x="471" y="0" width="58" height="16"/>
 					<textElement textAlignment="Right">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{pesoNeto_1}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.00">
-					<reportElement uuid="9bfd960c-247a-4008-a01f-231cb1e841d8" x="534" y="1" width="54" height="15"/>
+					<reportElement uuid="9bfd960c-247a-4008-a01f-231cb1e841d8" x="534" y="1" width="50" height="15"/>
 					<textElement textAlignment="Right">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{pesoBruto_1}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.00">
-					<reportElement uuid="0195753d-ff7f-4189-b1a3-31a9a924dd2c" x="412" y="1" width="58" height="15"/>
+					<reportElement uuid="0195753d-ff7f-4189-b1a3-31a9a924dd2c" x="412" y="1" width="55" height="15"/>
 					<textElement textAlignment="Right">
 						<font size="6"/>
 					</textElement>
@@ -830,7 +830,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{telefono}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement uuid="58bdb032-149c-4e28-a139-fdb12a6291ec" x="145" y="212" width="130" height="14"/>
 				<textElement>
 					<font size="9"/>
@@ -880,18 +880,18 @@ Bogotá - Colombia]]></text>
 				<textFieldExpression><![CDATA[$P{t1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="62376240-1c92-43a5-bfae-90bfd0ffcade" x="32" y="146" width="100" height="13"/>
+				<reportElement uuid="62376240-1c92-43a5-bfae-90bfd0ffcade" x="32" y="146" width="107" height="13"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{t2}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement uuid="01c202bb-7c90-4a15-b81d-351c2ba2dac7" x="145" y="226" width="130" height="14"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{t14}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement uuid="c934a646-4947-450d-b228-6ea4d86fcd89" x="145" y="240" width="265" height="47"/>
 				<textElement>
 					<font size="9"/>
@@ -920,7 +920,7 @@ Bogotá - Colombia]]></text>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement uuid="49e5736f-8038-41e0-8040-a206b24cfd3e" x="411" y="-1" width="58" height="11"/>
+				<reportElement uuid="49e5736f-8038-41e0-8040-a206b24cfd3e" x="412" y="-1" width="55" height="11"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>
@@ -940,21 +940,21 @@ Bogotá - Colombia]]></text>
 				<textFieldExpression><![CDATA[$F{registroSanitario}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement uuid="425d3463-a876-49ff-9230-ddde0a2fa508" x="349" y="0" width="61" height="11"/>
+				<reportElement uuid="425d3463-a876-49ff-9230-ddde0a2fa508" x="349" y="0" width="59" height="11"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement uuid="ffa7427c-0224-4320-a229-ceab28ad3403" x="471" y="0" width="60" height="10"/>
+				<reportElement uuid="ffa7427c-0224-4320-a229-ceab28ad3403" x="471" y="0" width="58" height="10"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pesoNeto}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement uuid="2d0216d0-106b-459b-a64b-92f187eca0d8" x="534" y="0" width="54" height="10"/>
+				<reportElement uuid="2d0216d0-106b-459b-a64b-92f187eca0d8" x="534" y="0" width="50" height="10"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>

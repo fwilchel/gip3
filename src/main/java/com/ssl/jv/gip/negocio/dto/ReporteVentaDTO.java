@@ -13,12 +13,10 @@ public class ReporteVentaDTO  implements Serializable{
 	
 	private static final long serialVersionUID = 3020144764605752606L;
 
-
-	
 	
 	@Id
 	private Long id;
-	private BigDecimal cantidad;
+	
 	private BigDecimal cantidadVD;
 	private BigDecimal cantidadFD;
 	private Timestamp fechaGeneracion;
@@ -30,16 +28,15 @@ public class ReporteVentaDTO  implements Serializable{
 	private String nombreProducto;
 	private String sku;
 	private BigDecimal valorUnitario;
-	private BigDecimal  valorSubtotal;
 	private BigDecimal valorDescuentoCliente;
-	private BigDecimal valorBaseIva;
 	private BigDecimal  valorPorcentajeIva;
-	private BigDecimal  valorIva;
-	private BigDecimal  valorTotal;
 	private String OrdenCompra;
 	private String NumeroEntregaSap;
 	private String ConsecutivoOD;
 	private String NumeroPedidoSap;
+	private BigDecimal valorDescuentoProducto;
+	private BigDecimal valorOtrosDescuentos;
+	private String nitCliente;
 	
 	
 
@@ -49,13 +46,7 @@ public class ReporteVentaDTO  implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public BigDecimal getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(BigDecimal cantidad) {
-		this.cantidad = cantidad;
-	}
+	
 	public BigDecimal getCantidadVD() {
 		return cantidadVD;
 	}
@@ -122,42 +113,21 @@ public class ReporteVentaDTO  implements Serializable{
 	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
-	public BigDecimal getValorSubtotal() {
-		return valorSubtotal;
-	}
-	public void setValorSubtotal(BigDecimal valorSubtotal) {
-		this.valorSubtotal = valorSubtotal;
-	}
+	
 	public BigDecimal getValorDescuentoCliente() {
 		return valorDescuentoCliente;
 	}
 	public void setValorDescuentoCliente(BigDecimal valorDescuentoCliente) {
 		this.valorDescuentoCliente = valorDescuentoCliente;
 	}
-	public BigDecimal getValorBaseIva() {
-		return valorBaseIva;
-	}
-	public void setValorBaseIva(BigDecimal valorBaseIva) {
-		this.valorBaseIva = valorBaseIva;
-	}
+
 	public BigDecimal getValorPorcentajeIva() {
 		return valorPorcentajeIva;
 	}
 	public void setValorPorcentajeIva(BigDecimal valorPorcentajeIva) {
 		this.valorPorcentajeIva = valorPorcentajeIva;
 	}
-	public BigDecimal getValorIva() {
-		return valorIva;
-	}
-	public void setValorIva(BigDecimal valorIva) {
-		this.valorIva = valorIva;
-	}
-	public BigDecimal getValorTotal() {
-		return valorTotal;
-	}
-	public void setValorTotal(BigDecimal valorTotal) {
-		this.valorTotal = valorTotal;
-	}
+	
 	public String getOrdenCompra() {
 		return OrdenCompra;
 	}
@@ -182,6 +152,25 @@ public class ReporteVentaDTO  implements Serializable{
 	public void setNumeroPedidoSap(String numeroPedidoSap) {
 		NumeroPedidoSap = numeroPedidoSap;
 	}
+	public BigDecimal getValorDescuentoProducto() {
+		return valorDescuentoProducto;
+	}
+	public void setValorDescuentoProducto(BigDecimal valorDescuentoProducto) {
+		this.valorDescuentoProducto = valorDescuentoProducto;
+	}
+	public BigDecimal getValorOtrosDescuentos() {
+		return valorOtrosDescuentos;
+	}
+	public void setValorOtrosDescuentos(BigDecimal valorOtrosDescuentos) {
+		this.valorOtrosDescuentos = valorOtrosDescuentos;
+	}
+	public String getNitCliente() {
+		return nitCliente;
+	}
+	public void setNitCliente(String nitCliente) {
+		this.nitCliente = nitCliente;
+	}
+	
 	
 	
 	

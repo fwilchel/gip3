@@ -1064,8 +1064,8 @@ DocumentoDAOLocal {
 
 		String query = "";
 		query = "SELECT  doc.id,doc.consecutivo_documento,doc.fecha_generacion,doc.documento_cliente,"
-				+ " cli.nombre AS NOMBRE_CLIENTE,cli.direccion,cli.telefono,cli.contact"
-				+ "o, inc.descripcion AS NOMBRE_INCOTERM,"
+				+ " cli.nombre AS NOMBRE_CLIENTE,cli.direccion,cli.telefono,cli.contacto,"
+				+ " inc.descripcion AS NOMBRE_INCOTERM,"
 				+ " docxneg.observaciones_marcacion_2, docxneg.cantidad_contenedores_de_20, docxneg.cantidad_contenedores_de_40, docxneg.lugar_incoterm,"
 				+ " docxneg.cantidad_estibas ,docxneg.peso_bruto_estibas, docxneg.descripcion"
 				+ " FROM documentos doc INNER JOIN clientes cli on doc.id_cliente=cli.id "
@@ -1073,7 +1073,7 @@ DocumentoDAOLocal {
 				+ " INNER JOIN termino_incoterm inc on inc.id = docxneg.id_termino_incoterm "
 				+ " WHERE  doc.consecutivo_documento='"
 				+ strConsecutivoDocumento + "'";
-
+		
 		List<Object[]> listado = em.createNativeQuery(query).getResultList();
 
 		if (listado != null) {
@@ -1889,97 +1889,73 @@ DocumentoDAOLocal {
 	}
 
 	@Override
-	public List<ReporteVentaDTO> consultarReporteVentasFD(Map<String, Object> parametros) {
-		//	String fechaIni = (String) parametros[0];
-		//	String fechaFin = (String) parametros[1];
-		//	Integer tipoDoc = (Integer) parametros[2];
 
+	public List<ReporteVentaDTO> consultarReporteVentasFD(Map<String, Object> parametros) 
+	{
 		String fechaIni = (String) parametros.get("fechaInicial");
 		String fechaFin = (String) parametros.get("fechaFinal");
-
-		Timestamp tsfechaIni = Timestamp.valueOf(fechaIni);
-		Timestamp tsfechaFin = Timestamp.valueOf(fechaFin);
-
+		 
+		
+		Timestamp tsfechaIni=Timestamp.valueOf(fechaIni + " 00:00:00");
+		Timestamp tsfechaFin=Timestamp.valueOf(fechaFin +" 23:59:59");
+		
 		int tipoDoc = (Integer) parametros.get("tipo");
 
-		System.out.println("fechaini" + fechaIni);
-		System.out.println("fechaFin" + fechaFin);
-		System.out.println("tipodoc" + tipoDoc);
-
+		 
 		List<ReporteVentaDTO> lista = new ArrayList<ReporteVentaDTO>();
 		String query = "";
+		
+	
+		
+		query = "SELECT row_number() over (ORDER BY d.consecutivo_documento) as id, CASE WHEN pxd2.cantidad1 is null THEN prodVD.fecha_generacion ELSE d.fecha_generacion END as fechaGeneracion,"
+				+ " c.nombre as nombreCliente,pv.nombre as nombrePuntoVenta ,prodVD.consecutivo_documento as consecutivoDocumentoVD,"
+				+ " CASE WHEN pxd2.cantidad1 is null THEN prodVD.observacion_documento  ELSE d.observacion_documento  END as consecutivoDocumentoRM,"
+				+ " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE d.consecutivo_documento END consecutivoDocumentoFD,"
+				+ " pi.sku as sku , pi.nombre as nombreProducto,"
+				+ " prodVD.cantidad1 as cantidadVD,"
+				+ " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE  pxd2.cantidad1  END as cantidadFD ,prodVD.valor_unitatrio_ml as valorUnitario,"
+				+ " CASE WHEN pxd2.descuentoxproducto is null  THEN '0' else pxd2.descuentoxproducto END as valorDescuentoProducto,"
+				+ " CASE WHEN d.descuento_cliente is null THEN '0' ELSE d.descuento_cliente END as valorDescuentoCliente,"
+				+ " CASE WHEN pxd2.otros_descuentos is null THEN '0' ELSE pxd2.otros_descuentos END as valorOtrosDescuentos,"
+				+ " CASE WHEN pxd2.iva is null THEN '0' ELSE pxd2.iva END as valorPorcentajeIva,"
+				+ " d.documento_cliente as OrdenCompra ,d.observacion2 as NumeroEntregaSap ,d.observacion3 as ConsecutivoOD, d.sitio_entrega  as NumeroPedidoSap,"
+				+ " c.nit as nitCliente" 
++ " from  documentos d "
++ " inner join (SELECT  pxd.id_producto ,d.id as id_documento ,pxd.cantidad1 , d3.consecutivo_documento ,d3.observacion_documento,"
++ " pxd.valor_unitatrio_ml,d3.fecha_generacion from  documentos d "
++ " inner join (select id ,consecutivo_documento,observacion_documento from documentos ) d2 on d2.consecutivo_documento = d.observacion_documento"
++ " inner join (select id ,consecutivo_documento,observacion_documento , fecha_generacion from documentos ) d3 on d3.consecutivo_documento = d2.observacion_documento"
++ " inner join productosxdocumentos pxd  on pxd.id_documento=d3.id"
++ " where d.id_tipo_documento= :tipoDoc1"
++ " and d.fecha_generacion between  :fechaIni1 and :fechaFin1" 
++ " and d.id_estado in (12,5) )"
+//+ "and d.sitio_entrega <> 'CS' )"
++ " prodVD on prodVD.id_documento=d.id"
++ " inner join clientes c on c.id=d.id_cliente"
++ " inner join punto_venta pv on d.id_punto_venta= pv.id"
++ " inner join productos_inventario pi on pi.id=prodVD.id_producto"
++ " left outer  join productosxdocumentos pxd2 on pxd2.id_producto=prodVD.id_producto and pxd2.id_documento=d.id" 
++ " where d.id_tipo_documento= :tipoDoc2"
++ " and d.fecha_generacion between  :fechaIni2 and :fechaFin2" 
++ " and d.id_estado in (12,5)";
+//+ " and d.sitio_entrega <> 'CS'";
+//+ " order by d.consecutivo_documento";
 
-		/*query = "select pi.id_cuenta_contable as idCuentaContable, cc.descripcion as descripcionCuentaContable, sum(pxd.valor_total) as valorTotal"
-     + " from productos_inventario pi inner join  productosXdocumentos pxd on pi.id = pxd.id_producto"  
-     + " inner join cuenta_contable cc on cc.id=pi.id_cuenta_contable"  
-     + " inner join documentos d on d.id = pxd.id_documento"
-     + " where d.fecha_generacion between :fechaIni and :fechaFin"  
-     + " and d.id_tipo_documento =   :tipoDoc" 
-     + " and pi.id_cuenta_contable is not null" 
-     + " and d.id_estado in (5,12)" 
-     + " group by pi.id_cuenta_contable, cc.descripcion"; 
-		 */
-		query = "SELECT CASE WHEN pxd2.cantidad1 is null THEN prodVD.fecha_generacion ELSE d.fecha_generacion END as fechaGeneracion"
-				//+ " c.nombre as nombreCliente,pv.nombre as nombrePuntoVenta ,prodVD.consecutivo_documento as consecutivoDocumentoVD,"
-				//+ " CASE WHEN pxd2.cantidad1 is null THEN prodVD.observacion_documento  ELSE d.observacion_documento  END as consecutivoDocumentoRM,"
-				//+ " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE d.consecutivo_documento END consecutivoDocumentoFD,"
-				//+ " pi.sku as sku , pi.nombre as nombreProducto,"
-				//+ " prodVD.cantidad1 as cantidadVD,"
-				//+ " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE  pxd2.cantidad1  END as cantidadFD ,prodVD.valor_unitatrio_ml as valorUnitario"
-				/*+ " round(prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100)) as valorDescuentoProducto,"
-             + " round((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))as valorSubtotal,"
-             + " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1)*(pxd2.descuentoxproducto/100)*(d.descuento_cliente/100)) as valorDescuentoCliente,"
-             + " round((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))*pxd2.otros_descuentos as valorOtrosDescuentos,"
-             + " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))-("
-             + " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1)*(pxd2.descuentoxproducto/100)*(d.descuento_cliente/100))+"
-             + " round((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))*pxd2.otros_descuentos)) as valorBaseIva,"
-             + " pxd2.iva as valorPorcentajeIva,"
-             + " round((((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))-("
-             + " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1)*(pxd2.descuentoxproducto/100)*(d.descuento_cliente/100))+"
-             + " round((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))*pxd2.otros_descuentos))*(pxd2.iva/100),2) as valorIva,"
-             + " round(round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))-("
-             + " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1)*(pxd2.descuentoxproducto/100)*(d.descuento_cliente/100))+"
-             + " ((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))*pxd2.otros_descuentos))+("
-             + " ((((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))-("
-             + " round(((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1)*(pxd2.descuentoxproducto/100)*(d.descuento_cliente/100))+"
-             + " round((prodVD.valor_unitatrio_ml*pxd2.cantidad1)-prodVD.valor_unitatrio_ml*pxd2.cantidad1*(pxd2.descuentoxproducto/100))*pxd2.otros_descuentos))*(pxd2.iva/100))),2) as valorTotal,"
-             + " d.documento_cliente as OrdenCompra ,d.observacion2 as NumeroEntregaSap ,d.observacion3 as ConsecutivoOD, d.sitio_entrega  as NumeroPedidoSap"*/
-				+ " from  documentos d "
-				+ " inner join (SELECT  pxd.id_producto ,d.id as id_documento ,pxd.cantidad1 , d3.consecutivo_documento ,d3.observacion_documento,"
-				+ " pxd.valor_unitatrio_ml,d3.fecha_generacion from  documentos d "
-				+ " inner join (select id ,consecutivo_documento,observacion_documento from documentos ) d2 on d2.consecutivo_documento = d.observacion_documento"
-				+ " inner join (select id ,consecutivo_documento,observacion_documento , fecha_generacion from documentos ) d3 on d3.consecutivo_documento = d2.observacion_documento"
-				+ " inner join productosxdocumentos pxd  on pxd.id_documento=d3.id"
-				+ " where d.id_tipo_documento= :tipoDoc1"
-				+ " and d.fecha_generacion between  '2014-01-01 00:00:00' and '2014-01-05 23:59:59'"
-				+ " and d.id_estado in (12,5) and d.sitio_entrega <> 'CS' ) prodVD on prodVD.id_documento=d.id"
-				+ " inner join clientes c on c.id=d.id_cliente"
-				+ " inner join punto_venta pv on d.id_punto_venta= pv.id"
-				+ " inner join productos_inventario pi on pi.id=prodVD.id_producto"
-				+ " left outer  join productosxdocumentos pxd2 on pxd2.id_producto=prodVD.id_producto and pxd2.id_documento=d.id"
-				+ " where d.id_tipo_documento= :tipoDoc2"
-				+ " and d.fecha_generacion between  '2014-01-01 00:00:00' and '2014-01-05 23:59:59'"
-				+ " and d.id_estado in (12,5)"
-				+ " and d.sitio_entrega <> 'CS'";
-		//+ " order by d.consecutivo_documento";
-
-		/*lista = em.createNativeQuery(query, ReporteVentaDTO.class).setParameter("fechaIni", tsfechaIni)
-     .setParameter("fechaFin", tsfechaFin)
-     .setParameter("tipoDoc", tipoDoc)
-     .getResultList();
-		 */
-		List<Object[]> listado = em.createNativeQuery(query)
-				//.setParameter("fechaIni", tsfechaIni)
-				//.setParameter("fechaFin", tsfechaFin)
+		
+		lista = em.createNativeQuery(query, ReporteVentaDTO.class).setParameter("fechaIni1", tsfechaIni)
+				.setParameter("fechaFin1", tsfechaFin)
+				.setParameter("fechaIni2", tsfechaIni)
+				.setParameter("fechaFin2", tsfechaFin)
 				.setParameter("tipoDoc1", tipoDoc)
 				.setParameter("tipoDoc2", tipoDoc)
 				.getResultList();
-
-		System.out.println("query: " + query);
-
-		System.out.println("query ventas" + listado.size());
-
-		return lista;
+		
+		
+		
+		 System.out.println("query: "+query );
+		 System.out.println("query ventas" + lista.size());
+		
+		 return lista;
 
 	}
 
