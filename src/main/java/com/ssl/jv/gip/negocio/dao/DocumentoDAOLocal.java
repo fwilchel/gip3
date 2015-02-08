@@ -93,15 +93,15 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
 
-	public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(Map<String, Object> parametros);
+	public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(
+			Map<String, Object> parametros);
 
-	public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(Map<String, Object> parametros);
+	public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(
+			Map<String, Object> parametros);
 
-	public List<ReporteVentaDTO> consultarReporteVentasFD(Map<String, Object> parametros);
+	public List<ReporteVentaDTO> consultarReporteVentasFD(
+			Map<String, Object> parametros);
 
-	
-
-	
 	/**
 	 *
 	 * @return
@@ -132,10 +132,14 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 			String consecutivoDocumento);
 
 	public Documento consultarDocumentoPorConsecutivo(String consecutivo);
-	
-	public List<Documento> consultarDocumentosDespacharMercancia(String consecutivo);
-	
+
+	public List<Documento> consultarDocumentosDespacharMercancia(
+			String consecutivo);
+
 	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(
+			FiltroDocumentoDTO filtro);
+
+	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeAndConsecutivo(
 			FiltroDocumentoDTO filtro);
 
 }
