@@ -89,7 +89,7 @@ public class AsignarDatosTLMB extends UtilMB {
 		try {
 			this.modo = Modo.EDICION;
 
-			outcome = "generar_lista_empaque";
+			outcome = "consultar_factura_exportacion";
 		} catch (Exception e) {
 			LOGGER.error(e);
 			this.addMensajeError(e);
