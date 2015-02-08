@@ -1488,4 +1488,26 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		return documentoDAO
 				.consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeAndConsecutivo(filtro);
 	}
+
+	@Override
+	public List<DocumentoXLotesoic> consultarDocumentosXLotesOICParaAsignarDatosTL(
+			String consecutivo) {
+		return documentoLotesOICDAO
+				.consultarPorConsecutivoDocumento(consecutivo);
+	}
+
+	@Override
+	public void asignarDatosTL(Documento listaEmpaque,
+			List<DocumentoXLotesoic> documentoXLotesoics) {
+		for (DocumentoXLotesoic documentoXLotesoic : documentoXLotesoics) {
+			documentoLotesOICDAO.update(documentoXLotesoic);
+		}
+		Estadosxdocumento estadosxdocumento = listaEmpaque
+				.getEstadosxdocumento();
+		EstadosxdocumentoPK id = estadosxdocumento.getId();
+		id.setIdEstado(Estado.ASIGNADA.getCodigo());
+		estadosxdocumento.setId(id);
+		listaEmpaque.setEstadosxdocumento(estadosxdocumento);
+		documentoDAO.update(listaEmpaque);
+	}
 }
