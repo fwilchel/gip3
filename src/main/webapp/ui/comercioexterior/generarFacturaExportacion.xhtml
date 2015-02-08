@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloGenerarFX}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.TituloGenerarFX}">
+				
+				
+					<p:panelGrid columns="3"
+						columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.trasladoInventarioFecha}" for="fecha" styleClass="negrita" />
+						<p:inputText value="#{generarFacturaExportacionMB.fechaActual}" id="fecha" required="false" disabled="true" >
+							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
+						</p:inputText>
+						<p:message for="fecha"></p:message>
+
+						<p:outputLabel value="#{msg.IngresarNumLE}" for="consecutivo" styleClass="negrita" />
+						<p:inputText value="#{generarFacturaExportacionMB.consecutivoDocumento}" id="consecutivo" required="false" disabled="false" 
+							label="#{msg.imprimirFacturaProforma_ConsecutivoListaEmpaque}" />
+						<p:message for="consecutivo"></p:message>
+
+					</p:panelGrid>
+					
+					<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{generarFacturaExportacionMB.consultarFacturasExportacion}" update=":forma:tabPanel:tabla" ></p:commandButton>
+				
+					
+					
+					<p:dataTable var="facturaExpo" widgetVar="facturasExpoTabla"
+						id="tabla" scrollable="true" scrollWidth="1000px"
+						value="#{generarFacturaExportacionMB.listaFacturasExportacion}"
+						rows="10" emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel>
+
+									<p:spacer width="30"></p:spacer>
+									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+									<p:inputText id="globalFilter"
+										onkeyup="PF('facturasExpoTabla').filter()" style="width:150px"
+										placeholder="#{msg.generalPalabrasBuscar}" />
+									<p:spacer width="30"></p:spacer>
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+
+								</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column style="width:32px;text-align: center">
+							<p:commandButton oncomplete="PF('reImprimirDialog').show()"
+								icon="ui-icon-info" title="#{msg.generalConsultar}"
+								update=":reimprimirDlg">
+								<f:setPropertyActionListener value="#{facturaExpo}"
+									target="#{generarFacturaExportacionMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column filterBy="#{facturaExpo.id}" style="width:100px"
+							headerText="#{msg.CodigoGipSP}" filterMatchMode="contains"
+							sortBy="#{facturaExpo.id}">
+							<h:outputText value="#{facturaExpo.id}" />
+						</p:column>
+
+						<p:column filterBy="#{facturaExpo.consecutivoDocumento}"
+							style="width:100px" headerText="#{msg.ConsecutivoFP}"
+							filterMatchMode="contains"
+							sortBy="#{facturaExpo.consecutivoDocumento}">
+							<h:outputText value="#{facturaExpo.consecutivoDocumento}" />
+						</p:column>
+
+						<p:column filterBy="#{facturaExpo.fechaGeneracion}"
+							style="width:100px"
+							headerText="#{msg.RequisicionNombreFechaGenerado}"
+							filterMatchMode="contains"
+							sortBy="#{facturaExpo.fechaGeneracion}">
+							<h:outputText value="#{facturaExpo.fechaGeneracion}">
+								<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText>
+						</p:column>
+
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+		<p:dialog header="#{msg.TituloGenerarFX}"
+			widgetVar="reImprimirDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="reimprimirDlg">
+			<h:form id="formaDlg">
+				<p:outputPanel id="facturaDetalle" style="text-align:center;">
+
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+						
+					<p:panelGrid columns="4" style="width:100%"
+						rendered="#{not empty generarFacturaExportacionMB.seleccionado}"
+						columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.recibiProductoDcoumento}"
+							styleClass="negrita" />
+						<h:outputText value="#{generarFacturaExportacionMB.seleccionado.id}" />
+
+						<p:outputLabel value="#{msg.RequisicionNombreCons}"
+							styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.consecutivoDocumento}" />
+
+						<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
+							styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.fechaGeneracion}" >
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText>
+
+						<p:outputLabel value="#{msg.nomCliente}" styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.cliente.nombre}" />
+
+						<p:outputLabel value="#{msg.NumeroPedidoWeb}" styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.documentoCliente}" />
+
+						<p:outputLabel value="#{msg.maestroDireccionCliente}"
+							styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.cliente.direccion}" />
+
+						<p:outputLabel value="#{msg.maestroTelefonoCliente}"
+							styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.cliente.telefono}" />
+
+						<p:outputLabel value="#{msg.maestroContactoAgente}"
+							styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.cliente.contacto}" />
+
+						<p:outputLabel value="#{msg.TerminoIncotermSP}"
+							styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.cliente.terminoIncoterms.get(0).descripcion}" />
+
+						<p:outputLabel value="#{msg.LugarIncoterm}" styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.documentoXNegociacions.get(0).lugarIncoterm}" />
+
+						<p:outputLabel value="#{msg.CantidadContenedores20}"
+							styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe20}" />
+
+						<p:outputLabel value="#{msg.CantidadContenedores40}"
+							styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe40}" />
+
+						<p:outputLabel value="#{msg.FechaDespacho}" styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.fechaEsperadaEntrega}" >
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText>
+
+						<p:outputLabel value="#{msg.DiasVigenciaFP}" styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.documentoXNegociacions.get(0).cantidadDiasVigencia}" />
+
+						<p:outputLabel value="#{msg.CantidadEstibas}" styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.documentoXNegociacions.get(0).cantidadEstibas}" />
+
+						<p:outputLabel value="#{msg.PesoBrutoEstibas}"
+							styleClass="negrita" />
+						<h:outputText
+							value="#{generarFacturaExportacionMB.seleccionado.documentoXNegociacions.get(0).pesoBrutoEstibas}" />
+
+					</p:panelGrid>
+					
+					<p:panelGrid columns="3" style="width:100%"
+						rendered="#{not empty generarFacturaExportacionMB.seleccionado}"
+						columnClasses="label,value,">
+						
+						<p:outputLabel value="#{msg.DetalleEnvio}" for="strDescripcionEnvio"
+							styleClass="negrita" />
+						<h:inputTextarea id="strDescripcionEnvio" cols="100"
+							value="#{generarFacturaExportacionMB.strDescripcion}">
+							<f:validateLength maximum="250"></f:validateLength>
+						</h:inputTextarea>
+						<p:message for="strDescripcionEnvio"></p:message>
+							
+					</p:panelGrid>
+
+					<br />
+
+					<p:dataTable id="checkboxDT" var="producto"
+						value="#{generarFacturaExportacionMB.listaProductosDocumento}"
+						rowKey="#{producto.id}">
+
+						<p:column headerText="#{msg.TipoLoteOIC}">
+							<h:outputText
+								value="#{producto.productosInventario.productosInventarioComext.tipoLoteoic.descripcion}" />
+
+							<f:facet name="footer">
+								<h:outputText value="#{msg.Totales}"
+									style="text-align:right;width:100px;" />
+							</f:facet>
+
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorPxCSKU}">
+							<h:outputText value="#{producto.productosInventario.sku}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorNombreProducto}">
+							<h:outputText value="#{producto.productosInventario.nombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.comprasCantidadSola}">
+							<h:outputText value="#{producto.cantidad1}" />
+
+							<f:facet name="footer">
+								<h:outputText value="#{generarFacturaExportacionMB.totalCantitad1}"
+									style="text-align:right;width:100px;" >
+									<f:convertNumber maxFractionDigits="2" />
+									</h:outputText>
+							</f:facet>
+						</p:column>
+
+						<p:column headerText="#{msg.VentasRemisionValorTotal}">
+							<h:outputText value="#{producto.valorTotal}" />
+
+							<f:facet name="footer">
+								<h:outputText value="#{generarFacturaExportacionMB.totalValorTotal}"
+									style="text-align:right;width:100px;" >
+									<f:convertNumber maxFractionDigits="2" />
+									</h:outputText>
+							</f:facet>
+						</p:column>
+
+						<p:column headerText="#{msg.unidadxembalaje}">
+							<h:outputText value="#{producto.cantidadXEmbalaje}" />
+
+							<f:facet name="footer">
+								<h:outputText
+									value="#{generarFacturaExportacionMB.totalCantidadXEmbalaje}"
+									style="text-align:right;width:100px;" >
+									<f:convertNumber maxFractionDigits="2" />									
+									</h:outputText>
+							</f:facet>
+						</p:column>
+
+						<p:column headerText="#{msg.SPcantidadCajas}">
+							<h:outputText value="#{producto.cantidadCajasItem}" />
+
+							<f:facet name="footer">
+								<h:outputText
+									value="#{generarFacturaExportacionMB.totalCantidadCajas}"
+									style="text-align:right;width:100px;" >
+									<f:convertNumber maxFractionDigits="2" />
+									</h:outputText>
+							</f:facet>
+						</p:column>
+
+						<p:column headerText="#{msg.PesoNeto}">
+							<h:outputText value="#{producto.totalPesoNetoItem}" />
+							<f:facet name="footer">
+								<h:outputText value="#{generarFacturaExportacionMB.totalPesoNeto}"
+									style="text-align:right;width:100px;" >
+									<f:convertNumber maxFractionDigits="2" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
+
+						<p:column headerText="#{msg.PesoBruto}">
+							<h:outputText value="#{producto.totalPesoBrutoItem}" />
+							<f:facet name="footer">
+								<h:outputText value="#{generarFacturaExportacionMB.totalPesoBruto}"
+									style="text-align:right;width:100px;" >
+									<f:convertNumber maxFractionDigits="2" />
+									</h:outputText>
+							</f:facet>
+						</p:column>
+
+					</p:dataTable>
+
+					<br />
+
+					<p:dataTable id="tablaMuestra" var="prod2"
+						value="#{generarFacturaExportacionMB.listaProductoTotales}">
+						
+						<f:facet name="header">
+							<h:outputText value="TOTALES POR LOTE" />
+						</f:facet>
+
+						<p:column headerText="#{msg.TipoLoteOIC}">
+							<h:outputText value="#{prod2.descripcionLote}" />
+						</p:column>
+
+						<p:column headerText="#{msg.comprasCantidadSola}">
+							<h:outputText value="#{prod2.totalCantidad}" >
+							<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.PesoNetoVista}">
+							<h:outputText value="#{prod2.totalPesoNeto}"
+								style="text-align:right;width:100px;">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.PesoBrutoVista}">
+							<h:outputText value="#{prod2.totalPesoBruto}"
+								style="text-align:right;width:100px;">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.SPcantidadCajas}">
+							<h:outputText value="#{prod2.totalCajas}"
+								style="text-align:right;width:100px;">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="#{msg.SPcantidadPallet}">
+							<h:outputText value="#{prod2.totalCajasPallet}"
+								style="text-align:right;width:100px;">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+
+
+
+					</p:dataTable>
+
+					<br />
+
+					<h:panelGrid columns="2" columnClasses="label,value">
+						<h:outputText 
+							value="#{msg.SP_CostoEntrega}" />
+						<h:outputLabel styleClass="filas_contenido" for="Costo1"
+							value="#{generarFacturaExportacionMB.totalCostoEntrega}"
+							style="text-align:right;width:100px;">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:outputLabel>
+
+						<h:outputText 
+							value="#{msg.SP_CostoSeguro}" />
+						<h:outputLabel styleClass="filas_contenido" for="Costo2"
+							value="#{generarFacturaExportacionMB.totalCostoSeguro}"
+							style="text-align:right;width:100px;">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:outputLabel>
+
+						<h:outputText 
+							value="#{msg.SP_CostoFlete}" />
+						<h:outputLabel styleClass="filas_contenido" for="Costo3"
+							value="#{generarFacturaExportacionMB.totalCostoFlete}"
+							style="text-align:right;width:100px;">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:outputLabel>
+
+						<h:outputText 
+							value="#{msg.SP_OtrosGastos}" />
+						<h:outputLabel styleClass="filas_contenido" for="Costo4"
+							value="#{generarFacturaExportacionMB.totalOtrosGastos}"
+							style="text-align:right;width:100px;">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:outputLabel>
+
+						<h:outputText 
+							value="#{msg.SP_TotalCostos}" />
+						<h:outputLabel styleClass="filas_contenido" for="Costo5"
+							value="#{generarFacturaExportacionMB.totalCostos}"
+							style="text-align:right;width:100px;">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:outputLabel>
+
+						<h:outputText 
+							value="#{msg.TotalNegociacion}" />
+						<h:outputLabel styleClass="filas_contenido" for="Costo6"
+							value="#{generarFacturaExportacionMB.totalValorNeg}"
+							style="text-align:right;width:100px;">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:outputLabel>
+					</h:panelGrid>
+
+
+
+					<p:panelGrid columns="3"
+						rendered="#{not empty generarFacturaExportacionMB.seleccionado}"
+						columnClasses="label,value">
+						
+						<p:commandButton value="#{msg.VentasGenerarFactura}" ajax="true"
+							icon="ui-icon-disk" id="botonGenerarFactura"
+							update=":formaDlg:facturaDetalle"
+							actionListener="#{generarFacturaExportacionMB.crearFacturaExp}"
+							rendered="#{!generarFacturaExportacionMB.renderImprimirFactura}">
+						</p:commandButton>
+
+						<p:commandButton value="#{msg.VentasImprimirFactura}" ajax="false"
+							icon="ui-icon-document" id="botonDescargarReporte"
+							rendered="#{generarFacturaExportacionMB.renderImprimirFactura}">
+							<p:fileDownload value="#{generarFacturaExportacionMB.reportePDF}" />
+						</p:commandButton>
+						
+						<p:commandButton value="#{msg.generalCancelar}"
+							update=":formaDlg:facturaDetalle,:forma:tabPanel:tabla"
+							action="#{generarFacturaExportacionMB.cancelar}"
+							oncomplete="PF('reImprimirDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+
+
+					</p:panelGrid>
+
+
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
+

@@ -50,6 +50,10 @@
       <to-view-id>/ui/comercioexterior/ingresarCostosIncoterm.xhtml</to-view-id>
     </navigation-case>
     <navigation-case>
+      <from-outcome>listado_LE_Generar_FX</from-outcome>
+      <to-view-id>/ui/comercioexterior/generarFacturaExportacion.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
       <from-outcome>listado_solicitud_pedido</from-outcome>
       <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
     </navigation-case>

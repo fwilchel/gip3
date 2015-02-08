@@ -1788,6 +1788,22 @@ DocumentoDAOLocal {
 		query.setParameter("consecutivoDocumento", consecutivoDocumento);
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
+			String consecutivoDocumento) {
+		Query query = em
+				.createNamedQuery(Documento.FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO_CUSTOM);
+		query.setParameter("idTipoDocumento",
+				Long.valueOf(ConstantesTipoDocumento.LISTA_EMPAQUE));
+		query.setParameter("idEstado1",
+				com.ssl.jv.gip.util.Estado.ACTIVO.getCodigo());
+		query.setParameter("idEstado2",
+				com.ssl.jv.gip.util.Estado.ASIGNADA.getCodigo());
+		query.setParameter("consecutivoDocumento", consecutivoDocumento);
+		return query.getResultList();
+	}
 
 	@Override
 	public Documento consultarDocumentoPorConsecutivo(String consecutivo) {

@@ -130,6 +130,9 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 	public List<Documento> consultarDocumentosParaGenerarListaEmpaque(
 			String consecutivoDocumento);
+	
+	public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
+			String consecutivoDocumento);
 
 	public Documento consultarDocumentoPorConsecutivo(String consecutivo);
 	
