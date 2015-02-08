@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.asignarDatosTL_Titulo}::.</ui:define>
+
+	<ui:define name="contenido">
+	
+		<p:spacer height="40"></p:spacer>
+		
+		<h:form prependId="false" id="forma">
+
+			<p:tabView id="tabPanel">
+			
+				<p:tab title="#{msg.asignarDatosTL_Titulo}">
+
+					<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+						showIcon="true" autoUpdate="true"></p:messages>
+				
+					<p:panelGrid columns="4"
+						columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.asignarDatosTL_Documento}"
+											for="documento" styleClass="negrita" />								
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.id}"
+							id="documento" 
+							label="#{msg.asignarDatosTL_Documento}" disabled="true"/>
+							
+						<p:outputLabel value="#{msg.asignarDatosTL_ConsecutivoDocumento}"
+							for="consecutivoDocumento" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.consecutivoDocumento}"
+							id="consecutivoDocumento" 
+							label="#{msg.asignarDatosTL_ConsecutivoDocumento}" disabled="true" />
+			
+						<p:outputLabel value="#{msg.asignarDatosTL_FechaGeneracion}"
+							for="fechaGeneracion" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.fechaGeneracion}"
+							id="fechaGeneracion" label="#{msg.asignarDatosTL_FechaGeneracion}" disabled="true">
+							<f:convertDateTime pattern="dd-MMM-yyyy"/>
+						</p:inputText>
+			
+						<p:outputLabel value="#{msg.asignarDatosTL_Cliente}"
+							for="clienteNombre" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.cliente.nombre}" size="80"
+							id="clienteNombre" label="#{msg.asignarDatosTL_Cliente}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.asignarDatosTL_NumeroPedidoWeb}"
+							for="clienteId" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.documentoCliente}"
+							id="clienteId" label="#{msg.asignarDatosTL_NumeroPedidoWeb}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.asignarDatosTL_Direccion}"
+							for="clienteDireccion" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.cliente.direccion}" size="80"
+							id="clienteDireccion" label="#{msg.asignarDatosTL_Direccion}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.asignarDatosTL_Telefono}"
+							for="clienteTelefono" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.cliente.telefono}"
+							id="clienteTelefono" label="#{msg.asignarDatosTL_Telefono}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.asignarDatosTL_Contacto}"
+							for="clienteContacto" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.cliente.contacto}" size="80"
+							id="clienteContacto" label="#{msg.asignarDatosTL_Contacto}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.asignarDatosTL_TerminoIncoterm}"
+							for="terminoIncoterm" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.documentoXNegociacions[0].terminoIncoterm.descripcion}"
+							id="terminoIncoterm" label="#{msg.asignarDatosTL_TerminoIncoterm}" disabled="true"/>
+						
+						<p:outputLabel value="#{msg.asignarDatosTL_LugarIncoterm}"
+							for="lugarIncoterm" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.documentoXNegociacions[0].lugarIncoterm}" size="50"
+							id="lugarIncoterm" label="#{msg.asignarDatosTL_LugarIncoterm}" disabled="true"/>
+							
+						<p:outputLabel value="#{msg.asignarDatosTL_CantidadContenedores20}"
+							for="cantidadContenedores20" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.documentoXNegociacions[0].cantidadContenedoresDe20}"
+							id="cantidadContenedores20" label="#{msg.asignarDatosTL_CantidadContenedores20}" disabled="true"/>
+			
+						<p:outputLabel value="#{msg.asignarDatosTL_CantidadContenedores40}"
+							for="cantidadContenedores40" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.documentoXNegociacions[0].cantidadContenedoresDe40}"
+							id="cantidadContenedores40" label="#{msg.asignarDatosTL_CantidadContenedores40}" disabled="true"/>
+					
+						<p:outputLabel value="#{msg.asignarDatosTL_FechaDespacho}"
+							for="cantidadEstibas" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.fechaEsperadaEntrega}"
+							id="cantidadEstibas" label="#{msg.asignarDatosTL_FechaDespacho}" disabled="true" >
+							<f:convertDateTime pattern="dd-MMM-yyyy"/>
+						</p:inputText>
+						
+						<p:outputLabel value="#{msg.asignarDatosTL_DiasVigenciaFP}"
+							for="pesoBrutoEstibas" styleClass="negrita" />
+						<p:inputText value="#{asignarDatosTLMB.seleccionado.documentoXNegociacions[0].cantidadDiasVigencia}"
+							id="pesoBrutoEstibas" label="#{msg.asignarDatosTL_DiasVigenciaFP}"  disabled="true"/>
+			
+					</p:panelGrid>
+					
+					<p:spacer height="20"></p:spacer>
+					
+					<p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
+						value="#{asignarDatosTLMB.documentosXLotesOIC}" rows="10"
+						emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom" 
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+	
+						<p:column headerText="#{msg.asignarDatosTL_Lote}"
+							sortBy="#{dato.consecutivo}">
+							<h:outputText value="#{dato.consecutivo}" />
+						</p:column>
+	
+						<p:column headerText="#{msg.asignarDatosTL_Descripcion}"
+							sortBy="#{dato.tipoLoteoic.descripcion}">
+							<h:outputText value="#{dato.tipoLoteoic.descripcion}" />
+						</p:column>
+	
+						<p:column headerText="#{msg.asignarDatosTL_PesoNetoKg}"
+							sortBy="#{dato.totalPesoNeto}" style="text-align:right" >
+							<h:outputText value="#{dato.totalPesoNeto}"  >
+	           					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+	          		 		</h:outputText>
+						</p:column>
+	
+						<p:column headerText="#{msg.asignarDatosTL_AvisoNo}"
+							 sortBy="#{dato.aviso}" style="text-align:right">
+								<p:inputText value="#{dato.aviso}" style="text-align:right;width:100px;" maxlength="10" required="true" label="#{msg.asignarDatosTL_AvisoNo}" />
+						</p:column>
+	
+						<p:column headerText="#{msg.asignarDatosTL_AsignacionNo}"
+							 sortBy="#{dato.asignacion}" style="text-align:right">
+								<p:inputText value="#{dato.asignacion}" style="text-align:right;width:100px;" maxlength="10" required="true" label="#{msg.asignarDatosTL_AsignacionNo}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.asignarDatosTL_PedidoNo}"
+							sortBy="#{dato.pedido}" style="text-align:right" >
+								<p:inputText value="#{dato.pedido}" style="text-align:right;width:100px;" maxlength="10" required="true" label="#{msg.asignarDatosTL_PedidoNo}" />
+						</p:column>
+						
+					</p:dataTable>
+					
+					<p:spacer height="20"></p:spacer>
+
+					<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{asignarDatosTLMB.asignarDatosLote}"></p:commandButton>
+					<p:commandButton value="#{msg.generalCancelar}" process="@this" icon="ui-icon-cancel" action="listado_FX_AsignarDatosTL" ></p:commandButton>
+				
+				</p:tab>
+				
+			</p:tabView>
+			
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>

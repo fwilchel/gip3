@@ -307,4 +307,10 @@ public interface ComercioExteriorEJBLocal {
 
 	public List<Documento> consultarListaEmpaquesParaAsignarDatosTL(
 			String consecutivo);
+
+	public List<DocumentoXLotesoic> consultarDocumentosXLotesOICParaAsignarDatosTL(
+			String consecutivo);
+
+	public void asignarDatosTL(Documento listaEmpaque,
+			List<DocumentoXLotesoic> documentoXLotesoics);
 }

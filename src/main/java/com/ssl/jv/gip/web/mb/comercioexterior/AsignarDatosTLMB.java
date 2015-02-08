@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
@@ -51,6 +52,7 @@ public class AsignarDatosTLMB extends UtilMB {
 
 	private List<Documento> listaEmpaques;
 	private Documento seleccionado;
+	private List<DocumentoXLotesoic> documentosXLotesOIC;
 
 	@PostConstruct
 	public void init() {
@@ -88,11 +90,39 @@ public class AsignarDatosTLMB extends UtilMB {
 		String outcome = null;
 		try {
 			this.modo = Modo.EDICION;
-
+			documentosXLotesOIC = comercioExteriorEJBLocal
+					.consultarDocumentosXLotesOICParaAsignarDatosTL(seleccionado
+							.getObservacionDocumento());
 			outcome = "consultar_factura_exportacion";
 		} catch (Exception e) {
 			LOGGER.error(e);
 			this.addMensajeError(e);
+		}
+		return outcome;
+	}
+
+	public String asignarDatosLote() {
+		String outcome = null;
+		try {
+			comercioExteriorEJBLocal.asignarDatosTL(seleccionado,
+					documentosXLotesOIC);
+			listaEmpaques.remove(seleccionado);
+			outcome = "listado_FX_AsignarDatosTL";
+		} catch (Exception e) {
+			LOGGER.error(e);
+			Exception unrollException = (Exception) this.unrollException(e,
+					ConstraintViolationException.class);
+			if (unrollException != null) {
+				this.addMensajeError(unrollException.getLocalizedMessage());
+			} else {
+				unrollException = (Exception) this.unrollException(e,
+						RuntimeException.class);
+				if (unrollException != null) {
+					this.addMensajeError(unrollException.getLocalizedMessage());
+				} else {
+					this.addMensajeError(e);
+				}
+			}
 		}
 		return outcome;
 	}
@@ -159,6 +189,15 @@ public class AsignarDatosTLMB extends UtilMB {
 
 	public void setSeleccionado(Documento seleccionado) {
 		this.seleccionado = seleccionado;
+	}
+
+	public List<DocumentoXLotesoic> getDocumentosXLotesOIC() {
+		return documentosXLotesOIC;
+	}
+
+	public void setDocumentosXLotesOIC(
+			List<DocumentoXLotesoic> documentosXLotesOIC) {
+		this.documentosXLotesOIC = documentosXLotesOIC;
 	}
 
 }

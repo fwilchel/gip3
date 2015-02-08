@@ -235,6 +235,10 @@
 	<navigation-case>
 		<from-outcome>listado_FX_AsignarDatosTL</from-outcome>
 		<to-view-id>/ui/comercioexterior/listadoAsignarDatosTL.xhtml</to-view-id>
+	</navigation-case>		
+	<navigation-case>
+		<from-outcome>consultar_factura_exportacion</from-outcome>
+		<to-view-id>/ui/comercioexterior/asignarDatosTL.xhtml</to-view-id>
 	</navigation-case>
 		
   </navigation-rule>
