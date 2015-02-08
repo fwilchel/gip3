@@ -67,6 +67,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoPorLotesInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
+import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
@@ -1442,5 +1443,17 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		productosXDocumento.setDescuentoxproducto(BigDecimal.ZERO);
 
 		return productosXDocumento;
+	}
+
+	@Override
+	public List<Documento> consultarListaEmpaquesParaAsignarDatosTL(
+			String consecutivo) {
+		FiltroDocumentoDTO filtro = new FiltroDocumentoDTO();
+		filtro.setIdTipoDocumento((long) ConstantesTipoDocumento.LISTA_EMPAQUE);
+		filtro.setIdEstado(Estado.ACTIVO.getCodigo());
+		filtro.setSolicitudCafe(true);
+		filtro.setConsecutivoDocumento(consecutivo);
+		return documentoDAO
+				.consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeAndConsecutivo(filtro);
 	}
 }

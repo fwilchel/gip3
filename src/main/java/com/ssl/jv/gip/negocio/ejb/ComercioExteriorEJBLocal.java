@@ -304,4 +304,7 @@ public interface ComercioExteriorEJBLocal {
 	public void generarListaEmpaque(Documento documento,
 			DocumentoXNegociacion documentoXNegociacion,
 			List<ProductoDTO> productoDTOs);
+
+	public List<Documento> consultarListaEmpaquesParaAsignarDatosTL(
+			String consecutivo);
 }
