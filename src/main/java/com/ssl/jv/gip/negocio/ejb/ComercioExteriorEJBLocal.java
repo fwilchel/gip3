@@ -214,6 +214,10 @@ public interface ComercioExteriorEJBLocal {
 	public Documento crearFactura(Documento documento, LogAuditoria auditoria,
 			DocumentoXNegociacion documentoPorNegociacion,
 			List<ProductosXDocumento> productos, Documento original);
+	
+	public Documento crearFacturaExportacion(Documento documento, LogAuditoria auditoria,
+			DocumentoXNegociacion documentoPorNegociacion,
+			List<ProductosXDocumento> productos, Documento original);
 
 	public List<DocumentoXLotesoic> guardarLotes(
 			List<DocumentoXLotesoic> lista, Documento documento);

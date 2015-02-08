@@ -663,6 +663,38 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		this.documentoDAO.update(original);
 		return documento;
 	}
+	
+	@Override
+	public Documento crearFacturaExportacion(Documento documento, LogAuditoria auditoria,
+			DocumentoXNegociacion documentoPorNegociacion,
+			List<ProductosXDocumento> productos, Documento original) {
+		documento.setConsecutivoDocumento("FX1-"
+				+ this.documentoDAO.consultarProximoValorSecuencia("fx1_seq"));
+		documento = (Documento) this.documentoDAO.add(documento);
+//		auditoria.setIdRegTabla(documento.getId());
+//		auditoria.setValorNuevo(documento.getConsecutivoDocumento());
+//		this.logAuditoriaDAO.add(auditoria);
+		documentoPorNegociacion.getPk().setIdDocumento(documento.getId());
+		documentoXNegociacionDAO.add(documentoPorNegociacion);
+		for (ProductosXDocumento pxd : productos) {
+			pxd.getId().setIdDocumento(documento.getId());
+			this.productoXDocumentoDAO.add(pxd);
+		}
+		original.getEstadosxdocumento().getId()
+				.setIdEstado((long) ConstantesDocumento.CERRADO);
+		this.documentoDAO.update(original);
+		
+		for (ProductosXDocumento pxd : productos) {
+			crearMovimientos(documento, pxd);
+		}
+		
+//		documento = documentoDAO.findByPK(documento.getId());
+//		documento.getEstadosxdocumento().getId()
+//		.setIdEstado((long) ConstantesDocumento.RECIBIDO);
+//		this.documentoDAO.update(documento);
+		
+		return documento;
+	}
 
 	@Override
 	public Documento crearSolicitudPedido(Documento documento,

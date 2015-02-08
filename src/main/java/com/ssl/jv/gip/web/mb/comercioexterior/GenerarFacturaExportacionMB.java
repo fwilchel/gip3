@@ -28,9 +28,20 @@ import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
+import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
+import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
+import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.jpa.pojo.Unidad;
+import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteReimprimirFacturaDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
@@ -40,9 +51,11 @@ import com.ssl.jv.gip.util.Estado;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.Numero_a_Letra_Ingles;
 import com.ssl.jv.gip.web.util.Modo;
+import com.ssl.jv.gip.web.util.Utilidad;
 
 
 /**
@@ -58,6 +71,9 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger
 			.getLogger(GenerarFacturaExportacionMB.class);
+	
+	@ManagedProperty(value="#{menuMB}")
+	private MenuMB menu;
 
 	/** The reportes comercio exterior ejb local. */
 	@EJB
@@ -80,14 +96,13 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 	/** The modo. */
 	private Modo modo;
 
-	/** The filtro documento dto. */
-	private FiltroDocumentoDTO filtroDocumentoDTO;
-
 	/** The seleccionado. */
 	private Documento seleccionado;
 
 	/** The lista productos documento. */
 	private List<ProductosXDocumento> listaProductosDocumento;
+	
+	private List<ProductoGenerarFacturaPFDTO> productos;
 
 	/** The total cantitad1. */
 	private BigDecimal totalCantitad1 = BigDecimal.ZERO;
@@ -157,8 +172,6 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 
 		try {
 			fechaActual = new Date();
-			filtroDocumentoDTO = new FiltroDocumentoDTO();
-//			this.consultarFacturasExportacion();
 		} catch (Exception e) {
 			LOGGER.error(e);
 			this.addMensajeError(e);
@@ -170,7 +183,107 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 	 * Crear factura exp.
 	 */
 	public void crearFacturaExp(){
-		renderImprimirFactura=true;
+		Documento documento = new Documento();
+		documento.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
+		Estadosxdocumento estadosxdocumento=new Estadosxdocumento();
+		EstadosxdocumentoPK estadosxdocumentoPK=new EstadosxdocumentoPK();
+		estadosxdocumentoPK.setIdEstado((long)ConstantesDocumento.GENERADO);
+		estadosxdocumentoPK.setIdTipoDocumento((long)ConstantesTipoDocumento.FACTURA_EXPORTACION);
+		estadosxdocumento.setId(estadosxdocumentoPK);
+		documento.setEstadosxdocumento(estadosxdocumento);
+		documento.setObservacionDocumento(this.seleccionado.getConsecutivoDocumento());
+		documento.setUbicacionDestino(new Ubicacion());
+		documento.setUbicacionOrigen(new Ubicacion());
+		documento.getUbicacionDestino().setId(this.seleccionado.getUbicacionOrigen().getId());
+		documento.getUbicacionOrigen().setId(this.seleccionado.getUbicacionOrigen().getId());
+		documento.setCliente(this.seleccionado.getCliente());
+		documento.setValorTotal(this.totalValorNeg);
+		documento.setDocumentoCliente(this.seleccionado.getDocumentoCliente());
+		documento.setFechaEsperadaEntrega(this.seleccionado.getFechaEsperadaEntrega());
+		documento.setNumeroFactura("0");
+		
+		LogAuditoria auditoria=new LogAuditoria();
+		auditoria.setIdUsuario(menu.getUsuario().getId());
+		auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
+		auditoria.setTabla(Documento.class.getName());
+		auditoria.setAccion("CRE");
+		auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+		
+		DocumentoXNegociacion dxn = new DocumentoXNegociacion();
+		dxn.setPk(new DocumentoXNegociacionPK());
+		dxn.getPk().setIdTerminoIncoterm(this.seleccionado.getDocumentoXNegociacions().get(0).getTerminoIncoterm().getId());
+		dxn.setCostoEntrega(this.seleccionado.getDocumentoXNegociacions().get(0).getCostoEntrega());
+		dxn.setCostoSeguro(this.seleccionado.getDocumentoXNegociacions().get(0).getCostoSeguro());
+		dxn.setCostoFlete(this.seleccionado.getDocumentoXNegociacions().get(0).getCostoFlete());
+		dxn.setOtrosGastos(this.seleccionado.getDocumentoXNegociacions().get(0).getOtrosGastos());
+		dxn.setObservacionesMarcacion2(this.strDescripcion);
+		dxn.setTotalPesoNeto(this.seleccionado.getDocumentoXNegociacions().get(0).getTotalPesoNeto());
+		dxn.setTotalPesoBruto(this.seleccionado.getDocumentoXNegociacions().get(0).getTotalPesoBruto());
+		dxn.setTotalTendidos(this.seleccionado.getDocumentoXNegociacions().get(0).getTotalTendidos());
+		dxn.setTotalPallets(this.seleccionado.getDocumentoXNegociacions().get(0).getTotalPallets());
+		dxn.setCantidadDiasVigencia(this.seleccionado.getDocumentoXNegociacions().get(0).getCantidadDiasVigencia());
+		dxn.setSolicitudCafe(this.seleccionado.getDocumentoXNegociacions().get(0).getSolicitudCafe());
+		dxn.setCantidadContenedoresDe20(this.seleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe20());
+		dxn.setCantidadContenedoresDe40(this.seleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe40());
+		dxn.setLugarIncoterm(this.seleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm());
+		dxn.setCantidadEstibas(0);
+		dxn.setPesoBrutoEstibas(0);
+		
+		List<ProductosXDocumento> productos=new ArrayList<ProductosXDocumento>();
+		
+		for(ProductoGenerarFacturaPFDTO pxc:this.productos){
+			
+			ProductosXDocumento productoDocumento = new ProductosXDocumento();
+			productoDocumento.setInformacion(false);
+			productoDocumento.setCalidad(false);
+			productoDocumento.setFechaEstimadaEntrega(documento.getFechaGeneracion());
+			productoDocumento.setFechaEntrega(documento.getFechaGeneracion());
+			productoDocumento.setId(new ProductosXDocumentoPK());
+			productoDocumento.getId().setIdProducto(pxc.getId().longValue());
+			productoDocumento.setCantidad1(pxc.getCantidad());    	      				
+				
+			Unidad u = new Unidad();
+			u.setId(pxc.getIdUnidad().longValue());
+			productoDocumento.setUnidade(u); // unidad de venta
+
+			Moneda moneda = new Moneda();
+			moneda.setId("USD");
+
+			productoDocumento.setMoneda(moneda); 	    	      				
+			productoDocumento.setCantidad2(new BigDecimal(0));
+			productoDocumento.setValorUnitatrioMl(new BigDecimal(0));
+			productoDocumento.setValorUnitarioUsd(pxc.getPrecio());
+			productoDocumento.setValorTotal(pxc.getValorTotal());
+			productoDocumento.setTotalPesoNetoItem(pxc.getTotalPesoNeto());
+
+			productoDocumento.setTotalPesoBrutoItem(pxc.getTotalPesoBruto());
+			productoDocumento.setCantidadCajasItem(pxc.getTotalCajas());
+			productoDocumento.setCantidadPalletsItem(pxc.getTotalCajasPallet());
+			productoDocumento.setCantidadXEmbalaje(pxc.getTotalCajasTendido());
+			
+			Calendar c=Calendar.getInstance();
+			c.add(Calendar.DATE, 2);
+			
+			productoDocumento.setFechaEstimadaEntrega(new Timestamp(c.getTimeInMillis()));	
+			productoDocumento.setFechaEntrega(new Timestamp(c.getTimeInMillis()));
+
+			productos.add(productoDocumento);
+		}
+		documento=this.comercioExteriorEJBLocal.crearFacturaExportacion(documento, auditoria, dxn, productos, this.seleccionado);
+		DocumentoIncontermDTO vDoc = new DocumentoIncontermDTO();
+		vDoc.setIdDocumento(documento.getId());
+		vDoc.setIdEstado(new Long(ConstantesDocumento.RECIBIDO));
+		comercioExteriorEJBLocal.actualizarEstadoDocumento(vDoc);
+		
+		String mensaje = AplicacionMB.getMessage("VentasFXExito_Crear", language);
+		String parametros[]=new String[2];
+		parametros[0]=""+documento.getId();
+		parametros[1]=documento.getConsecutivoDocumento();
+		mensaje=Utilidad.stringFormat(mensaje, parametros);
+		
+		this.addMensajeInfo(mensaje);
+		this.consultarFacturasExportacion();
+		this.renderImprimirFactura = true;
 	}
 
 	/**
@@ -192,6 +305,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 	 */
 	public void cancelar(){
 		renderImprimirFactura=false;
+		this.consultarFacturasExportacion();
 	}
 
 	/**
@@ -217,24 +331,6 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 	 */
 	public void setListaFacturasExportacion(List<Documento> listaFacturasExportacion) {
 		this.listaFacturasExportacion = listaFacturasExportacion;
-	}
-
-	/**
-	 * Gets the filtro documento dto.
-	 *
-	 * @return the filtro documento dto
-	 */
-	public FiltroDocumentoDTO getFiltroDocumentoDTO() {
-		return filtroDocumentoDTO;
-	}
-
-	/**
-	 * Sets the filtro documento dto.
-	 *
-	 * @param filtroDocumentoDTO the new filtro documento dto
-	 */
-	public void setFiltroDocumentoDTO(FiltroDocumentoDTO filtroDocumentoDTO) {
-		this.filtroDocumentoDTO = filtroDocumentoDTO;
 	}
 
 	/**
@@ -325,6 +421,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 
 			this.totalValorNeg = this.totalValorTotal.add(totalCostos);
 
+			productos=comercioExteriorEJBLocal.consultarProductoPorDocumentoGenerarFacturaProforma(this.seleccionado.getId(), this.seleccionado.getCliente().getId());
 
 		}catch(Exception e){
 
@@ -389,7 +486,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 		parametros.put("documento",this.seleccionado.getDocumentoCliente());
 		parametros.put("fecha",fechaStringGeneracion);
 		parametros.put("numFactura", this.seleccionado.getConsecutivoDocumento());
-		parametros.put("tipoImp", "COPY");
+		parametros.put("tipoImp", "ORIGINAL");
 		parametros.put("fechaVigencia", fechaStringVigencia);
 		parametros.put("fechaDespacho", fechaStringDespacho);
 		parametros.put("totalPesoNeto", this.totalPesoNeto.doubleValue());
@@ -407,14 +504,10 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 		parametros.put("solicitud", this.seleccionado.getConsecutivoDocumento());
 		parametros.put("qEstibas", cantidadEstibas.doubleValue());	
 		parametros.put("PesoBrutoEstibas",pesoBrutoEstibas.doubleValue() ); 
-		parametros.put("descripcion_envio", strObservacionMarcacion2);
+		parametros.put("descripcion_envio", this.strDescripcion);
 
-		if (this.seleccionado.getEstadosxdocumento().getEstado().getId().equals(Estado.ANULADO)) {
-			parametros.put("anulada", "ANULADA");
-		}
-		else{
-			parametros.put("anulada", "");
-		}	
+		parametros.put("anulada", "");
+		
 
 		if (docCabeceraCli.getModoFactura() == 1){
 			parametros.put("metodoPago", docCabeceraCli.getMetodoPago().getDescripcionIngles());
@@ -503,12 +596,18 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reporteDTOS);
 
 		try {
+			//Cambiar estado del documento a IMPRESO
+			DocumentoIncontermDTO vDoc = new DocumentoIncontermDTO();
+			vDoc.setIdDocumento(seleccionado.getId());
+			vDoc.setIdEstado(new Long(ConstantesDocumento.IMPRESO));
+			comercioExteriorEJBLocal.actualizarEstadoDocumento(vDoc);
+			
 			Hashtable<String, String> parametrosR=new Hashtable<String, String>();
 			parametrosR.put("tipo", "pdf");
 			String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_FX.jasper");
 			ByteArrayOutputStream os=(ByteArrayOutputStream)com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-			reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "Report_FX.pdf");
-
+			reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "FacturaExportacion.pdf");
+			
 		} catch (Exception e) {
 			this.addMensajeError(e);
 		}
@@ -860,8 +959,24 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 		this.renderImprimirFactura = renderImprimirFactura;
 	}
 
-	
+	public MenuMB getMenu() {
+		return menu;
+	}
 
+	public void setMenu(MenuMB menu) {
+		this.menu = menu;
+	}
+
+	public List<ProductoGenerarFacturaPFDTO> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<ProductoGenerarFacturaPFDTO> productos) {
+		this.productos = productos;
+	}
+
+	
+	
 
 
 
