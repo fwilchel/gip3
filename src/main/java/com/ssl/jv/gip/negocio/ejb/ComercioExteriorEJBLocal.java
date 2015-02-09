@@ -25,6 +25,7 @@ import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
@@ -214,6 +215,10 @@ public interface ComercioExteriorEJBLocal {
 	public Documento crearFactura(Documento documento, LogAuditoria auditoria,
 			DocumentoXNegociacion documentoPorNegociacion,
 			List<ProductosXDocumento> productos, Documento original);
+	
+	public Documento crearFacturaExportacion(Documento documento, LogAuditoria auditoria,
+			DocumentoXNegociacion documentoPorNegociacion,
+			List<ProductosXDocumento> productos, Documento original);
 
 	public List<DocumentoXLotesoic> guardarLotes(
 			List<DocumentoXLotesoic> lista, Documento documento);
@@ -304,4 +309,23 @@ public interface ComercioExteriorEJBLocal {
 	public void generarListaEmpaque(Documento documento,
 			DocumentoXNegociacion documentoXNegociacion,
 			List<ProductoDTO> productoDTOs);
+	
+	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency);
+
+	public List<Documento> consultarListaEmpaquesParaAsignarDatosTL(
+			String consecutivo);
+
+	public List<DocumentoXLotesoic> consultarDocumentosXLotesOICParaAsignarDatosTL(
+			String consecutivo);
+
+	public void asignarDatosTL(Documento listaEmpaque,
+			List<DocumentoXLotesoic> documentoXLotesoics);
+	
+	public List<DocumentoIncontermDTO> consultarDocumentosAutorizadosParaModificarFacturaProforma();
+	
+	public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(
+			Long idDocumento, Long idCliente);
+	
+	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado);
+
 }

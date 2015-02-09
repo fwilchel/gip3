@@ -45,6 +45,15 @@ public class ItemCostoLogistico implements Serializable {
 
 	@Column(name="aplica_fob_in")
 	private Boolean aplicaFobIn;
+
+	@Column(name="aplica_dapm")
+	private Boolean aplicaDapM;
+	
+	@Column(name="aplica_cpt")
+	private Boolean aplicaCpt;
+	
+	@Column(name="aplica_fcat")
+	private Boolean aplicaFcaT;
 	
 	@Column(name="base_fob")
 	private Boolean baseFob;
@@ -278,6 +287,30 @@ public class ItemCostoLogistico implements Serializable {
 
 	public void setMoneda(Moneda moneda) {
 		this.moneda = moneda;
+	}
+
+	public Boolean getAplicaDapM() {
+		return aplicaDapM;
+	}
+
+	public void setAplicaDapM(Boolean aplicaDapM) {
+		this.aplicaDapM = aplicaDapM;
+	}
+
+	public Boolean getAplicaCpt() {
+		return aplicaCpt;
+	}
+
+	public void setAplicaCpt(Boolean aplicaCpt) {
+		this.aplicaCpt = aplicaCpt;
+	}
+
+	public Boolean getAplicaFcaT() {
+		return aplicaFcaT;
+	}
+
+	public void setAplicaFcaT(Boolean aplicaFcaT) {
+		this.aplicaFcaT = aplicaFcaT;
 	}
 
 }

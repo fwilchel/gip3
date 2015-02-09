@@ -57,6 +57,13 @@ public class ReportesEJB implements ReportesEJBLocal {
 						Estado.APROBADA.getCodigo(),
 						Estado.ASIGNADA.getCodigo());
 	}
+	
+	@Override
+	public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
+			String consecutivoDocumento){
+		return documentoDAO
+				.consultarDocumentosParaGenerarFacturaExportacion(consecutivoDocumento);
+	}
 
 	@Override
 	public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(

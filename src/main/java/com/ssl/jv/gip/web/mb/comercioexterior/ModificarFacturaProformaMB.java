@@ -11,28 +11,36 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
+import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
+import com.ssl.jv.gip.web.util.Utilidad;
 
 
 /**
- * The Class SolicitudPedidoMB.
+ * The Class ModificarFacturaProformaMB.
  */
-@ManagedBean(name="solicitudPedidoMB")
+@ManagedBean(name="modificarFacturaProformaMB")
 @ViewScoped
-public class SolicitudPedidoMB extends UtilMB{
+public class ModificarFacturaProformaMB extends UtilMB{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4732702749953900246L;
 
 	/** The lista documentos. */
 	private ArrayList<DocumentoIncontermDTO> listaDocumentos = new ArrayList<DocumentoIncontermDTO>();
@@ -75,6 +83,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	
 	/** The dbl total precio. */
 	private BigDecimal dblTotalPrecio =  new BigDecimal(0.00);
+	
+	private Integer language=AplicacionMB.SPANISH;
 
 	/** The comercio ejb. */
 	@EJB
@@ -82,12 +92,12 @@ public class SolicitudPedidoMB extends UtilMB{
 	
 	/** The menu. */
 	@ManagedProperty(value="#{menuMB}")
-	private MenuMB menu;
+	 private MenuMB menu;
 
 	/**
 	 * Instantiates a new ingresar costos inconterm mb.
 	 */
-	public SolicitudPedidoMB(){
+	public ModificarFacturaProformaMB(){
 
 	}
 
@@ -96,7 +106,7 @@ public class SolicitudPedidoMB extends UtilMB{
 	 */
 	@PostConstruct
 	public void init(){
-		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
+		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosAutorizadosParaModificarFacturaProforma();
 	}
 
 	/**
@@ -250,8 +260,10 @@ public class SolicitudPedidoMB extends UtilMB{
 	public String consultarSolicitudPedido(){
 		//Consultar la lista inconterm poor cliente
 		listaTerminoInconterm = comercioEjb.consultarListaIncontermPorCliente(seleccionado.getClientesId());
-		listaSolicitudPedido = comercioEjb.consultarListaSolicitudesPedido(seleccionado.getIdDocumento(), seleccionado.getClientesId());
+		listaSolicitudPedido = comercioEjb.consultarListaProductosClienteFacturaProforma(seleccionado.getIdDocumento(), seleccionado.getClientesId());
 		listaProductosMostrarUno = new ArrayList<ProductoPorClienteComExtDTO>();
+		
+		refrescarTotales();
 
 		return "";
 	}
@@ -269,7 +281,7 @@ public class SolicitudPedidoMB extends UtilMB{
 		valorCajasT =  new BigDecimal(0.00); 
 		dblTotalPrecio =  new BigDecimal(0.00);
 		seleccionado = new DocumentoIncontermDTO();
-		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
+		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosAutorizadosParaModificarFacturaProforma();
 	}
 
 	/**
@@ -304,28 +316,30 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Guardar ajustes pedido.
 	 */
-	public void guardarAjustesSP(){
+	public void guardarAjustesFP(){
 
 		this.refrescarTotales();
-
+		
 		seleccionado.setValorTotalDocumento(totalValorT);
 		seleccionado.setIdUbicacionOrigen(seleccionado.getIdUbicacionDestino());
 		seleccionado.setTotalPesoNeto(valorPesoNetoT);
 		seleccionado.setTotalPesoBruto(valorPesoBrutoT);
 		seleccionado.setTotalTendidos(valorCajasTendidoT);
 		seleccionado.setTotalPallets(valorCajasPalletT);
+		
+		seleccionado.setFechaEsperadaEntrega(Utilidad.convertirDateTotimestamp(seleccionado.getFechaEsperadaEntregaDate()));
 
-		comercioEjb.guardarSolicitudPedido(seleccionado, listaSolicitudPedido);
-
-		this.addMensajeInfo("Se almaceno la solicitud de pedido exitosamente");
-		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
-		for(DocumentoIncontermDTO vdoc:listaDocumentos){
-			if(vdoc.getIdDocumento().equals(seleccionado.getIdDocumento())){
-				seleccionado = vdoc;
-				break;
-			}
+		String resultado = comercioEjb.modificarFacturaProforma(seleccionado, listaSolicitudPedido);
+		
+		if(resultado != null){
+			String mensaje = AplicacionMB.getMessage("PedidoExitoPaginaBoton", language);
+			
+			this.addMensajeInfo(mensaje);
+		} else {
+//			String mensaje = AplicacionMB.getMessage("maestroSaldoError_Crear", language);
+			
+			this.addMensajeInfo("Error al guardar los ajustes");
 		}
-		consultarSolicitudPedido();
 
 	}
 
@@ -594,8 +608,5 @@ public class SolicitudPedidoMB extends UtilMB{
 	public void setMenu(MenuMB menu) {
 		this.menu = menu;
 	}
-
-	
-
 
 }

@@ -11,7 +11,11 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="facts_currency_conversion")
-@NamedQuery(name="FactsCurrencyConversion.findAll", query="SELECT f FROM FactsCurrencyConversion f")
+@NamedQueries({
+	@NamedQuery(name="FactsCurrencyConversion.findAll", query="SELECT f FROM FactsCurrencyConversion f"),
+	@NamedQuery(name="FactsCurrencyConversion.findByFecha", query="SELECT f FROM FactsCurrencyConversion f WHERE f.type=2 AND f.pgCatalog<= :fecha ORDER BY f.pgCatalog DESC")
+})
+
 public class FactsCurrencyConversion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -32,6 +36,8 @@ public class FactsCurrencyConversion implements Serializable {
 
 	@Column(name="source_destination_exchange_rate")
 	private float sourceDestinationExchangeRate;
+	
+	private Integer type;
 
 	public FactsCurrencyConversion() {
 	}
@@ -82,6 +88,14 @@ public class FactsCurrencyConversion implements Serializable {
 
 	public void setSourceDestinationExchangeRate(float sourceDestinationExchangeRate) {
 		this.sourceDestinationExchangeRate = sourceDestinationExchangeRate;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 }

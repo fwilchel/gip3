@@ -18,6 +18,8 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
+import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.ClienteDTO;
@@ -30,6 +32,7 @@ import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
@@ -1030,7 +1033,8 @@ DocumentoDAOLocal {
 		return listado;
 	}
 
-	public List<Documento> consultarDocumento(Map<String, Object> parametros, Long... idEstados) {
+	public List<Documento> consultarDocumento(Map<String, Object> parametros,
+			Long... idEstados) {
 		// TODO Auto-generated method stub
 
 		List<Documento> lista = new ArrayList<Documento>();
@@ -1073,7 +1077,7 @@ DocumentoDAOLocal {
 				+ " INNER JOIN termino_incoterm inc on inc.id = docxneg.id_termino_incoterm "
 				+ " WHERE  doc.consecutivo_documento='"
 				+ strConsecutivoDocumento + "'";
-		
+
 		List<Object[]> listado = em.createNativeQuery(query).getResultList();
 
 		if (listado != null) {
@@ -1156,23 +1160,23 @@ DocumentoDAOLocal {
 					// + " unidades.nombre as UNIDAD, "
 					// + "unidades.nombre_ingles as UNIDAD_INGLES,"
 
-              // + " pi_ce.nombre_prd_proveedor as PRODUCTO_CLIENTE ,"
-              // + " tl.descripcion_ingles as DESCRIPCION_LOTE_INGLES,"
-              // + " tl.descripcion as DESCRIPCION_LOTE"
-              + " case when c.modo_factura=0 then tl.descripcion_ingles when c.modo_factura=1 then tl.descripcion when c.modo_factura=2 then tl.descripcion end as DESCRIPCION_LOTE"
-              + " from productosXdocumentos pxd  "
-              + " LEFT JOIN productos_inventario pi on  pxd.id_producto=pi.id"
-              + " LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=pxd.id_producto"
-              + " LEFT JOIN documentos d on d.id=pxd.id_documento"
-              + " LEFT join productos_x_cliente_comext pxc_ce on pxc_ce.id_producto=pxd.id_producto and pxc_ce.id_cliente=d.id_cliente"
-              + " LEFT join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id "
-              + " LEFT join documento_x_lotesoic dxl on dxl.id_documento= "
-              + " (select documentos.id from documentos where documentos.consecutivo_documento=(select documentos.observacion_documento from documentos where documentos.consecutivo_documento='"
-              + strConsecutivoDocumento
-              + "'))"
-              + " and dxl.id_tipo_lote=pi_ce.id_tipo_loteoic"
-              + " LEFT JOIN unidades on unidades.id = pi.id_uv LEFT JOIN clientes c on c.id=d.id_cliente WHERE d.consecutivo_documento='"
-              + strConsecutivoDocumento + "'";
+					// + " pi_ce.nombre_prd_proveedor as PRODUCTO_CLIENTE ,"
+					// + " tl.descripcion_ingles as DESCRIPCION_LOTE_INGLES,"
+					// + " tl.descripcion as DESCRIPCION_LOTE"
+					+ " case when c.modo_factura=0 then tl.descripcion_ingles when c.modo_factura=1 then tl.descripcion when c.modo_factura=2 then tl.descripcion end as DESCRIPCION_LOTE"
+					+ " from productosXdocumentos pxd  "
+					+ " LEFT JOIN productos_inventario pi on  pxd.id_producto=pi.id"
+					+ " LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=pxd.id_producto"
+					+ " LEFT JOIN documentos d on d.id=pxd.id_documento"
+					+ " LEFT join productos_x_cliente_comext pxc_ce on pxc_ce.id_producto=pxd.id_producto and pxc_ce.id_cliente=d.id_cliente"
+					+ " LEFT join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id "
+					+ " LEFT join documento_x_lotesoic dxl on dxl.id_documento= "
+					+ " (select documentos.id from documentos where documentos.consecutivo_documento=(select documentos.observacion_documento from documentos where documentos.consecutivo_documento='"
+					+ strConsecutivoDocumento
+					+ "'))"
+					+ " and dxl.id_tipo_lote=pi_ce.id_tipo_loteoic"
+					+ " LEFT JOIN unidades on unidades.id = pi.id_uv LEFT JOIN clientes c on c.id=d.id_cliente WHERE d.consecutivo_documento='"
+					+ strConsecutivoDocumento + "'";
 
 			List<Object[]> listado = em.createNativeQuery(query)
 					.getResultList();
@@ -1261,7 +1265,10 @@ DocumentoDAOLocal {
 				+ " INNER JOIN ciudades ciucli on ciucli.id=cli.id_ciudad"
 				+ " WHERE d.consecutivo_documento= :consecutivoDocumento";
 
-		dto = (FacturaDirectaDTO) em.createNativeQuery(query, FacturaDirectaDTO.class).setParameter("consecutivoDocumento", strConsecutivoDocumento).getSingleResult();
+		dto = (FacturaDirectaDTO) em
+				.createNativeQuery(query, FacturaDirectaDTO.class)
+				.setParameter("consecutivoDocumento", strConsecutivoDocumento)
+				.getSingleResult();
 
 		dto = (FacturaDirectaDTO) em
 				.createNativeQuery(query, FacturaDirectaDTO.class)
@@ -1630,9 +1637,12 @@ DocumentoDAOLocal {
 	}
 
 	@Override
-	public List<Documento> consultarSolicitudesPedidoPorAnular(String consecutivoDocumento) {
-		LOGGER.debug("Metodo: <<consultarSolicitudesPedidoPorAnular>> parametros / consecutivoDocumento ->> {" + consecutivoDocumento + "} ");
-		Query query = em.createNamedQuery(Documento.LISTADO_ANULAR_SOLICITUD_PEDIDO);
+	public List<Documento> consultarSolicitudesPedidoPorAnular(
+			String consecutivoDocumento) {
+		LOGGER.debug("Metodo: <<consultarSolicitudesPedidoPorAnular>> parametros / consecutivoDocumento ->> {"
+				+ consecutivoDocumento + "} ");
+		Query query = em
+				.createNamedQuery(Documento.LISTADO_ANULAR_SOLICITUD_PEDIDO);
 		query.setParameter("tipoDocumento", 22L);
 		query.setParameter("cerrado", 3L);
 		query.setParameter("anulado", 11L);
@@ -1647,8 +1657,10 @@ DocumentoDAOLocal {
 
 	@Override
 	public void anularSolicitudPedido(Documento documento) {
-		LOGGER.debug("Metodo: <<anularSolicitudPedido>> parametros / documento ->> {" + documento + "} ");
-		Query query = em.createNativeQuery(Documento.ACTUALIZAR_ESTADO_DOCUMENTO);
+		LOGGER.debug("Metodo: <<anularSolicitudPedido>> parametros / documento ->> {"
+				+ documento + "} ");
+		Query query = em
+				.createNativeQuery(Documento.ACTUALIZAR_ESTADO_DOCUMENTO);
 		query.setParameter("id_estado", 11);
 		query.setParameter("id", documento.getId());
 		query.executeUpdate();
@@ -1789,6 +1801,22 @@ DocumentoDAOLocal {
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
+			String consecutivoDocumento) {
+		Query query = em
+				.createNamedQuery(Documento.FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO_CUSTOM);
+		query.setParameter("idTipoDocumento",
+				Long.valueOf(ConstantesTipoDocumento.LISTA_EMPAQUE));
+		query.setParameter("idEstado1",
+				com.ssl.jv.gip.util.Estado.ACTIVO.getCodigo());
+		query.setParameter("idEstado2",
+				com.ssl.jv.gip.util.Estado.ASIGNADA.getCodigo());
+		query.setParameter("consecutivoDocumento", consecutivoDocumento);
+		return query.getResultList();
+	}
+
 	@Override
 	public Documento consultarDocumentoPorConsecutivo(String consecutivo) {
 		Query query = em.createNamedQuery(Documento.FIND_BY_CONSECUTIVO);
@@ -1802,11 +1830,12 @@ DocumentoDAOLocal {
 	}
 
 	@Override
-	public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(Map<String, Object> parametros) {
+	public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(
+			Map<String, Object> parametros) {
 
-		//	String fechaIni = (String) parametros[0];
-		//	String fechaFin = (String) parametros[1];
-		//	Integer tipoDoc = (Integer) parametros[2];
+		// String fechaIni = (String) parametros[0];
+		// String fechaFin = (String) parametros[1];
+		// Integer tipoDoc = (Integer) parametros[2];
 		String fechaIni = (String) parametros.get("fechaInicial");
 		String fechaFin = (String) parametros.get("fechaFinal");
 
@@ -1836,10 +1865,10 @@ DocumentoDAOLocal {
 				+ " and documentos.id_tipo_documento = :tipoDoc"
 				+ " order by documentos.fecha_generacion";
 
-		lista = em.createNativeQuery(query, CintaMagneticaDTO.class).setParameter("fechaIni", tsfechaIni)
+		lista = em.createNativeQuery(query, CintaMagneticaDTO.class)
+				.setParameter("fechaIni", tsfechaIni)
 				.setParameter("fechaFin", tsfechaFin)
-				.setParameter("tipoDoc", tipoDoc)
-				.getResultList();
+				.setParameter("tipoDoc", tipoDoc).getResultList();
 
 		System.out.println("query: " + query);
 
@@ -1848,11 +1877,12 @@ DocumentoDAOLocal {
 	}
 
 	@Override
-	public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(Map<String, Object> parametros) {
+	public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(
+			Map<String, Object> parametros) {
 
-		//	String fechaIni = (String) parametros[0];
-		//	String fechaFin = (String) parametros[1];
-		//	Integer tipoDoc = (Integer) parametros[2];
+		// String fechaIni = (String) parametros[0];
+		// String fechaFin = (String) parametros[1];
+		// Integer tipoDoc = (Integer) parametros[2];
 		String fechaIni = (String) parametros.get("fechaInicial");
 		String fechaFin = (String) parametros.get("fechaFinal");
 
@@ -1878,10 +1908,10 @@ DocumentoDAOLocal {
 				+ " and d.id_estado in (5,12)"
 				+ " group by pi.id_cuenta_contable, cc.descripcion";
 
-		lista = em.createNativeQuery(query, ComprobanteInformeDiarioDTO.class).setParameter("fechaIni", tsfechaIni)
+		lista = em.createNativeQuery(query, ComprobanteInformeDiarioDTO.class)
+				.setParameter("fechaIni", tsfechaIni)
 				.setParameter("fechaFin", tsfechaFin)
-				.setParameter("tipoDoc", tipoDoc)
-				.getResultList();
+				.setParameter("tipoDoc", tipoDoc).getResultList();
 
 		// System.out.println("query: "+query );
 		return lista;
@@ -1889,24 +1919,19 @@ DocumentoDAOLocal {
 	}
 
 	@Override
-
-	public List<ReporteVentaDTO> consultarReporteVentasFD(Map<String, Object> parametros) 
-	{
+	public List<ReporteVentaDTO> consultarReporteVentasFD(
+			Map<String, Object> parametros) {
 		String fechaIni = (String) parametros.get("fechaInicial");
 		String fechaFin = (String) parametros.get("fechaFinal");
-		 
-		
-		Timestamp tsfechaIni=Timestamp.valueOf(fechaIni + " 00:00:00");
-		Timestamp tsfechaFin=Timestamp.valueOf(fechaFin +" 23:59:59");
-		
+
+		Timestamp tsfechaIni = Timestamp.valueOf(fechaIni + " 00:00:00");
+		Timestamp tsfechaFin = Timestamp.valueOf(fechaFin + " 23:59:59");
+
 		int tipoDoc = (Integer) parametros.get("tipo");
 
-		 
 		List<ReporteVentaDTO> lista = new ArrayList<ReporteVentaDTO>();
 		String query = "";
-		
-	
-		
+
 		query = "SELECT row_number() over (ORDER BY d.consecutivo_documento) as id, CASE WHEN pxd2.cantidad1 is null THEN prodVD.fecha_generacion ELSE d.fecha_generacion END as fechaGeneracion,"
 				+ " c.nombre as nombreCliente,pv.nombre as nombrePuntoVenta ,prodVD.consecutivo_documento as consecutivoDocumentoVD,"
 				+ " CASE WHEN pxd2.cantidad1 is null THEN prodVD.observacion_documento  ELSE d.observacion_documento  END as consecutivoDocumentoRM,"
@@ -1919,43 +1944,40 @@ DocumentoDAOLocal {
 				+ " CASE WHEN pxd2.otros_descuentos is null THEN '0' ELSE pxd2.otros_descuentos END as valorOtrosDescuentos,"
 				+ " CASE WHEN pxd2.iva is null THEN '0' ELSE pxd2.iva END as valorPorcentajeIva,"
 				+ " d.documento_cliente as OrdenCompra ,d.observacion2 as NumeroEntregaSap ,d.observacion3 as ConsecutivoOD, d.sitio_entrega  as NumeroPedidoSap,"
-				+ " c.nit as nitCliente" 
-+ " from  documentos d "
-+ " inner join (SELECT  pxd.id_producto ,d.id as id_documento ,pxd.cantidad1 , d3.consecutivo_documento ,d3.observacion_documento,"
-+ " pxd.valor_unitatrio_ml,d3.fecha_generacion from  documentos d "
-+ " inner join (select id ,consecutivo_documento,observacion_documento from documentos ) d2 on d2.consecutivo_documento = d.observacion_documento"
-+ " inner join (select id ,consecutivo_documento,observacion_documento , fecha_generacion from documentos ) d3 on d3.consecutivo_documento = d2.observacion_documento"
-+ " inner join productosxdocumentos pxd  on pxd.id_documento=d3.id"
-+ " where d.id_tipo_documento= :tipoDoc1"
-+ " and d.fecha_generacion between  :fechaIni1 and :fechaFin1" 
-+ " and d.id_estado in (12,5) )"
-//+ "and d.sitio_entrega <> 'CS' )"
-+ " prodVD on prodVD.id_documento=d.id"
-+ " inner join clientes c on c.id=d.id_cliente"
-+ " inner join punto_venta pv on d.id_punto_venta= pv.id"
-+ " inner join productos_inventario pi on pi.id=prodVD.id_producto"
-+ " left outer  join productosxdocumentos pxd2 on pxd2.id_producto=prodVD.id_producto and pxd2.id_documento=d.id" 
-+ " where d.id_tipo_documento= :tipoDoc2"
-+ " and d.fecha_generacion between  :fechaIni2 and :fechaFin2" 
-+ " and d.id_estado in (12,5)";
-//+ " and d.sitio_entrega <> 'CS'";
-//+ " order by d.consecutivo_documento";
+				+ " c.nit as nitCliente"
+				+ " from  documentos d "
+				+ " inner join (SELECT  pxd.id_producto ,d.id as id_documento ,pxd.cantidad1 , d3.consecutivo_documento ,d3.observacion_documento,"
+				+ " pxd.valor_unitatrio_ml,d3.fecha_generacion from  documentos d "
+				+ " inner join (select id ,consecutivo_documento,observacion_documento from documentos ) d2 on d2.consecutivo_documento = d.observacion_documento"
+				+ " inner join (select id ,consecutivo_documento,observacion_documento , fecha_generacion from documentos ) d3 on d3.consecutivo_documento = d2.observacion_documento"
+				+ " inner join productosxdocumentos pxd  on pxd.id_documento=d3.id"
+				+ " where d.id_tipo_documento= :tipoDoc1"
+				+ " and d.fecha_generacion between  :fechaIni1 and :fechaFin1"
+				+ " and d.id_estado in (12,5) )"
+				// + "and d.sitio_entrega <> 'CS' )"
+				+ " prodVD on prodVD.id_documento=d.id"
+				+ " inner join clientes c on c.id=d.id_cliente"
+				+ " inner join punto_venta pv on d.id_punto_venta= pv.id"
+				+ " inner join productos_inventario pi on pi.id=prodVD.id_producto"
+				+ " left outer  join productosxdocumentos pxd2 on pxd2.id_producto=prodVD.id_producto and pxd2.id_documento=d.id"
+				+ " where d.id_tipo_documento= :tipoDoc2"
+				+ " and d.fecha_generacion between  :fechaIni2 and :fechaFin2"
+				+ " and d.id_estado in (12,5)";
+		// + " and d.sitio_entrega <> 'CS'";
+		// + " order by d.consecutivo_documento";
 
-		
-		lista = em.createNativeQuery(query, ReporteVentaDTO.class).setParameter("fechaIni1", tsfechaIni)
+		lista = em.createNativeQuery(query, ReporteVentaDTO.class)
+				.setParameter("fechaIni1", tsfechaIni)
 				.setParameter("fechaFin1", tsfechaFin)
 				.setParameter("fechaIni2", tsfechaIni)
 				.setParameter("fechaFin2", tsfechaFin)
 				.setParameter("tipoDoc1", tipoDoc)
-				.setParameter("tipoDoc2", tipoDoc)
-				.getResultList();
-		
-		
-		
-		 System.out.println("query: "+query );
-		 System.out.println("query ventas" + lista.size());
-		
-		 return lista;
+				.setParameter("tipoDoc2", tipoDoc).getResultList();
+
+		System.out.println("query: " + query);
+		System.out.println("query ventas" + lista.size());
+
+		return lista;
 
 	}
 
@@ -1975,8 +1997,8 @@ DocumentoDAOLocal {
 			listado = em
 					.createQuery(query)
 					.setParameter("tipoDocumento",
-							(long) ConstantesTipoDocumento.ORDEN_DESPACHO)
-							.getResultList();
+							(long) ConstantesTipoDocumento.VENTA_DIRECTA)
+					.getResultList();
 		} catch (Exception e) {
 			LOGGER.error(e
 					+ "********Error consultando Documentos por tipo de documento VENTA DIRECTA");
@@ -1993,6 +2015,264 @@ DocumentoDAOLocal {
 		query.setParameter("idTipoDocumento", filtro.getIdTipoDocumento());
 		query.setParameter("idEstado", filtro.getIdEstado());
 		return query.getResultList();
+	}
+
+	@Override
+	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeAndConsecutivo(
+			FiltroDocumentoDTO filtro) {
+		Query query = em
+				.createNamedQuery(Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE_AND_CONSECUTIVO);
+		query.setParameter("idTipoDocumento", filtro.getIdTipoDocumento());
+		query.setParameter("idEstado", filtro.getIdEstado());
+		query.setParameter("solicitudCafe", filtro.isSolicitudCafe());
+		query.setParameter("consecutivoDocumento",
+				filtro.getConsecutivoDocumento());
+		return query.getResultList();
+	}
+
+	@Override
+	public List<DocumentoIncontermDTO> consultarDocumentosAutorizadosParaModificarFacturaProforma(){
+
+		List<DocumentoIncontermDTO> lista = new ArrayList<DocumentoIncontermDTO>();
+
+		String sql = "SELECT  documentos.id,"
+				+ "documentos.consecutivo_documento,"
+				+ "documentos.fecha_esperada_entrega,"
+				+ "documentos.id_ubicacion_origen,"
+				+ "documentos.id_ubicacion_destino,"
+				+ "documentos.id_tipo_documento,"
+				+ "documentos.fecha_generacion,"
+				+ "documentos.fecha_entrega,"
+				+ "documentos.id_proveedor,"
+				+ "documentos.id_estado,"
+				+ "documentos.documento_cliente,"
+				+ "documentos.id_cliente idCliente,"
+				+ "clientes.id as id_cliente,"
+				+ "clientes.nombre as Cliente ,"
+				+ "clientes.direccion,"
+				+ "clientes.telefono,"
+				+ "clientes.contacto, "
+				+ "Documento_x_Negociacion.id_termino_incoterm AS ID_INCOTERM , "
+				+ "termino_incoterm.descripcion AS NOMBRE_INCOTERM ,"
+				+ "documentos.valor_total,"
+				+ "Documento_x_Negociacion.costo_entrega,"
+				+ "Documento_x_Negociacion.costo_flete,"
+				+ "Documento_x_Negociacion.costo_seguro,"
+				+ "Documento_x_Negociacion.otros_gastos,"
+				+ "Documento_x_Negociacion.cantidad_contenedores_de_20,"
+				+ "Documento_x_Negociacion.cantidad_contenedores_de_40,"
+				+ "ciudades.nombre AS NOMBRE_CIUDAD,"
+				+ "Documento_x_Negociacion.lugar_incoterm,"
+				+ "estados.nombre AS NOMBRE_ESTADO,"
+				+ "Documento_x_Negociacion.solicitud_cafe,"
+				+ "documentos.observacion_documento,"
+				+ "Documento_x_Negociacion.observaciones_marcacion_2 "
+				+ "FROM documentos, clientes, Documento_x_Negociacion, termino_incoterm, ciudades, estados "
+				+ "WHERE documentos.id_cliente = clientes.id "
+				+ "AND documentos.id=Documento_x_Negociacion.id_documento "
+				+ "AND Documento_x_Negociacion.id_termino_incoterm=termino_incoterm.id "
+				+ "AND clientes.id_ciudad=ciudades.id "
+				+ "AND documentos.id_estado=estados.id "
+				+ "AND documentos.id_tipo_documento= 23 "
+				+ "AND documentos.id_estado IN ( 18 ) "
+				+ "ORDER BY documentos.id DESC";
+
+		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
+
+		if (listado != null) {
+			for (Object[] objs : listado) {
+				DocumentoIncontermDTO dto = new DocumentoIncontermDTO();
+
+				dto.setIdDocumento(objs[0] != null ? Long.parseLong(objs[0]
+						.toString()) : null);
+				dto.setConsecutivoDocumento(objs[1] != null ? objs[1]
+						.toString() : null);
+				dto.setFechaEsperadaEntrega((Timestamp) (objs[2] != null ? objs[2]
+						: null));
+				if (dto.getFechaEsperadaEntrega() != null) {
+					dto.setFechaEsperadaEntregaDate(new java.sql.Date(dto
+							.getFechaEsperadaEntrega().getTime()));
+				}
+
+				dto.setIdUbicacionOrigen(objs[3] != null ? Long
+						.parseLong(objs[3].toString()) : null);
+				dto.setIdUbicacionDestino(objs[4] != null ? Long
+						.parseLong(objs[4].toString()) : null);
+				dto.setIdTipoDocumento(objs[5] != null ? Long.parseLong(objs[5]
+						.toString()) : null);
+				dto.setFechaGeneracion((Timestamp) (objs[6] != null ? objs[6]
+						: null));
+				dto.setFechaEntrega((Timestamp) (objs[7] != null ? objs[7]
+						: null));
+				dto.setIdProveedor(objs[8] != null ? Long.parseLong(objs[8]
+						.toString()) : null);
+				dto.setIdEstado(objs[9] != null ? Long.parseLong(objs[9]
+						.toString()) : null);
+				dto.setDocumentoCliente(objs[10] != null ? objs[10].toString()
+						: null);
+				dto.setIdCliente(objs[11] != null ? Long.parseLong(objs[11]
+						.toString()) : null);
+				dto.setClientesId(objs[12] != null ? Long.parseLong(objs[12]
+						.toString()) : null);
+				dto.setClientesNombre(objs[13] != null ? objs[13].toString()
+						: null);
+				dto.setClientesDireccion(objs[14] != null ? objs[14].toString()
+						: null);
+				dto.setClientesTelefono(objs[15] != null ? objs[15].toString()
+						: null);
+				dto.setClientesContacto(objs[16] != null ? objs[16].toString()
+						: null);
+				dto.setIdTerminoIncoterm(objs[17] != null ? Long
+						.parseLong(objs[17].toString()) : null);
+				dto.setDescripcionTerminoIncoterm(objs[18] != null ? objs[18]
+						.toString() : null);
+				dto.setValorTotalDocumento(objs[19] != null ? new BigDecimal(
+						objs[19].toString()) : null);
+				dto.setCostoEntrega(objs[20] != null ? new BigDecimal(objs[20]
+						.toString()) : null);
+				dto.setCostoFlete(objs[21] != null ? new BigDecimal(objs[21]
+						.toString()) : null);
+				dto.setCostoSeguro(objs[22] != null ? new BigDecimal(objs[22]
+						.toString()) : null);
+				dto.setOtrosGastos(objs[23] != null ? new BigDecimal(objs[23]
+						.toString()) : null);
+				dto.setCantidadContenedores20(objs[24] != null ? new BigDecimal(
+						objs[24].toString()) : null);
+				dto.setCantidadContenedores40(objs[25] != null ? new BigDecimal(
+						objs[25].toString()) : null);
+				dto.setCiudadNombre(objs[26] != null ? objs[26].toString()
+						: null);
+				dto.setLugarIncoterm(objs[27] != null ? objs[27].toString()
+						: null);
+				dto.setEstadoNombre(objs[28] != null ? objs[28].toString()
+						: null);
+				dto.setSolicitudCafe((Boolean) (objs[29] != null ? objs[29]
+						: null));
+				dto.setObservacionDocumento(objs[30] != null ? objs[30]
+						.toString() : null);
+				dto.setObservacionesMarcacion2(objs[31] != null ? objs[31]
+						.toString() : null);
+
+				//				dto.setClientesNit(objs[32] != null ? objs[32].toString()
+				//						: null);
+
+				lista.add(dto);
+			}
+		}
+
+		return lista;
+
+	}
+
+	@Override
+	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado){
+
+		if (documento.getIdEstado() == ConstantesDocumento.GENERADO){	
+
+			String sql = "UPDATE documentos SET id_estado = " + ConstantesDocumento.ANULADO + " WHERE  observacion_documento = " + documento.getConsecutivoDocumento() + " ";
+			em.createNativeQuery(sql).executeUpdate();
+
+		}		
+
+		String sqlAuditoria = "SELECT  log_auditoria.id_funcionalidad,log_auditoria.id_reg_tabla,log_auditoria.valor_anterior "
+				+ "FROM log_auditoria,usuarios,funcionalidades "
+				+ "WHERE log_auditoria.id_usuario = usuarios.id "
+				+ "AND log_auditoria.id_funcionalidad = funcionalidades.id "	
+				+ "AND log_auditoria.id_funcionalidad = 126"  
+				+ "AND log_auditoria.id_reg_tabla =" + documento.getIdDocumento()
+				+ " ORDER BY log_auditoria.fecha DESC LIMIT 1";
+
+		List<Object[]> auditoria = em.createNativeQuery(sqlAuditoria).getResultList();
+
+		if(auditoria != null && auditoria.size() > 0){
+
+			String estado = auditoria.get(0)[2] != null ? auditoria.get(0)[2].toString().trim() : null;
+
+			String sqlDocumento = "UPDATE documentos SET valor_total = " + documento.getValorTotalDocumento().doubleValue() + ", fecha_esperada_entrega = '" + documento.getFechaEsperadaEntrega() + "' ,id_estado = " + estado + " WHERE  id = " + documento.getIdDocumento() + " ";
+			
+			em.createNativeQuery(sqlDocumento).executeUpdate();
+
+			String sql1 = "UPDATE Documento_x_Negociacion SET id_termino_incoterm = " + documento.getIdTerminoIncoterm() + ", "
+					+ "total_peso_neto = " + documento.getTotalPesoNeto().doubleValue() + ", total_peso_bruto = " + documento.getTotalPesoBruto().doubleValue() + ", "
+					+ "total_tendidos = " + documento.getTotalTendidos().doubleValue() + ", "
+					+ "total_pallets = " + documento.getTotalPallets().doubleValue() + ", cantidad_contenedores_de_20 = " + documento.getCantidadContenedores20().doubleValue() + ", "
+					+ "cantidad_contenedores_de_40 = " + documento.getCantidadContenedores40().doubleValue() + ", lugar_incoterm = '" + documento.getLugarIncoterm() + "' "
+					+ "WHERE  id_documento = " + documento.getIdDocumento() + "";
+			
+			em.createNativeQuery(sql1).executeUpdate();
+
+			String sql2 = "UPDATE Documento_x_Negociacion SET costo_entrega = " + documento.getCostoEntrega().doubleValue() + ", costo_flete = " + documento.getCostoFlete().doubleValue() + ", "
+					+ "costo_seguro = " + documento.getCostoSeguro().doubleValue() + ", otros_gastos = " + documento.getOtrosGastos().doubleValue() + " "
+					+ "WHERE  id_documento = " + documento.getIdDocumento() + "";
+			
+			em.createNativeQuery(sql2).executeUpdate();
+
+			for(ProductoPorClienteComExtDTO dto : listado){
+
+				if(dto.isBlnIncluirBusqueda()){
+
+					String sql = "select id_documento, id_producto from productosXdocumentos "+
+							"where id_documento = " + documento.getIdDocumento() + "  AND id_producto = " + dto.getIntIdProductoInventario();
+
+					List<Object[]> regExiste = em.createNativeQuery(sql).getResultList();
+
+					if(regExiste != null && regExiste.size() > 0){
+						String sqlModificarFacturaProforma = "UPDATE productosXdocumentos SET total_peso_neto_item = " + dto.getDblTotalPesoNeto() + ", "
+								+ "total_peso_bruto_item = " + dto.getDblTotalPesoBruto()  + ", "
+								+ "valor_unitario_usd = " + dto.getDblPrecioUSD() + ", cantidad1 = " + dto.getDblCantidad1ActualProductoxDocumento() + " , "
+								+ "valor_total = " + dto.getDblValorTotalProductoxDocumento() + ", "
+								+ "cantidad_cajas_item = " + dto.getDblTotalCajas() + ", cantidad_pallets_item = " + dto.getDblTotalCajasPallet() + " , "
+								+ "cantidad_x_embalaje = " + dto.getDblCantidadXEmbalajeProductoInventarioCE() + " "
+								+ "WHERE  id_documento = " + documento.getIdDocumento() + "  AND id_producto = " + dto.getIntIdProductoInventario() + " ";
+
+						em.createNativeQuery(sqlModificarFacturaProforma).executeUpdate();
+					} else {
+
+						String sqlInsert = "INSERT INTO productosXdocumentos (id_documento,"
+								+ "id_producto,"
+								+ "cantidad1,"
+								+ "fecha_estimada_entrega,"
+								+ "fecha_entrega,"
+								+ "id_ml,"
+								+ "id_unidades,"
+								+ "total_peso_neto_item,"
+								+ "valor_unitario_usd,"
+								+ "valor_total,"
+								+ "total_peso_bruto_item,"
+								+ "cantidad_cajas_item,"
+								+ "cantidad_pallets_item,"
+								+ "cantidad_x_embalaje) "
+								+ "VALUES (" + documento.getIdDocumento() + ","
+								+ "" + dto.getIntIdProducto() + ","
+								+ "" + dto.getDblCantidad1ActualProductoxDocumento() + ","
+								+ "current_timestamp + '2 days',"
+								+ "current_timestamp + '2 days', "
+								+ "'USD', "
+								+ "(select id_ud from productos_inventario where id = " + dto.getIntIdProducto() + "),"
+								+ "" + dto.getDblTotalPesoNeto() + ","
+								+ "" + dto.getDblPrecioUSD() + ","
+								+ "" + dto.getDblValorTotalProductoxDocumento() + ","
+								+ "" + dto.getDblTotalPesoBruto() + ","
+								+ "" + dto.getDblTotalCajas() + ","
+								+ "" + dto.getDblTotalCajasXPalletProductoInventarioCE() + ""
+								+ "" + dto.getDblCantidadXEmbalajeProductoInventarioCE() + ")";
+
+						em.createNativeQuery(sqlInsert).executeUpdate();
+					}
+
+				} else {
+					String sqlEliminar = "DELETE FROM productosXdocumentos WHERE id_producto = " + dto.getIntIdProductoInventario() + " "
+							+ "AND id_documento = " + documento.getIdDocumento() + "";
+
+					em.createNativeQuery(sqlEliminar).executeUpdate();
+				}
+			}		
+
+			return "exito_ajustes_pedido";
+
+		} 
+
+		return null;
 	}
 
 }

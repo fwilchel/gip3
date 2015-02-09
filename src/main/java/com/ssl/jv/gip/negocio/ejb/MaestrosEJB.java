@@ -3,6 +3,7 @@ package com.ssl.jv.gip.negocio.ejb;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -20,6 +21,7 @@ import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
+import com.ssl.jv.gip.jpa.pojo.FactsCurrencyConversion;
 import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
@@ -48,6 +50,7 @@ import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CiudadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
+import com.ssl.jv.gip.negocio.dao.FactsCurrencyConversionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ItemCostoLogisticoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAOLocal;
@@ -165,6 +168,9 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	
 	
 
+	@EJB
+	private FactsCurrencyConversionDAOLocal conversionMonedaDAO;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -644,7 +650,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	public List<ProductosInventario> consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(
 			ProductosInventarioFiltroDTO filtroDTO) {
 		return productoInventarioDao
-				.consultarPorCategoriaAndSKUAndNombreAndEstado(filtroDTO);
+				.consultarPorUsuarioCategoriaSKUNombreAndEstado(filtroDTO);
 	}
 
 	@Override
@@ -826,12 +832,15 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		this.itemCostoLogisticoDAO.update(icl);
 		if (icl.getRangoCostoLogisticos() != null) {
 			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
-				if(rcl.getMoneda()!=null && (rcl.getMoneda().getId()==null || rcl.getMoneda().getId().equals("")))
+				if (rcl.getMoneda() != null
+						&& (rcl.getMoneda().getId() == null || rcl.getMoneda()
+								.getId().equals("")))
 					rcl.setMoneda(null);
 				if (rcl.getId() != null && rcl.getId() != 0) {
 					this.rangoCostoLogisticoDAO.update(rcl);
 				} else {
-					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO.add(rcl);
+					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO
+							.add(rcl);
 					rcl.setId(rcl2.getId());
 				}
 			}
@@ -887,6 +896,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		return movimientosInventarioComextDAO.consultarPorSKU(sku);
 	}
 	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PuntoVenta> consultarPuntoEntrega() {
@@ -929,4 +939,48 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	
 	
 	
+
+	@Override
+	public FactsCurrencyConversion getTRMDian(Date fecha){
+		return conversionMonedaDAO.getTRMDian(fecha);
+	}
+
+	@Override
+	public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(
+			ProductosInventarioFiltroDTO filtroDTO) {
+		return productoInventarioDao
+				.consultarPorEstadoCategoriaSKUNombreAndControlStock(filtroDTO);
+	}
+
+	@Override
+	public void guardarMovimientosInventarioComercioExterior(
+			List<MovimientosInventarioComext> movimientosInventarioComexts) {
+		Date fecha = new Date();
+		List<MovimientosInventarioComext> ultimosSaldosMovimientosInventarioComExt = movimientosInventarioComextDAO
+				.getUltimosSaldos();
+		for (MovimientosInventarioComext movimientosInventarioComext : movimientosInventarioComexts) {
+			for (MovimientosInventarioComext ultimoSaldomovimientosInventarioComext : ultimosSaldosMovimientosInventarioComExt) {
+				if (movimientosInventarioComext
+						.getProductosInventarioComext()
+						.getProductosInventario()
+						.getId()
+						.equals(ultimoSaldomovimientosInventarioComext
+								.getProductosInventarioComext()
+								.getProductosInventario().getId())) {
+					movimientosInventarioComext
+							.setSaldo(movimientosInventarioComext.getCantidad()
+									.add(ultimoSaldomovimientosInventarioComext
+											.getSaldo()));
+					break;
+				}
+			}
+			movimientosInventarioComext.setFecha(fecha);
+			movimientosInventarioComext
+					.setProductosInventarioComext(productosInventarioComextDao
+							.findByPK(movimientosInventarioComext
+									.getProductosInventarioComext()
+									.getProductosInventario().getId()));
+			movimientosInventarioComextDAO.add(movimientosInventarioComext);
+		}
+	}
 }

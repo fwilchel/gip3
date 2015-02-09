@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroInventarioInicio}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma" style="text-align:left">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.maestroInventarioInicio}">
+					<p:panelGrid columns="3">
+
+						<p:outputLabel value="#{msg.buscadorSKU}" for="codigo"
+							styleClass="negrita" />
+						<h:inputText value="#{maestroInventarioMB.filtro.sku}" id="codigo"
+							required="false" maxlength="10" label="#{msg.buscadorSKU}" />
+						<p:message for="codigo"></p:message>
+
+						<p:outputLabel value="#{msg.buscadorNombreProducto}" for="nombre"
+							styleClass="negrita" />
+						<h:inputText value="#{maestroInventarioMB.filtro.nombre}" id="nombre"
+							required="false" maxlength="50" size="40"
+							label="#{msg.buscadorNombreProducto}" />
+						<p:message for="nombre"></p:message>
+
+						<p:outputLabel value="#{msg.buscadorCategoria}" for="categoia"
+							styleClass="negrita" />
+						<p:selectOneMenu id="categoia"
+							value="#{maestroInventarioMB.filtro.categoriasInventario.id}"
+							label="#{msg.buscadorCategoria}">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}" />
+							<f:selectItems value="#{maestroInventarioMB.categorias}" />
+						</p:selectOneMenu>
+						<p:message for="categoia"></p:message>
+
+						<p:outputLabel value="#{msg.generalNombrePais}" for="pais"
+							styleClass="negrita" />
+						<p:selectOneMenu id="pais" value="#{maestroInventarioMB.filtro.pais.id}"
+							label="#{msg.UsuarioNombrePais}">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}" />
+							<f:selectItems value="#{aplicacionMB.paises}" var="pais"
+								itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="pais"></p:message>
+
+						<p:outputLabel value="#{msg.generalActivo}" for="activo"
+							styleClass="negrita" />
+						<p:selectOneMenu id="activo"
+							value="#{maestroInventarioMB.filtro.desactivado}"
+							label="#{msg.generalActivo}">
+							<f:selectItem itemLabel="Si" itemValue="true" />
+							<f:selectItem itemLabel="No" itemValue="false" />
+						</p:selectOneMenu>
+						<p:message for="activo"></p:message>
+
+						<p:commandButton value="#{msg.buscadorConsultarProducto}"
+							icon="ui-icon-search" oncomplete="PF('registrosTabla').getPaginator().setPage(0)"
+							action="#{maestroInventarioMB.loadProductos}"
+							update="tablaRegistros,:forma:msgs"></p:commandButton>
+
+					</p:panelGrid>
+
+					<p:dataTable var="registro" widgetVar="registrosTabla" sortField="nombre"
+						id="tablaRegistros" value="#{maestroInventarioMB.modelo}" rows="15"
+						emptyMessage="#{msg.MaestroInventarioNoEncontrados}" sortMode="single" 
+						paginator="true" paginatorPosition="bottom" lazy="true"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<p:column headerText="#{msg.cierreInventarioTablacategoria}" 
+							sortBy="#{registro.categoriasInventario.categoriasInventario.nombre}">
+							<h:outputText
+								value="#{registro.categoriasInventario.categoriasInventario.nombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.cierreInventarioTablasubCategoria}"
+							sortBy="#{registro.categoriasInventario.nombre}">
+							<h:outputText value="#{registro.categoriasInventario.nombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorSKU}" sortBy="#{registro.sku}">
+							<h:outputText value="#{registro.sku}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorNombreProducto}" field="nombre"
+							sortBy="#{registro.nombre}">
+							<h:outputText value="#{registro.nombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.MaestroInventarioMicros}"
+							sortBy="#{registro.codigoPos}">
+							<h:outputText value="#{registro.codigoPos}" />
+						</p:column>
+
+						<p:column headerText="#{msg.generalNombrePais}"
+							sortBy="#{registro.pais.nombre}">
+							<h:outputText value="#{registro.pais.nombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.generalActivo}"
+							sortBy="#{registro.desactivado}">
+							<p:selectBooleanCheckbox value="#{registro.desactivado}"
+								disabled="true" />
+						</p:column>
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+		<ui:remove>
+		<p:dialog
+			header="#{maestroInventarioMB.creacion?msg.maestroInventarioCrearProducto:msg.maestroInventarioModificarProducto}"
+			widgetVar="editarDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="editarDlg">
+			<h:form id="formaDlg">
+				<p:outputPanel id="registroDetalle" style="text-align:center;">
+
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+
+					<p:panelGrid columns="3"
+						rendered="#{not empty maestroInventarioMB.seleccionado}"
+						columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.maestroCodigoProducto}" for="codigo"
+							styleClass="negrita" />
+						<h:inputText value="#{maestroInventarioMB.seleccionado.id}" id="codigo"
+							required="true" disabled="#{!maestroInventarioMB.creacion}"
+							label="#{msg.maestroCodigoProducto}" />
+						<p:message for="codigo"></p:message>
+
+						<p:outputLabel value="#{msg.maestroNombreProducto}" for="nombre"
+							styleClass="negrita" />
+						<h:inputText value="#{maestroInventarioMB.seleccionado.nombre}"
+							id="nombre" maxlength="50" required="true"
+							label="#{msg.maestroNombreProducto}" />
+						<p:message for="nombre"></p:message>
+
+						<p:outputLabel value="#{msg.buscadorCategoria}" for="categoria"
+							styleClass="negrita" />
+						<p:selectOneMenu id="categoria"
+							value="#{maestroInventarioMB.seleccionado.categoriasInventario.id}"
+							label="#{msg.buscadorCategoria}">
+							<f:selectItems value="#{maestroInventarioMB.categorias}" />
+						</p:selectOneMenu>
+						<p:message for="categoria"></p:message>
+
+						<p:outputLabel value="#{msg.generalNombrePais}" for="pais"
+							styleClass="negrita" />
+						<p:selectOneMenu id="pais"
+							value="#{maestroInventarioMB.seleccionado.pais.id}"
+							label="#{msg.generalNombrePais}">
+							<f:selectItems value="#{aplicacionMB.paises}" var="pais"
+								itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="pais"></p:message>
+
+						<p:outputLabel value="#{msg.maestroUnidadDevolucion}"
+							for="unidadDespacho" styleClass="negrita" />
+						<p:selectOneMenu id="unidadDespacho"
+							value="#{maestroInventarioMB.seleccionado.unidadDespacho.id}"
+							label="#{msg.maestroUnidadDevolucion}">
+							<f:selectItems value="#{maestroInventarioMB.unidades}" var="unidad"
+								itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="unidadDespacho"></p:message>
+
+						<p:outputLabel value="#{msg.maestroUnidadVenta}" for="unidadVenta"
+							styleClass="negrita" />
+						<p:selectOneMenu id="unidadVenta"
+							value="#{maestroInventarioMB.seleccionado.unidadVenta.id}"
+							label="#{msg.maestroUnidadVenta}">
+							<f:selectItems value="#{maestroInventarioMB.unidades}" var="unidad"
+								itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="unidadVenta"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCodigoPos}" for="codigoPos"
+							styleClass="negrita" />
+						<h:inputText value="#{maestroInventarioMB.seleccionado.codigoPos}"
+							id="codigoPos" size="30" maxlength="40" required="false"
+							label="#{msg.maestroCodigoPos}" />
+						<p:message for="codigoPos"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCodigoInventario}" for="sku"
+							styleClass="negrita" />
+						<h:inputText value="#{maestroInventarioMB.seleccionado.sku}" id="sku"
+							maxlength="10" required="false"
+							disabled="#{!maestroInventarioMB.creacion}"
+							label="#{msg.maestroCodigoInventario}" />
+						<p:message for="sku"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCodigoBarrasUV}" for="barrasUV"
+							styleClass="negrita" />
+						<h:inputText value="#{maestroInventarioMB.seleccionado.codigoBarrasUv}"
+							id="barrasUV" required="false"
+							label="#{msg.maestroCodigoBarrasUV}" />
+						<p:message for="barrasUV"></p:message>
+
+						<p:outputLabel value="#{msg.maestroConsumible}" for="consumible"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{maestroInventarioMB.seleccionado.consumible}" id="consumible"
+							label="#{msg.maestroConsumible}" />
+						<p:message for="consumible"></p:message>
+
+						<p:outputLabel value="#{msg.maestroObservacion}"
+							for="observaciones" styleClass="negrita" />
+						<p:inputTextarea value="#{maestroInventarioMB.seleccionado.observaciones}"
+							id="observaciones" label="#{msg.maestroObservacion}" rows="2"
+							cols="30"></p:inputTextarea>
+						<p:message for="observaciones"></p:message>
+
+						<p:outputLabel value="#{msg.UsuarioNombreActivo}" for="activo"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{maestroInventarioMB.seleccionado.desactivado}" id="activo"
+							label="#{msg.UsuarioNombreActivo}" />
+						<p:message for="activo"></p:message>
+
+						<p:outputLabel value="#{msg.maestroUnidadReceta}"
+							for="unidadReceta" styleClass="negrita" />
+						<p:selectOneMenu id="unidadReceta"
+							value="#{maestroInventarioMB.seleccionado.unidadReceta.id}"
+							label="#{msg.maestroUnidadReceta}">
+							<f:selectItems value="#{maestroInventarioMB.unidades}" var="unidad"
+								itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="unidadReceta"></p:message>
+
+						<p:outputLabel value="#{msg.maestroConversorReceta}"
+							for="conversorReceta" styleClass="negrita" />
+						<h:inputText value="#{maestroInventarioMB.seleccionado.codigoBarrasUv}"
+							id="conversorReceta" required="false"
+							label="#{msg.maestroConversorReceta}" />
+						<p:message for="conversorReceta"></p:message>
+
+						<p:outputLabel value="#{msg.maestroCuentaContable}"
+							for="cuentaContable" styleClass="negrita" />
+						<p:selectOneMenu id="cuentaContable"
+							value="#{maestroInventarioMB.seleccionado.idCuentaContable}"
+							label="#{msg.maestroCuentaContable}">
+							<f:selectItems value="#{maestroInventarioMB.cuentasContables}"
+								var="cuenta" itemValue="#{cuenta.id}"
+								itemLabel="#{cuenta.id}--#{cuenta.descripcion}" />
+						</p:selectOneMenu>
+						<p:message for="cuentaContable"></p:message>
+
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+							action="#{maestroInventarioMB.guardar}"
+							update=":formaDlg:registroDetalle, :forma:tabPanel:tablaRegistros"></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}" process="@this"
+							oncomplete="PF('editarDialog').hide();" icon="ui-icon-cancel">
+							<p:resetInput target="registroDetalle" />
+						</p:commandButton>
+
+					</p:panelGrid>
+
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog
+			header="#{maestroInventarioMB.creacion?msg.maestroInventarioCrearProducto:msg.maestroInventarioModificarProducto}"
+			widgetVar="editarDialog2" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="editarDlg2">
+			<h:form id="formaDlg2">
+				<p:outputPanel id="registroDetalle" style="text-align:center;" rendered="#{not empty maestroInventarioMB.seleccionado2}">
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+					<p:panel header="#{msg.DatosProducto}" style="margin-bottom:20px">
+						<p:panelGrid columns="3"
+							columnClasses="label,value">
+	
+							<p:outputLabel value="#{msg.maestroCodigoProducto}" for="idProducto"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.idProducto}" id="idProducto"
+								required="true" disabled="true"
+								label="#{msg.maestroCodigoProducto}" />
+							<p:message for="idProducto"></p:message>
+	
+							<p:outputLabel value="#{msg.maestroCodigoSap}" for="strCodigoSap"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.codigoSap}"
+								id="strCodigoSap" maxlength="40" required="false"
+								label="#{msg.maestroCodigoSap}" />
+							<p:message for="strCodigoSap"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroEan14}" for="lngEan14"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.ean14}"
+								id="lngEan14" required="false"
+								label="#{msg.maestroEan14}" />
+							<p:message for="lngEan14"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroPosicionArancelaria}" for="strPosicionArancelaria"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.posicionArancelaria}"
+								id="strPosicionArancelaria" maxlength="14" required="false"
+								label="#{msg.maestroPosicionArancelaria}" />
+							<p:message for="strPosicionArancelaria"></p:message>							
+
+		           			<p:outputLabel value="#{msg.maestroImportado}"
+								for="blnImportado" styleClass="negrita" />
+							<p:selectOneMenu id="blnImportado"
+								value="#{maestroInventarioMB.seleccionado2.importado}"
+								label="#{msg.maestroImportado}">
+								<f:selectItems value="#{aplicacionMB.siNo}" />
+							</p:selectOneMenu>
+							<p:message for="blnImportado"></p:message>
+	           
+							<p:outputLabel value="#{msg.maestroNombrePrdProveedor}" for="strNombrePrdProveedor"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.nombrePrdProveedor}"
+								id="strNombrePrdProveedor" maxlength="50" size="40" required="false"
+								label="#{msg.maestroNombrePrdProveedor}" />
+							<p:message for="strNombrePrdProveedor"></p:message>							
+	      
+	           				<p:outputLabel value="#{msg.maestroDescripcion}" for="strDescripcion"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.descripcion}"
+								id="strDescripcion" maxlength="100" size="70" required="false"
+								label="#{msg.maestroDescripcion}" />
+							<p:message for="strDescripcion"></p:message>
+	           
+							<p:outputLabel value="#{msg.maestroLargo}" for="dblLargo"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.largo}"
+								id="dblLargo" required="false" label="#{msg.maestroLargo}" />
+							<p:message for="dblLargo"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroAlto}" for="dblAlto"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.alto}"
+								id="dblAlto" required="false" label="#{msg.maestroAlto}" />
+							<p:message for="dblAlto"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroAncho}" for="dblAncho"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.ancho}"
+								id="dblAncho" required="false" label="#{msg.maestroAncho}" />
+							<p:message for="dblAncho"></p:message>
+
+							<p:outputLabel value="#{msg.maestroVolumen}" for="dblVolumen"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.volumen}"
+								id="dblVolumen" required="false" label="#{msg.maestroVolumen}" />
+							<p:message for="dblVolumen"></p:message>
+							
+	           				<p:outputLabel value="#{msg.maestroPesoNeto}" for="dblPesoNeto"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.pesoNeto}"
+								id="dblPesoNeto" required="false"
+								label="#{msg.maestroPesoNeto}" />
+							<p:message for="dblPesoNeto"></p:message>
+	           
+	           				<p:outputLabel value="#{msg.maestroPesoBruto}" for="dblPesoBruto"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.pesoBruto}"
+								id="dblPesoBruto" required="false"
+								label="#{msg.maestroPesoBruto}" />
+							<p:message for="dblPesoBruto"></p:message>
+	           
+	           				<p:outputLabel value="#{msg.maestroTiempoUtil}" for="dblTiempoUtil"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.tiempoUtil}"
+								id="dblTiempoUtil" required="false"
+								label="#{msg.maestroTiempoUtil}" />
+							<p:message for="dblTiempoUtil"></p:message>
+
+	           				<p:outputLabel value="#{msg.maestroMarcacionFechaVencimiento}" for="strMarcacionFechaVencimiento"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.marcacionFechaVencimiento}"
+								id="strMarcacionFechaVencimiento" maxlength="16" required="false"
+								label="#{msg.maestroMarcacionFechaVencimiento}" />
+							<p:message for="strMarcacionFechaVencimiento"></p:message>
+	           	
+							<p:outputLabel value="#{msg.maestroTipoLoteoic}"
+								for="lngIdTipoLoteoic" styleClass="negrita" />
+							<p:selectOneMenu id="lngIdTipoLoteoic"
+								value="#{maestroInventarioMB.seleccionado2.tipoLoteoic.id}"
+								label="#{msg.maestroTipoLoteoic}">
+								<f:selectItems value="#{maestroInventarioMB.tiposLotesOic}" var="tipoLoteOic" itemLabel="#{tipoLoteOic.descripcion}" itemValue="#{tipoLoteOic.id}"/>
+							</p:selectOneMenu>
+							<p:message for="lngIdTipoLoteoic"></p:message>
+					
+	              			<p:outputLabel value="#{msg.maestroCuentaContableCE}"
+								for="selectidCtaCont" styleClass="negrita" />
+							<p:selectOneMenu id="selectidCtaCont"
+								value="#{maestroInventarioMB.seleccionado2.cuentaContable.id}"
+								label="#{msg.maestroCuentaContableCE}">
+								<f:selectItems value="#{maestroInventarioMB.cuentasContables}"
+									var="cuenta" itemValue="#{cuenta.id}"
+									itemLabel="#{cuenta.id}--#{cuenta.descripcion}" />
+							</p:selectOneMenu>
+							<p:message for="selectidCtaCont"></p:message>
+				
+		           			<p:outputLabel value="#{msg.maestroManejaInventario}"
+								for="blnInventario" styleClass="negrita" />
+							<p:selectOneMenu id="blnInventario"
+								value="#{maestroInventarioMB.seleccionado2.controlStock}"
+								label="#{msg.maestroManejaInventario}">
+								<f:selectItems value="#{aplicacionMB.siNo}" />
+							</p:selectOneMenu>
+							<p:message for="blnInventario"></p:message>
+							
+						</p:panelGrid>	
+					</p:panel>			
+					<p:panel header="#{msg.DatosEmbalaje}" style="margin-bottom:20px">
+						<p:panelGrid columns="3"
+							columnClasses="label,value">
+	
+		           			<p:outputLabel value="#{msg.maestroUnidadEmbalaje}"
+								for="intUnidadEmbalaje" styleClass="negrita" />
+							<p:selectOneMenu id="intUnidadEmbalaje"
+								value="#{maestroInventarioMB.seleccionado2.unidadEmbalaje.id}"
+								label="#{msg.maestroUnidadEmbalaje}">
+								<f:selectItems value="#{maestroInventarioMB.unidades}" var="unidad"
+								itemValue="#{unidad.id}" itemLabel="#{unidad.nombre}" />
+							</p:selectOneMenu>
+							<p:message for="intUnidadEmbalaje"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroCantidadXEmbalaje}" for="dblCantidadXEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.cantidadXEmbalaje}"
+								id="dblCantidadXEmbalaje" required="false"
+								label="#{msg.maestroCantidadXEmbalaje}" />
+							<p:message for="dblCantidadXEmbalaje"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroLargoEmbalaje}" for="dblLargoEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.largoEmbalaje}"
+								id="dblLargoEmbalaje" required="false"
+								label="#{msg.maestroLargoEmbalaje}" />
+							<p:message for="dblLargoEmbalaje"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroAltoEmbalaje}" for="dblAltoEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.altoEmbalaje}"
+								id="dblAltoEmbalaje" required="false"
+								label="#{msg.maestroAltoEmbalaje}" />
+							<p:message for="dblAltoEmbalaje"></p:message>
+
+							<p:outputLabel value="#{msg.maestroAnchoEmbalaje}" for="dblAnchoEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.anchoEmbalaje}"
+								id="dblAnchoEmbalaje" required="false"
+								label="#{msg.maestroAnchoEmbalaje}" />
+							<p:message for="dblAnchoEmbalaje"></p:message>
+		
+							<p:outputLabel value="#{msg.maestroVolumenEmbalaje}" for="dblVolumenEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.volumenEmbalaje}"
+								id="dblVolumenEmbalaje" required="false"
+								label="#{msg.maestroVolumenEmbalaje}" />
+							<p:message for="dblVolumenEmbalaje"></p:message>
+		
+							<p:outputLabel value="#{msg.maestroPesoNetoEmbalaje}" for="dblPesoNetoEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.pesoNetoEmbalaje}"
+								id="dblPesoNetoEmbalaje" required="false"
+								label="#{msg.maestroPesoNetoEmbalaje}" />
+							<p:message for="dblPesoNetoEmbalaje"></p:message>
+
+							<p:outputLabel value="#{msg.maestroPesoBrutoEmbalaje}" for="dblPesoBrutoEmbalaje"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.pesoBrutoEmbalaje}"
+								id="dblPesoBrutoEmbalaje" required="false"
+								label="#{msg.maestroPesoBrutoEmbalaje}" />
+							<p:message for="dblPesoBrutoEmbalaje"></p:message>
+				
+							<p:outputLabel value="#{msg.maestroClave}" for="strClave"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.clave}"
+								id="strClave" required="false" maxlength="10"
+								label="#{msg.maestroClave}" />
+							<p:message for="strClave"></p:message>
+							
+						</p:panelGrid>
+					</p:panel>
+					<p:panel header="#{msg.DatosEstibado}" style="margin-bottom:20px">
+						<p:panelGrid columns="3"
+							columnClasses="label,value">
+	
+							<p:outputLabel value="#{msg.maestroCantCajasXTendido}" for="dblCantCajasXTendido"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.cantCajasXTendido}"
+								id="dblCantCajasXTendido" required="false" 
+								label="#{msg.maestroCantCajasXTendido}" />
+							<p:message for="dblCantCajasXTendido"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroCantMaxTendXPallet}" for="dblCantMaxTendXPallet"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.cantMaxTendXPallet}"
+								id="dblCantMaxTendXPallet" required="false" 
+								label="#{msg.maestroCantMaxTendXPallet}" />
+							<p:message for="dblCantMaxTendXPallet"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroTotalCajasXPallet}" for="dblTotalCajasXPallet"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.totalCajasXPallet}"
+								id="dblTotalCajasXPallet" required="false" 
+								label="#{msg.maestroTotalCajasXPallet}" />
+							<p:message for="dblTotalCajasXPallet"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroPesoBrutoMaxPallet}" for="dblPesoBrutoMaxPallet"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.pesoBrutoMaxPallet}"
+								id="dblPesoBrutoMaxPallet" required="false" 
+								label="#{msg.maestroPesoBrutoMaxPallet}" />
+							<p:message for="dblPesoBrutoMaxPallet"></p:message>
+							
+							<p:outputLabel value="#{msg.maestroAlturaMaxPallet}" for="dblAlturaMaxPallet"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.alturaMaxPallet}"
+								id="dblAlturaMaxPallet" required="false" 
+								label="#{msg.maestroAlturaMaxPallet}" />
+							<p:message for="dblAlturaMaxPallet"></p:message>
+	
+							<p:outputLabel value="#{msg.maestroVolumenPallet}" for="dblVolumenPallet"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.volumenPallet}"
+								id="dblVolumenPallet" required="false" 
+								label="#{msg.maestroVolumenPallet}" />
+							<p:message for="dblVolumenPallet"></p:message>
+		             
+							<p:outputLabel value="#{msg.maestroUnidadesMinDespacho}" for="dblUnidadesMinDespacho"
+								styleClass="negrita" />
+							<h:inputText value="#{maestroInventarioMB.seleccionado2.unidadMinDespachoXTendido}"
+								id="dblUnidadesMinDespacho" required="false" 
+								label="#{msg.maestroUnidadesMinDespacho}" />
+							<p:message for="dblUnidadesMinDespacho"></p:message>
+							
+						</p:panelGrid>
+					</p:panel>
+					<p:panelGrid columns="2">
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+							action="#{maestroInventarioMB.guardarDetalle}"
+							update=":formaDlg2:registroDetalle"></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}" process="@this"
+							oncomplete="PF('editarDialog2').hide();" icon="ui-icon-cancel">
+							<p:resetInput target="registroDetalle" />
+						</p:commandButton>
+					</p:panelGrid>
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+		</ui:remove>
+
+
+
+	</ui:define>
+
+</ui:composition>
+
