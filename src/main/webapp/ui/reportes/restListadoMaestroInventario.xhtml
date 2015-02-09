@@ -11,7 +11,7 @@
 
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
+		<h:form prependId="false" id="forma" style="text-align:left">
 
 			<p:messages id="msgs" showDetail="false" showSummary="true"
 				globalOnly="false" showIcon="true"></p:messages>
@@ -20,7 +20,7 @@
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.maestroInventarioInicio}">
-					<p:panelGrid columns="9">
+					<p:panelGrid columns="3">
 
 						<p:outputLabel value="#{msg.buscadorSKU}" for="codigo"
 							styleClass="negrita" />
@@ -67,6 +67,7 @@
 
 						<p:commandButton value="#{msg.buscadorConsultarProducto}"
 							icon="ui-icon-search" oncomplete="PF('registrosTabla').getPaginator().setPage(0)"
+							action="#{maestroInventarioMB.loadProductos}"
 							update="tablaRegistros,:forma:msgs"></p:commandButton>
 
 					</p:panelGrid>

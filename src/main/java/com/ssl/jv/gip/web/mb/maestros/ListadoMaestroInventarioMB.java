@@ -43,7 +43,6 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 		filtro.setPais(new Pais());
 		filtro.setCategoriasInventario(new CategoriasInventario());
 		filtro.setDesactivado(true);
-		modelo = new LazyProductsDataModel();
 		List<CategoriasInventario> categorias = maestrosEjb.consultarCategoriasInventario();
 		this.categorias = new ArrayList<SelectItem>();
 		for (CategoriasInventario ci:categorias){
@@ -56,6 +55,10 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 			sig.setSelectItems(hijos);
 		}
 	}
+	
+	public void loadProductos(){
+		modelo = new LazyProductsDataModel();
+	}
 
 	public ProductosInventario getFiltro() {
 		return filtro;
@@ -64,6 +67,37 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 	public void setFiltro(ProductosInventario filtro) {
 		this.filtro = filtro;
 	}
+	public LazyDataModel<ProductosInventario> getModelo() {
+		return modelo;
+	}
+	
+	public void setModelo(LazyDataModel<ProductosInventario> modelo) {
+		this.modelo = modelo;
+	}
+	
+	public String getCampoOrden() {
+		return campoOrden;
+	}
+	
+	public void setCampoOrden(String campoOrden) {
+		this.campoOrden = campoOrden;
+	}
+	
+	public SortOrder getOrden() {
+		return orden;
+	}
+	
+	public void setOrden(SortOrder orden) {
+		this.orden = orden;
+	}
+	
+	public List<SelectItem> getCategorias() {
+		return categorias;
+	}
+	
+	public void setCategorias(List<SelectItem> categorias) {
+		this.categorias = categorias;
+	}
 	
 	private class LazyProductsDataModel extends LazyDataModel<ProductosInventario>{
 
@@ -71,7 +105,7 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 		 * 
 		 */
 		private static final long serialVersionUID = 283497341126330045L;
-		private List<ProductosInventario> datos;
+		private List<ProductosInventario> datos = null;
 		
 		@Override
 	    public Object getRowKey(ProductosInventario pi) {
@@ -100,6 +134,4 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 		}
 
 	}
-	
-	
 }
