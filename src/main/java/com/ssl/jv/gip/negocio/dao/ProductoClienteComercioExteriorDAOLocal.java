@@ -57,4 +57,7 @@ public interface ProductoClienteComercioExteriorDAOLocal extends IGenericDAO<Pro
 			Long idCliente);
 	
 	public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku);
+	
+	public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(
+			Long idDocumento, Long idCliente);
 }

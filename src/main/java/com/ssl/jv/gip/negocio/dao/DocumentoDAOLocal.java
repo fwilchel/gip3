@@ -18,6 +18,7 @@ import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 
 @Local
@@ -145,4 +146,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeAndConsecutivo(
 			FiltroDocumentoDTO filtro);
 
+	public List<DocumentoIncontermDTO> consultarDocumentosAutorizadosParaModificarFacturaProforma();
+	
+	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado);
+	
 }

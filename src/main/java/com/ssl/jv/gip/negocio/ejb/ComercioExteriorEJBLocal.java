@@ -317,4 +317,11 @@ public interface ComercioExteriorEJBLocal {
 
 	public void asignarDatosTL(Documento listaEmpaque,
 			List<DocumentoXLotesoic> documentoXLotesoics);
+	
+	public List<DocumentoIncontermDTO> consultarDocumentosAutorizadosParaModificarFacturaProforma();
+	
+	public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(
+			Long idDocumento, Long idCliente);
+	
+	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado);
 }

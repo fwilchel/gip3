@@ -177,6 +177,10 @@
       <from-outcome>crear_maestro_inventario_ce</from-outcome>
       <to-view-id>/ui/maestros/inventarioComercioExt.xhtml</to-view-id>
     </navigation-case>
+    <navigation-case>
+    	<from-outcome>listado_factura_proforma</from-outcome>
+    	<to-view-id>/ui/comercioexterior/modificarFacturaProforma.xhtml</to-view-id>
+    </navigation-case>
     <!-- Comercio Exterior / Anular solicitud de pedido-->
     <navigation-case>
       <from-outcome>listado_SP_Anular</from-outcome>
@@ -240,6 +244,10 @@
 		<from-outcome>consultar_factura_exportacion</from-outcome>
 		<to-view-id>/ui/comercioexterior/asignarDatosTL.xhtml</to-view-id>
 	</navigation-case>
+	 <navigation-case>
+      <from-outcome>Rest_listado_maestro_inventario</from-outcome>
+      <to-view-id>/ui/reportes/restListadoMaestroInventario.xhtml</to-view-id>
+    </navigation-case>
 		
   </navigation-rule>
   <!-- This descriptor activates the JSF 2.0 Servlet 
