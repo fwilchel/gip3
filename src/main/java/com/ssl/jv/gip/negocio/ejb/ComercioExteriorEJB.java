@@ -48,6 +48,7 @@ import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.EstadoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ItemCostoLogisticoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ModalidadEmbarqueDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientoInventarioDAOLocal;
@@ -61,6 +62,7 @@ import com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
@@ -165,6 +167,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 	@EJB
 	private MovimientoInventarioDAOLocal movimientoInventarioDAO;
+	
+	@EJB
+	private ItemCostoLogisticoDAOLocal itemCostoLogisticoDAO;
 
 	/**
 	 * Default constructor.
@@ -1443,4 +1448,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 		return productosXDocumento;
 	}
+	
+	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency){
+		return this.itemCostoLogisticoDAO.getCostosLogisticos(idCliente, documentos, terminoIncoterm, puerto, puertos, idCurrency);
+	}
+	
 }

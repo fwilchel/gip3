@@ -82,7 +82,7 @@ public class SolicitudPedidoMB extends UtilMB{
 	
 	/** The menu. */
 	@ManagedProperty(value="#{menuMB}")
-	 private MenuMB menu;
+	private MenuMB menu;
 
 	/**
 	 * Instantiates a new ingresar costos inconterm mb.

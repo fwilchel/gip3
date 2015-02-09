@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -13,6 +14,7 @@ import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
+import com.ssl.jv.gip.jpa.pojo.FactsCurrencyConversion;
 import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
@@ -379,5 +381,7 @@ public interface MaestrosEJBLocal {
 
 	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(
 			String sku);
+	
+	public FactsCurrencyConversion getTRMDian(Date fecha);
 
 }
