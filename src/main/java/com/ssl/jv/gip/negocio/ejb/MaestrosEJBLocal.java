@@ -24,6 +24,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.RangoCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
@@ -379,5 +380,17 @@ public interface MaestrosEJBLocal {
 
 	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(
 			String sku);
+
+	public  List<PuntoVenta> consultarPuntoEntrega();
+
+	public  PuntoVenta crearPuntoVenta(PuntoVenta pEntidad);
+
+	public PuntoVenta actualizarPuntoVenta(PuntoVenta pEntidad);
+
+	public List<Ciudad> consultarCiudades();
+
+	
+	
+
 
 }

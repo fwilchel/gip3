@@ -960,6 +960,11 @@
     PATH="/ui/reportesComercioExterior/generarInformeTiendaLinea.xhtml"
     TARGET="rules:#ui#reportesComercioExterior#generarInformeTiendaLinea.xhtml"
     TITLE="listado_LE3" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="listado_maestro_PuntosVenta::#ui#maestros#puntoEntrega.xhtml"
+    NAME="output54" PATH="/ui/maestros/puntoEntrega.xhtml"
+    TARGET="rules:#ui#maestros#puntoEntrega.xhtml"
+    TITLE="listado_maestro_PuntosVenta" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM
@@ -970,4 +975,6 @@
   NAME="rules:#ui#abastecimiento#despacharMercanciaVD.xhtml"
   PATH="/ui/abastecimiento/despacharMercanciaVD.xhtml"
   SHAPE="304,2673,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#ui#maestros#puntoEntrega.xhtml"
+  PATH="/ui/maestros/puntoEntrega.xhtml" SHAPE="304,8705,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

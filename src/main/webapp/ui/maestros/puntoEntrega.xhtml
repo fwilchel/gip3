@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroPuntosVentaTituloFrame}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.maestroPuntosVentaTituloFrame}">
+					<p:dataTable var="puntoVenta" widgetVar="puntosVentaTabla" id="tabla"
+						scrollable="true" scrollWidth="1200px"
+						value="#{puntoEntregaMB.puntoVenta}" rows="10"
+						emptyMessage="#{msg.maestroClienteNoEncontrado}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<f:facet name="header">
+							<div align="right">
+								<p:outputPanel>
+								
+							
+								
+
+									<p:commandButton action="#{puntoEntregaMB.nuevo}"
+										update=":puntoVentaDlg" oncomplete="PF('puntoVentaDialog').show()"
+										title="#{msg.generalAdicionarRegistro}"
+										icon="ui-icon-document"
+										value="#{msg.generalAdicionarRegistro}" />
+									<p:spacer width="30"></p:spacer>
+									
+									<p:commandButton action="#{puntoEntregaMB.nuevo}"
+										update=":puntoVentaDlg2" oncomplete="PF('puntoVentaDialog2').show()"
+										title="#{msg.maestroCargarArchivoPV}"
+										icon="ui-icon-document"
+										value="#{msg.maestroCargarArchivoPV}" />
+									<p:spacer width="30"></p:spacer>
+									
+									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+									<p:inputText id="globalFilter"
+										onkeyup="PF('puntoVentaTabla').filter()" style="width:150px"
+										placeholder="#{msg.generalPalabrasBuscar}" />
+									<p:spacer width="30"></p:spacer>
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
+										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+
+								</p:outputPanel>
+							</div>
+						</f:facet>
+
+						<p:column style="width:100px;text-align: center">
+							<p:commandButton oncomplete="PF('puntoVentaDialog').show()"
+								icon="ui-icon-pencil" title="#{msg.generalEditar}"
+								update=":puntoVentaDlg">
+								<f:setPropertyActionListener value="#{puntoVenta}"
+									target="#{puntoEntregaMB.seleccionado}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column filterBy="#{puntoVenta.id}" style="width:100px"
+							headerText="#{msg.maestroIdCliente}" filterMatchMode="contains"
+							sortBy="#{puntoVenta.id}">
+							<h:outputText value="#{puntoVenta.id}" />
+						</p:column>
+
+					
+						<p:column filterBy="#{puntoVenta.nombre}" style="width:100px"
+							headerText="#{msg.maestroNombreCliente}"
+							filterMatchMode="contains" sortBy="#{puntoVenta.nombre}">
+							<h:outputText value="#{puntoVenta.nombre}" />
+						</p:column>
+
+						
+						<p:column filterBy="#{puntoVenta.direccion}" style="width:100px"
+							headerText="#{msg.maestroDireccionCliente}"
+							filterMatchMode="contains" sortBy="#{puntoVenta.direccion}">
+							<h:outputText value="#{puntoVenta.direccion}" />
+						</p:column>
+
+						
+
+						<p:column filterBy="#{puntoVenta.ciudade.nombre}" style="width:100px"
+							headerText="#{msg.maestroCiudadCliente}"
+							filterMatchMode="contains" sortBy="#{puntoVenta.ciudade.nombre}">
+							<h:outputText value="#{puntoVenta.ciudade.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{puntoVenta.telefono}" style="width:100px"
+							headerText="#{msg.maestroTelefonoCliente}"
+							filterMatchMode="contains" sortBy="#{puntoVenta.telefono}">
+							<h:outputText value="#{puntoVenta.telefono}" />
+						</p:column>
+
+					
+						<p:column filterBy="#{puntoVenta.codigoBarras}" style="width:100px"
+							headerText="#{msg.maestroCodigoBarrasCliente}"
+							filterMatchMode="contains" sortBy="#{puntoVenta.codigoBarras}">
+							<h:outputText value="#{puntoVenta.codigoBarras}" />
+						</p:column>
+
+						
+
+						<p:column filterBy="#{puntoVenta.cliente.nombre}" style="width:100px"
+							headerText="#{msg.maestroNombreCliProductoXCliente}"
+							filterMatchMode="contains" sortBy="#{puntoVenta.cliente.nombre}">
+							<h:outputText value="#{puntoVenta.cliente.nombre}" />
+						</p:column>
+						
+						
+						
+
+					
+						<p:column filterBy="#{puntoVenta.activo?'Si':'No'}"
+							style="width:100px" headerText="#{msg.generalActivo}"
+							filterMatchMode="exact" sortBy="#{puntoVenta.activo}">
+							<f:facet name="filter">
+								<p:selectOneMenu onchange="PF('puntosVentaTabla').filter()"
+									style="width:130px">
+									<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItem itemLabel="Si" itemValue="Si" />
+									<f:selectItem itemLabel="No" itemValue="No" />
+								</p:selectOneMenu>
+							</f:facet>
+							<h:outputText value="#{puntoVenta.activo?'Si':'No'}" />
+						</p:column>
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+		<p:dialog
+		
+			header="#{puntoEntregaMB.creacion?msg.maestrosCrearPuntoVenta:msg.maestroModificarPuntoVenta}"
+			widgetVar="puntoVentaDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="puntoVentaDlg">
+			<h:form id="formaDlg">
+				<p:outputPanel id="clienteDetalle" style="text-align:center;">
+
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+					<p:panelGrid columns="3"
+						rendered="#{not empty puntoEntregaMB.seleccionado}"
+						columnClasses="label,value">
+
+					
+
+						<p:outputLabel value="#{msg.maestroCreModNombreCliente}"
+							for="nombre" styleClass="negrita" />
+						<h:inputText value="#{puntoEntregaMB.seleccionado.nombre}" id="nombre"
+							required="true" maxlength="100"
+							label="#{msg.maestroCreModNombreCliente}" />
+						<p:message for="nombre"></p:message>
+						
+						
+						
+						<p:outputLabel value="#{msg.maestroCreModDireccionCliente}"
+							for="direccion" styleClass="negrita" />
+						<h:inputText value="#{puntoEntregaMB.seleccionado.direccion}"
+							id="direccion" required="true" maxlength="40"
+							label="#{msg.maestroCreModDireccionCliente}" />
+						<p:message for="direccion"></p:message>
+						
+						
+						<p:outputLabel value="#{msg.maestroCreModCiudadCliente}"
+							for="ciudad" styleClass="negrita" />
+						<p:selectOneMenu id="ciudad"
+							value="#{puntoEntregaMB.seleccionado.ciudade.id}"
+							label="#{msg.maestroCreModCiudadCliente}">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"
+								itemValue="" />
+							<f:selectItems value="#{puntoEntregaMB.listaCiudades}" var="ciudad"
+								itemValue="#{ciudad.id}" itemLabel="#{ciudad.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="ciudad"></p:message>
+						
+
+						<p:outputLabel value="#{msg.maestroCreModTelefonoCliente}"
+							for="telefono" styleClass="negrita" />
+						<h:inputText value="#{puntoEntregaMB.seleccionado.telefono}"
+							id="telefono" required="true" maxlength="49"
+							label="#{msg.maestroCreModTelefonoCliente}" />
+						<p:message for="telefono"></p:message>
+
+					
+					<p:outputLabel value="#{msg.maestroNombreClientePV}"
+							for="ciudad" styleClass="negrita" />
+						<p:selectOneMenu id="cliente"
+							value="#{puntoEntregaMB.seleccionado.cliente.id}"
+							label="#{msg.maestroCreModCiudadCliente}">
+							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}"
+								itemValue="" />
+							<f:selectItems value="#{puntoEntregaMB.listaClientes}" var="cliente"
+								itemValue="#{cliente.id}" itemLabel="#{cliente.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="cliente"></p:message>
+					
+
+					
+						<p:outputLabel value="#{msg.maestroCodigoBarrasCliente}"
+							for="codigoBarras" styleClass="negrita" />
+						<h:inputText value="#{puntoEntregaMB.seleccionado.codigoBarras}"
+							id="codigoBarras" required="false" maxlength="49"
+							label="#{msg.maestroCodigoBarrasCliente}" />
+						<p:message for="codigoBarras"></p:message>
+
+					
+
+					
+
+						<h:outputLabel value="#{msg.generalActivo}" for="activo"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox value="#{puntoEntregaMB.seleccionado.activo}"
+							id="activo" label="#{msg.generalActivo}" />
+						<p:message for="activo"></p:message>
+						
+
+						<p:outputLabel value="#{msg.maestroCodigoInterlocutor}"
+							for="nombre" styleClass="negrita" />
+						<h:inputText value="#{puntoEntregaMB.seleccionado.codDespachoSap}" id="interlocutor"
+							required="true" maxlength="100"
+							label="#{msg.maestroCodigoInterlocutor}" />
+						<p:message for="interlocutor"></p:message>
+
+						
+
+					</p:panelGrid>
+
+				
+
+
+					<p:panelGrid columns="3" columnClasses="label,value">
+
+						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+							action="#{puntoEntregaMB.guardar}"
+							update=":formaDlg:clienteDetalle, :forma:tabPanel:tabla"></p:commandButton>
+						<p:commandButton value="#{msg.generalCancelar}" process="@this"
+							oncomplete="PF('puntoVentaDialog').hide();" icon="ui-icon-cancel">
+							<p:resetInput target="clienteDetalle" />
+						</p:commandButton>
+
+
+
+					</p:panelGrid>
+
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+
+
+
+
+<p:dialog
+		
+			header="#{puntoEntregaMB.creacion?msg.maestrosCrearPuntoVenta:msg.maestroModificarPuntoVenta}"
+			widgetVar="puntoVentaDialog2" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="puntoVentaDlg2">
+			<h:form id="formaDlg2">
+				<p:outputPanel id="puntoVentaDetalle2" style="text-align:center;">
+
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+					<p:panelGrid columns="1"
+						rendered="#{not empty puntoEntregaMB.seleccionado}"
+						columnClasses="label,value">
+
+					
+
+						<p:outputLabel value="Buscar el archivo plano con los datos de los puntos de venta a insertar formado de la siguiente manera:"
+						 styleClass="negrita" />
+						<p:outputLabel value="Nombre | Dirección | Id Ciudad | Telefono | Código Barras | Código GIP Cliente | Activo(true-false)"  />
+						
+							
+					<p:fileUpload fileUploadListener="#{puntoEntregaMB.cargarArchivo}" 
+						 style="width:1000;" 
+						label="#{msg.generalSeleccionarArchivo}" uploadLabel="#{msg.generalCargarArchivo}" cancelLabel="#{msg.generalCancelar}" 
+						invalidFileMessage="#{msg.generalTipoArchivoNoValido}" allowTypes="/(\.|\/)(txt)$/" />
+						
+											
+
+					</p:panelGrid>
+
+				
+
+
+					
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+
+
+
+	</ui:define>
+
+</ui:composition>
+
