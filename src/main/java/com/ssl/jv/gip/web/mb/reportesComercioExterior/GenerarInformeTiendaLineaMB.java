@@ -120,11 +120,9 @@ public class GenerarInformeTiendaLineaMB extends UtilMB{
 				 registro.setDocXLotesOICPedido(this.seleccionado.getDocumentoXLotesoics().get(0).getPedido());	
 				 registro.setTipoLoteOICDesc(this.seleccionado.getDocumentoXLotesoics().get(0).getTipoLoteoic().getDescripcion());
 			 }
-			 
 			 registro.setTotaCajasItem(prod.getCantidadCajasItem().doubleValue());
 			 registro.setTotalPesoBrutoItem(prod.getTotalPesoBrutoItem().doubleValue());
 			 registro.setTotalPesoNetoItem(prod.getTotalPesoNetoItem().doubleValue());			 
-			 
 		 }
 		
 		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(registros);
