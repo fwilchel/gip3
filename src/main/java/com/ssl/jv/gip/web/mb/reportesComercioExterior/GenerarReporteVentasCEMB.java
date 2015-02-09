@@ -1,7 +1,7 @@
 package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
-import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -10,8 +10,8 @@ import javax.faces.bean.ManagedProperty;
 
 import org.apache.log4j.Logger;
 
-import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
+import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import java.util.Date;
 import java.util.List;
@@ -47,20 +47,22 @@ public class GenerarReporteVentasCEMB extends UtilMB {
   private static final Logger LOGGER = Logger.getLogger(GenerarReporteVentasCEMB.class);
 
   @EJB
-  private ReportesComercioExteriorEJBLocal reportesComercioExteriorEjb;
+  private ComercioExteriorEJBLocal comercioExteriorEjb;
 
   @ManagedProperty(value = "#{aplicacionMB}")
   private AplicacionMB appMB;
 
-  private final Integer language = AplicacionMB.SPANISH;
+  @ManagedProperty(value = "#{menuMB}")
+  private MenuMB menuMB;
+
   /**
    * lista de clientes que retorna la consulta a la base de datos
    */
-  private List<InstruccionEmbarqueDTO> listaClientes;
+  private List<Cliente> listaClientes;
   /**
    * Registro seleccionado
    */
-  private InstruccionEmbarqueDTO seleccionado;
+  private Cliente seleccionado;
   /**
    *
    */
@@ -89,6 +91,7 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   public void buscarClientes() {
     LOGGER.debug("Metodo: <<buscarClientes>>");
+    listaClientes = comercioExteriorEJB.listadoClientesInstruccionEmbarque(menuMB.getUsuario().getId());
   }
 
   /**
@@ -102,7 +105,7 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    *
    * @param seleccionado
    */
-  public void seleccionarCliente(InstruccionEmbarqueDTO seleccionado) {
+  public void seleccionarCliente(Cliente seleccionado) {
     LOGGER.debug("Metodo: <<seleccionarCliente>>");
     setSeleccionado(seleccionado);
   }
@@ -137,30 +140,37 @@ public class GenerarReporteVentasCEMB extends UtilMB {
   }
 
   /**
+   * @param menuMB the menuMB to set
+   */
+  public void setMenuMB(MenuMB menuMB) {
+    this.menuMB = menuMB;
+  }
+
+  /**
    * @return the listaClientes
    */
-  public List<InstruccionEmbarqueDTO> getListaClientes() {
+  public List<Cliente> getListaClientes() {
     return listaClientes;
   }
 
   /**
    * @param listaClientes the listaClientes to set
    */
-  public void setListaClientes(List<InstruccionEmbarqueDTO> listaClientes) {
+  public void setListaClientes(List<Cliente> listaClientes) {
     this.listaClientes = listaClientes;
   }
 
   /**
    * @return the seleccionado
    */
-  public InstruccionEmbarqueDTO getSeleccionado() {
+  public Cliente getSeleccionado() {
     return seleccionado;
   }
 
   /**
    * @param seleccionado the seleccionado to set
    */
-  public void setSeleccionado(InstruccionEmbarqueDTO seleccionado) {
+  public void setSeleccionado(Cliente seleccionado) {
     this.seleccionado = seleccionado;
   }
 

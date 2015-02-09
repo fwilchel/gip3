@@ -29,7 +29,7 @@
         id="pnlTab">
 
         <p:tab 
-          title="#{msg.spaTitle}">
+          title="#{msg.grvceTitle}">
 
           <p:panel
             id="pnlFltClientes">
@@ -42,7 +42,7 @@
               <p:calendar 
                 id="filtroFechaInicial" 
                 value="#{generarReporteVentasCE.filtroFechaInicial}"
-                required="true"/>
+                required="false"/>
               <h:outputLabel 
                 for="filtroFechaFinal" 
                 value="#{msg.grvceFltLblFechaFinal}" 
@@ -50,7 +50,7 @@
               <p:calendar 
                 id="filtroFechaFinal" 
                 value="#{generarReporteVentasCE.filtroFechaFinal}"
-                required="true"/>
+                required="false"/>
               <f:facet
                 name="footer">
                 <p:commandButton
@@ -105,9 +105,7 @@
               <p:commandButton 
                 icon="ui-icon-pencil" 
                 title="#{msg.spaBtnAnular}"
-                actionListener="#{generarReporteVentasCE.seleccionarCliente(cliente)}"
-                oncomplete="PF('dlgConfirmacion').show()"
-                update=":dlgConfirmacion">
+                actionListener="#{generarReporteVentasCE.seleccionarCliente(cliente)}">
               </p:commandButton>
             </p:column>
 
@@ -124,24 +122,21 @@
             <!-- Nit -->
             <p:column 
               headerText="#{msg.grvceTblClienteClmNit}"
-              sortBy="#{cliente.consecutivoDocumento}"
-              filterBy="#{cliente.consecutivoDocumento}"
+              sortBy="#{cliente.nit}"
+              filterBy="#{cliente.nit}"
               filterMatchMode="contains">
               <h:outputText 
-                value="#{cliente.consecutivoDocumento}" />
+                value="#{cliente.nit}" />
             </p:column>
 
             <!-- Nombre -->
             <p:column 
               headerText="#{msg.grvceTblClienteClmNombre}"
-              sortBy="#{cliente.fechaGeneracion}"
-              filterBy="#{cliente.fechaGeneracion}"
+              sortBy="#{cliente.nombre}"
+              filterBy="#{cliente.nombre}"
               filterMatchMode="contains">
               <h:outputText 
-                value="#{cliente.fechaGeneracion}" >
-                <f:convertDateTime 
-                  pattern="dd-MMM-yyyy"/>
-              </h:outputText>
+                value="#{cliente.nombre}" />
             </p:column>
 
             <!-- Incluir Cliente -->
@@ -157,81 +152,83 @@
 
     </h:form>
 
-    <p:dialog 
-      id="dlgConfirmacion" 
-      widgetVar="dlgConfirmacion" 
-      header="#{msg.spaTitle}" 
-      resizable="false" 
-      showEffect="clip" 
-      hideEffect="clip"
-      modal="true">
-      <p:ajax 
-        event="close" 
-        listener="#{generarReporteVentasCE.cancelar()}" />
-      <h:form
-        id="formaAnular"
-        prependId="false">
-        <p:panel 
-          id="pnlConfirmacion">
-          <f:facet
-            name="footer">
-            <p:dataTable 
-              id="tblProductos"
-              var="producto" 
-              widgetVar="tblProductos" 
-              value="#{generarReporteVentasCE.listaClientes}" 
-              rows="10"
-              emptyMessage="#{msg.generalNoDatos}" 
-              paginator="true"
-              paginatorPosition="bottom"
-              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-              rowsPerPageTemplate="5,10,15">
+    <ui:remove>
+      <p:dialog 
+        id="dlgConfirmacion" 
+        widgetVar="dlgConfirmacion" 
+        header="#{msg.spaTitle}" 
+        resizable="false" 
+        showEffect="clip" 
+        hideEffect="clip"
+        modal="true">
+        <p:ajax 
+          event="close" 
+          listener="#{generarReporteVentasCE.cancelar()}" />
+        <h:form
+          id="formaAnular"
+          prependId="false">
+          <p:panel 
+            id="pnlConfirmacion">
+            <f:facet
+              name="footer">
+              <p:dataTable 
+                id="tblProductos"
+                var="producto" 
+                widgetVar="tblProductos" 
+                value="#{generarReporteVentasCE.listaClientes}" 
+                rows="10"
+                emptyMessage="#{msg.generalNoDatos}" 
+                paginator="true"
+                paginatorPosition="bottom"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15">
 
-              <!-- SKU -->
-              <p:column   
-                headerText="#{msg.grvceTblProductoClmSKU}"
-                sortBy="#{cliente.id}"
-                filterBy="#{cliente.id}"
-                filterMatchMode="contains">
-                <h:outputText 
-                  value="#{cliente.id}" />
-              </p:column>
+                <!-- SKU -->
+                <p:column   
+                  headerText="#{msg.grvceTblProductoClmSKU}"
+                  sortBy="#{cliente.id}"
+                  filterBy="#{cliente.id}"
+                  filterMatchMode="contains">
+                  <h:outputText 
+                    value="#{cliente.id}" />
+                </p:column>
 
-              <!-- Nombre del producto -->
-              <p:column 
-                headerText="#{msg.grvceTblProductoClmNombre}"
-                sortBy="#{cliente.consecutivoDocumento}"
-                filterBy="#{cliente.consecutivoDocumento}"
-                filterMatchMode="contains">
-                <h:outputText 
-                  value="#{cliente.consecutivoDocumento}" />
-              </p:column>
+                <!-- Nombre del producto -->
+                <p:column 
+                  headerText="#{msg.grvceTblProductoClmNombre}"
+                  sortBy="#{cliente.consecutivoDocumento}"
+                  filterBy="#{cliente.consecutivoDocumento}"
+                  filterMatchMode="contains">
+                  <h:outputText 
+                    value="#{cliente.consecutivoDocumento}" />
+                </p:column>
 
-              <!-- Incluir Producto -->
-              <p:column 
-                headerText="#{msg.grvceTblProductoClmIncluirCliente}">
-              </p:column>
+                <!-- Incluir Producto -->
+                <p:column 
+                  headerText="#{msg.grvceTblProductoClmIncluirCliente}">
+                </p:column>
 
-            </p:dataTable>
+              </p:dataTable>
 
-            <!-- Generar reporte -->
-            <p:commandButton 
-              value="#{msg.grvceBtnGenerarReporteVentas}" 
-              styleClass="ui-confirmdialog-yes" 
-              icon="ui-icon-check" 
-              actionListener="#{generarReporteVentasCE.generarReporteVentas()}"/>
-            <!-- Cancelar -->
-            <p:commandButton 
-              value="#{msg.generalCerrar}" 
-              styleClass="ui-confirmdialog-no" 
-              icon="ui-icon-close" 
-              actionListener="#{generarReporteVentasCE.cancelar()}"
-              oncomplete="PF('dlgConfirmacion').hide()"
-              update=":forma:msgs"/>
-          </f:facet>
-        </p:panel>
-      </h:form>          
-    </p:dialog>
+              <!-- Generar reporte -->
+              <p:commandButton 
+                value="#{msg.grvceBtnGenerarReporteVentas}" 
+                styleClass="ui-confirmdialog-yes" 
+                icon="ui-icon-check" 
+                actionListener="#{generarReporteVentasCE.generarReporteVentas()}"/>
+              <!-- Cancelar -->
+              <p:commandButton 
+                value="#{msg.generalCerrar}" 
+                styleClass="ui-confirmdialog-no" 
+                icon="ui-icon-close" 
+                actionListener="#{generarReporteVentasCE.cancelar()}"
+                oncomplete="PF('dlgConfirmacion').hide()"
+                update=":forma:msgs"/>
+            </f:facet>
+          </p:panel>
+        </h:form>          
+      </p:dialog>
+    </ui:remove>
 
   </ui:define>
 
