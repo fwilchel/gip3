@@ -48,6 +48,7 @@ import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.EstadoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ItemCostoLogisticoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ModalidadEmbarqueDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientoInventarioDAOLocal;
@@ -61,12 +62,14 @@ import com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoPorLotesInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
+import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDTO;
@@ -165,6 +168,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 	@EJB
 	private MovimientoInventarioDAOLocal movimientoInventarioDAO;
+	
+	@EJB
+	private ItemCostoLogisticoDAOLocal itemCostoLogisticoDAO;
 
 	/**
 	 * Default constructor.
@@ -660,6 +666,38 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		original.getEstadosxdocumento().getId()
 				.setIdEstado((long) ConstantesDocumento.APROBADA);
 		this.documentoDAO.update(original);
+		return documento;
+	}
+	
+	@Override
+	public Documento crearFacturaExportacion(Documento documento, LogAuditoria auditoria,
+			DocumentoXNegociacion documentoPorNegociacion,
+			List<ProductosXDocumento> productos, Documento original) {
+		documento.setConsecutivoDocumento("FX1-"
+				+ this.documentoDAO.consultarProximoValorSecuencia("fx1_seq"));
+		documento = (Documento) this.documentoDAO.add(documento);
+//		auditoria.setIdRegTabla(documento.getId());
+//		auditoria.setValorNuevo(documento.getConsecutivoDocumento());
+//		this.logAuditoriaDAO.add(auditoria);
+		documentoPorNegociacion.getPk().setIdDocumento(documento.getId());
+		documentoXNegociacionDAO.add(documentoPorNegociacion);
+		for (ProductosXDocumento pxd : productos) {
+			pxd.getId().setIdDocumento(documento.getId());
+			this.productoXDocumentoDAO.add(pxd);
+		}
+		original.getEstadosxdocumento().getId()
+				.setIdEstado((long) ConstantesDocumento.CERRADO);
+		this.documentoDAO.update(original);
+		
+		for (ProductosXDocumento pxd : productos) {
+			crearMovimientos(documento, pxd);
+		}
+		
+//		documento = documentoDAO.findByPK(documento.getId());
+//		documento.getEstadosxdocumento().getId()
+//		.setIdEstado((long) ConstantesDocumento.RECIBIDO);
+//		this.documentoDAO.update(documento);
+		
 		return documento;
 	}
 
@@ -1443,4 +1481,58 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 		return productosXDocumento;
 	}
+	
+	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency){
+		return this.itemCostoLogisticoDAO.getCostosLogisticos(idCliente, documentos, terminoIncoterm, puerto, puertos, idCurrency);
+	}
+	
+	@Override
+	public List<Documento> consultarListaEmpaquesParaAsignarDatosTL(
+			String consecutivo) {
+		FiltroDocumentoDTO filtro = new FiltroDocumentoDTO();
+		filtro.setIdTipoDocumento((long) ConstantesTipoDocumento.LISTA_EMPAQUE);
+		filtro.setIdEstado(Estado.ACTIVO.getCodigo());
+		filtro.setSolicitudCafe(true);
+		filtro.setConsecutivoDocumento(consecutivo);
+		return documentoDAO
+				.consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeAndConsecutivo(filtro);
+	}
+
+	@Override
+	public List<DocumentoXLotesoic> consultarDocumentosXLotesOICParaAsignarDatosTL(
+			String consecutivo) {
+		return documentoLotesOICDAO
+				.consultarPorConsecutivoDocumento(consecutivo);
+	}
+
+	@Override
+	public void asignarDatosTL(Documento listaEmpaque,
+			List<DocumentoXLotesoic> documentoXLotesoics) {
+		for (DocumentoXLotesoic documentoXLotesoic : documentoXLotesoics) {
+			documentoLotesOICDAO.update(documentoXLotesoic);
+		}
+		Estadosxdocumento estadosxdocumento = listaEmpaque
+				.getEstadosxdocumento();
+		EstadosxdocumentoPK id = estadosxdocumento.getId();
+		id.setIdEstado(Estado.ASIGNADA.getCodigo());
+		estadosxdocumento.setId(id);
+		listaEmpaque.setEstadosxdocumento(estadosxdocumento);
+		documentoDAO.update(listaEmpaque);
+	}
+	
+	@Override
+	public List<DocumentoIncontermDTO> consultarDocumentosAutorizadosParaModificarFacturaProforma(){
+		return documentoDAO.consultarDocumentosAutorizadosParaModificarFacturaProforma();
+	}
+	
+	public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(
+			Long idDocumento, Long idCliente){
+		return productoClienteComercioExteriorDAO.consultarListaProductosClienteFacturaProforma(idDocumento, idCliente);
+	}
+	
+	@Override
+	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado){
+		return documentoDAO.modificarFacturaProforma(documento, listado);
+	}
+
 }

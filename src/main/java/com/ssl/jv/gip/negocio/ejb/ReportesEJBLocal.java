@@ -16,6 +16,9 @@ public interface ReportesEJBLocal {
 
 	public List<Documento> consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(
 			String consecutivo);
+	
+	public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
+			String consecutivoDocumento);
 
 	public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
 			Long idDocumento, Long idCliente);

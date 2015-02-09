@@ -97,19 +97,29 @@
 							<h:outputText value="#{registro.moneda.id}" />
 						</p:column>
 						
-						<p:column headerText="#{msg.itemsCLBaseFOB}" style="width:30"
+						<p:column headerText="#{msg.itemsCLbaseFOB}" style="width:30"
 							sortBy="#{registro.baseFob}">
 							<h:outputText value="#{registro.baseFob?'SI':'NO'}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLFOBIn}" style="width:30"
+							sortBy="#{registro.aplicaFobIn}">
+							<h:outputText value="#{registro.aplicaFobIn?'SI':'NO'}" />
+						</p:column>
+
+						<p:column headerText="#{msg.itemsCLCPT}" style="width:30"
+							sortBy="#{registro.aplicaCpt}">
+							<h:outputText value="#{registro.aplicaCpt?'SI':'NO'}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLFCAT}" style="width:30"
+							sortBy="#{registro.aplicaFcaT}">
+							<h:outputText value="#{registro.aplicaFcaT?'SI':'NO'}" />
 						</p:column>
 						
 						<p:column headerText="#{msg.itemsCLFOB}" style="width:30"
 							sortBy="#{registro.aplicaFob}">
 							<h:outputText value="#{registro.aplicaFob?'SI':'NO'}" />
-						</p:column>
-
-						<p:column headerText="#{msg.itemsCLFOBIn}" style="width:30"
-							sortBy="#{registro.aplicaFobIn}">
-							<h:outputText value="#{registro.aplicaFobIn?'SI':'NO'}" />
 						</p:column>
 						
 						<p:column headerText="#{msg.itemsCLCFR}" style="width:30"
@@ -120,6 +130,11 @@
 						<p:column headerText="#{msg.itemsCLCIF}" style="width:30"
 							sortBy="#{registro.aplicaCif}">
 							<h:outputText value="#{registro.aplicaCif?'SI':'NO'}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.itemsCLDAPM}" style="width:30"
+							sortBy="#{registro.aplicaDapM}">
+							<h:outputText value="#{registro.aplicaDapM?'SI':'NO'}" />
 						</p:column>
 						
 						<p:column headerText="#{msg.itemsCLFCA}" style="width:30"
@@ -142,7 +157,7 @@
 			</p:tabView>
 		</h:form>
 
-		<p:dialog
+		<p:dialog style="overflow:auto"
 			header="#{itemsCLMB.creacion?msg.itemsCLCrear:msg.itemsCLModificar}"
 			widgetVar="editarDialog" modal="true" showEffect="fade"
 			hideEffect="fade" resizable="false" dynamic="true" id="editarDlg">
@@ -304,19 +319,33 @@
 							label="#{msg.itemsCLbaseFOB}" />
 						<p:message for="baseFob"></p:message>
 												
-						<p:outputLabel value="#{msg.itemsCLaplicaFOB}" for="fob"
-							styleClass="negrita" />
-						<p:selectBooleanCheckbox
-							value="#{itemsCLMB.seleccionado.aplicaFob}" id="fob"
-							label="#{msg.itemsCLaplicaFOB}" />
-						<p:message for="fob"></p:message>
-						
 						<p:outputLabel value="#{msg.itemsCLaplicaFOBIn}" for="fobIn"
 							styleClass="negrita" />
 						<p:selectBooleanCheckbox
 							value="#{itemsCLMB.seleccionado.aplicaFobIn}" id="fobIn"
 							label="#{msg.itemsCLaplicaFOBIn}" />
 						<p:message for="fobIn"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLaplicaCPT}" for="cpt"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.aplicaCpt}" id="cpt"
+							label="#{msg.itemsCLaplicaCPT}" />
+						<p:message for="cpt"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLaplicaFCAT}" for="fcaT"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.aplicaFcaT}" id="fcaT"
+							label="#{msg.itemsCLaplicaFCAT}" />
+						<p:message for="fcaT"></p:message>
+												
+						<p:outputLabel value="#{msg.itemsCLaplicaFOB}" for="fob"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.aplicaFob}" id="fob"
+							label="#{msg.itemsCLaplicaFOB}" />
+						<p:message for="fob"></p:message>
 						
 						<p:outputLabel value="#{msg.itemsCLaplicaCFR}" for="cfr"
 							styleClass="negrita" />
@@ -331,6 +360,14 @@
 							value="#{itemsCLMB.seleccionado.aplicaCif}" id="cif"
 							label="#{msg.itemsCLaplicaCIF}" />
 						<p:message for="cif"></p:message>
+						
+						<p:outputLabel value="#{msg.itemsCLaplicaDAPM}" for="dapM"
+							styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{itemsCLMB.seleccionado.aplicaDapM}" id="dapM"
+							label="#{msg.itemsCLaplicaDAPM}" />
+						<p:message for="dapM"></p:message>
+						
 						
 						<p:outputLabel value="#{msg.itemsCLaplicaFCA}" for="fca"
 							styleClass="negrita" />

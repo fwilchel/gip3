@@ -21,6 +21,7 @@ import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
+import com.ssl.jv.gip.jpa.pojo.FactsCurrencyConversion;
 import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
@@ -48,6 +49,7 @@ import com.ssl.jv.gip.negocio.dao.CategoriaInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CiudadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
+import com.ssl.jv.gip.negocio.dao.FactsCurrencyConversionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.IncotermXMedioTransDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ItemCostoLogisticoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LugarIncotermDAOLocal;
@@ -155,6 +157,9 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	@EJB
 	private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAO;
 
+	@EJB
+	private FactsCurrencyConversionDAOLocal conversionMonedaDAO;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -878,6 +883,11 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(
 			String sku) {
 		return movimientosInventarioComextDAO.consultarPorSKU(sku);
+	}
+	
+	@Override
+	public FactsCurrencyConversion getTRMDian(Date fecha){
+		return conversionMonedaDAO.getTRMDian(fecha);
 	}
 
 	@Override

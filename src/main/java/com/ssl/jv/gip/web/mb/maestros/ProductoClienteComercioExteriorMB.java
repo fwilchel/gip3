@@ -85,8 +85,8 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 	public void init() {
 		try {
 			idUsuario = menu.getUsuario().getId();
-			productosXClienteComExteriorList = maestroFacade
-					.consultarProductosClienteComercioExterior();
+			filtro = new ProductosXClienteComExtFiltroVO();
+			filtro.setEstado("A");
 		} catch (Exception e) {
 			LOGGER.error(e);
 			this.addMensajeError(e);
@@ -95,7 +95,6 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 
 	public void listarProductosClientesComercioExtActivos() {
 		try {
-			filtro.setActivo(true);
 			productosXClienteComExteriorList = maestroFacade
 					.consultarProductosClienteComercioExteriorPorFiltro(filtro);
 			if (productosXClienteComExteriorList == null
@@ -110,7 +109,21 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 
 	public void listarProductosClientesComercioExt() {
 		try {
-			filtro.setActivo(null);
+			if (filtro.getSkuProducto().equals("")) {
+				filtro.setSkuProducto("%");
+			} else {
+				filtro.setSkuProducto("%" + filtro.getSkuProducto() + "%");
+			}
+			if (filtro.getNombreCliente().equals("")) {
+				filtro.setNombreCliente("%");
+			} else {
+				filtro.setNombreCliente("%" + filtro.getNombreCliente() + "%");
+			}
+			if (filtro.getEstado().equals("A")) {
+				filtro.setActivo(Boolean.TRUE);
+			} else {
+				filtro.setActivo(null);
+			}
 			productosXClienteComExteriorList = maestroFacade
 					.consultarProductosClienteComercioExteriorPorFiltro(filtro);
 			if (productosXClienteComExteriorList == null

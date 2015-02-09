@@ -24,6 +24,7 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	
 	private List<Documento> documentos;
 	private List<ProductoDespacharMercanciaDTO> productos;
+	private List<ProductoDespacharMercanciaDTO> productosDespacho;
 	private Documento seleccionado;
 	private Documento filtro;
 	
@@ -88,5 +89,16 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	public void setLanguage(Integer language) {
 		this.language = language;
 	}
+
+	public List<ProductoDespacharMercanciaDTO> getProductosDespacho() {
+		return productosDespacho;
+	}
+
+	public void setProductosDespacho(
+			List<ProductoDespacharMercanciaDTO> productosDespacho) {
+		this.productosDespacho = productosDespacho;
+	}
+	
+	
 
 }
