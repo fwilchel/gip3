@@ -13,36 +13,21 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.Estado;
-import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
-import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
-
-import com.ssl.jv.gip.web.util.Numero_a_Letra;
-
-
-
-
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
+
 
 /**
  * <p>Title: ImprimirRemisionMB</p>
@@ -165,7 +150,6 @@ public class ImprimirRemisionMB  extends UtilMB {
 					
 					Long[] array = new Long[1];
 					array[0]=(long) ConstantesDocumento.PENDIENTE_POR_RECIBIR;
-					//array[1]= (long) ConstantesDocumento.ANULADO;
 					parametros.put("estado",array);
 					
 		parametros.put("parametroConseDoc",parametroConseDoc);
@@ -177,16 +161,15 @@ public class ImprimirRemisionMB  extends UtilMB {
 	}
 
 	
-	public StreamedContent getReportePDF() {
+	public StreamedContent getReportePDF()  {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		
-		System.out.println("INGRESO A GENERAR PDF");
 		
-		int n = 0;
 		
 		 
 		 SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
 		 String fechaStringGeneracion = ft.format( seleccionado2.getFechaGeneracion());
+		 String fechaStringGeneracionVD = ft.format( seleccionado2.getFechaGeneracionVD());
 		
 		 
 		    parametros.put("cliente",seleccionado2.getNombreCliente());		 
@@ -196,6 +179,15 @@ public class ImprimirRemisionMB  extends UtilMB {
 			parametros.put("telefono", seleccionado2.getTelefonoCliente());
 			parametros.put("numRemision",seleccionado2.getConsecutivoDocumento());
 		 	parametros.put("numVD",seleccionado.getObservacionDocumento());
+
+		 	parametros.put("despachado_a",seleccionado2.getNombrePuntoVenta());
+			parametros.put("direccionpv",seleccionado2.getDireccionPuntoVenta());
+			parametros.put("telefonopv","Tel�fono: " + seleccionado2.getTelefonoPuntoVenta());		 
+			parametros.put("ciudadpv",seleccionado2.getNombreCiudadPuntoVenta());
+			parametros.put("documento",seleccionado.getDocumentoCliente());
+			parametros.put("fecha",fechaStringGeneracion);
+			parametros.put("fechaVentaDirecta",fechaStringGeneracionVD);
+
 			
 		
 			//System.out.println("contacto"+ c.getContacto());
@@ -212,10 +204,11 @@ public class ImprimirRemisionMB  extends UtilMB {
 			 parametros.put("documento",seleccionado.getDocumentoCliente());
 			 parametros.put("fecha",fechaStringGeneracion);
 			 parametros.put("fechaVentaDirecta",fechaStringGeneracion);
+
 			 
 			 
 				
-				System.out.println("cliente: "+seleccionado2.getNombreCliente());
+				/*System.out.println("cliente: "+seleccionado2.getNombreCliente());
 				System.out.println("NIT: "+seleccionado2.getNitCliente());
 				System.out.println("ciudad: "+seleccionado2.getNombreCiudadCliente());
 				System.out.println("numFactura"+seleccionado.getConsecutivoDocumento());
@@ -229,42 +222,14 @@ public class ImprimirRemisionMB  extends UtilMB {
 				System.out.println("telefonopv"+"Teléfono: " + seleccionado2.getTelefonoPuntoVenta());		 
 				System.out.println("ciudadpv"+seleccionado2.getNombreCiudadPuntoVenta());
 				System.out.println("documento"+seleccionado.getDocumentoCliente());
-				System.out.println("fechaVentaDirecta"+fechaStringGeneracion);
+				System.out.println("fechaVentaDirecta"+fechaStringGeneracionVD);*/
 			 
-			/* parametros.put("tipoImp", "Copia");
-			 parametros.put("valorSubtotal", seleccionado2.getValorSubtotal());
-			 parametros.put("valorDescuento", seleccionado2.getValorDescuento());
-			 parametros.put("valorIva5", seleccionado2.getValorIva5());
-			 parametros.put("valorIva16", seleccionado2.getValorIva16());
-			 parametros.put("valorTotal", seleccionado2.getValorTotal());
+		
 			 
-			 
-			 
-					 
+			 JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDetalle);
+				
 
-						Numero_a_Letra NumLetra = new Numero_a_Letra();										
-						parametros.put("valorLetras",NumLetra.Convertir(seleccionado2.getValorTotal().toString(),true));
-			 
-			 if (seleccionado2.getEstado()==ConstantesDocumento.ANULADO)
-				 
-			 {
-				 parametros.put("anulada", "ANULADA");
-			 }
-			 else
-			 {
-				 parametros.put("anulada", "");
-			 }
-			 
-			 
-			 for (ProductoFacturaDirectaDTO p:listaDetalle){
-					
-					String mark = p.getMarca();
-					if (mark.equals("(*)"))
-					{n = n + 1;}
-					
-				}
-				
-				
+/*
 				if (n > 0){ //Existe algún registro con descuento adicioanl
 					 parametros.put("descuentoCliente",seleccionado2.getDescuentoCliente().toString()+ "%");
 					 parametros.put("observaciones", "Los productos marcados con (*) incluyen descuento adicional.");
@@ -277,32 +242,21 @@ public class ImprimirRemisionMB  extends UtilMB {
 				}		 
 			 
 			 */
-			 
-			 JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDetalle);
-				try {
-					
-					Hashtable<String, String> parametrosR=new Hashtable<String, String>();
+
+
+try {
+			 Hashtable<String, String> parametrosR=new Hashtable<String, String>();
 					parametrosR.put("tipo", "pdf");
+					
 					String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report_Remision.jasper");
-					
-					
-					
+				
 					ByteArrayOutputStream os=(ByteArrayOutputStream)com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-					reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "remision.pdf");
-					
-					
-					/*String xmlfile = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report2.jrxml");
-					JasperReport reporte = JasperCompileManager.compileReport(xmlfile);
-					JasperPrint print = JasperFillManager.fillReport(reporte, parametros, ds);
-					ByteArrayOutputStream baos =new ByteArrayOutputStream();
-					net.sf.jasperreports.engine.JasperExportManager.exportReportToPdfStream(print,baos);
-					*/
-					
+				reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "remision.pdf");
 				} catch (Exception e) {
-					this.addMensajeError(e);
-				}
-			 
-		
+				this.addMensajeError(e);
+			}
+				
+				
 		return reportePDF;
 }
 	

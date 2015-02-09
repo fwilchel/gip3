@@ -380,4 +380,10 @@ public interface MaestrosEJBLocal {
 	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(
 			String sku);
 
+	public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(
+			ProductosInventarioFiltroDTO filtroDTO);
+
+	public void guardarMovimientosInventarioComercioExterior(
+			List<MovimientosInventarioComext> movimientosInventarioComexts);
+
 }

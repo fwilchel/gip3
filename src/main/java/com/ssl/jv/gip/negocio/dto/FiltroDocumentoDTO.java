@@ -15,6 +15,7 @@ public class FiltroDocumentoDTO implements Serializable {
 	private Date fechaInicio;
 	private Date fechaFin;
 	private String consecutivoDocumento;
+	private boolean solicitudCafe;
 
 	public Long getIdTipoDocumento() {
 		return idTipoDocumento;
@@ -62,5 +63,13 @@ public class FiltroDocumentoDTO implements Serializable {
 
 	public void setConsecutivoDocumento(String consecutivoDocumento) {
 		this.consecutivoDocumento = consecutivoDocumento;
+	}
+
+	public boolean isSolicitudCafe() {
+		return solicitudCafe;
+	}
+
+	public void setSolicitudCafe(boolean solicitudCafe) {
+		this.solicitudCafe = solicitudCafe;
 	}
 }

@@ -20,11 +20,14 @@ public interface ProductoInventarioDAOLocal extends
 
 	public List<ProductosInventario> consultarActivos();
 
-	public List<ProductosInventario> consultarPorCategoriaAndSKUAndNombreAndEstado(
+	public List<ProductosInventario> consultarPorUsuarioCategoriaSKUNombreAndEstado(
 			ProductosInventarioFiltroDTO filtro);
 
 	public ProductosInventario consultarPorSku(String sku);
 
 	public List<ProductosInventario> consultarPorSkus(List<String> skus);
+
+	public List<ProductosInventario> consultarPorEstadoCategoriaSKUNombreAndControlStock(
+			ProductosInventarioFiltroDTO filtro);
 
 }

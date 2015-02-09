@@ -21,6 +21,40 @@
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.maestroProductosXClienteCETituloFrame}">
+				
+					<p:panelGrid columns="3"
+						columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.maestroProductosXClienteCESKU}" for="skuProducto" styleClass="negrita" />
+						<p:inputText value="#{productoClienteComercioExteriorMB.filtro.skuProducto}" id="skuProducto" required="false" disabled="false" 
+							label="#{msg.maestroProductosXClienteCESKU}" />
+						<p:message for="skuProducto"></p:message>
+						
+						<p:outputLabel value="#{msg.maestroProductosXClienteCENombreCliente}" for="nombreCliente" styleClass="negrita" />
+						<p:inputText value="#{productoClienteComercioExteriorMB.filtro.nombreCliente}" id="nombreCliente" required="false" disabled="false" 
+							label="#{msg.maestroProductosXClienteCENombreCliente}" />
+						<p:message for="nombreCliente"></p:message>
+						
+						<p:outputLabel value="#{msg.generalEstado}" for="estado" styleClass="negrita" />
+						<p:selectOneRadio id="estado" value="#{productoClienteComercioExteriorMB.filtro.estado}">
+				            <f:selectItem itemLabel="#{msg.generalActivos}" itemValue="A" />
+				            <f:selectItem itemLabel="#{msg.generalTodos}" itemValue="T" />
+				        </p:selectOneRadio>
+						<p:message for="estado"></p:message>
+
+					</p:panelGrid>
+					
+					<p:spacer height="10"></p:spacer>
+					
+					<p:panelGrid columns="1">
+					
+						<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" title="#{msg.generalConsultar}" actionListener="#{productoClienteComercioExteriorMB.listarProductosClientesComercioExt}" 
+							update=":forma:tabPanel:tablaDatos" ></p:commandButton>
+						
+					</p:panelGrid>
+					
+					<p:spacer height="40"></p:spacer>
+						
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{productoClienteComercioExteriorMB.productosXClienteComExteriorList}" rows="10"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true"
@@ -29,19 +63,28 @@
 						rowsPerPageTemplate="5,10,15">
 
 						<f:facet name="header">
+						
 							<div align="right">
+							
 								<p:outputPanel>
-								
-									<p:fileUpload fileUploadListener="#{productoClienteComercioExteriorMB.cargarArchivo}" label="#{msg.generalSeleccionarArchivo}" uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}" cancelLabel="#{msg.generalCancelar}" invalidFileMessage="#{msg.generalTipoArchivoNoValido}" allowTypes="/(\.|\/)(txt)$/"></p:fileUpload>
-									<p:spacer width="30"></p:spacer>
-									<p:commandButton action="#{productoClienteComercioExteriorMB.nuevo}" title="#{msg.generalAdicionarRegistro}"
-										icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
-									<p:spacer width="30"></p:spacer>	
+									
+									<p:fileUpload fileUploadListener="#{productoClienteComercioExteriorMB.cargarArchivo}" 
+										label="#{msg.generalSeleccionarArchivo}" uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}" 
+										cancelLabel="#{msg.generalCancelar}" invalidFileMessage="#{msg.generalTipoArchivoNoValido}" 
+										allowTypes="/(\.|\/)(txt)$/"></p:fileUpload>
+									
 									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
 												<p:inputText id="globalFilter"
 													onkeyup="PF('datoTabla').filter()" style="width:150px"
 													placeholder="#{msg.generalPalabrasBuscar}" />
-									<p:spacer width="30"></p:spacer>				
+									
+									<p:spacer width="30"></p:spacer>	
+									
+									<p:commandButton action="#{productoClienteComercioExteriorMB.nuevo}" title="#{msg.generalAdicionarRegistro}"
+										icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
+									
+									<p:spacer width="30"></p:spacer>			
+									
 									<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
 										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
 								

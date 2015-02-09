@@ -10,6 +10,7 @@
     transaction-type="JTA">
 
     <jta-data-source>java:/jdbc/GIPDS</jta-data-source>
+    <!--<jta-data-source>jdbc/GIPDS</jta-data-source>-->
 
     <class>com.ssl.jv.gip.jpa.pojo.AgenciaCarga</class>
     <class>com.ssl.jv.gip.jpa.pojo.AgenteAduana</class>

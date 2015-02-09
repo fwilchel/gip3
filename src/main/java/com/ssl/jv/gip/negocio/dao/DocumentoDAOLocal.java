@@ -8,6 +8,8 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
+import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
@@ -16,6 +18,7 @@ import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
+import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 
 @Local
 public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
@@ -90,6 +93,15 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 	public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
 
+	public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(
+			Map<String, Object> parametros);
+
+	public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(
+			Map<String, Object> parametros);
+
+	public List<ReporteVentaDTO> consultarReporteVentasFD(
+			Map<String, Object> parametros);
+
 	/**
 	 *
 	 * @return
@@ -118,7 +130,19 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 	public List<Documento> consultarDocumentosParaGenerarListaEmpaque(
 			String consecutivoDocumento);
+	
+	public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
+			String consecutivoDocumento);
 
 	public Documento consultarDocumentoPorConsecutivo(String consecutivo);
+
+	public List<Documento> consultarDocumentosDespacharMercancia(
+			String consecutivo);
+
+	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(
+			FiltroDocumentoDTO filtro);
+
+	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeAndConsecutivo(
+			FiltroDocumentoDTO filtro);
 
 }

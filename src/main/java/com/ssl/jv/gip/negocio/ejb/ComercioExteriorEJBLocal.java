@@ -214,6 +214,10 @@ public interface ComercioExteriorEJBLocal {
 	public Documento crearFactura(Documento documento, LogAuditoria auditoria,
 			DocumentoXNegociacion documentoPorNegociacion,
 			List<ProductosXDocumento> productos, Documento original);
+	
+	public Documento crearFacturaExportacion(Documento documento, LogAuditoria auditoria,
+			DocumentoXNegociacion documentoPorNegociacion,
+			List<ProductosXDocumento> productos, Documento original);
 
 	public List<DocumentoXLotesoic> guardarLotes(
 			List<DocumentoXLotesoic> lista, Documento documento);
@@ -304,4 +308,13 @@ public interface ComercioExteriorEJBLocal {
 	public void generarListaEmpaque(Documento documento,
 			DocumentoXNegociacion documentoXNegociacion,
 			List<ProductoDTO> productoDTOs);
+
+	public List<Documento> consultarListaEmpaquesParaAsignarDatosTL(
+			String consecutivo);
+
+	public List<DocumentoXLotesoic> consultarDocumentosXLotesOICParaAsignarDatosTL(
+			String consecutivo);
+
+	public void asignarDatosTL(Documento listaEmpaque,
+			List<DocumentoXLotesoic> documentoXLotesoics);
 }

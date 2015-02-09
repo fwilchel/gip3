@@ -46,6 +46,9 @@ public class ItemCostoLogistico implements Serializable {
 	@Column(name="aplica_fob_in")
 	private Boolean aplicaFobIn;
 	
+	@Column(name="base_fob")
+	private Boolean baseFob;
+	
 	private String descripcion;
 
 	@Column(name="id_pais_destino")
@@ -244,6 +247,14 @@ public class ItemCostoLogistico implements Serializable {
 		return rangoCostoLogistico;
 	}
 	
+	public Boolean getBaseFob() {
+		return baseFob;
+	}
+
+	public void setBaseFob(Boolean baseFob) {
+		this.baseFob = baseFob;
+	}
+
 	@Transient
 	public String getTipoNombre(){
 		for (TipoItemCostoLogistico i:TipoItemCostoLogistico.values()){

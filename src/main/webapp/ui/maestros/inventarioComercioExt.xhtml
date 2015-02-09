@@ -50,55 +50,32 @@
 							</div>
 						</f:facet>
 
-						<p:column filterBy="#{dato.productosInventario.id}" headerText="#{msg.maestroProductosXClienteCEID}"
-							filterMatchMode="contains" sortBy="#{dato.productosInventario.id}">
-							<h:outputText value="#{dato.productosInventario.id}" />
+						<p:column filterBy="#{dato.productosInventarioComext.productosInventario.id}" headerText="#{msg.maestroInventarioComExt_ID}"
+							filterMatchMode="contains" sortBy="#{dato.productosInventarioComext.productosInventario.id}">
+							<h:outputText value="#{dato.productosInventarioComext.productosInventario.id}" />
 						</p:column>
 
-						<p:column filterBy="#{dato.productosInventario.sku}" headerText="#{msg.maestroProductosXClienteCESKU}"
-							filterMatchMode="contains" sortBy="#{dato.productosInventario.sku}" >
-							<h:outputText value="#{dato.productosInventario.sku}" />
+						<p:column filterBy="#{dato.productosInventarioComext.productosInventario.sku}" headerText="#{msg.maestroInventarioComExt_SKU}"
+							filterMatchMode="contains" sortBy="#{dato.productosInventarioComext.productosInventario.sku}" >
+							<h:outputText value="#{dato.productosInventarioComext.productosInventario.sku}" />
 						</p:column>
 
-						<p:column filterBy="#{dato.productosInventario.nombre}" headerText="#{msg.maestroProductosXClienteCENombredelProducto}"
-							filterMatchMode="contains" sortBy="#{dato.productosInventario.nombre}">
-							<h:outputText value="#{dato.productosInventario.nombre}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.precio}" headerText="#{msg.maestroProductosXClienteCEPrecioEXWFOB}"
-							filterMatchMode="contains" sortBy="#{dato.precio}">
-								<h:inputText value="#{dato.precio}" id="precio" label="#{msg.maestroProductosXClienteCEPrecioEXWFOB}" required="true" maxlength="17" >
-									<f:validateDoubleRange minimum="0" maximum="999999999999.9999"></f:validateDoubleRange>
-								</h:inputText>
-						</p:column>
-
-						<p:column filterBy="#{dato.regSanitario}" headerText="#{msg.maestroProductosXClienteRegSanitario}"
-							filterMatchMode="contains" sortBy="#{dato.regSanitario}">
-								<h:inputText value="#{dato.regSanitario}" id="regSanitario" label="#{msg.maestroProductosXClienteRegSanitario}" required="true" maxlength="40" />
+						<p:column filterBy="#{dato.productosInventarioComext.productosInventario.nombre}" headerText="#{msg.maestroInventarioComExt_Nombre_del_producto}"
+							filterMatchMode="contains" sortBy="#{dato.productosInventarioComext.productosInventario.nombre}">
+							<h:outputText value="#{dato.productosInventarioComext.productosInventario.nombre}" />
 						</p:column>
 						
-						<p:column filterBy="#{dato.descuentoxproducto}" headerText="#{msg.maestroProductosXClienteCEDescuentoProducto}"
-							filterMatchMode="contains" sortBy="#{dato.descuentoxproducto}">
-								<h:inputText value="#{dato.descuentoxproducto}" label="#{msg.maestroProductosXClienteCEDescuentoProducto}" id="desc" required="true" maxlength="9" >
-									<f:validateDoubleRange minimum="0" maximum="9999.9999"></f:validateDoubleRange>
+						<p:column filterBy="#{dato.cantidad}" headerText="#{msg.maestroInventarioComExt_Cantidad}"
+							filterMatchMode="contains" sortBy="#{dato.cantidad}">
+								<h:inputText  value="#{dato.cantidad}" id="cantidad" label="#{msg.maestroInventarioComExt_Cantidad}" required="true" maxlength="16" >
+									<f:validateDoubleRange minimum="0" maximum="999999999999.999"></f:validateDoubleRange>
 								</h:inputText>
-						</p:column>
-						
-						<p:column filterBy="#{dato.otrosDescuentos}" headerText="#{msg.maestroProductosXClienteCEOtrosDescuento}"
-							filterMatchMode="contains" sortBy="#{dato.otrosDescuentos}">
-								<h:inputText  value="#{dato.otrosDescuentos}" id="otrosDesc" label="#{msg.maestroProductosXClienteCEOtrosDescuento}" required="true" maxlength="9" >
-									<f:validateDoubleRange minimum="0" maximum="9999.9999"></f:validateDoubleRange>
-								</h:inputText>
-						</p:column>
-						
-						<p:column headerText="#{msg.maestroProductosXClienteIncluirProd}" >
-							<p:selectBooleanCheckbox value="#{dato.productosInventario.incluido}" id="incluido" label="#{msg.maestroProductosXClienteIncluirProd}"/>
 						</p:column>
 						
 					</p:dataTable>
 					
-					<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{productoClienteComercioExteriorMB.guardarRelacionProductoClienteComExt}" ></p:commandButton>
-					<p:commandButton value="#{msg.generalCancelar}" process="@this" icon="ui-icon-cancel" action="listado_maestro_ProductosPorCliente_CE" ></p:commandButton>
+					<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{inventarioComercioExteriorMB.guardarMovimientosInventario}" ></p:commandButton>
+					<p:commandButton value="#{msg.generalCancelar}" process="@this" icon="ui-icon-cancel" action="listado_maestro_inventario_ce" ></p:commandButton>
 					
 				</p:tab>
 			</p:tabView>
@@ -130,7 +107,7 @@
 					<p:message for="sku"></p:message>
 					
 					<p:outputLabel value=""></p:outputLabel>
-					<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{productoClienteComercioExteriorMB.buscarProductosInventarios}" update=":formaDlg:tablaDatos2" ></p:commandButton>
+					<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{inventarioComercioExteriorMB.buscarProductosInventarios}" update=":formaDlg:tablaDatos2" ></p:commandButton>
 
 				</p:panelGrid>
 				
@@ -154,18 +131,18 @@
 						</div>
 					</f:facet>
 
-					<p:column filterBy="#{dato.sku}" headerText="#{msg.maestroProductosXClienteCESKU}"
+					<p:column filterBy="#{dato.sku}" headerText="#{msg.maestroInventarioComExt_SKU}"
 						filterMatchMode="contains" sortBy="#{dato.sku}">
 						<h:outputText value="#{dato.sku}" />
 					</p:column>
 
-					<p:column filterBy="#{dato.nombre}" headerText="#{msg.maestroProductosXClienteCENombredelProducto}"
+					<p:column filterBy="#{dato.nombre}" headerText="#{msg.maestroInventarioComExt_Nombre_del_producto}"
 						filterMatchMode="contains" sortBy="#{dato.nombre}">
 						<h:outputText value="#{dato.nombre}" />
 					</p:column>
 						
 					<p:column headerText="#{msg.maestroProductosXClienteIncluirProd}" >
-						<p:selectBooleanCheckbox value="#{dato.incluido}" id="seleccionado" label="#{msg.maestroProductosXClienteIncluirProd}"/>
+						<p:selectBooleanCheckbox value="#{dato.incluido}" id="seleccionado" label="#{msg.maestroInventarioComExt_Incluir_Prod}"/>
 					</p:column>
 						
 				</p:dataTable>

@@ -79,9 +79,12 @@
 						</p:column>
 						
 						<p:column filterBy="#{dato.fechaGeneracion}"
-							headerText="#{msg.FechaBusquedaFormatoNovedad}"
+							headerText="#{msg.RequisicionNombreFechaGenerado}"
 							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
-							<h:outputText value="#{dato.fechaGeneracion}" />
+							<h:outputText value="#{dato.fechaGeneracion}">
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText> 
+							
 						</p:column>
 
 						
@@ -104,51 +107,51 @@
 							
 						
 			<p:outputLabel value="#{msg.recibiProductoDcoumento}" for="idDocumento" styleClass="negrita" />
-			<h:outputText  styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.idDocumento}" id="idDocumento"/>
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.idDocumento}" id="idDocumento"/>
 			
 			<p:outputLabel value="#{msg.RequisicionNombreCons}" for="consecutivoDocumento" styleClass="negrita" />
-			<h:outputText  styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.consecutivoDocumento}" id="consecutivoDocumento"/>
+			<h:inputText  disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.consecutivoDocumento}" id="consecutivoDocumento"/>
 							
 			
 			<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.fechaGeneracion}" />
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.fechaGeneracion}" />
 			
 			<p:outputLabel value="#{msg.NumeroPedidoWeb}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.numeroPedidoWeb}" />
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.numeroPedidoWeb}" />
 			
 			
 			<p:outputLabel value="#{msg.nomCliente}"  styleClass="negrita" />
-			<h:outputText  styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.nombre}" />
+			<h:inputText disabled="true"  styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.nombre}" />
 			
 			<p:outputLabel value="#{msg.maestroDireccionCliente}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.direccion}" />	
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.direccion}" />	
 			
 			<p:outputLabel value="#{msg.maestroTelefonoCliente}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.telefono}" />
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.telefono}" />
 			
 			<p:outputLabel value="#{msg.maestroContactoAgente}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.contacto}" />				
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cliente.contacto}" />				
 			
 			
 			<p:outputLabel value="#{msg.TerminoIncotermSP}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.descripcionTerminoIncoterm}" />
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.descripcionTerminoIncoterm}" />
 			
 			<p:outputLabel value="#{msg.LugarIncoterm}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.lugarIncoterm}" />
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.lugarIncoterm}" />
 			
 			
 			<p:outputLabel value="#{msg.CantidadContenedores20}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadContenedores20}" />
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadContenedores20}" />
 			
 			<p:outputLabel value="#{msg.CantidadContenedores40}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadContenedores40}" />
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadContenedores40}" />
 			
 			
 			<p:outputLabel value="#{msg.CantidadEstibas}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadEstibas}" /> 
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadEstibas}" /> 
 			     
 			<p:outputLabel value="#{msg.PesoBrutoEstibas}"  styleClass="negrita" />
-			<h:outputText styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.pesoBrutoEstibas}" />      
+			<h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.pesoBrutoEstibas}" />      
 			     
 			  
 			 <p:outputLabel value="#{msg.observacionDocumento}"  styleClass="negrita" />
