@@ -34,6 +34,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK;
+import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.RangoCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
@@ -61,6 +62,8 @@ import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosInventarioComextDAOLocal;
+import com.ssl.jv.gip.negocio.dao.PuntoVentaDAO;
+import com.ssl.jv.gip.negocio.dao.PuntoVentaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.RangoCostoLogisticoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoCanalDAOLocal;
@@ -72,10 +75,11 @@ import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 
 /**
  * Session Bean implementation class MaestrosEJB
+ * @param <puntoVentaDAO>
  */
 @Stateless
 @LocalBean
-public class MaestrosEJB implements MaestrosEJBLocal {
+public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 
 	private static final Logger LOGGER = Logger.getLogger(MaestrosEJB.class);
 
@@ -156,6 +160,13 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 
 	@EJB
 	private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAO;
+	
+	@EJB
+	private PuntoVentaDAOLocal puntoVentaDao;
+	
+	
+	
+	
 
 	@EJB
 	private FactsCurrencyConversionDAOLocal conversionMonedaDAO;
@@ -885,6 +896,50 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		return movimientosInventarioComextDAO.consultarPorSKU(sku);
 	}
 	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PuntoVenta> consultarPuntoEntrega() {
+		try {
+			return (List<PuntoVenta>) puntoVentaDao.findAll();
+		} catch (Exception e) {
+			LOGGER.error(e + " Error consultando puntos ventas");
+			return null;
+		}
+
+	}
+	
+	@Override
+	public PuntoVenta crearPuntoVenta(PuntoVenta pEntidad) {
+		try {
+			puntoVentaDao.guardarPuntoVenta(pEntidad);
+			return pEntidad;
+		} catch (Exception e) {
+			LOGGER.error(e + " Error creando punto venta");
+			return null;
+		}
+	}
+	
+	
+	@Override
+	public PuntoVenta actualizarPuntoVenta(PuntoVenta pEntidad) {
+		try {
+			puntoVentaDao.update(pEntidad);
+			return pEntidad;
+		} catch (Exception e) {
+			LOGGER.error(e + " Error actualizando punto venta");
+			return null;
+		}
+	}
+	
+	@Override
+	public List<Ciudad> consultarCiudades() {
+		return (List<Ciudad>) ciudadDAO.findAll();
+	}
+	
+	
+	
+
 	@Override
 	public FactsCurrencyConversion getTRMDian(Date fecha){
 		return conversionMonedaDAO.getTRMDian(fecha);

@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -15,6 +16,8 @@ public class PuntoVenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator( name = "punto_venta_id_seq1", sequenceName = "punto_venta_id_seq1", allocationSize = 1)
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "punto_venta_id_seq1" )
 	private Long id;
 
 	private Boolean activo;
