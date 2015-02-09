@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
 import org.primefaces.model.LazyDataModel;
@@ -29,6 +32,7 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 	private LazyDataModel<ProductosInventario> modelo;
 	private String campoOrden;
 	private SortOrder orden;
+	private List<SelectItem> categorias;
 	
 	@EJB
 	private MaestrosEJBLocal maestrosEjb;
@@ -40,6 +44,17 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 		filtro.setCategoriasInventario(new CategoriasInventario());
 		filtro.setDesactivado(true);
 		modelo = new LazyProductsDataModel();
+		List<CategoriasInventario> categorias = maestrosEjb.consultarCategoriasInventario();
+		this.categorias = new ArrayList<SelectItem>();
+		for (CategoriasInventario ci:categorias){
+			SelectItemGroup sig=new SelectItemGroup(ci.getNombre());
+			this.categorias.add(sig);
+			SelectItem hijos[]=new SelectItem[ci.getCategoriasInventarios().size()];
+			for (int i=0; i<hijos.length; i++){
+				hijos[i]=new SelectItem(ci.getCategoriasInventarios().get(i).getId(), ci.getCategoriasInventarios().get(i).getNombre());
+			}
+			sig.setSelectItems(hijos);
+		}
 	}
 
 	public ProductosInventario getFiltro() {
