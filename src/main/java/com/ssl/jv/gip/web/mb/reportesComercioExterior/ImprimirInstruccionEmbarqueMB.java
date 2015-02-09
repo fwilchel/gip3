@@ -37,14 +37,14 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean(name = "imprimirInstruccionEmbarque")
 @ViewScoped
-public class ImprimirInstruccionEmbarque extends UtilMB {
+public class ImprimirInstruccionEmbarqueMB extends UtilMB {
 
   /**
    *
    */
   private static final long serialVersionUID = -2780795923623719268L;
 
-  private static final Logger LOGGER = Logger.getLogger(ImprimirInstruccionEmbarque.class);
+  private static final Logger LOGGER = Logger.getLogger(ImprimirInstruccionEmbarqueMB.class);
 
   @EJB
   private ReportesComercioExteriorEJBLocal reportesComercioExteriorEjb;

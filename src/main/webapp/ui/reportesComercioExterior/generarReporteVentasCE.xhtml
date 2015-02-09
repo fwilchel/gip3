@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:misc="http://java.sun.com/jsf/composite/misc"
+  template="/ui/templates/general.xhtml">
+
+  <ui:define 
+    name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.
+  </ui:define>
+
+  <ui:define 
+    name="contenido">
+
+    <p:spacer 
+      height="40"/>
+
+    <h:form 
+      id="forma"
+      prependId="false" >
+
+      <p:messages 
+        id="msgs" />
+
+      <p:tabView 
+        id="pnlTab">
+
+        <p:tab 
+          title="#{msg.spaTitle}">
+
+          <p:panel
+            id="pnlFltClientes">
+            <p:panelGrid
+              columns="2">
+              <h:outputLabel 
+                for="filtroFechaInicial" 
+                value="#{msg.grvceFltLblFechaInicial}" 
+                styleClass="negrita"/>
+              <p:calendar 
+                id="filtroFechaInicial" 
+                value="#{generarReporteVentasCE.filtroFechaInicial}"
+                required="true"/>
+              <h:outputLabel 
+                for="filtroFechaFinal" 
+                value="#{msg.grvceFltLblFechaFinal}" 
+                styleClass="negrita"/>
+              <p:calendar 
+                id="filtroFechaFinal" 
+                value="#{generarReporteVentasCE.filtroFechaFinal}"
+                required="true"/>
+              <f:facet
+                name="footer">
+                <p:commandButton
+                  value="#{msg.grvceFltBtnBuscarClientes}"
+                  actionListener="#{generarReporteVentasCE.buscarClientes()}"
+                  update="tblClientes"
+                  process="pnlFltClientes, tblClientes"/>
+              </f:facet>
+            </p:panelGrid>
+          </p:panel>
+
+          <p:dataTable 
+            id="tblClientes"
+            var="cliente" 
+            widgetVar="tblClientes" 
+            value="#{generarReporteVentasCE.listaClientes}" 
+            rows="10"
+            emptyMessage="#{msg.generalNoDatos}" 
+            paginator="true"
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
+
+            <f:facet 
+              name="header">
+              <div 
+                align="right">
+                <p:outputPanel>
+                  <h:outputText 
+                    value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText 
+                    id="globalFilter"
+                    onkeyup="PF('tblClientes').filter()" 
+                    style="width:150px"
+                    placeholder="#{msg.generalPalabrasBuscar}" />
+                  <p:spacer 
+                    width="30">
+                  </p:spacer>				
+                  <p:commandButton 
+                    action="introduccion" 
+                    title="#{msg.generalCancelar}" 
+                    ajax="false"
+                    icon="ui-icon-cancel" 
+                    value="#{msg.generalCancelar}" />
+                </p:outputPanel>
+              </div>
+            </f:facet>
+
+            <!-- opcion de anular el registro -->
+            <p:column 
+              style="width:32px;text-align: center">
+              <p:commandButton 
+                icon="ui-icon-pencil" 
+                title="#{msg.spaBtnAnular}"
+                actionListener="#{generarReporteVentasCE.seleccionarCliente(cliente)}"
+                oncomplete="PF('dlgConfirmacion').show()"
+                update=":dlgConfirmacion">
+              </p:commandButton>
+            </p:column>
+
+            <!-- codigo gip -->
+            <p:column   
+              headerText="#{msg.grvceTblClienteClmCodigoGip}"
+              sortBy="#{cliente.id}"
+              filterBy="#{cliente.id}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{cliente.id}" />
+            </p:column>
+
+            <!-- Nit -->
+            <p:column 
+              headerText="#{msg.grvceTblClienteClmNit}"
+              sortBy="#{cliente.consecutivoDocumento}"
+              filterBy="#{cliente.consecutivoDocumento}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{cliente.consecutivoDocumento}" />
+            </p:column>
+
+            <!-- Nombre -->
+            <p:column 
+              headerText="#{msg.grvceTblClienteClmNombre}"
+              sortBy="#{cliente.fechaGeneracion}"
+              filterBy="#{cliente.fechaGeneracion}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{cliente.fechaGeneracion}" >
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:outputText>
+            </p:column>
+
+            <!-- Incluir Cliente -->
+            <p:column 
+              headerText="#{msg.grvceTblClienteClmIncluirCliente}">
+            </p:column>
+
+          </p:dataTable>
+
+        </p:tab>
+
+      </p:tabView>
+
+    </h:form>
+
+    <p:dialog 
+      id="dlgConfirmacion" 
+      widgetVar="dlgConfirmacion" 
+      header="#{msg.spaTitle}" 
+      resizable="false" 
+      showEffect="clip" 
+      hideEffect="clip"
+      modal="true">
+      <p:ajax 
+        event="close" 
+        listener="#{generarReporteVentasCE.cancelar()}" />
+      <h:form
+        id="formaAnular"
+        prependId="false">
+        <p:panel 
+          id="pnlConfirmacion">
+          <f:facet
+            name="footer">
+            <p:dataTable 
+              id="tblProductos"
+              var="producto" 
+              widgetVar="tblProductos" 
+              value="#{generarReporteVentasCE.listaClientes}" 
+              rows="10"
+              emptyMessage="#{msg.generalNoDatos}" 
+              paginator="true"
+              paginatorPosition="bottom"
+              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+              rowsPerPageTemplate="5,10,15">
+
+              <!-- SKU -->
+              <p:column   
+                headerText="#{msg.grvceTblProductoClmSKU}"
+                sortBy="#{cliente.id}"
+                filterBy="#{cliente.id}"
+                filterMatchMode="contains">
+                <h:outputText 
+                  value="#{cliente.id}" />
+              </p:column>
+
+              <!-- Nombre del producto -->
+              <p:column 
+                headerText="#{msg.grvceTblProductoClmNombre}"
+                sortBy="#{cliente.consecutivoDocumento}"
+                filterBy="#{cliente.consecutivoDocumento}"
+                filterMatchMode="contains">
+                <h:outputText 
+                  value="#{cliente.consecutivoDocumento}" />
+              </p:column>
+
+              <!-- Incluir Producto -->
+              <p:column 
+                headerText="#{msg.grvceTblProductoClmIncluirCliente}">
+              </p:column>
+
+            </p:dataTable>
+
+            <!-- Generar reporte -->
+            <p:commandButton 
+              value="#{msg.grvceBtnGenerarReporteVentas}" 
+              styleClass="ui-confirmdialog-yes" 
+              icon="ui-icon-check" 
+              actionListener="#{generarReporteVentasCE.generarReporteVentas()}"/>
+            <!-- Cancelar -->
+            <p:commandButton 
+              value="#{msg.generalCerrar}" 
+              styleClass="ui-confirmdialog-no" 
+              icon="ui-icon-close" 
+              actionListener="#{generarReporteVentasCE.cancelar()}"
+              oncomplete="PF('dlgConfirmacion').hide()"
+              update=":forma:msgs"/>
+          </f:facet>
+        </p:panel>
+      </h:form>          
+    </p:dialog>
+
+  </ui:define>
+
+</ui:composition>
