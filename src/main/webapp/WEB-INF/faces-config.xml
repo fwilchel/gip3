@@ -177,6 +177,10 @@
       <from-outcome>crear_maestro_inventario_ce</from-outcome>
       <to-view-id>/ui/maestros/inventarioComercioExt.xhtml</to-view-id>
     </navigation-case>
+    <navigation-case>
+    	<from-outcome>listado_factura_proforma</from-outcome>
+    	<to-view-id>/ui/comercioexterior/modificarFacturaProforma.xhtml</to-view-id>
+    </navigation-case>
     <!-- Comercio Exterior / Anular solicitud de pedido-->
     <navigation-case>
       <from-outcome>listado_SP_Anular</from-outcome>

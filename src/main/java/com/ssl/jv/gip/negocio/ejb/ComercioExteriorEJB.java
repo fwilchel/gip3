@@ -1510,4 +1510,19 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		listaEmpaque.setEstadosxdocumento(estadosxdocumento);
 		documentoDAO.update(listaEmpaque);
 	}
+	
+	@Override
+	public List<DocumentoIncontermDTO> consultarDocumentosAutorizadosParaModificarFacturaProforma(){
+		return documentoDAO.consultarDocumentosAutorizadosParaModificarFacturaProforma();
+	}
+	
+	public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(
+			Long idDocumento, Long idCliente){
+		return productoClienteComercioExteriorDAO.consultarListaProductosClienteFacturaProforma(idDocumento, idCliente);
+	}
+	
+	@Override
+	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado){
+		return documentoDAO.modificarFacturaProforma(documento, listado);
+	}
 }
