@@ -833,4 +833,133 @@ public class ProductoClienteComercioExteriorDAO extends
 				.setParameter("idCliente", idCliente).setParameter("sku", sku);
 		return (ProductosXClienteComext) query.getSingleResult();
 	}
+	
+	@Override
+	public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(
+			Long idDocumento, Long idCliente) {
+
+		List<ProductoPorClienteComExtDTO> lista = new ArrayList<ProductoPorClienteComExtDTO>();
+
+		String sql = "select pi.id as ID_PRODUCTO,"
+				+ "pi.sku AS SKU , "
+				+ "pi.nombre AS NOMBRE_PRODUCTO ,"
+				+ "pxd.cantidad1 AS Q,"
+				+ "pxd.total_peso_neto_item AS PESONETO,"
+				+ "pxd.total_peso_bruto_item AS PESOBRUTO,"
+				+ "pxd.cantidad_cajas_item AS QCAJAS,  "
+				+ "pxd.cantidad_x_embalaje AS QXEMBALAJE ,"
+				+ "tl.descripcion as DESCRIPCION_LOTE, "				
+				+ "pxd.cantidad_pallets_item as PALLETS , "
+				+ "pxc_ce.reg_sanitario as REG_SANITARIO, "
+				+ "pxc_ce.precio as PRECIO_USD, "
+				+ "pxd.valor_total,"
+				+ "(pxd.cantidad1/pi_ce.cantidad_x_embalaje)/pi_ce.total_cajas_x_pallet AS TOTAL_CAJAS_PALLET,"
+				+ "pi_ce.descripcion as PRODUCTO_INGLES, "
+				+ "pi_ce.posicion_arancelaria, "
+				+ "unidades.nombre as UNIDAD, "
+				+ "unidades.nombre_ingles as UNIDAD_INGLES,"
+				+ "pxd.valor_unitario_usd AS VALOR_UNITARIO_USD,"
+				+ "pi_ce.cantidad_x_embalaje as PICE_QXEMBALAJE,"
+				+ "pi_ce.peso_neto_embalaje as PICE_PESONETOEMBALAJE,"
+				+ "pi_ce.peso_bruto_embalaje as PICE_PESOBRUTOEMBALAJE,"
+				+ "pi_ce.cant_cajas_x_tendido as PICE_QCAJASXTENDIDO,"
+				+ "pi_ce.total_cajas_x_pallet as PICE_CAJASXPALLET,"
+				+ "pi_ce.nombre_prd_proveedor as PRODUCTO_CLIENTE, "
+				+ "0 as CONSECUTIVO_LOTE  "
+				+ "from productosXdocumentos pxd "
+				+ "left join productos_inventario pi on  pxd.id_producto=pi.id "
+				+ "LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=pi.id "
+				+ "LEFT join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id  "
+				+ "LEFT join productos_x_cliente_comext pxc_ce on pxc_ce.id_producto=pi.id "
+				+ "INNER JOIN unidades on unidades.id = pi.id_uv "
+				+ "WHERE pxd.id_documento=" + idDocumento + " "
+				+ "and pxc_ce.id_cliente=" + idCliente + " "
+				+ "order by CONSECUTIVO_LOTE ,  pxc_ce.reg_sanitario";
+
+		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
+
+		if (listado != null) {
+			for (Object[] objs : listado) {
+				ProductoPorClienteComExtDTO dto = new ProductoPorClienteComExtDTO();
+
+				dto.setIntIdProductoInventario(objs[0] != null ? Long
+						.parseLong(objs[0].toString()) : null);
+				dto.setStrNombreProductoInventario(objs[2] != null ? objs[2]
+						.toString() : null);
+				dto.setStrSkuProductoInventario(objs[1] != null ? objs[1]
+						.toString() : null);
+
+				dto.setDblCantidad1ProductoxDocumento(objs[3] != null ? new BigDecimal(
+						objs[3].toString()) : null);
+
+				dto.setDblTotalPesoNeto(objs[4] != null ? new BigDecimal(
+						objs[4].toString()) : null);
+				dto.setDblTotalPesoBruto(objs[5] != null ? new BigDecimal(
+						objs[5].toString()) : null);
+
+				dto.setDblCantCajasXTendidoProductoInventarioCE(objs[6] != null ? new BigDecimal(
+						objs[6].toString()) : null);
+				
+				dto.setDblCantidadXEmbalajeProductoInventarioCE(objs[7] != null ? new BigDecimal(
+						objs[7].toString()) : null);
+				
+				dto.setDescripcionProductoInventarioCE(objs[8] != null ? objs[8]
+						.toString() : null);
+				
+				dto.setDblTotalCajasXPalletProductoInventarioCE(objs[9] != null ? new BigDecimal(
+						objs[9].toString()) : null);
+				
+				dto.setStrRegSanitario(objs[10] != null ? objs[10]
+						.toString() : null);
+				
+				dto.setDblPrecioUSD(objs[11] != null ? new BigDecimal(
+						objs[11].toString()) : null);
+				
+				dto.setDblValorTotalProductoxDocumento(objs[12] != null ? new BigDecimal(
+						objs[12].toString()) : null);
+				
+				dto.setDblTotalCajasPallet(objs[13] != null ? new BigDecimal(
+						objs[13].toString()) : null);
+				
+				dto.setDescripcionProductoInventarioInglesCE(objs[14] != null ? objs[14]
+						.toString() : null);
+				
+				dto.setPosicionArancelariaProductoInventarioCE(objs[15] != null ? objs[15]
+						.toString() : null);
+				
+				dto.setNombreUnidad(objs[16] != null ? objs[16].toString()
+						: null);
+				dto.setNombreInglesUnidad(objs[17] != null ? objs[17]
+						.toString() : null);
+				
+				dto.setDblUnitarioTotalProductoxDocumentoIngles(objs[18] != null ? new BigDecimal(
+						objs[18].toString()) : null);
+				
+				
+				
+				
+				
+				dto.setDblPesoNetoEmbalajeProductoInventarioCE(objs[20] != null ? new BigDecimal(
+						objs[20].toString()) : null);
+				
+				dto.setDblPesoBrutoEmbalajeProductoInventarioCE(objs[21] != null ? new BigDecimal(
+						objs[21].toString()) : null);
+				
+				dto.setDblTotalCajasTendido(objs[22] != null ? new BigDecimal(
+						objs[22].toString()) : null);
+				
+				
+				dto.setNombrePrdProveedorProductoInventarioCE(objs[24] != null ? objs[24]
+						.toString() : null);
+				
+				
+				dto.setBlnIncluirBusqueda(true);
+
+				lista.add(dto);
+			}
+		}
+
+		return lista;
+
+	}
 }

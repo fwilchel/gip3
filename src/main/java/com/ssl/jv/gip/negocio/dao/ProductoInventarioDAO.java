@@ -93,10 +93,10 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProductosInventario> consultarPorCategoriaAndSKUAndNombreAndEstado(
+	public List<ProductosInventario> consultarPorUsuarioCategoriaSKUNombreAndEstado(
 			ProductosInventarioFiltroDTO filtro) {
 		Query query = em
-				.createNamedQuery(ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_CATEGORIA_SKU_NOMBRE_ESTADO);
+				.createNamedQuery(ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_USUARIO_CATEGORIA_SKU_NOMBRE_ESTADO);
 		query.setParameter("idUsuario", filtro.getIdUsuario());
 		query.setParameter("paramDesactivado",
 				filtro.getEstado() != null ? true : false);
@@ -135,6 +135,21 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
 		Query query = em
 				.createNamedQuery(ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKUs);
 		query.setParameter("skus", skus);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<ProductosInventario> consultarPorEstadoCategoriaSKUNombreAndControlStock(
+			ProductosInventarioFiltroDTO filtro) {
+		Query query = em
+				.createNamedQuery(ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_DESACTIVADO_CATEGORIA_SKU_NOMBRE_AND_CONTROLSTOCK);
+		query.setParameter("desactivado", filtro.getEstado());
+		query.setParameter("paramCategoria",
+				filtro.getIdCategoria() != null ? true : false);
+		query.setParameter("idCategoria", filtro.getIdCategoria());
+		query.setParameter("sku", filtro.getSku());
+		query.setParameter("nombre", filtro.getNombre());
+		query.setParameter("controlStock", filtro.getControlStock());
 		return query.getResultList();
 	}
 }

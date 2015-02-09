@@ -24,8 +24,9 @@
 						rowsPerPageTemplate="5,10,15">
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton action="PF('datoDialog').show()"
-								icon="ui-icon-search" update=":datoDlg">
+							<p:commandButton action="PF('confirmacionDLG').show()"
+								update=":datoDlg"
+								icon="ui-icon-closethick">
 								<f:setPropertyActionListener value="#{dato}"
 									target="#{anularFacturaExportacionMB.seleccionado}" />
 							</p:commandButton>
@@ -46,7 +47,9 @@
 						<p:column filterBy="#{dato.fechaGeneracion}"
 							headerText="#{msg.documentoFechaGeneracion}"
 							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
-							<h:outputText value="#{dato.fechaGeneracion}" />
+							<h:outputText value="#{dato.fechaGeneracion}">
+								<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText>
 						</p:column>
 
 
@@ -54,22 +57,18 @@
 				</p:tab>
 			</p:tabView>
 		</h:form>
-		<p:dialog header="#{msg.TituloAnularFX}" widgetVar="datoDialog"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
-			dynamic="true" id="datoDlg">
+		
+		<p:dialog header="#{msg.TituloAnularFX}" widgetVar="confirmacionDLG"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="datoDlg">
 			<h:form id="formaDlg">
-				<p:outputPanel id="datoDetalle" style="text-align:center;">
-					<p:panelGrid columns="2">
-						<h:outputLabel
-							value="¿Esta seguro que dese anular esta factura de esportación?" />
-						<p:commandButton
-							action="#{anularFacturaExportacionMB.anularFactura()}">
-							<f:setPropertyActionListener value="#{dato}"
-								target="#{anularFacturaExportacionMB.seleccionado}" />
-						</p:commandButton>
-					</p:panelGrid>
-				</p:outputPanel>
+				<h:outputText value="Test" />
+				<p:commandButton
+					action="#{anularFacturaExportacionMB.anularFactura()}">
+					<f:setPropertyActionListener value="#{dato}"
+						target="#{anularFacturaExportacionMB.seleccionado}" />
+				</p:commandButton>
 			</h:form>
 		</p:dialog>
+		
 	</ui:define>
 </ui:composition>

@@ -639,7 +639,7 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 	public List<ProductosInventario> consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(
 			ProductosInventarioFiltroDTO filtroDTO) {
 		return productoInventarioDao
-				.consultarPorCategoriaAndSKUAndNombreAndEstado(filtroDTO);
+				.consultarPorUsuarioCategoriaSKUNombreAndEstado(filtroDTO);
 	}
 
 	@Override
@@ -821,12 +821,15 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		this.itemCostoLogisticoDAO.update(icl);
 		if (icl.getRangoCostoLogisticos() != null) {
 			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
-				if(rcl.getMoneda()!=null && (rcl.getMoneda().getId()==null || rcl.getMoneda().getId().equals("")))
+				if (rcl.getMoneda() != null
+						&& (rcl.getMoneda().getId() == null || rcl.getMoneda()
+								.getId().equals("")))
 					rcl.setMoneda(null);
 				if (rcl.getId() != null && rcl.getId() != 0) {
 					this.rangoCostoLogisticoDAO.update(rcl);
 				} else {
-					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO.add(rcl);
+					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO
+							.add(rcl);
 					rcl.setId(rcl2.getId());
 				}
 			}
@@ -887,4 +890,42 @@ public class MaestrosEJB implements MaestrosEJBLocal {
 		return conversionMonedaDAO.getTRMDian(fecha);
 	}
 
+	@Override
+	public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(
+			ProductosInventarioFiltroDTO filtroDTO) {
+		return productoInventarioDao
+				.consultarPorEstadoCategoriaSKUNombreAndControlStock(filtroDTO);
+	}
+
+	@Override
+	public void guardarMovimientosInventarioComercioExterior(
+			List<MovimientosInventarioComext> movimientosInventarioComexts) {
+		Date fecha = new Date();
+		List<MovimientosInventarioComext> ultimosSaldosMovimientosInventarioComExt = movimientosInventarioComextDAO
+				.getUltimosSaldos();
+		for (MovimientosInventarioComext movimientosInventarioComext : movimientosInventarioComexts) {
+			for (MovimientosInventarioComext ultimoSaldomovimientosInventarioComext : ultimosSaldosMovimientosInventarioComExt) {
+				if (movimientosInventarioComext
+						.getProductosInventarioComext()
+						.getProductosInventario()
+						.getId()
+						.equals(ultimoSaldomovimientosInventarioComext
+								.getProductosInventarioComext()
+								.getProductosInventario().getId())) {
+					movimientosInventarioComext
+							.setSaldo(movimientosInventarioComext.getCantidad()
+									.add(ultimoSaldomovimientosInventarioComext
+											.getSaldo()));
+					break;
+				}
+			}
+			movimientosInventarioComext.setFecha(fecha);
+			movimientosInventarioComext
+					.setProductosInventarioComext(productosInventarioComextDao
+							.findByPK(movimientosInventarioComext
+									.getProductosInventarioComext()
+									.getProductosInventario().getId()));
+			movimientosInventarioComextDAO.add(movimientosInventarioComext);
+		}
+	}
 }

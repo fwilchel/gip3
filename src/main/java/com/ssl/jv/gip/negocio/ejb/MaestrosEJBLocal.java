@@ -384,4 +384,10 @@ public interface MaestrosEJBLocal {
 	
 	public FactsCurrencyConversion getTRMDian(Date fecha);
 
+	public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(
+			ProductosInventarioFiltroDTO filtroDTO);
+
+	public void guardarMovimientosInventarioComercioExterior(
+			List<MovimientosInventarioComext> movimientosInventarioComexts);
+
 }

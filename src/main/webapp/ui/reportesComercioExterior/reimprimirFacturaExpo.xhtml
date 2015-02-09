@@ -75,7 +75,7 @@
 							filterMatchMode="contains"
 							sortBy="#{facturaExpo.fechaGeneracion}">
 							<h:outputText value="#{facturaExpo.fechaGeneracion}">
-								<f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+								<f:convertDateTime pattern="dd-MMM-yyyy" />
 							</h:outputText>
 						</p:column>
 
@@ -109,7 +109,9 @@
 						<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
 							styleClass="negrita" />
 						<h:outputText
-							value="#{reimprimirFacturaExpoMB.seleccionado.fechaGeneracion}" />
+							value="#{reimprimirFacturaExpoMB.seleccionado.fechaGeneracion}" >
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText>
 
 						<p:outputLabel value="#{msg.nomCliente}" styleClass="negrita" />
 						<h:outputText
@@ -155,7 +157,9 @@
 
 						<p:outputLabel value="#{msg.FechaDespacho}" styleClass="negrita" />
 						<h:outputText
-							value="#{reimprimirFacturaExpoMB.seleccionado.fechaEsperadaEntrega}" />
+							value="#{reimprimirFacturaExpoMB.seleccionado.fechaEsperadaEntrega}" >
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText>
 
 						<p:outputLabel value="#{msg.DiasVigenciaFP}" styleClass="negrita" />
 						<h:outputText

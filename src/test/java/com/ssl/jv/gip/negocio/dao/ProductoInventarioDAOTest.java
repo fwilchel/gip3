@@ -19,7 +19,7 @@ public class ProductoInventarioDAOTest extends TestBase {
 		filtro.setEstado(false);
 		filtro.setNombre("Arequipe");
 		List<ProductosInventario> list = productoInventarioDao
-				.consultarPorCategoriaAndSKUAndNombreAndEstado(filtro);
+				.consultarPorUsuarioCategoriaSKUNombreAndEstado(filtro);
 		Assert.assertFalse(list.isEmpty());
 	}
 

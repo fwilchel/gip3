@@ -1,31 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This file is not required if you don't need any extra configuration. -->
-<faces-config 
-  version="2.0" 
-  xmlns="http://java.sun.com/xml/ns/javaee"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
-
-  <!-- This descriptor activates the JSF 2.0 Servlet -->
-
-  <!-- Write your navigation rules here. You are encouraged to use CDI for 
-  creating @Named managed beans. -->
-  <application>
-    <el-resolver>
-      org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver
-    </el-resolver>
-  </application>
-  <factory>
-    <exception-handler-factory>
-      org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
-    </exception-handler-factory>
-  </factory>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xi="http://www.w3.org/2001/XInclude"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
   <!-- converter>
       <converter-id>theme</converter-id>
       <converter-class>org.primefaces.showcase.convert.ThemeConverter</converter-class>
   </converter-->
   <navigation-rule>
-    <from-view-id>*</from-view-id> 
+    <from-view-id>*</from-view-id>
     <navigation-case>
       <from-outcome>introduccion</from-outcome>
       <to-view-id>/ui/introduccion.xhtml</to-view-id>
@@ -67,6 +50,10 @@
       <to-view-id>/ui/comercioexterior/ingresarCostosIncoterm.xhtml</to-view-id>
     </navigation-case>
     <navigation-case>
+      <from-outcome>listado_LE_Generar_FX</from-outcome>
+      <to-view-id>/ui/comercioexterior/generarFacturaExportacion.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
       <from-outcome>listado_solicitud_pedido</from-outcome>
       <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
     </navigation-case>
@@ -102,7 +89,6 @@
       <from-outcome>listado_terminos_transporte</from-outcome>
       <to-view-id>/ui/comercioexterior/terminosTransporte.xhtml</to-view-id>
     </navigation-case>
-    
     <navigation-case>
       <from-outcome>listado_LE</from-outcome>
       <to-view-id>/ui/comercioexterior/listadoGenerarListaEmpaque.xhtml</to-view-id>
@@ -111,7 +97,6 @@
       <from-outcome>generar_lista_empaque</from-outcome>
       <to-view-id>/ui/comercioexterior/generaListaEmpaque.xhtml</to-view-id>
     </navigation-case>
-    
     <navigation-case>
       <from-outcome>crear_maestro_productosporcliente_CE</from-outcome>
       <to-view-id>/ui/maestros/crearProductoClienteComExt.xhtml</to-view-id>
@@ -192,54 +177,86 @@
       <from-outcome>crear_maestro_inventario_ce</from-outcome>
       <to-view-id>/ui/maestros/inventarioComercioExt.xhtml</to-view-id>
     </navigation-case>
+    <navigation-case>
+    	<from-outcome>listado_factura_proforma</from-outcome>
+    	<to-view-id>/ui/comercioexterior/modificarFacturaProforma.xhtml</to-view-id>
+    </navigation-case>
     <!-- Comercio Exterior / Anular solicitud de pedido-->
     <navigation-case>
       <from-outcome>listado_SP_Anular</from-outcome>
       <to-view-id>/ui/comercioexterior/anularSolicitudPedido.xhtml</to-view-id>
     </navigation-case>
-
+    <navigation-case>
+      <from-outcome>listado_FX_InstruccionEmbarque</from-outcome>
+      <to-view-id>/ui/comercioexterior/generarInstruccionEmbarque.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>listado_FX_ReImprimir_FX</from-outcome>
+      <to-view-id>/ui/reportesComercioExterior/reimprimirFacturaExpo.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>generar_comprobante_inf_diarioFX</from-outcome>
+      <to-view-id>/ui/reportesComercioExterior/comprobanteInformeDiarioFX.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>generar_RepMenu_ContaFactFX</from-outcome>
+      <to-view-id>/ui/reportes/reporteContabilidadFacturasFX.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>generar_reporte_remision</from-outcome>
+      <to-view-id>/ui/reportes/imprimirRemision.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>listado_factura_especial</from-outcome>
+      <to-view-id>/ui/reportes/imprimirFacturaEspecial.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>generar_cinta_magneticaFD</from-outcome>
+      <to-view-id>/ui/reportes/generarCintaMagneticaFD.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>generar_comprobante_inf_diarioFD</from-outcome>
+      <to-view-id>/ui/reportes/generarComprobanteInformeDiario.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>generar_Reporte_Ventas</from-outcome>
+      <to-view-id>/ui/reportes/generarReporteVentasFD.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>listado_GenerarOrdenDespacho</from-outcome>
+      <to-view-id>/ui/abastecimiento/despacharMercanciaVD.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
+      <from-outcome>despachar_mercancia</from-outcome>
+      <to-view-id>/ui/abastecimiento/despacharMercanciaVD.xhtml</to-view-id>
+    </navigation-case>
+    <!-- Reportes Comercio Exterior / Imprimir instruccion embarque -->
+    <navigation-case>
+      <from-outcome>listado_terminos_transporte2</from-outcome>
+      <to-view-id>/ui/reportesComercioExterior/imprimirInstruccionEmbarque.xhtml</to-view-id>
+    </navigation-case>
+		
 	<navigation-case>
-		<from-outcome>listado_FX_InstruccionEmbarque</from-outcome>
-		<to-view-id>/ui/comercioexterior/generarInstruccionEmbarque.xhtml</to-view-id>
+		<from-outcome>listado_FX_AsignarDatosTL</from-outcome>
+		<to-view-id>/ui/comercioexterior/listadoAsignarDatosTL.xhtml</to-view-id>
+	</navigation-case>		
+	<navigation-case>
+		<from-outcome>consultar_factura_exportacion</from-outcome>
+		<to-view-id>/ui/comercioexterior/asignarDatosTL.xhtml</to-view-id>
 	</navigation-case>
-	
-	<navigation-case>
-	        <from-outcome>listado_FX_ReImprimir_FX</from-outcome>
-            <to-view-id>/ui/reportesComercioExterior/reimprimirFacturaExpo.xhtml</to-view-id>
-        </navigation-case>
-     
-     <navigation-case>
-	        <from-outcome>generar_comprobante_inf_diarioFX</from-outcome>
-            <to-view-id>/ui/reportesComercioExterior/comprobanteInformeDiarioFX.xhtml</to-view-id>
-        </navigation-case>
-        
-      <navigation-case>
-	        <from-outcome>generar_RepMenu_ContaFactFX</from-outcome>
-            <to-view-id>/ui/reportes/reporteContabilidadFacturasFX.xhtml</to-view-id>
-        </navigation-case>
-	<navigation-case>
-	        <from-outcome>generar_reporte_remision</from-outcome>
-            <to-view-id>/ui/reportes/imprimirRemision.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-	        <from-outcome>listado_factura_especial</from-outcome>
-            <to-view-id>/ui/reportes/imprimirFacturaEspecial.xhtml</to-view-id>
-        </navigation-case>
-         <navigation-case>
-	        <from-outcome>generar_cinta_magneticaFD</from-outcome>
-            <to-view-id>/ui/reportes/generarCintaMagneticaFD.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-	        <from-outcome>generar_comprobante_inf_diarioFD</from-outcome>
-            <to-view-id>/ui/reportes/generarComprobanteInformeDiario.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-	        <from-outcome>generar_Reporte_Ventas</from-outcome>
-            <to-view-id>/ui/reportes/generarReporteVentasFD.xhtml</to-view-id>
-        </navigation-case>
-	<navigation-case>
-			<from-outcome>listado_GenerarOrdenDespacho</from-outcome>
-            <to-view-id>/ui/abastecimiento/ordenDespacho.xhtml</to-view-id>
-        </navigation-case> 
-        </navigation-rule>
+	 <navigation-case>
+      <from-outcome>Rest_listado_maestro_inventario</from-outcome>
+      <to-view-id>/ui/reportes/restListadoMaestroInventario.xhtml</to-view-id>
+    </navigation-case>
+		
+  </navigation-rule>
+  <!-- This descriptor activates the JSF 2.0 Servlet 
+ Write your navigation rules here. You are encouraged to use CDI for 
+  creating @Named managed beans. -->
+  <application>
+    <el-resolver>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver</el-resolver>
+  </application>
+  <factory>
+    <exception-handler-factory>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory</exception-handler-factory>
+  </factory>
 </faces-config>

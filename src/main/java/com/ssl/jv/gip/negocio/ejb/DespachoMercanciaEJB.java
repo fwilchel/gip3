@@ -11,11 +11,9 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.negocio.dao.DocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
-import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
-import com.ssl.jv.gip.negocio.dto.ProductoDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 
 /**
  * Session Bean implementation class OrdenDespachoEJB
@@ -38,22 +36,15 @@ public class DespachoMercanciaEJB implements DespachoMercanciaEJBLocal{
 	ProductosXDocumentoDAOLocal productoXDocumentoDao;
 
 	@Override
-	public List<ProductoDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
+	public List<ProductoDespacharMercanciaDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
 		List<ProductosXDocumento> resultado = productoXDocumentoDao.consultarPorDocumento(Long.parseLong(idDocumento));
-		List<ProductoDTO> productos= new ArrayList<ProductoDTO>();
+		List<ProductoDespacharMercanciaDTO> productos= new ArrayList<ProductoDespacharMercanciaDTO>();
 		for (ProductosXDocumento producto : resultado) {
-			ProductoDTO p= new ProductoDTO();
+			ProductoDespacharMercanciaDTO p= new ProductoDespacharMercanciaDTO();
 			p.setId(producto.getId().getIdProducto()+"");
 			p.setIdDocumento(producto.getId().getIdDocumento()+"");
 			p.setNombre("");
-			p.setCantidad(producto.getCantidad1());
-			p.setPesoBruto(producto.getTotalPesoBrutoItem());
-			p.setPesoNeto(producto.getTotalPesoNetoItem());
-			p.setCantidadCajas(producto.getCantidadCajasItem());
-			p.setCantidadPorEmbalaje(producto.getCantidadXEmbalaje());
-			p.setCantidadPallets(producto.getCantidadPalletsItem());
-			p.setValorUnitarioUsd(producto.getValorUnitarioUsd());
-			p.setValorTotal(producto.getValorTotal());
+			p.setCantidadDespachada(producto.getCantidad1());
 			productos.add(p);
 		}
 		return productos ;
@@ -62,7 +53,7 @@ public class DespachoMercanciaEJB implements DespachoMercanciaEJBLocal{
 	@Override
 	public List<Documento> consultarVentasDirectas() {
 		try {
-			return documentoDao.consultarVentasDirectas("");
+			return documentoDao.consultarDocumentosDespacharMercancia("");
 		} catch (Exception e) {
 			LOGGER.error(e + "Error consultando ordenes de despacho");
 			return null;
@@ -72,7 +63,7 @@ public class DespachoMercanciaEJB implements DespachoMercanciaEJBLocal{
 	@Override
 	public List<Documento> consultarVentasDirectas(Documento filtro) {
 		try {
-			return documentoDao.consultarVentasDirectas(filtro.getConsecutivoDocumento());
+			return documentoDao.consultarDocumentosDespacharMercancia(filtro.getConsecutivoDocumento());
 		} catch (Exception e) {
 			LOGGER.error(e + "Error consultando ordenes de despacho con filtro");
 			return null;

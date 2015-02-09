@@ -24,6 +24,8 @@ public class ProductoPorClienteComExtDTO implements Serializable{
 	
 	private String strIdMoneda;
 	
+	private String descripcionProductoInventarioInglesCE;
+	
 	private BigDecimal dblIVA;	
 	
 	private BigDecimal dblDescuentoProducto;
@@ -37,6 +39,8 @@ public class ProductoPorClienteComExtDTO implements Serializable{
 	private String strNomCliente;
 	
 	private String strSku;
+	
+	private BigDecimal dblUnitarioTotalProductoxDocumentoIngles;
 	
 	//Producto x inventario
 	
@@ -497,6 +501,24 @@ public class ProductoPorClienteComExtDTO implements Serializable{
 	public void setStrPosicionArancelariaProductoInventario(
 			String strPosicionArancelariaProductoInventario) {
 		this.strPosicionArancelariaProductoInventario = strPosicionArancelariaProductoInventario;
+	}
+
+	public String getDescripcionProductoInventarioInglesCE() {
+		return descripcionProductoInventarioInglesCE;
+	}
+
+	public void setDescripcionProductoInventarioInglesCE(
+			String descripcionProductoInventarioInglesCE) {
+		this.descripcionProductoInventarioInglesCE = descripcionProductoInventarioInglesCE;
+	}
+
+	public BigDecimal getDblUnitarioTotalProductoxDocumentoIngles() {
+		return dblUnitarioTotalProductoxDocumentoIngles;
+	}
+
+	public void setDblUnitarioTotalProductoxDocumentoIngles(
+			BigDecimal dblUnitarioTotalProductoxDocumentoIngles) {
+		this.dblUnitarioTotalProductoxDocumentoIngles = dblUnitarioTotalProductoxDocumentoIngles;
 	}
 
 	

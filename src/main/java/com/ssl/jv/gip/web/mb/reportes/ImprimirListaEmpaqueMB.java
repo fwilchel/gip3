@@ -263,13 +263,13 @@ public class ImprimirListaEmpaqueMB extends UtilMB{
 		parametros.put("ciudad",c.getCiudad().getNombre());		 
 		parametros.put("direccion", c.getDireccion());
 		parametros.put("telefono", c.getTelefono());
-		//parametros.put("contacto", c.getContacto());
+		parametros.put("contacto", c.getContacto());
 		parametros.put("id_documento", seleccionado.getConsecutivoDocumento());
 		parametros.put("solicitud", seleccionado.getObservacionDocumento());
 		
 		//parametros.put("qEstibas", seleccionado2.getCantidadEstibas()); //dblCantidadEstibas
 		//parametros.put("qEstibas", 0.0); //dblCantidadEstibas
-		parametros.put("PesoBrutoEstibas", 0.0 ); //dblPesoBrutoEstibas 
+		parametros.put("PesoBrutoEstibas", 0.0 );  
 		
 		parametros.put("observacion", seleccionado2.getObservacionDocumento()); // seleccionado2.getDocumentoXNegociacions().get(0).getDescripcion()
 		

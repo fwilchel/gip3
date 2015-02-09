@@ -1,14 +1,10 @@
 package com.ssl.jv.gip.web.mb.reportes;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -30,17 +25,10 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
-import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
-import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 
@@ -51,7 +39,7 @@ import com.ssl.jv.gip.web.mb.util.exportarExcel;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
 
 /**
- * <p>Title: ImprimirCintaMagneticaFDMB</p>
+ * <p>Title: Imprimir Reporte Ventas FD MB</p>
  *
  * <p>Description: ManagedBean para Imprimir Reporte Ventas FD MB </p>
  *
@@ -86,18 +74,13 @@ public class ImprimirReporteVentasFDMB  extends UtilMB {
 	public StreamedContent getReporteXLS() throws FileNotFoundException {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		
-		strFechaInicial= this.strFechaInicial + " 00:00:00";
-		strFechaFinal= this.strFechaFinal + " 23:59:59";
-	
-		 
-		
 		 
 		parametros.put("tipo", ConstantesTipoDocumento.FACTURA);
 		parametros.put("fechaInicial",strFechaInicial);
 		parametros.put("fechaFinal",strFechaFinal);
 		list = ventasFacturacionEjb.consultarReporteVentasFD(parametros);
 		
-		System.out.println("lista cinta Magnetica"+list.size());
+		System.out.println("lista reporte ventas"+list.size());
 		
 		
 		
@@ -278,7 +261,7 @@ public class ImprimirReporteVentasFDMB  extends UtilMB {
 			cs8.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 			cs8.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/dd/yy"));
 			
-			//ReporteVentas objproducto = new ReporteVentas();
+			ReporteVentaDTO objproducto = new ReporteVentaDTO();
 			int cont = 0;
 			
 			HSSFSheet s;
@@ -445,100 +428,110 @@ public class ImprimirReporteVentasFDMB  extends UtilMB {
 					
 					double valorDescXPrd = 0;
 					double valorOtrosDescs = 0;
-					double valorIVA = 0;
+					double valorIVA=0.0 ;
 					double valorDescUnitario = 0;
 					double valorSubtotal = 0;
 					double valorDescCliente = 0;
-					double valorBaseIVA = 0;
+					double valorBaseIVA=0;
 					double porceIVA = 0;
-					double valorTotal = 0;
+					double valorTotal =0.0;
 					
 					for (Integer row = new Integer(6); row < list.size() + 6; row++) {
 
 						r = s.createRow(row.shortValue());
-					/*	objproducto = (ReporteVentas) list.get(cont);
+						objproducto = (ReporteVentaDTO) list.get(cont);
 						
-						valorDescUnitario = Math.round((objproducto.getDblValorUnitario()*objproducto.getDblCantidadFDFE()) * (objproducto.getDblPorceDescxPrd()/100));						
-
+						valorDescUnitario = Math.round((objproducto.getValorUnitario().doubleValue()*objproducto.getCantidadFD().doubleValue()) *(objproducto.getValorDescuentoProducto().doubleValue()/100));
 						valorDescXPrd = valorDescUnitario;							
-						
-						valorSubtotal = Math.round(objproducto.getDblValorUnitario() * objproducto.getDblCantidadFDFE());	
+						valorSubtotal = Math.round(objproducto.getValorUnitario().doubleValue() * objproducto.getCantidadFD().doubleValue());	
 						valorSubtotal = valorSubtotal - valorDescXPrd;
-						valorDescCliente = Math.round(valorSubtotal * (objproducto.getDblPorceDescCliente()/100));							
-						valorOtrosDescs = Math.round(valorSubtotal *(objproducto.getDblPorceOtrosDescs()/100));
-						valorBaseIVA = Math.round(valorSubtotal - (valorDescCliente + valorOtrosDescs));
-						porceIVA = objproducto.getDblPorceIva()/100;
-						valorIVA = valorBaseIVA * porceIVA;
-						valorTotal = valorBaseIVA + valorIVA;							
 						
-						DecimalFormat dosDecimales = new DecimalFormat("#.##");
+						valorDescCliente = Math.round(valorSubtotal * (objproducto.getValorDescuentoCliente().doubleValue()/100));							
+						
+						valorOtrosDescs = Math.round(valorSubtotal *(objproducto.getValorOtrosDescuentos().doubleValue()/100));
+						
+						valorBaseIVA = Math.round(valorSubtotal - (valorDescCliente + valorOtrosDescs));
+						porceIVA = objproducto.getValorPorcentajeIva().doubleValue()/100;
+												
+						valorIVA = valorBaseIVA * porceIVA;
+						valorTotal = valorBaseIVA + valorIVA;
+						
+						
+						/*DecimalFormat dosDecimales = new DecimalFormat("#,##0.00");
 						valorIVA = Double.valueOf(dosDecimales.format(valorIVA));
 						valorTotal = Double.valueOf(dosDecimales.format(valorTotal));
-						
+						*/
 						c = r.createCell((short) 0);
-						c.setCellValue(objproducto.getStrFecha());
+												 
+						c.setCellValue(objproducto.getFechaGeneracion().toString());
 						c.setCellStyle(cs2);
 
 						c = r.createCell((short) 1);
-						c.setCellValue(objproducto.getStrNitCliente());
+						c.setCellValue(objproducto.getNitCliente());
 						c.setCellStyle(cs2);
 
 						c = r.createCell((short) 2);
-						c.setCellValue(objproducto.getStrNomCliente());
+						c.setCellValue(objproducto.getNombreCliente());
 						c.setCellStyle(cs2);
 						
 						c = r.createCell((short) 3);
-						c.setCellValue(objproducto.getStrNomPuntoVenta());
+						c.setCellValue(objproducto.getNombrePuntoVenta());
 						c.setCellStyle(cs2);
 						
 						
 						c = r.createCell((short) 4);
-						c.setCellValue(objproducto.getStrConsecVD());
+						c.setCellValue(objproducto.getConsecutivoDocumentoVD());
 						c.setCellStyle(cs2);
 						
 						c = r.createCell((short) 5);
-						c.setCellValue(objproducto.getStrConsecRM());
+						c.setCellValue(objproducto.getConsecutivoDocumentoRM());
 						c.setCellStyle(cs2);
 						
 						c = r.createCell((short) 6);
-						c.setCellValue(objproducto.getStrConsecFDFE());
+						c.setCellValue(objproducto.getConsecutivoDocumentoFD());
 						c.setCellStyle(cs2);
 
 						c = r.createCell((short) 7);
-						c.setCellValue(objproducto.getStrNumFDFE());
+						c.setCellValue(objproducto.getConsecutivoDocumentoFD());
 						c.setCellStyle(cs2);
 						
 						c = r.createCell((short) 8);
-						c.setCellValue(objproducto.getStrSKU());
+						c.setCellValue(objproducto.getSku());
 						c.setCellStyle(cs2);
 						
 						c = r.createCell((short) 9);
-						c.setCellValue(objproducto.getStrPrdNombre());
+						c.setCellValue(objproducto.getNombreProducto());
 						c.setCellStyle(cs2);							
 						
 						c = r.createCell((short) 10);
-						c.setCellValue(objproducto.getDblCantidadVD());
+						c.setCellValue(objproducto.getCantidadVD().doubleValue());
 						c.setCellStyle(cs2);
 						
 						c = r.createCell((short) 11);
-						c.setCellValue(objproducto.getDblCantidadFDFE());
+						c.setCellValue(objproducto.getCantidadFD().doubleValue());
 						c.setCellStyle(cs2);							
 						
 						c = r.createCell((short) 12);
-						c.setCellValue(objproducto.getDblValorUnitario());
+						c.setCellValue(objproducto.getValorUnitario().doubleValue());
 						c.setCellStyle(cs2);
+						
 						
 						c = r.createCell((short) 13);
 						c.setCellValue(valorDescXPrd);
 						c.setCellStyle(cs2);
+					
+						
 						
 						c = r.createCell((short) 14);
 						c.setCellValue(valorSubtotal);
-						c.setCellStyle(cs2);							
+						c.setCellStyle(cs2);
+						
+												
 						
 						c = r.createCell((short) 15);
 						c.setCellValue(valorDescCliente);
 						c.setCellStyle(cs2);
+						
 						
 						c = r.createCell((short) 16);
 						c.setCellValue(valorOtrosDescs);
@@ -549,7 +542,7 @@ public class ImprimirReporteVentasFDMB  extends UtilMB {
 						c.setCellStyle(cs2);
 						
 						c = r.createCell((short) 18);
-						c.setCellValue(objproducto.getDblPorceIva());
+						c.setCellValue(objproducto.getValorPorcentajeIva().doubleValue());
 						c.setCellStyle(cs2);							
 						
 						c = r.createCell((short) 19);
@@ -563,19 +556,19 @@ public class ImprimirReporteVentasFDMB  extends UtilMB {
 						
 						
 						c = r.createCell((short) 21);
-						c.setCellValue(objproducto.getStrDocumentoCliente());
+						c.setCellValue(objproducto.getOrdenCompra());
 						c.setCellStyle(cs2);
 						
 						c = r.createCell((short) 22);
-						c.setCellValue(objproducto.getStrObservacion2());
+						c.setCellValue(objproducto.getNumeroEntregaSap());
 						c.setCellStyle(cs2);
 
 						c = r.createCell((short) 23);
-						c.setCellValue(objproducto.getStrObservacion3());
+						c.setCellValue(objproducto.getConsecutivoOD());
 						c.setCellStyle(cs2);
 						
 						c = r.createCell((short) 24);
-						c.setCellValue(objproducto.getStrSitioEntrega());
+						c.setCellValue(objproducto.getNumeroPedidoSap());
 						c.setCellStyle(cs2);
 						
 						
@@ -639,7 +632,7 @@ public class ImprimirReporteVentasFDMB  extends UtilMB {
 						
 						s.setColumnWidth((short) (24),
 								(short) ((40 * 8) / ((double) 1 / 20)));
-								*/
+								
 						
 					}	
 

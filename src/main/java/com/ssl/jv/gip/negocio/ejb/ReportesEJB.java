@@ -57,6 +57,13 @@ public class ReportesEJB implements ReportesEJBLocal {
 						Estado.APROBADA.getCodigo(),
 						Estado.ASIGNADA.getCodigo());
 	}
+	
+	@Override
+	public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
+			String consecutivoDocumento){
+		return documentoDAO
+				.consultarDocumentosParaGenerarFacturaExportacion(consecutivoDocumento);
+	}
 
 	@Override
 	public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
@@ -71,4 +78,10 @@ public class ReportesEJB implements ReportesEJBLocal {
 				consecDoc, fechaIni, fechaFin);
 	}
 
+	
+	
+	@Override
+	public List<CuentaContableDTO> consultarReporteFacturasFD(String consecDoc, String fechaIni, String fechaFin) {
+		return cuentaContableDAOLocal.consultarReporteFacturasFD(consecDoc, fechaIni, fechaFin);
+	}
 }
