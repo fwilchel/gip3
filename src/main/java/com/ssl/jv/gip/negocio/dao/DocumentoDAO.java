@@ -1994,7 +1994,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 			listado = em
 					.createQuery(query)
 					.setParameter("tipoDocumento",
-							(long) ConstantesTipoDocumento.ORDEN_DESPACHO)
+							(long) ConstantesTipoDocumento.VENTA_DIRECTA)
 					.getResultList();
 		} catch (Exception e) {
 			LOGGER.error(e

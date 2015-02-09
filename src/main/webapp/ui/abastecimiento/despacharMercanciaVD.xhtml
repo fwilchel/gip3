@@ -25,10 +25,10 @@
 						rowsPerPageTemplate="5,10,15">
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete=""
+							<p:commandButton  oncomplete="PF('datoDialog').show()"
 								process="@this"
 								action="#{despacharMercanciaMB.consultarProductosVentaDirecta}"
-								icon="ui-icon-search" update=":datoDlg">
+								icon="ui-icon-search">
 								<f:setPropertyActionListener value="#{dato}"
 									target="#{despacharMercanciaMB.seleccionado}" />
 							</p:commandButton>
@@ -57,12 +57,137 @@
 							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
 							<h:outputText value="#{dato.fechaGeneracion}" />
 						</p:column>
-
-
 					</p:dataTable>
 				</p:tab>
 			</p:tabView>
 		</h:form>
+		
+		<p:dialog header="#{msg.generarOrdenDespachoTituloFrame}"
+			widgetVar="datoDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+			<h:form id="formaDlg">
+				<p:outputPanel id="datoDetalle" style="text-align:center;">
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+					<p:panelGrid columns="10"
+						rendered="#{not empty despacharMercanciaMB.seleccionado}">
+
+						<p:outputLabel value="#{msg.recibiProductoDcoumento}"
+							for="documento" styleClass="negrita" />
+						<h:inputText value="#{despacharMercanciaMB.seleccionado.id}"
+							id="documento" label="#{msg.recibiProductoDcoumento}"
+							disabled="true" />
+
+						<p:outputLabel value="#{msg.RequisicionNombreCons}"
+							for="consecutivoDocumento" styleClass="negrita" />
+						<h:inputText
+							value="#{despacharMercanciaMB.seleccionado.consecutivoDocumento}"
+							id="consecutivoDocumento" label="#{msg.RequisicionNombreCons}"
+							disabled="true" />
+
+						<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
+							for="fechaGeneracion" styleClass="negrita" />
+						<h:inputText
+							value="#{despacharMercanciaMB.seleccionado.fechaGeneracion}"
+							id="fechaGeneracion"
+							label="#{msg.RequisicionNombreFechaGenerado}" disabled="true">
+							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.nomCliente}" for="clienteNombre"
+							styleClass="negrita" />
+						<h:inputText
+							value="#{despacharMercanciaMB.seleccionado.cliente.nombre}"
+							size="30" id="clienteNombre" label="#{msg.nomCliente}"
+							disabled="true" />
+
+						<p:outputLabel value="#{msg.maestroDireccionCliente}"
+							for="clienteDireccion" styleClass="negrita" />
+						<h:inputText
+							value="#{despacharMercanciaMB.seleccionado.cliente.direccion}"
+							size="30" id="clienteDireccion"
+							label="#{msg.maestroDireccionCliente}" disabled="true" />
+
+						<p:outputLabel value="#{msg.maestroContactoAgente}"
+							for="clienteContacto" styleClass="negrita" />
+						<h:inputText
+							value="#{despacharMercanciaMB.seleccionado.cliente.contacto}"
+							id="clienteContacto" label="#{msg.maestroContactoAgente}"
+							disabled="true" />
+						
+						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaDespacho"
+							styleClass="negrita" />
+						<h:inputText
+							value="#{despacharMercanciaMB.seleccionado.fechaEsperadaEntrega}"
+							id="fechaEsperadaEntrega" label="#{msg.FechaDespacho}" disabled="true">
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.NumeroPedidoWeb}" for="clienteId"
+							styleClass="negrita" />
+						<h:inputText
+							value="#{despacharMercanciaMB.seleccionado.documentoCliente}"
+							id="clienteId" label="#{msg.NumeroPedidoWeb}" disabled="true" />
+							
+					</p:panelGrid>
+
+					<p:dataTable var="producto" widgetVar="productoDoc"
+						id="tablaProductos" sortBy="#{producto.idDocumento}"
+						rendered="#{not empty despacharMercanciaMB.productos}"
+						value="#{despacharMercanciaMB.productos}">
+
+						<p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
+							<h:outputText value="#{producto.id}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorNombreProducto}">
+							<h:outputText value="#{producto.nombre}" />
+						</p:column>
+						
+						<p:column styleClass="derecha"
+							headerText="#{msg.comprasCantidadSola}">
+							<h:outputText value="#{producto.cantidadAdespachar}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column styleClass="derecha"
+							headerText="#{msg.comprasCantidadSola}">
+							<h:outputText value="#{producto.unidadVenta}" />
+						</p:column>
+
+						<p:column styleClass="derecha"
+							headerText="#{msg.comprasCantidadSola}">
+							<h:outputText value="#{producto.cantidadDespachada}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column styleClass="derecha"
+							headerText="#{msg.comprasCantidadSola}">
+							<h:outputText value="#{producto.precioUnitario}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column styleClass="derecha"
+							headerText="#{msg.comprasCantidadSola}">
+							<h:outputText value="#{producto.observaciones}"/>
+						</p:column>
+						
+						<p:summaryRow>
+							<p:column colspan="2" styleClass="derecha">
+								<h:outputText value="TOTALES " />
+							</p:column>
+						</p:summaryRow>
+					</p:dataTable>
+
+					<p:spacer height="10"></p:spacer>
+
+				</p:outputPanel>
+			</h:form>
+		</p:dialog>
+		
 	</ui:define>
 </ui:composition>
 

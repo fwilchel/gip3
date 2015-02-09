@@ -25,6 +25,7 @@
 
 						<p:column style="width:32px;text-align: center">
 							<p:commandButton action="PF('confirmacionDLG').show()"
+								update=":datoDlg"
 								icon="ui-icon-closethick">
 								<f:setPropertyActionListener value="#{dato}"
 									target="#{anularFacturaExportacionMB.seleccionado}" />
@@ -56,14 +57,18 @@
 				</p:tab>
 			</p:tabView>
 		</h:form>
+		
 		<p:dialog header="#{msg.TituloAnularFX}" widgetVar="confirmacionDLG"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-			<h:outputText value="Test" />
-			<p:commandButton
-				action="#{anularFacturaExportacionMB.anularFactura()}">
-				<f:setPropertyActionListener value="#{dato}"
-					target="#{anularFacturaExportacionMB.seleccionado}" />
-			</p:commandButton>
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="datoDlg">
+			<h:form id="formaDlg">
+				<h:outputText value="Test" />
+				<p:commandButton
+					action="#{anularFacturaExportacionMB.anularFactura()}">
+					<f:setPropertyActionListener value="#{dato}"
+						target="#{anularFacturaExportacionMB.seleccionado}" />
+				</p:commandButton>
+			</h:form>
 		</p:dialog>
+		
 	</ui:define>
 </ui:composition>
