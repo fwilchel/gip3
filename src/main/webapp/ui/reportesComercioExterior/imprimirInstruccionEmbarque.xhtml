@@ -434,12 +434,14 @@
           <!-- botones -->
           <f:facet
             name="footer">
-            <!-- Imprimir Instrucci�n de Embarque -->
+            <!-- Imprimir Instruccion de Embarque -->
             <p:commandButton 
               value="#{msg.iieDtlBtnImprimirInstruccionEmbarque}" 
-              styleClass="ui-confirmdialog-yes" 
-              icon="ui-icon-check" 
-              actionListener="#{imprimirInstruccionEmbarque.imprimirInstruccionEmbarque()}"/>
+              ajax="false" 
+              icon="ui-icon-document">
+              <p:fileDownload 
+                value="#{imprimirInstruccionEmbarque.imprimirInstruccionEmbarque()}" />
+            </p:commandButton>
             <!-- cancelar -->
             <p:commandButton 
               value="#{msg.generalCerrar}" 

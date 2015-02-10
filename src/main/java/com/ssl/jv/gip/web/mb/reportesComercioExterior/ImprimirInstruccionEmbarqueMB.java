@@ -13,9 +13,19 @@ import org.apache.log4j.Logger;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  * <p>
@@ -95,9 +105,69 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
     setListaFacturas(reportesComercioExteriorEjb.consultarListadoFacturasPorInstruccionEmabarque(seleccionado.getId()));
   }
 
-  public void imprimirInstruccionEmbarque() {
+  /**
+   *
+   * @return
+   */
+  public StreamedContent imprimirInstruccionEmbarque() {
     LOGGER.debug("Metodo: <<imprimirInstruccionEmbarque>>");
-    // TODO: 
+    StreamedContent reportePDF = null;
+    Map<String, Object> parametrosReporte = new HashMap<>();
+    parametrosReporte.put("consecutivosSPs", "PRUEBA");
+    parametrosReporte.put("mesEmbarque", seleccionado.getMesEmbarque());
+    parametrosReporte.put("sociedad1", seleccionado.getAgenteAduana1Nombre());
+    parametrosReporte.put("sociedad2", seleccionado.getAgenteAduana2Nombre());
+    parametrosReporte.put("puertoEmbarque", seleccionado.getPuertoEmbarque());
+    parametrosReporte.put("fechaEmbarque", seleccionado.getFechaEmbarque());
+    parametrosReporte.put("naviera", seleccionado.getNaviera());
+    parametrosReporte.put("linea", seleccionado.getLinea());
+    parametrosReporte.put("buque", seleccionado.getBuque());
+    parametrosReporte.put("pais_ciudad_dst", seleccionado.getPaisDestinoNombre() + " - " + seleccionado.getCiudadDestinoNombre());
+    parametrosReporte.put("fleteExternoP", seleccionado.getFleteExterno().equals("P") ? "XXX" : "");
+    parametrosReporte.put("fleteExternoC", seleccionado.getFleteExterno().equals("C") ? "" : "XXX");
+    parametrosReporte.put("seguro", seleccionado.getSeguro());
+    parametrosReporte.put("direccionCliente", seleccionado.getClienteDireccion());
+    parametrosReporte.put("nombreCliente", seleccionado.getClienteNombre());
+    parametrosReporte.put("ciudad_pais_cli", seleccionado.getClientePais() + " - " + seleccionado.getClienteCiudad());
+    parametrosReporte.put("observacion1", seleccionado.getObservacion());
+    parametrosReporte.put("tipoContenedor", seleccionado.getTipoContenedor());
+    parametrosReporte.put("cantidadContenedores", seleccionado.getCantidadContenedores());
+    parametrosReporte.put("numeroContenedor", seleccionado.getNumeroContenedor());
+    parametrosReporte.put("sellosSeg", seleccionado.getSelloSeguridad());
+    parametrosReporte.put("precintos", seleccionado.getPrecintos());
+    BigDecimal sumMercadeo = new BigDecimal(0);
+    BigDecimal sumCafe = new BigDecimal(0);
+    for (DocTerminosTransporteDTO factura : listaFacturas) {
+      if (factura.getLote().equals("MERCADEO")) {
+        if (factura.getCantCajas() != null && !factura.getCantCajas().isEmpty()) {
+          sumMercadeo = sumMercadeo.add(new BigDecimal(factura.getCantCajas()));
+        }
+      } else {
+        if (factura.getCantCajas() != null && !factura.getCantCajas().isEmpty()) {
+          sumCafe  = sumCafe.add(new BigDecimal(factura.getCantCajas()));
+        }
+      }
+    }
+    parametrosReporte.put("sumaCafe", sumCafe);
+    parametrosReporte.put("sumaMercadeo", sumMercadeo);
+    parametrosReporte.put("consecutivos", "");
+    parametrosReporte.put("modalidadEmbarque", seleccionado.getModalidadEmbarqueDescripcion());
+    parametrosReporte.put("consecutivosLEs", "");
+    parametrosReporte.put("booking", seleccionado.getNumeroBooking());
+    parametrosReporte.put("incotermDespacho", seleccionado.getIncotermDespachoDecripcion());
+    parametrosReporte.put("observacion2", seleccionado.getObservacion2());
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaFacturas);
+    try {
+      Hashtable<String, String> parametrosConfiguracionReporte;
+      parametrosConfiguracionReporte = new Hashtable<>();
+      parametrosConfiguracionReporte.put("tipo", "pdf");
+      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_IE.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reporte, null, null, null, parametrosReporte, ds);
+      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "Reporte_IE.pdf");
+    } catch (Exception e) {
+      this.addMensajeError(e);
+    }
+    return reportePDF;
   }
 
   /**
