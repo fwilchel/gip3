@@ -149,5 +149,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	public List<DocumentoIncontermDTO> consultarDocumentosAutorizadosParaModificarFacturaProforma();
 	
 	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado);
+
+	void actualizarEstadoDocumentoPorConsecutivo(Documento documento);
 	
 }

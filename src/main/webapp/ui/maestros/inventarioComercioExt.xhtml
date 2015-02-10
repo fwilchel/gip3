@@ -25,7 +25,7 @@
 						columnClasses="label,value">
 						
 						<p:outputLabel value="#{msg.maestroInventarioComExt_Productos_Asociar}" for="productosAsociar" styleClass="negrita" />
-						<p:commandButton id="productosAsociar" value="#{msg.generalConsultar}" icon="ui-icon-disk" action="return false;" oncomplete="PF('buscarProdDialog').show()"></p:commandButton>
+						<p:commandButton id="productosAsociar" value="#{msg.generalConsultar}" icon="ui-icon-disk" onclick="PF('buscarProdDialog').show(); return false;"></p:commandButton>
 						<p:message for="productosAsociar"></p:message>
 
 					</p:panelGrid>

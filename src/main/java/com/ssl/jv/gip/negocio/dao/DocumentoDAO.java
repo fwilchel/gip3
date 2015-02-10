@@ -2275,4 +2275,24 @@ DocumentoDAOLocal {
 		return null;
 	}
 
+	/**
+	 * Actualiza el estado del documento por consecutivo.
+	 *
+	 */
+	@Override
+	public void actualizarEstadoDocumentoPorConsecutivo(
+			Documento documento) {
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE documentos SET " + " id_estado = "
+					+ documento.getEstadosxdocumento().getEstado()
+					+ " WHERE  consecutivo_documento = "
+					+ documento.getConsecutivoDocumento());
+
+			int q = em.createNativeQuery(sql.toString()).executeUpdate();
+
+		} catch (Exception e) {
+
+		}
+	}
 }

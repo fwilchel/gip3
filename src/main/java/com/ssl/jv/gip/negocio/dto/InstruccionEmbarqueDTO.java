@@ -35,8 +35,8 @@ public class InstruccionEmbarqueDTO implements Serializable {
   private String buque;
   private String fleteExterno;
   private String seguro;
-  private Long tipoContenedor;
-  private Long cantidadContenedores;
+  private Integer tipoContenedor;
+  private Integer cantidadContenedores;
   private String numeroContenedor;
   private String selloSeguridad;
   private String precintos;
@@ -157,28 +157,28 @@ public class InstruccionEmbarqueDTO implements Serializable {
   /**
    * @return the tipoContenedor
    */
-  public Long getTipoContenedor() {
+  public Integer getTipoContenedor() {
     return tipoContenedor;
   }
 
   /**
    * @param tipoContenedor the tipoContenedor to set
    */
-  public void setTipoContenedor(Long tipoContenedor) {
+  public void setTipoContenedor(Integer tipoContenedor) {
     this.tipoContenedor = tipoContenedor;
   }
 
   /**
    * @return the cantidadContenedores
    */
-  public Long getCantidadContenedores() {
+  public Integer getCantidadContenedores() {
     return cantidadContenedores;
   }
 
   /**
    * @param cantidadContenedores the cantidadContenedores to set
    */
-  public void setCantidadContenedores(Long cantidadContenedores) {
+  public void setCantidadContenedores(Integer cantidadContenedores) {
     this.cantidadContenedores = cantidadContenedores;
   }
 

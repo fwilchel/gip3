@@ -26,7 +26,7 @@
 
 						<p:outputLabel value="#{msg.asignarDatosTL_FechaActual}" for="fecha" styleClass="negrita" />
 						<p:outputLabel value="#{asignarDatosTLMB.fechaActual}" id="fecha" >
-							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
+							<f:convertDateTime pattern="dd-MMM-yyyy hh:mm:ss" timeZone="GMT-5:00"/>
 						</p:outputLabel>
 						<p:message for="fecha"></p:message>
 

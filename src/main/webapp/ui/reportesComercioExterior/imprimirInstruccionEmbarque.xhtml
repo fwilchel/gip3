@@ -124,7 +124,7 @@
     <p:dialog 
       id="dlgConfirmacion" 
       widgetVar="dlgConfirmacion" 
-      header="#{msg.spaTitle}" 
+      header="#{msg.iieTitle}" 
       resizable="false" 
       showEffect="clip" 
       hideEffect="clip"
@@ -412,7 +412,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="fleteExterno"
-                value="#{imprimirInstruccionEmbarque.seleccionado.fleteExterno}" />
+                value="#{imprimirInstruccionEmbarque.obtenerLabelFleteExterno(imprimirInstruccionEmbarque.seleccionado.fleteExterno)}" />
               <!-- Pais Destino -->
               <h:outputLabel 
                 for="paisDestino"

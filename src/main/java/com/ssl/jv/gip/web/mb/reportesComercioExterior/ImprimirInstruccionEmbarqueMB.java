@@ -16,7 +16,7 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -113,12 +113,13 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
     LOGGER.debug("Metodo: <<imprimirInstruccionEmbarque>>");
     StreamedContent reportePDF = null;
     Map<String, Object> parametrosReporte = new HashMap<>();
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     parametrosReporte.put("consecutivosSPs", "PRUEBA");
     parametrosReporte.put("mesEmbarque", seleccionado.getMesEmbarque());
     parametrosReporte.put("sociedad1", seleccionado.getAgenteAduana1Nombre());
     parametrosReporte.put("sociedad2", seleccionado.getAgenteAduana2Nombre());
     parametrosReporte.put("puertoEmbarque", seleccionado.getPuertoEmbarque());
-    parametrosReporte.put("fechaEmbarque", seleccionado.getFechaEmbarque());
+    parametrosReporte.put("fechaEmbarque", formatoFecha.format(seleccionado.getFechaEmbarque()));
     parametrosReporte.put("naviera", seleccionado.getNaviera());
     parametrosReporte.put("linea", seleccionado.getLinea());
     parametrosReporte.put("buque", seleccionado.getBuque());
@@ -180,11 +181,16 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
 
   /**
    *
+   * @param fleteExterno
    * @return
    */
-  public Date getFechaActual() {
-    LOGGER.debug("Metodo: <<getFechaActual>>");
-    return new Date();
+  public String obtenerLabelFleteExterno(String fleteExterno) {
+    LOGGER.debug("Metodo: <<obtenerLabelFleteExterno>>");
+    if (fleteExterno.equalsIgnoreCase("P")) {
+      return AplicacionMB.getMessage("iieDtlLblFleteExternoP", language);
+    } else {
+      return AplicacionMB.getMessage("iieDtlLblFleteExternoC", language);
+    }
   }
 
   /**

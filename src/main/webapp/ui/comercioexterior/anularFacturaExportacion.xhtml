@@ -24,7 +24,7 @@
 						rowsPerPageTemplate="5,10,15">
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton action="PF('confirmacionDLG').show()"
+							<p:commandButton oncomplete="PF('confirmacionDLG').show()"
 								update=":datoDlg"
 								icon="ui-icon-closethick">
 								<f:setPropertyActionListener value="#{dato}"
@@ -61,8 +61,10 @@
 		<p:dialog header="#{msg.TituloAnularFX}" widgetVar="confirmacionDLG"
 			modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="datoDlg">
 			<h:form id="formaDlg">
-				<h:outputText value="Test" />
-				<p:commandButton
+				<h:outputText value="#{msg.AdvertenciaAnularFX}" />
+				<p:spacer height="10" />
+				<p:commandButton value="#{msg.generalConfirmar}"
+					oncomplete="PF('confirmacionDLG').hide()"
 					action="#{anularFacturaExportacionMB.anularFactura()}">
 					<f:setPropertyActionListener value="#{dato}"
 						target="#{anularFacturaExportacionMB.seleccionado}" />
