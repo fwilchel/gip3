@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>Title: DocTerminosTransporteDTO</p>
@@ -22,7 +23,7 @@ public class DocTerminosTransporteDTO implements Serializable{
 	private String factura;
 	private String lote;
 	private String descripcion;
-	private String cantCajas;
+	private BigDecimal cantCajas;
 	private String pedidoNum;
 	private String asignacionNum;
 	private String avisoNum;
@@ -47,10 +48,10 @@ public class DocTerminosTransporteDTO implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getCantCajas() {
+	public BigDecimal getCantCajas() {
 		return cantCajas;
 	}
-	public void setCantCajas(String cantCajas) {
+	public void setCantCajas(BigDecimal cantCajas) {
 		this.cantCajas = cantCajas;
 	}
 	public String getPedidoNum() {

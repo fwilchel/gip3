@@ -140,12 +140,12 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
     BigDecimal sumCafe = new BigDecimal(0);
     for (DocTerminosTransporteDTO factura : listaFacturas) {
       if (factura.getLote().equals("MERCADEO")) {
-        if (factura.getCantCajas() != null && !factura.getCantCajas().isEmpty()) {
-          sumMercadeo = sumMercadeo.add(new BigDecimal(factura.getCantCajas()));
+        if (factura.getCantCajas() != null) {
+          sumMercadeo = sumMercadeo.add(factura.getCantCajas());
         }
       } else {
-        if (factura.getCantCajas() != null && !factura.getCantCajas().isEmpty()) {
-          sumCafe = sumCafe.add(new BigDecimal(factura.getCantCajas()));
+        if (factura.getCantCajas() != null) {
+          sumCafe  = sumCafe.add(factura.getCantCajas());
         }
       }
     }

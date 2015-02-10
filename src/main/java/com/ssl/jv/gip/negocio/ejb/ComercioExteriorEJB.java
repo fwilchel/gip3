@@ -1535,4 +1535,8 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		return documentoDAO.modificarFacturaProforma(documento, listado);
 	}
 
+	@Override
+	public void actualizarEstadoDocumento(Documento documento) {
+		documentoDAO.actualizarEstadoDocumentoPorConsecutivo(documento);
+	}
 }
