@@ -66,6 +66,7 @@ public class InventarioComercioExteriorMB extends UtilMB {
 	@PostConstruct
 	public void init() {
 		idUsuario = menu.getUsuario().getId();
+		movimientosInventarioComexts = new ArrayList<MovimientosInventarioComext>();
 	}
 
 	public void consultarMovimientosInventarioComExt(ActionEvent actionEvent) {
