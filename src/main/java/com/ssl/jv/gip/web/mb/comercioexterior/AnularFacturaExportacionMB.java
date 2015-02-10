@@ -95,6 +95,8 @@ public class AnularFacturaExportacionMB extends UtilMB{
 			for (Estado estado : estados) {
 				if(estado.getId()==ConstantesDocumento.ANULADO){
 					seleccionado.getEstadosxdocumento().setEstado(estado);
+					comercioExteriorEJB.actualizarEstadoDocumento(seleccionado);
+					documentos = comercioExteriorEJB.consultarFacturasDeExportacion();
 				}
 			}			
 			this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));

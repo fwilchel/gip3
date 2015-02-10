@@ -328,4 +328,6 @@ public interface ComercioExteriorEJBLocal {
 	
 	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado);
 
+	void actualizarEstadoDocumento(Documento documento);
+
 }
