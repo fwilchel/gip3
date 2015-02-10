@@ -23,7 +23,11 @@
       prependId="false" >
 
       <p:messages 
-        id="msgs" />
+        id="msgs" 
+        showDetail="false" 
+        showSummary="true"
+        globalOnly="false" 
+        showIcon="true"/>
 
       <p:tabView 
         id="pnlTab">
@@ -75,8 +79,8 @@
                 icon="ui-icon-zoomin" 
                 title="#{msg.iieListBtnDetalle}"
                 actionListener="#{imprimirInstruccionEmbarque.seleccionarInstruccionEmbarque(instruccionEmbarque)}"
-                oncomplete="PF('dlgConfirmacion').show()"
-                update=":dlgConfirmacion">
+                oncomplete="PF('dlgDetalle').show()"
+                update=":dlgDetalle">
               </p:commandButton>
             </p:column>
 
@@ -122,8 +126,8 @@
     </h:form>
 
     <p:dialog 
-      id="dlgConfirmacion" 
-      widgetVar="dlgConfirmacion" 
+      id="dlgDetalle" 
+      widgetVar="dlgDetalle" 
       header="#{msg.iieTitle}" 
       resizable="false" 
       showEffect="clip" 
@@ -135,58 +139,73 @@
       <h:form
         id="formaDetalle"
         prependId="false">
-        <p:panel>
-          <p:fieldset 
-            legend="#{msg.iieDtlTitleCliente}">
+        <p:panel 
+          id="pnlDetalle"><!-- style="text-align:justify;" -->
+          <p:outputPanel 
+            style="margin-bottom:20px" >
             <h:panelGrid 
-              columns="4">
+              columns="4"
+              styleClass="noBorders"
+              columnClasses="label, value">
               <h:outputLabel 
                 for="nombreCliente"
                 value="#{msg.iieDtlLblCliente}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="nombreCliente"
-                value="#{imprimirInstruccionEmbarque.seleccionado.clienteNombre}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clienteNombre}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <h:outputLabel 
                 for="direccionCliente"
                 value="#{msg.iieDtlLblDireccion}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="direccionCliente"
-                value="#{imprimirInstruccionEmbarque.seleccionado.clienteDireccion}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clienteDireccion}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <h:outputLabel 
                 for="telefonoCliente"
                 value="#{msg.iieDtlLblTelefono}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="telefonoCliente"
-                value="#{imprimirInstruccionEmbarque.seleccionado.clienteTelefono}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clienteTelefono}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <h:outputLabel 
                 for="contactoCliente"
                 value="#{msg.iieDtlLblContacto}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="contactoCliente"
-                value="#{imprimirInstruccionEmbarque.seleccionado.clienteContacto}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clienteContacto}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <h:outputLabel 
                 for="ciudadCliente"
                 value="#{msg.iieDtlLblCiudad}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="ciudadCliente"
-                value="#{imprimirInstruccionEmbarque.seleccionado.clienteCiudad}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clienteCiudad}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <h:outputLabel 
                 for="paisCliente"
                 value="#{msg.iieDtlLblPais}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="paisCliente"
-                value="#{imprimirInstruccionEmbarque.seleccionado.clientePais}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.clientePais}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
             </h:panelGrid>
-          </p:fieldset>
+          </p:outputPanel>
           <!---->
-          <p:fieldset 
-            legend="#{msg.iieDtlTitleFactura}">
+          <p:outputPanel
+            style="margin-bottom:20px">
             <p:dataTable 
               id="tblFacturas"
               var="factura" 
@@ -236,201 +255,252 @@
                   value="#{factura.avisoNum}" />
               </p:column>
             </p:dataTable>
-          </p:fieldset>
+          </p:outputPanel>
           <!---->
-          <p:fieldset 
-            legend="#{msg.iieDtlTitleEmbarque}" >
+          <p:outputPanel
+            style="margin-bottom:20px">
             <h:panelGrid 
-              columns="4">
+              columns="4"
+              styleClass="noBorders"
+              columnClasses="label, value">
               <!-- Sociedad de Intermediaci�n Aduanera No.1 -->
               <h:outputLabel 
                 for="sociedadIntermediacionAduanera1"
                 value="#{msg.iieDtlLblSociedadIntermediacionAduanera1}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="sociedadIntermediacionAduanera1"
-                value="#{imprimirInstruccionEmbarque.seleccionado.agenteAduana1Nombre}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.agenteAduana1Nombre}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Sociedad de Intermediaci�n Aduanera No.2 -->
               <h:outputLabel 
                 for="sociedadIntermediacionAduanera2"
                 value="#{msg.iieDtlLblSociedadIntermediacionAduanera2}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="sociedadIntermediacionAduanera2"
-                value="#{imprimirInstruccionEmbarque.seleccionado.agenteAduana2Nombre}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.agenteAduana2Nombre}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Mes de Embarque -->
               <h:outputLabel 
                 for="mesEmbarque"
                 value="#{msg.iieDtlLblMesEmbarque}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="mesEmbarque"
-                value="#{imprimirInstruccionEmbarque.seleccionado.mesEmbarque}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.mesEmbarque}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Puerto de Embarque -->
               <h:outputLabel 
                 for="puertoEmbarque"
                 value="#{msg.iieDtlLblPuertoEmbarque}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="puertoEmbarque"
-                value="#{imprimirInstruccionEmbarque.seleccionado.puertoEmbarque}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.puertoEmbarque}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Fecha de Embarque -->
               <h:outputLabel 
                 for="fechaEmbarque"
                 value="#{msg.iieDtlLblFechaEmbarque}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="fechaEmbarque"
-                value="#{imprimirInstruccionEmbarque.seleccionado.fechaEmbarque}" >
+                value="#{imprimirInstruccionEmbarque.seleccionado.fechaEmbarque}" 
+                disabled="true"
+                styleClass="filas_contenido">
                 <f:convertDateTime 
                   pattern="dd-MMM-yyyy"/>
-              </h:outputText>
+              </h:inputText>
               <!-- Naviera -->
               <h:outputLabel 
                 for="naviera"
                 value="#{msg.iieDtlLblNaviera}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="naviera"
-                value="#{imprimirInstruccionEmbarque.seleccionado.naviera}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.naviera}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Linea -->
               <h:outputLabel 
                 for="linea"
                 value="#{msg.iieDtlLblLinea}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="linea"
-                value="#{imprimirInstruccionEmbarque.seleccionado.linea}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.linea}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Buque -->
               <h:outputLabel 
                 for="buque"
                 value="#{msg.iieDtlLblBuque}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="buque"
-                value="#{imprimirInstruccionEmbarque.seleccionado.buque}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.buque}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Seguro -->
               <h:outputLabel 
                 for="seguro"
                 value="#{msg.iieDtlLblSeguro}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="seguro"
-                value="#{imprimirInstruccionEmbarque.seleccionado.seguro}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.seguro}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Tipo Contenedor -->
               <h:outputLabel 
                 for="tipoContenedor"
                 value="#{msg.iieDtlLblTipoContenedor}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="tipoContenedor"
-                value="#{imprimirInstruccionEmbarque.seleccionado.tipoContenedor}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.tipoContenedor}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Cantidad de Contenedores -->
               <h:outputLabel 
                 for="cantidadContenedores"
                 value="#{msg.iieDtlLblCantidadContenedores}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="cantidadContenedores"
-                value="#{imprimirInstruccionEmbarque.seleccionado.cantidadContenedores}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.cantidadContenedores}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Numero de Contenedor -->
               <h:outputLabel 
                 for="numeroContenedor"
                 value="#{msg.iieDtlLblNumeroContenedor}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="numeroContenedor"
-                value="#{imprimirInstruccionEmbarque.seleccionado.numeroContenedor}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.numeroContenedor}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Sello de Seguridad -->
               <h:outputLabel 
                 for="sellosSeg"
                 value="#{msg.iieDtlLblSellosSeg}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="sellosSeg"
-                value="#{imprimirInstruccionEmbarque.seleccionado.selloSeguridad}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.selloSeguridad}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- 	Precintos -->
               <h:outputLabel 
                 for="precintos"
                 value="#{msg.iieDtlLblPrecintos}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="precintos"
-                value="#{imprimirInstruccionEmbarque.seleccionado.precintos}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.precintos}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Modalidad de Embarque -->
               <h:outputLabel 
                 for="modalidadEmbarque"
                 value="#{msg.iieDtlLblintModalidadEmbarque}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="modalidadEmbarque"
-                value="#{imprimirInstruccionEmbarque.seleccionado.modalidadEmbarqueDescripcion}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.modalidadEmbarqueDescripcion}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Incoterm de Despacho -->
               <h:outputLabel 
                 for="incotermDespacho"
                 value="#{msg.iieDtlLblIncotermDespacho}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="incotermDespacho"
-                value="#{imprimirInstruccionEmbarque.seleccionado.incotermDespachoDecripcion}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.incotermDespachoDecripcion}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Observacion 1 -->
               <h:outputLabel 
                 for="observacionTerminosTransporte"
                 value="#{msg.iieDtlLblObservacionTerminosTransporte}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="observacionTerminosTransporte"
-                value="#{imprimirInstruccionEmbarque.seleccionado.observacion}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.observacion}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Observacion 2 -->
               <h:outputLabel 
                 for="observacionTerminosTransporte2"
                 value="#{msg.iieDtlLblObservacionTerminosTransporte2}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="observacionTerminosTransporte2"
-                value="#{imprimirInstruccionEmbarque.seleccionado.observacion2}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.observacion2}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Fecha ETA -->
               <h:outputLabel 
                 for="fechaETA"
                 value="#{msg.iieDtlLblFechaETA}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="fechaETA"
-                value="#{imprimirInstruccionEmbarque.seleccionado.fechaEmbarque}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.fechaEmbarque}" 
+                disabled="true"
+                styleClass="filas_contenido">
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:inputText>
               <!-- Numero de Booking -->
               <h:outputLabel 
                 for="numeroBooking"
                 value="#{msg.iieDtlLblNumeroBooking}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="numeroBooking"
-                value="#{imprimirInstruccionEmbarque.seleccionado.numeroBooking}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.numeroBooking}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Flete Externo: -->
               <h:outputLabel 
                 for="fleteExterno"
                 value="#{msg.iieDtlLblFleteExterno}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="fleteExterno"
-                value="#{imprimirInstruccionEmbarque.obtenerLabelFleteExterno(imprimirInstruccionEmbarque.seleccionado.fleteExterno)}" />
+                value="#{imprimirInstruccionEmbarque.obtenerLabelFleteExterno(imprimirInstruccionEmbarque.seleccionado.fleteExterno)}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Pais Destino -->
               <h:outputLabel 
                 for="paisDestino"
                 value="#{msg.iieDtlLblPaisDestino}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="paisDestino"
-                value="#{imprimirInstruccionEmbarque.seleccionado.paisDestinoNombre}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.paisDestinoNombre}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
               <!-- Ciudad Destino -->
               <h:outputLabel 
                 for="ciudadDestino"
                 value="#{msg.iieDtlLblCiudadDestino}"
                 styleClass="negrita"/>
-              <h:outputText
+              <h:inputText
                 id="ciudadDestino"
-                value="#{imprimirInstruccionEmbarque.seleccionado.ciudadDestinoNombre}" />
+                value="#{imprimirInstruccionEmbarque.seleccionado.ciudadDestinoNombre}" 
+                disabled="true"
+                styleClass="filas_contenido"/>
             </h:panelGrid>
-          </p:fieldset>
+          </p:outputPanel>
           <!-- botones -->
           <f:facet
             name="footer">
@@ -448,7 +518,7 @@
               styleClass="ui-confirmdialog-no" 
               icon="ui-icon-close" 
               actionListener="#{imprimirInstruccionEmbarque.cancelar()}"
-              oncomplete="PF('dlgConfirmacion').hide()"
+              oncomplete="PF('dlgDetalle').hide()"
               update=":forma:msgs"/>
           </f:facet>
         </p:panel>
