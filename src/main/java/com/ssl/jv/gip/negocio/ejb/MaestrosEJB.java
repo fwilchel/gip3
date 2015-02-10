@@ -854,6 +854,9 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		if (icl.getRangoCostoLogisticos() != null) {
 			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
 				rcl.setItemCostoLogistico(icl);
+				if (rcl.getMoneda()!=null && (rcl.getMoneda().getId()==null || rcl.getMoneda().getId().equals(""))){
+					rcl.setMoneda(null);
+				}
 				if (rcl.getId() != null && rcl.getId() != 0) {
 					this.rangoCostoLogisticoDAO.update(rcl);
 				} else {
