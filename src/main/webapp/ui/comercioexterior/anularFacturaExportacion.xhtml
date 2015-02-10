@@ -24,7 +24,7 @@
 						rowsPerPageTemplate="5,10,15">
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton action="PF('confirmacionDLG').show()"
+							<p:commandButton onComplete="PF('confirmacionDLG').show()"
 								update=":datoDlg"
 								icon="ui-icon-closethick">
 								<f:setPropertyActionListener value="#{dato}"
