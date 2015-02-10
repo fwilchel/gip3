@@ -267,7 +267,7 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
               DocTerminosTransporteDTO dto = new DocTerminosTransporteDTO();
               dto.setAsignacionNum((String) obj[5]);
               dto.setAvisoNum((String) obj[6]);
-              dto.setCantCajas(((BigDecimal) obj[3]).toString());
+              dto.setCantCajas((BigDecimal) obj[3]);
               dto.setDescripcion((String) obj[2]);
               dto.setFactura((String) obj[0]);
               dto.setLote((String) obj[1]);
