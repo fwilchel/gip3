@@ -125,7 +125,7 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
     parametrosReporte.put("buque", seleccionado.getBuque());
     parametrosReporte.put("pais_ciudad_dst", seleccionado.getPaisDestinoNombre() + " - " + seleccionado.getCiudadDestinoNombre());
     parametrosReporte.put("fleteExternoP", seleccionado.getFleteExterno().equals("P") ? "XXX" : "");
-    parametrosReporte.put("fleteExternoC", seleccionado.getFleteExterno().equals("C") ? "" : "XXX");
+    parametrosReporte.put("fleteExternoC", seleccionado.getFleteExterno().equals("C") ? "XXX" : "");
     parametrosReporte.put("seguro", seleccionado.getSeguro());
     parametrosReporte.put("direccionCliente", seleccionado.getClienteDireccion());
     parametrosReporte.put("nombreCliente", seleccionado.getClienteNombre());
