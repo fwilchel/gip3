@@ -232,9 +232,14 @@
               </p:column>
               <!-- Cantidad Cajas -->
               <p:column   
-                headerText="#{msg.iieDtlTblClmCantidadCajas}">
+                headerText="#{msg.iieDtlTblClmCantidadCajas}"
+                styleClass="derecha">
                 <h:outputText 
-                  value="#{factura.cantCajas}" />
+                  value="#{factura.cantCajas}" >
+                  <f:convertNumber 
+                    maxFractionDigits="2" 
+                    minFractionDigits="2"/>
+                </h:outputText>
               </p:column>
               <!-- Pedido No. -->
               <p:column   

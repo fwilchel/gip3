@@ -46,7 +46,7 @@
 	<field name="factura" class="java.lang.String"/>
 	<field name="lote" class="java.lang.String"/>
 	<field name="descripcion" class="java.lang.String"/>
-	<field name="cantCajas" class="java.lang.String"/>
+	<field name="cantCajas" class="java.math.BigDecimal"/>
 	<field name="pedidoNum" class="java.lang.String"/>
 	<field name="asignacionNum" class="java.lang.String"/>
 	<field name="avisoNum" class="java.lang.String"/>
