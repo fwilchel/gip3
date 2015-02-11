@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.ejb.Stateless;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MuestrasXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAO;
@@ -18,6 +20,7 @@ import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
+import java.util.Map;
 
 /**
  * Session Bean implementation class ReportesComercioExteriorEJB
@@ -37,6 +40,9 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 
   @EJB
   private TerminosTransporteDAOLocal terminosTransporteDAO;
+
+  @EJB
+  private ClienteDAOLocal clienteDAO;
 
   /**
    * Default constructor.
@@ -82,5 +88,11 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
     LOGGER.debug("Metodo: <<consultarListadoFacturasPorInstruccionEmabarque>>");
     String idTmp = String.valueOf(id);
     return terminosTransporteDAO.getDocumentosTerminosTranporteById(idTmp);
+  }
+
+  @Override
+  public List<Cliente> consultarClientesReporteVentasCE(Map<String, Object> parametros) {
+    LOGGER.debug("Metodo: <<consultarClientesReporteVentasCE>>");
+    return clienteDAO.consultarClientesReporteVentasCE(parametros);
   }
 }

@@ -29,7 +29,8 @@ import javax.persistence.Table;
 @Table(name = "clientes")
 @NamedQueries({
 		@NamedQuery(name = Cliente.CLIENTE_FIND_ALL, query = "SELECT c FROM Cliente c"),
-		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.activo = true AND u.id = :idUsuario ORDER BY c.nombre ASC") })
+		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.activo = true AND u.id = :idUsuario ORDER BY c.nombre ASC"),
+		@NamedQuery(name = Cliente.BUSCAR_CLIENTES_REPORTE_VENTAS_CE, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.nombre LIKE UPPER (:nombre) AND c.activo = :activo AND u.id = :idUsuario ORDER BY c.nombre ASC") })
 public class Cliente implements Serializable, Comparable {
 
 	/**
@@ -38,6 +39,7 @@ public class Cliente implements Serializable, Comparable {
 	private static final long serialVersionUID = 466740775247498616L;
 	public static final String CLIENTE_FIND_ALL = "Cliente.findAll";
 	public static final String CLIENTE_ACTIVO_FIND_BY_USUARIO = "Cliente.findActivoFindByUsuario";
+	public static final String BUSCAR_CLIENTES_REPORTE_VENTAS_CE = "Cliente.buscarClientesReporteventasCE";
 
 	@Id
 	@SequenceGenerator( name = "clientes_id_seq", sequenceName = "clientes_id_seq", allocationSize = 1)

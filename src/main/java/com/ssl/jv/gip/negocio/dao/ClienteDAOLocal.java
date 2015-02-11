@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.negocio.dto.ClienteFiltroVO;
+import java.util.Map;
 
 @Local
 public interface ClienteDAOLocal extends IGenericDAO<Cliente> {
@@ -16,4 +17,10 @@ public interface ClienteDAOLocal extends IGenericDAO<Cliente> {
 	
 	void guardarCliente(Cliente cliente);
 
+    /**
+     * 
+     * @param parametros
+     * @return 
+     */
+    public List<Cliente> consultarClientesReporteVentasCE(Map<String, Object> parametros);
 }

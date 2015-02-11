@@ -3,6 +3,8 @@ package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
+import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
+import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJB;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -14,7 +16,9 @@ import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ViewScoped;
 
 /**
@@ -54,7 +58,12 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    *
    */
   @EJB
-  private ComercioExteriorEJBLocal comercioExteriorEJB;
+  private ReportesComercioExteriorEJB reportesComercioExteriorEJB;
+  /**
+   *
+   */
+  @EJB
+  private MaestrosEJBLocal maestrosEJB;
   /**
    *
    */
@@ -98,7 +107,12 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   public void buscarClientes() {
     LOGGER.debug("Metodo: <<buscarClientes>>");
-    setListaClientes(comercioExteriorEJB.listadoClientesInstruccionEmbarque(menuMB.getUsuario().getId()));
+    Map<String, Object> parametros = new HashMap();
+    if (filtroNombreCliente != null && !filtroNombreCliente.isEmpty()) {
+      parametros.put("nombre", filtroNombreCliente);
+    }
+    parametros.put("idUsuario", menuMB.getUsuario().getId());
+    setListaClientes(reportesComercioExteriorEJB.consultarClientesReporteVentasCE(parametros));
   }
 
   /**
@@ -113,7 +127,7 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   public void buscarProductos() {
     LOGGER.debug("Metodo: <<buscarProductos>>");
-    setListaClientes(comercioExteriorEJB.listadoClientesInstruccionEmbarque(menuMB.getUsuario().getId()));
+    setListaProductos(maestrosEJB.consultarProductosInventariosActivos());
   }
 
   /**

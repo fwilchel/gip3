@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
+import java.util.Map;
 
 @Local
 public interface ReportesComercioExteriorEJBLocal {
@@ -37,4 +39,11 @@ public interface ReportesComercioExteriorEJBLocal {
    * @return
    */
   List<DocTerminosTransporteDTO> consultarListadoFacturasPorInstruccionEmabarque(Long id);
+
+  /**
+   *
+   * @param parametros
+   * @return
+   */
+  public List<Cliente> consultarClientesReporteVentasCE(Map<String, Object> parametros);
 }
