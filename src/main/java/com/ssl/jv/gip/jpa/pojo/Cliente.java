@@ -39,7 +39,7 @@ public class Cliente implements Serializable, Comparable {
 	private static final long serialVersionUID = 466740775247498616L;
 	public static final String CLIENTE_FIND_ALL = "Cliente.findAll";
 	public static final String CLIENTE_ACTIVO_FIND_BY_USUARIO = "Cliente.findActivoFindByUsuario";
-	public static final String BUSCAR_CLIENTES_REPORTE_VENTAS_CE = "Cliente.buscarClientesReporteventasCE";
+	public static final String BUSCAR_CLIENTES_REPORTE_VENTAS_CE = "Cliente.buscarClientesReporteVentasCE";
 
 	@Id
 	@SequenceGenerator( name = "clientes_id_seq", sequenceName = "clientes_id_seq", allocationSize = 1)

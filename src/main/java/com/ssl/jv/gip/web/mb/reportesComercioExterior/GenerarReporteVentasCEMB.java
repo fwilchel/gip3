@@ -127,7 +127,11 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   public void buscarProductos() {
     LOGGER.debug("Metodo: <<buscarProductos>>");
-    setListaProductos(maestrosEJB.consultarProductosInventariosActivos());
+    Map<String, Object> parametros = new HashMap();
+    if (filtroSKUProducto != null && !filtroSKUProducto.isEmpty()) {
+      parametros.put("sku", filtroSKUProducto);
+    }
+    setListaProductos(reportesComercioExteriorEJB.consultarProductosReporteVentasCE(parametros));
   }
 
   /**

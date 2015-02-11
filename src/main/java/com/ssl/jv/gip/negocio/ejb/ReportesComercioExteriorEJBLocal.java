@@ -8,6 +8,7 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
@@ -46,4 +47,11 @@ public interface ReportesComercioExteriorEJBLocal {
    * @return
    */
   public List<Cliente> consultarClientesReporteVentasCE(Map<String, Object> parametros);
+
+  /**
+   *
+   * @param parametros
+   * @return
+   */
+  public List<ProductosInventario> consultarProductosReporteVentasCE(Map<String, Object> parametros);
 }

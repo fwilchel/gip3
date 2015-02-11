@@ -10,10 +10,12 @@ import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MuestrasXLoteDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal;
 import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
@@ -43,6 +45,9 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 
   @EJB
   private ClienteDAOLocal clienteDAO;
+
+  @EJB
+  private ProductoInventarioDAOLocal productoInventarioDAO;
 
   /**
    * Default constructor.
@@ -94,5 +99,11 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   public List<Cliente> consultarClientesReporteVentasCE(Map<String, Object> parametros) {
     LOGGER.debug("Metodo: <<consultarClientesReporteVentasCE>>");
     return clienteDAO.consultarClientesReporteVentasCE(parametros);
+  }
+
+  @Override
+  public List<ProductosInventario> consultarProductosReporteVentasCE(Map<String, Object> parametros) {
+    LOGGER.debug("Metodo: <<consultarProductosReporteVentasCE>>");
+    return productoInventarioDAO.consultarProductosReporteVentasCE(parametros);
   }
 }

@@ -64,7 +64,7 @@ public class ClienteDAO extends GenericDAO<Cliente> implements ClienteDAOLocal {
     if (parametros.get("nombre") == null) {
       query.setParameter("nombre", "%");
     } else {
-      query.setParameter("nombre", parametros.get("nombre"));
+      query.setParameter("nombre", "%" + parametros.get("nombre") + "%");
     }
     query.setParameter("activo", true);
     query.setParameter("idUsuario", parametros.get("idUsuario"));
