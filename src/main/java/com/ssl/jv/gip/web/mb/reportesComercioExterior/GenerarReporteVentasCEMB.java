@@ -1,7 +1,7 @@
 package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
-import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -43,26 +43,13 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    *
    */
   private static final long serialVersionUID = -2780795923623719268L;
-
   private static final Logger LOGGER = Logger.getLogger(GenerarReporteVentasCEMB.class);
-
   @EJB
   private ComercioExteriorEJBLocal comercioExteriorEjb;
-
   @ManagedProperty(value = "#{aplicacionMB}")
   private AplicacionMB appMB;
-
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menuMB;
-
-  /**
-   * lista de clientes que retorna la consulta a la base de datos
-   */
-  private List<Cliente> listaClientes;
-  /**
-   * Registro seleccionado
-   */
-  private Cliente seleccionado;
   /**
    *
    */
@@ -71,15 +58,35 @@ public class GenerarReporteVentasCEMB extends UtilMB {
   /**
    *
    */
-  private List<DocTerminosTransporteDTO> listaFacturas;
-  /**
-   *
-   */
   private Date filtroFechaInicial;
   /**
    *
    */
   private Date filtroFechaFinal;
+  /**
+   * lista de clientes que retorna la consulta a la base de datos
+   */
+  private List<Cliente> listaClientes;
+  /**
+   * filtro por nombre la lista de clientes
+   */
+  private String filtroNombreCliente;
+  /**
+   * lista de los clientes seleccionados
+   */
+  private List<Cliente> listaClientesSeleccionados;
+  /**
+   * lista de clientes que retorna la consulta a la base de datos
+   */
+  private List<ProductosInventario> listaProductos;
+  /**
+   * filtro por nombre la lista de clientes
+   */
+  private String filtroSKUProducto;
+  /**
+   * lista de los clientes seleccionados
+   */
+  private List<ProductosInventario> listaProductosSeleccionados;
 
   @PostConstruct
   public void init() {
@@ -91,7 +98,14 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   public void buscarClientes() {
     LOGGER.debug("Metodo: <<buscarClientes>>");
-    listaClientes = comercioExteriorEJB.listadoClientesInstruccionEmbarque(menuMB.getUsuario().getId());
+    setListaClientes(comercioExteriorEJB.listadoClientesInstruccionEmbarque(menuMB.getUsuario().getId()));
+  }
+
+  /**
+   *
+   */
+  public void asignarClientesSeleccionados() {
+    LOGGER.debug("Metodo: <<asignarClientesSeleccionados>>");
   }
 
   /**
@@ -99,37 +113,22 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   public void buscarProductos() {
     LOGGER.debug("Metodo: <<buscarProductos>>");
+    setListaClientes(comercioExteriorEJB.listadoClientesInstruccionEmbarque(menuMB.getUsuario().getId()));
   }
 
   /**
    *
-   * @param seleccionado
    */
-  public void seleccionarCliente(Cliente seleccionado) {
-    LOGGER.debug("Metodo: <<seleccionarCliente>>");
-    setSeleccionado(seleccionado);
+  public void asignarProductosSeleccionados() {
+    LOGGER.debug("Metodo: <<asignarProductosSeleccionados>>");
   }
 
+  /**
+   *
+   */
   public void generarReporteVentas() {
     LOGGER.debug("Metodo: <<generarReporteVentas>>");
     // TODO: 
-  }
-
-  /**
-   *
-   */
-  public void cancelar() {
-    LOGGER.debug("Metodo: <<cancelar>>");
-    this.setSeleccionado(null);
-  }
-
-  /**
-   *
-   * @return
-   */
-  public Date getFechaActual() {
-    LOGGER.debug("Metodo: <<getFechaActual>>");
-    return new Date();
   }
 
   /**
@@ -144,48 +143,6 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   public void setMenuMB(MenuMB menuMB) {
     this.menuMB = menuMB;
-  }
-
-  /**
-   * @return the listaClientes
-   */
-  public List<Cliente> getListaClientes() {
-    return listaClientes;
-  }
-
-  /**
-   * @param listaClientes the listaClientes to set
-   */
-  public void setListaClientes(List<Cliente> listaClientes) {
-    this.listaClientes = listaClientes;
-  }
-
-  /**
-   * @return the seleccionado
-   */
-  public Cliente getSeleccionado() {
-    return seleccionado;
-  }
-
-  /**
-   * @param seleccionado the seleccionado to set
-   */
-  public void setSeleccionado(Cliente seleccionado) {
-    this.seleccionado = seleccionado;
-  }
-
-  /**
-   * @return the listaFacturas
-   */
-  public List<DocTerminosTransporteDTO> getListaFacturas() {
-    return listaFacturas;
-  }
-
-  /**
-   * @param listaFacturas the listaFacturas to set
-   */
-  public void setListaFacturas(List<DocTerminosTransporteDTO> listaFacturas) {
-    this.listaFacturas = listaFacturas;
   }
 
   /**
@@ -214,6 +171,90 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   public void setFiltroFechaFinal(Date filtroFechaFinal) {
     this.filtroFechaFinal = filtroFechaFinal;
+  }
+
+  /**
+   * @return the listaClientes
+   */
+  public List<Cliente> getListaClientes() {
+    return listaClientes;
+  }
+
+  /**
+   * @param listaClientes the listaClientes to set
+   */
+  public void setListaClientes(List<Cliente> listaClientes) {
+    this.listaClientes = listaClientes;
+  }
+
+  /**
+   * @return the filtroNombreCliente
+   */
+  public String getFiltroNombreCliente() {
+    return filtroNombreCliente;
+  }
+
+  /**
+   * @param filtroNombreCliente the filtroNombreCliente to set
+   */
+  public void setFiltroNombreCliente(String filtroNombreCliente) {
+    this.filtroNombreCliente = filtroNombreCliente;
+  }
+
+  /**
+   * @return the listaClientesSeleccionados
+   */
+  public List<Cliente> getListaClientesSeleccionados() {
+    return listaClientesSeleccionados;
+  }
+
+  /**
+   * @param listaClientesSeleccionados the listaClientesSeleccionados to set
+   */
+  public void setListaClientesSeleccionados(List<Cliente> listaClientesSeleccionados) {
+    this.listaClientesSeleccionados = listaClientesSeleccionados;
+  }
+
+  /**
+   * @return the listaProductos
+   */
+  public List<ProductosInventario> getListaProductos() {
+    return listaProductos;
+  }
+
+  /**
+   * @param listaProductos the listaProductos to set
+   */
+  public void setListaProductos(List<ProductosInventario> listaProductos) {
+    this.listaProductos = listaProductos;
+  }
+
+  /**
+   * @return the filtroSKUProducto
+   */
+  public String getFiltroSKUProducto() {
+    return filtroSKUProducto;
+  }
+
+  /**
+   * @param filtroSKUProducto the filtroSKUProducto to set
+   */
+  public void setFiltroSKUProducto(String filtroSKUProducto) {
+    this.filtroSKUProducto = filtroSKUProducto;
+  }
+
+  /**
+   * @return the listaProductosSeleccionados
+   */
+  public List<ProductosInventario> getListaProductosSeleccionados() {
+    return listaProductosSeleccionados;
+  }
+
+  /**
+   * @param listaProductosSeleccionados the listaProductosSeleccionados to set
+   */
+  public void setListaProductosSeleccionados(List<ProductosInventario> listaProductosSeleccionados) {
+    this.listaProductosSeleccionados = listaProductosSeleccionados;
   }
 
 }
