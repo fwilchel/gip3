@@ -1010,8 +1010,7 @@ DocumentoDAOLocal {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Documento> consultarOrdenesDeDespacho(
-			String consecutivoDocumento) {
+	public List<Documento> consultarOrdenesDeDespacho(String consecutivoDocumento) {
 		List<Documento> listado = new ArrayList<Documento>();
 		String query;
 		try {
@@ -1024,6 +1023,7 @@ DocumentoDAOLocal {
 					.createQuery(query)
 					.setParameter("tipoDocumento",
 							(long) ConstantesTipoDocumento.ORDEN_DESPACHO)
+							.setMaxResults(35)
 							.getResultList();
 		} catch (Exception e) {
 			LOGGER.error(e
