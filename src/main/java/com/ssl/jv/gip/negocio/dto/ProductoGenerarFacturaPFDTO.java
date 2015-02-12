@@ -48,7 +48,6 @@ public class ProductoGenerarFacturaPFDTO implements Serializable {
 	/*public ProductoGenerarFacturaPFDTO(BigInteger id, String nombre, String sku, BigDecimal cantidad, BigDecimal precio, BigDecimal valorTotal, BigDecimal totalPesoNeto, BigDecimal totalPesoBruto, BigInteger idCliente, BigDecimal pesoBruto, BigDecimal pesoNeto,
 			BigDecimal cantidadCajas, BigDecimal cajasPorPallets, BigDecimal cantidadPorEmbalaje, BigInteger idUnidad, BigDecimal totalCajas, BigDecimal totalCajasTendido, BigDecimal totalCajasPallet, String posicionArancelaria, String unidad, 
 			String nombreIngles, String descripcion, BigDecimal pesoNetoEmbalaje, BigDecimal pesoBrutoEmbalaje, BigInteger controlStock){
-
 		this.id=id;
 		this.nombre=nombre;
 		this.sku=sku;

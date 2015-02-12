@@ -12,11 +12,31 @@
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
 		<h:form prependId="false" id="forma">
+		
 			<p:messages id="msgs" showDetail="false" showSummary="true"
 				globalOnly="false" showIcon="true"></p:messages>
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.generarOrdenDespachoTituloFrame}">
+				
+				<p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha"/>
+					<p:inputText value="#{ordenesDespachoMB.currentTimeStamp}" id="fecha"
+						required="false" disabled="true" >
+						<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
+					</p:inputText>
+						
+					<p:spacer width="30"></p:spacer>
+
+					<p:outputLabel
+						value="#{msg.IngresarNumPedidoFactura}: " for="consecutivo"/>
+					<p:inputText value="#{ordenesDespachoMB.consecutivoDocumento}" id="consecutivo"
+						required="false" />
+						
+					<p:spacer width="30"></p:spacer>
+
+					<p:commandButton value="#{msg.documentoEjecutarBusqueda}" update="tabPanel"
+						action="#{ordenesDespachoMB.buscarDocumentos}" />
+				
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{ordenesDespachoMB.documentos}" rows="10"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true"

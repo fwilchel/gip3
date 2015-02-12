@@ -2295,4 +2295,41 @@ DocumentoDAOLocal {
 
 		}
 	}
+
+	
+	@Override
+	public List<Documento> consultaFP(String consecutivoDocumento) {
+
+		List<Documento> listado = new ArrayList<Documento>();
+		String query;
+		try {
+			query = "SELECT d FROM Documento d "
+					+ "JOIN FETCH d.cliente c "
+					+ "JOIN FETCH d.estadosxdocumento exd "
+					+ "JOIN FETCH exd.estado e "
+					+ "JOIN FETCH d.documentoXNegociacions dxn "
+					+ "JOIN FETCH dxn.terminoIncoterm ti "
+					+ "JOIN FETCH c.ciudad ciu "
+					+ "JOIN FETCH c.metodoPago mp "
+					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
+					+ " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
+					+ " ORDER BY d.id DESC";
+
+			listado = em
+					.createQuery(query)
+					.setParameter("tipoDocumento",
+							(long) ConstantesTipoDocumento.FACTURA_PROFORMA)
+					.setParameter(
+							"consecutivo",
+							consecutivoDocumento.equals("") ? "%" : "%"
+									+ consecutivoDocumento + "%")
+					.setMaxResults(35)
+					.getResultList();
+		} catch (Exception e) {
+			LOGGER.error(e
+					+ "********Error consultando Documentos por Consecutivo de Pedido");
+			return null;
+		}
+		return listado;
+	}
 }
