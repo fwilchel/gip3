@@ -30,7 +30,7 @@ import javax.persistence.Table;
 @NamedQueries({
 		@NamedQuery(name = Cliente.CLIENTE_FIND_ALL, query = "SELECT c FROM Cliente c"),
 		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.activo = true AND u.id = :idUsuario ORDER BY c.nombre ASC"),
-		@NamedQuery(name = Cliente.BUSCAR_CLIENTES_REPORTE_VENTAS_CE, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.nombre LIKE UPPER (:nombre) AND c.activo = :activo AND u.id = :idUsuario ORDER BY c.nombre ASC") })
+		@NamedQuery(name = Cliente.BUSCAR_CLIENTES_REPORTE_VENTAS_CE, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE UPPER (c.nombre) LIKE UPPER (:nombre) AND c.activo = :activo AND u.id = :idUsuario ORDER BY c.nombre ASC") })
 public class Cliente implements Serializable, Comparable {
 
 	/**
