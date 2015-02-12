@@ -7,10 +7,12 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.ComextFormatoNovedadesDAO;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.MovimientosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ComextFormatoNovedadesDTO;
 import com.ssl.jv.gip.negocio.dto.CuentaContableDTO;
@@ -32,9 +34,12 @@ public class ReportesEJB implements ReportesEJBLocal {
 
 	@EJB
 	private ProductosXDocumentoDAOLocal productosXDocumentoDAOLocal;
-	
+
 	@EJB
 	private CuentaContableDAOLocal cuentaContableDAOLocal;
+
+	@EJB
+	private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAOLocal;
 
 	/**
 	 * Default constructor.
@@ -57,10 +62,10 @@ public class ReportesEJB implements ReportesEJBLocal {
 						Estado.APROBADA.getCodigo(),
 						Estado.ASIGNADA.getCodigo());
 	}
-	
+
 	@Override
 	public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
-			String consecutivoDocumento){
+			String consecutivoDocumento) {
 		return documentoDAO
 				.consultarDocumentosParaGenerarFacturaExportacion(consecutivoDocumento);
 	}
@@ -71,17 +76,25 @@ public class ReportesEJB implements ReportesEJBLocal {
 		return productosXDocumentoDAOLocal.consultarPorDocumentoYCliente(
 				idDocumento, idCliente);
 	}
-	
+
 	@Override
-	public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc, String fechaIni, String fechaFin) {
-		return cuentaContableDAOLocal.consultarReporteFacturasFX(
-				consecDoc, fechaIni, fechaFin);
+	public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc,
+			String fechaIni, String fechaFin) {
+		return cuentaContableDAOLocal.consultarReporteFacturasFX(consecDoc,
+				fechaIni, fechaFin);
 	}
 
-	
-	
 	@Override
-	public List<CuentaContableDTO> consultarReporteFacturasFD(String consecDoc, String fechaIni, String fechaFin) {
-		return cuentaContableDAOLocal.consultarReporteFacturasFD(consecDoc, fechaIni, fechaFin);
+	public List<CuentaContableDTO> consultarReporteFacturasFD(String consecDoc,
+			String fechaIni, String fechaFin) {
+		return cuentaContableDAOLocal.consultarReporteFacturasFD(consecDoc,
+				fechaIni, fechaFin);
+	}
+
+	@Override
+	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSKU(
+			String sku, boolean ultimoSaldo) {
+		return movimientosInventarioComextDAOLocal.consultarPorSKU(sku,
+				ultimoSaldo);
 	}
 }
