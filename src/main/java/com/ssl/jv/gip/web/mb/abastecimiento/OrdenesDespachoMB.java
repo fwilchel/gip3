@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.abastecimiento;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -33,7 +34,7 @@ public class OrdenesDespachoMB extends UtilMB{
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<Documento> documentos;
+	private List<Documento> documentos=new ArrayList<Documento>();
 	private List<ProductoDTO> productos;
 	private Documento seleccionado;
 	private Documento filtro;
