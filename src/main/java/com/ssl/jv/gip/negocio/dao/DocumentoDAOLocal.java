@@ -152,4 +152,5 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 	void actualizarEstadoDocumentoPorConsecutivo(Documento documento);
 	
+	public List<Documento> consultaFP(String consecutivoDocumento);
 }

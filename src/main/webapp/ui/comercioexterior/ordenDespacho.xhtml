@@ -12,11 +12,31 @@
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
 		<h:form prependId="false" id="forma">
+
 			<p:messages id="msgs" showDetail="false" showSummary="true"
 				globalOnly="false" showIcon="true"></p:messages>
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.generarOrdenDespachoTituloFrame}">
+
+					<p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha" />
+					<p:inputText value="#{ordenesDespachoMB.currentTimeStamp}"
+						id="fecha" required="false" disabled="true">
+						<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+					</p:inputText>
+
+					<p:spacer width="30"></p:spacer>
+
+					<p:outputLabel value="#{msg.IngresarNumPedidoFactura}: "
+						for="consecutivo" />
+					<p:inputText value="#{ordenesDespachoMB.consecutivoDocumento}"
+						id="consecutivo" required="false" />
+
+					<p:spacer width="30"></p:spacer>
+
+					<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
+						update="tabPanel" action="#{ordenesDespachoMB.buscarDocumentos}" />
+
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{ordenesDespachoMB.documentos}" rows="10"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true"
@@ -116,12 +136,20 @@
 							id="clienteTelefono" label="#{msg.maestroTelefonoCliente}"
 							disabled="true" />
 
+						<p:outputLabel value="#{msg.observacionDocumento}"
+							for="observacionDelDocumento" styleClass="negrita" />
+						<h:inputText
+							value="#{ordenesDespachoMB.seleccionado.observacionDocumento}"
+							id="observacionDelDocumento" label="#{msg.observacionDocumento}"
+							disabled="true" />
+
 						<p:outputLabel value="#{msg.maestroContactoAgente}"
 							for="clienteContacto" styleClass="negrita" />
 						<h:inputText
 							value="#{ordenesDespachoMB.seleccionado.cliente.contacto}"
 							id="clienteContacto" label="#{msg.maestroContactoAgente}"
 							disabled="true" />
+
 						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaDespacho"
 							styleClass="negrita" />
 						<h:inputText
@@ -132,8 +160,9 @@
 					</p:panelGrid>
 
 					<p:dataTable var="producto" widgetVar="productoDoc"
-						id="tablaProductos" sortBy="#{producto.idDocumento}"
+						id="tablaProductos"
 						rendered="#{not empty ordenesDespachoMB.productos}"
+						sortBy="#{producto.idCliente}"
 						value="#{ordenesDespachoMB.productos}">
 
 						<p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
@@ -150,6 +179,15 @@
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
+
+						<p:column styleClass="derecha"
+							headerText="#{msg.unidadxembalaje}">
+							<h:outputText value="#{producto.cantidadPorEmbalaje}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+
 						<p:summaryRow>
 							<p:column colspan="2" styleClass="derecha">
 								<h:outputText value="TOTALES " />

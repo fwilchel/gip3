@@ -518,7 +518,12 @@
     <navigation-case>
       <from-outcome>generar_Reporte_VentasCE</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/generarReporteVentasCE.xhtml</to-view-id>
-    </navigation-case>		
+    </navigation-case>
+    
+    <navigation-case>
+      <from-outcome>reporte_maestro_inventario_ce</from-outcome>
+      <to-view-id>/ui/reportes/reporteInventarioComercioExt.xhtml</to-view-id>
+    </navigation-case>			
 
   </navigation-rule>
 

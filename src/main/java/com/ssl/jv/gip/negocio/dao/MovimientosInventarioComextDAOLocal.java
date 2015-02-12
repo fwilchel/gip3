@@ -14,4 +14,7 @@ public interface MovimientosInventarioComextDAOLocal extends
 
 	public List<MovimientosInventarioComext> consultarPorSKU(String sku);
 
+	public List<MovimientosInventarioComext> consultarPorSKU(String sku,
+			boolean ultimoSaldo);
+
 }
