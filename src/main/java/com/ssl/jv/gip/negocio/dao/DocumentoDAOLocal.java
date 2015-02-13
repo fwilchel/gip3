@@ -155,11 +155,13 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
   public List<Documento> consultaFP(String consecutivoDocumento);
 
+  public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(
+          FiltroDocumentoDTO filtro);
+
   /**
    *
    * @param parametros
    * @return
    */
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros);
-
 }

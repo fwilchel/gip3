@@ -62,4 +62,6 @@ public interface ReportesComercioExteriorEJBLocal {
    * @return
    */
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros);
+
+  public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(FiltroDocumentoDTO filtro);
 }

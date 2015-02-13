@@ -41,7 +41,8 @@ import org.hibernate.annotations.LazyCollectionOption;
   @NamedQuery(name = Documento.FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO_CUSTOM, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND ((d.estadosxdocumento.id.idEstado = :idEstado1 AND dn.solicitudCafe = false) OR (d.estadosxdocumento.id.idEstado = :idEstado2 AND dn.solicitudCafe = true)) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
   @NamedQuery(name = Documento.FIND_BY_CONSECUTIVO, query = "SELECT d FROM Documento d  WHERE UPPER(d.consecutivoDocumento) = UPPER(:consecutivoDocumento)"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_TIPO_CAFE, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado AND dn.solicitudCafe = true ORDER BY d.id DESC"),
-  @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado AND dn.solicitudCafe = :solicitudCafe AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC")})
+  @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado AND dn.solicitudCafe = :solicitudCafe AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
+  @NamedQuery(name = Documento.FIND_BY_FECHAS_AND_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado AND d.fechaGeneracion BETWEEN :fechaInicio AND :fechaFin AND dn.solicitudCafe = :solicitudCafe ORDER BY d.fechaGeneracion")})
 public class Documento implements Serializable {
 
   /**
@@ -60,6 +61,7 @@ public class Documento implements Serializable {
   public static final String FIND_BY_CONSECUTIVO = "Documento.findByConsecutivoDocumento";
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_TIPO_CAFE = "Documento.findByTipoDocumentoAndEstadoAndTipoCafe";
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE_AND_CONSECUTIVO = "Documento.findByTipoDocumentoAndEstadoAndSolicitudCafeAndConsecutivo";
+  public static final String FIND_BY_FECHAS_AND_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE = "Documento.findByFechasAndTipoDocumentoAndEstado";
 
   @Id
   @SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)

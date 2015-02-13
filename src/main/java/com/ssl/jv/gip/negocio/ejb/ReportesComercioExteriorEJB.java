@@ -113,4 +113,10 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
     LOGGER.debug("Metodo: <<consultarProductosReporteVentasCE>>");
     return documentoDAO.consultarDocumentosReporteVentasCE(parametros);
   }
+
+  @Override
+  public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(
+          FiltroDocumentoDTO filtro) {
+    return documentoDAO.consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(filtro);
+  }
 }
