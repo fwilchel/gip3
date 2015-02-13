@@ -2333,7 +2333,19 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
   @Override
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros) {
     LOGGER.debug("Metodo: <<consultarDocumentosReporteVentasCE>>");
-    Query query = em.createNativeQuery(DocumentoReporteVentasCEDTO.LISTADO_DOCUMENTOS_REPORTE_VENTAS_CE, DocumentoReporteVentasCEDTO.class);
+    String sql = DocumentoReporteVentasCEDTO.LISTADO_DOCUMENTOS_REPORTE_VENTAS_CE;
+    boolean buscarPorClientes = false;
+    boolean buscarPorProductos = false;
+    if (parametros.get("idsClientes") != null) {
+      buscarPorClientes = true;
+      sql += DocumentoReporteVentasCEDTO.CONDICIONAL_CLIENTES;
+    }
+    if (parametros.get("idsProductos") != null) {
+      buscarPorProductos = true;
+      sql += DocumentoReporteVentasCEDTO.CONDICIONAL_PRODUCTOS;
+    }
+    System.out.println("SQL:" + sql);
+    Query query = em.createNativeQuery(sql, DocumentoReporteVentasCEDTO.class);
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     Timestamp fechaInicial = Timestamp.valueOf(formatoFecha.format(parametros.get("fechaInicial")).concat(" 00:00:00"));
     Timestamp fechaFinal = Timestamp.valueOf(formatoFecha.format(parametros.get("fechaFinal")).concat(" 23:59:59"));
@@ -2342,6 +2354,12 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
     query.setParameter("tipoDocumento", ConstantesTipoDocumento.FACTURA_EXPORTACION);
     List<Integer> estadosDucumentos = Arrays.asList(ConstantesDocumento.GENERADO, ConstantesDocumento.IMPRESO);
     query.setParameter("estadosDocumento", estadosDucumentos);
+    if (buscarPorClientes) {
+      query.setParameter("idsClientes", parametros.get("idsClientes"));
+    }
+    if (buscarPorProductos) {
+      query.setParameter("idsProductos", parametros.get("idsProductos"));
+    }
     return query.getResultList();
   }
 

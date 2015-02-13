@@ -1,7 +1,6 @@
 package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -45,7 +44,6 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
           + "productosxdocumentos.valor_total AS valorTotal, "
           + "documentos.descuento_cliente AS porcDecuentoCliente, "
           + "documento_x_negociacion.costo_entrega + documento_x_negociacion.costo_seguro + documento_x_negociacion.costo_flete + documento_x_negociacion.otros_gastos AS costosLogisticos, "
-          + "(SELECT observacion_documento FROM documentos doc WHERE doc.consecutivo_documento=documentos.observacion_documento) AS numeroFP, "
           + "productosxdocumentos.total_peso_neto_item AS pesoNeto, "
           + "(CASE WHEN (SELECT documento_x_lotesoic.consecutivo || ';' || tipo_loteoic.descripcion  || ';' ||documento_x_lotesoic.contribucion || ';' ||documento_x_lotesoic.dex AS cadena FROM documento_x_lotesoic INNER JOIN tipo_loteoic ON tipo_loteoic.id = documento_x_lotesoic.id_tipo_lote INNER JOIN productos_inventario_comext ON productos_inventario_comext.id_tipo_loteoic = documento_x_lotesoic.id_tipo_lote WHERE documento_x_lotesoic.id_documento = (SELECT id FROM documentos doc2 WHERE doc2.consecutivo_documento = (SELECT observacion_documento FROM documentos doc WHERE doc.consecutivo_documento=documentos.observacion_documento)) and productos_inventario_comext.id_producto = productos_inventario.id) IS NULL THEN 'MERCADEO;MERCADEO' ELSE (SELECT documento_x_lotesoic.consecutivo || ';' || tipo_loteoic.descripcion || ';' ||documento_x_lotesoic.contribucion || ';' ||documento_x_lotesoic.dex AS cadena FROM documento_x_lotesoic INNER JOIN tipo_loteoic ON tipo_loteoic.id = documento_x_lotesoic.id_tipo_lote INNER JOIN productos_inventario_comext ON productos_inventario_comext.id_tipo_loteoic = documento_x_lotesoic.id_tipo_lote WHERE documento_x_lotesoic.id_documento = (SELECT id FROM documentos doc2 WHERE doc2.consecutivo_documento = (SELECT observacion_documento FROM documentos doc WHERE doc.consecutivo_documento=documentos.observacion_documento)) AND productos_inventario_comext.id_producto = productos_inventario.id) END) AS lote, "
           + "terminos_transporte.numero_contenedor AS numeroContenedor, "
@@ -67,6 +65,8 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
           + "AND documentos.fecha_generacion BETWEEN :fechaInicial AND :fechaFinal "
           + "AND documentos.id_tipo_documento = :tipoDocumento "
           + "AND documentos.id_estado in (:estadosDocumento) ";
+  public static final String CONDICIONAL_CLIENTES = " AND clientes.id in (:idsClientes)";
+  public static final String CONDICIONAL_PRODUCTOS = " AND productos_inventario.id in (:idsProductos)";
 
   @Id
   private Long id;
@@ -78,25 +78,24 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
   private String numeroFDFE;
   private String sku;
   private String productoNombre;
-  private BigDecimal cantidadFacturada;
-  private BigDecimal valorUnitatrio;
-  private BigDecimal porcDescuentoXProducto;
-  private BigDecimal porcOtrosDescuentos;
-  private BigDecimal porcIva;
-  private BigDecimal valorTotal;
-  private BigDecimal porcDecuentoCliente;
-  private BigDecimal costosLogisticos;
-  private String numeroFP;
-  private BigDecimal pesoNeto;
+  private Double cantidadFacturada;
+  private Double valorUnitatrio;
+  private Double porcDescuentoXProducto;
+  private Double porcOtrosDescuentos;
+  private Double porcIva;
+  private Double valorTotal;
+  private Double porcDecuentoCliente;
+  private Double costosLogisticos;
+  private Double pesoNeto;
   private String lote;
   @Transient
   private String loteCodigo;
   @Transient
   private String loteNombre;
   @Transient
-  private BigDecimal contribucion;
+  private Double contribucion;
   @Transient
-  private BigDecimal dex;
+  private Double dex;
   private String numeroContenedor;
   private String numBooking;
   private String posicionArancelaria;
@@ -230,140 +229,126 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
   /**
    * @return the cantidadFacturada
    */
-  public BigDecimal getCantidadFacturada() {
+  public Double getCantidadFacturada() {
     return cantidadFacturada;
   }
 
   /**
    * @param cantidadFacturada the cantidadFacturada to set
    */
-  public void setCantidadFacturada(BigDecimal cantidadFacturada) {
+  public void setCantidadFacturada(Double cantidadFacturada) {
     this.cantidadFacturada = cantidadFacturada;
   }
 
   /**
    * @return the valorUnitatrio
    */
-  public BigDecimal getValorUnitatrio() {
+  public Double getValorUnitatrio() {
     return valorUnitatrio;
   }
 
   /**
    * @param valorUnitatrio the valorUnitatrio to set
    */
-  public void setValorUnitatrio(BigDecimal valorUnitatrio) {
+  public void setValorUnitatrio(Double valorUnitatrio) {
     this.valorUnitatrio = valorUnitatrio;
   }
 
   /**
    * @return the porcDescuentoXProducto
    */
-  public BigDecimal getPorcDescuentoXProducto() {
+  public Double getPorcDescuentoXProducto() {
     return porcDescuentoXProducto;
   }
 
   /**
    * @param porcDescuentoXProducto the porcDescuentoXProducto to set
    */
-  public void setPorcDescuentoXProducto(BigDecimal porcDescuentoXProducto) {
+  public void setPorcDescuentoXProducto(Double porcDescuentoXProducto) {
     this.porcDescuentoXProducto = porcDescuentoXProducto;
   }
 
   /**
    * @return the porcOtrosDescuentos
    */
-  public BigDecimal getPorcOtrosDescuentos() {
+  public Double getPorcOtrosDescuentos() {
     return porcOtrosDescuentos;
   }
 
   /**
    * @param porcOtrosDescuentos the porcOtrosDescuentos to set
    */
-  public void setPorcOtrosDescuentos(BigDecimal porcOtrosDescuentos) {
+  public void setPorcOtrosDescuentos(Double porcOtrosDescuentos) {
     this.porcOtrosDescuentos = porcOtrosDescuentos;
   }
 
   /**
    * @return the porcIva
    */
-  public BigDecimal getPorcIva() {
+  public Double getPorcIva() {
     return porcIva;
   }
 
   /**
    * @param porcIva the porcIva to set
    */
-  public void setPorcIva(BigDecimal porcIva) {
+  public void setPorcIva(Double porcIva) {
     this.porcIva = porcIva;
   }
 
   /**
    * @return the valorTotal
    */
-  public BigDecimal getValorTotal() {
+  public Double getValorTotal() {
     return valorTotal;
   }
 
   /**
    * @param valorTotal the valorTotal to set
    */
-  public void setValorTotal(BigDecimal valorTotal) {
+  public void setValorTotal(Double valorTotal) {
     this.valorTotal = valorTotal;
   }
 
   /**
    * @return the porcDecuentoCliente
    */
-  public BigDecimal getPorcDecuentoCliente() {
+  public Double getPorcDecuentoCliente() {
     return porcDecuentoCliente;
   }
 
   /**
    * @param porcDecuentoCliente the porcDecuentoCliente to set
    */
-  public void setPorcDecuentoCliente(BigDecimal porcDecuentoCliente) {
+  public void setPorcDecuentoCliente(Double porcDecuentoCliente) {
     this.porcDecuentoCliente = porcDecuentoCliente;
   }
 
   /**
    * @return the costosLogisticos
    */
-  public BigDecimal getCostosLogisticos() {
+  public Double getCostosLogisticos() {
     return costosLogisticos;
   }
 
   /**
    * @param costosLogisticos the costosLogisticos to set
    */
-  public void setCostosLogisticos(BigDecimal costosLogisticos) {
+  public void setCostosLogisticos(Double costosLogisticos) {
     this.costosLogisticos = costosLogisticos;
-  }
-
-  /**
-   * @return the numeroFP
-   */
-  public String getNumeroFP() {
-    return numeroFP;
-  }
-
-  /**
-   * @param numeroFP the numeroFP to set
-   */
-  public void setNumeroFP(String numeroFP) {
-    this.numeroFP = numeroFP;
   }
 
   /**
    * @return the pesoNeto
    */
-  public BigDecimal getPesoNeto() {
+  public Double getPesoNeto() {
     return pesoNeto;
   }
 
   /**
    * @param pesoNeto the pesoNeto to set
    */
-  public void setPesoNeto(BigDecimal pesoNeto) {
+  public void setPesoNeto(Double pesoNeto) {
     this.pesoNeto = pesoNeto;
   }
 
@@ -383,11 +368,11 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
     setLoteCodigo(arrayLote[0]);
     setLoteNombre(arrayLote[1]);
     if (arrayLote.length == 2) {
-      setContribucion(new BigDecimal(0));
-      setDex(new BigDecimal(0));
+      setContribucion(new Double(0));
+      setDex(new Double(0));
     } else if (arrayLote.length == 4) {
-      setContribucion(new BigDecimal(arrayLote[2]));
-      setDex(new BigDecimal(arrayLote[3]));
+      setContribucion(new Double(arrayLote[2]));
+      setDex(new Double(arrayLote[3]));
     }
   }
 
@@ -426,12 +411,12 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
   /**
    * @return the contribucion
    */
-  public BigDecimal getContribucion() {
+  public Double getContribucion() {
     String[] arrayLote = getLote().split(";");
     if (arrayLote.length == 2) {
-      setContribucion(new BigDecimal(0));
+      setContribucion(new Double(0));
     } else if (arrayLote.length == 4) {
-      setContribucion(new BigDecimal(arrayLote[2]));
+      setContribucion(new Double(arrayLote[2]));
     }
     return contribucion;
   }
@@ -439,19 +424,19 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
   /**
    * @param contribucion the contribucion to set
    */
-  public void setContribucion(BigDecimal contribucion) {
+  public void setContribucion(Double contribucion) {
     this.contribucion = contribucion;
   }
 
   /**
    * @return the dex
    */
-  public BigDecimal getDex() {
+  public Double getDex() {
     String[] arrayLote = getLote().split(";");
     if (arrayLote.length == 2) {
-      setDex(new BigDecimal(0));
+      setDex(new Double(0));
     } else if (arrayLote.length == 4) {
-      setDex(new BigDecimal(arrayLote[3]));
+      setDex(new Double(arrayLote[3]));
     }
     return dex;
   }
@@ -459,7 +444,7 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
   /**
    * @param dex the dex to set
    */
-  public void setDex(BigDecimal dex) {
+  public void setDex(Double dex) {
     this.dex = dex;
   }
 

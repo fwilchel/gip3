@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-02-13T12:15:16 -->
+<!-- 2015-02-13T15:22:59 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_VCE" pageWidth="3000" pageHeight="800" columnWidth="3000" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="17f40ffc-edc1-4597-91e4-5a99f9567b63">
   <property name="ireport.zoom" value="1.815000000000028"/>
   <property name="ireport.x" value="4498"/>
@@ -552,7 +552,7 @@
     <defaultValueExpression><![CDATA["D:\\reporte\\"]]></defaultValueExpression>
   </parameter>
   <parameter name="fechaInicial" class="java.lang.String"/>
-  <parameter name="fechaFinal" class="java.sql.Timestamp"/>
+  <parameter name="fechaFinal" class="java.lang.String"/>
   <queryString>
 		<![CDATA[]]>
   </queryString>
@@ -568,19 +568,19 @@
     <fieldDescription><![CDATA[]]></fieldDescription>
   </field>
   <field name="productoNombre" class="java.lang.String"/>
-  <field name="cantidadFacturada" class="java.math.BigDecimal"/>
-  <field name="valorUnitatrio" class="java.math.BigDecimal"/>
-  <field name="costosLogisticos" class="java.math.BigDecimal"/>
-  <field name="porcDescuentoXProducto" class="java.math.BigDecimal"/>
-  <field name="valorTotal" class="java.math.BigDecimal"/>
-  <field name="porcDecuentoCliente" class="java.math.BigDecimal"/>
-  <field name="porcIva" class="java.math.BigDecimal"/>
-  <field name="porcOtrosDescuentos" class="java.math.BigDecimal"/>
-  <field name="pesoNeto" class="java.math.BigDecimal"/>
+  <field name="cantidadFacturada" class="java.lang.Double"/>
+  <field name="valorUnitatrio" class="java.lang.Double"/>
+  <field name="costosLogisticos" class="java.lang.Double"/>
+  <field name="porcDescuentoXProducto" class="java.lang.Double"/>
+  <field name="valorTotal" class="java.lang.Double"/>
+  <field name="porcDecuentoCliente" class="java.lang.Double"/>
+  <field name="porcIva" class="java.lang.Double"/>
+  <field name="porcOtrosDescuentos" class="java.lang.Double"/>
+  <field name="pesoNeto" class="java.lang.Double"/>
   <field name="loteCodigo" class="java.lang.String"/>
   <field name="loteNombre" class="java.lang.String"/>
-  <field name="contribucion" class="java.math.BigDecimal"/>
-  <field name="dex" class="java.math.BigDecimal"/>
+  <field name="contribucion" class="java.lang.Double"/>
+  <field name="dex" class="java.lang.Double"/>
   <field name="numeroContenedor" class="java.lang.String"/>
   <field name="numBooking" class="java.lang.String"/>
   <field name="posicionArancelaria" class="java.lang.String"/>

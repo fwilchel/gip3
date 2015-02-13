@@ -2,7 +2,6 @@ package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
-import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
@@ -19,8 +18,8 @@ import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -154,13 +153,27 @@ public class GenerarReporteVentasCEMB extends UtilMB {
 
   /**
    *
-   * @return 
+   * @return
    */
   public StreamedContent generarReporteVentas() {
     LOGGER.debug("Metodo: <<generarReporteVentas>>");
     Map<String, Object> parametrosConsulta = new HashMap();
     parametrosConsulta.put("fechaInicial", filtroFechaInicial);
     parametrosConsulta.put("fechaFinal", filtroFechaFinal);
+    if (listaClientesSeleccionados != null && !listaClientesSeleccionados.isEmpty()) {
+      List<Long> idsClientesSeleccionados = new ArrayList<>();
+      for (Cliente cliente : listaClientesSeleccionados) {
+        idsClientesSeleccionados.add(cliente.getId());
+      }
+      parametrosConsulta.put("idsClientes", idsClientesSeleccionados);
+    }
+    if (listaProductosSeleccionados != null && !listaProductosSeleccionados.isEmpty()) {
+      List<Long> idsProductosSeleccionados = new ArrayList<>();
+      for (ProductosInventario producto : listaProductosSeleccionados) {
+        idsProductosSeleccionados.add(producto.getId());
+      }
+      parametrosConsulta.put("idsProductos", idsProductosSeleccionados);
+    }
     List<DocumentoReporteVentasCEDTO> listaDocumentosReporteVentasCEDTO;
     listaDocumentosReporteVentasCEDTO = reportesComercioExteriorEJB.consultarDocumentosReporteVentasCE(parametrosConsulta);
     // generar reporte
@@ -178,10 +191,9 @@ public class GenerarReporteVentasCEMB extends UtilMB {
       ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reporte, null, null, null, parametrosReporte, ds);
       reporteXLS = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "Reporte_VCE.xls");
     } catch (Exception e) {
-      this.addMensajeError(e);
+      this.addMensajeError("Problemas al generar el reporte");
     }
     return reporteXLS;
-
   }
 
   /**
