@@ -58,7 +58,7 @@ public class ClienteDAO extends GenericDAO<Cliente> implements ClienteDAOLocal {
   }
 
   @Override
-  public List<Cliente> consultarClientesReporteVentasCE(Map<String, Object> parametros) {
+  public List<Cliente> consultarListadoClientesReporteVentasCE(Map<String, Object> parametros) {
     LOGGER.debug("Metodo: <<consultarClientesReporteVentasCE>>");
     Query query = em.createNamedQuery(Cliente.BUSCAR_CLIENTES_REPORTE_VENTAS_CE);
     if (parametros.get("nombre") == null) {

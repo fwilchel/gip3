@@ -13,6 +13,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import java.util.Map;
 
 @Local
@@ -46,12 +47,19 @@ public interface ReportesComercioExteriorEJBLocal {
    * @param parametros
    * @return
    */
-  public List<Cliente> consultarClientesReporteVentasCE(Map<String, Object> parametros);
+  public List<Cliente> consultarListadoClientesReporteVentasCE(Map<String, Object> parametros);
 
   /**
    *
    * @param parametros
    * @return
    */
-  public List<ProductosInventario> consultarProductosReporteVentasCE(Map<String, Object> parametros);
+  public List<ProductosInventario> consultarListadoProductosReporteVentasCE(Map<String, Object> parametros);
+
+  /**
+   *
+   * @param parametros
+   * @return
+   */
+  public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros);
 }

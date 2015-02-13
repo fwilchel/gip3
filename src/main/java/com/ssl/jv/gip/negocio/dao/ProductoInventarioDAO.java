@@ -161,7 +161,7 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
   }
 
   @Override
-  public List<ProductosInventario> consultarProductosReporteVentasCE(Map<String, Object> parametros) {
+  public List<ProductosInventario> consultarListadoProductosReporteVentasCE(Map<String, Object> parametros) {
     LOGGER.debug("Metodo: <<consultarProductosReporteVentasCE>>");
     Query query = em.createNamedQuery(ProductosInventario.BUSCAR_PRODUCTOS_REPORTE_VENTAS_CE);
     if (parametros.get("sku") == null) {

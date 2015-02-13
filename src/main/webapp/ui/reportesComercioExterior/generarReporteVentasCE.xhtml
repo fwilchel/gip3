@@ -34,7 +34,7 @@
             <p:panel
               id="pnlFltFechas">
               <p:panelGrid
-                columns="2">
+                columns="3">
                 <h:outputLabel 
                   for="filtroFechaInicial" 
                   value="#{msg.grvceFltLblFechaInicial}" 
@@ -42,7 +42,9 @@
                 <p:calendar 
                   id="filtroFechaInicial" 
                   value="#{generarReporteVentasCE.filtroFechaInicial}"
-                  required="false"/>
+                  required="true"/>
+                <p:message
+                  for="filtroFechaInicial"/>
                 <h:outputLabel 
                   for="filtroFechaFinal" 
                   value="#{msg.grvceFltLblFechaFinal}" 
@@ -50,7 +52,9 @@
                 <p:calendar 
                   id="filtroFechaFinal" 
                   value="#{generarReporteVentasCE.filtroFechaFinal}"
-                  required="false"/>
+                  required="true"/>
+                <p:message
+                  for="filtroFechaFinal"/>
               </p:panelGrid>
             </p:panel>
 
@@ -75,8 +79,8 @@
                   <p:outputPanel>
                     <p:commandButton
                       value="#{msg.grvceFltBtnBuscarClientes}"
-                      oncomplete="PF('dlgFiltroClientes').show()"
-                      update=":dlgFiltroClientes"
+                      oncomplete="PF('dlgSeleccionarClientes').show()"
+                      update=":dlgSeleccionarClientes"
                       process="@this"/>
                   </p:outputPanel>
                 </div>
@@ -122,8 +126,8 @@
                   <p:outputPanel>
                     <p:commandButton
                       value="#{msg.grvceFltBtnBuscarProductos}"
-                      oncomplete="PF('dlgFiltroProductos').show()"
-                      update=":dlgFiltroProductos"
+                      oncomplete="PF('dlgSeleccionarProductos').show()"
+                      update=":dlgSeleccionarProductos"
                       process="@this"/>
                   </p:outputPanel>
                 </div>
@@ -151,7 +155,8 @@
               <p:commandButton 
                 value="#{msg.grvceBtnGenerarReporteVentas}" 
                 ajax="false" 
-                icon="ui-icon-document">
+                icon="ui-icon-document"
+                process="@this, pnlFltFechas">
                 <p:fileDownload 
                   value="#{generarReporteVentasCE.generarReporteVentas()}" />
               </p:commandButton>
@@ -165,18 +170,18 @@
     </h:form>
 
     <p:dialog 
-      id="dlgFiltroClientes" 
-      widgetVar="dlgFiltroClientes" 
+      id="dlgSeleccionarClientes" 
+      widgetVar="dlgSeleccionarClientes" 
       header="#{msg.grvceFltClientesTitle}" 
       resizable="false" 
       showEffect="clip" 
       hideEffect="clip"
       modal="true">
       <h:form
-        id="formFiltroClientes"
+        id="formSeleccionarClientes"
         prependId="false">
         <p:panel 
-          id="pnlFiltroClientes">
+          id="pnlSeleccionarClientes">
           <p:panel
             id="pnlFltClientes">
             <p:panelGrid
@@ -275,7 +280,7 @@
               styleClass="ui-confirmdialog-yes" 
               icon="ui-icon-check" 
               actionListener="#{generarReporteVentasCE.asignarClientesSeleccionados()}"
-              oncomplete="PF('dlgFiltroClientes').hide()"
+              oncomplete="PF('dlgSeleccionarClientes').hide()"
               update=":formListado:pnlTab:tblClientesSeleccionados"/>
             <!-- Cancelar -->
             <p:commandButton 
@@ -284,7 +289,7 @@
               icon="ui-icon-close" 
               immediate="true"
               ajax="false"
-              oncomplete="PF('dlgFiltroClientes').hide()"
+              oncomplete="PF('dlgSeleccionarClientes').hide()"
               update=":formListado:pnlTab:tblClientesSeleccionados"/>
           </f:facet>
         </p:panel>
@@ -292,15 +297,15 @@
     </p:dialog>
 
     <p:dialog 
-      id="dlgFiltroProductos" 
-      widgetVar="dlgFiltroProductos" 
+      id="dlgSeleccionarProductos" 
+      widgetVar="dlgSeleccionarProductos" 
       header="#{msg.grvceFltProductosTitle}" 
       resizable="false" 
       showEffect="clip" 
       hideEffect="clip"
       modal="true">
       <h:form
-        id="formFiltroProductos"
+        id="formSeleccionarProductos"
         prependId="false">
         <p:panel 
           id="pnlFiltroProductos">
@@ -387,13 +392,13 @@
           </p:dataTable>
           <f:facet
             name="footer">
-            <!-- Generar reporte -->
+            <!-- asignar productos seleccionados -->
             <p:commandButton 
               value="#{msg.grvceFltProductosBtnAsignarProductosSeleccionados}" 
               styleClass="ui-confirmdialog-yes" 
               icon="ui-icon-check" 
               actionListener="#{generarReporteVentasCE.asignarProductosSeleccionados()}"
-              oncomplete="PF('dlgFiltroProductos').hide()"
+              oncomplete="PF('dlgSeleccionarProductos').hide()"
               update=":formListado:pnlTab:tblProductosSeleccionados"/>
             <!-- Cancelar -->
             <p:commandButton 
@@ -402,7 +407,7 @@
               icon="ui-icon-close" 
               immediate="true"
               ajax="false"
-              oncomplete="PF('dlgFiltroProductos').hide()"
+              oncomplete="PF('dlgSeleccionarProductos').hide()"
               update=":formListado:pnlTab:tblProductosSeleccionados"/>
           </f:facet>
         </p:panel>
