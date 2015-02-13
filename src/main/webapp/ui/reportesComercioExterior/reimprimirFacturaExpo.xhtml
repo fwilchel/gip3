@@ -202,67 +202,79 @@
 						</p:column>
 
 						<p:column headerText="#{msg.comprasCantidadSola}">
-							<h:outputText value="#{producto.cantidad1}" />
+							<h:outputText value="#{producto.cantidad1}" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:outputText>
 
 							<f:facet name="footer">
 								<h:outputText value="#{reimprimirFacturaExpoMB.totalCantitad1}"
 									style="text-align:right;width:100px;" >
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
 									</h:outputText>
 							</f:facet>
 						</p:column>
 
 						<p:column headerText="#{msg.VentasRemisionValorTotal}">
-							<h:outputText value="#{producto.valorTotal}" />
+							<h:outputText value="#{producto.valorTotal}" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:outputText>
 
 							<f:facet name="footer">
 								<h:outputText value="#{reimprimirFacturaExpoMB.totalValorTotal}"
 									style="text-align:right;width:100px;" >
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
 									</h:outputText>
 							</f:facet>
 						</p:column>
 
 						<p:column headerText="#{msg.unidadxembalaje}">
-							<h:outputText value="#{producto.cantidadXEmbalaje}" />
+							<h:outputText value="#{producto.cantidadXEmbalaje}" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:outputText>
 
 							<f:facet name="footer">
 								<h:outputText
 									value="#{reimprimirFacturaExpoMB.totalCantidadXEmbalaje}"
 									style="text-align:right;width:100px;" >
-									<f:convertNumber maxFractionDigits="2" />									
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>									
 									</h:outputText>
 							</f:facet>
 						</p:column>
 
 						<p:column headerText="#{msg.SPcantidadCajas}">
-							<h:outputText value="#{producto.cantidadCajasItem}" />
+							<h:outputText value="#{producto.cantidadCajasItem}" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:outputText>
 
 							<f:facet name="footer">
 								<h:outputText
 									value="#{reimprimirFacturaExpoMB.totalCantidadCajas}"
 									style="text-align:right;width:100px;" >
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
 									</h:outputText>
 							</f:facet>
 						</p:column>
 
 						<p:column headerText="#{msg.PesoNeto}">
-							<h:outputText value="#{producto.totalPesoNetoItem}" />
+							<h:outputText value="#{producto.totalPesoNetoItem}" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:outputText>
 							<f:facet name="footer">
 								<h:outputText value="#{reimprimirFacturaExpoMB.totalPesoNeto}"
 									style="text-align:right;width:100px;" >
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
 								</h:outputText>
 							</f:facet>
 						</p:column>
 
 						<p:column headerText="#{msg.PesoBruto}">
-							<h:outputText value="#{producto.totalPesoBrutoItem}" />
+							<h:outputText value="#{producto.totalPesoBrutoItem}" >
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							</h:outputText>
 							<f:facet name="footer">
 								<h:outputText value="#{reimprimirFacturaExpoMB.totalPesoBruto}"
 									style="text-align:right;width:100px;" >
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
 									</h:outputText>
 							</f:facet>
 						</p:column>
@@ -319,7 +331,7 @@
 
 					<br />
 
-					<h:panelGrid columns="2" columnClasses="label,value">
+					<h:panelGrid columns="2" >
 						<h:outputText 
 							value="#{msg.SP_CostoEntrega}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo1"
