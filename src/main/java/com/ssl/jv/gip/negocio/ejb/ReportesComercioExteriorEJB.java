@@ -31,79 +31,85 @@ import java.util.Map;
 @LocalBean
 public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBLocal {
 
-  @EJB
-  private DocumentoDAOLocal documentoDAO;
+	@EJB
+	private DocumentoDAOLocal documentoDAO;
 
-  @EJB
-  private ProductosXDocumentoDAO productosXDocumentoDAO;
+	@EJB
+	private ProductosXDocumentoDAO productosXDocumentoDAO;
 
-  @EJB
-  private MuestrasXLoteDAOLocal muestrasXLoteDAOLocal;
+	@EJB
+	private MuestrasXLoteDAOLocal muestrasXLoteDAOLocal;
 
-  @EJB
-  private TerminosTransporteDAOLocal terminosTransporteDAO;
+	@EJB
+	private TerminosTransporteDAOLocal terminosTransporteDAO;
 
-  @EJB
-  private ClienteDAOLocal clienteDAO;
+	@EJB
+	private ClienteDAOLocal clienteDAO;
 
-  @EJB
-  private ProductoInventarioDAOLocal productoInventarioDAO;
+	@EJB
+	private ProductoInventarioDAOLocal productoInventarioDAO;
 
-  /**
-   * Default constructor.
-   */
-  public ReportesComercioExteriorEJB() {
-    // TODO Auto-generated constructor stub
-  }
+	/**
+	 * Default constructor.
+	 */
+	public ReportesComercioExteriorEJB() {
+		// TODO Auto-generated constructor stub
+	}
 
-  @Override
-  public List<Documento> consultarFacturasExportacion(FiltroDocumentoDTO filtro) {
-    return documentoDAO.consultarDocumentosPorTipoDocumentoYEstados(filtro);
-  }
+	@Override
+	public List<Documento> consultarFacturasExportacion(FiltroDocumentoDTO filtro) {
+		return documentoDAO.consultarDocumentosPorTipoDocumentoYEstados(filtro);
+	}
 
-  @Override
-  public List<ProductosXDocumento> consultarProductosPorDocumento(Long id) {
-    return productosXDocumentoDAO.consultarPorDocumento(id);
-  }
+	@Override
+	public List<ProductosXDocumento> consultarProductosPorDocumento(Long id) {
+		return productosXDocumentoDAO.consultarPorDocumento(id);
+	}
 
-  @Override
-  public List<Muestrasxlote> consultarMuestrasPorCantidad(BigDecimal cantidad) {
-    return muestrasXLoteDAOLocal.consultarMuestrasPorCantidad(cantidad);
-  }
+	@Override
+	public List<Muestrasxlote> consultarMuestrasPorCantidad(BigDecimal cantidad) {
+		return muestrasXLoteDAOLocal.consultarMuestrasPorCantidad(cantidad);
+	}
 
-  @Override
-  public List<Documento> consultarFacturasExportacionFechaTipo(
-          FiltroDocumentoDTO filtro) {
-    return documentoDAO.consultarDocumentosPorTipoDocumentoYFechas(filtro);
-  }
+	@Override
+	public List<Documento> consultarFacturasExportacionFechaTipo(
+			FiltroDocumentoDTO filtro) {
+		return documentoDAO.consultarDocumentosPorTipoDocumentoYFechas(filtro);
+	}
 
-  @Override
-  public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(FiltroDocumentoDTO filtro) {
-    return documentoDAO.consultarDocumentosPorTipoDocumentoEstadoTipoCafe(filtro);
-  }
+	@Override
+	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(FiltroDocumentoDTO filtro) {
+		return documentoDAO.consultarDocumentosPorTipoDocumentoEstadoTipoCafe(filtro);
+	}
 
-  @Override
-  public List<InstruccionEmbarqueDTO> consultarListadoImprimirInstruccionEmbarque() {
-    LOGGER.debug("Metodo: <<consultarListadoImprimirInstruccionEmbarque>>");
-    return terminosTransporteDAO.obtenerListadoImprimirInstruccionEmbarque();
-  }
+	@Override
+	public List<InstruccionEmbarqueDTO> consultarListadoImprimirInstruccionEmbarque() {
+		LOGGER.debug("Metodo: <<consultarListadoImprimirInstruccionEmbarque>>");
+		return terminosTransporteDAO.obtenerListadoImprimirInstruccionEmbarque();
+	}
 
-  @Override
-  public List<DocTerminosTransporteDTO> consultarListadoFacturasPorInstruccionEmabarque(Long id) {
-    LOGGER.debug("Metodo: <<consultarListadoFacturasPorInstruccionEmabarque>>");
-    String idTmp = String.valueOf(id);
-    return terminosTransporteDAO.getDocumentosTerminosTranporteById(idTmp);
-  }
+	@Override
+	public List<DocTerminosTransporteDTO> consultarListadoFacturasPorInstruccionEmabarque(Long id) {
+		LOGGER.debug("Metodo: <<consultarListadoFacturasPorInstruccionEmabarque>>");
+		String idTmp = String.valueOf(id);
+		return terminosTransporteDAO.getDocumentosTerminosTranporteById(idTmp);
+	}
 
-  @Override
-  public List<Cliente> consultarClientesReporteVentasCE(Map<String, Object> parametros) {
-    LOGGER.debug("Metodo: <<consultarClientesReporteVentasCE>>");
-    return clienteDAO.consultarClientesReporteVentasCE(parametros);
-  }
+	@Override
+	public List<Cliente> consultarClientesReporteVentasCE(Map<String, Object> parametros) {
+		LOGGER.debug("Metodo: <<consultarClientesReporteVentasCE>>");
+		return clienteDAO.consultarClientesReporteVentasCE(parametros);
+	}
 
-  @Override
-  public List<ProductosInventario> consultarProductosReporteVentasCE(Map<String, Object> parametros) {
-    LOGGER.debug("Metodo: <<consultarProductosReporteVentasCE>>");
-    return productoInventarioDAO.consultarProductosReporteVentasCE(parametros);
-  }
+	@Override
+	public List<ProductosInventario> consultarProductosReporteVentasCE(Map<String, Object> parametros) {
+		LOGGER.debug("Metodo: <<consultarProductosReporteVentasCE>>");
+		return productoInventarioDAO.consultarProductosReporteVentasCE(parametros);
+	}
+
+	@Override
+	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(
+			FiltroDocumentoDTO filtro) {
+		return documentoDAO.consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(filtro);
+	}
 }

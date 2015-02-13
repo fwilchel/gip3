@@ -2332,4 +2332,19 @@ DocumentoDAOLocal {
 		}
 		return listado;
 	}
+	
+	@Override
+	public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(
+			FiltroDocumentoDTO filtro) {
+		Query query = em
+				.createNamedQuery(Documento.FIND_BY_FECHAS_AND_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE);
+		query.setParameter("idTipoDocumento", filtro.getIdTipoDocumento());
+		query.setParameter("idEstado", filtro.getIdEstado());
+		query.setParameter("solicitudCafe", filtro.isSolicitudCafe());
+		query.setParameter("fechaInicio",
+				filtro.getFechaInicio());
+		query.setParameter("fechaFin",
+				filtro.getFechaFin());
+		return query.getResultList();
+	}
 }
