@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-01-09T10:36:48 -->
+<!-- 2015-02-13T11:59:12 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_PCE" pageWidth="1300" pageHeight="800" columnWidth="1300" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="023e99cc-5177-4b13-b4d8-ce6d158035fc">
 	<property name="ireport.zoom" value="1.3636363636363844"/>
 	<property name="ireport.x" value="822"/>
@@ -553,17 +553,17 @@
 	</parameter>
 	<parameter name="fecha_inicial" class="java.lang.String"/>
 	<parameter name="fecha_final" class="java.lang.String"/>
-	<queryString>
+	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
-	<field name="dblCantidad1" class="java.lang.Double"/>
-	<field name="objProductoInventario.strSku" class="java.lang.String"/>
-	<field name="objProductoInventario.strNombre" class="java.lang.String"/>
-	<field name="objCliente.strNomPais" class="java.lang.String"/>
-	<field name="objCliente.strNomTipoCanal" class="java.lang.String"/>
-	<field name="strUbicacion" class="java.lang.String"/>
-	<field name="objCliente.strNombre" class="java.lang.String"/>
-	<field name="objDocumento.strConsecutivoDocumento" class="java.lang.String"/>
+	<field name="cantidad1" class="java.lang.Double"/>
+	<field name="piSKU" class="java.lang.String"/>
+	<field name="piNombre" class="java.lang.String"/>
+	<field name="clNombrePais" class="java.lang.String"/>
+	<field name="clNombreTipoCanal" class="java.lang.String"/>
+	<field name="ubicacion" class="java.lang.String"/>
+	<field name="clNombre" class="java.lang.String"/>
+	<field name="docConsecutivo" class="java.lang.String"/>
 	<title>
 		<band splitType="Stretch"/>
 	</title>
@@ -664,56 +664,56 @@
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{dblCantidad1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cantidad1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="table" x="0" y="0" width="95" height="14" uuid="d0e38cb2-22bd-4f80-949c-aea0d04ddcba"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{objProductoInventario.strSku}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{piSKU}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="table" x="95" y="0" width="210" height="14" uuid="7de840b4-0ffd-41b4-b985-e4c759032d49"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{objProductoInventario.strNombre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{piNombre}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="table" x="305" y="0" width="129" height="14" uuid="e9892a5a-ab69-447a-8560-9e58463a4cbd"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{objCliente.strNomPais}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{clNombrePais}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="table" x="434" y="0" width="117" height="14" uuid="7ee433e1-ac1a-401d-9fa2-db1d9cdfea17"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{objCliente.strNomTipoCanal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{clNombreTipoCanal}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="table" x="551" y="0" width="159" height="14" uuid="8b6bcb38-ee7f-4d95-8e6a-fd6d51c10018"/>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{strUbicacion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ubicacion}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="table" x="796" y="0" width="122" height="14" uuid="447800c7-6306-46e9-984f-92d5b067a0be"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{objDocumento.strConsecutivoDocumento}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{docConsecutivo}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="table" x="918" y="0" width="154" height="14" uuid="c5d8660b-b31e-4385-9411-93015934c0ec"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{objCliente.strNombre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{clNombre}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
