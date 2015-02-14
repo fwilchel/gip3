@@ -23,7 +23,7 @@ import com.ssl.jv.gip.web.mb.UtilMB;
  */
 @ManagedBean(name="ordenesDespachoMB")
 @ViewScoped
-public class OrdenesDespachoMB extends UtilMB{
+public class ordenesDespachoMB extends UtilMB{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -45,7 +45,7 @@ public class OrdenesDespachoMB extends UtilMB{
 	
 	private Integer language=AplicacionMB.SPANISH;
 	
-	public OrdenesDespachoMB() {
+	public void OrdenesDespachoMB() {
 	}
 
 	@PostConstruct
