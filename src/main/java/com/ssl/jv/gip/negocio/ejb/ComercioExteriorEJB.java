@@ -171,7 +171,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	
 	@EJB
 	private ItemCostoLogisticoDAOLocal itemCostoLogisticoDAO;
-
+	
 	/**
 	 * Default constructor.
 	 */
@@ -1532,7 +1532,58 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	
 	@Override
 	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado){
-		return documentoDAO.modificarFacturaProforma(documento, listado);
+		
+		if (documento.getIdEstado() == ConstantesDocumento.GENERADO) {
+			List<Documento> documentos = documentoDAO.consultarDocumentosPorObservacionDocumento(documento.getConsecutivoDocumento());
+			if(documentos != null){
+				com.ssl.jv.gip.jpa.pojo.Estado estado = estadoDAOLocal.findByPK(new Long(ConstantesDocumento.ANULADO));
+				for(Documento doc : documentos){
+					doc.getEstadosxdocumento().setEstado(estado);
+					documentoDAO.update(doc);
+				}
+			}
+		}
+		
+		List<Object[]> auditoria = documentoDAO.consultarAuditoriaEstadoModificacionFacturaProforma(documento);
+		
+		if (auditoria != null && auditoria.size() > 0) {
+			
+			String estadoAuditoria = auditoria.get(0)[2] != null ? auditoria.get(0)[2].toString().trim() : null;
+			
+			Documento doc = documentoDAO.findByPK(documento.getIdDocumento());
+			doc.setValorTotal(documento.getValorTotalDocumento());
+			doc.setFechaEntrega(documento.getFechaEsperadaEntrega());
+			com.ssl.jv.gip.jpa.pojo.Estado estado = estadoDAOLocal.findByPK(new Long(estadoAuditoria));
+			doc.getEstadosxdocumento().setEstado(estado);
+			documentoDAO.update(doc);
+			
+			List<DocumentoXNegociacion> documentosXNegociaciones = documentoXNegociacionDAO.consultarDocumentoXNegociacionPorIdDocumento(documento.getIdDocumento());
+			if(documentosXNegociaciones != null){
+				for(DocumentoXNegociacion docxneg : documentosXNegociaciones){
+					TerminoIncoterm terminoIncoterm = terminoIncotermDAO.findByPK(documento.getIdTerminoIncoterm());
+					docxneg.setTerminoIncoterm(terminoIncoterm);
+					docxneg.setTotalPesoNeto(documento.getTotalPesoNeto());
+					docxneg.setTotalPesoBruto(documento.getTotalPesoBruto());
+					docxneg.setTotalTendidos(documento.getTotalTendidos());
+					docxneg.setTotalPallets(documento.getTotalPallets());
+					docxneg.setCantidadContenedoresDe20(documento.getCantidadContenedores20());
+					docxneg.setCantidadContenedoresDe40(documento.getCantidadContenedores40());
+					docxneg.setLugarIncoterm(documento.getLugarIncoterm());
+					
+					docxneg.setCostoEntrega(documento.getCostoEntrega());
+					docxneg.setCostoFlete(documento.getCostoFlete());
+					docxneg.setCostoSeguro(documento.getCostoSeguro());
+					docxneg.setOtrosGastos(documento.getOtrosGastos());
+					
+					documentoXNegociacionDAO.update(docxneg);
+				}
+			}
+					
+			return documentoDAO.modificarFacturaProforma(documento, listado);
+		
+		} 
+		
+		return null;
 	}
 
 	@Override

@@ -164,4 +164,9 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
    * @return
    */
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros);
+  
+  public List<Documento> consultarDocumentosPorObservacionDocumento(
+          String observacionDocumento);
+  
+  public List<Object[]> consultarAuditoriaEstadoModificacionFacturaProforma(DocumentoIncontermDTO documento);
 }

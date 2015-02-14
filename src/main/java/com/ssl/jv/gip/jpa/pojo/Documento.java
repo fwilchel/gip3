@@ -33,6 +33,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Table(name = "documentos")
 @NamedQueries({
   @NamedQuery(name = Documento.FIND_ALL, query = "SELECT d FROM Documento d"),
+  @NamedQuery(name = Documento.FIND_BY_OBSERVACION_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.observacionDocumento = :observacionDocumento"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado ORDER BY d.id"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstado,:idEstado2) ORDER BY d.id desc"),
   @NamedQuery(name = Documento.FIND_BY_FECHAS_TIPO_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.fechaGeneracion BETWEEN :fechaInicio AND :fechaFin ORDER BY d.fechaGeneracion"),
@@ -51,6 +52,7 @@ public class Documento implements Serializable {
   private static final long serialVersionUID = -5401061913463904605L;
 
   public static final String FIND_ALL = "Documento.findAll";
+  public static final String FIND_BY_OBSERVACION_DOCUMENTO = "Documento.findByObservacionDocumento";
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADO = "Documento.findByTipoDocumentoAndEstado";
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS = "Documento.findByTipoDocumentoAndEstados";
   public static final String LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO = "Documento.findByEstadoTipoDocumentoConsecutivoDocumento";
