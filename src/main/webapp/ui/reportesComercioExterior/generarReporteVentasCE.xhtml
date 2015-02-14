@@ -228,15 +228,6 @@
                     onkeyup="PF('tblClientes').filter()" 
                     style="width:150px"
                     placeholder="#{msg.generalPalabrasBuscar}" />
-                  <p:spacer 
-                    width="30">
-                  </p:spacer>				
-                  <p:commandButton 
-                    action="introduccion" 
-                    title="#{msg.generalCancelar}" 
-                    ajax="false"
-                    icon="ui-icon-cancel" 
-                    value="#{msg.generalCancelar}" />
                 </p:outputPanel>
               </div>
             </f:facet>
@@ -320,6 +311,13 @@
               <p:inputText 
                 id="filtroSKUProducto" 
                 value="#{generarReporteVentasCE.filtroSKUProducto}"/>
+              <h:outputLabel 
+                for="filtroNombreProducto" 
+                value="#{msg.grvceFltProductosLblNombre}" 
+                styleClass="negrita"/>
+              <p:inputText 
+                id="filtroNombreProducto" 
+                value="#{generarReporteVentasCE.filtroNombreProducto}"/>
               <f:facet
                 name="footer">
                 <p:commandButton
@@ -334,7 +332,8 @@
             id="tblProductos"
             var="producto" 
             widgetVar="tblProductos" 
-            value="#{generarReporteVentasCE.listaProductos}" 
+            value="#{generarReporteVentasCE.listaProductosLazyModel}" 
+            lazy="true"
             selection="#{generarReporteVentasCE.listaProductosSeleccionados}" 
             rowKey="#{producto.id}" 
             rows="10"
@@ -355,15 +354,6 @@
                     onkeyup="PF('tblProductos').filter()" 
                     style="width:150px"
                     placeholder="#{msg.generalPalabrasBuscar}" />
-                  <p:spacer 
-                    width="30">
-                  </p:spacer>				
-                  <p:commandButton 
-                    action="introduccion" 
-                    title="#{msg.generalCancelar}" 
-                    ajax="false"
-                    icon="ui-icon-cancel" 
-                    value="#{msg.generalCancelar}" />
                 </p:outputPanel>
               </div>
             </f:facet>

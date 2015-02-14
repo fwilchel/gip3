@@ -29,6 +29,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import org.primefaces.model.StreamedContent;
 
 /**
@@ -83,29 +85,41 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   private Date filtroFechaFinal;
   /**
-   * lista de clientes que retorna la consulta a la base de datos
-   */
-  private List<Cliente> listaClientes;
-  /**
    * filtro por nombre la lista de clientes
    */
   private String filtroNombreCliente;
+  /**
+   * lista de clientes que retorna la consulta a la base de datos
+   */
+  private List<Cliente> listaClientes;
   /**
    * lista de los clientes seleccionados
    */
   private List<Cliente> listaClientesSeleccionados;
   /**
+   * filtro por sku la lista de productos
+   */
+  private String filtroSKUProducto;
+  /**
+   * filtro por nombre la lista de productos
+   */
+  private String filtroNombreProducto;
+  /**
    * lista de clientes que retorna la consulta a la base de datos
    */
   private List<ProductosInventario> listaProductos;
   /**
-   * filtro por nombre la lista de clientes
-   */
-  private String filtroSKUProducto;
-  /**
    * lista de los clientes seleccionados
    */
   private List<ProductosInventario> listaProductosSeleccionados;
+
+  /**
+   *
+   */
+  private LazyDataModel<ProductosInventario> listaProductosLazyModel;
+  private String campoOrden;
+  private SortOrder orden;
+  private ProductosInventario filtro;
 
   @PostConstruct
   public void init() {
@@ -137,11 +151,19 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   public void buscarProductos() {
     LOGGER.debug("Metodo: <<buscarProductos>>");
-    Map<String, Object> parametros = new HashMap();
+    setListaProductosLazyModel(new LazyProductsDataModel());
+    filtro = new ProductosInventario();
+    filtro.setDesactivado(true);
+//    Map<String, Object> parametros = new HashMap();
     if (filtroSKUProducto != null && !filtroSKUProducto.isEmpty()) {
-      parametros.put("sku", filtroSKUProducto);
+//      parametros.put("sku", filtroSKUProducto);
+      filtro.setSku(filtroSKUProducto);
     }
-    setListaProductos(reportesComercioExteriorEJB.consultarListadoProductosReporteVentasCE(parametros));
+    if (filtroNombreProducto != null && !filtroNombreProducto.isEmpty()) {
+//      parametros.put("nombre", filtroNombreProducto);
+      filtro.setNombre(filtroNombreProducto);
+    }
+//    setListaProductos(reportesComercioExteriorEJB.consultarListadoProductosReporteVentasCE(parametros));
   }
 
   /**
@@ -182,7 +204,7 @@ public class GenerarReporteVentasCEMB extends UtilMB {
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     parametrosReporte.put("fechaInicial", formatoFecha.format(filtroFechaInicial));
     parametrosReporte.put("fechaFinal", formatoFecha.format(filtroFechaFinal));
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDocumentosReporteVentasCEDTO);
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDocumentosReporteVentasCEDTO, false);
     try {
       Hashtable<String, String> parametrosConfiguracionReporte;
       parametrosConfiguracionReporte = new Hashtable<>();
@@ -309,6 +331,20 @@ public class GenerarReporteVentasCEMB extends UtilMB {
   }
 
   /**
+   * @return the filtroNombreProducto
+   */
+  public String getFiltroNombreProducto() {
+    return filtroNombreProducto;
+  }
+
+  /**
+   * @param filtroNombreProducto the filtroNombreProducto to set
+   */
+  public void setFiltroNombreProducto(String filtroNombreProducto) {
+    this.filtroNombreProducto = filtroNombreProducto;
+  }
+
+  /**
    * @return the listaProductosSeleccionados
    */
   public List<ProductosInventario> getListaProductosSeleccionados() {
@@ -320,6 +356,62 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   public void setListaProductosSeleccionados(List<ProductosInventario> listaProductosSeleccionados) {
     this.listaProductosSeleccionados = listaProductosSeleccionados;
+  }
+
+  /**
+   * @return the listaProductosLazyModel
+   */
+  public LazyDataModel<ProductosInventario> getListaProductosLazyModel() {
+    return listaProductosLazyModel;
+  }
+
+  /**
+   * @param listaProductosLazyModel the listaProductosLazyModel to set
+   */
+  public void setListaProductosLazyModel(LazyDataModel<ProductosInventario> listaProductosLazyModel) {
+    this.listaProductosLazyModel = listaProductosLazyModel;
+  }
+
+  /**
+   * Implementacion de LazyModel
+   */
+  private class LazyProductsDataModel extends LazyDataModel<ProductosInventario> {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 283497341126330045L;
+    private List<ProductosInventario> datos;
+
+    @Override
+    public Object getRowKey(ProductosInventario pi) {
+      LOGGER.debug("Metodo: <<getRowKey>>");
+      return pi.getId();
+    }
+
+    @Override
+    public ProductosInventario getRowData(String rowKey) {
+      LOGGER.debug("Metodo: <<getRowData>>");
+      for (ProductosInventario pi : datos) {
+        if (pi.getId().toString().equals(rowKey)) {
+          return pi;
+        }
+      }
+      return null;
+    }
+
+    @Override
+    public List<ProductosInventario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+      LOGGER.debug("Metodo: <<load>>");
+      campoOrden = sortField;
+      orden = sortOrder;
+      Object rta[] = maestrosEJB.consultarProductos(filtro, first, pageSize, sortField, sortOrder, true);
+      this.setRowCount(((Long) rta[0]).intValue());
+      rta = maestrosEJB.consultarProductos(filtro, first, pageSize, sortField, sortOrder, false);
+      datos = (List<ProductosInventario>) rta[1];
+      return datos;
+    }
+
   }
 
 }

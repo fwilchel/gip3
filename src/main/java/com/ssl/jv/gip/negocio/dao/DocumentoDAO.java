@@ -2344,7 +2344,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
       buscarPorProductos = true;
       sql += DocumentoReporteVentasCEDTO.CONDICIONAL_PRODUCTOS;
     }
-    System.out.println("SQL:" + sql);
     Query query = em.createNativeQuery(sql, DocumentoReporteVentasCEDTO.class);
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     Timestamp fechaInicial = Timestamp.valueOf(formatoFecha.format(parametros.get("fechaInicial")).concat(" 00:00:00"));

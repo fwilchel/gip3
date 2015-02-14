@@ -33,7 +33,7 @@ import org.hibernate.annotations.LazyCollectionOption;
   @NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKU, query = "SELECT p FROM ProductosInventario p WHERE p.sku = :sku"),
   @NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKUs, query = "SELECT p FROM ProductosInventario p WHERE p.sku in (:skus)"),
   @NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_DESACTIVADO_CATEGORIA_SKU_NOMBRE_AND_CONTROLSTOCK, query = "SELECT p FROM ProductosInventario p JOIN p.productosInventarioComext pice JOIN p.categoriasInventario ci  WHERE p.desactivado = :desactivado AND (false = :paramCategoria OR ci.id = :idCategoria) AND p.sku like :sku AND p.nombre like :nombre AND pice.controlStock = :controlStock"),
-  @NamedQuery(name = ProductosInventario.BUSCAR_PRODUCTOS_REPORTE_VENTAS_CE, query = "SELECT p FROM ProductosInventario p WHERE UPPER (p.sku) LIKE UPPER (:sku) AND p.desactivado = :desactivado"
+  @NamedQuery(name = ProductosInventario.BUSCAR_PRODUCTOS_REPORTE_VENTAS_CE, query = "SELECT p FROM ProductosInventario p WHERE UPPER (p.sku) LIKE UPPER (:sku) AND UPPER (p.nombre) LIKE UPPER (:nombre) AND p.desactivado = :desactivado"
   )
 })
 public class ProductosInventario implements Serializable {
