@@ -23,7 +23,7 @@ import com.ssl.jv.gip.web.mb.UtilMB;
  */
 @ManagedBean(name="ordenesDespachoMB")
 @ViewScoped
-public class ordenesDespachoMB extends UtilMB{
+public class OrdenesDespachoMB extends UtilMB{
 
 	private static final long serialVersionUID = 1L;
 	
