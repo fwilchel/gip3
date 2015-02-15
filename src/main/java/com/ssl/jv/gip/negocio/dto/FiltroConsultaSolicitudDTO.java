@@ -14,6 +14,12 @@ public class FiltroConsultaSolicitudDTO implements Serializable {
 	private String numeroPedido;
 	private Date fechaBusqueda;
 	private String nombreCliente;
+	private Date fechaInicio;
+	private Date fechaFinal;
+	private String ubicaciones;
+	private Long tipoDocumento;
+	private Long idEstado;
+	private Long proveedor;
 	
 	
 	public String getConsecutivoDocumento() {
@@ -40,6 +46,43 @@ public class FiltroConsultaSolicitudDTO implements Serializable {
 	public void setNombreCliente(String nombreCliente) {
 		this.nombreCliente = nombreCliente;
 	}
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+	public Date getFechaFinal() {
+		return fechaFinal;
+	}
+	public void setFechaFinal(Date fechaFinal) {
+		this.fechaFinal = fechaFinal;
+	}
+	public String getUbicaciones() {
+		return ubicaciones;
+	}
+	public void setUbicaciones(String ubicaciones) {
+		this.ubicaciones = ubicaciones;
+	}
+	public Long getTipoDocumento() {
+		return tipoDocumento;
+	}
+	public void setTipoDocumento(Long tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+	public Long getIdEstado() {
+		return idEstado;
+	}
+	public void setIdEstado(Long idEstado) {
+		this.idEstado = idEstado;
+	}
+	public Long getProveedor() {
+		return proveedor;
+	}
+	public void setProveedor(Long proveedor) {
+		this.proveedor = proveedor;
+	}
+	
 	
 
 }

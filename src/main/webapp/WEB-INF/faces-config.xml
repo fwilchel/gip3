@@ -46,6 +46,10 @@
       <from-outcome>ingresar_costos_incoterm</from-outcome>
       <to-view-id>/ui/comercioexterior/ingresarCostosIncoterm.xhtml</to-view-id>
     </navigation-case>
+     <navigation-case>
+      <from-outcome>listado_documentos</from-outcome>
+      <to-view-id>/ui/reportes/reporteDocumentos.xhtml</to-view-id>
+    </navigation-case>
     <navigation-case>
       <from-outcome>listado_LE_Generar_FX</from-outcome>
       <to-view-id>/ui/comercioexterior/generarFacturaExportacion.xhtml</to-view-id>
