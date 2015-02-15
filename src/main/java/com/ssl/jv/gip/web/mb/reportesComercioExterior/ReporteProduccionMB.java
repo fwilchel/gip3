@@ -2,6 +2,7 @@ package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -135,9 +136,10 @@ public class ReporteProduccionMB extends UtilMB{
 
 			}
 			
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 			
-			parametros.put("fecha_inicial",this.fechaInicial.toString());
-			parametros.put("fecha_final", this.fechaFinal.toString());
+			parametros.put("fecha_inicial",sdf.format(fechaInicial));
+			parametros.put("fecha_final", sdf.format(fechaFinal));
 
 		}catch (Exception e){
 			LOGGER.error(e.getMessage());
