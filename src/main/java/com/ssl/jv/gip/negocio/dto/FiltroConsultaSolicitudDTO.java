@@ -19,7 +19,7 @@ public class FiltroConsultaSolicitudDTO implements Serializable {
 	private String ubicaciones;
 	private Long tipoDocumento;
 	private Long idEstado;
-	private Long proveedor;
+	private String proveedor;
 	
 	
 	public String getConsecutivoDocumento() {
@@ -76,10 +76,10 @@ public class FiltroConsultaSolicitudDTO implements Serializable {
 	public void setIdEstado(Long idEstado) {
 		this.idEstado = idEstado;
 	}
-	public Long getProveedor() {
+	public String getProveedor() {
 		return proveedor;
 	}
-	public void setProveedor(Long proveedor) {
+	public void setProveedor(String proveedor) {
 		this.proveedor = proveedor;
 	}
 	

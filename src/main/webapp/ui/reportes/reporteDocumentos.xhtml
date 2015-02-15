@@ -48,17 +48,53 @@
 						</p:calendar>
 						<p:message for="filtrofechafin"></p:message>
 						
+						<p:outputLabel value="#{msg.documentoTipo}" for="intTipoDocumento"
+							styleClass="negrita" />
+						<p:selectOneMenu id="intTipoDocumento"
+							value="#{reporteDocumentosMB.filtro.tipoDocumento}"
+							label="#{msg.documentoTipo}">
+							<f:selectItem itemLabel="TODOS" />
+							<f:selectItems value="#{reporteDocumentosMB.listaTipoDocumento}"
+								var="tipodoc" itemValue="#{tipodoc.id}"
+								itemLabel="#{tipodoc.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="intTipoDocumento"></p:message>
+						
 						<p:outputLabel value="#{msg.documentoUbicacion}" for="idUbicacion"
 							styleClass="negrita" />
 						<p:selectOneMenu id="idUbicacion"
 							value="#{reporteDocumentosMB.intUbicacion}"
 							label="#{msg.documentoUbicacion}">
-							<f:selectItem itemLabel="#{msg.generalSinSeleccionar}" />
+							<f:selectItem itemLabel="TODAS" />
 							<f:selectItems value="#{reporteDocumentosMB.listaUbicaciones}"
 								var="ubicacion" itemValue="#{ubicacion.id}"
 								itemLabel="#{ubicacion.nombre}" />
 						</p:selectOneMenu>
 						<p:message for="idUbicacion"></p:message>
+						
+						<p:outputLabel value="#{msg.documentoEstado}" for="selectEstado"
+							styleClass="negrita" />
+						<p:selectOneMenu id="selectEstado"
+							value="#{reporteDocumentosMB.filtro.idEstado}"
+							label="#{msg.documentoEstado}">
+							<f:selectItem itemLabel="TODOS" />
+							<f:selectItems value="#{reporteDocumentosMB.listaEstado}"
+								var="estado" itemValue="#{estado.id}"
+								itemLabel="#{estado.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="selectEstado"></p:message>
+						
+						<p:outputLabel value="#{msg.documentoProveedor}" for="selectProveedor"
+							styleClass="negrita" />
+						<p:selectOneMenu id="selectProveedor"
+							value="#{reporteDocumentosMB.filtro.proveedor}"
+							label="#{msg.documentoProveedor}">
+							<f:selectItem itemLabel="TODOS" />
+							<f:selectItems value="#{reporteDocumentosMB.listaProveedor}"
+								var="proveedor" itemValue="#{proveedor.id}"
+								itemLabel="#{proveedor.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="selectProveedor"></p:message>
 						
 						
 
@@ -270,8 +306,8 @@
 						rendered="#{not empty reporteDocumentosMB.seleccionado}"
 						columnClasses="label,value">
 						
-						<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false" icon="ui-icon-document">
-					        <p:fileDownload value="#{reporteDocumentosMB.reporteExcel}" />
+						<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false" icon="ui-icon-document"
+							action="#{reporteDocumentosMB.hacerExcel}">
 					    </p:commandButton>
 					    					    
 						<p:commandButton value="#{msg.generalCancelar}"
