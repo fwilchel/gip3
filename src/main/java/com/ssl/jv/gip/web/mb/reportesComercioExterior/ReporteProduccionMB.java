@@ -136,8 +136,8 @@ public class ReporteProduccionMB extends UtilMB{
 			}
 			
 			
-			parametros.put("fecha_inicial",this.fechaInicial);
-			parametros.put("fecha_final", this.fechaFinal);
+			parametros.put("fecha_inicial",this.fechaInicial.toString());
+			parametros.put("fecha_final", this.fechaFinal.toString());
 
 		}catch (Exception e){
 			LOGGER.error(e.getMessage());
@@ -149,7 +149,7 @@ public class ReporteProduccionMB extends UtilMB{
 			
 			Hashtable<String, String> parametrosR=new Hashtable<String, String>();
 			parametrosR.put("tipo", "xls");
-			String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Reporte_PCE.jasper");
+			String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_PCE.jasper");
 			ByteArrayOutputStream os=(ByteArrayOutputStream)com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
 			reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "Reporte_PCE.xls");
 			
