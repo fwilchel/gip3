@@ -1595,4 +1595,14 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	public List<Documento> consultarFP(String consecutivoDocumento) {
 		return documentoDAO.consultaFP(consecutivoDocumento);
 	}
+	
+	@Override
+	public List<Documento> consultarFacturasDeExportacionEstado() {
+		try {
+			return documentoDAO.consultarDocumentosFacturaExportacionEstado();
+		} catch (Exception e) {
+			LOGGER.error(e + "Error consultando facturas de exportacion por estado");
+			return null;
+		}
+	}
 }

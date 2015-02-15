@@ -25,6 +25,7 @@
 
 						<p:column style="width:32px;text-align: center">
 							<p:commandButton oncomplete="PF('confirmacionDLG').show()"
+								process="@this"
 								update=":datoDlg"
 								icon="ui-icon-closethick">
 								<f:setPropertyActionListener value="#{dato}"
