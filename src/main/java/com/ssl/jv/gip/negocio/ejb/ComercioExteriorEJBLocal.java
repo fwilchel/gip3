@@ -331,4 +331,6 @@ public interface ComercioExteriorEJBLocal {
 	void actualizarEstadoDocumento(Documento documento);
 	
 	public List<Documento> consultarFP(String consecutivoDocumento);
+
+	List<Documento> consultarFacturasDeExportacionEstado();
 }

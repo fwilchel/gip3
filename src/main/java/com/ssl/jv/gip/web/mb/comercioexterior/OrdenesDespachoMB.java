@@ -45,7 +45,7 @@ public class OrdenesDespachoMB extends UtilMB{
 	
 	private Integer language=AplicacionMB.SPANISH;
 	
-	public void OrdenesDespachoMB() {
+	public OrdenesDespachoMB() {
 	}
 
 	@PostConstruct

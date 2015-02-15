@@ -62,7 +62,6 @@ import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosInventarioComextDAOLocal;
-import com.ssl.jv.gip.negocio.dao.PuntoVentaDAO;
 import com.ssl.jv.gip.negocio.dao.PuntoVentaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.RangoCostoLogisticoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
@@ -71,10 +70,12 @@ import com.ssl.jv.gip.negocio.dao.TipoLoteOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoPrecioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
+import com.ssl.jv.gip.negocio.dto.ProductosInventarioComextFiltroVO;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 
 /**
  * Session Bean implementation class MaestrosEJB
+ * 
  * @param <puntoVentaDAO>
  */
 @Stateless
@@ -160,17 +161,13 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 
 	@EJB
 	private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAO;
-	
+
 	@EJB
 	private PuntoVentaDAOLocal puntoVentaDao;
-	
-	
-	
-	
 
 	@EJB
 	private FactsCurrencyConversionDAOLocal conversionMonedaDAO;
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -854,7 +851,9 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		if (icl.getRangoCostoLogisticos() != null) {
 			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
 				rcl.setItemCostoLogistico(icl);
-				if (rcl.getMoneda()!=null && (rcl.getMoneda().getId()==null || rcl.getMoneda().getId().equals(""))){
+				if (rcl.getMoneda() != null
+						&& (rcl.getMoneda().getId() == null || rcl.getMoneda()
+								.getId().equals(""))) {
 					rcl.setMoneda(null);
 				}
 				if (rcl.getId() != null && rcl.getId() != 0) {
@@ -898,7 +897,6 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 			String sku) {
 		return movimientosInventarioComextDAO.consultarPorSKU(sku);
 	}
-	
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -911,7 +909,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		}
 
 	}
-	
+
 	@Override
 	public PuntoVenta crearPuntoVenta(PuntoVenta pEntidad) {
 		try {
@@ -922,8 +920,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 			return null;
 		}
 	}
-	
-	
+
 	@Override
 	public PuntoVenta actualizarPuntoVenta(PuntoVenta pEntidad) {
 		try {
@@ -934,17 +931,14 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public List<Ciudad> consultarCiudades() {
 		return (List<Ciudad>) ciudadDAO.findAll();
 	}
-	
-	
-	
 
 	@Override
-	public FactsCurrencyConversion getTRMDian(Date fecha){
+	public FactsCurrencyConversion getTRMDian(Date fecha) {
 		return conversionMonedaDAO.getTRMDian(fecha);
 	}
 
@@ -985,5 +979,12 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 									.getProductosInventario().getId()));
 			movimientosInventarioComextDAO.add(movimientosInventarioComext);
 		}
+	}
+
+	@Override
+	public List<ProductosInventarioComext> consultarProductosInventarioComextsParaInventarioComercioFotos(
+			ProductosInventarioComextFiltroVO filtroVO) {
+		return productosInventarioComextDao
+				.consultarPorNombreSKUProductoOCategoria(filtroVO);
 	}
 }

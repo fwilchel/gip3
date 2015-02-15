@@ -27,7 +27,7 @@
 		
 						<p:column style="width:32px;text-align:center">
 							<p:commandButton oncomplete="PF('editarDlg').show()" process="@this"
-								icon="ui-icon-pencil" title="bleh" action="#{terminosTransporteMB.getShipmentConditionsById}"
+								icon="ui-icon-pencil" action="#{terminosTransporteMB.getShipmentConditionsById}"
 								update=":editarDialog">
 								<f:setPropertyActionListener value="#{cond}"
 											target="#{terminosTransporteMB.selectedShipmentCond}" />

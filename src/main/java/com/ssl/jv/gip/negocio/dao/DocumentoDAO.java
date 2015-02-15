@@ -2397,4 +2397,30 @@ DocumentoDAOLocal {
 
 		return em.createNativeQuery(sqlAuditoria).getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Documento> consultarDocumentosFacturaExportacionEstado() {
+		List<Documento> listado = new ArrayList<Documento>();
+		String query;
+		try {
+			query = "SELECT d FROM Documento d "
+					+ "JOIN FETCH d.estadosxdocumento exd "
+					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
+					+ "AND d.estadosxdocumento.estado.id != :estadoDocumento "
+					+ "ORDER BY d.id DESC";
+
+			listado = em
+					.createQuery(query)
+					.setParameter("estadoDocumento",(long) ConstantesDocumento.ANULADO)
+					.setParameter("tipoDocumento",
+							(long) ConstantesTipoDocumento.FACTURA_EXPORTACION)
+							.getResultList();
+		} catch (Exception e) {
+			LOGGER.error(e
+					+ "********Error consultando Documentos por tipo de documento FACTURA_EXPORTACION y estado");
+			return null;
+		}
+		return listado;
+	}
 }
