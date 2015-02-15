@@ -673,7 +673,7 @@ DocumentoDAOLocal {
 							+ filtro.getUbicaciones()
 							+ ") OR documentos.id_ubicacion_destino IN (" + filtro.getUbicaciones() + "))");
 
-		if (filtro.getTipoDocumento() != null) {
+		if (filtro.getTipoDocumento() != null && filtro.getTipoDocumento().compareTo(new Long(0))!=0) {
 			sql.append(" AND documentos.id_tipo_documento = "
 					+ filtro.getTipoDocumento());
 		}
@@ -700,14 +700,14 @@ DocumentoDAOLocal {
 					+ filtro.getConsecutivoDocumento() + "%')");
 		}
 		
-		if (filtro.getIdEstado() != null) {
+		if (filtro.getIdEstado() != null && filtro.getIdEstado().compareTo(new Long(0))!=0) {
 			sql.append(" AND documentos.id_estado = "
 					+ filtro.getIdEstado());
 		}
 		
-		if (filtro.getProveedor() != null) {
-			sql.append(" AND documentos.id_proveedor = "
-					+ filtro.getProveedor());
+		if (filtro.getProveedor() != null && !filtro.getProveedor().trim().isEmpty()) {
+			sql.append(" AND documentos.id_proveedor = '"
+					+ filtro.getProveedor() + "'");
 		}
 		
 
