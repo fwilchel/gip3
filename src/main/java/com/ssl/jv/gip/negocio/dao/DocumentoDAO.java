@@ -2416,9 +2416,10 @@ DocumentoDAOLocal {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("UPDATE documentos SET " + " id_estado = "
-					+ documento.getEstadosxdocumento().getEstado()
-					+ " WHERE  consecutivo_documento = "
-					+ documento.getConsecutivoDocumento());
+					+ documento.getEstadosxdocumento().getEstado().getId()
+					+ " WHERE  consecutivo_documento = '"
+					+ documento.getConsecutivoDocumento()
+					+ "'");
 
 			int q = em.createNativeQuery(sql.toString()).executeUpdate();
 
