@@ -115,7 +115,8 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
     Query query = em
             .createNamedQuery(ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKU);
     query.setParameter("sku", sku);
-    return (ProductosInventario) query.getSingleResult();
+    ProductosInventario r=(ProductosInventario) query.getSingleResult();
+    return r;
   }
 
   @Override

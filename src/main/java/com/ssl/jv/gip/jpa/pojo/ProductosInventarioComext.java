@@ -158,26 +158,26 @@ public class ProductosInventarioComext implements Serializable {
 	private BigDecimal volumenPallet;
 
 	//bi-directional many-to-one association to ComextItemc
-	@OneToMany(mappedBy="productosInventarioComext")
+	@OneToMany(mappedBy="productosInventarioComext", fetch=FetchType.LAZY)
 	private List<ComextItemc> comextItemcs;
 
 	//bi-directional many-to-one association to CuentaContable
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_cuenta_contable_ce")
 	private CuentaContable cuentaContable;
 
 	//bi-directional one-to-one association to ProductosInventario
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_producto")
 	private ProductosInventario productosInventario;
 
 	//bi-directional many-to-one association to TipoLoteoic
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_tipo_loteoic")
 	private TipoLoteoic tipoLoteoic;
 
 	//bi-directional many-to-one association to Unidad
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_unidad_embalaje")
 	private Unidad unidadEmbalaje;
 

@@ -29,12 +29,11 @@ public class TipoLoteoic implements Serializable {
 	private String descripcionIngles;
 
 	//bi-directional many-to-one association to DocumentoXLotesoic
-	@OneToMany(mappedBy="tipoLoteoic")
-	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="tipoLoteoic",fetch=FetchType.LAZY)
 	private List<DocumentoXLotesoic> documentoXLotesoics;
 
 	//bi-directional many-to-one association to ProductosInventarioComext
-	@OneToMany(mappedBy="tipoLoteoic")
+	@OneToMany(mappedBy="tipoLoteoic",fetch=FetchType.LAZY)
 	private List<ProductosInventarioComext> productosInventarioComexts;
 
 	public TipoLoteoic() {

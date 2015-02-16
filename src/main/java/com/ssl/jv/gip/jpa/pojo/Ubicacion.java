@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -78,35 +79,35 @@ public class Ubicacion implements Serializable {
 	private String telefono;
 
 	// bi-directional many-to-one association to Consignacion
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<Consignacion> consignaciones;
 
 	// bi-directional many-to-one association to Conteo
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<Conteo> conteos;
 
 	// bi-directional many-to-one association to CostoVenta
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<CostoVenta> costoVentas;
 
 	// bi-directional many-to-one association to Documento
-	@OneToMany(mappedBy = "ubicacionDestino")
+	@OneToMany(mappedBy = "ubicacionDestino", fetch=FetchType.LAZY)
 	private List<Documento> documentos1;
 
 	// bi-directional many-to-one association to Documento
-	@OneToMany(mappedBy = "ubicacionOrigen")
+	@OneToMany(mappedBy = "ubicacionOrigen", fetch=FetchType.LAZY)
 	private List<Documento> documentos2;
 
 	// bi-directional many-to-one association to Documento2
-	@OneToMany(mappedBy = "ubicacionDestino")
+	@OneToMany(mappedBy = "ubicacionDestino", fetch=FetchType.LAZY)
 	private List<Documento2> documentos2s1;
 
 	// bi-directional many-to-one association to Documento2
-	@OneToMany(mappedBy = "ubicacionOrigen")
+	@OneToMany(mappedBy = "ubicacionOrigen", fetch=FetchType.LAZY)
 	private List<Documento2> documentos2s2;
 
 	// bi-directional many-to-one association to EstandarConteo
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<EstandarConteo> estandarConteos;
 
 	// bi-directional many-to-one association to EstandarPedido
@@ -116,55 +117,55 @@ public class Ubicacion implements Serializable {
 	 */
 
 	// bi-directional many-to-one association to HistorialCierre
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<HistorialCierre> historialCierres;
 
 	// bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy = "ubicacionDestino")
+	@OneToMany(mappedBy = "ubicacionDestino", fetch=FetchType.LAZY)
 	private List<MovimientosInventario> movimientosInventarios1;
 
 	// bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy = "ubicacionOrigen")
+	@OneToMany(mappedBy = "ubicacionOrigen", fetch=FetchType.LAZY)
 	private List<MovimientosInventario> movimientosInventarios2;
 
 	// bi-directional many-to-one association to NivelInventarioxubicacion
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<NivelInventarioxubicacion> nivelInventarioxubicacions;
 
 	// bi-directional many-to-one association to NivelInventarioxubicacionTemp
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps;
 
 	// bi-directional many-to-one association to Saldo
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<Saldo> saldos;
 
 	// bi-directional many-to-one association to SaldosFranquicia
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<SaldosFranquicia> saldosFranquicias;
 
 	// bi-directional many-to-one association to Empresa
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_empresa")
 	private Empresa empresa;
 
 	// bi-directional many-to-one association to Region
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_region")
 	private Region regione;
 
 	// bi-directional many-to-one association to TipoCanal
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_canal")
 	private TipoCanal tipoCanal;
 
 	// bi-directional many-to-one association to Ubicacion
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_bodega_abastecedora")
 	private Ubicacion ubicacione;
 
 	// bi-directional many-to-one association to Ubicacion
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<Ubicacion> ubicaciones;
 
 	// bi-directional many-to-one association to VariablesPedidoSugerido
@@ -174,7 +175,7 @@ public class Ubicacion implements Serializable {
 	 */
 
 	// bi-directional many-to-one association to Venta
-	@OneToMany(mappedBy = "ubicacione")
+	@OneToMany(mappedBy = "ubicacione", fetch=FetchType.LAZY)
 	private List<Venta> ventas;
 
 	public Ubicacion() {
