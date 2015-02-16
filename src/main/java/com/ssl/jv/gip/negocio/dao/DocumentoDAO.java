@@ -638,6 +638,137 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
 
   }
 
+  public List<DocumentoIncontermDTO> consultarDocumentosGeneral(
+          FiltroConsultaSolicitudDTO filtro) {
+
+    List<DocumentoIncontermDTO> lista = new ArrayList<DocumentoIncontermDTO>();
+
+    StringBuilder sql = new StringBuilder(
+            "SELECT  documentos.id,"
+            + "documentos.consecutivo_documento,"
+            + "documentos.fecha_esperada_entrega,"
+            + "documentos.id_ubicacion_origen,"
+            + "documentos.id_ubicacion_destino,"
+            + "documentos.id_tipo_documento,"
+            + "documentos.fecha_generacion,"
+            + "documentos.fecha_entrega,"
+            + "documentos.id_proveedor,"
+            + "documentos.id_estado,"
+            + "documentos.observacion_documento,"
+            + "tipo_documento.abreviatura,"
+            + "tipo_documento.nombre AS NOMBRE_TIPO_DOCUMENTO, "
+            + "estados.nombre AS NOMBRE_ESTADO, "
+            + "UO.nombre AS NOMBRE_ORIGEN, "
+            + "UD.nombre AS NOMBRE_DESTINO, "
+            + "proveedores.nombre AS NOMBRE_PROVEEDOR, "
+            + "documentos.documento_cliente,"
+            + "documentos.sitio_entrega "
+            + "FROM documentos "
+            + "INNER JOIN tipo_documento ON documentos.id_tipo_documento=tipo_documento.id "
+            + "INNER JOIN estados ON estados.id=documentos.id_estado "
+            + "INNER JOIN ubicaciones AS UO ON UO.id=documentos.id_ubicacion_origen "
+            + "INNER JOIN ubicaciones AS UD ON UD.id=documentos.id_ubicacion_destino "
+            + "LEFT JOIN proveedores ON proveedores.id=documentos.id_proveedor "
+            + "WHERE (documentos.id_ubicacion_origen IN ("
+            + filtro.getUbicaciones()
+            + ") OR documentos.id_ubicacion_destino IN (" + filtro.getUbicaciones() + "))");
+
+    if (filtro.getTipoDocumento() != null && filtro.getTipoDocumento().compareTo(new Long(0)) != 0) {
+      sql.append(" AND documentos.id_tipo_documento = "
+              + filtro.getTipoDocumento());
+    }
+
+    if (filtro.getFechaInicio() != null) {
+      DateFormat fechaHoraI = new SimpleDateFormat("yyyy-MM-dd");
+      String strFechaInicial = fechaHoraI.format(filtro
+              .getFechaInicio());
+      sql.append(" AND documentos.fecha_generacion >= '" + strFechaInicial
+              + " 00:00:00'");
+    }
+
+    if (filtro.getFechaFinal() != null) {
+      DateFormat fechaHoraF = new SimpleDateFormat("yyyy-MM-dd");
+      String strFechaFinal = fechaHoraF.format(filtro
+              .getFechaFinal());
+      sql.append(" AND documentos.fecha_generacion <= '" + strFechaFinal
+              + " 23:59:59'");
+    }
+
+    if (filtro.getConsecutivoDocumento() != null
+            && !filtro.getConsecutivoDocumento().isEmpty()) {
+      sql.append(" AND UPPER(documentos.consecutivo_documento) LIKE UPPER('"
+              + filtro.getConsecutivoDocumento() + "%')");
+    }
+
+    if (filtro.getIdEstado() != null && filtro.getIdEstado().compareTo(new Long(0)) != 0) {
+      sql.append(" AND documentos.id_estado = "
+              + filtro.getIdEstado());
+    }
+
+    if (filtro.getProveedor() != null && !filtro.getProveedor().trim().isEmpty()) {
+      sql.append(" AND documentos.id_proveedor = '"
+              + filtro.getProveedor() + "'");
+    }
+
+    sql.append(" ORDER BY documentos.id");
+
+    List<Object[]> listado = em.createNativeQuery(sql.toString()).getResultList();
+
+    if (listado != null) {
+      for (Object[] objs : listado) {
+        DocumentoIncontermDTO dto = new DocumentoIncontermDTO();
+
+        dto.setIdDocumento(objs[0] != null ? Long.parseLong(objs[0]
+                .toString()) : null);
+        dto.setConsecutivoDocumento(objs[1] != null ? objs[1]
+                .toString() : null);
+        dto.setFechaEsperadaEntrega((Timestamp) (objs[2] != null ? objs[2]
+                : null));
+        if (dto.getFechaEsperadaEntrega() != null) {
+          dto.setFechaEsperadaEntregaDate(new java.sql.Date(dto
+                  .getFechaEsperadaEntrega().getTime()));
+        }
+        dto.setIdUbicacionOrigen(objs[3] != null ? Long
+                .parseLong(objs[3].toString()) : null);
+        dto.setIdUbicacionDestino(objs[4] != null ? Long
+                .parseLong(objs[4].toString()) : null);
+        dto.setIdTipoDocumento(objs[5] != null ? Long.parseLong(objs[5]
+                .toString()) : null);
+        dto.setFechaGeneracion((Timestamp) (objs[6] != null ? objs[6]
+                : null));
+        dto.setFechaEntrega((Timestamp) (objs[7] != null ? objs[7]
+                : null));
+        dto.setIdProveedor(objs[8] != null ? Long.parseLong(objs[8]
+                .toString()) : null);
+        dto.setIdEstado(objs[9] != null ? Long.parseLong(objs[9]
+                .toString()) : null);
+        dto.setObservacionDocumento(objs[10] != null ? objs[10]
+                .toString() : null);
+        dto.setAbreviaturaTipoDocumento(objs[11] != null ? objs[11]
+                .toString() : null);
+        dto.setNombreTipoDocumento(objs[12] != null ? objs[12]
+                .toString() : null);
+        dto.setEstadoNombre(objs[13] != null ? objs[13].toString()
+                : null);
+        dto.setNombreUbicacionOrigen(objs[14] != null ? objs[14].toString()
+                : null);
+        dto.setNombreUbicacionDestino(objs[15] != null ? objs[15].toString()
+                : null);
+        dto.setNombreProveedor(objs[16] != null ? objs[16].toString()
+                : null);
+        dto.setDocumentoCliente(objs[17] != null ? objs[17].toString()
+                : null);
+        dto.setSitioEntrega(objs[18] != null ? objs[18].toString()
+                : null);
+
+        lista.add(dto);
+      }
+    }
+
+    return lista;
+
+  }
+
   /**
    * Consultar documentos aprobar solicitud pedido.
    *
@@ -1640,9 +1771,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
     LOGGER.debug("Metodo: <<consultarSolicitudesPedidoPorAnular>> parametros / consecutivoDocumento ->> {" + consecutivoDocumento + "} ");
     Query query = em.createNamedQuery(Documento.LISTADO_ANULAR_SOLICITUD_PEDIDO);
     query.setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
-    query.setParameter("cerrado", (long) ConstantesDocumento.CERRADO);
-    query.setParameter("anulado", (long) ConstantesDocumento.ANULADO);
-    query.setParameter("facturaProforma", (long) ConstantesTipoDocumento.FACTURA_PROFORMA);
+    query.setParameter("cerrado", ConstantesDocumento.CERRADO);
+    query.setParameter("anulado", ConstantesDocumento.ANULADO);
+    query.setParameter("facturaProforma", ConstantesTipoDocumento.FACTURA_PROFORMA);
     if (consecutivoDocumento == null || consecutivoDocumento.isEmpty()) {
       query.setParameter("consecutivoDocumento", "%");
     } else {
@@ -2275,9 +2406,27 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
     try {
       StringBuilder sql = new StringBuilder();
       sql.append("UPDATE documentos SET " + " id_estado = "
-              + documento.getEstadosxdocumento().getEstado()
-              + " WHERE  consecutivo_documento = "
-              + documento.getConsecutivoDocumento());
+              + documento.getEstadosxdocumento().getEstado().getId()
+              + " WHERE  consecutivo_documento = '"
+              + documento.getConsecutivoDocumento()
+              + "'");
+
+      int q = em.createNativeQuery(sql.toString()).executeUpdate();
+
+    } catch (Exception e) {
+
+    }
+  }
+
+  @Override
+  public void actualizarEstadoDocumentoPorId(
+          Documento documento) {
+    try {
+      StringBuilder sql = new StringBuilder();
+      sql.append("UPDATE documentos SET id_estado = "
+              + documento.getEstadosxdocumento().getEstado().getId()
+              + " WHERE id = "
+              + documento.getId());
 
       int q = em.createNativeQuery(sql.toString()).executeUpdate();
 

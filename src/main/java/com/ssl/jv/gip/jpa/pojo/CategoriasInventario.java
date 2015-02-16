@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -24,20 +26,20 @@ public class CategoriasInventario implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to CategoriasInventario
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_categoria_padre")
 	private CategoriasInventario categoriasInventario;
 
 	//bi-directional many-to-one association to CategoriasInventario
-	@OneToMany(mappedBy="categoriasInventario")
+	@OneToMany(mappedBy="categoriasInventario", fetch=FetchType.LAZY)
 	private List<CategoriasInventario> categoriasInventarios;
 
 	//bi-directional many-to-one association to CostoVenta
-	@OneToMany(mappedBy="categoriasInventario")
+	@OneToMany(mappedBy="categoriasInventario", fetch=FetchType.LAZY)
 	private List<CostoVenta> costoVentas;
 
 	//bi-directional many-to-one association to EstandarConteo
-	@OneToMany(mappedBy="categoriasInventario")
+	@OneToMany(mappedBy="categoriasInventario", fetch=FetchType.LAZY)
 	private List<EstandarConteo> estandarConteos;
 
 	//bi-directional many-to-one association to EstandarPedido
@@ -45,7 +47,7 @@ public class CategoriasInventario implements Serializable {
 	//private List<EstandarPedido> estandarPedidos;
 
 	//bi-directional many-to-one association to ProductosInventario
-	@OneToMany(mappedBy="categoriasInventario")
+	@OneToMany(mappedBy="categoriasInventario", fetch=FetchType.LAZY)
 	private List<ProductosInventario> productosInventarios;
 
 	public CategoriasInventario() {

@@ -109,6 +109,15 @@ public interface ComercioExteriorEJBLocal {
 	 */
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(
 			FiltroConsultaSolicitudDTO filtro);
+	
+	/**
+	 * Consultar documentos general.
+	 *
+	 * @param filtro the filtro
+	 * @return the list
+	 */
+	public List<DocumentoIncontermDTO> consultarDocumentosGeneral(
+			FiltroConsultaSolicitudDTO filtro);
 
 	/**
 	 * Consultar documentos aprobar solicitud pedido.
@@ -331,6 +340,8 @@ public interface ComercioExteriorEJBLocal {
 	void actualizarEstadoDocumento(Documento documento);
 	
 	public List<Documento> consultarFP(String consecutivoDocumento);
+	
+	public void actualizarEstadoDocumentoPorId(Documento documento);
 
-	List<Documento> consultarFacturasDeExportacionEstado();
+	public List<Documento> consultarFacturasDeExportacionEstado();
 }

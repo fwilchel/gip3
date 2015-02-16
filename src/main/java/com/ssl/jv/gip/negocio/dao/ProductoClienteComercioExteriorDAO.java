@@ -831,7 +831,8 @@ public class ProductoClienteComercioExteriorDAO extends
 				.createNamedQuery(
 						ProductosXClienteComext.PRODUCTOS_X_CLIENTE_SKU)
 				.setParameter("idCliente", idCliente).setParameter("sku", sku);
-		return (ProductosXClienteComext) query.getSingleResult();
+		ProductosXClienteComext r=(ProductosXClienteComext) query.getSingleResult();
+		return r;
 	}
 	
 	@Override

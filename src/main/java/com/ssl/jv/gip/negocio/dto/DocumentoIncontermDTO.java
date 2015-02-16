@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.sql.Timestamp;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class DocumentoIncontermDTO.
  */
@@ -28,11 +29,23 @@ public class DocumentoIncontermDTO implements Serializable{
 	/** The id ubicacion origen. */
 	private Long idUbicacionOrigen;
 	
+	/** The nombre ubicacion origen. */
+	private String nombreUbicacionOrigen;
+	
 	/** The id ubicacion destino. */
 	private Long idUbicacionDestino;
 	
+	/** The nombre ubicacion destino. */
+	private String nombreUbicacionDestino;
+	
 	/** The id tipo documento. */
 	private Long idTipoDocumento;
+	
+	/** The abreviatura tipo documento. */
+	private String abreviaturaTipoDocumento;
+	
+	/** The nombre tipo documento. */
+	private String nombreTipoDocumento;
 	
 	/** The fecha generacion. */
 	private Timestamp fechaGeneracion;
@@ -42,6 +55,9 @@ public class DocumentoIncontermDTO implements Serializable{
 	
 	/** The id proveedor. */
 	private Long idProveedor;
+	
+	/** The nombre proveedor. */
+	private String nombreProveedor;
 	
 	/** The id estado. */
 	private Long idEstado;
@@ -135,6 +151,9 @@ public class DocumentoIncontermDTO implements Serializable{
 	
 	/** The descripcion metodo pago. */
 	private String descripcionMetodoPago;
+	
+	/** The sitio entrega. */
+	private String sitioEntrega;
 	
 	/**
 	 * Gets the id documento.
@@ -872,6 +891,114 @@ public class DocumentoIncontermDTO implements Serializable{
 	 */
 	public void setDescripcionMetodoPago(String descripcionMetodoPago) {
 		this.descripcionMetodoPago = descripcionMetodoPago;
+	}
+
+	/**
+	 * Gets the abreviatura tipo documento.
+	 *
+	 * @return the abreviatura tipo documento
+	 */
+	public String getAbreviaturaTipoDocumento() {
+		return abreviaturaTipoDocumento;
+	}
+
+	/**
+	 * Sets the abreviatura tipo documento.
+	 *
+	 * @param abreviaturaTipoDocumento the new abreviatura tipo documento
+	 */
+	public void setAbreviaturaTipoDocumento(String abreviaturaTipoDocumento) {
+		this.abreviaturaTipoDocumento = abreviaturaTipoDocumento;
+	}
+
+	/**
+	 * Gets the nombre tipo documento.
+	 *
+	 * @return the nombre tipo documento
+	 */
+	public String getNombreTipoDocumento() {
+		return nombreTipoDocumento;
+	}
+
+	/**
+	 * Sets the nombre tipo documento.
+	 *
+	 * @param nombreTipoDocumento the new nombre tipo documento
+	 */
+	public void setNombreTipoDocumento(String nombreTipoDocumento) {
+		this.nombreTipoDocumento = nombreTipoDocumento;
+	}
+
+	/**
+	 * Gets the nombre ubicacion origen.
+	 *
+	 * @return the nombre ubicacion origen
+	 */
+	public String getNombreUbicacionOrigen() {
+		return nombreUbicacionOrigen;
+	}
+
+	/**
+	 * Sets the nombre ubicacion origen.
+	 *
+	 * @param nombreUbicacionOrigen the new nombre ubicacion origen
+	 */
+	public void setNombreUbicacionOrigen(String nombreUbicacionOrigen) {
+		this.nombreUbicacionOrigen = nombreUbicacionOrigen;
+	}
+
+	/**
+	 * Gets the nombre ubicacion destino.
+	 *
+	 * @return the nombre ubicacion destino
+	 */
+	public String getNombreUbicacionDestino() {
+		return nombreUbicacionDestino;
+	}
+
+	/**
+	 * Sets the nombre ubicacion destino.
+	 *
+	 * @param nombreUbicacionDestino the new nombre ubicacion destino
+	 */
+	public void setNombreUbicacionDestino(String nombreUbicacionDestino) {
+		this.nombreUbicacionDestino = nombreUbicacionDestino;
+	}
+
+	/**
+	 * Gets the nombre proveedor.
+	 *
+	 * @return the nombre proveedor
+	 */
+	public String getNombreProveedor() {
+		return nombreProveedor;
+	}
+
+	/**
+	 * Sets the nombre proveedor.
+	 *
+	 * @param nombreProveedor the new nombre proveedor
+	 */
+	public void setNombreProveedor(String nombreProveedor) {
+		this.nombreProveedor = nombreProveedor;
+	}
+
+	/**
+	 * Gets the sitio entrega.
+	 *
+	 * @return the sitio entrega
+	 */
+	public String getSitioEntrega() {
+		return sitioEntrega;
+	}
+
+	/**
+	 * Sets the sitio entrega.
+	 *
+	 * @param sitioEntrega the new sitio entrega
+	 */
+	public void setSitioEntrega(String sitioEntrega) {
+		this.sitioEntrega = sitioEntrega;
 	}
 
 		

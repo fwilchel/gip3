@@ -17,9 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
 /**
  * The persistent class for the productos_inventario database table.
  *
@@ -30,7 +27,7 @@ import org.hibernate.annotations.LazyCollectionOption;
   @NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_ALL, query = "SELECT p FROM ProductosInventario p"),
   @NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_ACTIVOS, query = "SELECT p FROM ProductosInventario p WHERE p.desactivado = false"),
   @NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_USUARIO_CATEGORIA_SKU_NOMBRE_ESTADO, query = "SELECT p FROM ProductosInventario p LEFT JOIN p.categoriasInventario ci JOIN p.pais pa JOIN pa.usuarios u WHERE u.id = :idUsuario AND (false = :paramDesactivado OR p.desactivado = :desactivado) AND (false = :paramCategoria OR ci.id = :idCategoria) AND (false = :paramSku OR p.sku like :sku) AND (false = :paramNombre OR p.nombre like :nombre)"),
-  @NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKU, query = "SELECT p FROM ProductosInventario p WHERE p.sku = :sku"),
+  @NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKU, query = "SELECT p FROM ProductosInventario p JOIN FETCH p.productosInventarioComext pic LEFT JOIN FETCH pic.tipoLoteoic tlo LEFT JOIN FETCH p.unidadVenta uv WHERE p.sku = :sku"),
   @NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_SKUs, query = "SELECT p FROM ProductosInventario p WHERE p.sku in (:skus)"),
   @NamedQuery(name = ProductosInventario.PRODUCTOS_INVENTARIO_FIND_BY_DESACTIVADO_CATEGORIA_SKU_NOMBRE_AND_CONTROLSTOCK, query = "SELECT p FROM ProductosInventario p JOIN p.productosInventarioComext pice JOIN p.categoriasInventario ci  WHERE p.desactivado = :desactivado AND (false = :paramCategoria OR ci.id = :idCategoria) AND p.sku like :sku AND p.nombre like :nombre AND pice.controlStock = :controlStock"),
   @NamedQuery(name = ProductosInventario.BUSCAR_PRODUCTOS_REPORTE_VENTAS_CE, query = "SELECT p FROM ProductosInventario p WHERE UPPER (p.sku) LIKE UPPER (:sku) AND UPPER (p.nombre) LIKE UPPER (:nombre) AND p.desactivado = :desactivado"
@@ -77,7 +74,7 @@ public class ProductosInventario implements Serializable {
   @Column(name = "id_cuenta_contable")
   private Long idCuentaContable;
 
-  @ManyToOne
+  @ManyToOne(fetch=FetchType.LAZY)
   @JoinColumn(name = "id_ur")
   private Unidad unidadReceta;
 
@@ -125,22 +122,22 @@ public class ProductosInventario implements Serializable {
   private List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps;
 
   // bi-directional many-to-one association to CategoriasInventario
-  @ManyToOne
+  @ManyToOne(fetch=FetchType.LAZY)
   @JoinColumn(name = "id_categoria")
   private CategoriasInventario categoriasInventario;
 
   // bi-directional many-to-one association to Pais
-  @ManyToOne
+  @ManyToOne(fetch=FetchType.LAZY)
   @JoinColumn(name = "id_pais")
   private Pais pais;
 
   // bi-directional many-to-one association to Unidad
-  @ManyToOne
+  @ManyToOne(fetch=FetchType.LAZY)
   @JoinColumn(name = "id_ud")
   private Unidad unidadDespacho;
 
   // bi-directional many-to-one association to Unidad
-  @ManyToOne
+  @ManyToOne(fetch=FetchType.LAZY)
   @JoinColumn(name = "id_uv")
   private Unidad unidadVenta;
 
@@ -153,8 +150,7 @@ public class ProductosInventario implements Serializable {
   private List<ProductosXClienteComext> productosXClienteComexts;
 
   // bi-directional many-to-one association to ProductosXCliente
-  @OneToMany(mappedBy = "productosInventario")
-  @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
   private List<ProductosXCliente> productosxclientes;
 
   // bi-directional many-to-one association to ProductosXDocumento

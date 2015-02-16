@@ -1,6 +1,5 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import com.ssl.jv.gip.jpa.pojo.FactsCurrencyConversion;
 import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
-import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ComunEJB;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;

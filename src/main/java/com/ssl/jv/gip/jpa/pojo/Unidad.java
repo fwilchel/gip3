@@ -28,19 +28,19 @@ public class Unidad implements Serializable, Comparable {
 	private String nombreIngles;
 
 	//bi-directional many-to-one association to Conteo
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
 	private List<Conteo> conteos;
 
 	//bi-directional many-to-one association to CostoVenta
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
 	private List<CostoVenta> costoVentas;
 
 	//bi-directional many-to-one association to Costo
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
 	private List<Costo> costos;
 
 	//bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
 	private List<MovimientosInventario> movimientosInventarios;
 
 	//bi-directional many-to-one association to ProductosInventario
@@ -52,27 +52,27 @@ public class Unidad implements Serializable, Comparable {
 	//private List<ProductosInventario> productosInventarios2;
 
 	//bi-directional many-to-one association to ProductosInventarioComext
-	@OneToMany(mappedBy="unidadEmbalaje")
+	@OneToMany(mappedBy="unidadEmbalaje", fetch=FetchType.LAZY)
 	private List<ProductosInventarioComext> productosInventarioComexts;
 
 	//bi-directional many-to-one association to ProductosXDocumento
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
 	private List<ProductosXDocumento> productosxdocumentos;
 
 	//bi-directional many-to-one association to ProductosXProveedor
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
 	private List<ProductosXProveedor> productosxproveedors;
 
 	//bi-directional many-to-one association to ProductosXReceta
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
 	private List<ProductosXReceta> productosxrecetas;
 
 	//bi-directional many-to-one association to Saldo
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
 	private List<Saldo> saldos;
 
 	//bi-directional many-to-one association to SaldosFranquicia
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
 	private List<SaldosFranquicia> saldosFranquicias;
 
 	//bi-directional many-to-one association to TempCosto
@@ -80,7 +80,7 @@ public class Unidad implements Serializable, Comparable {
 	private List<TempCosto> tempCostos;*/
 
 	//bi-directional many-to-one association to Venta
-	@OneToMany(mappedBy="unidade")
+	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
 	private List<Venta> ventas;
 
 	public Unidad() {

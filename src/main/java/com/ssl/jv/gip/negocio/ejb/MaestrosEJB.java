@@ -790,9 +790,6 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	@Override
 	public ProductosInventario consultarPorSku(String sku) {
 		ProductosInventario pi = productoInventarioDao.consultarPorSku(sku);
-		pi.getProductosInventarioComext(); // Para hacer fetch
-		pi.getProductosInventarioComext().getTipoLoteoic(); // Para hacer fetch
-		pi.getUnidadVenta();// Para hacer fetch
 		return pi;
 	}
 

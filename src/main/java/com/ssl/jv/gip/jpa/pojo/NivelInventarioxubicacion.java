@@ -28,12 +28,12 @@ public class NivelInventarioxubicacion implements Serializable {
 	private Long unidadMinimaDespacho;
 
 	//bi-directional many-to-one association to ProductosInventario
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=false, fetch=FetchType.LAZY)
 	@JoinColumn(name="id_producto", referencedColumnName="id", insertable=false, updatable=false)
 	private ProductosInventario productosInventario;
 
 	//bi-directional many-to-one association to Ubicacion
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=false, fetch=FetchType.LAZY)
 	@JoinColumn(name="id_ubicacion", referencedColumnName="id", insertable=false, updatable=false)
 	private Ubicacion ubicacione;
 

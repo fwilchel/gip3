@@ -203,13 +203,13 @@
 
 						<p:column headerText="#{msg.comprasCantidadSola}">
 							<h:outputText value="#{producto.cantidad1}" >
-							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="0"/>
 							</h:outputText>
 
 							<f:facet name="footer">
 								<h:outputText value="#{reimprimirFacturaExpoMB.totalCantitad1}"
 									style="text-align:right;width:100px;" >
-									<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="0"/>
 									</h:outputText>
 							</f:facet>
 						</p:column>
@@ -332,7 +332,7 @@
 					<br />
 
 					<h:panelGrid columns="2" >
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.SP_CostoEntrega}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo1"
 							value="#{reimprimirFacturaExpoMB.totalCostoEntrega}"
@@ -340,7 +340,7 @@
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:outputLabel>
 
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.SP_CostoSeguro}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo2"
 							value="#{reimprimirFacturaExpoMB.totalCostoSeguro}"
@@ -348,7 +348,7 @@
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:outputLabel>
 
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.SP_CostoFlete}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo3"
 							value="#{reimprimirFacturaExpoMB.totalCostoFlete}"
@@ -356,7 +356,7 @@
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:outputLabel>
 
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.SP_OtrosGastos}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo4"
 							value="#{reimprimirFacturaExpoMB.totalOtrosGastos}"
@@ -364,7 +364,7 @@
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:outputLabel>
 
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.SP_TotalCostos}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo5"
 							value="#{reimprimirFacturaExpoMB.totalCostos}"
@@ -372,7 +372,7 @@
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:outputLabel>
 
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.TotalNegociacion}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo6"
 							value="#{reimprimirFacturaExpoMB.totalValorNeg}"
