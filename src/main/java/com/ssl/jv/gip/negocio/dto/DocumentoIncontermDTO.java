@@ -2,8 +2,8 @@ package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
 // TODO: Auto-generated Javadoc
 /**

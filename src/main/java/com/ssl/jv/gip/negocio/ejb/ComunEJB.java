@@ -19,7 +19,6 @@ import com.ssl.jv.gip.negocio.dao.EstadoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAO;
 import com.ssl.jv.gip.negocio.dao.ProveedorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.RegionDAO;
-import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 
@@ -117,6 +116,22 @@ public class ComunEJB implements ComunEJBLocal {
 		return listado;
 
 	}
+	
+	@Override
+	public List<Pais> consultarPaisesTodos() {
+
+		List<Pais> listado = new ArrayList<Pais>();
+
+		try {
+			listado = (List<Pais>) paisDao.findAll();
+		} catch (Exception e) {
+
+		}
+
+		return listado;
+
+	}
+
 
 	/*
 	 * (non-Javadoc)

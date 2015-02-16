@@ -23,6 +23,7 @@ import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.ClienteDTO;
 import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
@@ -38,8 +39,7 @@ import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 @Stateless
 @LocalBean
-public class DocumentoDAO extends GenericDAO<Documento> implements
-DocumentoDAOLocal {
+public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOLocal {
 
 	private static final Logger LOGGER = Logger.getLogger(DocumentoDAO.class);
 
@@ -138,7 +138,7 @@ DocumentoDAOLocal {
 				+ "AND documentos.id_tipo_documento=22  "
 				+ "AND documentos.id_estado IN (15,14)  "
 				+ "AND documentos.consecutivo_documento not in (select observacion_documento from documentos where observacion_documento  in (SELECT consecutivo_documento from documentos where  id_tipo_documento= 22  and id_estado IN (15,14) ))   "
-				+ "ORDER BY documentos.id DESC ;";
+				+ "ORDER BY documentos.id DESC ";
 
 		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
 
@@ -219,6 +219,56 @@ DocumentoDAOLocal {
 
 	}
 
+	@Override
+	public List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente) {
+
+		String sql = "SELECT documentos.id idDocumento, "
+				+ "documentos.consecutivo_documento consecutivoDocumento, "
+				+ "documentos.fecha_esperada_entrega fechaEsperadaEntrega, "
+				+ "documentos.id_ubicacion_origen idUbicacionOrigen, "
+				+ "documentos.id_ubicacion_destino idUbicacionDestino, "
+				+ "documentos.id_tipo_documento idTipoDocumento, "
+				+ "documentos.fecha_generacion fechaGeneracion, "
+				+ "documentos.fecha_entrega fechaEntrega, "
+				+ "documentos.id_proveedor idProveedor, "
+				+ "documentos.id_estado idEstado, "
+				+ "documentos.documento_cliente documentoCliente, "
+				+ "documentos.id_cliente idCliente, "
+				+ "clientes.nombre as clientesNombre, "
+				+ "clientes.direccion as clientesDireccion, "
+				+ "clientes.telefono as clientesTelefono, "
+				+ "clientes.contacto as clientesContacto, "
+				+ "Documento_x_Negociacion.id_termino_incoterm idTerminoIncoterm, "
+				+ "termino_incoterm.descripcion as descripcionTerminoIncoterm, "
+				+ "documentos.valor_total as valorTotalDocumento, "
+				+ "Documento_x_Negociacion.costo_entrega costoEntrega, "
+				+ "Documento_x_Negociacion.costo_flete costoFlete, "
+				+ "Documento_x_Negociacion.costo_seguro costoSeguro, "
+				+ "Documento_x_Negociacion.otros_gastos otrosGastos, "
+				+ "Documento_x_Negociacion.cantidad_contenedores_de_20 as cantidadContenedores20, "
+				+ "Documento_x_Negociacion.cantidad_contenedores_de_40 as cantidadContenedores40, "
+				+ "ciudades.nombre as ciudadNombre, "
+				+ "Documento_x_Negociacion.lugar_incoterm as lugarIncoterm, "
+				+ "estados.nombre as estadoNombre, "
+				+ "Documento_x_Negociacion.solicitud_cafe solicitudCafe, "
+				+ "documentos.observacion_documento observacionDocumento, "
+				+ "Documento_x_Negociacion.observaciones_marcacion_2 observacionesMarcacion2 "
+				+ "FROM documentos, clientes, Documento_x_Negociacion, termino_incoterm, ciudades,estados "
+				+ "WHERE documentos.id_cliente= '"+idCliente+"' AND documentos.id_cliente = clientes.id  "
+				+ "AND documentos.id=Documento_x_Negociacion.id_documento   "
+				+ "AND Documento_x_Negociacion.id_termino_incoterm=termino_incoterm.id   "
+				+ "AND clientes.id_ciudad=ciudades.id  	"
+				+ "AND documentos.id_estado=estados.id  "
+				+ "AND documentos.id_tipo_documento=22  "
+				+ "AND documentos.id_estado IN (15,14)  "
+				+ "AND documentos.consecutivo_documento not in (select documentos.observacion_documento from documentos where documentos.observacion_documento  in (SELECT documentos.consecutivo_documento from documentos where  documentos.id_tipo_documento= 22  and documentos.id_estado IN (15,14) ))   "
+				+ "ORDER BY documentos.id DESC ";
+
+		List<DocumentoCostosLogisticosDTO> listado = em.createNativeQuery(sql, DocumentoCostosLogisticosDTO.class).getResultList();
+		return listado;
+
+	}
+	
 	/**
 	 * Actualiza los documento por negociacion.
 	 *
@@ -2543,7 +2593,7 @@ DocumentoDAOLocal {
 				+ "FROM log_auditoria,usuarios,funcionalidades "
 				+ "WHERE log_auditoria.id_usuario = usuarios.id "
 				+ "AND log_auditoria.id_funcionalidad = funcionalidades.id "
-				+ "AND log_auditoria.id_funcionalidad = 126"
+				+ "AND log_auditoria.id_funcionalidad = 126 "
 				+ "AND log_auditoria.id_reg_tabla =" + documento.getIdDocumento()
 				+ " ORDER BY log_auditoria.fecha DESC LIMIT 1";
 

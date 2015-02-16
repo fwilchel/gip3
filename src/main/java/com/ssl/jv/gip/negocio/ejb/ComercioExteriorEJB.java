@@ -36,6 +36,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
@@ -64,6 +65,7 @@ import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
@@ -1499,8 +1501,19 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		return productosXDocumento;
 	}
 	
-	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency){
-		return this.itemCostoLogisticoDAO.getCostosLogisticos(idCliente, documentos, terminoIncoterm, puerto, puertos, idCurrency);
+	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency){
+		/*
+		 * aplica_fob, cfr, cif, fca, cip, dap, dapm, cpt, fcat 
+		 */
+		String campo=terminoIncoterm.getTerminoIncoterm().getDescripcion().toLowerCase();
+		if ((terminoIncoterm.getTerminoIncoterm().getDescripcion().equals("FCA") && terminoIncoterm.getMedioTransporte().getId().equals(new Long(2)))){
+			campo+="t";
+		}else{
+			if (terminoIncoterm.getTerminoIncoterm().getDescripcion().equals("DAP") && terminoIncoterm.getMedioTransporte().getId().equals(new Long(1))){
+				campo+="m";
+			}
+		}
+		return this.itemCostoLogisticoDAO.getCostosLogisticos(idCliente, documentos, campo, puerto, puertos, idCurrency);
 	}
 	
 	@Override
@@ -1626,5 +1639,20 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 			LOGGER.error(e + "Error consultando facturas de exportacion por estado");
 			return null;
 		}
+	}
+	
+	@Override
+	public List<String> consultarPuertosNacionales(){
+		return this.itemCostoLogisticoDAO.getPuertosNacionales();
+	}
+
+	@Override
+	public List<String> consultarPuertosInternacionales(String idPais){
+		return this.itemCostoLogisticoDAO.getPuertosInternacionales(idPais);
+	}
+	
+	@Override
+	public List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente){
+		return this.documentoDAO.consultarDocumentosCostosLogisticos(idCliente);
 	}
 }

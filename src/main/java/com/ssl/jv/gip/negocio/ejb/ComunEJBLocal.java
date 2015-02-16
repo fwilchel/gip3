@@ -51,5 +51,7 @@ public interface ComunEJBLocal {
 	public List<TipoDocumento> consultarTiposDocumentos();
 	
 	public List<Proveedor> consultarProveedores();
+	
+	public List<Pais> consultarPaisesTodos();
 
 }

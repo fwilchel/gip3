@@ -11,6 +11,7 @@ import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
@@ -176,5 +177,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
   public List<Object[]> consultarAuditoriaEstadoModificacionFacturaProforma(DocumentoIncontermDTO documento);
 
   public List<Documento> consultarDocumentosFacturaExportacionEstado();
+  
+  public List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente);
 
 }

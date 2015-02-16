@@ -12,4 +12,8 @@ public interface ItemCostoLogisticoDAOLocal extends IGenericDAO<ItemCostoLogisti
 
 	public List<CostoLogisticoDTO> getCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency);
 	
+	public List<String> getPuertosNacionales();
+
+	public List<String> getPuertosInternacionales(String idPais);
+	
 }

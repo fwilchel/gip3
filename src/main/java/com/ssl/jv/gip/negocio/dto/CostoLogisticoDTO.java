@@ -2,50 +2,48 @@ package com.ssl.jv.gip.negocio.dto;
 
 import java.math.BigDecimal;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+
+@Entity
 public class CostoLogisticoDTO {
 
-	private Integer tipo;
-	private String categoria;
-	private String item;
-	private Double cantidad;
-	private BigDecimal valor;
-	private BigDecimal valorMinimo;
+	@EmbeddedId
+	private CostoLogisticoDTOPK id;
+	private String descripcion;
+	private BigDecimal cantidad;
+	private Double valor;
+	private Double valorMinimo;
 	private Boolean baseFob;
 	
-	public Integer getTipo() {
-		return tipo;
+	public CostoLogisticoDTOPK getId() {
+		return id;
 	}
-	public void setTipo(Integer tipo) {
-		this.tipo = tipo;
+	public void setId(CostoLogisticoDTOPK id) {
+		this.id = id;
 	}
-	public String getCategoria() {
-		return categoria;
+	public String getDescripcion() {
+		return descripcion;
 	}
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
-	public String getItem() {
-		return item;
-	}
-	public void setItem(String item) {
-		this.item = item;
-	}
-	public Double getCantidad() {
+	public BigDecimal getCantidad() {
 		return cantidad;
 	}
-	public void setCantidad(Double cantidad) {
+	public void setCantidad(BigDecimal cantidad) {
 		this.cantidad = cantidad;
 	}
-	public BigDecimal getValor() {
+	public Double getValor() {
 		return valor;
 	}
-	public void setValor(BigDecimal valor) {
+	public void setValor(Double valor) {
 		this.valor = valor;
 	}
-	public BigDecimal getValorMinimo() {
+	public Double getValorMinimo() {
 		return valorMinimo;
 	}
-	public void setValorMinimo(BigDecimal valorMinimo) {
+	public void setValorMinimo(Double valorMinimo) {
 		this.valorMinimo = valorMinimo;
 	}
 	public Boolean getBaseFob() {
@@ -54,7 +52,5 @@ public class CostoLogisticoDTO {
 	public void setBaseFob(Boolean baseFob) {
 		this.baseFob = baseFob;
 	}
-	
-	
 	
 }
