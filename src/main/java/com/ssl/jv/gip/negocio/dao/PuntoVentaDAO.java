@@ -7,7 +7,9 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.SortOrder;
 
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 //import com.ssl.jv.gip.negocio.dto.ClienteFiltroVO;
 
@@ -58,6 +60,11 @@ public class PuntoVentaDAO extends GenericDAO<PuntoVenta> implements PuntoVentaD
 	public List<PuntoVenta> findAll(){
 		return (List<PuntoVenta>)em.createQuery("SELECT pv FROM PuntoVenta pv JOIN FETCH pv.ciudade ciu JOIN FETCH ciu.pais p").getResultList();
 	}
+	
+	
+	
+	
+	
 
 	
 	
