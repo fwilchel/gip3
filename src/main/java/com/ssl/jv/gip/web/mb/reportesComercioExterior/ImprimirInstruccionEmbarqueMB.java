@@ -76,10 +76,6 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
    */
   @EJB
   private ComercioExteriorEJBLocal comercioExteriorEJB;
-  /**
-   *
-   */
-  private List<DocTerminosTransporteDTO> listaFacturas;
 
   @PostConstruct
   public void init() {
@@ -92,7 +88,7 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
    */
   public void consultarListadoImprimirInstruccionEmbarque() {
     LOGGER.debug("Metodo: <<consultarListadoImprimirInstruccionEmbarque>>");
-    setListaTerminosTransporte(reportesComercioExteriorEjb.consultarListadoImprimirInstruccionEmbarque());
+    setListaTerminosTransporte(reportesComercioExteriorEjb.consultarListadoInstruccionesEmbarque());
   }
 
   /**
@@ -102,7 +98,8 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
   public void seleccionarInstruccionEmbarque(InstruccionEmbarqueDTO seleccionado) {
     LOGGER.debug("Metodo: <<seleccionarTerminoTransporte>>");
     setSeleccionado(seleccionado);
-    setListaFacturas(reportesComercioExteriorEjb.consultarListadoFacturasPorInstruccionEmabarque(seleccionado.getId()));
+    // consultar el detalle del registro
+    setSeleccionado(reportesComercioExteriorEjb.consultarDetalleInstruccionEmbarque(seleccionado.getId()));
   }
 
   /**
@@ -113,8 +110,9 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
     LOGGER.debug("Metodo: <<imprimirInstruccionEmbarque>>");
     StreamedContent reportePDF = null;
     Map<String, Object> parametrosReporte = new HashMap<>();
+    JRBeanCollectionDataSource ds = null;
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-    parametrosReporte.put("consecutivosSPs", "PRUEBA");
+    parametrosReporte.put("consecutivosSPs", seleccionado.getConsecutivoSPs());
     parametrosReporte.put("mesEmbarque", seleccionado.getMesEmbarque());
     parametrosReporte.put("sociedad1", seleccionado.getAgenteAduana1Nombre());
     parametrosReporte.put("sociedad2", seleccionado.getAgenteAduana2Nombre());
@@ -138,26 +136,30 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
     parametrosReporte.put("precintos", seleccionado.getPrecintos());
     BigDecimal sumMercadeo = new BigDecimal(0);
     BigDecimal sumCafe = new BigDecimal(0);
-    for (DocTerminosTransporteDTO factura : listaFacturas) {
-      if (factura.getLote().equals("MERCADEO")) {
-        if (factura.getCantCajas() != null) {
-          sumMercadeo = sumMercadeo.add(factura.getCantCajas());
-        }
-      } else {
-        if (factura.getCantCajas() != null) {
-          sumCafe  = sumCafe.add(factura.getCantCajas());
+    if (seleccionado.getListaFacturas() != null) {
+      for (DocTerminosTransporteDTO factura : seleccionado.getListaFacturas()) {
+        if (factura.getLote().equals("MERCADEO")) {
+          if (factura.getCantCajas() != null) {
+            sumMercadeo = sumMercadeo.add(factura.getCantCajas());
+          }
+        } else {
+          if (factura.getCantCajas() != null) {
+            sumCafe = sumCafe.add(factura.getCantCajas());
+          }
         }
       }
     }
     parametrosReporte.put("sumaCafe", sumCafe);
+    parametrosReporte.put("consecutivosLEs", seleccionado.getConsecutivoLEs());
     parametrosReporte.put("sumaMercadeo", sumMercadeo);
-    parametrosReporte.put("consecutivos", "");
+    parametrosReporte.put("consecutivos", seleccionado.getConsecutivo());
     parametrosReporte.put("modalidadEmbarque", seleccionado.getModalidadEmbarqueDescripcion());
-    parametrosReporte.put("consecutivosLEs", "");
     parametrosReporte.put("booking", seleccionado.getNumeroBooking());
     parametrosReporte.put("incotermDespacho", seleccionado.getIncotermDespachoDecripcion());
     parametrosReporte.put("observacion2", seleccionado.getObservacion2());
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaFacturas);
+    if (seleccionado.getListaFacturas() != null) {
+      ds = new JRBeanCollectionDataSource(seleccionado.getListaFacturas());
+    }
     try {
       Hashtable<String, String> parametrosConfiguracionReporte;
       parametrosConfiguracionReporte = new Hashtable<>();
@@ -226,20 +228,6 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
    */
   public void setSeleccionado(InstruccionEmbarqueDTO seleccionado) {
     this.seleccionado = seleccionado;
-  }
-
-  /**
-   * @return the listaFacturas
-   */
-  public List<DocTerminosTransporteDTO> getListaFacturas() {
-    return listaFacturas;
-  }
-
-  /**
-   * @param listaFacturas the listaFacturas to set
-   */
-  public void setListaFacturas(List<DocTerminosTransporteDTO> listaFacturas) {
-    this.listaFacturas = listaFacturas;
   }
 
 }

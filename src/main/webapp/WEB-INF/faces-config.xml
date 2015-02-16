@@ -46,6 +46,10 @@
       <from-outcome>ingresar_costos_incoterm</from-outcome>
       <to-view-id>/ui/comercioexterior/ingresarCostosIncoterm.xhtml</to-view-id>
     </navigation-case>
+     <navigation-case>
+      <from-outcome>listado_documentos</from-outcome>
+      <to-view-id>/ui/reportes/reporteDocumentos.xhtml</to-view-id>
+    </navigation-case>
     <navigation-case>
       <from-outcome>listado_LE_Generar_FX</from-outcome>
       <to-view-id>/ui/comercioexterior/generarFacturaExportacion.xhtml</to-view-id>
@@ -523,7 +527,17 @@
     <navigation-case>
       <from-outcome>reporte_maestro_inventario_ce</from-outcome>
       <to-view-id>/ui/reportes/reporteInventarioComercioExt.xhtml</to-view-id>
-    </navigation-case>			
+    </navigation-case>	
+    
+    <navigation-case>
+      <from-outcome>generar_Reporte_ProduccionCE</from-outcome>
+      <to-view-id>/ui/reportesComercioExterior/reporteProduccion.xhtml</to-view-id>
+    </navigation-case>
+
+	<navigation-case>
+		<from-outcome>listado_maestro_inventario_ce2</from-outcome>
+		<to-view-id>/ui/maestros/listaInventarioComercioFotos.xhtml</to-view-id>
+	</navigation-case>
 
   </navigation-rule>
 

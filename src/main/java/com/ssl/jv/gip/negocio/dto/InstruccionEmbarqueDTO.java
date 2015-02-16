@@ -2,10 +2,12 @@ package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * <p>
@@ -28,6 +30,14 @@ import javax.persistence.TemporalType;
 @Entity
 public class InstruccionEmbarqueDTO implements Serializable {
 
+  public static final String LISTADO_INSTRUCCIONES_EMBARQUE = "SELECT terminos_transporte.id AS id, terminos_transporte.naviera AS naviera, terminos_transporte.linea AS linea, terminos_transporte.buque AS buque, terminos_transporte.flete_externo AS fleteExterno, terminos_transporte.seguro AS seguro, terminos_transporte.tipo_contenedor AS tipoContenedor, terminos_transporte.cantidad_contenedores AS cantidadContenedores, terminos_transporte.numero_contenedor AS numeroContenedor, terminos_transporte.sellos_seg AS selloSeguridad,terminos_transporte.precintos AS precintos, CASE WHEN terminos_transporte.observacion IS NULL THEN ' ' ELSE terminos_transporte.observacion END AS observacion, terminos_transporte.mes_embarque AS mesEmbarque, terminos_transporte.puerto_embarque AS puertoEmbarque, terminos_transporte.fecha_embarque AS fechaEmbarque, terminos_transporte.id_ciudad_destino AS ciudadDestinoId, CASE WHEN terminos_transporte.observacion2 IS NULL THEN ' ' ELSE terminos_transporte.observacion2 END AS observacion2, upper(ciu.nombre) AS ciudadDestinoNombre, paises.id AS paisDestinoId, upper(paises.nombre) AS paisDestinoNombre, terminos_transporte.id_modalidad_embarque AS modalidadEmbarqueId,modalidad_embarque.descripcion AS modalidadEmbarqueDescripcion,terminos_transporte.id_incoterm_despacho AS incotermDespachoId, termino_incoterm.descripcion AS incotermDespachoDecripcion, cli.id AS clienteId, cli.nit AS clienteNit, cli.nombre AS clienteNombre, cli.direccion AS clienteDireccion, cli.telefono AS clienteTelefono, cli.contacto AS clienteContacto, upper(ciu2.nombre) AS clienteCiudad, upper(pai2.nombre) AS clientePais, agente_aduana.nombre AS clienteAgenteAduanaNombre, agente_aduana.direccion AS clienteAgenteAduanaDireccion, terminos_transporte.id_agente_aduana1 AS agenteAduana1Id, aa1.nombre AS agenteAduana1Nombre, terminos_transporte.id_agente_aduana2 AS agenteAduana2Id, (CASE WHEN aa2.nombre IS NULL THEN ' ' ELSE aa2.nombre END) AS agenteAduana2Nombre, terminos_transporte.numero_booking AS numeroBooking "
+          + "FROM terminos_transporte inner join terminos_transporte_x_documento ON terminos_transporte_x_documento.id_terminos_transporte = terminos_transporte.id inner join documentos doc ON terminos_transporte_x_documento.id_documento = doc.id inner join clientes cli ON doc.id_cliente = cli.id inner join agente_aduana ON cli.id_agente_aduana = agente_aduana.id inner join ciudades ciu ON terminos_transporte.id_ciudad_destino = ciu.id inner join paises ON ciu.id_pais = paises.id inner join ciudades ciu2 ON cli.id_ciudad = ciu2.id inner join paises pai2 ON ciu2.id_pais = pai2.id inner join modalidad_embarque ON terminos_transporte.id_modalidad_embarque = modalidad_embarque.id inner join termino_incoterm ON terminos_transporte.id_incoterm_despacho = termino_incoterm.id left join agente_aduana aa1 ON terminos_transporte.id_agente_aduana1 = aa1.id left join agente_aduana aa2 ON terminos_transporte.id_agente_aduana2 = aa2.id "
+          + "GROUP BY terminos_transporte.id, terminos_transporte.naviera, terminos_transporte.linea, terminos_transporte.buque, terminos_transporte.flete_externo, terminos_transporte.seguro, terminos_transporte.tipo_contenedor, terminos_transporte.cantidad_contenedores, terminos_transporte.numero_contenedor, terminos_transporte.sellos_seg, terminos_transporte.precintos, terminos_transporte.id_modalidad_embarque, terminos_transporte.observacion, terminos_transporte.mes_embarque, terminos_transporte.puerto_embarque, terminos_transporte.id_incoterm_despacho, terminos_transporte.fecha_embarque, terminos_transporte.id_ciudad_destino, terminos_transporte.observacion2, ciu.nombre, paises.id, paises.nombre, modalidad_embarque.descripcion, termino_incoterm.descripcion, cli.id, cli.nit, cli.nombre, cli.direccion, cli.telefono, cli.contacto, ciu2.nombre, pai2.nombre, agente_aduana.nombre, agente_aduana.direccion, terminos_transporte.id_agente_aduana1, aa1.nombre, terminos_transporte.id_agente_aduana2, aa2.nombre,terminos_transporte.numero_booking "
+          + "ORDER BY id DESC;";
+  public static final String DETALLE_INSTRUCCION_EMBARQUE = "SELECT terminos_transporte.id AS id, terminos_transporte.naviera AS naviera, terminos_transporte.linea AS linea, terminos_transporte.buque AS buque, terminos_transporte.flete_externo AS fleteExterno, terminos_transporte.seguro AS seguro, terminos_transporte.tipo_contenedor AS tipoContenedor, terminos_transporte.cantidad_contenedores AS cantidadContenedores, terminos_transporte.numero_contenedor AS numeroContenedor, terminos_transporte.sellos_seg AS selloSeguridad,terminos_transporte.precintos AS precintos, CASE WHEN terminos_transporte.observacion IS NULL THEN ' ' ELSE terminos_transporte.observacion END AS observacion, terminos_transporte.mes_embarque AS mesEmbarque, terminos_transporte.puerto_embarque AS puertoEmbarque, terminos_transporte.fecha_embarque AS fechaEmbarque, terminos_transporte.id_ciudad_destino AS ciudadDestinoId, CASE WHEN terminos_transporte.observacion2 IS NULL THEN ' ' ELSE terminos_transporte.observacion2 END AS observacion2, upper(ciu.nombre) AS ciudadDestinoNombre, paises.id AS paisDestinoId, upper(paises.nombre) AS paisDestinoNombre, terminos_transporte.id_modalidad_embarque AS modalidadEmbarqueId,modalidad_embarque.descripcion AS modalidadEmbarqueDescripcion,terminos_transporte.id_incoterm_despacho AS incotermDespachoId, termino_incoterm.descripcion AS incotermDespachoDecripcion, cli.id AS clienteId, cli.nit AS clienteNit, cli.nombre AS clienteNombre, cli.direccion AS clienteDireccion, cli.telefono AS clienteTelefono, cli.contacto AS clienteContacto, upper(ciu2.nombre) AS clienteCiudad, upper(pai2.nombre) AS clientePais, agente_aduana.nombre AS clienteAgenteAduanaNombre, agente_aduana.direccion AS clienteAgenteAduanaDireccion, terminos_transporte.id_agente_aduana1 AS agenteAduana1Id, aa1.nombre AS agenteAduana1Nombre, terminos_transporte.id_agente_aduana2 AS agenteAduana2Id, (CASE WHEN aa2.nombre IS NULL THEN ' ' ELSE aa2.nombre END) AS agenteAduana2Nombre, terminos_transporte.numero_booking AS numeroBooking "
+          + "FROM terminos_transporte inner join terminos_transporte_x_documento ON terminos_transporte_x_documento.id_terminos_transporte = terminos_transporte.id inner join documentos doc ON terminos_transporte_x_documento.id_documento = doc.id inner join clientes cli ON doc.id_cliente = cli.id inner join agente_aduana ON cli.id_agente_aduana = agente_aduana.id inner join ciudades ciu ON terminos_transporte.id_ciudad_destino = ciu.id inner join paises ON ciu.id_pais = paises.id inner join ciudades ciu2 ON cli.id_ciudad = ciu2.id inner join paises pai2 ON ciu2.id_pais = pai2.id inner join modalidad_embarque ON terminos_transporte.id_modalidad_embarque = modalidad_embarque.id inner join termino_incoterm ON terminos_transporte.id_incoterm_despacho = termino_incoterm.id left join agente_aduana aa1 ON terminos_transporte.id_agente_aduana1 = aa1.id left join agente_aduana aa2 ON terminos_transporte.id_agente_aduana2 = aa2.id "
+          + "WHERE terminos_transporte.id = :id "
+          + "GROUP BY terminos_transporte.id, terminos_transporte.naviera, terminos_transporte.linea, terminos_transporte.buque, terminos_transporte.flete_externo, terminos_transporte.seguro, terminos_transporte.tipo_contenedor, terminos_transporte.cantidad_contenedores, terminos_transporte.numero_contenedor, terminos_transporte.sellos_seg, terminos_transporte.precintos, terminos_transporte.id_modalidad_embarque, terminos_transporte.observacion, terminos_transporte.mes_embarque, terminos_transporte.puerto_embarque, terminos_transporte.id_incoterm_despacho, terminos_transporte.fecha_embarque, terminos_transporte.id_ciudad_destino, terminos_transporte.observacion2, ciu.nombre, paises.id, paises.nombre, modalidad_embarque.descripcion, termino_incoterm.descripcion, cli.id, cli.nit, cli.nombre, cli.direccion, cli.telefono, cli.contacto, ciu2.nombre, pai2.nombre, agente_aduana.nombre, agente_aduana.direccion, terminos_transporte.id_agente_aduana1, aa1.nombre, terminos_transporte.id_agente_aduana2, aa2.nombre,terminos_transporte.numero_booking ";
   @Id
   private Long id;
   private String naviera;
@@ -69,6 +79,16 @@ public class InstruccionEmbarqueDTO implements Serializable {
   private Long agenteAduana2Id;
   private String agenteAduana2Nombre;
   private String numeroBooking;
+  @Transient
+  private String consecutivo;
+  @Transient
+  private String consecutivoLEs;
+  @Transient
+  private String consecutivoSPs;
+  @Transient
+  private Date fechaETA;
+  @Transient
+  private List<DocTerminosTransporteDTO> listaFacturas;
 
   /**
    * @return the id
@@ -614,6 +634,76 @@ public class InstruccionEmbarqueDTO implements Serializable {
    */
   public void setNumeroBooking(String numeroBooking) {
     this.numeroBooking = numeroBooking;
+  }
+
+  /**
+   * @return the consecutivo
+   */
+  public String getConsecutivo() {
+    return consecutivo;
+  }
+
+  /**
+   * @param consecutivo the consecutivo to set
+   */
+  public void setConsecutivo(String consecutivo) {
+    this.consecutivo = consecutivo;
+  }
+
+  /**
+   * @return the consecutivoLEs
+   */
+  public String getConsecutivoLEs() {
+    return consecutivoLEs;
+  }
+
+  /**
+   * @param consecutivoLEs the consecutivoLEs to set
+   */
+  public void setConsecutivoLEs(String consecutivoLEs) {
+    this.consecutivoLEs = consecutivoLEs;
+  }
+
+  /**
+   * @return the consecutivoSPs
+   */
+  public String getConsecutivoSPs() {
+    return consecutivoSPs;
+  }
+
+  /**
+   * @param consecutivoSPs the consecutivoSPs to set
+   */
+  public void setConsecutivoSPs(String consecutivoSPs) {
+    this.consecutivoSPs = consecutivoSPs;
+  }
+
+  /**
+   * @return the fechaETA
+   */
+  public Date getFechaETA() {
+    return fechaETA;
+  }
+
+  /**
+   * @param fechaETA the fechaETA to set
+   */
+  public void setFechaETA(Date fechaETA) {
+    this.fechaETA = fechaETA;
+  }
+
+  /**
+   * @return the listaFacturas
+   */
+  public List<DocTerminosTransporteDTO> getListaFacturas() {
+    return listaFacturas;
+  }
+
+  /**
+   * @param listaFacturas the listaFacturas to set
+   */
+  public void setListaFacturas(List<DocTerminosTransporteDTO> listaFacturas) {
+    this.listaFacturas = listaFacturas;
   }
 
 }

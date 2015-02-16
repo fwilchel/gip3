@@ -13,7 +13,10 @@ import java.math.BigDecimal;
  */
 @Entity
 @Table(name="documento_x_negociacion")
-@NamedQuery(name="DocumentoXNegociacion.findAll", query="SELECT d FROM DocumentoXNegociacion d")
+@NamedQueries({
+	@NamedQuery(name="DocumentoXNegociacion.findAll", query="SELECT d FROM DocumentoXNegociacion d"),
+	@NamedQuery(name="DocumentoXNegociacion.findByIdDocumento", query="SELECT d FROM DocumentoXNegociacion d WHERE d.pk.idDocumento = :idDocumento")
+})
 public class DocumentoXNegociacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

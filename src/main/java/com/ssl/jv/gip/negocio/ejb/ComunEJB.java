@@ -10,12 +10,17 @@ import javax.ejb.Stateless;
 import com.ssl.jv.gip.jpa.pojo.Empresa;
 import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Pais;
+import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.Region;
+import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.EmpresaDAO;
 import com.ssl.jv.gip.negocio.dao.EstadoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAO;
+import com.ssl.jv.gip.negocio.dao.ProveedorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.RegionDAO;
+import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAO;
+import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 
 /**
@@ -39,6 +44,12 @@ public class ComunEJB implements ComunEJBLocal {
 
 	@EJB
 	private EstadoDAOLocal estadoDAOLocal;
+	
+	@EJB
+	private TipoDocumentoDAOLocal tipoDocumentoDAOLocal;
+	
+	@EJB
+	private ProveedorDAOLocal proveedorDAOLocal;
 
 	/**
 	 * Default constructor.
@@ -136,6 +147,16 @@ public class ComunEJB implements ComunEJBLocal {
 	@Override
 	public List<Estado> consultarEstados() {
 		return (List<Estado>) estadoDAOLocal.findAll();
+	}
+	
+	@Override
+	public List<TipoDocumento> consultarTiposDocumentos() {
+		return (List<TipoDocumento>) tipoDocumentoDAOLocal.findAll();
+	}
+	
+	@Override
+	public List<Proveedor> consultarProveedores() {
+		return (List<Proveedor>) proveedorDAOLocal.findAll();
 	}
 
 }

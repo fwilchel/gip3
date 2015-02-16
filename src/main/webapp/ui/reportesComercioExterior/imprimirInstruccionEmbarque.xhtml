@@ -132,7 +132,8 @@
       resizable="false" 
       showEffect="clip" 
       hideEffect="clip"
-      modal="true">
+      modal="true"
+      dynamic="true">
       <p:ajax 
         event="close" 
         listener="#{imprimirInstruccionEmbarque.cancelar()}" />
@@ -140,14 +141,14 @@
         id="formaDetalle"
         prependId="false">
         <p:panel 
-          id="pnlDetalle"><!-- style="text-align:justify;" -->
+          id="pnlDetalle"
+          style="text-align:left;">
           <p:outputPanel 
             style="margin-bottom:20px" >
-            <h:panelGrid 
+            <p:panelGrid 
               columns="4"
-              styleClass="noBorders"
-              columnClasses="label, value">
-              <h:outputLabel 
+              styleClass="noBorders">
+              <p:outputLabel 
                 for="nombreCliente"
                 value="#{msg.iieDtlLblCliente}"
                 styleClass="negrita"/>
@@ -156,7 +157,7 @@
                 value="#{imprimirInstruccionEmbarque.seleccionado.clienteNombre}" 
                 disabled="true"
                 styleClass="filas_contenido"/>
-              <h:outputLabel 
+              <p:outputLabel 
                 for="direccionCliente"
                 value="#{msg.iieDtlLblDireccion}"
                 styleClass="negrita"/>
@@ -165,7 +166,7 @@
                 value="#{imprimirInstruccionEmbarque.seleccionado.clienteDireccion}" 
                 disabled="true"
                 styleClass="filas_contenido"/>
-              <h:outputLabel 
+              <p:outputLabel 
                 for="telefonoCliente"
                 value="#{msg.iieDtlLblTelefono}"
                 styleClass="negrita"/>
@@ -174,7 +175,7 @@
                 value="#{imprimirInstruccionEmbarque.seleccionado.clienteTelefono}" 
                 disabled="true"
                 styleClass="filas_contenido"/>
-              <h:outputLabel 
+              <p:outputLabel 
                 for="contactoCliente"
                 value="#{msg.iieDtlLblContacto}"
                 styleClass="negrita"/>
@@ -183,7 +184,7 @@
                 value="#{imprimirInstruccionEmbarque.seleccionado.clienteContacto}" 
                 disabled="true"
                 styleClass="filas_contenido"/>
-              <h:outputLabel 
+              <p:outputLabel 
                 for="ciudadCliente"
                 value="#{msg.iieDtlLblCiudad}"
                 styleClass="negrita"/>
@@ -192,7 +193,7 @@
                 value="#{imprimirInstruccionEmbarque.seleccionado.clienteCiudad}" 
                 disabled="true"
                 styleClass="filas_contenido"/>
-              <h:outputLabel 
+              <p:outputLabel 
                 for="paisCliente"
                 value="#{msg.iieDtlLblPais}"
                 styleClass="negrita"/>
@@ -201,7 +202,7 @@
                 value="#{imprimirInstruccionEmbarque.seleccionado.clientePais}" 
                 disabled="true"
                 styleClass="filas_contenido"/>
-            </h:panelGrid>
+            </p:panelGrid>
           </p:outputPanel>
           <!---->
           <p:outputPanel
@@ -209,7 +210,7 @@
             <p:dataTable 
               id="tblFacturas"
               var="factura" 
-              value="#{imprimirInstruccionEmbarque.listaFacturas}" 
+              value="#{imprimirInstruccionEmbarque.seleccionado.listaFacturas}" 
               emptyMessage="#{msg.generalNoDatos}" 
               paginator="false">
               <!-- Factura -->
@@ -264,12 +265,11 @@
           <!---->
           <p:outputPanel
             style="margin-bottom:20px">
-            <h:panelGrid 
+            <p:panelGrid 
               columns="4"
-              styleClass="noBorders"
-              columnClasses="label, value">
+              styleClass="noBorders">
               <!-- Sociedad de Intermediaci�n Aduanera No.1 -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="sociedadIntermediacionAduanera1"
                 value="#{msg.iieDtlLblSociedadIntermediacionAduanera1}"
                 styleClass="negrita"/>
@@ -279,7 +279,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Sociedad de Intermediaci�n Aduanera No.2 -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="sociedadIntermediacionAduanera2"
                 value="#{msg.iieDtlLblSociedadIntermediacionAduanera2}"
                 styleClass="negrita"/>
@@ -289,7 +289,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Mes de Embarque -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="mesEmbarque"
                 value="#{msg.iieDtlLblMesEmbarque}"
                 styleClass="negrita"/>
@@ -299,7 +299,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Puerto de Embarque -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="puertoEmbarque"
                 value="#{msg.iieDtlLblPuertoEmbarque}"
                 styleClass="negrita"/>
@@ -309,7 +309,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Fecha de Embarque -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="fechaEmbarque"
                 value="#{msg.iieDtlLblFechaEmbarque}"
                 styleClass="negrita"/>
@@ -322,7 +322,7 @@
                   pattern="dd-MMM-yyyy"/>
               </h:inputText>
               <!-- Naviera -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="naviera"
                 value="#{msg.iieDtlLblNaviera}"
                 styleClass="negrita"/>
@@ -332,7 +332,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Linea -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="linea"
                 value="#{msg.iieDtlLblLinea}"
                 styleClass="negrita"/>
@@ -342,7 +342,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Buque -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="buque"
                 value="#{msg.iieDtlLblBuque}"
                 styleClass="negrita"/>
@@ -352,7 +352,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Seguro -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="seguro"
                 value="#{msg.iieDtlLblSeguro}"
                 styleClass="negrita"/>
@@ -362,7 +362,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Tipo Contenedor -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="tipoContenedor"
                 value="#{msg.iieDtlLblTipoContenedor}"
                 styleClass="negrita"/>
@@ -372,7 +372,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Cantidad de Contenedores -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="cantidadContenedores"
                 value="#{msg.iieDtlLblCantidadContenedores}"
                 styleClass="negrita"/>
@@ -382,7 +382,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Numero de Contenedor -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="numeroContenedor"
                 value="#{msg.iieDtlLblNumeroContenedor}"
                 styleClass="negrita"/>
@@ -392,7 +392,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Sello de Seguridad -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="sellosSeg"
                 value="#{msg.iieDtlLblSellosSeg}"
                 styleClass="negrita"/>
@@ -402,7 +402,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- 	Precintos -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="precintos"
                 value="#{msg.iieDtlLblPrecintos}"
                 styleClass="negrita"/>
@@ -412,7 +412,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Modalidad de Embarque -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="modalidadEmbarque"
                 value="#{msg.iieDtlLblintModalidadEmbarque}"
                 styleClass="negrita"/>
@@ -422,7 +422,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Incoterm de Despacho -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="incotermDespacho"
                 value="#{msg.iieDtlLblIncotermDespacho}"
                 styleClass="negrita"/>
@@ -432,7 +432,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Observacion 1 -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="observacionTerminosTransporte"
                 value="#{msg.iieDtlLblObservacionTerminosTransporte}"
                 styleClass="negrita"/>
@@ -442,7 +442,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Observacion 2 -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="observacionTerminosTransporte2"
                 value="#{msg.iieDtlLblObservacionTerminosTransporte2}"
                 styleClass="negrita"/>
@@ -452,7 +452,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Fecha ETA -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="fechaETA"
                 value="#{msg.iieDtlLblFechaETA}"
                 styleClass="negrita"/>
@@ -465,7 +465,7 @@
                   pattern="dd-MMM-yyyy"/>
               </h:inputText>
               <!-- Numero de Booking -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="numeroBooking"
                 value="#{msg.iieDtlLblNumeroBooking}"
                 styleClass="negrita"/>
@@ -475,7 +475,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Flete Externo: -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="fleteExterno"
                 value="#{msg.iieDtlLblFleteExterno}"
                 styleClass="negrita"/>
@@ -485,7 +485,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Pais Destino -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="paisDestino"
                 value="#{msg.iieDtlLblPaisDestino}"
                 styleClass="negrita"/>
@@ -495,7 +495,7 @@
                 disabled="true"
                 styleClass="filas_contenido"/>
               <!-- Ciudad Destino -->
-              <h:outputLabel 
+              <p:outputLabel 
                 for="ciudadDestino"
                 value="#{msg.iieDtlLblCiudadDestino}"
                 styleClass="negrita"/>
@@ -504,7 +504,7 @@
                 value="#{imprimirInstruccionEmbarque.seleccionado.ciudadDestinoNombre}" 
                 disabled="true"
                 styleClass="filas_contenido"/>
-            </h:panelGrid>
+            </p:panelGrid>
           </p:outputPanel>
           <!-- botones -->
           <f:facet

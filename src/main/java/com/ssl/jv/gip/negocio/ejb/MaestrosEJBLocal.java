@@ -35,6 +35,7 @@ import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 import com.ssl.jv.gip.jpa.pojo.TipoPrecio;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
+import com.ssl.jv.gip.negocio.dto.ProductosInventarioComextFiltroVO;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 
 // TODO: Auto-generated Javadoc
@@ -382,7 +383,7 @@ public interface MaestrosEJBLocal {
 
 	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(
 			String sku);
-	
+
 	public FactsCurrencyConversion getTRMDian(Date fecha);
 
 	public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(
@@ -391,16 +392,15 @@ public interface MaestrosEJBLocal {
 	public void guardarMovimientosInventarioComercioExterior(
 			List<MovimientosInventarioComext> movimientosInventarioComexts);
 
-	public  List<PuntoVenta> consultarPuntoEntrega();
+	public List<PuntoVenta> consultarPuntoEntrega();
 
-	public  PuntoVenta crearPuntoVenta(PuntoVenta pEntidad);
+	public PuntoVenta crearPuntoVenta(PuntoVenta pEntidad);
 
 	public PuntoVenta actualizarPuntoVenta(PuntoVenta pEntidad);
 
 	public List<Ciudad> consultarCiudades();
 
-	
-	
-
+	public List<ProductosInventarioComext> consultarProductosInventarioComextsParaInventarioComercioFotos(
+			ProductosInventarioComextFiltroVO filtroVO);
 
 }

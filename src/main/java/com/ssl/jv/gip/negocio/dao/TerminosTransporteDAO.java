@@ -364,9 +364,24 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
   }
 
   @Override
-  public List<InstruccionEmbarqueDTO> obtenerListadoImprimirInstruccionEmbarque() {
+  public List<InstruccionEmbarqueDTO> obtenerListadoInstruccionesEmbarque() {
     LOGGER.debug("Metodo: <<obtenerListadoImprimirInstruccionEmbarque>>");
-    Query query = em.createNativeQuery(TerminosTransporte.LISTADO_IMPRIMIR_INSTRUCCION_EMBARQUE, InstruccionEmbarqueDTO.class);
+    Query query = em.createNativeQuery(InstruccionEmbarqueDTO.LISTADO_INSTRUCCIONES_EMBARQUE, InstruccionEmbarqueDTO.class);
     return query.getResultList();
+  }
+
+  @Override
+  public InstruccionEmbarqueDTO obtenerDetalleInstruccionEmbarque(Long id) {
+    LOGGER.debug("Metodo: <<obtenerDetalleInstruccionEmbarque>>");
+    InstruccionEmbarqueDTO dto;
+    Query query = em.createNativeQuery(InstruccionEmbarqueDTO.DETALLE_INSTRUCCION_EMBARQUE, InstruccionEmbarqueDTO.class);
+    query.setParameter("id", id);
+    dto = (InstruccionEmbarqueDTO) query.getSingleResult();
+    // TODO: consecutivos, 
+    // TODO: fecha ETA 
+    // TODO: lista de documentos asociados.
+    String idTmp = String.valueOf(id);
+    dto.setListaFacturas(getDocumentosTerminosTranporteById(idTmp));
+    return dto;
   }
 }
