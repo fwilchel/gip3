@@ -75,15 +75,19 @@ public class ItemCostoLogisticoDAO extends GenericDAO<ItemCostoLogistico> implem
 				"UNION ALL  "+
 				"select 10 as tipo, ccl.nombre, icl.nombre, icl.descripcion, dn.cantidad_contenedores_de_20+dn.cantidad_contenedores_de_40 as cantidad, (dn.cantidad_contenedores_de_20 +dn.cantidad_contenedores_de_40) * case when icl.id_moneda='USD' then icl.valor else (select source_destination_exchange_rate from facts_currency_conversion where id=:idCurrency)* icl.valor end as valor, case when icl.id_moneda='USD' then icl.valor_minimo else (select source_destination_exchange_rate from facts_currency_conversion where id=:idCurrency) * icl.valor_minimo end as valorMinimo, icl.base_fob "+
 				"from documentos d inner join documento_x_negociacion dn on d.id=dn.id_documento inner join item_costo_logistico icl on 1=1 inner join categorias_costos_logisticos ccl on icl.id_categoria=ccl.id "+
-				"where icl.tipo=10 and id_cliente=:idCliente and d.id in ("+documento+") and icl.aplica_"+terminoIncoterm+" "+
-				"UNION ALL  "+
+				"where icl.tipo=10 and id_cliente=:idCliente and d.id in ("+documento+") and icl.aplica_"+terminoIncoterm+" ";
+			if (puerto!=null){
+				query1+="UNION ALL  "+
 				"select 11 as tipo, ccl.nombre, icl.nombre, icl.nombre_puerto_nal, 1 as cantidad, case when icl.id_moneda='USD' then icl.valor else (select source_destination_exchange_rate from facts_currency_conversion where id=:idCurrency)* icl.valor end as valor, case when icl.id_moneda='USD' then icl.valor_minimo else (select source_destination_exchange_rate from facts_currency_conversion where id=:idCurrency) * icl.valor_minimo end as valorMinimo, icl.base_fob "+
 				"from documentos d inner join item_costo_logistico icl on 1=1 inner join categorias_costos_logisticos ccl on icl.id_categoria=ccl.id "+
-				"where icl.tipo=11 and id_cliente=:idCliente and d.id in ("+documento+") "+(puerto!=null?"AND icl.nombre_puerto_nal = :puertoNal ":"")+" and icl.aplica_"+terminoIncoterm+" "+
-				"UNION ALL  "+
+				"where icl.tipo=11 and id_cliente=:idCliente and d.id in ("+documento+") "+(puerto!=null?"AND icl.nombre_puerto_nal = :puertoNal ":"")+" and icl.aplica_"+terminoIncoterm+" ";
+			}
+			if (puertos!=null){
+				query1+="UNION ALL  "+
 				"select 12 as tipo, ccl.nombre, icl.nombre, icl.nombre_puertos_nal_internal, 1 as cantidad, case when icl.id_moneda='USD' then icl.valor else (select source_destination_exchange_rate from facts_currency_conversion where id=:idCurrency)* icl.valor end as valor, case when icl.id_moneda='USD' then icl.valor_minimo else (select source_destination_exchange_rate from facts_currency_conversion where id=:idCurrency) * icl.valor_minimo end as valorMinimo, icl.base_fob "+
 				"from documentos d inner join item_costo_logistico icl on 1=1 inner join categorias_costos_logisticos ccl on icl.id_categoria=ccl.id "+
-				"where icl.tipo=12 and id_cliente=:idCliente and d.id in ("+documento+") "+(puertos!=null?"AND icl.nombre_puertos_nal_internal = :puertoInternal ":"")+" and icl.aplica_"+terminoIncoterm+" ";
+				"where icl.tipo=12 and id_cliente=:idCliente and d.id in ("+documento+") "+(puertos!=null?"AND icl.nombre_puertos_nal_internal = :puertoInternal ":"AND ")+" and icl.aplica_"+terminoIncoterm+" ";
+			}
 		
 		String query2=query1+
 				"UNION ALL "+ 
