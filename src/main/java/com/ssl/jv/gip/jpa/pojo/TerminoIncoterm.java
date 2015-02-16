@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -33,11 +34,11 @@ public class TerminoIncoterm implements Serializable, Comparable<TerminoIncoterm
 	private String descripcion;
 
 	//bi-directional many-to-many association to Cliente
-	@ManyToMany(mappedBy = "terminoIncoterms")
+	@ManyToMany(mappedBy = "terminoIncoterms", fetch=FetchType.LAZY)
 	private List<Cliente> clientes;
 
 	//bi-directional many-to-one association to TerminosTransporte
-	@OneToMany(mappedBy="terminoIncoterm")
+	@OneToMany(mappedBy="terminoIncoterm", fetch=FetchType.LAZY)
 	private List<TerminosTransporte> terminosTransportes;
 	
 	@Transient

@@ -29,7 +29,8 @@ import javax.persistence.Table;
 @Table(name = "clientes")
 @NamedQueries({
 		@NamedQuery(name = Cliente.CLIENTE_FIND_ALL, query = "SELECT c FROM Cliente c"),
-		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.activo = true AND u.id = :idUsuario ORDER BY c.nombre ASC") })
+		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE c.activo = true AND u.id = :idUsuario ORDER BY c.nombre ASC"),
+		@NamedQuery(name = Cliente.BUSCAR_CLIENTES_REPORTE_VENTAS_CE, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE UPPER (c.nombre) LIKE UPPER (:nombre) AND c.activo = :activo AND u.id = :idUsuario ORDER BY c.nombre ASC") })
 public class Cliente implements Serializable, Comparable {
 
 	/**
@@ -38,6 +39,7 @@ public class Cliente implements Serializable, Comparable {
 	private static final long serialVersionUID = 466740775247498616L;
 	public static final String CLIENTE_FIND_ALL = "Cliente.findAll";
 	public static final String CLIENTE_ACTIVO_FIND_BY_USUARIO = "Cliente.findActivoFindByUsuario";
+	public static final String BUSCAR_CLIENTES_REPORTE_VENTAS_CE = "Cliente.buscarClientesReporteVentasCE";
 
 	@Id
 	@SequenceGenerator( name = "clientes_id_seq", sequenceName = "clientes_id_seq", allocationSize = 1)
@@ -71,7 +73,7 @@ public class Cliente implements Serializable, Comparable {
 
 	private String fax;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_ciudad")
 	private Ciudad ciudad;
 
@@ -88,32 +90,32 @@ public class Cliente implements Serializable, Comparable {
 	private String telefono;
 
 	// bi-directional many-to-one association to AgenteAduana
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_agente_aduana")
 	private AgenteAduana agenteAduana;
 
 	// bi-directional many-to-one association to CuentaContable
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_cuenta_cliente")
 	private CuentaContable cuentaContable;
 
 	// bi-directional many-to-one association to MetodoPago
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_metodo_pago")
 	private MetodoPago metodoPago;
 
 	// bi-directional many-to-one association to TipoCanal
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_canal")
 	private TipoCanal tipoCanal;
 
 	// bi-directional many-to-one association to TipoPrecio
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_precio")
 	private TipoPrecio tipoPrecio;
 
 	// bi-directional many-to-many association to TerminoIncoterm
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(
 			name="incoterm_x_cliente"
 			, joinColumns={
@@ -126,15 +128,15 @@ public class Cliente implements Serializable, Comparable {
 	private List<TerminoIncoterm> terminoIncoterms;
 
 	// bi-directional many-to-one association to ProductosXClienteComext
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", fetch=FetchType.LAZY)
 	private List<ProductosXClienteComext> productosXClienteComexts;
 
 	// bi-directional many-to-one association to ProductosXCliente
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", fetch=FetchType.LAZY)
 	private List<ProductosXCliente> productosxclientes;
 
 	// bi-directional many-to-one association to PuntoVenta
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", fetch=FetchType.LAZY)
 	private List<PuntoVenta> puntoVentas;
 
 	public Cliente() {

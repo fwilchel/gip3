@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -58,12 +59,12 @@ public class DocumentoXLotesoic implements Serializable {
 	private BigDecimal totalPesoNeto;
 
 	// bi-directional many-to-one association to Documento
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_documento", referencedColumnName = "id", insertable = false, updatable = false)
 	private Documento documento;
 
 	// bi-directional many-to-one association to TipoLoteoic
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_lote", referencedColumnName = "id", insertable = false, updatable = false)
 	private TipoLoteoic tipoLoteoic;
 

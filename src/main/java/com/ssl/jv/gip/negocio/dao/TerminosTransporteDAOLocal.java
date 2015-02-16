@@ -102,8 +102,23 @@ public interface TerminosTransporteDAOLocal extends IGenericDAO<TerminosTranspor
   public List<DocTerminosTransporteDTO> getDocumentosTerminosTranporteById(String idTerminos);
 
   /**
+   * Metodo que obtiene la lista de instrucciones de embarque
    *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
    * @return
    */
-  List<InstruccionEmbarqueDTO> obtenerListadoImprimirInstruccionEmbarque();
+  List<InstruccionEmbarqueDTO> obtenerListadoInstruccionesEmbarque();
+
+  /**
+   * Metodo que obtiene ek detalle de una instrucciones de embarque
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param id
+   * @return
+   */
+  public InstruccionEmbarqueDTO obtenerDetalleInstruccionEmbarque(Long id);
 }

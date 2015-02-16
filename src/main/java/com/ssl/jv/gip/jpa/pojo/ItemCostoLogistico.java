@@ -16,7 +16,12 @@ import java.util.List;
  */
 @Entity
 @Table(name="item_costo_logistico")
-@NamedQuery(name="ItemCostoLogistico.findAll", query="SELECT DISTINCT i FROM ItemCostoLogistico i LEFT JOIN FETCH i.categoriaCostoLogistico ccl LEFT JOIN FETCH i.rangoCostoLogisticos r LEFT JOIN FETCH r.unidad u LEFT JOIN FETCH i.moneda m")
+@NamedQueries({
+	@NamedQuery(name="ItemCostoLogistico.findAll", query="SELECT DISTINCT i FROM ItemCostoLogistico i LEFT JOIN FETCH i.categoriaCostoLogistico ccl LEFT JOIN FETCH i.rangoCostoLogisticos r LEFT JOIN FETCH r.unidad u LEFT JOIN FETCH i.moneda m"),
+	@NamedQuery(name="ItemCostoLogistico.puertosNacionales", query="SELECT DISTINCT i.nombrePuertoNal FROM ItemCostoLogistico i WHERE i.nombrePuertoNal IS NOT NULL ORDER BY i.nombrePuertoNal"),
+	@NamedQuery(name="ItemCostoLogistico.puertosInternacionales", query="SELECT DISTINCT i.nombrePuertosNalInternal FROM ItemCostoLogistico i WHERE i.idPaisDestino= :idPais AND i.nombrePuertosNalInternal IS NOT NULL ORDER BY i.nombrePuertosNalInternal"),
+})
+
 public class ItemCostoLogistico implements Serializable {
 	private static final long serialVersionUID = 1L;
 

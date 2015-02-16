@@ -7,7 +7,9 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Empresa;
 import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Pais;
+import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.Region;
+import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 
 /**
@@ -45,5 +47,11 @@ public interface ComunEJBLocal {
 	public List<Ubicacion> consultarBodegasAbastecedoras();
 
 	public List<Estado> consultarEstados();
+	
+	public List<TipoDocumento> consultarTiposDocumentos();
+	
+	public List<Proveedor> consultarProveedores();
+	
+	public List<Pais> consultarPaisesTodos();
 
 }

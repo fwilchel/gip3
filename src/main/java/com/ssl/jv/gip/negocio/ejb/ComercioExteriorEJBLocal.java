@@ -22,11 +22,13 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
@@ -108,6 +110,15 @@ public interface ComercioExteriorEJBLocal {
 	 * @return the list
 	 */
 	public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(
+			FiltroConsultaSolicitudDTO filtro);
+	
+	/**
+	 * Consultar documentos general.
+	 *
+	 * @param filtro the filtro
+	 * @return the list
+	 */
+	public List<DocumentoIncontermDTO> consultarDocumentosGeneral(
 			FiltroConsultaSolicitudDTO filtro);
 
 	/**
@@ -310,7 +321,7 @@ public interface ComercioExteriorEJBLocal {
 			DocumentoXNegociacion documentoXNegociacion,
 			List<ProductoDTO> productoDTOs);
 	
-	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency);
+	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency);
 
 	public List<Documento> consultarListaEmpaquesParaAsignarDatosTL(
 			String consecutivo);
@@ -329,5 +340,17 @@ public interface ComercioExteriorEJBLocal {
 	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado);
 
 	void actualizarEstadoDocumento(Documento documento);
+	
+	public List<Documento> consultarFP(String consecutivoDocumento);
+	
+	public void actualizarEstadoDocumentoPorId(Documento documento);
 
+	public List<Documento> consultarFacturasDeExportacionEstado();
+	
+	public List<String> consultarPuertosNacionales();
+
+	public List<String> consultarPuertosInternacionales(String idPais);
+	
+	public List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente);
+	
 }

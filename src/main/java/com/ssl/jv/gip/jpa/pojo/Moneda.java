@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -32,35 +33,35 @@ public class Moneda implements Serializable {
 	private String nombre;
 
 	// bi-directional many-to-one association to CostoVenta
-	@OneToMany(mappedBy = "moneda")
+	@OneToMany(mappedBy = "moneda", fetch=FetchType.LAZY)
 	private List<CostoVenta> costoVentas;
 
 	// bi-directional many-to-one association to Costo
-	@OneToMany(mappedBy = "moneda")
+	@OneToMany(mappedBy = "moneda", fetch=FetchType.LAZY)
 	private List<Costo> costos;
 
 	// bi-directional many-to-one association to Empresa
-	@OneToMany(mappedBy = "moneda")
+	@OneToMany(mappedBy = "moneda", fetch=FetchType.LAZY)
 	private List<Empresa> empresas;
 
 	// bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy = "moneda")
+	@OneToMany(mappedBy = "moneda", fetch=FetchType.LAZY)
 	private List<MovimientosInventario> movimientosInventarios;
 
 	// bi-directional many-to-one association to Pais
-	@OneToMany(mappedBy = "moneda")
+	@OneToMany(mappedBy = "moneda", fetch=FetchType.LAZY)
 	private List<Pais> paises;
 
 	// bi-directional many-to-one association to ProductosXCliente
-	@OneToMany(mappedBy = "moneda")
+	@OneToMany(mappedBy = "moneda", fetch=FetchType.LAZY)
 	private List<ProductosXCliente> productosxclientes;
 
 	// bi-directional many-to-one association to ProductosXDocumento
-	@OneToMany(mappedBy = "moneda")
+	@OneToMany(mappedBy = "moneda", fetch=FetchType.LAZY)
 	private List<ProductosXDocumento> productosxdocumentos;
 
 	// bi-directional many-to-one association to ProductosXProveedor
-	@OneToMany(mappedBy = "moneda")
+	@OneToMany(mappedBy = "moneda", fetch=FetchType.LAZY)
 	private List<ProductosXProveedor> productosxproveedors;
 
 	// bi-directional many-to-one association to TempCosto
@@ -69,7 +70,7 @@ public class Moneda implements Serializable {
 	 */
 
 	// bi-directional many-to-one association to Venta
-	@OneToMany(mappedBy = "moneda")
+	@OneToMany(mappedBy = "moneda", fetch=FetchType.LAZY)
 	private List<Venta> ventas;
 
 	public Moneda() {

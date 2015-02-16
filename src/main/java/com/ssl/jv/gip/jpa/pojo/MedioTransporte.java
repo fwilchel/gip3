@@ -2,10 +2,10 @@ package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
-
-import java.sql.Array;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**

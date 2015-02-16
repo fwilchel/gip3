@@ -36,6 +36,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
@@ -64,6 +65,7 @@ import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
@@ -171,7 +173,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	
 	@EJB
 	private ItemCostoLogisticoDAOLocal itemCostoLogisticoDAO;
-
+	
 	/**
 	 * Default constructor.
 	 */
@@ -316,6 +318,23 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 		try {
 			listado = documentoDAO.consultarDocumentosSolicitudPedido(filtro);
+		} catch (Exception e) {
+
+		}
+
+		return listado;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal#consultarDocumentosGeneral(com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO)
+	 */
+	@Override
+	public List<DocumentoIncontermDTO> consultarDocumentosGeneral(
+			FiltroConsultaSolicitudDTO filtro) {
+		List<DocumentoIncontermDTO> listado = new ArrayList<DocumentoIncontermDTO>();
+
+		try {
+			listado = documentoDAO.consultarDocumentosGeneral(filtro);
 		} catch (Exception e) {
 
 		}
@@ -1482,8 +1501,19 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		return productosXDocumento;
 	}
 	
-	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency){
-		return this.itemCostoLogisticoDAO.getCostosLogisticos(idCliente, documentos, terminoIncoterm, puerto, puertos, idCurrency);
+	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency){
+		/*
+		 * aplica_fob, cfr, cif, fca, cip, dap, dapm, cpt, fcat 
+		 */
+		String campo=terminoIncoterm.getTerminoIncoterm().getDescripcion().toLowerCase();
+		if ((terminoIncoterm.getTerminoIncoterm().getDescripcion().equals("FCA") && terminoIncoterm.getMedioTransporte().getId().equals(new Long(2)))){
+			campo+="t";
+		}else{
+			if (terminoIncoterm.getTerminoIncoterm().getDescripcion().equals("DAP") && terminoIncoterm.getMedioTransporte().getId().equals(new Long(1))){
+				campo+="m";
+			}
+		}
+		return this.itemCostoLogisticoDAO.getCostosLogisticos(idCliente, documentos, campo, puerto, puertos, idCurrency);
 	}
 	
 	@Override
@@ -1532,11 +1562,97 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	
 	@Override
 	public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado){
-		return documentoDAO.modificarFacturaProforma(documento, listado);
+		
+		if (documento.getIdEstado() == ConstantesDocumento.GENERADO) {
+			List<Documento> documentos = documentoDAO.consultarDocumentosPorObservacionDocumento(documento.getConsecutivoDocumento());
+			if(documentos != null){
+				com.ssl.jv.gip.jpa.pojo.Estado estado = estadoDAOLocal.findByPK(new Long(ConstantesDocumento.ANULADO));
+				for(Documento doc : documentos){
+					doc.getEstadosxdocumento().setEstado(estado);
+					documentoDAO.update(doc);
+				}
+			}
+		}
+		
+		List<Object[]> auditoria = documentoDAO.consultarAuditoriaEstadoModificacionFacturaProforma(documento);
+		
+		if (auditoria != null && auditoria.size() > 0) {
+			
+			String estadoAuditoria = auditoria.get(0)[2] != null ? auditoria.get(0)[2].toString().trim() : null;
+			
+			Documento doc = documentoDAO.findByPK(documento.getIdDocumento());
+			doc.setValorTotal(documento.getValorTotalDocumento());
+			doc.setFechaEntrega(documento.getFechaEsperadaEntrega());
+			com.ssl.jv.gip.jpa.pojo.Estado estado = estadoDAOLocal.findByPK(new Long(estadoAuditoria));
+			doc.getEstadosxdocumento().setEstado(estado);
+			documentoDAO.update(doc);
+			
+			List<DocumentoXNegociacion> documentosXNegociaciones = documentoXNegociacionDAO.consultarDocumentoXNegociacionPorIdDocumento(documento.getIdDocumento());
+			if(documentosXNegociaciones != null){
+				for(DocumentoXNegociacion docxneg : documentosXNegociaciones){
+					TerminoIncoterm terminoIncoterm = terminoIncotermDAO.findByPK(documento.getIdTerminoIncoterm());
+					docxneg.setTerminoIncoterm(terminoIncoterm);
+					docxneg.setTotalPesoNeto(documento.getTotalPesoNeto());
+					docxneg.setTotalPesoBruto(documento.getTotalPesoBruto());
+					docxneg.setTotalTendidos(documento.getTotalTendidos());
+					docxneg.setTotalPallets(documento.getTotalPallets());
+					docxneg.setCantidadContenedoresDe20(documento.getCantidadContenedores20());
+					docxneg.setCantidadContenedoresDe40(documento.getCantidadContenedores40());
+					docxneg.setLugarIncoterm(documento.getLugarIncoterm());
+					
+					docxneg.setCostoEntrega(documento.getCostoEntrega());
+					docxneg.setCostoFlete(documento.getCostoFlete());
+					docxneg.setCostoSeguro(documento.getCostoSeguro());
+					docxneg.setOtrosGastos(documento.getOtrosGastos());
+					
+					documentoXNegociacionDAO.update(docxneg);
+				}
+			}
+					
+			return documentoDAO.modificarFacturaProforma(documento, listado);
+		
+		} 
+		
+		return null;
 	}
 
 	@Override
 	public void actualizarEstadoDocumento(Documento documento) {
 		documentoDAO.actualizarEstadoDocumentoPorConsecutivo(documento);
+	}
+	
+	@Override
+	public void actualizarEstadoDocumentoPorId(Documento documento) {
+		documentoDAO.actualizarEstadoDocumentoPorId(documento);
+	}
+
+	@Override
+	public List<Documento> consultarFP(String consecutivoDocumento) {
+		return documentoDAO.consultaFP(consecutivoDocumento);
+	}
+	
+	@Override
+	public List<Documento> consultarFacturasDeExportacionEstado() {
+		try {
+			return documentoDAO.consultarDocumentosFacturaExportacionEstado();
+		} catch (Exception e) {
+			LOGGER.error(e + "Error consultando facturas de exportacion por estado");
+			return null;
+		}
+	}
+	
+	@Override
+	public List<String> consultarPuertosNacionales(){
+		return this.itemCostoLogisticoDAO.getPuertosNacionales();
+	}
+
+	@Override
+	public List<String> consultarPuertosInternacionales(String idPais){
+		return this.itemCostoLogisticoDAO.getPuertosInternacionales(idPais);
+	}
+	
+	@Override
+	public List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente){
+		return this.documentoDAO.consultarDocumentosCostosLogisticos(idCliente);
 	}
 }

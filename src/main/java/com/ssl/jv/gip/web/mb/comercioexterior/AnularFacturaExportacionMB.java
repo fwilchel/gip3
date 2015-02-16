@@ -32,7 +32,6 @@ public class AnularFacturaExportacionMB extends UtilMB{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer language=AplicacionMB.SPANISH;
-	private Modo modo;
 	
 	private List<Documento> documentos;
 	private Documento seleccionado;
@@ -48,15 +47,7 @@ public class AnularFacturaExportacionMB extends UtilMB{
 
 	@PostConstruct
 	public void init(){
-		documentos = comercioExteriorEJB.consultarFacturasDeExportacion();
-	}
-
-	public Modo getModo() {
-		return modo;
-	}
-
-	public void setModo(Modo modo) {
-		this.modo = modo;
+		documentos = comercioExteriorEJB.consultarFacturasDeExportacionEstado();
 	}
 
 	public List<Documento> getDocumentos() {
@@ -73,7 +64,6 @@ public class AnularFacturaExportacionMB extends UtilMB{
 
 	public void setSeleccionado(Documento seleccionado) {
 		this.seleccionado = seleccionado;
-		this.modo=Modo.EDICION;
 	}
 
 	public Documento getFiltro() {
@@ -84,23 +74,18 @@ public class AnularFacturaExportacionMB extends UtilMB{
 		this.filtro = filtro;
 	}
 	
-	public void nuevo(){
-		seleccionado=new Documento();
-		this.modo=Modo.CREACION;
-	}
-	
 	public void anularFactura(){
 		try {
 			List<Estado> estados = comunEJBlocal.consultarEstados();
 			for (Estado estado : estados) {
 				if(estado.getId()==ConstantesDocumento.ANULADO){
 					seleccionado.getEstadosxdocumento().setEstado(estado);
-					comercioExteriorEJB.actualizarEstadoDocumento(seleccionado);
-					documentos = comercioExteriorEJB.consultarFacturasDeExportacion();
+					this.comercioExteriorEJB.actualizarEstadoDocumento(this.seleccionado);
 				}
 			}			
 			this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
 		}
 	}

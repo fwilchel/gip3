@@ -12,11 +12,31 @@
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
 		<h:form prependId="false" id="forma">
+
 			<p:messages id="msgs" showDetail="false" showSummary="true"
 				globalOnly="false" showIcon="true"></p:messages>
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.generarOrdenDespachoTituloFrame}">
+
+					<p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha" />
+					<p:inputText value="#{ordenesDespachoMB.currentTimeStamp}"
+						id="fecha" required="false" disabled="true">
+						<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+					</p:inputText>
+
+					<p:spacer width="30"></p:spacer>
+
+					<p:outputLabel value="#{msg.IngresarNumPedidoFactura}: "
+						for="consecutivo" />
+					<p:inputText value="#{ordenesDespachoMB.consecutivoDocumento}"
+						id="consecutivo" required="false" />
+
+					<p:spacer width="30"></p:spacer>
+
+					<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
+						update="tabPanel" action="#{ordenesDespachoMB.buscarDocumentos}" />
+
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{ordenesDespachoMB.documentos}" rows="10"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true"
@@ -49,7 +69,9 @@
 						<p:column filterBy="#{dato.fechaGeneracion}"
 							headerText="#{msg.documentoFechaGeneracion}"
 							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
-							<h:outputText value="#{dato.fechaGeneracion}" />
+							<h:outputText value="#{dato.fechaGeneracion}">
+								<f:convertDateTime pattern="dd-MMM-yyyy" />
+							</h:outputText>
 						</p:column>
 
 
@@ -116,12 +138,20 @@
 							id="clienteTelefono" label="#{msg.maestroTelefonoCliente}"
 							disabled="true" />
 
+						<p:outputLabel value="#{msg.observacionDocumento}"
+							for="observacionDelDocumento" styleClass="negrita" />
+						<h:inputText
+							value="#{ordenesDespachoMB.seleccionado.observacionDocumento}"
+							id="observacionDelDocumento" label="#{msg.observacionDocumento}"
+							disabled="true" />
+
 						<p:outputLabel value="#{msg.maestroContactoAgente}"
 							for="clienteContacto" styleClass="negrita" />
 						<h:inputText
 							value="#{ordenesDespachoMB.seleccionado.cliente.contacto}"
 							id="clienteContacto" label="#{msg.maestroContactoAgente}"
 							disabled="true" />
+
 						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaDespacho"
 							styleClass="negrita" />
 						<h:inputText
@@ -129,11 +159,27 @@
 							id="fechaDespacho" label="#{msg.FechaDespacho}" disabled="true">
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
+
+						<p:outputLabel value="#{msg.generarListaEmpaque_TerminoIncoterm}"
+							for="clienteContacto" styleClass="negrita" />
+						<h:inputText
+							value="#{ordenesDespachoMB.seleccionado.cliente.terminoIncoterms.get(ordenesDespachoMB.seleccionado.cliente.terminoIncoterms.size()-1).descripcion}"
+							id="terminoInconterm" label="#{msg.maestroContactoAgente}"
+							disabled="true" />
+
+						<p:outputLabel value="#{msg.generarListaEmpaque_LugarIncoterm}"
+							for="clienteContacto" styleClass="negrita" />
+						<h:inputText
+							value="#{ordenesDespachoMB.seleccionado.cliente.ciudad.nombre}"
+							id="lugarInconterm" label="#{msg.maestroContactoAgente}"
+							disabled="true" />
+
 					</p:panelGrid>
 
 					<p:dataTable var="producto" widgetVar="productoDoc"
-						id="tablaProductos" sortBy="#{producto.idDocumento}"
+						id="tablaProductos"
 						rendered="#{not empty ordenesDespachoMB.productos}"
+						sortBy="#{producto.idCliente}"
 						value="#{ordenesDespachoMB.productos}">
 
 						<p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
@@ -150,14 +196,62 @@
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
+
+						<p:column styleClass="derecha" headerText="#{msg.unidadxembalaje}">
+							<h:outputText value="#{producto.cantidadPorEmbalaje}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column styleClass="derecha" headerText="#{msg.SPcantidadCajas}">
+							<h:outputText value="#{producto.cantidadCajas}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
 						<p:summaryRow>
 							<p:column colspan="2" styleClass="derecha">
 								<h:outputText value="TOTALES " />
 							</p:column>
+
+							<p:column styleClass="derecha">
+								<h:outputText value="#{ordenesDespachoMB.totalCantidad}">
+									<f:convertNumber maxFractionDigits="2" />
+								</h:outputText>
+							</p:column>
+
+							<p:column styleClass="derecha">
+								<h:outputText
+									value="#{ordenesDespachoMB.totalCantidadPorEmbalaje}">
+									<f:convertNumber maxFractionDigits="2" />
+								</h:outputText>
+							</p:column>
+							<p:column styleClass="derecha">
+								<h:outputText value="#{ordenesDespachoMB.totalCantidadCajas}">
+									<f:convertNumber maxFractionDigits="2" />
+								</h:outputText>
+							</p:column>
+
 						</p:summaryRow>
 					</p:dataTable>
+					<p:spacer height="10" />
+					<p:panelGrid columns="2">
+						<p:column styleClass="derecha">
+							<h:outputText value="Test" />
+						</p:column>
+						<p:column styleClass="derecha">
+							<p:commandButton value="Test 3" icon="ui-icon-script"
+								action="#{ordenesDespachoMB.buscarDocumentos()}"
+								disabled="#{ordenesDespachoMB.deshabilitado}" 
+								id="btnGenerarPdf" />
 
-					<p:spacer height="10"></p:spacer>
+							<p:commandButton value="Test2" 
+								icon="ui-icon-script"
+								action="#{ordenesDespachoMB.buscarDocumentos()}"
+								disabled="#{ordenesDespachoMB.deshabilitado}"
+								id="btnGenerarExcel"  />
+						</p:column>
+					</p:panelGrid>
 
 				</p:outputPanel>
 			</h:form>

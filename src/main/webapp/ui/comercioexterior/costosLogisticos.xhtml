@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.costosLogisticosTitulo}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.costosLogisticosTitulo}">
+					<p:panelGrid columns="9">
+
+						<p:outputLabel value="#{msg.costosLogisticosCliente}" for="cliente"
+							styleClass="negrita" />
+						<p:selectOneMenu id="cliente" value="#{generarCLMB.cliente}" 
+							label="#{msg.costosLogisticosCliente}">
+							<f:selectItem itemLabel="" itemValue="" />
+							<f:selectItems value="#{generarCLMB.clientes}" var="cliente" itemLabel="#{cliente.nombre}" itemValue="#{cliente.id}"  />
+							<!-- p:ajax event="change" process="cliente" listener="#{ingresarSolicitudPedidoMB.cargarTerminos}"></p:ajax-->
+						</p:selectOneMenu>
+						<p:message for="cliente"></p:message>
+
+						<p:outputLabel value="#{msg.costosLogisticosPais}" for="pais"
+							styleClass="negrita" />
+						<p:selectOneMenu id="pais" value="#{generarCLMB.pais}" 
+							label="#{msg.costosLogisticosPais}">
+							<f:selectItem itemLabel="" itemValue="" />
+							<f:selectItems value="#{generarCLMB.paises}" var="pais" itemLabel="#{pais.nombre}" itemValue="#{pais.id}"  />
+							<p:ajax event="change" process="pais" listener="#{generarCLMB.cargarPuertosInternacionales}" update="puertoInternal"></p:ajax>
+						</p:selectOneMenu>
+						<p:message for="pais"></p:message>
+						
+						<p:outputLabel value="#{msg.costosLogisticosIncoterm}" for="incoterm"
+							styleClass="negrita" />
+						<p:selectOneMenu id="incoterm" value="#{generarCLMB.terminoIncoterm}" 
+							label="#{msg.costosLogisticosIncoterm}">
+							<f:selectItem itemLabel="" itemValue="" />
+							<f:selectItems value="#{generarCLMB.incoterms}" var="incoterm" itemLabel="#{incoterm.medioTransporte.descripcion} #{incoterm.terminoIncoterm.descripcion}" itemValue="#{incoterm.id}"  />
+						</p:selectOneMenu>
+						<p:message for="incoterm"></p:message>
+
+						<p:outputLabel value="#{msg.costosLogisticosPuertoNal}" for="puertoNal"
+							styleClass="negrita" />
+						<p:selectOneMenu id="puertoNal" value="#{generarCLMB.puertoNal}" 
+							label="#{msg.costosLogisticosPuertoNal}">
+							<f:selectItem itemLabel="" itemValue="" />
+							<f:selectItems value="#{generarCLMB.puertosNacionales}"  />
+						</p:selectOneMenu>
+						<p:message for="puertoNal"></p:message>
+
+						<p:outputLabel value="#{msg.costosLogisticosPuertoInternal}" for="puertoInternal"
+							styleClass="negrita" />
+						<p:selectOneMenu id="puertoInternal" value="#{generarCLMB.puertoInternal}" 
+							label="#{msg.costosLogisticosPuertoInternal}">
+							<f:selectItem itemLabel="" itemValue="" />
+							<f:selectItems value="#{generarCLMB.puertosInternacionales}"  />
+						</p:selectOneMenu>
+						<p:message for="puertoInternal"></p:message>
+						
+						<p:commandButton action="#{generarCLMB.consultarSolicitudes}" update="tablaDatos" value="#{msg.costosLogisticosConsultar}" process="@form"></p:commandButton>
+						
+					</p:panelGrid>
+
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{generarCLMB.solicitudes}" rows="10"
+						emptyMessage="#{msg.costosLogisticosSolicitudesNoEncontradas}"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+					
+
+						<p:column style="width:32px;text-align: center" headerText="#{msg.costosLogisticosSeleccionada}">
+							<p:selectBooleanCheckbox value="#{dato.seleccionada}"></p:selectBooleanCheckbox>
+						</p:column>
+
+						<p:column headerText="#{msg.costosLogisticosDocumento}">
+							<h:outputText value="#{dato.idDocumento}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.costosLogisticosConsecutivo}">
+							<h:outputText value="#{dato.consecutivoDocumento}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.costosLogisticosPedido}">
+							<h:outputText value="#{dato.documentoCliente}" />
+						</p:column>
+						
+						<p:column  headerText="#{msg.costosLogisticosFechaGeneracion}">
+							<h:outputText value="#{dato.fechaGeneracion}">
+								<f:convertDateTime pattern="dd-MMM-yyyy"/>
+							</h:outputText>
+						</p:column>
+
+					</p:dataTable>
+					
+					<p:panel>
+						<p:commandButton value="#{msg.costosLogisticosGenerar}" action="#{generarCLMB.generarCostosLogisticos()}" process="@form" update="costos"></p:commandButton>
+						
+					    <p:dataTable var="costo" id="costos" value="#{generarCLMB.costos}" >
+					        <f:facet name="header">
+					            COSTOS LOGISTICOS
+					        </f:facet>
+					        
+					        <p:column headerText="Tipo">
+            					<h:outputText value="#{costo.id.tipo}" />
+        					</p:column>
+					        <p:column headerText="Categoria">
+            					<h:outputText value="#{costo.id.categoria}" />
+        					</p:column>
+        					<p:column headerText="Item">
+            					<h:outputText value="#{costo.id.item}" />
+        					</p:column>
+        					<p:column headerText="Cantidad">
+            					<h:outputText value="#{costo.cantidad}" />
+        					</p:column>
+        					<p:column headerText="Valor Mínimo">
+            					<h:outputText value="#{costo.valorMinimo}" />
+        					</p:column>
+					 		<p:column headerText="Valor">
+            					<h:outputText value="#{costo.valor}" />
+        					</p:column>
+					    </p:dataTable>
+						
+					
+					
+					</p:panel>
+					
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+
+
+	</ui:define>
+
+</ui:composition>
+
