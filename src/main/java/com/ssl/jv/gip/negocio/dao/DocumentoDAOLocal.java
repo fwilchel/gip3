@@ -37,10 +37,10 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	public void actualizarEstadoDocumentoPorConsecutivo(
 			DocumentoIncontermDTO documento);
 
-	List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(
+	public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(
 			String consecutivoFacturaProforma);
 
-	BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
+	public BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
 
 	public List<Documento> consultarDocumentosSolicitudPedido(
 			String consecutivoDocumento);
@@ -107,7 +107,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	 *
 	 * @return
 	 */
-	List<Documento> consultarTodosLosDocumentos();
+	public List<Documento> consultarTodosLosDocumentos();
 
 	/**
 	 *
@@ -121,7 +121,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	 *
 	 * @param documento
 	 */
-	void anularSolicitudPedido(Documento documento);
+	public void anularSolicitudPedido(Documento documento);
 
 	public List<DocumentoInstruccionEmbarqueDTO> consultarDocumentosInstruccionEmbarque(
 			Long idCliente);
@@ -153,4 +153,6 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 	void actualizarEstadoDocumentoPorConsecutivo(Documento documento);
 	
 	public List<Documento> consultaFP(String consecutivoDocumento);
+	
+	public void actualizarEstadoDocumentoPorId(Documento documento);
 }

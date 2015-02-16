@@ -2284,8 +2284,8 @@ DocumentoDAOLocal {
 			Documento documento) {
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE documentos SET " + " id_estado = "
-					+ documento.getEstadosxdocumento().getEstado()
+			sql.append("UPDATE documentos SET id_estado = "
+					+ documento.getEstadosxdocumento().getEstado().getId()
 					+ " WHERE  consecutivo_documento = "
 					+ documento.getConsecutivoDocumento());
 
@@ -2296,6 +2296,22 @@ DocumentoDAOLocal {
 		}
 	}
 
+	@Override
+	public void actualizarEstadoDocumentoPorId(
+			Documento documento) {
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE documentos SET id_estado = "
+					+ documento.getEstadosxdocumento().getEstado().getId()
+					+ " WHERE id = "
+					+ documento.getId());
+
+			int q = em.createNativeQuery(sql.toString()).executeUpdate();
+
+		} catch (Exception e) {
+
+		}
+	}
 	
 	@Override
 	public List<Documento> consultaFP(String consecutivoDocumento) {

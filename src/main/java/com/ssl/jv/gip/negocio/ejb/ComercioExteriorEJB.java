@@ -1539,6 +1539,11 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	public void actualizarEstadoDocumento(Documento documento) {
 		documentoDAO.actualizarEstadoDocumentoPorConsecutivo(documento);
 	}
+	
+	@Override
+	public void actualizarEstadoDocumentoPorId(Documento documento) {
+		documentoDAO.actualizarEstadoDocumentoPorId(documento);
+	}
 
 	@Override
 	public List<Documento> consultarFP(String consecutivoDocumento) {

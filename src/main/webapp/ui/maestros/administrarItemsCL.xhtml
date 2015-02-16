@@ -77,13 +77,13 @@
 							<h:outputText value="#{registro.categoriaCostoLogistico.nombre}" />
 						</p:column>
 						
-						<p:column headerText="#{msg.itemsCLTipo}"
+						<p:column headerText="#{msg.itemsCLTipo}" filterBy="#{registro.tipoNombre}"
 							sortBy="#{registro.tipoNombre}">
 							<h:outputText value="#{registro.tipoNombre}" />
 						</p:column>
 						
 						<p:column headerText="#{msg.itemsCLPuertos}">
-							<h:outputText value="#{registro.nombrePuertoNal}" />
+							<h:outputText value="#{registro.nombrePuertoNal}" /> - 
 							<h:outputText value="#{registro.nombrePuertosNalInternal}" />
 						</p:column>
 						
