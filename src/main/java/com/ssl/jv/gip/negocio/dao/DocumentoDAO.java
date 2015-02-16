@@ -1260,7 +1260,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
     List<ProductoImprimirLEDTO> lista = new ArrayList<ProductoImprimirLEDTO>();
 
     try {
-      // String query =
+			// String query =
       // "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
       // String query
       // ="select d from Documento d where id_tipo_documento= :tipo AND id_estado = :estado AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
@@ -1337,7 +1337,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
                   .toString() : null);
           dto.setCajasPorPallets(objs[10] != null ? new BigDecimal(
                   objs[10].toString()) : null);
-          // dto.setNombreIngles(objs[11] != null ?
+					// dto.setNombreIngles(objs[11] != null ?
           // objs[11].toString()
           // : null);
           // dto.setUnidad(objs[12] != null ? objs[12].toString() :
@@ -1459,7 +1459,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
     String sqlSec = "select nextval('documentos_id_seq') AS SEQ";
     BigInteger secuence = (BigInteger) em.createNativeQuery(sqlSec)
             .getSingleResult();
-    // SimpleDateFormat dateFormat = new
+		// SimpleDateFormat dateFormat = new
     // SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     // String fechaoshig =
     // dateFormat.format(listaEmpaqueDTO.getFechaEsperadaEntrega());
@@ -1664,7 +1664,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
             + " WHERE documentos.id_tipo_documento="
             + ConstantesTipoDocumento.FACTURA_PROFORMA;
 
-    // if (parametros.length == 5)//Se envio un nuevo estado
+		// if (parametros.length == 5)//Se envio un nuevo estado
     // {
     // int estado2 = (Integer) ConstantesDocumento.ASIGNADA;
     // sql = sql + " AND documento.id_estado IN (" + estado + "," + estado2
@@ -1960,7 +1960,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
   public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(
           Map<String, Object> parametros) {
 
-    // String fechaIni = (String) parametros[0];
+		// String fechaIni = (String) parametros[0];
     // String fechaFin = (String) parametros[1];
     // Integer tipoDoc = (Integer) parametros[2];
     String fechaIni = (String) parametros.get("fechaInicial");
@@ -2007,7 +2007,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
   public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(
           Map<String, Object> parametros) {
 
-    // String fechaIni = (String) parametros[0];
+		// String fechaIni = (String) parametros[0];
     // String fechaFin = (String) parametros[1];
     // Integer tipoDoc = (Integer) parametros[2];
     String fechaIni = (String) parametros.get("fechaInicial");
@@ -2090,7 +2090,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
             + " where d.id_tipo_documento= :tipoDoc2"
             + " and d.fecha_generacion between  :fechaIni2 and :fechaFin2"
             + " and d.id_estado in (12,5)";
-    // + " and d.sitio_entrega <> 'CS'";
+		// + " and d.sitio_entrega <> 'CS'";
     // + " order by d.consecutivo_documento";
 
     lista = em.createNativeQuery(query, ReporteVentaDTO.class)
@@ -2280,7 +2280,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements
         dto.setObservacionesMarcacion2(objs[31] != null ? objs[31]
                 .toString() : null);
 
-        //				dto.setClientesNit(objs[32] != null ? objs[32].toString()
+				//				dto.setClientesNit(objs[32] != null ? objs[32].toString()
         //						: null);
         lista.add(dto);
       }
