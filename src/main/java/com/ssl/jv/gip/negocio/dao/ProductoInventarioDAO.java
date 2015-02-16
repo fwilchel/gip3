@@ -30,7 +30,7 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
     Object rta[] = new Object[2];
 
     String query = "SELECT " + (count ? "COUNT(pi)" : "pi")
-            + " FROM ProductosInventario pi " + (count ? "" : "LEFT JOIN FETCH pi.productosInventarioComext pic LEFT JOIN FETCH pi.unidadVenta uv LEFT JOIN FETCH pi.unidadDespacho ud LEFT JOIN FETCH pic.unidadEmbalaje ue LEFT JOIN FETCH pic.tipoLoteoic tl ")
+            + " FROM ProductosInventario pi " + (count ? "" : "LEFT JOIN FETCH pi.productosInventarioComext pic LEFT JOIN FETCH pi.unidadVenta uv LEFT JOIN FETCH pi.unidadDespacho ud LEFT JOIN FETCH pic.unidadEmbalaje ue LEFT JOIN FETCH pic.tipoLoteoic tl LEFT JOIN FETCH pi.categoriasInventario ci1 LEFT JOIN FETCH ci1.categoriasInventario ci2 LEFT JOIN FETCH pi.pais pa ")
             + " WHERE 1=1 "
             + (pi.getSku() != null && !pi.getSku().equals("") ? " AND UPPER (pi.sku) LIKE UPPER (:sku) " : "")
             + (pi.getNombre() != null && !pi.getNombre().equals("") ? " AND UPPER (pi.nombre) LIKE UPPER (:nombre) " : "")

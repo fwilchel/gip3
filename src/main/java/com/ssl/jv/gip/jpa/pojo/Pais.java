@@ -26,24 +26,24 @@ public class Pais implements Serializable, Comparable<Object> {
 	private String nombre;
 
 	//bi-directional many-to-one association to Moneda
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_ml")
 	private Moneda moneda;
 
 	//bi-directional many-to-one association to ProductosInventario
-	@OneToMany(mappedBy="pais")
+	@OneToMany(mappedBy="pais", fetch=FetchType.LAZY)
 	private List<ProductosInventario> productosInventarios;
 
 	//bi-directional many-to-one association to Region
-	@OneToMany(mappedBy="pais")
+	@OneToMany(mappedBy="pais", fetch=FetchType.LAZY)
 	private List<Region> regiones;
 
 	//bi-directional many-to-one association to TipoConteo
-	@OneToMany(mappedBy="pais")
+	@OneToMany(mappedBy="pais", fetch=FetchType.LAZY)
 	private List<TipoConteo> tipoConteos;
 
 	//bi-directional many-to-one association to Usuario
-	@OneToMany(mappedBy="pais")
+	@OneToMany(mappedBy="pais", fetch=FetchType.LAZY)
 	private List<Usuario> usuarios;
 
 	public Pais() {

@@ -539,6 +539,11 @@
 		<to-view-id>/ui/maestros/listaInventarioComercioFotos.xhtml</to-view-id>
 	</navigation-case>
 
+	<navigation-case>
+		<from-outcome>costos_logisticos</from-outcome>
+		<to-view-id>/ui/comercioexterior/costosLogisticos.xhtml</to-view-id>
+	</navigation-case>
+	
   </navigation-rule>
 
   <application>

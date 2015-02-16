@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	private String puerto;
 	private String puertos;
 	private String pais;
+	private Long cliente;
 	
 	@ManagedProperty(value="#{menuMB}")
 	private MenuMB menu;
@@ -79,6 +81,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	@PostConstruct
 	public void init(){
 		clientes=this.maestrosEjb.consultarClientes();
+		Collections.sort(clientes);
 		trm=this.maestrosEjb.getTRMDian(new Date());
 		paises = comunEJB.consultarPaises();
 	}
@@ -167,6 +170,14 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 
 	public void setPuerto(String puerto) {
 		this.puerto = puerto;
+	}
+
+	public Long getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Long cliente) {
+		this.cliente = cliente;
 	}
 
 	public String getPuertos() {

@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="termino_incoterm_x_medio_transporte")
-@NamedQuery(name="TerminoIncotermXMedioTransporte.findAll", query="SELECT t FROM TerminoIncotermXMedioTransporte t")
+@NamedQuery(name="TerminoIncotermXMedioTransporte.findAll", query="SELECT t FROM TerminoIncotermXMedioTransporte t LEFT JOIN FETCH t.medioTransporte mt LEFT JOIN FETCH t.terminoIncoterm ti ")
 public class TerminoIncotermXMedioTransporte implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,12 +23,12 @@ public class TerminoIncotermXMedioTransporte implements Serializable {
 	private Boolean activo;
 
 	//bi-directional many-to-one association to MedioTransporte
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_medio_transporte")
 	private MedioTransporte medioTransporte;
 
 	//bi-directional many-to-one association to TerminoIncoterm
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_termino_incoterm")
 	private TerminoIncoterm terminoIncoterm;
 
