@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,6 +21,8 @@ import javax.faces.event.ValueChangeEvent;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import org.primefaces.model.UploadedFile;
 
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
@@ -66,6 +69,17 @@ public class PuntoEntregaMB extends UtilMB{
 	private List<Cliente> listaClientes;
 	
 	private boolean isEditar;
+	
+	private LazyDataModel<PuntoVenta> modelo;
+	private PuntoVenta filtro;
+	
+	private String campoOrden;
+	private SortOrder orden;
+	private List<PuntoVenta> datos;
+	
+	
+	private Modo modoDetalle;
+	
 
 	public PuntoEntregaMB(){
 
@@ -73,8 +87,52 @@ public class PuntoEntregaMB extends UtilMB{
 
 	@PostConstruct
 	public void init(){
+		
+		modelo = new LazyPuntoVentaDataModel();
+		
 		puntoVenta = servicio.consultarPuntoEntrega();
 		//listaTerminosIncoterm = servicio.consultarTerminoIncotermActivo();
+	}
+	
+
+	private class LazyPuntoVentaDataModel extends LazyDataModel<PuntoVenta>{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 283497341126330045L;
+		private List<PuntoVenta> datos;
+		
+		@Override
+	    public Object getRowKey(PuntoVenta pi) {
+	        return pi.getId();
+	    }
+		
+		@Override
+	    public PuntoVenta getRowData(String rowKey) {
+	        for(PuntoVenta pi : datos) {
+	            if(pi.getId().toString().equals(rowKey))
+	                return pi;
+	        }
+	        return null;
+	    }
+
+		
+		@Override
+	    public List<PuntoVenta> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
+			campoOrden = sortField;
+			orden=sortOrder;
+			//Object rta[]=maestrosEjb.consultarProductos(filtro, first, pageSize, sortField, sortOrder, true);
+			//Object rta[]= servicio.consultarPuntoEntrega(filtro, first, pageSize, sortField, sortOrder, true);
+			
+			//this.setRowCount(((Long)rta[0]).intValue());
+			//rta=maestrosEjb.consultarProductos(filtro, first, pageSize, sortField, sortOrder, false);
+			//rta= servicio.consultarPuntoEntrega(filtro, first, pageSize, sortField, sortOrder, true);
+			
+			//datos=(List<PuntoVenta>)rta[1];
+			return datos;
+		}
+
 	}
 
 	public void nuevo(){
@@ -323,6 +381,14 @@ public class PuntoEntregaMB extends UtilMB{
 		}
 
 		return lines;
+	}
+
+	public PuntoVenta getFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(PuntoVenta filtro) {
+		this.filtro = filtro;
 	}
 
 

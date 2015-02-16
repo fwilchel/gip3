@@ -895,10 +895,26 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		return movimientosInventarioComextDAO.consultarPorSKU(sku);
 	}
 
+	
+
+	/*@SuppressWarnings("unchecked")
+	@Override
+	public List<PuntoVenta> consultarPuntoEntrega(PuntoVenta pi, int first,int pageSize, String sortField, SortOrder sortOrder, boolean count) {
+		try {
+			return (List<PuntoVenta>) puntoVentaDao.consultar(pi, first, pageSize,sortField, sortOrder, count);
+		} catch (Exception e) {
+			LOGGER.error(e + " Error consultando puntos ventas");
+			return null;
+		}
+
+	}*/
+	
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PuntoVenta> consultarPuntoEntrega() {
 		try {
+			//return (List<PuntoVenta>) puntoVentaDao.consultar();
 			return (List<PuntoVenta>) puntoVentaDao.findAll();
 		} catch (Exception e) {
 			LOGGER.error(e + " Error consultando puntos ventas");
