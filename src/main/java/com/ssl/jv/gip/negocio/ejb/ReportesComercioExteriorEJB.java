@@ -63,7 +63,7 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 
   @Override
   public List<ProductosXDocumento> consultarProductosPorDocumento(Long id) {
-    return productosXDocumentoDAO.consultarPorDocumento(id);
+    return productosXDocumentoDAO.consultarPorDocumentoConColecciones(id);
   }
 
   @Override
