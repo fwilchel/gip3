@@ -344,13 +344,13 @@ public interface ComercioExteriorEJBLocal {
 	public List<Documento> consultarFP(String consecutivoDocumento);
 	
 	public void actualizarEstadoDocumentoPorId(Documento documento);
-
-	public List<Documento> consultarFacturasDeExportacionEstado();
 	
 	public List<String> consultarPuertosNacionales();
 
 	public List<String> consultarPuertosInternacionales(String idPais);
 	
 	public List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente);
+
+	public List<Documento> consultarFacturasDeExportacionEstado(String consecutivoDocumento);
 	
 }

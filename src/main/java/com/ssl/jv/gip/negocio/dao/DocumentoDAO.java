@@ -2599,18 +2599,47 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 			query = "SELECT d FROM Documento d "
 					+ "JOIN FETCH d.estadosxdocumento exd "
 					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
-					+ "AND d.estadosxdocumento.estado.id != :estadoDocumento "
+					+ "AND d.estadosxdocumento.estado.id != :estadoDocumento " 
 					+ "ORDER BY d.id DESC";
-
 			listado = em
 					.createQuery(query)
-					.setParameter("estadoDocumento",(long) ConstantesDocumento.ANULADO)
+					.setParameter("estadoDocumento",
+							(long) ConstantesDocumento.ANULADO)
 					.setParameter("tipoDocumento",
 							(long) ConstantesTipoDocumento.FACTURA_EXPORTACION)
-							.getResultList();
+					.setMaxResults(20).getResultList();
+
 		} catch (Exception e) {
 			LOGGER.error(e
 					+ "********Error consultando Documentos por tipo de documento FACTURA_EXPORTACION y estado");
+			return null;
+		}
+		System.out.println("Hola");
+		return listado;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Documento> consultarDocumentosFacturaExportacionEstado(String consecutivoDocumento) {
+		List<Documento> listado = new ArrayList<Documento>();
+		String query;
+		try {
+			query = "SELECT d FROM Documento d "
+					+ "JOIN FETCH d.estadosxdocumento exd "
+					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
+					+ "AND d.estadosxdocumento.estado.id != :estadoDocumento " 
+					+ " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
+					+ " ORDER BY d.id DESC";
+			listado = em
+					.createQuery(query)
+					.setParameter("estadoDocumento", (long) ConstantesDocumento.ANULADO)
+					.setParameter("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_EXPORTACION)
+					.setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%")
+					.setMaxResults(20).getResultList();
+
+		} catch (Exception e) {
+			LOGGER.error(e
+					+ "********Error consultando Documentos por tipo de documento FACTURA_EXPORTACION, estado y consecutivo");
 			return null;
 		}
 		return listado;

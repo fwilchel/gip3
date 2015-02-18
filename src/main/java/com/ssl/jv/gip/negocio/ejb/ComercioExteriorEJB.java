@@ -1632,9 +1632,12 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	}
 	
 	@Override
-	public List<Documento> consultarFacturasDeExportacionEstado() {
+	public List<Documento> consultarFacturasDeExportacionEstado(String consecutivoDocumento) {
 		try {
-			return documentoDAO.consultarDocumentosFacturaExportacionEstado();
+			if(consecutivoDocumento.equals("")){
+				return documentoDAO.consultarDocumentosFacturaExportacionEstado();
+			}
+			return documentoDAO.consultarDocumentosFacturaExportacionEstado(consecutivoDocumento);
 		} catch (Exception e) {
 			LOGGER.error(e + "Error consultando facturas de exportacion por estado");
 			return null;

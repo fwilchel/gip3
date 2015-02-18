@@ -175,9 +175,11 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
           String observacionDocumento);
   
   public List<Object[]> consultarAuditoriaEstadoModificacionFacturaProforma(DocumentoIncontermDTO documento);
-
-  public List<Documento> consultarDocumentosFacturaExportacionEstado();
   
   public List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente);
+
+  public List<Documento> consultarDocumentosFacturaExportacionEstado(String consecutivoDocumento);
+
+  public List<Documento> consultarDocumentosFacturaExportacionEstado();
 
 }
