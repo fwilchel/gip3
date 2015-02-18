@@ -1823,9 +1823,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     LOGGER.debug("Metodo: <<consultarSolicitudesPedidoPorAnular>> parametros / consecutivoDocumento ->> {" + consecutivoDocumento + "} ");
     Query query = em.createNamedQuery(Documento.LISTADO_ANULAR_SOLICITUD_PEDIDO);
     query.setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
-    query.setParameter("cerrado", ConstantesDocumento.CERRADO);
-    query.setParameter("anulado", ConstantesDocumento.ANULADO);
-    query.setParameter("facturaProforma", ConstantesTipoDocumento.FACTURA_PROFORMA);
+    query.setParameter("cerrado", (long) ConstantesDocumento.CERRADO);
+    query.setParameter("anulado", (long) ConstantesDocumento.ANULADO);
+    query.setParameter("facturaProforma", (long) ConstantesTipoDocumento.FACTURA_PROFORMA);
     if (consecutivoDocumento == null || consecutivoDocumento.isEmpty()) {
       query.setParameter("consecutivoDocumento", "%");
     } else {
