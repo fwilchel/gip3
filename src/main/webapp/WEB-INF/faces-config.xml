@@ -543,7 +543,11 @@
 		<from-outcome>costos_logisticos</from-outcome>
 		<to-view-id>/ui/comercioexterior/costosLogisticos.xhtml</to-view-id>
 	</navigation-case>
-	
+    <!-- Reportes Comercio Exterior / Generar Reporte Cinta Testigo Magnetica -->
+    <navigation-case>
+      <from-outcome>generar_cinta_magneticaFX</from-outcome>
+      <to-view-id>/ui/reportesComercioExterior/generarReporteCintaTestigoMagnetica.xhtml</to-view-id>
+    </navigation-case>
   </navigation-rule>
 
   <application>

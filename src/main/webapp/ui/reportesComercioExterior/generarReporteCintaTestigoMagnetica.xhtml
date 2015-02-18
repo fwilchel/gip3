@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/ui/templates/general.xhtml">
+
+  <ui:define 
+    name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.
+  </ui:define>
+
+  <ui:define 
+    name="contenido">
+
+    <p:spacer 
+      height="40"/>
+
+    <h:form 
+      id="formListado"
+      prependId="false" >
+
+      <p:messages 
+        id="msgs" />
+
+      <p:tabView 
+        id="pnlTab">
+        <p:tab 
+          title="#{msg.grctmTitle}">
+
+          <p:panel
+            id="pnlFltFechas">
+            <p:panelGrid
+              columns="3">
+              <h:outputLabel 
+                for="filtroFechaInicial" 
+                value="#{msg.grctmFltLblFechaInicial}" 
+                styleClass="negrita"/>
+              <p:calendar 
+                id="filtroFechaInicial" 
+                value="#{generarReporteCintaTestigoMagneticaMB.filtroFechaInicial}"
+                required="true"/>
+              <p:message
+                for="filtroFechaInicial"/>
+              <h:outputLabel 
+                for="filtroFechaFinal" 
+                value="#{msg.grctmFltLblFechaFinal}" 
+                styleClass="negrita"/>
+              <p:calendar 
+                id="filtroFechaFinal" 
+                value="#{generarReporteCintaTestigoMagneticaMB.filtroFechaFinal}"
+                required="true"/>
+              <p:message
+                for="filtroFechaFinal"/>
+            </p:panelGrid>
+
+            <f:facet
+              name="footer">
+              <!-- Generar Reporte -->
+              <p:commandButton 
+                value="#{msg.grctmBtnGenerarReporte}" 
+                ajax="false" 
+                icon="ui-icon-document"
+                process="@this, pnlFltFechas">
+                <p:fileDownload 
+                  value="#{generarReporteCintaTestigoMagneticaMB.generarReporte()}" />
+              </p:commandButton>
+            </f:facet>
+          </p:panel>
+
+        </p:tab>
+      </p:tabView>
+
+    </h:form>
+
+  </ui:define>
+
+</ui:composition>
