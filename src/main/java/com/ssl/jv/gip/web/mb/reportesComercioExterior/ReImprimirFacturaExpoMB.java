@@ -241,6 +241,9 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 		Integer cantidadEstibas = 0;
 		Integer pesoBrutoEstibas = 0;
 		String strObservacionMarcacion2 = "";
+		
+		this.seleccionado.setDocumentoXNegociacions(this.reportesComercioExteriorEJBLocal.consultarDocumentoXNegociacionxDocumento(this.seleccionado.getId()));
+		
 		if(this.seleccionado.getDocumentoXNegociacions() != null && !this.seleccionado.getDocumentoXNegociacions().isEmpty()){
 			intCantidadDiasVigencia= this.seleccionado.getDocumentoXNegociacions().get(0).getCantidadDiasVigencia();
 			strNombreIncoterm = this.seleccionado.getDocumentoXNegociacions().get(0).getTerminoIncoterm().getDescripcion();
