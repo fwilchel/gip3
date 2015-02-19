@@ -10,12 +10,14 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MuestrasXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
@@ -57,6 +59,9 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 
   @EJB
   private DocumentoXNegociacionDAOLocal documentoXNegociacionDAO;
+  
+  @EJB
+  private DocumentoLotesOICDAOLocal documentoLotesOICDAO;
 
   /**
    * Default constructor.
@@ -136,4 +141,11 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
     LOGGER.debug("Metodo: <<consultarDocumentosReporteCintaTestigoMagnetica>>");
     return documentoDAO.consultarDocumentosReporteCintaTestigoMagnetica(parametros);
   }
+  
+  @Override
+  public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(
+			String consecutivoDocumento){
+	  return documentoLotesOICDAO.consultarPorConsecutivoDocumento(consecutivoDocumento);
+  }
+  
 }

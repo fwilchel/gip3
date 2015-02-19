@@ -27,6 +27,8 @@ import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
@@ -372,12 +374,11 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 			registro.setTipoLoteOICDesc(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDescripcion());
 			
 			String consecDocxlote="";
-			if(prod.getProductosInventario() != null && prod.getProductosInventario().getProductosInventarioComext() != null && 
-					prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic() != null &&
-					prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDocumentoXLotesoics() != null &&
-					!prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDocumentoXLotesoics().isEmpty()){
-				consecDocxlote = prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDocumentoXLotesoics().get(0).getConsecutivo();
-				
+			
+			List<DocumentoXLotesoic> docxLotesOic = this.reportesComercioExteriorEJBLocal.consultarPorConsecutivoDocumento(this.seleccionado.getConsecutivoDocumento());
+			
+			if(docxLotesOic != null && !docxLotesOic.isEmpty() ){
+				consecDocxlote = docxLotesOic.get(0).getConsecutivo();	
 			}
 			registro.setDocxLoteOICConsec(consecDocxlote);
 			

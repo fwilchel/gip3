@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
@@ -101,5 +102,8 @@ public interface ReportesComercioExteriorEJBLocal {
    * @return
    */
   List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros);
+
+  public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(
+		String consecutivoDocumento);
 
 }
