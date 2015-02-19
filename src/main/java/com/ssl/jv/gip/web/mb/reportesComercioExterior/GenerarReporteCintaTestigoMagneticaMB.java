@@ -110,10 +110,10 @@ public class GenerarReporteCintaTestigoMagneticaMB extends UtilMB {
     try {
       Hashtable<String, String> parametrosConfiguracionReporte;
       parametrosConfiguracionReporte = new Hashtable<>();
-      parametrosConfiguracionReporte.put("tipo", "xls");
+      parametrosConfiguracionReporte.put("tipo", "pdf");
       String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report_CintaMagneticaCE.jasper");
       ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reporte, null, null, null, parametrosReporte, ds);
-      reporteXLS = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "Reporte_VCE.xls");
+      reporteXLS = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "CintaTestigoMagneticaFX.pdf");
     } catch (Exception e) {
       this.addMensajeError("Problemas al generar el reporte");
     }
