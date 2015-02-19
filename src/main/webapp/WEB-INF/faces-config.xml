@@ -548,6 +548,11 @@
       <from-outcome>generar_cinta_magneticaFX</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/generarReporteCintaTestigoMagnetica.xhtml</to-view-id>
     </navigation-case>
+    <!-- Ventas y Facturacion / Generar Factura -->
+    <navigation-case>
+      <from-outcome>listado_remision</from-outcome>
+      <to-view-id>/ui/ventas/generarFactura.xhtml</to-view-id>
+    </navigation-case>
   </navigation-rule>
 
   <application>

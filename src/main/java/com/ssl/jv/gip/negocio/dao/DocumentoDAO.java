@@ -1667,10 +1667,26 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   }
 
   @Override
-  public List<Documento> consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
-          Long idEstado, Long idTipoDocumento, String consecutivoDocumento) {
-    // TODO Auto-generated method stub
-    return null;
+  public List<Documento> consultarDocumentosPorEstadoPorTipoPorConsecutivo(Map<String, Object> parametros) {
+    LOGGER.debug("Metodo: <<consultarDocumentosPorEstadoPorTipoPorConsecutivo>> parametros / parametros ->> {" + parametros + "} ");
+    Long tipo = (Long) parametros.get("idTipoDocumento");
+    Long estado = (Long) parametros.get("idEstado");
+    String consecutivo = (String) parametros.get("consecutivoDocumento");
+    if (tipo == null || estado == null) {
+      String msg = "Parametros incorrectos";
+      Exception ex = new IllegalArgumentException(msg);
+      LOGGER.error(msg, ex);
+//      throw ex;
+    }
+    Query query = em.createNamedQuery(Documento.FIND_BY_ESTADO_AND_TIPO_AND_CONSECUTIVO);
+    query.setParameter("idTipoDocumento", tipo);
+    query.setParameter("idEstado", estado);
+    if (consecutivo == null || consecutivo.isEmpty()) {
+      query.setParameter("consecutivoDocumento", "%");
+    } else {
+      query.setParameter("consecutivoDocumento", consecutivo);
+    }
+    return query.getResultList();
   }
 
   @Override

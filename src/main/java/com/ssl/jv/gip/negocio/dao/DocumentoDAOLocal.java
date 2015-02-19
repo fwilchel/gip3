@@ -88,8 +88,16 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
   public List<Documento> consultarDocumentosPorTipoDocumentoYEstados(
           FiltroDocumentoDTO filtro);
 
-  public List<Documento> consultarDocumentosPorEstadoTipoDocumentoYConsecutivoDocumento(
-          Long idEstado, Long idTipoDocumento, String consecutivoDocumento);
+  /**
+   * Consulta documentos por: estado tipo consecutivo
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param parametros
+   * @return
+   */
+  public List<Documento> consultarDocumentosPorEstadoPorTipoPorConsecutivo(Map<String, Object> parametros);
 
   public List<Documento> consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
           Long idTipoDocumento, String consecutivoDocumento,
