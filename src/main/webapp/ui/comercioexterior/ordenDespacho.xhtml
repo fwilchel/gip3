@@ -160,19 +160,32 @@
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
 
-						<p:outputLabel value="#{msg.generarListaEmpaque_TerminoIncoterm}"
-							for="clienteContacto" styleClass="negrita" />
-						<h:inputText
-							value="#terminoInconterm"
-							id="terminoInconterm" label="#{msg.maestroContactoAgente}"
+						<p:outputLabel value="#{msg.TerminoIncotermSP}"
+							for="terminoIncoterm" styleClass="negrita" />
+						<p:inputText
+							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).terminoIncoterm.descripcion}"
+							id="terminoIncoterm" label="#{msg.TerminoIncotermSP}"
 							disabled="true" />
 
-						<p:outputLabel value="#{msg.generarListaEmpaque_LugarIncoterm}"
-							for="clienteContacto" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.cliente.ciudad.nombre}"
-							id="lugarInconterm" label="#{msg.maestroContactoAgente}"
-							disabled="true" />
+						<p:outputLabel value="#{msg.LugarIncoterm}" for="lugarIncoterm"
+							styleClass="negrita" />
+						<p:inputText
+							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
+							id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true" />
+							
+						<p:outputLabel value="#{msg.Despacho}" for="despachadoEn"
+							styleClass="negrita" />
+						<p:inputText
+							value="#{ordenesDespachoMB.seleccionado.sitioEntrega}"
+							id="despachadoEn" label="#{msg.LugarIncoterm}" disabled="true" />
+							
+						<p:outputLabel value="#{msg.FechaCargue}" for="fechaCargue"
+							styleClass="negrita" />
+						<p:inputText
+							value="#{ordenesDespachoMB.seleccionado.fechaEntrega}"
+							id="fechaCargue" label="#{msg.LugarIncoterm}" disabled="true" >
+							<f:convertDateTime pattern="dd-MMM-yyyy" />	
+						</p:inputText>
 
 					</p:panelGrid>
 
@@ -259,16 +272,16 @@
 					<p:spacer height="10" />
 					<p:panelGrid columns="2">
 						<p:column styleClass="derecha">
-							<h:outputText value="Test" />
+							<h:outputText value="#{msg.MenuReportes}" />
 						</p:column>
 						<p:column styleClass="derecha">
-							<p:commandButton value="Test 3" 
+							<p:commandButton value="#{msg.ReportePdf}" 
 								icon="ui-icon-script"
 								action="#{ordenesDespachoMB.buscarDocumentos()}"
 								disabled="#{ordenesDespachoMB.deshabilitado}" 
 								id="btnGenerarPdf" />
 
-							<p:commandButton value="Test2" 
+							<p:commandButton value="#{msg.ReporteExcel}" 
 								icon="ui-icon-script"
 								action="#{ordenesDespachoMB.buscarDocumentos()}"
 								disabled="#{ordenesDespachoMB.deshabilitado}"

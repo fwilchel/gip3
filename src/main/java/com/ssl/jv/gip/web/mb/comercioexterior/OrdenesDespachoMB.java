@@ -32,7 +32,6 @@ public class OrdenesDespachoMB extends UtilMB{
 	private String consecutivoDocumento;
 	private boolean deshabilitado=false;
 	private List<Documento> documentos;
-//	private List<ProductoGenerarFacturaPFDTO> productos;
 	private List<ProductoODDTO> productos;
 	private Documento seleccionado;
 	private Documento filtro;
@@ -180,15 +179,4 @@ public class OrdenesDespachoMB extends UtilMB{
 	public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
 		this.currentTimeStamp = currentTimeStamp;
 	}
-//
-//	public List<ProductoODDTO> getProdctos() {
-//		return prodctos;
-//	}
-//
-//	public void setProdctos(List<ProductoODDTO> prodctos) {
-//		this.prodctos = prodctos;
-//	}
-//	
-	
-	
 }
