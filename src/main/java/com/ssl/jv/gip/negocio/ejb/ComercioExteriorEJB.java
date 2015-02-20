@@ -2,6 +2,7 @@ package com.ssl.jv.gip.negocio.ejb;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,9 +28,11 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
@@ -54,6 +57,7 @@ import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ModalidadEmbarqueDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientosInventarioComextDAOLocal;
+import com.ssl.jv.gip.negocio.dao.MuestrasXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
@@ -78,6 +82,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoODDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.util.BodegaLogica;
 import com.ssl.jv.gip.util.Estado;
@@ -173,6 +178,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	
 	@EJB
 	private ItemCostoLogisticoDAOLocal itemCostoLogisticoDAO;
+	
+	@EJB
+	private MuestrasXLoteDAOLocal muestrasxloteDAO;
 	
 	/**
 	 * Default constructor.
@@ -1658,4 +1666,42 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	public List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente){
 		return this.documentoDAO.consultarDocumentosCostosLogisticos(idCliente);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProductoODDTO> consultarProductoPorDocumentoOrdenDespacho(
+			Long idDocumento, Long idCliente) {
+		List<ProductoGenerarFacturaPFDTO> lista = productoClienteComercioExteriorDAO.consultarProductoPorDocumentoGenerarFacturaProforma(idDocumento, idCliente);
+		List<ProductoODDTO> lista2 = new ArrayList<ProductoODDTO>();
+		for (ProductoGenerarFacturaPFDTO p : lista) {
+			List<Muestrasxlote> muestras = muestrasxloteDAO.consultarMuestrasPorCantidad(p.getCantidad());
+			ProductoODDTO aux = new ProductoODDTO();
+			aux.setId(p.getId());
+			aux.setSku(p.getSku());
+			aux.setCantidad(p.getCantidad());
+			aux.setCantidadCajas(p.getCantidadCajas());
+			aux.setCantidadPorEmbalaje(p.getCantidadPorEmbalaje());
+			aux.setNombre(p.getNombre());
+			aux.setIdCliente(p.getIdCliente());
+			for (Muestrasxlote m : muestras) {
+					if (m.getTipo().equals("Calidades")) {
+						aux.setMuestrasCalidades(p.getCantidad().multiply(m.getFactor()).setScale(0,BigDecimal.ROUND_HALF_EVEN));
+						if(aux.getMuestrasCalidades().longValue()<2){
+							aux.setMuestrasCalidades(new BigDecimal(2));
+						}
+					} else if (m.getTipo().equals("Fito")) {
+						aux.setMuestrasFITOYANTICO(m.getMuestras());
+					}
+			}
+			if(aux.getMuestrasCalidades()==null){
+				aux.setMuestrasCalidades(new BigDecimal(0));
+			}
+			if(aux.getMuestrasFITOYANTICO()==null){
+				aux.setMuestrasFITOYANTICO(new BigDecimal(0));
+			}
+			lista2.add(aux);
+		}
+		return lista2;
+	}
+	
 }

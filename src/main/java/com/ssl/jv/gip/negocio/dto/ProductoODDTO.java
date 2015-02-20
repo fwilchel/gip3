@@ -22,8 +22,9 @@ public class ProductoODDTO implements Serializable {
 	private BigDecimal cantidad;
 	private BigDecimal cantidadCajas;
 	private BigDecimal cantidadPorEmbalaje;
-	private BigInteger muestrasFITOYANTICO;
-	private BigInteger muestrasCalidades;
+	private BigDecimal muestrasFITOYANTICO;
+	private BigDecimal muestrasCalidades;
+	private BigInteger idCliente;
 	
 	public BigInteger getId() {
 		return id;
@@ -61,17 +62,23 @@ public class ProductoODDTO implements Serializable {
 	public void setCantidadPorEmbalaje(BigDecimal cantidadPorEmbalaje) {
 		this.cantidadPorEmbalaje = cantidadPorEmbalaje;
 	}
-	public BigInteger getMuestrasFITOYANTICO() {
+	public BigDecimal getMuestrasFITOYANTICO() {
 		return muestrasFITOYANTICO;
 	}
-	public void setMuestrasFITOYANTICO(BigInteger muestrasFITOYANTICO) {
+	public void setMuestrasFITOYANTICO(BigDecimal muestrasFITOYANTICO) {
 		this.muestrasFITOYANTICO = muestrasFITOYANTICO;
 	}
-	public BigInteger getMuestrasCalidades() {
+	public BigDecimal getMuestrasCalidades() {
 		return muestrasCalidades;
 	}
-	public void setMuestrasCalidades(BigInteger muestrasCalidades) {
+	public void setMuestrasCalidades(BigDecimal muestrasCalidades) {
 		this.muestrasCalidades = muestrasCalidades;
+	}
+	public BigInteger getIdCliente() {
+		return idCliente;
+	}
+	public void setIdCliente(BigInteger idCliente) {
+		this.idCliente = idCliente;
 	}
 
 }
