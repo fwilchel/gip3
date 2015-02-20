@@ -208,6 +208,18 @@
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
+						
+						<p:column styleClass="derecha" headerText="#{msg.MuestrasCalidades}">
+							<h:outputText value="#{producto.muestrasCalidades}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column styleClass="derecha" headerText="#{msg.MuestrasFitoAntico}">
+							<h:outputText value="#{producto.muestrasFITOYANTICO}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
 
 						<p:summaryRow>
 							<p:column colspan="2" styleClass="derecha">
@@ -231,6 +243,16 @@
 									<f:convertNumber maxFractionDigits="2" />
 								</h:outputText>
 							</p:column>
+							<p:column styleClass="derecha">
+								<h:outputText value="#{ordenesDespachoMB.muestrasCalidades}">
+									<f:convertNumber maxFractionDigits="2" />
+								</h:outputText>
+							</p:column>
+							<p:column styleClass="derecha">
+								<h:outputText value="#{ordenesDespachoMB.muestrasFITOANTICO}">
+									<f:convertNumber maxFractionDigits="2" />
+								</h:outputText>
+							</p:column>
 
 						</p:summaryRow>
 					</p:dataTable>
@@ -240,7 +262,8 @@
 							<h:outputText value="Test" />
 						</p:column>
 						<p:column styleClass="derecha">
-							<p:commandButton value="Test 3" icon="ui-icon-script"
+							<p:commandButton value="Test 3" 
+								icon="ui-icon-script"
 								action="#{ordenesDespachoMB.buscarDocumentos()}"
 								disabled="#{ordenesDespachoMB.deshabilitado}" 
 								id="btnGenerarPdf" />
