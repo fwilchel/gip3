@@ -13,6 +13,7 @@ import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Utilidad;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,6 +77,13 @@ public class GenerarFacturaMB extends UtilMB {
    */
   private Documento seleccionado;
 
+  private BigDecimal subtotal;
+  private BigDecimal descuento;
+  private BigDecimal totalIva10;
+  private BigDecimal totalIva16;
+  private BigDecimal totalIva5;
+  private BigDecimal total;
+
   @PostConstruct
   public void init() {
     LOGGER.debug("Metodo: <<init>>");
@@ -83,15 +91,16 @@ public class GenerarFacturaMB extends UtilMB {
   }
 
   /**
-   * 
+   *
    */
-  private void cargarTiposFacuras(){
+  private void cargarTiposFacuras() {
     LOGGER.debug("Metodo: <<init>>");
     listaTiposFacturas = new ArrayList<>();
     listaTiposFacturas.add(new SelectItem(ConstantesTipoDocumento.FACTURA, AplicacionMB.getMessage("gfFltLblItmTipoFacturaDirecta", language)));
     listaTiposFacturas.add(new SelectItem(ConstantesTipoDocumento.FACTURA_ESPECIAL, AplicacionMB.getMessage("gfFltLblItmTipoFacturaEspecial", language)));
     listaTiposFacturas.add(new SelectItem(ConstantesTipoDocumento.SOLICITUD_PEDIDO, AplicacionMB.getMessage("gfFltLblItmTipoFacturaConsumoServicios", language)));
   }
+
   /**
    *
    */
@@ -107,6 +116,22 @@ public class GenerarFacturaMB extends UtilMB {
   public void seleccionarRemision(Documento documento) {
     LOGGER.debug("Metodo: <<seleccionarRemision>>");
     seleccionado = documento;
+  }
+
+  /**
+   *
+   */
+  public void generarFactura() {
+    LOGGER.debug("Metodo: <<generarFactura>>");
+
+  }
+
+  /**
+   *
+   */
+  public void imprimirFactura() {
+    LOGGER.debug("Metodo: <<imprimirFactura>>");
+
   }
 
   /**
@@ -145,12 +170,30 @@ public class GenerarFacturaMB extends UtilMB {
   }
 
   /**
-   * 
-   * @return 
+   *
+   * @return
    */
   public boolean isFacturaDirecta() {
     LOGGER.debug("Metodo: <<isFacturaDirecta>>");
-    return true;
+    return tipoFacturaSeleccionado == null ? false : tipoFacturaSeleccionado.equals(ConstantesTipoDocumento.FACTURA);
+  }
+
+  /**
+   *
+   * @return
+   */
+  public boolean isFacturaEspecial() {
+    LOGGER.debug("Metodo: <<isFacturaEspecial>>");
+    return tipoFacturaSeleccionado == null ? false : tipoFacturaSeleccionado.equals(ConstantesTipoDocumento.FACTURA_ESPECIAL);
+  }
+
+  /**
+   *
+   * @return
+   */
+  public boolean isFacturaConsumoServicios() {
+    LOGGER.debug("Metodo: <<isFacturaConsumoServicios>>");
+    return tipoFacturaSeleccionado == null ? false : tipoFacturaSeleccionado.equals(ConstantesTipoDocumento.SOLICITUD_PEDIDO);
   }
 
   /**
@@ -228,5 +271,89 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void setTipoFacturaSeleccionado(Integer tipoFacturaSeleccionado) {
     this.tipoFacturaSeleccionado = tipoFacturaSeleccionado;
+  }
+
+  /**
+   * @return the subtotal
+   */
+  public BigDecimal getSubtotal() {
+    return subtotal;
+  }
+
+  /**
+   * @param subtotal the subtotal to set
+   */
+  public void setSubtotal(BigDecimal subtotal) {
+    this.subtotal = subtotal;
+  }
+
+  /**
+   * @return the descuento
+   */
+  public BigDecimal getDescuento() {
+    return descuento;
+  }
+
+  /**
+   * @param descuento the descuento to set
+   */
+  public void setDescuento(BigDecimal descuento) {
+    this.descuento = descuento;
+  }
+
+  /**
+   * @return the totalIva10
+   */
+  public BigDecimal getTotalIva10() {
+    return totalIva10;
+  }
+
+  /**
+   * @param totalIva10 the totalIva10 to set
+   */
+  public void setTotalIva10(BigDecimal totalIva10) {
+    this.totalIva10 = totalIva10;
+  }
+
+  /**
+   * @return the totalIva16
+   */
+  public BigDecimal getTotalIva16() {
+    return totalIva16;
+  }
+
+  /**
+   * @param totalIva16 the totalIva16 to set
+   */
+  public void setTotalIva16(BigDecimal totalIva16) {
+    this.totalIva16 = totalIva16;
+  }
+
+  /**
+   * @return the totalIva5
+   */
+  public BigDecimal getTotalIva5() {
+    return totalIva5;
+  }
+
+  /**
+   * @param totalIva5 the totalIva5 to set
+   */
+  public void setTotalIva5(BigDecimal totalIva5) {
+    this.totalIva5 = totalIva5;
+  }
+
+  /**
+   * @return the total
+   */
+  public BigDecimal getTotal() {
+    return total;
+  }
+
+  /**
+   * @param total the total to set
+   */
+  public void setTotal(BigDecimal total) {
+    this.total = total;
   }
 }
