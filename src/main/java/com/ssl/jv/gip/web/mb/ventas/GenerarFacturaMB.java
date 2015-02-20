@@ -11,10 +11,13 @@ import org.apache.log4j.Logger;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Utilidad;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
 
 /**
  * <p>
@@ -57,6 +60,14 @@ public class GenerarFacturaMB extends UtilMB {
    */
   private String consecutivoDocumento;
   /**
+   * Tipo de factura a generar
+   */
+  private List<SelectItem> listaTiposFacturas;
+  /**
+   * tipo de factura seleccionado
+   */
+  private Integer tipoFacturaSeleccionado;
+  /**
    * lista de documentos que retorna la consulta a la base de datos
    */
   private List<Documento> listaDocumentos;
@@ -68,8 +79,19 @@ public class GenerarFacturaMB extends UtilMB {
   @PostConstruct
   public void init() {
     LOGGER.debug("Metodo: <<init>>");
+    cargarTiposFacuras();
   }
 
+  /**
+   * 
+   */
+  private void cargarTiposFacuras(){
+    LOGGER.debug("Metodo: <<init>>");
+    listaTiposFacturas = new ArrayList<>();
+    listaTiposFacturas.add(new SelectItem(ConstantesTipoDocumento.FACTURA, AplicacionMB.getMessage("gfFltLblItmTipoFacturaDirecta", language)));
+    listaTiposFacturas.add(new SelectItem(ConstantesTipoDocumento.FACTURA_ESPECIAL, AplicacionMB.getMessage("gfFltLblItmTipoFacturaEspecial", language)));
+    listaTiposFacturas.add(new SelectItem(ConstantesTipoDocumento.SOLICITUD_PEDIDO, AplicacionMB.getMessage("gfFltLblItmTipoFacturaConsumoServicios", language)));
+  }
   /**
    *
    */
@@ -123,6 +145,15 @@ public class GenerarFacturaMB extends UtilMB {
   }
 
   /**
+   * 
+   * @return 
+   */
+  public boolean isFacturaDirecta() {
+    LOGGER.debug("Metodo: <<isFacturaDirecta>>");
+    return true;
+  }
+
+  /**
    * @param appMB the appMB to set
    */
   public void setAppMB(AplicacionMB appMB) {
@@ -169,5 +200,33 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void setSeleccionado(Documento seleccionado) {
     this.seleccionado = seleccionado;
+  }
+
+  /**
+   * @return the listaTiposFacturas
+   */
+  public List<SelectItem> getListaTiposFacturas() {
+    return listaTiposFacturas;
+  }
+
+  /**
+   * @param listaTiposFacturas the listaTiposFacturas to set
+   */
+  public void setListaTiposFacturas(List<SelectItem> listaTiposFacturas) {
+    this.listaTiposFacturas = listaTiposFacturas;
+  }
+
+  /**
+   * @return the tipoFacturaSeleccionado
+   */
+  public Integer getTipoFacturaSeleccionado() {
+    return tipoFacturaSeleccionado;
+  }
+
+  /**
+   * @param tipoFacturaSeleccionado the tipoFacturaSeleccionado to set
+   */
+  public void setTipoFacturaSeleccionado(Integer tipoFacturaSeleccionado) {
+    this.tipoFacturaSeleccionado = tipoFacturaSeleccionado;
   }
 }
