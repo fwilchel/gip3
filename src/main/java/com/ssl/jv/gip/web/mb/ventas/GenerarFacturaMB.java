@@ -1,37 +1,43 @@
 package com.ssl.jv.gip.web.mb.ventas;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Utilidad;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javax.faces.bean.ViewScoped;
-import javax.faces.model.SelectItem;
 
 /**
  * <p>
- * Title: GIP</p>
+ * Title: GIP
+ * </p>
  *
  * <p>
- * Description: GIP</p>
+ * Description: GIP
+ * </p>
  *
  * <p>
- * Copyright: Copyright (c) 2014</p>
+ * Copyright: Copyright (c) 2014
+ * </p>
  *
  * <p>
- * Company: Soft Studio Ltda.</p>
+ * Company: Soft Studio Ltda.
+ * </p>
  *
  * @author Diego Poveda
  * @email dpoveda@gmail.com
@@ -48,6 +54,11 @@ public class GenerarFacturaMB extends UtilMB {
   private static final long serialVersionUID = -2780795923623719268L;
 
   private static final Logger LOGGER = Logger.getLogger(GenerarFacturaMB.class);
+
+  private enum Modo {
+
+    DETALLE, MENSAGE;
+  }
 
   @EJB
   private VentasFacturacionEJBLocal ventasFacturacionEJB;
@@ -77,12 +88,14 @@ public class GenerarFacturaMB extends UtilMB {
    */
   private Documento seleccionado;
 
-  private BigDecimal subtotal;
-  private BigDecimal descuento;
-  private BigDecimal totalIva10;
-  private BigDecimal totalIva16;
-  private BigDecimal totalIva5;
-  private BigDecimal total;
+  private BigDecimal subtotal = new BigDecimal(123456789);
+  private BigDecimal descuento = new BigDecimal(189);
+  private BigDecimal totalIva10 = new BigDecimal(123456789);
+  private BigDecimal totalIva16 = new BigDecimal(6789);
+  private BigDecimal totalIva5 = new BigDecimal(123456789);
+  private BigDecimal total = new BigDecimal(16789);
+
+  private Modo modo;
 
   @PostConstruct
   public void init() {
@@ -116,6 +129,17 @@ public class GenerarFacturaMB extends UtilMB {
   public void seleccionarRemision(Documento documento) {
     LOGGER.debug("Metodo: <<seleccionarRemision>>");
     seleccionado = documento;
+    seleccionado.setTerminosTransportes(new ArrayList<TerminosTransporte>());
+    
+    if (seleccionado.getSitioEntrega() != null && seleccionado.getSitioEntrega().equals("CS") && tipoFacturaSeleccionado != ConstantesTipoDocumento.SOLICITUD_PEDIDO) {
+      modo = Modo.MENSAGE;
+      addMensajeError("msgDetalle", AplicacionMB.getMessage("gfErrorValidacion1", language));
+    } else if (tipoFacturaSeleccionado == ConstantesTipoDocumento.SOLICITUD_PEDIDO && (seleccionado.getSitioEntrega() == null || !seleccionado.getSitioEntrega().equals("CS"))) {
+      modo = Modo.MENSAGE;
+      addMensajeError("msgDetalle", AplicacionMB.getMessage("gfErrorValidacion2", language));
+    } else {
+      modo = Modo.DETALLE;
+    }
   }
 
   /**
@@ -141,23 +165,6 @@ public class GenerarFacturaMB extends UtilMB {
     LOGGER.debug("Metodo: <<cancelar>>");
     this.seleccionado = null;
     this.consecutivoDocumento = "";
-  }
-
-  /**
-   *
-   * @return
-   */
-  public String getMensajeAdvertencia() {
-    LOGGER.debug("Metodo: <<getMensajeAdvertencia>>");
-    if (seleccionado == null) {
-      return null;
-    } else {
-      String mensajeAdvertencia = AplicacionMB.getMessage("spaMsgAdvertencia", language);
-      String parametros[] = new String[1];
-      parametros[0] = seleccionado.getConsecutivoDocumento();
-      mensajeAdvertencia = Utilidad.stringFormat(mensajeAdvertencia, parametros);
-      return mensajeAdvertencia;
-    }
   }
 
   /**
@@ -194,6 +201,24 @@ public class GenerarFacturaMB extends UtilMB {
   public boolean isFacturaConsumoServicios() {
     LOGGER.debug("Metodo: <<isFacturaConsumoServicios>>");
     return tipoFacturaSeleccionado == null ? false : tipoFacturaSeleccionado.equals(ConstantesTipoDocumento.SOLICITUD_PEDIDO);
+  }
+
+  /**
+   *
+   * @return
+   */
+  public boolean isModoDetalle() {
+    LOGGER.debug("Metodo: <<isModoDetalle>>");
+    return modo.equals(Modo.DETALLE);
+  }
+
+  /**
+   *
+   * @return
+   */
+  public boolean isModoMensage() {
+    LOGGER.debug("Metodo: <<isModoMensage>>");
+    return modo.equals(Modo.MENSAGE);
   }
 
   /**

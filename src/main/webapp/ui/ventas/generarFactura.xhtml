@@ -181,12 +181,32 @@
       <h:form
         id="formaDetalle"
         prependId="false">
+        <p:panel
+          id="pnlMensages"
+          rendered="#{generarFacturaMB.modoMensage}">
+          <p:outputPanel
+            style="text-align: center">
+            <!-- mensage -->
+            <p:messages 
+              id="msgDetalle"/>
+            <!-- cerrar -->
+            <p:commandButton 
+              value="#{msg.generalCerrar}" 
+              styleClass="ui-confirmdialog-no" 
+              icon="ui-icon-close" 
+              actionListener="#{generarFacturaMB.cancelar()}"
+              oncomplete="PF('dlgDetalle').hide()"/>
+          </p:outputPanel>
+        </p:panel>
+        
         <p:panel 
-          id="pnlDetalle">
-          <p:outputPanel 
-            style="margin-bottom:20px; text-align:left;" >
+          id="pnlDetalle"
+          rendered="#{generarFacturaMB.modoDetalle}">
+          <div 
+            align="left" 
+            style="margin-bottom:20px;">
             <p:panelGrid 
-              columns="4"
+              columns="6"
               styleClass="noBorders">
               <!--Cliente-->
               <p:outputLabel 
@@ -197,65 +217,103 @@
                 id="nombreCliente"
                 value="#{generarFacturaMB.seleccionado.cliente.nombre}" 
                 disabled="true"
-                styleClass="filas_contenido"/>
+                styleClass="filas_contenido"
+                required="false"/>
+              <p:message
+                for="nombreCliente"/>
+              <p:spacer/>
+              <p:spacer/>
+              <p:spacer/>
               <!--Documento-->
               <p:outputLabel 
-                for="direccionCliente"
+                for="id"
                 value="#{msg.iieDtlLblDireccion}"
                 styleClass="negrita"/>
               <h:inputText
-                id="direccionCliente"
+                id="id"
                 value="#{generarFacturaMB.seleccionado.id}" 
                 disabled="true"
-                styleClass="filas_contenido"/>
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="id"/>
               <!--Consecutivo Documento-->
               <p:outputLabel 
-                for="telefonoCliente"
+                for="consecutivoDocumento"
                 value="#{msg.iieDtlLblTelefono}"
                 styleClass="negrita"/>
               <h:inputText
-                id="telefonoCliente"
+                id="consecutivoDocumento"
                 value="#{generarFacturaMB.seleccionado.consecutivoDocumento}" 
                 disabled="true"
-                styleClass="filas_contenido"/>
+                styleClass="filas_contenido"
+                required="false"/>
+              <p:message
+                for="consecutivoDocumento"/>
               <!--Fecha Generación-->
               <p:outputLabel 
-                for="contactoCliente"
+                for="fechaGeneracion"
                 value="#{msg.iieDtlLblContacto}"
                 styleClass="negrita"/>
               <h:inputText
-                id="contactoCliente"
+                id="fechaGeneracion"
                 value="#{generarFacturaMB.seleccionado.fechaGeneracion}" 
                 disabled="true"
-                styleClass="filas_contenido">
+                styleClass="filas_contenido"
+                required="true">
                 <f:convertDateTime 
                   pattern="dd-MMM-yyyy"/>
               </h:inputText>
+              <p:message
+                for="fechaGeneracion"/>
               <!--Ubicación Destino-->
               <p:outputLabel 
-                for="ciudadCliente"
+                for="ubicacionDestino"
                 value="#{msg.iieDtlLblCiudad}"
                 styleClass="negrita"/>
               <h:inputText
-                id="ciudadCliente"
+                id="ubicacionDestino"
                 value="#{generarFacturaMB.seleccionado.ubicacionDestino.nombre}" 
                 disabled="true"
-                styleClass="filas_contenido"/>
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="ubicacionDestino"/>
               <!--Doc.VD Rel.-->
               <p:outputLabel 
-                for="paisCliente"
+                for="observacionDocumento"
                 value="#{msg.iieDtlLblPais}"
                 styleClass="negrita"/>
               <h:inputText
-                id="paisCliente"
+                id="observacionDocumento"
                 value="#{generarFacturaMB.seleccionado.observacionDocumento}" 
                 disabled="true"
-                styleClass="filas_contenido"/>
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="observacionDocumento"/>
+              <!--Número de Factura Especial.-->
+              <p:outputLabel 
+                for="numeroFacturaEspecial"
+                value="#{msg.iieDtlLblPais}"
+                styleClass="negrita"
+                rendered="#{generarFacturaMB.facturaEspecial or generarFacturaMB.facturaConsumoServicios}"/>
+              <h:inputText
+                id="numeroFacturaEspecial"
+                value="#{generarFacturaMB.seleccionado.observacionDocumento}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"
+                rendered="#{generarFacturaMB.facturaEspecial or generarFacturaMB.facturaConsumoServicios}"/>
+              <p:message
+                for="numeroFacturaEspecial"
+                rendered="#{generarFacturaMB.facturaEspecial or generarFacturaMB.facturaConsumoServicios}"/>
             </p:panelGrid>
-          </p:outputPanel>
+          </div>
           <!---->
-          <p:outputPanel
-            style="margin-bottom:20px">
+          <div 
+            align="left" 
+            style="margin-bottom:20px;">
             <p:dataTable 
               id="tblItems"
               var="item" 
@@ -268,97 +326,90 @@
                 <h:outputText 
                   value="#{item.id}" />
               </p:column>
-              <f:facet
-                name="footer">
-                <p:outputPanel 
-                  style="margin-bottom:20px; text-align:right;" >
-                  <p:panelGrid 
-                    columns="2"
-                    styleClass="noBorders">
-                    <!-- Subtotal -->
-                    <p:outputLabel 
-                      for="sociedadIntermediacionAduanera1"
-                      value="#{msg.iieDtlLblSociedadIntermediacionAduanera1}"
-                      styleClass="negrita"/>
-                    <h:inputText
-                      id="sociedadIntermediacionAduanera1"
-                      value="#{generarFacturaMB.subtotal}" 
-                      disabled="true"
-                      styleClass="filas_contenido">
-                      <f:convertNumber 
-                        pattern="$#####,###,###,###.0" />
-                    </h:inputText>
-                    <!-- Descuento -->
-                    <p:outputLabel 
-                      for="sociedadIntermediacionAduanera2"
-                      value="#{msg.iieDtlLblSociedadIntermediacionAduanera2}"
-                      styleClass="negrita"/>
-                    <h:inputText
-                      id="sociedadIntermediacionAduanera2"
-                      value="#{generarFacturaMB.descuento}" 
-                      disabled="true"
-                      styleClass="filas_contenido">
-                      <f:convertNumber 
-                        pattern="$#####,###,###,###.0" />
-                    </h:inputText>
-                    <!-- Valor Iva 10% -->
-                    <p:outputLabel 
-                      for="mesEmbarque"
-                      value="#{msg.iieDtlLblMesEmbarque}"
-                      styleClass="negrita"/>
-                    <h:inputText
-                      id="mesEmbarque"
-                      value="#{generarFacturaMB.totalIva10}" 
-                      disabled="true"
-                      styleClass="filas_contenido">
-                      <f:convertNumber 
-                        pattern="$#####,###,###,###.0" />
-                    </h:inputText>
-                    <!-- Valor Iva 16% -->
-                    <p:outputLabel 
-                      for="puertoEmbarque"
-                      value="#{msg.iieDtlLblPuertoEmbarque}"
-                      styleClass="negrita"/>
-                    <h:inputText
-                      id="puertoEmbarque"
-                      value="#{generarFacturaMB.totalIva16}" 
-                      disabled="true"
-                      styleClass="filas_contenido">
-                      <f:convertNumber 
-                        pattern="$#####,###,###,###.0" />
-                    </h:inputText>
-                    <!-- Valor Iva 5% -->
-                    <p:outputLabel 
-                      for="fechaEmbarque"
-                      value="#{msg.iieDtlLblFechaEmbarque}"
-                      styleClass="negrita"/>
-                    <h:inputText
-                      id="fechaEmbarque"
-                      value="#{generarFacturaMB.totalIva5}" 
-                      disabled="true"
-                      styleClass="filas_contenido">
-                      <f:convertNumber 
-                        pattern="$#####,###,###,###.0" />
-                    </h:inputText>
-                    <!-- TOTAL  -->
-                    <p:outputLabel 
-                      for="naviera"
-                      value="#{msg.iieDtlLblNaviera}"
-                      styleClass="negrita"/>
-                    <h:inputText
-                      id="naviera"
-                      value="#{generarFacturaMB.total}" 
-                      disabled="true"
-                      styleClass="filas_contenido">
-                      <f:convertNumber 
-                        pattern="$#####,###,###,###.0" />
-                    </h:inputText>
-                  </p:panelGrid>
-                </p:outputPanel>
-              </f:facet>
             </p:dataTable>
-          </p:outputPanel>
+          </div>
           <!---->
+          <div 
+            align="right" 
+            style="margin-bottom:20px;">
+            <p:panelGrid 
+              columns="2"
+              styleClass="noBorders"
+              style="text-align:right;">
+              <!-- Subtotal -->
+              <p:outputLabel 
+                for="sociedadIntermediacionAduanera1"
+                value="#{msg.iieDtlLblSociedadIntermediacionAduanera1}"
+                styleClass="negrita"/>
+              <h:outputText
+                id="sociedadIntermediacionAduanera1"
+                value="#{generarFacturaMB.subtotal}"
+                styleClass="filas_contenido">
+                <f:convertNumber 
+                  pattern="$#####,###,###,###.0" />
+              </h:outputText>
+              <!-- Descuento -->
+              <p:outputLabel 
+                for="sociedadIntermediacionAduanera2"
+                value="#{msg.iieDtlLblSociedadIntermediacionAduanera2}"
+                styleClass="negrita"/>
+              <h:outputText
+                id="sociedadIntermediacionAduanera2"
+                value="#{generarFacturaMB.descuento}" 
+                styleClass="filas_contenido">
+                <f:convertNumber 
+                  pattern="$#####,###,###,###.0" />
+              </h:outputText>
+              <!-- Valor Iva 10% -->
+              <p:outputLabel 
+                for="mesEmbarque"
+                value="#{msg.iieDtlLblMesEmbarque}"
+                styleClass="negrita"/>
+              <h:outputText
+                id="mesEmbarque"
+                value="#{generarFacturaMB.totalIva10}" 
+                styleClass="filas_contenido">
+                <f:convertNumber 
+                  pattern="$#####,###,###,###.0" />
+              </h:outputText>
+              <!-- Valor Iva 16% -->
+              <p:outputLabel 
+                for="puertoEmbarque"
+                value="#{msg.iieDtlLblPuertoEmbarque}"
+                styleClass="negrita"/>
+              <h:outputText
+                id="puertoEmbarque"
+                value="#{generarFacturaMB.totalIva16}" 
+                styleClass="filas_contenido">
+                <f:convertNumber 
+                  pattern="$#####,###,###,###.0" />
+              </h:outputText>
+              <!-- Valor Iva 5% -->
+              <p:outputLabel 
+                for="fechaEmbarque"
+                value="#{msg.iieDtlLblFechaEmbarque}"
+                styleClass="negrita"/>
+              <h:outputText
+                id="fechaEmbarque"
+                value="#{generarFacturaMB.totalIva5}" 
+                styleClass="filas_contenido">
+                <f:convertNumber 
+                  pattern="$#####,###,###,###.0" />
+              </h:outputText>
+              <!-- TOTAL  -->
+              <p:outputLabel 
+                for="naviera"
+                value="#{msg.iieDtlLblNaviera}"
+                styleClass="negrita"/>
+              <h:outputText
+                id="naviera"
+                value="#{generarFacturaMB.total}" 
+                styleClass="filas_contenido">
+                <f:convertNumber 
+                  pattern="$#####,###,###,###.0" />
+              </h:outputText>
+            </p:panelGrid>
+          </div>
           <!-- botones -->
           <f:facet
             name="footer">
