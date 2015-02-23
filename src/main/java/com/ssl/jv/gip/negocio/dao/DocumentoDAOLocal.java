@@ -168,8 +168,6 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
   public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado);
 
-  public List<Documento> consultaFP(String consecutivoDocumento);
-
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(
           FiltroDocumentoDTO filtro);
 
@@ -205,5 +203,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
    * @return
    */
   List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros);
+
+  public List<Documento> consultaFP(String consecutivoDocumento, Long estado1,Long estado2);
 
 }

@@ -183,7 +183,7 @@
 							styleClass="negrita" />
 						<p:inputText
 							value="#{ordenesDespachoMB.seleccionado.fechaEntrega}"
-							id="fechaCargue" label="#{msg.LugarIncoterm}" disabled="true" >
+							id="fechaCargue" label="#{msg.LugarIncoterm}" disabled="false" >
 							<f:convertDateTime pattern="dd-MMM-yyyy" />	
 						</p:inputText>
 
@@ -196,7 +196,7 @@
 						value="#{ordenesDespachoMB.productos}">
 
 						<p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
-							<h:outputText value="#{producto.id}" />
+							<h:outputText value="#{producto.sku}" />
 						</p:column>
 
 						<p:column headerText="#{msg.buscadorNombreProducto}">
@@ -217,7 +217,7 @@
 						</p:column>
 
 						<p:column styleClass="derecha" headerText="#{msg.SPcantidadCajas}">
-							<h:outputText value="#{producto.cantidadCajas}">
+							<h:outputText value="#{producto.cantidad/producto.cantidadPorEmbalaje}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>

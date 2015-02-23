@@ -14,6 +14,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoODDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 
 /**Managed Bean para ordenes de despacho
  * 
@@ -55,13 +56,13 @@ public class OrdenesDespachoMB extends UtilMB{
 	}
 
 	public String buscarDocumentos() {
-		documentos = this.comercioEjb.consultarFP(consecutivoDocumento);
+		documentos = this.comercioEjb.consultarFP(consecutivoDocumento,(long)ConstantesDocumento.APROBADA,(long)ConstantesDocumento.ASIGNADA);
 		this.deshabilitado = false;
 		return null;
 	}
 	
 	public void consultarOrdenDeDespacho(){
-		productos=comercioEjb.consultarProductoPorDocumentoOrdenDespacho(seleccionado.getId(),seleccionado.getCliente().getId());
+		productos=comercioEjb.consultarProductoPorDocumentoOrdenDespacho(seleccionado.getId(),seleccionado.getCliente().getId(),seleccionado.getDocumentoXNegociacions().get(0).getSolicitudCafe());
 		totalCantidad=0;
 		totalCantidadCajas=0;
 		totalCantidadPorEmbalaje=0;
@@ -69,7 +70,7 @@ public class OrdenesDespachoMB extends UtilMB{
 		muestrasCalidades=0;
 		for (ProductoODDTO p : productos) {
 			this.totalCantidad+=p.getCantidad().doubleValue();
-			this.totalCantidadCajas+=p.getCantidadCajas().doubleValue();
+			this.totalCantidadCajas+=p.getCantidad().doubleValue()/p.getCantidadPorEmbalaje().doubleValue();
 			this.totalCantidadPorEmbalaje+=p.getCantidadPorEmbalaje().doubleValue();
 			this.muestrasCalidades+=p.getMuestrasCalidades().doubleValue();
 			this.muestrasFITOANTICO+=p.getMuestrasFITOYANTICO().doubleValue();
