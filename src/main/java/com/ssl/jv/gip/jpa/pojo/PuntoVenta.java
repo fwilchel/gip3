@@ -11,7 +11,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="punto_venta")
-@NamedQuery(name="PuntoVenta.findAll", query="SELECT p FROM PuntoVenta p")
+@NamedQueries({
+@NamedQuery(name="PuntoVenta.findAll", query="SELECT p FROM PuntoVenta p"),
+@NamedQuery(name="PuntoVenta.findByCliente", query="SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente")
+})
 public class PuntoVenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 

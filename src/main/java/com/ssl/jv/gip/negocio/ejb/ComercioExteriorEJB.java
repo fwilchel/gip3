@@ -1635,8 +1635,8 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	}
 
 	@Override
-	public List<Documento> consultarFP(String consecutivoDocumento) {
-		return documentoDAO.consultaFP(consecutivoDocumento);
+	public List<Documento> consultarFP(String consecutivoDocumento,Long estado1,Long estado2) {
+		return documentoDAO.consultaFP(consecutivoDocumento,estado1,estado2);
 	}
 	
 	@Override
@@ -1669,11 +1669,11 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProductoODDTO> consultarProductoPorDocumentoOrdenDespacho(
-			Long idDocumento, Long idCliente) {
+	public List<ProductoODDTO> consultarProductoPorDocumentoOrdenDespacho(Long idDocumento, Long idCliente, Boolean cafe) {
 		List<ProductoGenerarFacturaPFDTO> lista = productoClienteComercioExteriorDAO.consultarProductoPorDocumentoGenerarFacturaProforma(idDocumento, idCliente);
 		List<ProductoODDTO> lista2 = new ArrayList<ProductoODDTO>();
 		for (ProductoGenerarFacturaPFDTO p : lista) {
+			BigDecimal calidades;
 			List<Muestrasxlote> muestras = muestrasxloteDAO.consultarMuestrasPorCantidad(p.getCantidad());
 			ProductoODDTO aux = new ProductoODDTO();
 			aux.setId(p.getId());
@@ -1683,20 +1683,23 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 			aux.setCantidadPorEmbalaje(p.getCantidadPorEmbalaje());
 			aux.setNombre(p.getNombre());
 			aux.setIdCliente(p.getIdCliente());
-			for (Muestrasxlote m : muestras) {
+			if (cafe) {
+				for (Muestrasxlote m : muestras) {
 					if (m.getTipo().equals("Calidades")) {
-						aux.setMuestrasCalidades(p.getCantidad().multiply(m.getFactor()).setScale(0,BigDecimal.ROUND_HALF_EVEN));
-						if(aux.getMuestrasCalidades().longValue()<2){
+						calidades=p.getCantidadPorEmbalaje().multiply(m.getFactor()).add(m.getMuestras()).setScale(0, BigDecimal.ROUND_CEILING);
+						aux.setMuestrasCalidades(calidades);
+						if (aux.getMuestrasCalidades().longValue() < 2) {
 							aux.setMuestrasCalidades(new BigDecimal(2));
 						}
 					} else if (m.getTipo().equals("Fito")) {
 						aux.setMuestrasFITOYANTICO(m.getMuestras());
 					}
+				}
 			}
-			if(aux.getMuestrasCalidades()==null){
+			if (aux.getMuestrasCalidades() == null) {
 				aux.setMuestrasCalidades(new BigDecimal(0));
 			}
-			if(aux.getMuestrasFITOYANTICO()==null){
+			if (aux.getMuestrasFITOYANTICO() == null) {
 				aux.setMuestrasFITOYANTICO(new BigDecimal(0));
 			}
 			lista2.add(aux);

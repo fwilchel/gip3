@@ -2500,41 +2500,44 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     }
   }
 
-  @Override
-  public List<Documento> consultaFP(String consecutivoDocumento) {
+	@Override
+	public List<Documento> consultaFP(String consecutivoDocumento,Long estado1, Long estado2) {
 
-    List<Documento> listado = new ArrayList<Documento>();
-    String query;
-    try {
-      query = "SELECT d FROM Documento d "
-              + "JOIN FETCH d.cliente c "
-              + "JOIN FETCH d.estadosxdocumento exd "
-              + "JOIN FETCH exd.estado e "
-              + "JOIN FETCH d.documentoXNegociacions dxn "
-              + "JOIN FETCH dxn.terminoIncoterm ti "
-              + "JOIN FETCH c.ciudad ciu "
-              + "JOIN FETCH c.metodoPago mp "
-              + "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
-              + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
-              + " ORDER BY d.id DESC";
+		List<Documento> listado = new ArrayList<Documento>();
+		String query;
+		try {
+			query = "SELECT d FROM Documento d "
+					+ "JOIN FETCH d.cliente c "
+					+ "JOIN FETCH d.estadosxdocumento exd "
+					+ "JOIN FETCH exd.estado e "
+					+ "JOIN FETCH d.documentoXNegociacions dxn "
+					+ "JOIN FETCH dxn.terminoIncoterm ti "
+					+ "JOIN FETCH c.ciudad ciu "
+					+ "JOIN FETCH c.metodoPago mp "
+					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
+					+ "AND (d.estadosxdocumento.estado.id = :estado1 "
+					+ "OR d.estadosxdocumento.estado.id = :estado2) "
+					+ "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
+					+ "ORDER BY d.id DESC";
 
-      listado = em
-              .createQuery(query)
-              .setParameter("tipoDocumento",
-                      (long) ConstantesTipoDocumento.FACTURA_PROFORMA)
-              .setParameter(
-                      "consecutivo",
-                      consecutivoDocumento.equals("") ? "%" : "%"
-                              + consecutivoDocumento + "%")
-              .setMaxResults(35)
-              .getResultList();
-    } catch (Exception e) {
-      LOGGER.error(e
-              + "********Error consultando Documentos por Consecutivo de Pedido");
-      return null;
-    }
-    return listado;
-  }
+			listado = em
+					.createQuery(query)
+					.setParameter("tipoDocumento",
+							(long) ConstantesTipoDocumento.FACTURA_PROFORMA)
+					.setParameter(
+							"consecutivo",
+							consecutivoDocumento.equals("") ? "%" : "%"
+									+ consecutivoDocumento + "%")
+					.setParameter("estado1", estado1)
+					.setParameter("estado2", estado2)
+					.setMaxResults(35).getResultList();
+		} catch (Exception e) {
+			LOGGER.error(e
+					+ "********Error consultando Documentos por Consecutivo de Pedido");
+			return null;
+		}
+		return listado;
+	}
 
   @Override
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros) {

@@ -342,7 +342,6 @@ public interface ComercioExteriorEJBLocal {
 
 	void actualizarEstadoDocumento(Documento documento);
 	
-	public List<Documento> consultarFP(String consecutivoDocumento); 
 	public void actualizarEstadoDocumentoPorId(Documento documento);
 	
 	public List<String> consultarPuertosNacionales();
@@ -354,6 +353,9 @@ public interface ComercioExteriorEJBLocal {
 	public List<Documento> consultarFacturasDeExportacionEstado(String consecutivoDocumento);
 
 	public List<ProductoODDTO> consultarProductoPorDocumentoOrdenDespacho(
-			Long idDocumento, Long idCliente);
+			Long idDocumento, Long idCliente, Boolean cafe);
+
+	public List<Documento> consultarFP(String consecutivoDocumento, Long estado1,
+			Long estado2);
 	
 }
