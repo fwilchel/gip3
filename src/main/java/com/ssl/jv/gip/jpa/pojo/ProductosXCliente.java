@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -11,7 +13,10 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@NamedQuery(name="ProductosXCliente.findAll", query="SELECT p FROM ProductosXCliente p")
+@NamedQueries(value = { 
+@NamedQuery(name="ProductosXCliente.findAll", query="SELECT p FROM ProductosXCliente p"),
+@NamedQuery(name="ProductosXCliente.findByClientePuntoVenta", query="SELECT p FROM ProductosXCliente p JOIN FETCH p.productosInventario pi WHERE p.pk.idCliente= :idCliente AND p.pk.idPuntoVenta= :idPuntoVenta AND p.vigente = true AND pi.desactivado = true AND p.activo = true ORDER BY pi.sku")
+})
 public class ProductosXCliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 

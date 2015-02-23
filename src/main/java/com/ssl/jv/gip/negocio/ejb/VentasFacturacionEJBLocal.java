@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 
@@ -32,4 +33,7 @@ public interface VentasFacturacionEJBLocal {
    * @return
    */
   List<Documento> consultarRemisionesPendientesPorRecibir(String consecutivo);
+  
+  List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
+			Long idPuntoVenta);
 }

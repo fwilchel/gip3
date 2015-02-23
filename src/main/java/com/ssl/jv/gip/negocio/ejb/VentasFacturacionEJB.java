@@ -8,6 +8,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
@@ -15,12 +16,13 @@ import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoReporteTxtFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
-
 import com.ssl.jv.gip.negocio.dao.ProductoClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+
 import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
+
 import java.util.HashMap;
 
 /**
@@ -91,6 +93,12 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     parametros.put("idTipoDocumento", (long) ConstantesTipoDocumento.REMISION);
     parametros.put("consecutivoDocumento", consecutivo);
     return documentoDAO.consultarDocumentosPorEstadoPorTipoPorConsecutivo(parametros);
+  }
+  
+  @Override
+  public List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
+			Long idPuntoVenta) {
+    return productoClienteDAO.consultarPorClientePuntoVenta(idCliente, idPuntoVenta);
   }
 
 }

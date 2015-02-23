@@ -5,10 +5,12 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
 import org.primefaces.model.SortOrder;
 
+import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 //import com.ssl.jv.gip.negocio.dto.ClienteFiltroVO;
@@ -61,7 +63,12 @@ public class PuntoVentaDAO extends GenericDAO<PuntoVenta> implements PuntoVentaD
 		return (List<PuntoVenta>)em.createQuery("SELECT pv FROM PuntoVenta pv JOIN FETCH pv.ciudade ciu JOIN FETCH ciu.pais p").getResultList();
 	}
 	
-	
+	@Override
+	public List<PuntoVenta> findByCliente(Long idCliente) {
+		TypedQuery<PuntoVenta> query = em.createNamedQuery("PuntoVenta.findByCliente", PuntoVenta.class);
+		query.setParameter("idCliente", idCliente);
+		return query.getResultList();
+	}
 	
 	
 	

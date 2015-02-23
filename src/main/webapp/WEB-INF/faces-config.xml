@@ -55,6 +55,10 @@
       <to-view-id>/ui/comercioexterior/generarFacturaExportacion.xhtml</to-view-id>
     </navigation-case>
     <navigation-case>
+      <from-outcome>ingresar_VD_listadoPxC</from-outcome>
+      <to-view-id>/ui/ventas/ingresarVentaDirecta.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
       <from-outcome>listado_solicitud_pedido</from-outcome>
       <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
     </navigation-case>
