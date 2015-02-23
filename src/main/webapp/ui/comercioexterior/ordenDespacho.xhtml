@@ -108,7 +108,7 @@
 							value="#{ordenesDespachoMB.seleccionado.fechaGeneracion}"
 							id="fechaGeneracion"
 							label="#{msg.RequisicionNombreFechaGenerado}" disabled="true">
-							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
 
 						<p:outputLabel value="#{msg.nomCliente}" for="clienteNombre"
@@ -160,19 +160,32 @@
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
 
-						<p:outputLabel value="#{msg.generarListaEmpaque_TerminoIncoterm}"
-							for="clienteContacto" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.cliente.terminoIncoterms.get(ordenesDespachoMB.seleccionado.cliente.terminoIncoterms.size()-1).descripcion}"
-							id="terminoInconterm" label="#{msg.maestroContactoAgente}"
+						<p:outputLabel value="#{msg.TerminoIncotermSP}"
+							for="terminoIncoterm" styleClass="negrita" />
+						<p:inputText
+							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).terminoIncoterm.descripcion}"
+							id="terminoIncoterm" label="#{msg.TerminoIncotermSP}"
 							disabled="true" />
 
-						<p:outputLabel value="#{msg.generarListaEmpaque_LugarIncoterm}"
-							for="clienteContacto" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.cliente.ciudad.nombre}"
-							id="lugarInconterm" label="#{msg.maestroContactoAgente}"
-							disabled="true" />
+						<p:outputLabel value="#{msg.LugarIncoterm}" for="lugarIncoterm"
+							styleClass="negrita" />
+						<p:inputText
+							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
+							id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true" />
+							
+						<p:outputLabel value="#{msg.Despacho}" for="despachadoEn"
+							styleClass="negrita" />
+						<p:inputText
+							value="#{ordenesDespachoMB.seleccionado.sitioEntrega}"
+							id="despachadoEn" label="#{msg.LugarIncoterm}" disabled="true" />
+							
+						<p:outputLabel value="#{msg.FechaCargue}" for="fechaCargue"
+							styleClass="negrita" />
+						<p:inputText
+							value="#{ordenesDespachoMB.seleccionado.fechaEntrega}"
+							id="fechaCargue" label="#{msg.LugarIncoterm}" disabled="false" >
+							<f:convertDateTime pattern="dd-MMM-yyyy" />	
+						</p:inputText>
 
 					</p:panelGrid>
 
@@ -183,7 +196,7 @@
 						value="#{ordenesDespachoMB.productos}">
 
 						<p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
-							<h:outputText value="#{producto.id}" />
+							<h:outputText value="#{producto.sku}" />
 						</p:column>
 
 						<p:column headerText="#{msg.buscadorNombreProducto}">
@@ -204,7 +217,19 @@
 						</p:column>
 
 						<p:column styleClass="derecha" headerText="#{msg.SPcantidadCajas}">
-							<h:outputText value="#{producto.cantidadCajas}">
+							<h:outputText value="#{producto.cantidad/producto.cantidadPorEmbalaje}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column styleClass="derecha" headerText="#{msg.MuestrasCalidades}">
+							<h:outputText value="#{producto.muestrasCalidades}">
+								<f:convertNumber maxFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column styleClass="derecha" headerText="#{msg.MuestrasFitoAntico}">
+							<h:outputText value="#{producto.muestrasFITOYANTICO}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
@@ -231,21 +256,32 @@
 									<f:convertNumber maxFractionDigits="2" />
 								</h:outputText>
 							</p:column>
+							<p:column styleClass="derecha">
+								<h:outputText value="#{ordenesDespachoMB.muestrasCalidades}">
+									<f:convertNumber maxFractionDigits="2" />
+								</h:outputText>
+							</p:column>
+							<p:column styleClass="derecha">
+								<h:outputText value="#{ordenesDespachoMB.muestrasFITOANTICO}">
+									<f:convertNumber maxFractionDigits="2" />
+								</h:outputText>
+							</p:column>
 
 						</p:summaryRow>
 					</p:dataTable>
 					<p:spacer height="10" />
 					<p:panelGrid columns="2">
 						<p:column styleClass="derecha">
-							<h:outputText value="Test" />
+							<h:outputText value="#{msg.MenuReportes}" />
 						</p:column>
 						<p:column styleClass="derecha">
-							<p:commandButton value="Test 3" icon="ui-icon-script"
+							<p:commandButton value="#{msg.ReportePdf}" 
+								icon="ui-icon-script"
 								action="#{ordenesDespachoMB.buscarDocumentos()}"
 								disabled="#{ordenesDespachoMB.deshabilitado}" 
 								id="btnGenerarPdf" />
 
-							<p:commandButton value="Test2" 
+							<p:commandButton value="#{msg.ReporteExcel}" 
 								icon="ui-icon-script"
 								action="#{ordenesDespachoMB.buscarDocumentos()}"
 								disabled="#{ordenesDespachoMB.deshabilitado}"

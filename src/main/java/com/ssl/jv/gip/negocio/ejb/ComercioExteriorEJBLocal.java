@@ -40,6 +40,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoODDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 
 /**
@@ -341,16 +342,20 @@ public interface ComercioExteriorEJBLocal {
 
 	void actualizarEstadoDocumento(Documento documento);
 	
-	public List<Documento> consultarFP(String consecutivoDocumento);
-	
 	public void actualizarEstadoDocumentoPorId(Documento documento);
-
-	public List<Documento> consultarFacturasDeExportacionEstado();
 	
 	public List<String> consultarPuertosNacionales();
 
 	public List<String> consultarPuertosInternacionales(String idPais);
 	
 	public List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente);
+
+	public List<Documento> consultarFacturasDeExportacionEstado(String consecutivoDocumento);
+
+	public List<ProductoODDTO> consultarProductoPorDocumentoOrdenDespacho(
+			Long idDocumento, Long idCliente, Boolean cafe);
+
+	public List<Documento> consultarFP(String consecutivoDocumento, Long estado1,
+			Long estado2);
 	
 }

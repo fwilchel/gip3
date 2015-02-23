@@ -26,8 +26,8 @@ public class MuestrasXLoteDAO extends GenericDAO<Muestrasxlote> implements Muest
 	public List<Muestrasxlote> consultarMuestrasPorCantidad(BigDecimal cantidad) {
 		Query query = em
 				.createNamedQuery("Muestrasxlote.findByCantidad");
-		query.setParameter("cantidad", cantidad);
-		query.setParameter("cantidad1", cantidad);
+		query.setParameter("cantidad",  cantidad.longValue());
+		query.setParameter("cantidad1", cantidad.longValue());
 		return query.getResultList();
 	}
 

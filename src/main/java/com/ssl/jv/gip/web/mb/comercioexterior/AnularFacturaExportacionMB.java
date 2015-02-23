@@ -1,5 +1,7 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
+import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -33,6 +35,9 @@ public class AnularFacturaExportacionMB extends UtilMB{
 	private static final long serialVersionUID = 1L;
 	private Integer language=AplicacionMB.SPANISH;
 	
+	private String mensaje;
+	private Timestamp currentTimeStamp;
+	private String consecutivoDocumento;
 	private List<Documento> documentos;
 	private Documento seleccionado;
 	private Documento filtro;
@@ -47,9 +52,14 @@ public class AnularFacturaExportacionMB extends UtilMB{
 
 	@PostConstruct
 	public void init(){
-		documentos = comercioExteriorEJB.consultarFacturasDeExportacionEstado();
+		currentTimeStamp = new Timestamp(System.currentTimeMillis());
 	}
 
+	public String buscarDocumentos() {
+		documentos = comercioExteriorEJB.consultarFacturasDeExportacionEstado(consecutivoDocumento);
+		return null;
+	}
+	
 	public List<Documento> getDocumentos() {
 		return documentos;
 	}
@@ -63,6 +73,7 @@ public class AnularFacturaExportacionMB extends UtilMB{
 	}
 
 	public void setSeleccionado(Documento seleccionado) {
+		mensaje=MessageFormat.format(AplicacionMB.getMessage("AdvertenciaAnularFX",1),seleccionado.getConsecutivoDocumento());
 		this.seleccionado = seleccionado;
 	}
 
@@ -74,6 +85,30 @@ public class AnularFacturaExportacionMB extends UtilMB{
 		this.filtro = filtro;
 	}
 	
+	public Timestamp getCurrentTimeStamp() {
+		return currentTimeStamp;
+	}
+
+	public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
+		this.currentTimeStamp = currentTimeStamp;
+	}
+
+	public String getConsecutivoDocumento() {
+		return consecutivoDocumento;
+	}
+
+	public void setConsecutivoDocumento(String consecutivoDocumento) {
+		this.consecutivoDocumento = consecutivoDocumento;
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+
 	public void anularFactura(){
 		try {
 			List<Estado> estados = comunEJBlocal.consultarEstados();
@@ -81,6 +116,7 @@ public class AnularFacturaExportacionMB extends UtilMB{
 				if(estado.getId()==ConstantesDocumento.ANULADO){
 					seleccionado.getEstadosxdocumento().setEstado(estado);
 					this.comercioExteriorEJB.actualizarEstadoDocumento(this.seleccionado);
+					documentos = comercioExteriorEJB.consultarFacturasDeExportacionEstado(consecutivoDocumento);
 				}
 			}			
 			this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));

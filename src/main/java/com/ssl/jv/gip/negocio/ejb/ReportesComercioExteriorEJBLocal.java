@@ -1,18 +1,23 @@
 package com.ssl.jv.gip.negocio.ejb;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+
 import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
+
 import java.util.Map;
 
 @Local
@@ -83,4 +88,22 @@ public interface ReportesComercioExteriorEJBLocal {
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros);
 
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(FiltroDocumentoDTO filtro);
+
+  public List<DocumentoXNegociacion> consultarDocumentoXNegociacionxDocumento(
+          Long idDocumento);
+
+  /**
+   * Metodo que consulta los documentos del reporte de cinta testigo magnetica
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param parametros
+   * @return
+   */
+  List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros);
+
+  public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(
+		String consecutivoDocumento);
+
 }

@@ -909,6 +909,18 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 
 	}*/
 	
+	@Override
+	public List<PuntoVenta> consultarPuntoEntregaPorCliente(Long idCliente) {
+		try {
+			//return (List<PuntoVenta>) puntoVentaDao.consultar();
+			return (List<PuntoVenta>) puntoVentaDao.findByCliente(idCliente);
+		} catch (Exception e) {
+			LOGGER.error(e + " Error consultando puntos ventas");
+			return null;
+		}
+
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override

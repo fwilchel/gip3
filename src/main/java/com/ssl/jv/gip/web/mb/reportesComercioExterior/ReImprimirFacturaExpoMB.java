@@ -27,6 +27,8 @@ import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
@@ -241,6 +243,9 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 		Integer cantidadEstibas = 0;
 		Integer pesoBrutoEstibas = 0;
 		String strObservacionMarcacion2 = "";
+		
+		this.seleccionado.setDocumentoXNegociacions(this.reportesComercioExteriorEJBLocal.consultarDocumentoXNegociacionxDocumento(this.seleccionado.getId()));
+		
 		if(this.seleccionado.getDocumentoXNegociacions() != null && !this.seleccionado.getDocumentoXNegociacions().isEmpty()){
 			intCantidadDiasVigencia= this.seleccionado.getDocumentoXNegociacions().get(0).getCantidadDiasVigencia();
 			strNombreIncoterm = this.seleccionado.getDocumentoXNegociacions().get(0).getTerminoIncoterm().getDescripcion();
@@ -369,12 +374,11 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 			registro.setTipoLoteOICDesc(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDescripcion());
 			
 			String consecDocxlote="";
-			if(prod.getProductosInventario() != null && prod.getProductosInventario().getProductosInventarioComext() != null && 
-					prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic() != null &&
-					prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDocumentoXLotesoics() != null &&
-					!prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDocumentoXLotesoics().isEmpty()){
-				consecDocxlote = prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDocumentoXLotesoics().get(0).getConsecutivo();
-				
+			
+			List<DocumentoXLotesoic> docxLotesOic = this.reportesComercioExteriorEJBLocal.consultarPorConsecutivoDocumento(this.seleccionado.getConsecutivoDocumento());
+			
+			if(docxLotesOic != null && !docxLotesOic.isEmpty() ){
+				consecDocxlote = docxLotesOic.get(0).getConsecutivo();	
 			}
 			registro.setDocxLoteOICConsec(consecDocxlote);
 			

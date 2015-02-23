@@ -393,6 +393,8 @@ public interface MaestrosEJBLocal {
 			List<MovimientosInventarioComext> movimientosInventarioComexts);
 
 	public List<PuntoVenta> consultarPuntoEntrega();
+	
+	public List<PuntoVenta> consultarPuntoEntregaPorCliente(Long idCliente);
 
 	public PuntoVenta crearPuntoVenta(PuntoVenta pEntidad);
 
