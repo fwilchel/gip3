@@ -14,7 +14,7 @@
 		<h:form prependId="false" id="forma">
 
 			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
+				globalOnly="true" showIcon="true"></p:messages>
 
 
 
@@ -197,6 +197,14 @@
 
 
 					</p:dataTable>
+					
+					<p:spacer height="10"></p:spacer>
+					<p:panelGrid columns="1">
+						<p:commandButton value="#{msg.VentasGenerarVD}" icon="ui-icon-disk"
+							action="#{ingresarVentaDirectaMB.crearVentaDirecta}"
+							update=":forma:tabPanel,:forma:msgs">
+						</p:commandButton>
+					</p:panelGrid>
 					
 				</p:tab>
 			</p:tabView>
