@@ -42,7 +42,8 @@
                 <p:calendar 
                   id="filtroFechaInicial" 
                   value="#{generarReporteVentasCE.filtroFechaInicial}"
-                  required="true"/>
+                  required="true"
+                  pattern="yyyy-MM-dd"/>
                 <p:message
                   for="filtroFechaInicial"/>
                 <h:outputLabel 
@@ -52,7 +53,8 @@
                 <p:calendar 
                   id="filtroFechaFinal" 
                   value="#{generarReporteVentasCE.filtroFechaFinal}"
-                  required="true"/>
+                  required="true"
+                  pattern="yyyy-MM-dd"/>
                 <p:message
                   for="filtroFechaFinal"/>
               </p:panelGrid>
