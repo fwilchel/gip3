@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 
@@ -36,4 +38,15 @@ public interface VentasFacturacionEJBLocal {
   
   List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
 			Long idPuntoVenta);
+  
+  /**
+   * Crear venta directa.
+   *
+   * @param documento the documento
+   * @param auditoria the auditoria
+   * @param productos the productos
+   * @return the documento
+   */
+  Documento crearVentaDirecta(Documento documento, LogAuditoria auditoria,
+			List<ProductosXDocumento> productos);
 }
