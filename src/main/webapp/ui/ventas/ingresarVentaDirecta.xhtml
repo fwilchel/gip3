@@ -93,18 +93,21 @@
 						<p:message for="idUbicacion"></p:message>
 
 					</p:panelGrid>
-
-					<p:commandButton value="#{msg.comprasConsultarBoton}"
-						icon="ui-icon-disk"
-						actionListener="#{ingresarVentaDirectaMB.consultarProductosXCliente}"
-						update=":forma:tabPanel">
-					</p:commandButton>
-
+					
+					<p:spacer height="10"></p:spacer>
+					<p:panelGrid columns="1">
+						<p:commandButton value="#{msg.comprasConsultarBoton}"
+							icon="ui-icon-disk"
+							actionListener="#{ingresarVentaDirectaMB.consultarProductosXCliente}"
+							update=":forma:tabPanel">
+						</p:commandButton>
+					</p:panelGrid>
+					<p:spacer height="10"></p:spacer>
 
 
 					<p:dataTable var="dato" widgetVar="facturasExpoTabla"
 						id="tabla" scrollable="true" scrollWidth="1000px"
-						value="#{ingresarVentaDirectaMB.listaProductosXCliente}"
+						value="#{ingresarVentaDirectaMB.listaProductosXClienteDTO}"
 						rows="10" emptyMessage="#{msg.generalNoDatos}" paginator="true"
 						paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -112,15 +115,89 @@
 
 
 						<p:column headerText="#{msg.comprasProductoSKU}">
-							<h:outputText value="#{dato.productosInventario.sku}" />
+							<h:outputText value="#{dato.sku}" />
 						</p:column>
 						
 						<p:column headerText="#{msg.buscadorNombreProducto}">
-							<h:outputText value="#{dato.productosInventario.nombre}" />
+							<h:outputText value="#{dato.nombre}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.buscadorIncluirProducto}">
+							<p:selectBooleanCheckbox value="#{dato.seleccionado}" />
 						</p:column>
 
 
 					</p:dataTable>
+					<p:spacer height="10"></p:spacer>
+					
+					<p:panelGrid columns="1">
+						<p:commandButton value="#{msg.buscadorInsertarProductoSeleccionado}"
+							action="#{ingresarVentaDirectaMB.seleccionarProductos}"
+							update=":forma:tabPanel" process=":forma:tabPanel"></p:commandButton>
+					</p:panelGrid>
+					<p:spacer height="10"></p:spacer>
+					
+					<p:dataTable var="seleccionado" widgetVar="productosExpoTabla"
+						id="tablaSeleccionados" scrollable="true" scrollWidth="1000px"
+						value="#{ingresarVentaDirectaMB.listaProductosXClienteSeleccionadosDTO}"
+						rows="10" emptyMessage="#{msg.generalNoDatos}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+
+						<p:column headerText="#{msg.comprasProductoSKU}">
+							<h:outputText value="#{seleccionado.sku}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.buscadorNombreProducto}">
+							<h:outputText value="#{seleccionado.nombre}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.comprasCantidadRequerida}">
+							<p:panelGrid columns="1">
+								<h:inputText value="#{seleccionado.cantidadUno}"
+									required="true" maxlength="5" size="5" id="cantidadProd1">
+									<f:convertNumber maxFractionDigits="2" />
+									<f:validateDoubleRange minimum="0"></f:validateDoubleRange>
+								</h:inputText>
+								<p:message for="cantidadProd1"></p:message>
+							</p:panelGrid>
+						</p:column>
+						
+						<p:column headerText="#{msg.VentasRemisionPrecio}">
+							<h:outputText value="#{seleccionado.precioMl}">
+								<f:convertNumber maxFractionDigits="1" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="#{msg.VentasRemisionPorcIva}">
+							<h:outputText value="#{seleccionado.iva}">
+								<f:convertNumber maxFractionDigits="1" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="#{msg.VentasRemisionPorcDctoProd}">
+							<h:outputText value="#{seleccionado.descuentoxproducto}" >
+								<f:convertNumber maxFractionDigits="1" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="#{msg.VentasRemisionPorcOtrosDctos}">
+							<h:outputText value="#{seleccionado.otrosDescuentos}" >
+								<f:convertNumber maxFractionDigits="1" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="#{msg.porcentajeDescuentoCliente}">
+							<h:outputText value="#{seleccionado.descuentoCliente}" >
+								<f:convertNumber maxFractionDigits="1" />
+							</h:outputText>
+						</p:column>
+
+
+					</p:dataTable>
+					
 				</p:tab>
 			</p:tabView>
 		</h:form>

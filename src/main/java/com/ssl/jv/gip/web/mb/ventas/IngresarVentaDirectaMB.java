@@ -34,6 +34,7 @@ import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoPorClienteDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
@@ -81,9 +82,7 @@ public class IngresarVentaDirectaMB extends UtilMB {
 	private MaestrosEJBLocal maestrosEJBLocal;
 	
 	@EJB
-	private VentasFacturacionEJBLocal ventasFacturacionEJBLocal;
-
-	private List<ProductosXCliente> listaProductosXCliente;
+	private VentasFacturacionEJBLocal ventasFacturacionEJBLocal;	
 
 	
 	/** The language. */
@@ -148,25 +147,26 @@ public class IngresarVentaDirectaMB extends UtilMB {
 	
 	
 	
-	/** The lista ubicaciones. */
+	private List<ProductosXCliente> listaProductosXCliente;
+	
+	private List<ProductoPorClienteDTO> listaProductosXClienteDTO = new ArrayList<ProductoPorClienteDTO>();
+	
+	private List<ProductoPorClienteDTO> listaProductosXClienteSeleccionadosDTO = new ArrayList<ProductoPorClienteDTO>();
+	
 	private List<Ubicacion> listaUbicaciones;
 	
 	private List<Cliente> listaClientes;
 	
 	private List<PuntoVenta> listaPuntoVenta = new ArrayList<PuntoVenta>();
 	
-	/** The fecha actual. */
 	private Date fechaActual;
 	
-	/** The fecha actual. */
 	private Date fechaEntrega;
 	
-	/** The fecha actual. */
 	private Date fechaEsperadaEntrega;
 	
 	private String strDocumentoCliente;
 	
-	/** The int ubicacion. */
 	private Long intUbicacion;
 	
 	private Long intIdCliente;
@@ -317,11 +317,47 @@ public class IngresarVentaDirectaMB extends UtilMB {
 	 */
 	public void consultarProductosXCliente() {
 		try {
+			listaProductosXClienteDTO = new ArrayList<ProductoPorClienteDTO>();
+			listaProductosXClienteSeleccionadosDTO = new ArrayList<ProductoPorClienteDTO>();
+			
 			this.listaProductosXCliente = ventasFacturacionEJBLocal
 					.consultarPorClientePuntoVenta(intIdCliente, intIdPuntoVenta);
+			
+			if(listaProductosXCliente!=null && !listaProductosXCliente.isEmpty()){
+				for(ProductosXCliente producto:listaProductosXCliente){
+					ProductoPorClienteDTO productoDTO = new ProductoPorClienteDTO();
+					productoDTO.setCantidadUno(BigDecimal.ZERO);
+					productoDTO.setDescuentoxproducto(producto.getDescuentoxproducto());
+					productoDTO.setIva(producto.getIva());
+					productoDTO.setNombre(producto.getProductosInventario().getNombre());
+					productoDTO.setOtrosDescuentos(producto.getOtrosDescuentos());
+					productoDTO.setPrecioMl(producto.getPrecioMl());
+					productoDTO.setSeleccionado(false);
+					productoDTO.setSku(producto.getProductosInventario().getSku());
+					productoDTO.setDescuentoCliente(producto.getCliente().getDescuentoCliente());
+					listaProductosXClienteDTO.add(productoDTO);
+				}
+				
+			}
 		} catch (Exception e) {
 			LOGGER.error(e);
 			this.addMensajeError(e);
+		}
+	}
+	
+	public void seleccionarProductos(){
+		if(listaProductosXClienteDTO!=null && !listaProductosXClienteDTO.isEmpty()){
+			for(ProductoPorClienteDTO producto:listaProductosXClienteDTO){
+				if(producto.getSeleccionado()){
+					listaProductosXClienteSeleccionadosDTO.add(producto);					
+				}
+			}
+			
+			if(listaProductosXClienteSeleccionadosDTO!=null && !listaProductosXClienteSeleccionadosDTO.isEmpty()){
+				for(ProductoPorClienteDTO productoSeleccionado:listaProductosXClienteSeleccionadosDTO){
+					listaProductosXClienteDTO.remove(productoSeleccionado);
+				}
+			}					
 		}
 	}
 	
@@ -893,6 +929,24 @@ public class IngresarVentaDirectaMB extends UtilMB {
 	public void setListaProductosXCliente(
 			List<ProductosXCliente> listaProductosXCliente) {
 		this.listaProductosXCliente = listaProductosXCliente;
+	}
+
+	public List<ProductoPorClienteDTO> getListaProductosXClienteDTO() {
+		return listaProductosXClienteDTO;
+	}
+
+	public void setListaProductosXClienteDTO(
+			List<ProductoPorClienteDTO> listaProductosXClienteDTO) {
+		this.listaProductosXClienteDTO = listaProductosXClienteDTO;
+	}
+
+	public List<ProductoPorClienteDTO> getListaProductosXClienteSeleccionadosDTO() {
+		return listaProductosXClienteSeleccionadosDTO;
+	}
+
+	public void setListaProductosXClienteSeleccionadosDTO(
+			List<ProductoPorClienteDTO> listaProductosXClienteSeleccionadosDTO) {
+		this.listaProductosXClienteSeleccionadosDTO = listaProductosXClienteSeleccionadosDTO;
 	}
 	
 	
