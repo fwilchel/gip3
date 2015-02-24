@@ -70,7 +70,7 @@
 							action="#{maestroInventarioMB.loadProductos}"
 							update="tablaRegistros,:forma:msgs"/>
 						<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false"  icon="ui-icon-calculator" >
-  								<p:fileDownload value="#{productosMB.reporteExcel}" />
+  								<p:fileDownload value="#{maestroInventarioMB.reporteExcel}" />
 						</p:commandButton>
 
 					</p:panelGrid>
