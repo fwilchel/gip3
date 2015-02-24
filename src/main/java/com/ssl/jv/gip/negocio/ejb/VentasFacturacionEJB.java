@@ -8,7 +8,12 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
+import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
@@ -16,8 +21,11 @@ import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoReporteTxtFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
@@ -47,6 +55,19 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 
   @EJB
   private ProductoClienteDAOLocal productoClienteDAO;
+  
+  @EJB
+  private LogAuditoriaDAOLocal logAuditoriaDAO;
+  
+  @EJB
+  private ProductosXDocumentoDAOLocal productoXDocumentoDAO;
+  
+  @EJB
+  private UbicacionDAOLocal ubicacionDAOLocal;
+  
+  @EJB
+  private TipoDocumentoDAOLocal tipoDocumentoDAOLocal;
+  
 
   @Override
   public FacturaDirectaDTO consultarDocumentoFacturaDirecta(String strConsecutivoDocumento) {
@@ -100,5 +121,36 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 			Long idPuntoVenta) {
     return productoClienteDAO.consultarPorClientePuntoVenta(idCliente, idPuntoVenta);
   }
+  
+	/* (non-Javadoc)
+	 * @see com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal#crearVentaDirecta(com.ssl.jv.gip.jpa.pojo.Documento, com.ssl.jv.gip.jpa.pojo.LogAuditoria, java.util.List)
+	 */
+	@Override
+	public Documento crearVentaDirecta(Documento documento, LogAuditoria auditoria,
+			List<ProductosXDocumento> productos) {
+		//Consultar consecutivo
+		StringBuilder strConsecutivo = new StringBuilder();
+		TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK((long)ConstantesTipoDocumento.VENTA_DIRECTA);
+		
+		if(documento.getUbicacionDestino().getId().equals(com.ssl.jv.gip.util.Ubicacion.EXTERNA.getCodigo())){
+			Ubicacion ubicacionOrigen = ubicacionDAOLocal.findByPK(documento.getUbicacionOrigen().getId());
+			strConsecutivo.append(tipoDocumento.getAbreviatura()+ubicacionOrigen.getEmpresa().getId());
+		}else{
+			Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(documento.getUbicacionDestino().getId());
+			strConsecutivo.append(tipoDocumento.getAbreviatura()+ubicacionDestino.getEmpresa().getId());
+		}
+		
+		documento.setConsecutivoDocumento(strConsecutivo.toString() + "-"
+				+ this.documentoDAO.consultarProximoValorSecuencia(strConsecutivo.toString()+"_seq"));
+		documento = (Documento) this.documentoDAO.add(documento);
+//		auditoria.setIdRegTabla(documento.getId());
+//		auditoria.setValorNuevo(documento.getConsecutivoDocumento());
+//		this.logAuditoriaDAO.add(auditoria);
+		for (ProductosXDocumento pxd : productos) {
+			pxd.getId().setIdDocumento(documento.getId());
+			this.productoXDocumentoDAO.add(pxd);
+		}
+		return documento;
+	}
 
 }

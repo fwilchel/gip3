@@ -54,7 +54,7 @@ public class ClienteDAO extends GenericDAO<Cliente> implements ClienteDAOLocal {
 
   @Override
   public List<Cliente> findAll() {
-    return (List<Cliente>) em.createQuery("SELECT c FROM Cliente c JOIN FETCH c.ciudad ciu JOIN FETCH ciu.pais p").getResultList();
+    return (List<Cliente>) em.createQuery("SELECT c FROM Cliente c JOIN FETCH c.ciudad ciu JOIN FETCH ciu.pais p ORDER BY c.nombre").getResultList();
   }
 
   @Override

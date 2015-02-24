@@ -44,7 +44,7 @@
 						
 						<p:outputLabel value="#{msg.costosLogisticosIncoterm}" for="incoterm"
 							styleClass="negrita" />
-						<p:selectOneMenu id="incoterm" value="#{generarCLMB.terminoIncoterm}" 
+						<p:selectOneMenu id="incoterm" value="#{generarCLMB.terminoIncoterm}" required="true"
 							label="#{msg.costosLogisticosIncoterm}">
 							<f:selectItem itemLabel="" itemValue="" />
 							<f:selectItems value="#{generarCLMB.incoterms}" var="incoterm" itemLabel="#{incoterm.medioTransporte.descripcion} #{incoterm.terminoIncoterm.descripcion}" itemValue="#{incoterm.id}"  />

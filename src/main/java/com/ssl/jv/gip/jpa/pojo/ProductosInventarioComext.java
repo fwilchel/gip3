@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name="productos_inventario_comext")
 @NamedQueries({
 	@NamedQuery(name="ProductosInventarioComext.findAll", query="SELECT p FROM ProductosInventarioComext p"),
-	@NamedQuery(name="ProductosInventarioComext.findBySku", query="SELECT p FROM ProductosInventarioComext p WHERE p.idProducto = (SELECT pi.id FROM ProductosInventario pi WHERE pi.sku= :sku)")
+	@NamedQuery(name="ProductosInventarioComext.findBySku", query="SELECT p FROM ProductosInventarioComext p LEFT JOIN FETCH p.tipoLoteoic tl LEFT JOIN FETCH p.cuentaContable cc LEFT JOIN FETCH p.unidadEmbalaje ue WHERE p.idProducto = (SELECT pi.id FROM ProductosInventario pi WHERE pi.sku= :sku)")
 })
 
 

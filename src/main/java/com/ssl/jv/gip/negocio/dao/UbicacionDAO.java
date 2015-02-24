@@ -63,5 +63,9 @@ public class UbicacionDAO extends GenericDAO<Ubicacion> implements UbicacionDAOL
 		}
 		return lista;
 	}
+	
+	public List<Ubicacion> findAll(){
+		return this.em.createNamedQuery("Ubicacion.findAll").getResultList();
+	}
 
 }
