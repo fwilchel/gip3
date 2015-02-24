@@ -55,6 +55,10 @@
       <to-view-id>/ui/comercioexterior/generarFacturaExportacion.xhtml</to-view-id>
     </navigation-case>
     <navigation-case>
+      <from-outcome>ingresar_VD_listadoPxC</from-outcome>
+      <to-view-id>/ui/ventas/ingresarVentaDirecta.xhtml</to-view-id>
+    </navigation-case>
+    <navigation-case>
       <from-outcome>listado_solicitud_pedido</from-outcome>
       <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
     </navigation-case>
@@ -543,7 +547,16 @@
 		<from-outcome>costos_logisticos</from-outcome>
 		<to-view-id>/ui/comercioexterior/costosLogisticos.xhtml</to-view-id>
 	</navigation-case>
-	
+    <!-- Reportes Comercio Exterior / Generar Reporte Cinta Testigo Magnetica -->
+    <navigation-case>
+      <from-outcome>generar_cinta_magneticaFX</from-outcome>
+      <to-view-id>/ui/reportesComercioExterior/generarReporteCintaTestigoMagnetica.xhtml</to-view-id>
+    </navigation-case>
+    <!-- Ventas y Facturacion / Generar Factura -->
+    <navigation-case>
+      <from-outcome>listado_remision</from-outcome>
+      <to-view-id>/ui/ventas/generarFactura.xhtml</to-view-id>
+    </navigation-case>
   </navigation-rule>
 
   <application>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<PROCESS model-entity="JSFProcess">
- <PROCESS-ITEM NAME="rules:#home.jsf" PATH="/home.jsf" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules:#home.jsf:0" NAME="item" PATH="/home.jsf" model-entity="JSFProcessItem"/>
- </PROCESS-ITEM>
-</PROCESS>

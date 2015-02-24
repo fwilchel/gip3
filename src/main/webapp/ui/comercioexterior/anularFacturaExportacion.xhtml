@@ -16,6 +16,25 @@
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.TituloAnularFX}">
+				
+					<p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha" />
+					<p:inputText value="#{anularFacturaExportacionMB.currentTimeStamp}"
+						id="fecha" required="false" disabled="true">
+						<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+					</p:inputText>
+
+					<p:spacer width="30"></p:spacer>
+
+					<p:outputLabel value="#{msg.IngresarNumPedidoFactura}: "
+						for="consecutivo" />
+					<p:inputText value="#{anularFacturaExportacionMB.consecutivoDocumento}"
+						id="consecutivo" required="false" />
+
+					<p:spacer width="30"></p:spacer>
+
+					<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
+						update="tabPanel" action="#{anularFacturaExportacionMB.buscarDocumentos}" />
+				
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{anularFacturaExportacionMB.documentos}" rows="10"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true"
@@ -62,7 +81,7 @@
 		<p:dialog header="#{msg.TituloAnularFX}" widgetVar="confirmacionDLG"
 			modal="true" showEffect="fade" hideEffect="fade" resizable="false" id="datoDlg">
 			<h:form id="formaDlg">
-				<h:outputText value="#{msg.AdvertenciaAnularFX}" />
+				<h:outputText value="#{anularFacturaExportacionMB.mensaje}" />
 				<p:spacer height="10" />
 				<p:commandButton value="#{msg.generalConfirmar}"
 					oncomplete="PF('confirmacionDLG').hide()"

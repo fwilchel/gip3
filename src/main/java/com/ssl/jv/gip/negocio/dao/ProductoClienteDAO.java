@@ -1,16 +1,14 @@
 package com.ssl.jv.gip.negocio.dao;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-
-import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
-import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+
+import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 
 @Stateless
 @LocalBean
@@ -20,6 +18,15 @@ public class ProductoClienteDAO extends GenericDAO<ProductosXCliente> implements
 
 	public ProductoClienteDAO () {
 		this.persistentClass = ProductosXCliente.class;
+	}
+	
+	@Override
+	public List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
+			Long idPuntoVenta) {
+		Query query = em
+				.createNamedQuery("ProductosXCliente.findByClientePuntoVenta")
+				.setParameter("idCliente", idCliente).setParameter("idPuntoVenta", idPuntoVenta);
+		return query.getResultList();
 	}
 	
 	

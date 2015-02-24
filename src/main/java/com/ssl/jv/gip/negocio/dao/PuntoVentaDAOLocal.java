@@ -17,5 +17,7 @@ public interface PuntoVentaDAOLocal extends IGenericDAO<PuntoVenta> {
 	//List<PuntoVenta> consultarActivosPorUsuario(String idUsuario);
 	
 	//void guardarCliente(Cliente cliente);
+	
+	List<PuntoVenta> findByCliente(Long idCliente);
 
 }

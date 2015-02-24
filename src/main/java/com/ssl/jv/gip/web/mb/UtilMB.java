@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb;
 
+import com.ssl.jv.gip.web.util.Utilidad;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -265,6 +266,19 @@ public class UtilMB implements Serializable {
       exception = exception.getCause();
     }
     return null;
+  }
+
+  /**
+   *
+   * @param key llave de la cadena de texto
+   * @param ln lenguage
+   * @param parametros los parametros que se deben setear a la cadena
+   * @return
+   */
+  public String formatearCadenaConParametros(String key, Integer ln, String[] parametros) {
+    String cadena = AplicacionMB.getMessage(key, ln);
+    cadena = Utilidad.stringFormat(cadena, parametros);
+    return cadena;
   }
 
 }

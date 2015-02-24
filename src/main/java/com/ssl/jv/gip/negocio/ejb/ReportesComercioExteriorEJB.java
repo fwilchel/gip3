@@ -10,17 +10,20 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MuestrasXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal;
+import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
@@ -53,9 +56,12 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 
   @EJB
   private ProductoInventarioDAOLocal productoInventarioDAO;
+
+  @EJB
+  private DocumentoXNegociacionDAOLocal documentoXNegociacionDAO;
   
   @EJB
-  private DocumentoXNegociacionDAOLocal documentoXNegociacionDAO; 
+  private DocumentoLotesOICDAOLocal documentoLotesOICDAO;
 
   /**
    * Default constructor.
@@ -124,9 +130,22 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(FiltroDocumentoDTO filtro) {
     return documentoDAO.consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(filtro);
   }
-  
+
   @Override
   public List<DocumentoXNegociacion> consultarDocumentoXNegociacionxDocumento(Long idDocumento) {
     return documentoXNegociacionDAO.consultarDocumentoXNegociacionPorIdDocumento(idDocumento);
   }
+
+  @Override
+  public List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros) {
+    LOGGER.debug("Metodo: <<consultarDocumentosReporteCintaTestigoMagnetica>>");
+    return documentoDAO.consultarDocumentosReporteCintaTestigoMagnetica(parametros);
+  }
+  
+  @Override
+  public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(
+			String consecutivoDocumento){
+	  return documentoLotesOICDAO.consultarPorConsecutivoDocumento(consecutivoDocumento);
+  }
+  
 }

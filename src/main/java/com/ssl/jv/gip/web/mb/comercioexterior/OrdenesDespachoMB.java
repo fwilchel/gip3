@@ -10,9 +10,11 @@ import javax.faces.bean.ViewScoped;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoODDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 
 /**Managed Bean para ordenes de despacho
  * 
@@ -31,7 +33,7 @@ public class OrdenesDespachoMB extends UtilMB{
 	private String consecutivoDocumento;
 	private boolean deshabilitado=false;
 	private List<Documento> documentos;
-	private List<ProductoGenerarFacturaPFDTO> productos;
+	private List<ProductoODDTO> productos;
 	private Documento seleccionado;
 	private Documento filtro;
 	private double totalCantidad=0;
@@ -54,24 +56,24 @@ public class OrdenesDespachoMB extends UtilMB{
 	}
 
 	public String buscarDocumentos() {
-		documentos = this.comercioEjb.consultarFP(consecutivoDocumento);
+		documentos = this.comercioEjb.consultarFP(consecutivoDocumento,(long)ConstantesDocumento.APROBADA,(long)ConstantesDocumento.ASIGNADA);
 		this.deshabilitado = false;
 		return null;
 	}
 	
 	public void consultarOrdenDeDespacho(){
-		productos=comercioEjb.consultarProductoPorDocumentoGenerarFacturaProforma(seleccionado.getId(),seleccionado.getCliente().getId());
+		productos=comercioEjb.consultarProductoPorDocumentoOrdenDespacho(seleccionado.getId(),seleccionado.getCliente().getId(),seleccionado.getDocumentoXNegociacions().get(0).getSolicitudCafe());
 		totalCantidad=0;
 		totalCantidadCajas=0;
 		totalCantidadPorEmbalaje=0;
 		muestrasFITOANTICO=0;
 		muestrasCalidades=0;
-		for (ProductoGenerarFacturaPFDTO p : productos) {
+		for (ProductoODDTO p : productos) {
 			this.totalCantidad+=p.getCantidad().doubleValue();
-			this.totalCantidadCajas+=p.getCantidadCajas().doubleValue();
+			this.totalCantidadCajas+=p.getCantidad().doubleValue()/p.getCantidadPorEmbalaje().doubleValue();
 			this.totalCantidadPorEmbalaje+=p.getCantidadPorEmbalaje().doubleValue();
-			this.muestrasCalidades+=p.getTotalCajasPallet().doubleValue();
-			this.muestrasFITOANTICO+=p.getTotalCajasTendido().doubleValue();
+			this.muestrasCalidades+=p.getMuestrasCalidades().doubleValue();
+			this.muestrasFITOANTICO+=p.getMuestrasFITOYANTICO().doubleValue();
 		}
 	}
 
@@ -99,11 +101,11 @@ public class OrdenesDespachoMB extends UtilMB{
 		this.documentos = documentos;
 	}
 
-	public List<ProductoGenerarFacturaPFDTO> getProductos() {
+	public List<ProductoODDTO> getProductos() {
 		return productos;
 	}
 
-	public void setProductos(List<ProductoGenerarFacturaPFDTO> productos) {
+	public void setProductos(List<ProductoODDTO> productos) {
 		this.productos = productos;
 	}
 
@@ -178,5 +180,4 @@ public class OrdenesDespachoMB extends UtilMB{
 	public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
 		this.currentTimeStamp = currentTimeStamp;
 	}
-	
 }
