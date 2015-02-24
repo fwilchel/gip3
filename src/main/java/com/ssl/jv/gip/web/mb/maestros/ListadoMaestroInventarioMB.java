@@ -1,16 +1,22 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -28,14 +34,17 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
+import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.exportarExcel;
 
@@ -53,9 +62,13 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 	private List<SelectItem> categorias;
 	private ProductosInventario seleccionado;
 	private List<Unidad> unidades;
+	private StreamedContent reporteExcel;
 	
 	@EJB
 	private MaestrosEJBLocal maestrosEjb;
+	
+	@ManagedProperty(value="#{aplicacionMB}")
+	private AplicacionMB appMB;
 	
 	@PostConstruct
 	public void init(){
@@ -146,6 +159,50 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 		}
 	}
 	
+	public StreamedContent getReporteExcel() {
+		try {
+			Object rta[]=maestrosEjb.consultarProductos(filtro, 0, 10, campoOrden, orden, true);
+			Long cuantos=(Long)rta[0];
+			rta=maestrosEjb.consultarProductos(filtro, 0, cuantos.intValue(), campoOrden, orden, false);
+			List<ProductosInventario> datos=(List<ProductosInventario>)rta[1];
+			Hashtable<String, String> parametrosR=new Hashtable<String, String>();
+			parametrosR.put("tipo", "jxls");
+			 
+			Map<String, Object> parametrosReporte=new HashMap<String, Object>();
+			parametrosReporte.put("datos", datos);
+			
+			if (this.filtro.getPais()!=null && this.filtro.getPais().getId()!=null){
+				filtro.setPais(this.appMB.getPais(filtro.getPais().getId()));
+			}
+			if (this.filtro.getCategoriasInventario()!=null && this.filtro.getCategoriasInventario().getId()!=null){
+				fg:for (SelectItem sig:this.categorias){
+					SelectItemGroup grupo=(SelectItemGroup)sig;
+					for (SelectItem si:grupo.getSelectItems()){
+						if (((Long)si.getValue()).equals(this.filtro.getCategoriasInventario().getId())){
+							this.filtro.getCategoriasInventario().setNombre(si.getLabel());
+							break fg;
+						}
+					}
+				}
+			}
+			
+			parametrosReporte.put("filtro", filtro);
+			parametrosReporte.put("fecha", new Date());
+			
+			String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/maestroInventario.xls");
+			ByteArrayOutputStream os=(ByteArrayOutputStream)com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametrosReporte, null);
+			reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "maestroInventario.xls");
+			
+		} catch (Exception e) {
+			this.addMensajeError(e);
+		}
+		return this.reporteExcel;
+	}
+	
+	public void setReporteExcel(StreamedContent reporteExcel) {
+		this.reporteExcel = reporteExcel;
+	}
+
 	public void hacerExcel() throws FileNotFoundException {
 
 		List<ProductosInventario> listaProductos = ((LazyProductsDataModel)modelo).getDatos();

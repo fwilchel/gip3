@@ -69,9 +69,9 @@
 							icon="ui-icon-search" oncomplete="PF('registrosTabla').getPaginator().setPage(0)"
 							action="#{maestroInventarioMB.loadProductos}"
 							update="tablaRegistros,:forma:msgs"/>
-						<p:commandButton value="#{msg.reporteNivelInventarioExcel}"
-							icon="ui-icon-document"
-							action="#{maestroInventarioMB.generateExcel()}"/>
+						<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false"  icon="ui-icon-calculator" >
+  								<p:fileDownload value="#{productosMB.reporteExcel}" />
+						</p:commandButton>
 
 					</p:panelGrid>
 
