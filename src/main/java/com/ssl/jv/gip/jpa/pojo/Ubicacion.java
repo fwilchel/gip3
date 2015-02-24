@@ -22,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ubicaciones")
-@NamedQuery(name = "Ubicacion.findAll", query = "SELECT u FROM Ubicacion u")
+@NamedQuery(name = "Ubicacion.findAll", query = "SELECT u FROM Ubicacion u LEFT JOIN FETCH u.regione r LEFT JOIN FETCH r.pais p LEFT JOIN FETCH u.empresa e LEFT JOIN FETCH u.tipoCanal tc")
 public class Ubicacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
