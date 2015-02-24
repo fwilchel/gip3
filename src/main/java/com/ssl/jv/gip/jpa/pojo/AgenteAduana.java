@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -19,6 +21,8 @@ public class AgenteAduana implements Serializable, Comparable<AgenteAduana> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name = "agente_aduana_id_seq", sequenceName = "agente_aduana_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "agente_aduana_id_seq")
 	private Long id;
 
 	private Boolean activo;
