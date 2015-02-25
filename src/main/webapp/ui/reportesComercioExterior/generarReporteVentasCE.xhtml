@@ -34,7 +34,8 @@
             <p:panel
               id="pnlFltFechas">
               <p:panelGrid
-                columns="3">
+                columns="3"
+              	styleClass="noBorders">
                 <h:outputLabel 
                   for="filtroFechaInicial" 
                   value="#{msg.grvceFltLblFechaInicial}" 
@@ -42,6 +43,7 @@
                 <p:calendar 
                   id="filtroFechaInicial" 
                   value="#{generarReporteVentasCE.filtroFechaInicial}"
+                  label="#{msg.grvceFltLblFechaInicial}"
                   required="true"
                   pattern="yyyy-MM-dd"/>
                 <p:message
@@ -53,6 +55,7 @@
                 <p:calendar 
                   id="filtroFechaFinal" 
                   value="#{generarReporteVentasCE.filtroFechaFinal}"
+                  label="#{msg.grvceFltLblFechaFinal}"
                   required="true"
                   pattern="yyyy-MM-dd"/>
                 <p:message
