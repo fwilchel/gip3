@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
@@ -503,8 +504,8 @@ public class ProductoClienteComercioExteriorDAO extends
 				.createQuery(ProductosXClienteComext.class);
 		Root<ProductosXClienteComext> from = query
 				.from(ProductosXClienteComext.class);
-		Join<ProductosXClienteComext, ProductosInventario> productosInventarioJoin = from
-				.join("productosInventario");
+		Fetch<ProductosXClienteComext, ProductosInventario> productosInventarioJoin = from
+				.fetch("productosInventario");
 		Join<ProductosXClienteComext, Cliente> clientJoin = from
 				.join("cliente");
 		CriteriaQuery<ProductosXClienteComext> select = query.select(from);
