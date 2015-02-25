@@ -40,14 +40,12 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
-import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteReimprimirFacturaDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesEJBLocal;
-import com.ssl.jv.gip.util.Estado;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
@@ -424,7 +422,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 			productos=comercioExteriorEJBLocal.consultarProductoPorDocumentoGenerarFacturaProforma(this.seleccionado.getId(), this.seleccionado.getCliente().getId());
 
 		}catch(Exception e){
-
+			this.LOGGER.error(e);
 		}
 	}
 
@@ -974,10 +972,5 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 	public void setProductos(List<ProductoGenerarFacturaPFDTO> productos) {
 		this.productos = productos;
 	}
-
-	
-	
-
-
 
 }

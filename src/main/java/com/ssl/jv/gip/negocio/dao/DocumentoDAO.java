@@ -2008,7 +2008,11 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     query.setParameter("idEstado2",
             com.ssl.jv.gip.util.Estado.ASIGNADA.getCodigo());
     query.setParameter("consecutivoDocumento", consecutivoDocumento);
-    return query.getResultList();
+    List<Documento> docs= query.getResultList();
+    for (Documento d:docs){
+    	d.getCliente().getTerminoIncoterms().size();
+    }
+    return docs;
   }
 
   @Override
