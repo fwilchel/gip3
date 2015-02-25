@@ -35,7 +35,6 @@ import com.ssl.jv.gip.negocio.ejb.ReportesEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import com.ssl.jv.gip.web.mb.comercioexterior.ModificarListaEmpaqueMB;
 import com.ssl.jv.gip.web.util.Modo;
 import com.ssl.jv.gip.web.util.Utilidad;
 
@@ -49,7 +48,7 @@ public class ImprimirFacturaProformaMB extends UtilMB {
 	private static final long serialVersionUID = -6136563159395512436L;
 
 	private static final Logger LOGGER = Logger
-			.getLogger(ModificarListaEmpaqueMB.class);
+			.getLogger(ImprimirFacturaProformaMB.class);
 
 	@ManagedProperty(value = "#{menuMB}")
 	private MenuMB menu;
