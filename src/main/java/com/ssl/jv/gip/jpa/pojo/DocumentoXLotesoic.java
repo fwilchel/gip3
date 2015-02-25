@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @Table(name = "documento_x_lotesoic")
 @NamedQueries({
 		@NamedQuery(name = "DocumentoXLotesoic.findAll", query = "SELECT d FROM DocumentoXLotesoic d"),
-		@NamedQuery(name = DocumentoXLotesoic.FIND_BY_CONSECUIVO_DOCUMENTO, query = "SELECT dl FROM DocumentoXLotesoic dl JOIN dl.documento d WHERE d.consecutivoDocumento = :consecutivoDocumento ORDER BY dl.consecutivo") })
+		@NamedQuery(name = DocumentoXLotesoic.FIND_BY_CONSECUIVO_DOCUMENTO, query = "SELECT dl FROM DocumentoXLotesoic dl JOIN dl.documento d LEFT JOIN FETCH dl.tipoLoteoic tl WHERE d.consecutivoDocumento = :consecutivoDocumento ORDER BY dl.consecutivo") })
 public class DocumentoXLotesoic implements Serializable {
 
 	/**
