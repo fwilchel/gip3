@@ -130,6 +130,7 @@ public class GenerarFacturaMB extends UtilMB {
     LOGGER.debug("Metodo: <<seleccionarRemision>>");
     seleccionado = documento;
     seleccionado.setTerminosTransportes(new ArrayList<TerminosTransporte>());
+    seleccionado.setFechaGeneracion(getFechaActual());
     
     if (seleccionado.getSitioEntrega() != null && seleccionado.getSitioEntrega().equals("CS") && tipoFacturaSeleccionado != ConstantesTipoDocumento.SOLICITUD_PEDIDO) {
       modo = Modo.MENSAGE;
