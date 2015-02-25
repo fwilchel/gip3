@@ -54,7 +54,7 @@ public class ClienteDAO extends GenericDAO<Cliente> implements ClienteDAOLocal {
 
   @Override
   public List<Cliente> findAll() {
-    return (List<Cliente>) em.createQuery("SELECT c FROM Cliente c JOIN FETCH c.ciudad ciu JOIN FETCH ciu.pais p LEFT JOIN FETCH c.agenteAduana aa LEFT JOIN FETCH c.tipoCanal tc LEFT JOIN FETCH c.metodoPago mp LEFT JOIN FETCH c.cuentaContable cc LEFT JOIN FETCH c.tipoPrecio tp LEFT JOIN FETCH c.terminoIncoterms ti ORDER BY c.nombre").getResultList();
+    return (List<Cliente>) em.createQuery("SELECT DISTINCT c FROM Cliente c JOIN FETCH c.ciudad ciu JOIN FETCH ciu.pais p LEFT JOIN FETCH c.agenteAduana aa LEFT JOIN FETCH c.tipoCanal tc LEFT JOIN FETCH c.metodoPago mp LEFT JOIN FETCH c.cuentaContable cc LEFT JOIN FETCH c.tipoPrecio tp LEFT JOIN FETCH c.terminoIncoterms ti ORDER BY c.nombre").getResultList();
   }
 
   @Override
