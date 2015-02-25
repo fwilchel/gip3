@@ -108,7 +108,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 
   @Override
   public List<Documento> consultarRemisionesPendientesPorRecibir(String consecutivo) {
-    LOGGER.debug("Metodo: <<consultarRemisionesPendientesPorRecibir>>");
+    LOGGER.debug("Metodo: <<consultarRemisionesPendientesPorRecibir>> parametros / consecutivo ->> {" + consecutivo + "}");
     Map<String, Object> parametros = new HashMap<>();
     parametros.put("idEstado", (long) ConstantesDocumento.PENDIENTE_POR_RECIBIR);
     parametros.put("idTipoDocumento", (long) ConstantesTipoDocumento.REMISION);
