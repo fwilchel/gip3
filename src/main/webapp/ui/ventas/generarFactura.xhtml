@@ -34,7 +34,8 @@
           <p:panel
             id="pnlFtlDocumentos">
             <p:panelGrid
-              columns="3">
+              columns="3"
+              styleClass="noBorders">
               <p:outputLabel 
                 for="filtroFechaActual" 
                 value="#{msg.generalFechaActual}" 
@@ -169,7 +170,7 @@
     <p:dialog 
       id="dlgDetalle" 
       widgetVar="dlgDetalle" 
-      header="#{msg.iieTitle}" 
+      header="#{msg.gfTitle}" 
       resizable="false" 
       showEffect="clip" 
       hideEffect="clip"
@@ -211,14 +212,11 @@
               <!--Cliente-->
               <p:outputLabel 
                 for="nombreCliente"
-                value="#{msg.iieDtlLblCliente}"
+                value="#{msg.gfLblCliente}"
                 styleClass="negrita"/>
-              <h:inputText
+              <h:outputText 
                 id="nombreCliente"
-                value="#{generarFacturaMB.seleccionado.cliente.nombre}" 
-                disabled="true"
-                styleClass="filas_contenido"
-                required="false"/>
+                value="#{generarFacturaMB.seleccionado.cliente.nombre}"/>
               <p:message
                 for="nombreCliente"/>
               <p:spacer/>
@@ -227,7 +225,7 @@
               <!--Documento-->
               <p:outputLabel 
                 for="id"
-                value="#{msg.iieDtlLblDireccion}"
+                value="#{msg.gfLblDocumento}"
                 styleClass="negrita"/>
               <h:inputText
                 id="id"
@@ -240,7 +238,7 @@
               <!--Consecutivo Documento-->
               <p:outputLabel 
                 for="consecutivoDocumento"
-                value="#{msg.iieDtlLblTelefono}"
+                value="#{msg.gfLblConsecutivoDocumento}"
                 styleClass="negrita"/>
               <h:inputText
                 id="consecutivoDocumento"
@@ -253,7 +251,7 @@
               <!--Fecha Generación-->
               <p:outputLabel 
                 for="fechaGeneracion"
-                value="#{msg.iieDtlLblContacto}"
+                value="#{msg.gfLblFechaGeneracion}"
                 styleClass="negrita"/>
               <h:inputText
                 id="fechaGeneracion"
@@ -269,7 +267,7 @@
               <!--Ubicación Destino-->
               <p:outputLabel 
                 for="ubicacionDestino"
-                value="#{msg.iieDtlLblCiudad}"
+                value="#{msg.gfLblUbicacionDestino}"
                 styleClass="negrita"/>
               <h:inputText
                 id="ubicacionDestino"
@@ -282,7 +280,7 @@
               <!--Doc.VD Rel.-->
               <p:outputLabel 
                 for="observacionDocumento"
-                value="#{msg.iieDtlLblPais}"
+                value="#{msg.gfLblDocVDRel}"
                 styleClass="negrita"/>
               <h:inputText
                 id="observacionDocumento"
@@ -295,7 +293,7 @@
               <!--Número de Factura Especial.-->
               <p:outputLabel 
                 for="numeroFacturaEspecial"
-                value="#{msg.iieDtlLblPais}"
+                value="#{msg.gfLblNumeroFacturaEspecial}"
                 styleClass="negrita"
                 rendered="#{generarFacturaMB.facturaEspecial or generarFacturaMB.facturaConsumoServicios}"/>
               <h:inputText
@@ -320,9 +318,64 @@
               value="#{generarFacturaMB.seleccionado.terminosTransportes}" 
               emptyMessage="#{msg.generalNoDatos}" 
               paginator="false">
-              <!-- Factura -->
+              <!-- SKU -->
               <p:column   
-                headerText="#{msg.iieDtlTblClmFactura}">
+                headerText="#{msg.gfTblColSKU}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Nombre del producto -->
+              <p:column   
+                headerText="#{msg.gfTblColNombreProducto}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Unidad Venta -->
+              <p:column   
+                headerText="#{msg.gfTblColUnidadVenta}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Cantidad Remisionada -->
+              <p:column   
+                headerText="#{msg.gfTblColCantidadRemisionada}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Vr.Unitario -->
+              <p:column   
+                headerText="#{msg.gfTblColValorUnitario}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- %Dcto. Prod. -->
+              <p:column   
+                headerText="#{msg.gfTblColDctoProd}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Valor Total -->
+              <p:column   
+                headerText="#{msg.gfTblColValorTotal}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- %Otros Dctos. -->
+              <p:column   
+                headerText="#{msg.gfTblColOtrosDescuentos}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- %Iva -->
+              <p:column   
+                headerText="#{msg.gfTblColIva}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Cantidad Venta Directa -->
+              <p:column   
+                headerText="#{msg.gfTblColCantidadVentaDirecta}"
+                rendered="#{generarFacturaMB.facturaDirecta}">
                 <h:outputText 
                   value="#{item.id}" />
               </p:column>
@@ -339,7 +392,7 @@
               <!-- Subtotal -->
               <p:outputLabel 
                 for="sociedadIntermediacionAduanera1"
-                value="#{msg.iieDtlLblSociedadIntermediacionAduanera1}"
+                value="#{msg.gfLblSubtotal}"
                 styleClass="negrita"/>
               <h:outputText
                 id="sociedadIntermediacionAduanera1"
@@ -351,7 +404,7 @@
               <!-- Descuento -->
               <p:outputLabel 
                 for="sociedadIntermediacionAduanera2"
-                value="#{msg.iieDtlLblSociedadIntermediacionAduanera2}"
+                value="#{msg.gfLblDescuento}"
                 styleClass="negrita"/>
               <h:outputText
                 id="sociedadIntermediacionAduanera2"
@@ -363,7 +416,7 @@
               <!-- Valor Iva 10% -->
               <p:outputLabel 
                 for="mesEmbarque"
-                value="#{msg.iieDtlLblMesEmbarque}"
+                value="#{msg.gfLblValorIva10}"
                 styleClass="negrita"/>
               <h:outputText
                 id="mesEmbarque"
@@ -375,7 +428,7 @@
               <!-- Valor Iva 16% -->
               <p:outputLabel 
                 for="puertoEmbarque"
-                value="#{msg.iieDtlLblPuertoEmbarque}"
+                value="#{msg.gfLblValorIva16}"
                 styleClass="negrita"/>
               <h:outputText
                 id="puertoEmbarque"
@@ -387,7 +440,7 @@
               <!-- Valor Iva 5% -->
               <p:outputLabel 
                 for="fechaEmbarque"
-                value="#{msg.iieDtlLblFechaEmbarque}"
+                value="#{msg.gfLblValorIva5}"
                 styleClass="negrita"/>
               <h:outputText
                 id="fechaEmbarque"
@@ -399,7 +452,7 @@
               <!-- TOTAL  -->
               <p:outputLabel 
                 for="naviera"
-                value="#{msg.iieDtlLblNaviera}"
+                value="#{msg.gfLblTotal}"
                 styleClass="negrita"/>
               <h:outputText
                 id="naviera"
@@ -415,7 +468,7 @@
             name="footer">
             <!-- Imprimir Instruccion de Embarque -->
             <p:commandButton 
-              value="#{msg.iieDtlBtnImprimirInstruccionEmbarque}" 
+              value="#{msg.gfBtnGenerarFactura}" 
               ajax="false" 
               icon="ui-icon-document">
               <p:fileDownload 
