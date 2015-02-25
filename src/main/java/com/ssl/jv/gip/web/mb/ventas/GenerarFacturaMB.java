@@ -20,7 +20,6 @@ import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-import com.ssl.jv.gip.web.util.Utilidad;
 
 /**
  * <p>
@@ -131,7 +130,7 @@ public class GenerarFacturaMB extends UtilMB {
     seleccionado = documento;
     seleccionado.setTerminosTransportes(new ArrayList<TerminosTransporte>());
     seleccionado.setFechaGeneracion(getFechaActual());
-    
+
     if (seleccionado.getSitioEntrega() != null && seleccionado.getSitioEntrega().equals("CS") && tipoFacturaSeleccionado != ConstantesTipoDocumento.SOLICITUD_PEDIDO) {
       modo = Modo.MENSAGE;
       addMensajeError("msgDetalle", AplicacionMB.getMessage("gfErrorValidacion1", language));
