@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:misc="http://java.sun.com/jsf/composite/misc"
+  template="/ui/templates/general.xhtml">
+
+  <ui:define 
+    name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.
+  </ui:define>
+
+  <ui:define 
+    name="contenido">
+
+    <p:spacer 
+      height="40"/>
+
+    <h:form 
+      id="forma"
+      prependId="false" >
+
+      <p:messages 
+        id="msgs" />
+
+      <p:tabView 
+        id="pnlTab">
+
+        <p:tab 
+          title="#{msg.godTitle}">
+
+          <p:dataTable 
+            id="tblDocumentos"
+            var="documento" 
+            widgetVar="tblDocumentos" 
+            value="#{generarOrdenDespachoMB.listaDocumentos}" 
+            rows="10"
+            emptyMessage="#{msg.generalNoDatos}" 
+            paginator="true"
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
+            <f:facet 
+              name="header">
+              <div 
+                align="right">
+                <p:outputPanel>
+                  <h:outputText 
+                    value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText 
+                    id="globalFilter"
+                    onkeyup="PF('tblDocumentos').filter()" 
+                    style="width:150px"
+                    placeholder="#{msg.generalPalabrasBuscar}" />
+                  <p:spacer 
+                    width="30">
+                  </p:spacer>				
+                  <p:commandButton 
+                    action="introduccion" 
+                    title="#{msg.generalCancelar}" 
+                    ajax="false"
+                    icon="ui-icon-cancel" 
+                    value="#{msg.generalCancelar}" />
+                </p:outputPanel>
+              </div>
+            </f:facet>
+            <!-- detalle del documento -->
+            <p:column 
+              style="width:32px;text-align: center">
+              <p:commandButton 
+                icon="ui-icon-zoomin" 
+                title="#{msg.godBtnDetalle}"
+                actionListener="#{generarOrdenDespachoMB.seleccionarRemision(documento)}"
+                oncomplete="PF('dlgDetalle').show()"
+                update=":dlgDetalle"/>
+            </p:column>
+            <!-- Documento -->
+            <p:column   
+              headerText="#{msg.godTblColDocumento}"
+              sortBy="#{documento.id}"
+              filterBy="#{documento.id}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{documento.id}" />
+            </p:column>
+            <!-- Consecutivo Documento -->
+            <p:column 
+              headerText="#{msg.godTblColConsecutivo}"
+              sortBy="#{documento.consecutivoDocumento}"
+              filterBy="#{documento.consecutivoDocumento}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{documento.consecutivoDocumento}" />
+            </p:column>
+            <!-- Nombre Tienda -->
+            <p:column 
+              headerText="#{msg.godTblColNombreTienda}"
+              sortBy="#{documento.ubicacionDestino.nombre}"
+              filterBy="#{documento.ubicacionDestino.nombre}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{documento.ubicacionDestino.nombre}" />
+            </p:column>
+            <!-- Fecha Generación -->
+            <p:column 
+              headerText="#{msg.godTblColFechaGeneracion}"
+              sortBy="#{documento.fechaGeneracion}"
+              filterBy="#{documento.fechaGeneracion}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{documento.fechaGeneracion}" >
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:outputText>
+            </p:column>
+          </p:dataTable>
+
+        </p:tab>
+
+      </p:tabView>
+
+    </h:form>
+
+    <p:dialog 
+      id="dlgDetalle" 
+      widgetVar="dlgDetalle" 
+      header="#{msg.gfTitle}" 
+      resizable="false" 
+      showEffect="clip" 
+      hideEffect="clip"
+      modal="true"
+      dynamic="true">
+      <p:ajax 
+        event="close" 
+        listener="#{generarOrdenDespachoMB.cancelar()}" />
+      <h:form
+        id="formaDetalle"
+        prependId="false">
+        <p:panel
+          id="pnlMensages"
+          rendered="#{generarOrdenDespachoMB.modoMensage}">
+          <p:outputPanel
+            style="text-align: center">
+            <!-- mensage -->
+            <p:messages 
+              id="msgDetalle"/>
+            <!-- cerrar -->
+            <p:commandButton 
+              value="#{msg.generalCerrar}" 
+              styleClass="ui-confirmdialog-no" 
+              icon="ui-icon-close" 
+              actionListener="#{generarOrdenDespachoMB.cancelar()}"
+              oncomplete="PF('dlgDetalle').hide()"/>
+          </p:outputPanel>
+        </p:panel>
+        
+        <p:panel 
+          id="pnlDetalle"
+          rendered="#{generarOrdenDespachoMB.modoDetalle}">
+          <div 
+            align="left" 
+            style="margin-bottom:20px;">
+            <p:panelGrid 
+              columns="6"
+              styleClass="noBorders">
+              <!--Cliente-->
+              <p:outputLabel 
+                for="nombreCliente"
+                value="#{msg.gfLblCliente}"
+                styleClass="negrita"/>
+              <h:outputText 
+                id="nombreCliente"
+                value="#{generarOrdenDespachoMB.seleccionado.cliente.nombre}"/>
+              <p:message
+                for="nombreCliente"/>
+              <p:spacer/>
+              <p:spacer/>
+              <p:spacer/>
+              <!--Documento-->
+              <p:outputLabel 
+                for="id"
+                value="#{msg.gfLblDocumento}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="id"
+                value="#{generarOrdenDespachoMB.seleccionado.id}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="id"/>
+              <!--Consecutivo Documento-->
+              <p:outputLabel 
+                for="consecutivoDocumento"
+                value="#{msg.gfLblConsecutivoDocumento}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="consecutivoDocumento"
+                value="#{generarOrdenDespachoMB.seleccionado.consecutivoDocumento}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="false"/>
+              <p:message
+                for="consecutivoDocumento"/>
+              <!--Fecha Generación-->
+              <p:outputLabel 
+                for="fechaGeneracion"
+                value="#{msg.gfLblFechaGeneracion}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="fechaGeneracion"
+                value="#{generarOrdenDespachoMB.seleccionado.fechaGeneracion}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true">
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:inputText>
+              <p:message
+                for="fechaGeneracion"/>
+              <!--Ubicación Destino-->
+              <p:outputLabel 
+                for="ubicacionDestino"
+                value="#{msg.gfLblUbicacionDestino}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="ubicacionDestino"
+                value="#{generarOrdenDespachoMB.seleccionado.ubicacionDestino.nombre}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="ubicacionDestino"/>
+              <!--Doc.VD Rel.-->
+              <p:outputLabel 
+                for="observacionDocumento"
+                value="#{msg.gfLblDocVDRel}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="observacionDocumento"
+                value="#{generarOrdenDespachoMB.seleccionado.observacionDocumento}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="observacionDocumento"/>
+            </p:panelGrid>
+          </div>
+          <!---->
+          <div 
+            align="left" 
+            style="margin-bottom:20px;">
+            <p:dataTable 
+              id="tblItems"
+              var="item" 
+              value="#{generarOrdenDespachoMB.seleccionado.terminosTransportes}" 
+              emptyMessage="#{msg.generalNoDatos}" 
+              paginator="false">
+              <!-- SKU -->
+              <p:column   
+                headerText="#{msg.gfTblColSKU}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Nombre del producto -->
+              <p:column   
+                headerText="#{msg.gfTblColNombreProducto}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Unidad Venta -->
+              <p:column   
+                headerText="#{msg.gfTblColUnidadVenta}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Cantidad Remisionada -->
+              <p:column   
+                headerText="#{msg.gfTblColCantidadRemisionada}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Vr.Unitario -->
+              <p:column   
+                headerText="#{msg.gfTblColValorUnitario}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- %Dcto. Prod. -->
+              <p:column   
+                headerText="#{msg.gfTblColDctoProd}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- Valor Total -->
+              <p:column   
+                headerText="#{msg.gfTblColValorTotal}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- %Otros Dctos. -->
+              <p:column   
+                headerText="#{msg.gfTblColOtrosDescuentos}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+              <!-- %Iva -->
+              <p:column   
+                headerText="#{msg.gfTblColIva}">
+                <h:outputText 
+                  value="#{item.id}" />
+              </p:column>
+            </p:dataTable>
+          </div>
+          <!-- botones -->
+          <f:facet
+            name="footer">
+            <!-- Imprimir Instruccion de Embarque -->
+            <p:commandButton 
+              value="#{msg.gfBtnGenerarFactura}" 
+              ajax="false" 
+              icon="ui-icon-document">
+              <p:fileDownload 
+                value="#{generarOrdenDespachoMB.generarFactura()}" />
+            </p:commandButton>
+            <!-- cancelar -->
+            <p:commandButton 
+              value="#{msg.generalCerrar}" 
+              styleClass="ui-confirmdialog-no" 
+              icon="ui-icon-close" 
+              actionListener="#{generarOrdenDespachoMB.cancelar()}"
+              oncomplete="PF('dlgDetalle').hide()"
+              update=":forma:msgs"/>
+          </f:facet>
+        </p:panel>
+
+      </h:form>          
+
+    </p:dialog>
+
+  </ui:define>
+
+</ui:composition>

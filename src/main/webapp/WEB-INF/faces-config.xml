@@ -557,6 +557,11 @@
       <from-outcome>listado_remision</from-outcome>
       <to-view-id>/ui/ventas/generarFactura.xhtml</to-view-id>
     </navigation-case>
+    <!-- Ventas y Facturacion / Generar Orden Despacho -->
+    <navigation-case>
+      <from-outcome>listado_despachar_mercanciaVD</from-outcome>
+      <to-view-id>/ui/ventas/generarOrdenDespacho.xhtml</to-view-id>
+    </navigation-case>
   </navigation-rule>
 
   <application>
