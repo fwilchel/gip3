@@ -2190,11 +2190,13 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 					+ "JOIN FETCH d.estadosxdocumento exd "
 					+ "JOIN FETCH d.ubicacionDestino dest "
 					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
+					+ "AND d.estadosxdocumento.estado.id= :estado "
 					+ "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
 					+ "ORDER BY d.id DESC";
 
 			listado = em
 					.createQuery(query)
+					.setParameter("estado", (long) ConstantesDocumento.ACTIVO)
 					.setParameter("tipoDocumento",
 							(long) ConstantesTipoDocumento.VENTA_DIRECTA)
 					.setParameter(

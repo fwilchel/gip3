@@ -45,6 +45,7 @@ public class DespachoMercanciaEJB implements DespachoMercanciaEJBLocal{
 			p.setIdDocumento(producto.getId().getIdDocumento()+"");
 			p.setNombre("");
 			p.setCantidadDespachada(producto.getCantidad1());
+			p.setSeleccionado(false);
 			productos.add(p);
 		}
 		return productos ;
