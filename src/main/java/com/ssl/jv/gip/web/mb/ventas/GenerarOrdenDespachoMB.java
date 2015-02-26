@@ -13,27 +13,17 @@ import javax.faces.bean.ViewScoped;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 
 /**
- * <p>
- * Title: GIP
- * </p>
- *
- * <p>
- * Description: GIP
- * </p>
- *
- * <p>
- * Copyright: Copyright (c) 2014
- * </p>
- *
- * <p>
- * Company: Soft Studio Ltda.
- * </p>
+ * <p>Title: GIP</p>
+ * <p>Description: GIP</p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: Soft Studio Ltda.</p>
  *
  * @author Diego Poveda
  * @email dpoveda@gmail.com
@@ -51,11 +41,6 @@ public class GenerarOrdenDespachoMB extends UtilMB {
 
   private static final Logger LOGGER = Logger.getLogger(GenerarOrdenDespachoMB.class);
 
-  private enum Modo {
-
-    DETALLE, MENSAGE;
-  }
-
   @EJB
   private VentasFacturacionEJBLocal ventasFacturacionEJB;
 
@@ -71,8 +56,10 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    * Registro seleccionado
    */
   private Documento seleccionado;
-
-  private Modo modo;
+  /**
+   *
+   */
+  private List<ProductosXDocumento> listaProductosXDocumento;
 
   @PostConstruct
   public void init() {
@@ -96,21 +83,35 @@ public class GenerarOrdenDespachoMB extends UtilMB {
     LOGGER.debug("Metodo: <<seleccionarRemision>>");
     seleccionado = documento;
     seleccionado.setTerminosTransportes(new ArrayList<TerminosTransporte>());
+    cargarListaProductosXDocumento();
+  }
+
+  private void cargarListaProductosXDocumento() {
+    LOGGER.debug("Metodo: <<cargarListaProductosXDocumento>>");
+    setListaProductosXDocumento(ventasFacturacionEJB.consultarProductosPorDocumento(seleccionado.getId()));
   }
 
   /**
    *
    */
-  public void generarFactura() {
-    LOGGER.debug("Metodo: <<generarFactura>>");
+  public void generarVistaPrevia() {
+    LOGGER.debug("Metodo: <<generarVistaPrevia>>");
 
   }
 
   /**
    *
    */
-  public void imprimirFactura() {
-    LOGGER.debug("Metodo: <<imprimirFactura>>");
+  public void generarExcel() {
+    LOGGER.debug("Metodo: <<generarExcel>>");
+
+  }
+
+  /**
+   *
+   */
+  public void generarOrdenDespacho() {
+    LOGGER.debug("Metodo: <<generarOrdenDespacho>>");
 
   }
 
@@ -129,24 +130,6 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   public Date getFechaActual() {
     LOGGER.debug("Metodo: <<getFechaActual>>");
     return new Date();
-  }
-
-  /**
-   *
-   * @return
-   */
-  public boolean isModoDetalle() {
-    LOGGER.debug("Metodo: <<isModoDetalle>>");
-    return modo.equals(Modo.DETALLE);
-  }
-
-  /**
-   *
-   * @return
-   */
-  public boolean isModoMensage() {
-    LOGGER.debug("Metodo: <<isModoMensage>>");
-    return modo.equals(Modo.MENSAGE);
   }
 
   /**
@@ -183,4 +166,19 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   public void setSeleccionado(Documento seleccionado) {
     this.seleccionado = seleccionado;
   }
+
+  /**
+   * @return the listaProductosXDocumento
+   */
+  public List<ProductosXDocumento> getListaProductosXDocumento() {
+    return listaProductosXDocumento;
+  }
+
+  /**
+   * @param listaProductosXDocumento the listaProductosXDocumento to set
+   */
+  public void setListaProductosXDocumento(List<ProductosXDocumento> listaProductosXDocumento) {
+    this.listaProductosXDocumento = listaProductosXDocumento;
+  }
+
 }

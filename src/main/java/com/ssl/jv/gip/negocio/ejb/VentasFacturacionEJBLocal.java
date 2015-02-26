@@ -59,4 +59,15 @@ public interface VentasFacturacionEJBLocal {
    * @return
    */
   List<Documento> consultarDocumentosOrdenDespacho();
+
+  /**
+   * Metodo que consulta los productos por documento
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param id
+   * @return
+   */
+  List<ProductosXDocumento> consultarProductosPorDocumento(Long id);
 }

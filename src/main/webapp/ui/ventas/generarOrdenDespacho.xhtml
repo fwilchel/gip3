@@ -138,27 +138,8 @@
       <h:form
         id="formaDetalle"
         prependId="false">
-        <p:panel
-          id="pnlMensages"
-          rendered="#{generarOrdenDespachoMB.modoMensage}">
-          <p:outputPanel
-            style="text-align: center">
-            <!-- mensage -->
-            <p:messages 
-              id="msgDetalle"/>
-            <!-- cerrar -->
-            <p:commandButton 
-              value="#{msg.generalCerrar}" 
-              styleClass="ui-confirmdialog-no" 
-              icon="ui-icon-close" 
-              actionListener="#{generarOrdenDespachoMB.cancelar()}"
-              oncomplete="PF('dlgDetalle').hide()"/>
-          </p:outputPanel>
-        </p:panel>
-        
         <p:panel 
-          id="pnlDetalle"
-          rendered="#{generarOrdenDespachoMB.modoDetalle}">
+          id="pnlDetalle">
           <div 
             align="left" 
             style="margin-bottom:20px;">
@@ -175,9 +156,6 @@
                 value="#{generarOrdenDespachoMB.seleccionado.cliente.nombre}"/>
               <p:message
                 for="nombreCliente"/>
-              <p:spacer/>
-              <p:spacer/>
-              <p:spacer/>
               <!--Documento-->
               <p:outputLabel 
                 for="id"
@@ -246,6 +224,45 @@
                 required="true"/>
               <p:message
                 for="observacionDocumento"/>
+              <!--Doc.VD Rel.-->
+              <p:outputLabel 
+                for="observacionDocumento1"
+                value="#{msg.gfLblDocVDRel}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="observacionDocumento1"
+                value="#{generarOrdenDespachoMB.seleccionado.observacionDocumento}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="observacionDocumento1"/>
+              <!--Doc.VD Rel.-->
+              <p:outputLabel 
+                for="observacionDocumento2"
+                value="#{msg.gfLblDocVDRel}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="observacionDocumento2"
+                value="#{generarOrdenDespachoMB.seleccionado.observacionDocumento}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="observacionDocumento2"/>
+              <!--Doc.VD Rel.-->
+              <p:outputLabel 
+                for="observacionDocumento3"
+                value="#{msg.gfLblDocVDRel}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="observacionDocumento3"
+                value="#{generarOrdenDespachoMB.seleccionado.observacionDocumento}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="observacionDocumento3"/>
             </p:panelGrid>
           </div>
           <!---->
@@ -255,75 +272,67 @@
             <p:dataTable 
               id="tblItems"
               var="item" 
-              value="#{generarOrdenDespachoMB.seleccionado.terminosTransportes}" 
+              value="#{generarOrdenDespachoMB.listaProductosXDocumento}" 
               emptyMessage="#{msg.generalNoDatos}" 
               paginator="false">
               <!-- SKU -->
               <p:column   
                 headerText="#{msg.gfTblColSKU}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.productosInventario.sku}" />
               </p:column>
-              <!-- Nombre del producto -->
+              <!-- EAN del producto -->
               <p:column   
                 headerText="#{msg.gfTblColNombreProducto}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.productosInventario.sku}" />
               </p:column>
-              <!-- Unidad Venta -->
+              <!-- Nombre del producto -->
               <p:column   
                 headerText="#{msg.gfTblColUnidadVenta}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.productosInventario.sku}" />
               </p:column>
-              <!-- Cantidad Remisionada -->
+              <!-- Cantidad a despachar -->
               <p:column   
                 headerText="#{msg.gfTblColCantidadRemisionada}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.productosInventario.sku}" />
               </p:column>
-              <!-- Vr.Unitario -->
+              <!-- Unidad Venta -->
               <p:column   
                 headerText="#{msg.gfTblColValorUnitario}">
                 <h:outputText 
-                  value="#{item.id}" />
-              </p:column>
-              <!-- %Dcto. Prod. -->
-              <p:column   
-                headerText="#{msg.gfTblColDctoProd}">
-                <h:outputText 
-                  value="#{item.id}" />
-              </p:column>
-              <!-- Valor Total -->
-              <p:column   
-                headerText="#{msg.gfTblColValorTotal}">
-                <h:outputText 
-                  value="#{item.id}" />
-              </p:column>
-              <!-- %Otros Dctos. -->
-              <p:column   
-                headerText="#{msg.gfTblColOtrosDescuentos}">
-                <h:outputText 
-                  value="#{item.id}" />
-              </p:column>
-              <!-- %Iva -->
-              <p:column   
-                headerText="#{msg.gfTblColIva}">
-                <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.productosInventario.sku}" />
               </p:column>
             </p:dataTable>
           </div>
           <!-- botones -->
           <f:facet
             name="footer">
-            <!-- Imprimir Instruccion de Embarque -->
+            <!-- generar vista previa -->
             <p:commandButton 
               value="#{msg.gfBtnGenerarFactura}" 
               ajax="false" 
               icon="ui-icon-document">
               <p:fileDownload 
-                value="#{generarOrdenDespachoMB.generarFactura()}" />
+                value="#{generarOrdenDespachoMB.generarVistaPrevia()}" />
+            </p:commandButton>
+            <!-- generar excel -->
+            <p:commandButton 
+              value="#{msg.gfBtnGenerarFactura}" 
+              ajax="false" 
+              icon="ui-icon-document">
+              <p:fileDownload 
+                value="#{generarOrdenDespachoMB.generarExcel()}" />
+            </p:commandButton>
+            <!-- generar orden despacho -->
+            <p:commandButton 
+              value="#{msg.gfBtnGenerarFactura}" 
+              ajax="false" 
+              icon="ui-icon-document">
+              <p:fileDownload 
+                value="#{generarOrdenDespachoMB.generarOrdenDespacho()}" />
             </p:commandButton>
             <!-- cancelar -->
             <p:commandButton 

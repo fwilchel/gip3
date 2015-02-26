@@ -8,7 +8,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
@@ -159,5 +158,11 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     parametros.put("idEstado", (long) ConstantesDocumento.ACTIVO);
     parametros.put("idTipoDocumento", (long) ConstantesTipoDocumento.VENTA_DIRECTA);
     return documentoDAO.consultarDocumentosPorEstadoPorTipoPorConsecutivo(parametros);
+  }
+
+  @Override
+  public List<ProductosXDocumento> consultarProductosPorDocumento(Long id) {
+    LOGGER.debug("Metodo: <<consultarProductosPorDocumento>>");
+    return productoDocumentoDAO.consultarPorDocumento(id);
   }
 }
