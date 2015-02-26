@@ -16,7 +16,23 @@
 				globalOnly="false" showIcon="true"></p:messages>
 
 			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.generarOrdenDespachoTituloFrame}">
+				<p:tab title="#{msg.genrarOrdenDespachoVentaDirectaTituloFrame}">
+
+					<p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha" />
+					<p:inputText value="#{despacharMercanciaMB.currentTimeStamp}"
+						id="fecha" required="false" disabled="true">
+						<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+					</p:inputText>
+					<p:spacer width="30"></p:spacer>
+					<p:outputLabel value="#{msg.IngresarNumPedidoFactura}: "
+						for="consecutivo" />
+					<p:inputText value="#{despacharMercanciaMB.consecutivoDocumento}"
+						id="consecutivo" required="false" />
+					<p:spacer width="30"></p:spacer>
+					<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
+						update="tabPanel" action="#{despacharMercanciaMB.buscarDocumentos}" />
+
+
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{despacharMercanciaMB.documentos}" rows="10"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true"
@@ -25,7 +41,7 @@
 						rowsPerPageTemplate="5,10,15">
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton  oncomplete="PF('datoDialog').show()"
+							<p:commandButton oncomplete="PF('datoDialog').show()"
 								process="@this"
 								action="#{despacharMercanciaMB.consultarProductosVentaDirecta}"
 								icon="ui-icon-search">
@@ -45,7 +61,7 @@
 							sortBy="#{dato.consecutivoDocumento}">
 							<h:outputText value="#{dato.consecutivoDocumento}" />
 						</p:column>
-						
+
 						<p:column filterBy="#{dato.ubicacionDestino.nombre}"
 							headerText="Nombre de tienda" filterMatchMode="contains"
 							sortBy="#{dato.ubicacionDestino.nombre}">
@@ -61,7 +77,7 @@
 				</p:tab>
 			</p:tabView>
 		</h:form>
-		
+
 		<p:dialog header="#{msg.generarOrdenDespachoTituloFrame}"
 			widgetVar="datoDialog" modal="true" showEffect="fade"
 			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
@@ -114,12 +130,13 @@
 							value="#{despacharMercanciaMB.seleccionado.cliente.contacto}"
 							id="clienteContacto" label="#{msg.maestroContactoAgente}"
 							disabled="true" />
-						
-						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaDespacho"
+
+						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaGeneracion"
 							styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.fechaEsperadaEntrega}"
-							id="fechaEsperadaEntrega" label="#{msg.FechaDespacho}" disabled="true">
+							id="fechaEsperadaEntrega" label="#{msg.FechaDespacho}"
+							disabled="true">
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
 
@@ -128,7 +145,7 @@
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.documentoCliente}"
 							id="clienteId" label="#{msg.NumeroPedidoWeb}" disabled="true" />
-							
+
 					</p:panelGrid>
 
 					<p:dataTable var="producto" widgetVar="productoDoc"
@@ -143,14 +160,14 @@
 						<p:column headerText="#{msg.buscadorNombreProducto}">
 							<h:outputText value="#{producto.nombre}" />
 						</p:column>
-						
+
 						<p:column styleClass="derecha"
 							headerText="#{msg.comprasCantidadSola}">
 							<h:outputText value="#{producto.cantidadAdespachar}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
-						
+
 						<p:column styleClass="derecha"
 							headerText="#{msg.comprasCantidadSola}">
 							<h:outputText value="#{producto.unidadVenta}" />
@@ -162,17 +179,22 @@
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
-						
+
 						<p:column styleClass="derecha"
 							headerText="#{msg.comprasCantidadSola}">
 							<h:outputText value="#{producto.precioUnitario}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
-						
+
 						<p:column styleClass="derecha"
 							headerText="#{msg.comprasCantidadSola}">
-							<h:outputText value="#{producto.observaciones}"/>
+							<h:outputText value="#{producto.observaciones}" />
+						</p:column>
+						
+						<p:column styleClass="derecha"
+							headerText="#{msg.despachoIncluirDespacho}">
+							<p:selectBooleanCheckbox value="#{despacharMercanciaMB.listo}" />
 						</p:column>
 						
 						<p:summaryRow>
@@ -187,7 +209,7 @@
 				</p:outputPanel>
 			</h:form>
 		</p:dialog>
-		
+
 	</ui:define>
 </ui:composition>
 

@@ -61,9 +61,9 @@ public class DespachoMercanciaEJB implements DespachoMercanciaEJBLocal{
 	}
 
 	@Override
-	public List<Documento> consultarVentasDirectas(Documento filtro) {
+	public List<Documento> consultarVentasDirectas(String filtro) {
 		try {
-			return documentoDao.consultarDocumentosDespacharMercancia(filtro.getConsecutivoDocumento());
+			return documentoDao.consultarDocumentosDespacharMercancia(filtro);
 		} catch (Exception e) {
 			LOGGER.error(e + "Error consultando ordenes de despacho con filtro");
 			return null;
