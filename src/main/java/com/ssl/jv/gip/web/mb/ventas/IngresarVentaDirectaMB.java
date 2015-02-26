@@ -159,7 +159,7 @@ public class IngresarVentaDirectaMB extends UtilMB {
 		Cliente cliente = new Cliente();
 		cliente.setId(intIdCliente);
 		documento.setCliente(cliente);
-		documento.setIdPuntoVenta(intIdPuntoVenta);
+//		documento.setPuntoVenta(intIdPuntoVenta);
 		documento.setDocumentoCliente(this.strDocumentoCliente);
 		
 		if(listaProductosXClienteSeleccionadosDTO!=null && !listaProductosXClienteSeleccionadosDTO.isEmpty()){

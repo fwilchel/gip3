@@ -106,8 +106,9 @@ public class Documento implements Serializable {
   @JoinColumn(name = "id_cliente")
   private Cliente cliente;
 
-  @Column(name = "id_punto_venta")
-  private Long idPuntoVenta;
+  @ManyToOne
+  @JoinColumn(name = "id_punto_venta")
+  private PuntoVenta puntoVenta;
 
   @Column(name = "numero_factura")
   private String numeroFactura;
@@ -267,12 +268,12 @@ public class Documento implements Serializable {
     this.cliente = cliente;
   }
 
-  public Long getIdPuntoVenta() {
-    return this.idPuntoVenta;
+  public PuntoVenta getPuntoVenta() {
+    return this.puntoVenta;
   }
 
-  public void setIdPuntoVenta(Long idPuntoVenta) {
-    this.idPuntoVenta = idPuntoVenta;
+  public void setPuntoVenta(PuntoVenta puntoVenta) {
+    this.puntoVenta = puntoVenta;
   }
 
   public String getNumeroFactura() {

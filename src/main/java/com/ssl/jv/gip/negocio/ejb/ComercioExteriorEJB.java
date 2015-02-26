@@ -1219,7 +1219,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 		remision.setCliente(documento.getCliente());
 
-		remision.setIdPuntoVenta(Long.valueOf(0));
+//		remision.setPuntoVenta(Long.valueOf(0));
 
 		remision.setDescuentoCliente(BigDecimal.ZERO);
 		remision.setValorTotal(BigDecimal.ZERO);
@@ -1348,7 +1348,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 		ventaDirecta.setCliente(documento.getCliente());
 
-		ventaDirecta.setIdPuntoVenta(Long.valueOf(0));
+//		ventaDirecta.setPuntoVenta(Long.valueOf(0));
 
 		ventaDirecta.setNumeroFactura("0");
 
@@ -1417,7 +1417,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		listaEmpaque.setDocumentoCliente(documento.getDocumentoCliente());
 		listaEmpaque.setFechaEsperadaEntrega(documento
 				.getFechaEsperadaEntrega());
-		listaEmpaque.setIdPuntoVenta(Long.valueOf(0));
+//		listaEmpaque.setPuntoVenta(Long.valueOf(0));
 		listaEmpaque.setNumeroFactura("0");
 		listaEmpaque.setValorTotal(BigDecimal.ZERO);
 		listaEmpaque.setDescuentoCliente(BigDecimal.ZERO);

@@ -18,10 +18,14 @@ import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 
 /**
- * <p>Title: GIP</p>
- * <p>Description: GIP</p>
- * <p>Copyright: Copyright (c) 2014</p>
- * <p>Company: Soft Studio Ltda.</p>
+ * <p>
+ * Title: GIP</p>
+ * <p>
+ * Description: GIP</p>
+ * <p>
+ * Copyright: Copyright (c) 2014</p>
+ * <p>
+ * Company: Soft Studio Ltda.</p>
  *
  * @author Diego Poveda
  * @email dpoveda@gmail.com
@@ -81,7 +85,17 @@ public class GenerarOrdenDespachoMB extends UtilMB {
     LOGGER.debug("Metodo: <<seleccionarDocumento>>");
     seleccionado = documento;
     // TODO: concatenar valores del punto de venta para sobreescribir sitio de entrega.
-    seleccionado.getIdPuntoVenta();
+    if (seleccionado.getPuntoVenta() != null) {
+      StringBuilder sb = new StringBuilder();
+      sb.append(seleccionado.getPuntoVenta().getDireccion());
+      sb.append("---");
+      sb.append(seleccionado.getPuntoVenta().getNombre());
+      sb.append("---");
+      sb.append(seleccionado.getPuntoVenta().getCiudade().getNombre());
+      sb.append("---Tel: ");
+      sb.append(seleccionado.getPuntoVenta().getTelefono());
+      seleccionado.setSitioEntrega(sb.toString());
+    }
     cargarListaProductosXDocumento();
   }
 
