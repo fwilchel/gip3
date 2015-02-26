@@ -146,20 +146,10 @@
             <p:panelGrid 
               columns="6"
               styleClass="noBorders">
-              <!--Cliente-->
-              <p:outputLabel 
-                for="nombreCliente"
-                value="#{msg.gfLblCliente}"
-                styleClass="negrita"/>
-              <h:outputText 
-                id="nombreCliente"
-                value="#{generarOrdenDespachoMB.seleccionado.cliente.nombre}"/>
-              <p:message
-                for="nombreCliente"/>
               <!--Documento-->
               <p:outputLabel 
                 for="id"
-                value="#{msg.gfLblDocumento}"
+                value="#{msg.godLblDocumento}"
                 styleClass="negrita"/>
               <h:inputText
                 id="id"
@@ -172,7 +162,7 @@
               <!--Consecutivo Documento-->
               <p:outputLabel 
                 for="consecutivoDocumento"
-                value="#{msg.gfLblConsecutivoDocumento}"
+                value="#{msg.godLblConsecutivoDocumento}"
                 styleClass="negrita"/>
               <h:inputText
                 id="consecutivoDocumento"
@@ -185,7 +175,7 @@
               <!--Fecha Generación-->
               <p:outputLabel 
                 for="fechaGeneracion"
-                value="#{msg.gfLblFechaGeneracion}"
+                value="#{msg.godLblFechaGeneracion}"
                 styleClass="negrita"/>
               <h:inputText
                 id="fechaGeneracion"
@@ -201,7 +191,7 @@
               <!--Ubicación Destino-->
               <p:outputLabel 
                 for="ubicacionDestino"
-                value="#{msg.gfLblUbicacionDestino}"
+                value="#{msg.godLblUbicacionDestino}"
                 styleClass="negrita"/>
               <h:inputText
                 id="ubicacionDestino"
@@ -211,10 +201,52 @@
                 required="true"/>
               <p:message
                 for="ubicacionDestino"/>
-              <!--Doc.VD Rel.-->
+              <!--Fecha mín entrega-->
+              <p:outputLabel 
+                for="fechaMinEntrega"
+                value="#{msg.godLblFechaMinEntrega}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="fechaMinEntrega"
+                value="#{generarOrdenDespachoMB.seleccionado.fechaGeneracion}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true">
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:inputText>
+              <p:message
+                for="fechaMinEntrega"/>
+              <!--Fecha máx entrega-->
+              <p:outputLabel 
+                for="fechaMaxEntrega"
+                value="#{msg.godLblFechaMaxEntrega}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="fechaMaxEntrega"
+                value="#{generarOrdenDespachoMB.seleccionado.fechaGeneracion}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true">
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:inputText>
+              <p:message
+                for="fechaMaxEntrega"/>
+              <!--Entidad a Facturar-->
+              <p:outputLabel 
+                for="nombreCliente"
+                value="#{msg.godLblEntidadFacturar}"
+                styleClass="negrita"/>
+              <h:outputText 
+                id="nombreCliente"
+                value="#{generarOrdenDespachoMB.seleccionado.cliente.nombre}"/>
+              <p:message
+                for="nombreCliente"/>
+              <!--Sitio de Entrega-->
               <p:outputLabel 
                 for="observacionDocumento"
-                value="#{msg.gfLblDocVDRel}"
+                value="#{msg.godLblSitioEntrega}"
                 styleClass="negrita"/>
               <h:inputText
                 id="observacionDocumento"
@@ -224,10 +256,10 @@
                 required="true"/>
               <p:message
                 for="observacionDocumento"/>
-              <!--Doc.VD Rel.-->
+              <!--Orden de Compra-->
               <p:outputLabel 
                 for="observacionDocumento1"
-                value="#{msg.gfLblDocVDRel}"
+                value="#{msg.godLblOrdenCompra}"
                 styleClass="negrita"/>
               <h:inputText
                 id="observacionDocumento1"
@@ -237,32 +269,6 @@
                 required="true"/>
               <p:message
                 for="observacionDocumento1"/>
-              <!--Doc.VD Rel.-->
-              <p:outputLabel 
-                for="observacionDocumento2"
-                value="#{msg.gfLblDocVDRel}"
-                styleClass="negrita"/>
-              <h:inputText
-                id="observacionDocumento2"
-                value="#{generarOrdenDespachoMB.seleccionado.observacionDocumento}" 
-                disabled="true"
-                styleClass="filas_contenido"
-                required="true"/>
-              <p:message
-                for="observacionDocumento2"/>
-              <!--Doc.VD Rel.-->
-              <p:outputLabel 
-                for="observacionDocumento3"
-                value="#{msg.gfLblDocVDRel}"
-                styleClass="negrita"/>
-              <h:inputText
-                id="observacionDocumento3"
-                value="#{generarOrdenDespachoMB.seleccionado.observacionDocumento}" 
-                disabled="true"
-                styleClass="filas_contenido"
-                required="true"/>
-              <p:message
-                for="observacionDocumento3"/>
             </p:panelGrid>
           </div>
           <!---->
@@ -277,31 +283,31 @@
               paginator="false">
               <!-- SKU -->
               <p:column   
-                headerText="#{msg.gfTblColSKU}">
+                headerText="#{msg.godTblColSKU}">
                 <h:outputText 
                   value="#{item.productosInventario.sku}" />
               </p:column>
               <!-- EAN del producto -->
               <p:column   
-                headerText="#{msg.gfTblColNombreProducto}">
+                headerText="#{msg.godTblColEANProducto}">
                 <h:outputText 
                   value="#{item.productosInventario.sku}" />
               </p:column>
               <!-- Nombre del producto -->
               <p:column   
-                headerText="#{msg.gfTblColUnidadVenta}">
+                headerText="#{msg.godTblColNombreProducto}">
                 <h:outputText 
                   value="#{item.productosInventario.sku}" />
               </p:column>
               <!-- Cantidad a despachar -->
               <p:column   
-                headerText="#{msg.gfTblColCantidadRemisionada}">
+                headerText="#{msg.godTblColCantidadDespachar}">
                 <h:outputText 
                   value="#{item.productosInventario.sku}" />
               </p:column>
               <!-- Unidad Venta -->
               <p:column   
-                headerText="#{msg.gfTblColValorUnitario}">
+                headerText="#{msg.godTblColUnidadVenta}">
                 <h:outputText 
                   value="#{item.productosInventario.sku}" />
               </p:column>
@@ -312,7 +318,7 @@
             name="footer">
             <!-- generar vista previa -->
             <p:commandButton 
-              value="#{msg.gfBtnGenerarFactura}" 
+              value="#{msg.godBtnGenerarVistaPrevia}" 
               ajax="false" 
               icon="ui-icon-document">
               <p:fileDownload 
@@ -320,7 +326,7 @@
             </p:commandButton>
             <!-- generar excel -->
             <p:commandButton 
-              value="#{msg.gfBtnGenerarFactura}" 
+              value="#{msg.godBtnGenerarExcel}" 
               ajax="false" 
               icon="ui-icon-document">
               <p:fileDownload 
@@ -328,7 +334,7 @@
             </p:commandButton>
             <!-- generar orden despacho -->
             <p:commandButton 
-              value="#{msg.gfBtnGenerarFactura}" 
+              value="#{msg.godBtnGenerarOrdenDespacho}" 
               ajax="false" 
               icon="ui-icon-document">
               <p:fileDownload 
