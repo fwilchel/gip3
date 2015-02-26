@@ -72,7 +72,7 @@
               <p:commandButton 
                 icon="ui-icon-zoomin" 
                 title="#{msg.godBtnDetalle}"
-                actionListener="#{generarOrdenDespachoMB.seleccionarRemision(documento)}"
+                actionListener="#{generarOrdenDespachoMB.seleccionarDocumento(documento)}"
                 oncomplete="PF('dlgDetalle').show()"
                 update=":dlgDetalle"/>
             </p:column>
@@ -179,7 +179,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="fechaGeneracion"
-                value="#{generarOrdenDespachoMB.seleccionado.fechaGeneracion}" 
+                value="#{generarOrdenDespachoMB.fechaActual}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true">
@@ -198,17 +198,18 @@
                 value="#{generarOrdenDespachoMB.seleccionado.ubicacionDestino.nombre}" 
                 disabled="true"
                 styleClass="filas_contenido"
-                required="true"/>
+                required="true"
+                size="100"/>
               <p:message
                 for="ubicacionDestino"/>
               <!--Fecha mín entrega-->
               <p:outputLabel 
-                for="fechaMinEntrega"
+                for="fechaEsperadaEntrega"
                 value="#{msg.godLblFechaMinEntrega}"
                 styleClass="negrita"/>
               <h:inputText
-                id="fechaMinEntrega"
-                value="#{generarOrdenDespachoMB.seleccionado.fechaGeneracion}" 
+                id="fechaEsperadaEntrega"
+                value="#{generarOrdenDespachoMB.seleccionado.fechaEsperadaEntrega}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true">
@@ -216,15 +217,15 @@
                   pattern="dd-MMM-yyyy"/>
               </h:inputText>
               <p:message
-                for="fechaMinEntrega"/>
+                for="fechaEsperadaEntrega"/>
               <!--Fecha máx entrega-->
               <p:outputLabel 
-                for="fechaMaxEntrega"
+                for="fechaEntrega"
                 value="#{msg.godLblFechaMaxEntrega}"
                 styleClass="negrita"/>
               <h:inputText
-                id="fechaMaxEntrega"
-                value="#{generarOrdenDespachoMB.seleccionado.fechaGeneracion}" 
+                id="fechaEntrega"
+                value="#{generarOrdenDespachoMB.seleccionado.fechaEntrega}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true">
@@ -232,43 +233,47 @@
                   pattern="dd-MMM-yyyy"/>
               </h:inputText>
               <p:message
-                for="fechaMaxEntrega"/>
+                for="fechaEntrega"/>
               <!--Entidad a Facturar-->
               <p:outputLabel 
                 for="nombreCliente"
                 value="#{msg.godLblEntidadFacturar}"
                 styleClass="negrita"/>
-              <h:outputText 
+              <h:inputText 
                 id="nombreCliente"
-                value="#{generarOrdenDespachoMB.seleccionado.cliente.nombre}"/>
+                value="#{generarOrdenDespachoMB.seleccionado.cliente.nombre}"
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"/>
               <p:message
                 for="nombreCliente"/>
               <!--Sitio de Entrega-->
               <p:outputLabel 
-                for="observacionDocumento"
+                for="sitioEntrega"
                 value="#{msg.godLblSitioEntrega}"
                 styleClass="negrita"/>
               <h:inputText
-                id="observacionDocumento"
-                value="#{generarOrdenDespachoMB.seleccionado.observacionDocumento}" 
+                id="sitioEntrega"
+                value="#{generarOrdenDespachoMB.seleccionado.sitioEntrega}" 
                 disabled="true"
                 styleClass="filas_contenido"
-                required="true"/>
+                required="true"
+                size="100"/>
               <p:message
-                for="observacionDocumento"/>
+                for="sitioEntrega"/>
               <!--Orden de Compra-->
               <p:outputLabel 
-                for="observacionDocumento1"
+                for="documentoCliente"
                 value="#{msg.godLblOrdenCompra}"
                 styleClass="negrita"/>
               <h:inputText
-                id="observacionDocumento1"
-                value="#{generarOrdenDespachoMB.seleccionado.observacionDocumento}" 
+                id="documentoCliente"
+                value="#{generarOrdenDespachoMB.seleccionado.documentoCliente}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true"/>
               <p:message
-                for="observacionDocumento1"/>
+                for="documentoCliente"/>
             </p:panelGrid>
           </div>
           <!---->
@@ -291,25 +296,25 @@
               <p:column   
                 headerText="#{msg.godTblColEANProducto}">
                 <h:outputText 
-                  value="#{item.productosInventario.sku}" />
+                  value="#{item.productosInventario.codigoBarrasUv}" />
               </p:column>
               <!-- Nombre del producto -->
               <p:column   
                 headerText="#{msg.godTblColNombreProducto}">
                 <h:outputText 
-                  value="#{item.productosInventario.sku}" />
+                  value="#{item.productosInventario.nombre}" />
               </p:column>
               <!-- Cantidad a despachar -->
               <p:column   
                 headerText="#{msg.godTblColCantidadDespachar}">
                 <h:outputText 
-                  value="#{item.productosInventario.sku}" />
+                  value="#{item.cantidad1}" />
               </p:column>
               <!-- Unidad Venta -->
               <p:column   
                 headerText="#{msg.godTblColUnidadVenta}">
                 <h:outputText 
-                  value="#{item.productosInventario.sku}" />
+                  value="#{item.productosInventario.unidadVenta.nombre}" />
               </p:column>
             </p:dataTable>
           </div>

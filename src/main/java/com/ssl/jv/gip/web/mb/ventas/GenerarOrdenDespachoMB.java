@@ -1,6 +1,5 @@
 package com.ssl.jv.gip.web.mb.ventas;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
@@ -79,10 +77,11 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    *
    * @param documento
    */
-  public void seleccionarRemision(Documento documento) {
-    LOGGER.debug("Metodo: <<seleccionarRemision>>");
+  public void seleccionarDocumento(Documento documento) {
+    LOGGER.debug("Metodo: <<seleccionarDocumento>>");
     seleccionado = documento;
-    seleccionado.setTerminosTransportes(new ArrayList<TerminosTransporte>());
+    // TODO: concatenar valores del punto de venta para sobreescribir sitio de entrega.
+    seleccionado.getIdPuntoVenta();
     cargarListaProductosXDocumento();
   }
 
