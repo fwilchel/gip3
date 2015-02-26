@@ -131,7 +131,7 @@
 							id="clienteContacto" label="#{msg.maestroContactoAgente}"
 							disabled="true" />
 
-						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaDespacho"
+						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaGeneracion"
 							styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.fechaEsperadaEntrega}"
@@ -191,7 +191,12 @@
 							headerText="#{msg.comprasCantidadSola}">
 							<h:outputText value="#{producto.observaciones}" />
 						</p:column>
-
+						
+						<p:column styleClass="derecha"
+							headerText="#{msg.despachoIncluirDespacho}">
+							<p:selectBooleanCheckbox value="#{despacharMercanciaMB.listo}" />
+						</p:column>
+						
 						<p:summaryRow>
 							<p:column colspan="2" styleClass="derecha">
 								<h:outputText value="TOTALES " />

@@ -31,6 +31,7 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	private List<ProductoDespacharMercanciaDTO> productosDespacho;
 	private Documento seleccionado;
 	private Documento filtro;
+	private boolean listo;
 	
 	@EJB
 	private DespachoMercanciaEJBLocal despachoMercancia;
@@ -122,6 +123,14 @@ public class DespacharMercanciaVDMB extends UtilMB{
 
 	public void setConsecutivoDocumento(String consecutivoDocumento) {
 		this.consecutivoDocumento = consecutivoDocumento;
+	}
+
+	public boolean isListo() {
+		return listo;
+	}
+
+	public void setListo(boolean listo) {
+		this.listo = listo;
 	}
 	
 	
