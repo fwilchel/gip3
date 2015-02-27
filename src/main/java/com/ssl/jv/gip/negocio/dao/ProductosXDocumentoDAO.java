@@ -12,7 +12,9 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoReporteTxtFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
@@ -44,6 +46,42 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
 				.createNamedQuery(ProductosXDocumento.FIND_BY_DOCUMENTO);
 		query.setParameter("idDocumento", id);
 		return query.getResultList();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<ProductoDespacharMercanciaDTO> consultarProductoVentaDirecta(String consecutivoDocumento){
+		List<ProductoDespacharMercanciaDTO> listado = new ArrayList<ProductoDespacharMercanciaDTO>();
+	    String query;
+	    try {
+	      query = "SELECT pxd.id_producto, pxd.id_documento, pi.sku, pi.nombre, u.abreviacion, pxd.cantidad1, pxd.cantidad2, pxd.valor_unitatrio_ml, pxd.observacion1 "
+	      		  + "from productosxdocumentos pxd inner join documentos d on pxd.id_documento=d.id "
+	      		  + "inner join productos_inventario pi on pi.id=pxd.id_producto "
+	      		  + "inner join unidades u on u.id=pi.id_ud " 
+	      		  + "where pxd.id_documento='"+consecutivoDocumento+"' ";
+	      List<Object[]> aux = em.createNativeQuery(query).setMaxResults(20).getResultList();
+	      if (aux != null) {
+				for (Object[] objs : aux) {
+					ProductoDespacharMercanciaDTO dto = new ProductoDespacharMercanciaDTO();
+					dto.setId(objs[0] != null ? objs[0].toString() : null);
+					dto.setIdDocumento(objs[1] != null ? objs[1].toString() : null);
+					dto.setSku(objs[2] != null ? objs[2].toString() : null);
+					dto.setNombre(objs[3] != null ? objs[3].toString() : null);
+					dto.setUnidadVenta(objs[4] != null ? objs[4].toString() : null);
+					dto.setCantidadAdespachar(objs[5] != null ? new BigDecimal(objs[5].toString()) : null);
+					dto.setCantidadDespachada(objs[6] != null ? new BigDecimal(objs[6].toString()) : null);
+					dto.setPrecioUnitario(objs[7] != null ? new BigDecimal(objs[7].toString()) : null);
+					dto.setObservaciones(objs[8] != null ? objs[8].toString() : null);
+					dto.setSeleccionado(false);
+					listado.add(dto);
+				}
+			}
+	    } catch (Exception e) {
+	      LOGGER.error(e
+	              + "********Error consultando Productos Venta directa");
+	      return null;
+	    }
+	    return listado;
 	}
 	
 	
