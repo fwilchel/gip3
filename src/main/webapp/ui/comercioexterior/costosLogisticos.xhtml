@@ -105,36 +105,87 @@
 
 					</p:dataTable>
 					
-					<p:panel>
-						<p:commandButton value="#{msg.costosLogisticosGenerar}" action="#{generarCLMB.generarCostosLogisticos()}" process="@form" update="costos"></p:commandButton>
+					<p:panel id="panelCostos">
+						<p:panelGrid columns="1" id="panelG">
+							<p:commandButton value="#{msg.costosLogisticosGenerar}" action="#{generarCLMB.generarCostosLogisticos()}" process="@form" update=":forma"></p:commandButton>
+							<p:spacer height="10"></p:spacer>
+						    <p:dataTable var="grupo" id="costos" value="#{generarCLMB.costos}" emptyMessage="No hay registros" >
+						        <f:facet name="header">
+						            COSTOS LOGISTICOS
+						        </f:facet>
+						        
+						        <p:columnGroup type="header">
+						            <p:row>
+						                <p:column  headerText="Incluido" style="width:40px" width="40" />
+						                <p:column  headerText="Item" />
+						                <p:column  headerText="Descripción" />
+						                <p:column  headerText="Cantidad" style="width:100px" width="100"/>
+						                <p:column  headerText="Valor Mínimo" style="width:100px" width="100"/>
+						                <p:column  headerText="Valor" style="width:100px" width="100"/>
+						            </p:row>
+						        </p:columnGroup>
+						        
+						        
+						        <p:subTable var="costo" value="#{grupo.costos}">
+						        	<f:facet name="header">
+						                <h:outputText value="#{grupo.categoria}" />
+						            </f:facet>
+						            
+						            <p:column headerText="Incluido"  >
+										<p:selectBooleanCheckbox value="#{costo.seleccionado}">
+							            	<p:ajax update=":forma:tabPanel:panelCostos" process="@form" immediate="true" />
+							        	</p:selectBooleanCheckbox>
+							        </p:column>	        	
+							        <p:column headerText="Item">
+		            					<h:outputText value="#{costo.id.item}" />
+		        					</p:column>
+		        					<p:column headerText="Descripcion">
+		            					<h:outputText value="#{costo.id.descripcion}" />
+		        					</p:column>
+		        					<p:column headerText="Cantidad" styleClass="derecha">
+		            					<h:outputText value="#{costo.id.cantidad}" />
+		        					</p:column>
+		        					<p:column headerText="Valor Mínimo" styleClass="derecha">
+		            					<h:outputText value="#{costo.id.valorMinimo}" />
+		        					</p:column>
+							 		<p:column headerText="Valor" styleClass="derecha">
+		            					<h:outputText value="#{costo.id.valor}"  >
+		            						<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+		            					</h:outputText>
+		            					
+		        					</p:column>
+		        					
+		        					<p:columnGroup type="footer">
+						                <p:row>
+						                    <p:column footerText="Total #{grupo.categoria} :" colspan="5" style="text-align:right"/>
+						                    <p:column style="text-align:right">
+							                    <f:facet name="footer">
+								                    <h:outputText value="#{grupo.total}"  >
+				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+				            						</h:outputText>
+			            						</f:facet>
+		            						</p:column>
+						                </p:row>
+						            </p:columnGroup>
+		        					
+								</p:subTable>
+								
+								 <p:columnGroup type="footer">
+						            <p:row>
+						                <p:column footerText="Total :" colspan="5" style="text-align:right"/>
+						                <p:column style="text-align:right">
+						                	<f:facet name="footer">
+								                    <h:outputText value="#{generarCLMB.total}"  >
+				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+				            						</h:outputText>
+			            						</f:facet>
+						                </p:column>
+						            </p:row>
+						        </p:columnGroup>
+						    </p:dataTable>
+							
 						
-					    <p:dataTable var="costo" id="costos" value="#{generarCLMB.costos}" >
-					        <f:facet name="header">
-					            COSTOS LOGISTICOS
-					        </f:facet>
-					        
-					        <p:column headerText="Tipo">
-            					<h:outputText value="#{costo.id.tipo}" />
-        					</p:column>
-					        <p:column headerText="Categoria">
-            					<h:outputText value="#{costo.id.categoria}" />
-        					</p:column>
-        					<p:column headerText="Item">
-            					<h:outputText value="#{costo.id.item}" />
-        					</p:column>
-        					<p:column headerText="Cantidad" styleClass="derecha">
-            					<h:outputText value="#{costo.cantidad}" />
-        					</p:column>
-        					<p:column headerText="Valor Mínimo" styleClass="derecha">
-            					<h:outputText value="#{costo.valorMinimo}" />
-        					</p:column>
-					 		<p:column headerText="Valor" styleClass="derecha">
-            					<h:outputText value="#{costo.valor}" />
-        					</p:column>
-					    </p:dataTable>
-						
-					
-					
+						</p:panelGrid>
 					</p:panel>
 					
 				</p:tab>

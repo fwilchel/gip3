@@ -1509,7 +1509,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		return productosXDocumento;
 	}
 	
-	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency){
+	public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais){
 		/*
 		 * aplica_fob, cfr, cif, fca, cip, dap, dapm, cpt, fcat 
 		 */
@@ -1521,7 +1521,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 				campo+="m";
 			}
 		}
-		return this.itemCostoLogisticoDAO.getCostosLogisticos(idCliente, documentos, campo, puerto, puertos, idCurrency);
+		return this.itemCostoLogisticoDAO.getCostosLogisticos(idCliente, documentos, campo, puerto, puertos, idCurrency, pais);
 	}
 	
 	@Override

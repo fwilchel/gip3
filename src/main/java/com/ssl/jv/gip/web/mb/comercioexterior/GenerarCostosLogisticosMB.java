@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -20,6 +21,7 @@ import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.negocio.dto.GrupoCostoLogistico;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ComunEJB;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
@@ -58,8 +60,9 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	private String puertoInternal="";
 	private String pais="";
 	private Long cliente;
-	private List<CostoLogisticoDTO> costos;
+	private List<GrupoCostoLogistico> costos;
 	private List<DocumentoCostosLogisticosDTO> solicitudes = new ArrayList<DocumentoCostosLogisticosDTO>();
+	private BigDecimal valor;
 	
 	@ManagedProperty(value="#{menuMB}")
 	private MenuMB menu;
@@ -110,14 +113,6 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 		return solicitudes;
 	}
 
-	public List<CostoLogisticoDTO> getCostos() {
-		return costos;
-	}
-
-	public void setCostos(List<CostoLogisticoDTO> costos) {
-		this.costos = costos;
-	}
-
 	public void setSolicitudes(List<DocumentoCostosLogisticosDTO> solicitudes) {
 		this.solicitudes = solicitudes;
 	}
@@ -141,6 +136,10 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 				documentos.add(r.getIdDocumento());
 			}
 		}
+		if (documentos.size()==0){
+			this.addMensajeError("Debe seleccionar al menos una solicitud");
+			return;
+		}
 		TerminoIncotermXMedioTransporte timt1=null;
 		for (TerminoIncotermXMedioTransporte timt:this.incoterms){
 			if (timt.getId().equals(this.terminoIncoterm)){
@@ -148,7 +147,19 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 				break;
 			}
 		}
-		costos=this.comercioEjb.generarCostosLogisticos(cliente, documentos, timt1, puertoNal, puertoInternal, this.trm.getId());
+		List<CostoLogisticoDTO> datos=this.comercioEjb.generarCostosLogisticos(cliente, documentos, timt1, puertoNal, puertoInternal, this.trm.getId(), this.pais);
+		this.costos=new ArrayList<GrupoCostoLogistico>();
+		for (CostoLogisticoDTO cl:datos){
+			GrupoCostoLogistico g=new GrupoCostoLogistico(cl.getId().getCategoria());;
+			int pos=this.costos.indexOf(g);
+			if (pos==-1){
+				g.addCosto(cl);
+				this.costos.add(g);
+			}else{
+				g=this.costos.get(pos);
+				g.addCosto(cl);
+			}
+		}
 	}
 
 	public Long getTerminoIncoterm() {
@@ -229,6 +240,24 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	
 	public void consultarSolicitudes(){
 		this.solicitudes=this.comercioEjb.consultarDocumentosCostosLogisticos(this.cliente);
+	}
+
+	public List<GrupoCostoLogistico> getCostos() {
+		return costos;
+	}
+
+	public void setCostos(List<GrupoCostoLogistico> costos) {
+		this.costos = costos;
+	}
+	
+	public BigDecimal getTotal(){
+		BigDecimal v=new BigDecimal(0);
+		if (this.costos!=null){
+			for (GrupoCostoLogistico g:this.costos){
+				v=v.add(g.getTotal());
+			}
+		}
+		return v;
 	}
 
 }
