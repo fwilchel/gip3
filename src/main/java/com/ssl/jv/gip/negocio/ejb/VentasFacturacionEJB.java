@@ -8,7 +8,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
@@ -55,19 +54,18 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 
   @EJB
   private ProductoClienteDAOLocal productoClienteDAO;
-  
+
   @EJB
   private LogAuditoriaDAOLocal logAuditoriaDAO;
-  
+
   @EJB
   private ProductosXDocumentoDAOLocal productoXDocumentoDAO;
-  
+
   @EJB
   private UbicacionDAOLocal ubicacionDAOLocal;
-  
+
   @EJB
   private TipoDocumentoDAOLocal tipoDocumentoDAOLocal;
-  
 
   @Override
   public FacturaDirectaDTO consultarDocumentoFacturaDirecta(String strConsecutivoDocumento) {
@@ -115,42 +113,56 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     parametros.put("consecutivoDocumento", consecutivo);
     return documentoDAO.consultarDocumentosPorEstadoPorTipoPorConsecutivo(parametros);
   }
-  
+
   @Override
   public List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
-			Long idPuntoVenta) {
+          Long idPuntoVenta) {
     return productoClienteDAO.consultarPorClientePuntoVenta(idCliente, idPuntoVenta);
   }
-  
-	/* (non-Javadoc)
-	 * @see com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal#crearVentaDirecta(com.ssl.jv.gip.jpa.pojo.Documento, com.ssl.jv.gip.jpa.pojo.LogAuditoria, java.util.List)
-	 */
-	@Override
-	public Documento crearVentaDirecta(Documento documento, LogAuditoria auditoria,
-			List<ProductosXDocumento> productos) {
-		//Consultar consecutivo
-		StringBuilder strConsecutivo = new StringBuilder();
-		TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK((long)ConstantesTipoDocumento.VENTA_DIRECTA);
-		
-		if(documento.getUbicacionDestino().getId().equals(com.ssl.jv.gip.util.Ubicacion.EXTERNA.getCodigo())){
-			Ubicacion ubicacionOrigen = ubicacionDAOLocal.findByPK(documento.getUbicacionOrigen().getId());
-			strConsecutivo.append(tipoDocumento.getAbreviatura()+ubicacionOrigen.getEmpresa().getId());
-		}else{
-			Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(documento.getUbicacionDestino().getId());
-			strConsecutivo.append(tipoDocumento.getAbreviatura()+ubicacionDestino.getEmpresa().getId());
-		}
-		
-		documento.setConsecutivoDocumento(strConsecutivo.toString() + "-"
-				+ this.documentoDAO.consultarProximoValorSecuencia(strConsecutivo.toString()+"_seq"));
-		documento = (Documento) this.documentoDAO.add(documento);
+
+  /* (non-Javadoc)
+   * @see com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal#crearVentaDirecta(com.ssl.jv.gip.jpa.pojo.Documento, com.ssl.jv.gip.jpa.pojo.LogAuditoria, java.util.List)
+   */
+  @Override
+  public Documento crearVentaDirecta(Documento documento, LogAuditoria auditoria,
+          List<ProductosXDocumento> productos) {
+    //Consultar consecutivo
+    StringBuilder strConsecutivo = new StringBuilder();
+    TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK((long) ConstantesTipoDocumento.VENTA_DIRECTA);
+
+    if (documento.getUbicacionDestino().getId().equals(com.ssl.jv.gip.util.Ubicacion.EXTERNA.getCodigo())) {
+      Ubicacion ubicacionOrigen = ubicacionDAOLocal.findByPK(documento.getUbicacionOrigen().getId());
+      strConsecutivo.append(tipoDocumento.getAbreviatura() + ubicacionOrigen.getEmpresa().getId());
+    } else {
+      Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(documento.getUbicacionDestino().getId());
+      strConsecutivo.append(tipoDocumento.getAbreviatura() + ubicacionDestino.getEmpresa().getId());
+    }
+
+    documento.setConsecutivoDocumento(strConsecutivo.toString() + "-"
+            + this.documentoDAO.consultarProximoValorSecuencia(strConsecutivo.toString() + "_seq"));
+    documento = (Documento) this.documentoDAO.add(documento);
 //		auditoria.setIdRegTabla(documento.getId());
 //		auditoria.setValorNuevo(documento.getConsecutivoDocumento());
 //		this.logAuditoriaDAO.add(auditoria);
-		for (ProductosXDocumento pxd : productos) {
-			pxd.getId().setIdDocumento(documento.getId());
-			this.productoXDocumentoDAO.add(pxd);
-		}
-		return documento;
-	}
+    for (ProductosXDocumento pxd : productos) {
+      pxd.getId().setIdDocumento(documento.getId());
+      this.productoXDocumentoDAO.add(pxd);
+    }
+    return documento;
+  }
 
+  @Override
+  public List<Documento> consultarDocumentosOrdenDespacho() {
+    LOGGER.debug("Metodo: <<consultarDocumentosOrdenDespacho>>");
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("idEstado", (long) ConstantesDocumento.ACTIVO);
+    parametros.put("idTipoDocumento", (long) ConstantesTipoDocumento.VENTA_DIRECTA);
+    return documentoDAO.consultarDocumentosPorEstadoPorTipoPorConsecutivo(parametros);
+  }
+
+  @Override
+  public List<ProductosXDocumento> consultarProductosPorDocumento(Long id) {
+    LOGGER.debug("Metodo: <<consultarProductosPorDocumento>>");
+    return productoDocumentoDAO.consultarPorDocumento(id);
+  }
 }

@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:misc="http://java.sun.com/jsf/composite/misc"
+  template="/ui/templates/general.xhtml">
+
+  <ui:define 
+    name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.
+  </ui:define>
+
+  <ui:define 
+    name="contenido">
+
+    <p:spacer 
+      height="40"/>
+
+    <h:form 
+      id="forma"
+      prependId="false" >
+
+      <p:messages 
+        id="msgs" />
+
+      <p:tabView 
+        id="pnlTab">
+
+        <p:tab 
+          title="#{msg.godTitle}">
+
+          <p:dataTable 
+            id="tblDocumentos"
+            var="documento" 
+            widgetVar="tblDocumentos" 
+            value="#{generarOrdenDespachoMB.listaDocumentos}" 
+            rows="10"
+            emptyMessage="#{msg.generalNoDatos}" 
+            paginator="true"
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
+            <f:facet 
+              name="header">
+              <div 
+                align="right">
+                <p:outputPanel>
+                  <h:outputText 
+                    value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText 
+                    id="globalFilter"
+                    onkeyup="PF('tblDocumentos').filter()" 
+                    style="width:150px"
+                    placeholder="#{msg.generalPalabrasBuscar}" />
+                  <p:spacer 
+                    width="30">
+                  </p:spacer>				
+                  <p:commandButton 
+                    action="introduccion" 
+                    title="#{msg.generalCancelar}" 
+                    ajax="false"
+                    icon="ui-icon-cancel" 
+                    value="#{msg.generalCancelar}" />
+                </p:outputPanel>
+              </div>
+            </f:facet>
+            <!-- detalle del documento -->
+            <p:column 
+              style="width:32px;text-align: center">
+              <p:commandButton 
+                icon="ui-icon-zoomin" 
+                title="#{msg.godBtnDetalle}"
+                actionListener="#{generarOrdenDespachoMB.seleccionarDocumento(documento)}"
+                oncomplete="PF('dlgDetalle').show()"
+                update=":dlgDetalle"/>
+            </p:column>
+            <!-- Documento -->
+            <p:column   
+              headerText="#{msg.godTblColDocumento}"
+              sortBy="#{documento.id}"
+              filterBy="#{documento.id}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{documento.id}" />
+            </p:column>
+            <!-- Consecutivo Documento -->
+            <p:column 
+              headerText="#{msg.godTblColConsecutivo}"
+              sortBy="#{documento.consecutivoDocumento}"
+              filterBy="#{documento.consecutivoDocumento}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{documento.consecutivoDocumento}" />
+            </p:column>
+            <!-- Nombre Tienda -->
+            <p:column 
+              headerText="#{msg.godTblColNombreTienda}"
+              sortBy="#{documento.ubicacionDestino.nombre}"
+              filterBy="#{documento.ubicacionDestino.nombre}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{documento.ubicacionDestino.nombre}" />
+            </p:column>
+            <!-- Fecha Generación -->
+            <p:column 
+              headerText="#{msg.godTblColFechaGeneracion}"
+              sortBy="#{documento.fechaGeneracion}"
+              filterBy="#{documento.fechaGeneracion}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{documento.fechaGeneracion}" >
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:outputText>
+            </p:column>
+          </p:dataTable>
+
+        </p:tab>
+
+      </p:tabView>
+
+    </h:form>
+
+    <p:dialog 
+      id="dlgDetalle" 
+      widgetVar="dlgDetalle" 
+      header="#{msg.gfTitle}" 
+      resizable="false" 
+      showEffect="clip" 
+      hideEffect="clip"
+      modal="true"
+      dynamic="true">
+      <p:ajax 
+        event="close" 
+        listener="#{generarOrdenDespachoMB.cancelar()}" />
+      <h:form
+        id="formaDetalle"
+        prependId="false">
+        <p:panel 
+          id="pnlDetalle">
+          <div 
+            align="left" 
+            style="margin-bottom:20px;">
+            <p:panelGrid 
+              columns="6"
+              styleClass="noBorders">
+              <!--Documento-->
+              <p:outputLabel 
+                for="id"
+                value="#{msg.godLblDocumento}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="id"
+                value="#{generarOrdenDespachoMB.seleccionado.id}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="id"/>
+              <!--Consecutivo Documento-->
+              <p:outputLabel 
+                for="consecutivoDocumento"
+                value="#{msg.godLblConsecutivoDocumento}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="consecutivoDocumento"
+                value="#{generarOrdenDespachoMB.seleccionado.consecutivoDocumento}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="false"/>
+              <p:message
+                for="consecutivoDocumento"/>
+              <!--Fecha Generación-->
+              <p:outputLabel 
+                for="fechaGeneracion"
+                value="#{msg.godLblFechaGeneracion}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="fechaGeneracion"
+                value="#{generarOrdenDespachoMB.fechaActual}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true">
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:inputText>
+              <p:message
+                for="fechaGeneracion"/>
+              <!--Ubicación Destino-->
+              <p:outputLabel 
+                for="ubicacionDestino"
+                value="#{msg.godLblUbicacionDestino}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="ubicacionDestino"
+                value="#{generarOrdenDespachoMB.seleccionado.ubicacionDestino.nombre}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"
+                size="100"/>
+              <p:message
+                for="ubicacionDestino"/>
+              <!--Fecha mín entrega-->
+              <p:outputLabel 
+                for="fechaEsperadaEntrega"
+                value="#{msg.godLblFechaMinEntrega}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="fechaEsperadaEntrega"
+                value="#{generarOrdenDespachoMB.seleccionado.fechaEsperadaEntrega}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true">
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:inputText>
+              <p:message
+                for="fechaEsperadaEntrega"/>
+              <!--Fecha máx entrega-->
+              <p:outputLabel 
+                for="fechaEntrega"
+                value="#{msg.godLblFechaMaxEntrega}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="fechaEntrega"
+                value="#{generarOrdenDespachoMB.seleccionado.fechaEntrega}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true">
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy"/>
+              </h:inputText>
+              <p:message
+                for="fechaEntrega"/>
+              <!--Entidad a Facturar-->
+              <p:outputLabel 
+                for="nombreCliente"
+                value="#{msg.godLblEntidadFacturar}"
+                styleClass="negrita"/>
+              <h:inputText 
+                id="nombreCliente"
+                value="#{generarOrdenDespachoMB.seleccionado.cliente.nombre}"
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="nombreCliente"/>
+              <!--Sitio de Entrega-->
+              <p:outputLabel 
+                for="sitioEntrega"
+                value="#{msg.godLblSitioEntrega}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="sitioEntrega"
+                value="#{generarOrdenDespachoMB.seleccionado.sitioEntrega}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"
+                size="100"/>
+              <p:message
+                for="sitioEntrega"/>
+              <!--Orden de Compra-->
+              <p:outputLabel 
+                for="documentoCliente"
+                value="#{msg.godLblOrdenCompra}"
+                styleClass="negrita"/>
+              <h:inputText
+                id="documentoCliente"
+                value="#{generarOrdenDespachoMB.seleccionado.documentoCliente}" 
+                disabled="true"
+                styleClass="filas_contenido"
+                required="true"/>
+              <p:message
+                for="documentoCliente"/>
+            </p:panelGrid>
+          </div>
+          <!---->
+          <div 
+            align="left" 
+            style="margin-bottom:20px;">
+            <p:dataTable 
+              id="tblItems"
+              var="item" 
+              value="#{generarOrdenDespachoMB.listaProductosXDocumento}" 
+              emptyMessage="#{msg.generalNoDatos}" 
+              paginator="false">
+              <!-- SKU -->
+              <p:column   
+                headerText="#{msg.godTblColSKU}">
+                <h:outputText 
+                  value="#{item.productosInventario.sku}" />
+              </p:column>
+              <!-- EAN del producto -->
+              <p:column   
+                headerText="#{msg.godTblColEANProducto}">
+                <h:outputText 
+                  value="#{item.productosInventario.codigoBarrasUv}" />
+              </p:column>
+              <!-- Nombre del producto -->
+              <p:column   
+                headerText="#{msg.godTblColNombreProducto}">
+                <h:outputText 
+                  value="#{item.productosInventario.nombre}" />
+              </p:column>
+              <!-- Cantidad a despachar -->
+              <p:column   
+                headerText="#{msg.godTblColCantidadDespachar}">
+                <h:outputText 
+                  value="#{item.cantidad1}" />
+              </p:column>
+              <!-- Unidad Venta -->
+              <p:column   
+                headerText="#{msg.godTblColUnidadVenta}">
+                <h:outputText 
+                  value="#{item.productosInventario.unidadVenta.nombre}" />
+              </p:column>
+            </p:dataTable>
+          </div>
+          <!-- botones -->
+          <f:facet
+            name="footer">
+            <!-- generar vista previa -->
+            <p:commandButton 
+              value="#{msg.godBtnGenerarVistaPrevia}" 
+              ajax="false" 
+              icon="ui-icon-document">
+              <p:fileDownload 
+                value="#{generarOrdenDespachoMB.generarVistaPrevia()}" />
+            </p:commandButton>
+            <!-- generar excel -->
+            <p:commandButton 
+              value="#{msg.godBtnGenerarExcel}" 
+              ajax="false" 
+              icon="ui-icon-document">
+              <p:fileDownload 
+                value="#{generarOrdenDespachoMB.generarExcel()}" />
+            </p:commandButton>
+            <!-- generar orden despacho -->
+            <p:commandButton 
+              value="#{msg.godBtnGenerarOrdenDespacho}" 
+              ajax="false" 
+              icon="ui-icon-document">
+              <p:fileDownload 
+                value="#{generarOrdenDespachoMB.generarOrdenDespacho()}" />
+            </p:commandButton>
+            <!-- cancelar -->
+            <p:commandButton 
+              value="#{msg.generalCerrar}" 
+              styleClass="ui-confirmdialog-no" 
+              icon="ui-icon-close" 
+              actionListener="#{generarOrdenDespachoMB.cancelar()}"
+              oncomplete="PF('dlgDetalle').hide()"
+              update=":forma:msgs"/>
+          </f:facet>
+        </p:panel>
+
+      </h:form>          
+
+    </p:dialog>
+
+  </ui:define>
+
+</ui:composition>

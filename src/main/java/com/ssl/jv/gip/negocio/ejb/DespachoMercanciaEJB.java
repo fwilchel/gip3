@@ -14,6 +14,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 
 /**
  * Session Bean implementation class OrdenDespachoEJB
@@ -37,17 +38,18 @@ public class DespachoMercanciaEJB implements DespachoMercanciaEJBLocal{
 
 	@Override
 	public List<ProductoDespacharMercanciaDTO> consultarProductoPorDocumento(String idDocumento, String idCliente){
-		List<ProductosXDocumento> resultado = productoXDocumentoDao.consultarPorDocumento(Long.parseLong(idDocumento));
-		List<ProductoDespacharMercanciaDTO> productos= new ArrayList<ProductoDespacharMercanciaDTO>();
-		for (ProductosXDocumento producto : resultado) {
-			ProductoDespacharMercanciaDTO p= new ProductoDespacharMercanciaDTO();
-			p.setId(producto.getId().getIdProducto()+"");
-			p.setIdDocumento(producto.getId().getIdDocumento()+"");
-			p.setNombre("");
-			p.setCantidadDespachada(producto.getCantidad1());
-			productos.add(p);
-		}
-		return productos ;
+//		List<ProductosXDocumento> resultado = productoXDocumentoDao.consultarPorDocumento(Long.parseLong(idDocumento));
+//		List<ProductoDespacharMercanciaDTO> productos= new ArrayList<ProductoDespacharMercanciaDTO>();
+//		for (ProductosXDocumento producto : resultado) {
+//			ProductoDespacharMercanciaDTO p= new ProductoDespacharMercanciaDTO();
+//			p.setId(producto.getId().getIdProducto()+"");
+//			p.setIdDocumento(producto.getId().getIdDocumento()+"");
+//			p.setNombre("");
+//			p.setCantidadDespachada(producto.getCantidad1());
+//			p.setSeleccionado(false);
+//			productos.add(p);
+//		}
+		return productoXDocumentoDao.consultarProductoVentaDirecta(idDocumento);
 	}
 
 	@Override
@@ -61,9 +63,9 @@ public class DespachoMercanciaEJB implements DespachoMercanciaEJBLocal{
 	}
 
 	@Override
-	public List<Documento> consultarVentasDirectas(Documento filtro) {
+	public List<Documento> consultarVentasDirectas(String filtro) {
 		try {
-			return documentoDao.consultarDocumentosDespacharMercancia(filtro.getConsecutivoDocumento());
+			return documentoDao.consultarDocumentosDespacharMercancia(filtro);
 		} catch (Exception e) {
 			LOGGER.error(e + "Error consultando ordenes de despacho con filtro");
 			return null;

@@ -16,7 +16,24 @@
 				globalOnly="false" showIcon="true"></p:messages>
 
 			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.generarOrdenDespachoTituloFrame}">
+				<p:tab title="#{msg.genrarOrdenDespachoVentaDirectaTituloFrame}">
+
+					<p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha" />
+					<p:inputText value="#{despacharMercanciaMB.currentTimeStamp}"
+						id="fecha" required="false" disabled="true">
+						<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+					</p:inputText>
+					<p:spacer width="30"></p:spacer>
+					<p:outputLabel value="#{msg.IngresarNumPedidoFactura}: "
+						for="consecutivo" />
+					<p:inputText value="#{despacharMercanciaMB.consecutivoDocumento}"
+						id="consecutivo" required="false" />
+					<p:spacer width="30"></p:spacer>
+					<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
+						update="tabPanel"
+						action="#{despacharMercanciaMB.buscarDocumentos}" />
+
+
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{despacharMercanciaMB.documentos}" rows="10"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true"
@@ -25,7 +42,7 @@
 						rowsPerPageTemplate="5,10,15">
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton  oncomplete="PF('datoDialog').show()"
+							<p:commandButton oncomplete="PF('datoDialog').show()"
 								process="@this"
 								action="#{despacharMercanciaMB.consultarProductosVentaDirecta}"
 								icon="ui-icon-search">
@@ -45,7 +62,7 @@
 							sortBy="#{dato.consecutivoDocumento}">
 							<h:outputText value="#{dato.consecutivoDocumento}" />
 						</p:column>
-						
+
 						<p:column filterBy="#{dato.ubicacionDestino.nombre}"
 							headerText="Nombre de tienda" filterMatchMode="contains"
 							sortBy="#{dato.ubicacionDestino.nombre}">
@@ -61,7 +78,7 @@
 				</p:tab>
 			</p:tabView>
 		</h:form>
-		
+
 		<p:dialog header="#{msg.generarOrdenDespachoTituloFrame}"
 			widgetVar="datoDialog" modal="true" showEffect="fade"
 			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
@@ -114,12 +131,13 @@
 							value="#{despacharMercanciaMB.seleccionado.cliente.contacto}"
 							id="clienteContacto" label="#{msg.maestroContactoAgente}"
 							disabled="true" />
-						
-						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaDespacho"
+
+						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaGeneracion"
 							styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.fechaEsperadaEntrega}"
-							id="fechaEsperadaEntrega" label="#{msg.FechaDespacho}" disabled="true">
+							id="fechaEsperadaEntrega" label="#{msg.FechaDespacho}"
+							disabled="true">
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
 
@@ -128,7 +146,7 @@
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.documentoCliente}"
 							id="clienteId" label="#{msg.NumeroPedidoWeb}" disabled="true" />
-							
+
 					</p:panelGrid>
 
 					<p:dataTable var="producto" widgetVar="productoDoc"
@@ -136,58 +154,77 @@
 						rendered="#{not empty despacharMercanciaMB.productos}"
 						value="#{despacharMercanciaMB.productos}">
 
-						<p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
-							<h:outputText value="#{producto.id}" />
+						<p:column styleClass="centro" headerText="#{msg.comprasProductoSKU}">
+							<h:outputText value="#{producto.sku}" />
 						</p:column>
 
 						<p:column headerText="#{msg.buscadorNombreProducto}">
 							<h:outputText value="#{producto.nombre}" />
 						</p:column>
-						
+
 						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
+							headerText="#{msg.despachoCantidadADespachar}">
 							<h:outputText value="#{producto.cantidadAdespachar}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
-						
+
 						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
+							headerText="#{msg.recibiProductoUnidadVenta}">
 							<h:outputText value="#{producto.unidadVenta}" />
 						</p:column>
 
 						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
-							<h:outputText value="#{producto.cantidadDespachada}">
+							headerText="#{msg.despachoCantidadADespachada}">
+							<h:outputText value="#{producto.cantidadAdespachar-producto.cantidadDespachada}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
-						
+
 						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
+							headerText="#{msg.VDPrecioUnitario}">
 							<h:outputText value="#{producto.precioUnitario}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
-						
+
 						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
-							<h:outputText value="#{producto.observaciones}"/>
+							headerText="#{msg.despachoObservacion}">
+							<h:outputText value="#{producto.observaciones}" />
 						</p:column>
-						
-						<p:summaryRow>
-							<p:column colspan="2" styleClass="derecha">
-								<h:outputText value="TOTALES " />
-							</p:column>
-						</p:summaryRow>
+
+						<p:column styleClass="derecha"
+							headerText="#{msg.despachoIncluirDespacho}">
+							<p:selectBooleanCheckbox value="#{despacharMercanciaMB.listo}" />
+						</p:column>
 					</p:dataTable>
+					
+					<p:spacer height="10" />
+					<p:panelGrid columns="2">
+						<p:column styleClass="derecha">
+							<p:commandButton value="#{msg.despachoDespachar}" icon="ui-icon-check"
+								action="#{despacharMercanciaMB.despacharVentaDirecta()}"
+								disabled="#{ordenesDespachoMB.deshabilitado}" id="btnDespachar" />
+						</p:column>
+						<p:column styleClass="derecha">
+							<h:outputText value="#{msg.MenuReportes}" />
+							<p:spacer width="10" />
+							<p:commandButton value="#{msg.ReportePdf}" icon="ui-icon-script"
+								action="#{despacharMercanciaMB.generarReporte('Excel')}"
+								disabled="#{ordenesDespachoMB.deshabilitado}" id="btnGenerarPdf" />
 
-					<p:spacer height="10"></p:spacer>
-
+							<p:commandButton value="#{msg.ReporteExcel}"
+								icon="ui-icon-script"
+								action="#{despacharMercanciaMB.generarReporte('PDF')}"
+								disabled="#{ordenesDespachoMB.deshabilitado}"
+								id="btnGenerarExcel" />
+						</p:column>
+					</p:panelGrid>
+					
 				</p:outputPanel>
 			</h:form>
 		</p:dialog>
-		
+
 	</ui:define>
 </ui:composition>
 

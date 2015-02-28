@@ -24,6 +24,7 @@ public class ProductoDespacharMercanciaDTO implements Serializable {
 	private BigDecimal cantidadAdespachar;
 	private BigDecimal precioUnitario;
 	private String observaciones;
+	private boolean seleccionado;
 	
 	public String getId() {
 		return id;
@@ -78,6 +79,12 @@ public class ProductoDespacharMercanciaDTO implements Serializable {
 	}
 	public void setCantidadAdespachar(BigDecimal cantidadAdespachar) {
 		this.cantidadAdespachar = cantidadAdespachar;
+	}
+	public boolean isSeleccionado() {
+		return seleccionado;
+	}
+	public void setSeleccionado(boolean seleccionado) {
+		this.seleccionado = seleccionado;
 	}
 	
 }

@@ -507,6 +507,8 @@ public class ProductoClienteComercioExteriorDAO extends
 				.join("productosInventario");
 		Join<ProductosXClienteComext, Cliente> clientJoin = from
 				.join("cliente");
+		from.fetch("productosInventario");
+		from.fetch("cliente");
 		CriteriaQuery<ProductosXClienteComext> select = query.select(from);
 
 		query.orderBy(criteriaBuilder.asc(productosInventarioJoin.get("sku")));
@@ -831,10 +833,11 @@ public class ProductoClienteComercioExteriorDAO extends
 				.createNamedQuery(
 						ProductosXClienteComext.PRODUCTOS_X_CLIENTE_SKU)
 				.setParameter("idCliente", idCliente).setParameter("sku", sku);
-		ProductosXClienteComext r=(ProductosXClienteComext) query.getSingleResult();
+		ProductosXClienteComext r = (ProductosXClienteComext) query
+				.getSingleResult();
 		return r;
 	}
-	
+
 	@Override
 	public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(
 			Long idDocumento, Long idCliente) {
@@ -849,7 +852,7 @@ public class ProductoClienteComercioExteriorDAO extends
 				+ "pxd.total_peso_bruto_item AS PESOBRUTO,"
 				+ "pxd.cantidad_cajas_item AS QCAJAS,  "
 				+ "pxd.cantidad_x_embalaje AS QXEMBALAJE ,"
-				+ "tl.descripcion as DESCRIPCION_LOTE, "				
+				+ "tl.descripcion as DESCRIPCION_LOTE, "
 				+ "pxd.cantidad_pallets_item as PALLETS , "
 				+ "pxc_ce.reg_sanitario as REG_SANITARIO, "
 				+ "pxc_ce.precio as PRECIO_USD, "
@@ -900,60 +903,54 @@ public class ProductoClienteComercioExteriorDAO extends
 
 				dto.setDblCantCajasXTendidoProductoInventarioCE(objs[6] != null ? new BigDecimal(
 						objs[6].toString()) : null);
-				
+
 				dto.setDblCantidadXEmbalajeProductoInventarioCE(objs[7] != null ? new BigDecimal(
 						objs[7].toString()) : null);
-				
+
 				dto.setDescripcionProductoInventarioCE(objs[8] != null ? objs[8]
 						.toString() : null);
-				
+
 				dto.setDblTotalCajasXPalletProductoInventarioCE(objs[9] != null ? new BigDecimal(
 						objs[9].toString()) : null);
-				
-				dto.setStrRegSanitario(objs[10] != null ? objs[10]
-						.toString() : null);
-				
-				dto.setDblPrecioUSD(objs[11] != null ? new BigDecimal(
-						objs[11].toString()) : null);
-				
+
+				dto.setStrRegSanitario(objs[10] != null ? objs[10].toString()
+						: null);
+
+				dto.setDblPrecioUSD(objs[11] != null ? new BigDecimal(objs[11]
+						.toString()) : null);
+
 				dto.setDblValorTotalProductoxDocumento(objs[12] != null ? new BigDecimal(
 						objs[12].toString()) : null);
-				
+
 				dto.setDblTotalCajasPallet(objs[13] != null ? new BigDecimal(
 						objs[13].toString()) : null);
-				
+
 				dto.setDescripcionProductoInventarioInglesCE(objs[14] != null ? objs[14]
 						.toString() : null);
-				
+
 				dto.setPosicionArancelariaProductoInventarioCE(objs[15] != null ? objs[15]
 						.toString() : null);
-				
+
 				dto.setNombreUnidad(objs[16] != null ? objs[16].toString()
 						: null);
 				dto.setNombreInglesUnidad(objs[17] != null ? objs[17]
 						.toString() : null);
-				
+
 				dto.setDblUnitarioTotalProductoxDocumentoIngles(objs[18] != null ? new BigDecimal(
 						objs[18].toString()) : null);
-				
-				
-				
-				
-				
+
 				dto.setDblPesoNetoEmbalajeProductoInventarioCE(objs[20] != null ? new BigDecimal(
 						objs[20].toString()) : null);
-				
+
 				dto.setDblPesoBrutoEmbalajeProductoInventarioCE(objs[21] != null ? new BigDecimal(
 						objs[21].toString()) : null);
-				
+
 				dto.setDblTotalCajasTendido(objs[22] != null ? new BigDecimal(
 						objs[22].toString()) : null);
-				
-				
+
 				dto.setNombrePrdProveedorProductoInventarioCE(objs[24] != null ? objs[24]
 						.toString() : null);
-				
-				
+
 				dto.setBlnIncluirBusqueda(true);
 
 				lista.add(dto);

@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.abastecimiento;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +13,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 import com.ssl.jv.gip.negocio.ejb.DespachoMercanciaEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 
 @ManagedBean(name="despacharMercanciaMB")
 @ViewScoped
@@ -22,11 +24,14 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private Timestamp currentTimeStamp;
+	private String consecutivoDocumento;
 	private List<Documento> documentos;
 	private List<ProductoDespacharMercanciaDTO> productos;
 	private List<ProductoDespacharMercanciaDTO> productosDespacho;
 	private Documento seleccionado;
 	private Documento filtro;
+	private boolean listo;
 	
 	@EJB
 	private DespachoMercanciaEJBLocal despachoMercancia;
@@ -35,11 +40,24 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	
 	@PostConstruct
 	public void init(){
-		documentos = despachoMercancia.consultarVentasDirectas();
+		currentTimeStamp = new Timestamp(System.currentTimeMillis());
+	}
+	
+	public String buscarDocumentos() {
+		documentos = despachoMercancia.consultarVentasDirectas(consecutivoDocumento);
+		return null;
 	}
 	
 	public void consultarProductosVentaDirecta(){
 		productos=despachoMercancia.consultarProductoPorDocumento(seleccionado.getId()+"",seleccionado.getCliente().getId()+"");
+	}
+	
+	public void despacharVentaDirecta(){
+		
+	}
+	
+	public void generarReporte(String tipo){
+		
 	}
 
 	public List<Documento> getDocumentos() {
@@ -97,6 +115,30 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	public void setProductosDespacho(
 			List<ProductoDespacharMercanciaDTO> productosDespacho) {
 		this.productosDespacho = productosDespacho;
+	}
+
+	public Timestamp getCurrentTimeStamp() {
+		return currentTimeStamp;
+	}
+
+	public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
+		this.currentTimeStamp = currentTimeStamp;
+	}
+
+	public String getConsecutivoDocumento() {
+		return consecutivoDocumento;
+	}
+
+	public void setConsecutivoDocumento(String consecutivoDocumento) {
+		this.consecutivoDocumento = consecutivoDocumento;
+	}
+
+	public boolean isListo() {
+		return listo;
+	}
+
+	public void setListo(boolean listo) {
+		this.listo = listo;
 	}
 	
 	

@@ -2179,31 +2179,38 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public List<Documento> consultarDocumentosDespacharMercancia(
-          String consecutivo) {
-    List<Documento> listado = new ArrayList<Documento>();
-    String query;
-    try {
-      query = "SELECT d FROM Documento d "
-              + "JOIN FETCH d.estadosxdocumento exd "
-              + "JOIN FETCH d.ubicacionDestino dest "
-              + "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento"
-              + " ORDER BY d.id DESC";
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Documento> consultarDocumentosDespacharMercancia(
+			String consecutivoDocumento) {
+		List<Documento> listado = new ArrayList<Documento>();
+		String query;
+		try {
+			query = "SELECT d FROM Documento d "
+					+ "JOIN FETCH d.estadosxdocumento exd "
+					+ "JOIN FETCH d.ubicacionDestino dest "
+					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
+					+ "AND d.estadosxdocumento.estado.id= :estado "
+					+ "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
+					+ "ORDER BY d.id DESC";
 
-      listado = em
-              .createQuery(query)
-              .setParameter("tipoDocumento",
-                      (long) ConstantesTipoDocumento.VENTA_DIRECTA)
-              .getResultList();
-    } catch (Exception e) {
-      LOGGER.error(e
-              + "********Error consultando Documentos por tipo de documento VENTA DIRECTA");
-      return null;
-    }
-    return listado;
-  }
+			listado = em
+					.createQuery(query)
+					.setParameter("estado", (long) ConstantesDocumento.ACTIVO)
+					.setParameter("tipoDocumento",
+							(long) ConstantesTipoDocumento.VENTA_DIRECTA)
+					.setParameter(
+							"consecutivo",
+							consecutivoDocumento.equals("") ? "%" : "%"
+									+ consecutivoDocumento + "%")
+					.setMaxResults(35).getResultList();
+		} catch (Exception e) {
+			LOGGER.error(e
+					+ "********Error consultando Documentos por tipo de documento VENTA DIRECTA");
+			return null;
+		}
+		return listado;
+	}
 
   @Override
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(

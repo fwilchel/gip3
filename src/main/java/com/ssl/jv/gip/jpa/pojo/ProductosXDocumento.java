@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 @Table(name = "productosxdocumentos")
 @NamedQueries({
 	@NamedQuery(name = "ProductosXDocumento.findAll", query = "SELECT p FROM ProductosXDocumento p"),
-	@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO, query = "SELECT p FROM ProductosXDocumento p WHERE p.id.idDocumento = :idDocumento"),
+	@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO, query = "SELECT p FROM ProductosXDocumento p WHERE p.id.idDocumento = :idDocumento ORDER BY p.productosInventario.nombre"),
 	@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_COLECCIONES, query = "SELECT distinct p FROM ProductosXDocumento p JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosxclientes pxc JOIN FETCH pi.productosInventarioComext pic JOIN FETCH pic.tipoLoteoic tl JOIN FETCH pic.cuentaContable  cc WHERE p.id.idDocumento = :idDocumento"),
 	@NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_AND_CLIENTE, query = "SELECT p FROM ProductosXDocumento p LEFT JOIN p.productosInventario.productosXClienteComexts pcce WHERE p.id.idDocumento = :idDocumento AND pcce.cliente.id = :idCliente ORDER BY pcce.regSanitario") })
 public class ProductosXDocumento implements Serializable {

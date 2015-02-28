@@ -16,9 +16,9 @@ import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 public interface DespachoMercanciaEJBLocal {
 	
 	public List<Documento> consultarVentasDirectas();
-	
-	public List<Documento> consultarVentasDirectas(Documento filtro);
 
 	public List<ProductoDespacharMercanciaDTO> consultarProductoPorDocumento(String idDocumento,String idCliente);
+
+	public List<Documento> consultarVentasDirectas(String filtro);
 
 }

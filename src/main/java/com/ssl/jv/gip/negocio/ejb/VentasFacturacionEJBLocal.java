@@ -35,10 +35,10 @@ public interface VentasFacturacionEJBLocal {
    * @return
    */
   List<Documento> consultarRemisionesPendientesPorRecibir(String consecutivo);
-  
+
   List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
-			Long idPuntoVenta);
-  
+          Long idPuntoVenta);
+
   /**
    * Crear venta directa.
    *
@@ -48,5 +48,26 @@ public interface VentasFacturacionEJBLocal {
    * @return the documento
    */
   Documento crearVentaDirecta(Documento documento, LogAuditoria auditoria,
-			List<ProductosXDocumento> productos);
+          List<ProductosXDocumento> productos);
+
+  /**
+   * Metodo que consulta los documentos tipo venta_directa en estado activo
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @return
+   */
+  List<Documento> consultarDocumentosOrdenDespacho();
+
+  /**
+   * Metodo que consulta los productos por documento
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param id
+   * @return
+   */
+  List<ProductosXDocumento> consultarProductosPorDocumento(Long id);
 }
