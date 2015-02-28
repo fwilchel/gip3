@@ -16,6 +16,16 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+import javax.faces.context.FacesContext;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  * <p>
@@ -106,18 +116,66 @@ public class GenerarOrdenDespachoMB extends UtilMB {
 
   /**
    *
+   * @return 
    */
-  public void generarVistaPrevia() {
+  public StreamedContent generarVistaPrevia() {
     LOGGER.debug("Metodo: <<generarVistaPrevia>>");
-
+    StreamedContent reporte = null;
+    Map<String, Object> parametrosReporte = new HashMap<>();
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    parametrosReporte.put("id", seleccionado.getId());
+    parametrosReporte.put("fechaGeneracion", getFechaActual());
+    parametrosReporte.put("ordenCompraCliente", seleccionado.getDocumentoCliente());
+    parametrosReporte.put("entidadFacturar", seleccionado.getCliente().getNombre());
+    parametrosReporte.put("nombre", seleccionado.getPuntoVenta().getNombre());
+    parametrosReporte.put("direccion", seleccionado.getPuntoVenta().getDireccion());
+    parametrosReporte.put("telefono", seleccionado.getPuntoVenta().getTelefono());
+    parametrosReporte.put("ciudad", seleccionado.getPuntoVenta().getCiudade().getNombre());
+    parametrosReporte.put("fechaMinEntrega", (seleccionado.getFechaEsperadaEntrega()));
+    parametrosReporte.put("fechaMaxEntrega", (seleccionado.getFechaEntrega()));
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosXDocumento, false);
+    try {
+      Hashtable<String, String> parametrosConfiguracionReporte;
+      parametrosConfiguracionReporte = new Hashtable<>();
+      parametrosConfiguracionReporte.put("tipo", "pdf");
+      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteOrdenDespachoVF.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, ds);
+      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "ReporteOrdenDespachoVF.pdf");
+    } catch (Exception e) {
+      this.addMensajeError("Problemas al generar el reporte");
+    }
+    return reporte;
   }
 
   /**
    *
+   * @return
    */
-  public void generarExcel() {
+  public StreamedContent generarExcel() {
     LOGGER.debug("Metodo: <<generarExcel>>");
-
+    StreamedContent reporte = null;
+    Map<String, Object> parametrosReporte = new HashMap<>();
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    parametrosReporte.put("ubicacionDestino", seleccionado.getUbicacionDestino().getNombre());
+    parametrosReporte.put("id", seleccionado.getId());
+    parametrosReporte.put("consecutivo", seleccionado.getConsecutivoDocumento());
+    parametrosReporte.put("entidadFacturar", seleccionado.getCliente().getNombre());
+    parametrosReporte.put("fechaMinEntrega", (seleccionado.getFechaEsperadaEntrega()));
+    parametrosReporte.put("fechaMaxEntrega", (seleccionado.getFechaEntrega()));
+    parametrosReporte.put("sitioEntrega", seleccionado.getSitioEntrega());
+    parametrosReporte.put("ordenCompraCliente", seleccionado.getDocumentoCliente());
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosXDocumento, false);
+    try {
+      Hashtable<String, String> parametrosConfiguracionReporte;
+      parametrosConfiguracionReporte = new Hashtable<>();
+      parametrosConfiguracionReporte.put("tipo", "xls");
+      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteOrdenDespachoVF_xls.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, ds);
+      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "ReporteOrdenDespachoVF.xls");
+    } catch (Exception e) {
+      this.addMensajeError("Problemas al generar el reporte");
+    }
+    return reporte;
   }
 
   /**
