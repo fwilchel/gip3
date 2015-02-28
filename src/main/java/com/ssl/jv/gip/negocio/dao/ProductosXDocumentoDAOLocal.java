@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoReporteTxtFacturaDirectaDTO;
 
@@ -19,4 +20,6 @@ public interface ProductosXDocumentoDAOLocal extends
 	public List<ProductosXDocumento> consultarPorDocumentoYCliente(Long idDocumento, Long idCliente);
 	public List<ProductoReporteTxtFacturaDirectaDTO> consultarReporteTxtVentasFD(Map<String, Object> parametros);
 	public List<ProductosXDocumento> consultarPorDocumentoConColecciones(Long id);
+	public List<ProductoDespacharMercanciaDTO> consultarProductoVentaDirecta(
+			String consecutivoDocumento);
 }

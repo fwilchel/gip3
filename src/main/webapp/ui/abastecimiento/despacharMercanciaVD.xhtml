@@ -30,7 +30,8 @@
 						id="consecutivo" required="false" />
 					<p:spacer width="30"></p:spacer>
 					<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
-						update="tabPanel" action="#{despacharMercanciaMB.buscarDocumentos}" />
+						update="tabPanel"
+						action="#{despacharMercanciaMB.buscarDocumentos}" />
 
 
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
@@ -153,8 +154,8 @@
 						rendered="#{not empty despacharMercanciaMB.productos}"
 						value="#{despacharMercanciaMB.productos}">
 
-						<p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
-							<h:outputText value="#{producto.id}" />
+						<p:column styleClass="centro" headerText="#{msg.comprasProductoSKU}">
+							<h:outputText value="#{producto.sku}" />
 						</p:column>
 
 						<p:column headerText="#{msg.buscadorNombreProducto}">
@@ -162,50 +163,64 @@
 						</p:column>
 
 						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
+							headerText="#{msg.despachoCantidadADespachar}">
 							<h:outputText value="#{producto.cantidadAdespachar}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
+							headerText="#{msg.recibiProductoUnidadVenta}">
 							<h:outputText value="#{producto.unidadVenta}" />
 						</p:column>
 
 						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
-							<h:outputText value="#{producto.cantidadDespachada}">
+							headerText="#{msg.despachoCantidadADespachada}">
+							<h:outputText value="#{producto.cantidadAdespachar-producto.cantidadDespachada}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
+							headerText="#{msg.VDPrecioUnitario}">
 							<h:outputText value="#{producto.precioUnitario}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
+							headerText="#{msg.despachoObservacion}">
 							<h:outputText value="#{producto.observaciones}" />
 						</p:column>
-						
+
 						<p:column styleClass="derecha"
 							headerText="#{msg.despachoIncluirDespacho}">
 							<p:selectBooleanCheckbox value="#{despacharMercanciaMB.listo}" />
 						</p:column>
-						
-						<p:summaryRow>
-							<p:column colspan="2" styleClass="derecha">
-								<h:outputText value="TOTALES " />
-							</p:column>
-						</p:summaryRow>
 					</p:dataTable>
+					
+					<p:spacer height="10" />
+					<p:panelGrid columns="2">
+						<p:column styleClass="derecha">
+							<p:commandButton value="#{msg.despachoDespachar}" icon="ui-icon-check"
+								action="#{despacharMercanciaMB.despacharVentaDirecta()}"
+								disabled="#{ordenesDespachoMB.deshabilitado}" id="btnDespachar" />
+						</p:column>
+						<p:column styleClass="derecha">
+							<h:outputText value="#{msg.MenuReportes}" />
+							<p:spacer width="10" />
+							<p:commandButton value="#{msg.ReportePdf}" icon="ui-icon-script"
+								action="#{despacharMercanciaMB.generarReporte('Excel')}"
+								disabled="#{ordenesDespachoMB.deshabilitado}" id="btnGenerarPdf" />
 
-					<p:spacer height="10"></p:spacer>
-
+							<p:commandButton value="#{msg.ReporteExcel}"
+								icon="ui-icon-script"
+								action="#{despacharMercanciaMB.generarReporte('PDF')}"
+								disabled="#{ordenesDespachoMB.deshabilitado}"
+								id="btnGenerarExcel" />
+						</p:column>
+					</p:panelGrid>
+					
 				</p:outputPanel>
 			</h:form>
 		</p:dialog>

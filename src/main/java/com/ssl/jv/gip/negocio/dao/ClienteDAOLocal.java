@@ -23,4 +23,5 @@ public interface ClienteDAOLocal extends IGenericDAO<Cliente> {
      * @return 
      */
     public List<Cliente> consultarListadoClientesReporteVentasCE(Map<String, Object> parametros);
+    
 }

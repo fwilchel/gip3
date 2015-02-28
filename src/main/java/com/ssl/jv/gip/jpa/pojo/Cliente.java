@@ -410,7 +410,7 @@ public class Cliente implements Serializable, Comparable {
 
 	@Override
 	public int compareTo(Object o) {
-		return this.nombre.compareTo(((Cliente)o).getNombre());
+		return this.nombre.toUpperCase().compareTo(((Cliente)o).getNombre().toUpperCase());
 	}
 	
 	

@@ -86,4 +86,5 @@ public class ProductoDespacharMercanciaDTO implements Serializable {
 	public void setSeleccionado(boolean seleccionado) {
 		this.seleccionado = seleccionado;
 	}
+	
 }

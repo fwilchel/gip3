@@ -51,6 +51,14 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	public void consultarProductosVentaDirecta(){
 		productos=despachoMercancia.consultarProductoPorDocumento(seleccionado.getId()+"",seleccionado.getCliente().getId()+"");
 	}
+	
+	public void despacharVentaDirecta(){
+		
+	}
+	
+	public void generarReporte(String tipo){
+		
+	}
 
 	public List<Documento> getDocumentos() {
 		return documentos;
