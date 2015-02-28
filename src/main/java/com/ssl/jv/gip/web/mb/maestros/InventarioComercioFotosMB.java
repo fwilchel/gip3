@@ -1,6 +1,12 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +20,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
+import javax.imageio.ImageIO;
 
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
+
+import thirdparty.mortennobel.ResampleOp;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
@@ -57,6 +68,12 @@ public class InventarioComercioFotosMB extends UtilMB {
 
 	@EJB
 	private MaestrosEJBLocal maestrosEJBLocal;
+	private String rutaFotoPequena;
+	private String rutaFotoMediana;
+	private String rutaFotoGrande;
+
+	private String pathFoto;
+	private String pathServidor;
 
 	@PostConstruct
 	public void init() {
@@ -164,6 +181,132 @@ public class InventarioComercioFotosMB extends UtilMB {
 		}
 	}
 
+	public String editar() {
+		String outcome = null;
+		try {
+			modo = Modo.EDICION;
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			Map<String, String> map = context.getExternalContext()
+					.getRequestParameterMap();
+
+			// String sku = (String) map.get("sku");
+			pathServidor = (String) map.get("pathServidor");
+			pathFoto = (String) map.get("pathFoto");
+
+			String sku = seleccionado.getProductosInventario().getSku();
+
+			rutaFotoGrande = pathServidor + "grande_" + sku + ".jpg";
+			rutaFotoMediana = pathServidor + "med_" + sku + ".jpg";
+			rutaFotoPequena = pathServidor + "peq_" + sku + ".jpg";
+
+			outcome = "modificar_foto_ce";
+		} catch (Exception e) {
+			LOGGER.error(e);
+			this.addMensajeError(e);
+		}
+		return outcome;
+	}
+
+	public void cargarArchivo(FileUploadEvent fileUploadEvent) {
+		try {
+			String path2 = "", strfileName = "", ext = "", ext2 = "";
+			int ancho, alto;
+
+			UploadedFile uploadedFile = fileUploadEvent.getFile();
+			int inicio = uploadedFile.getFileName().indexOf(".");
+			int fin = uploadedFile.getFileName().length();
+			ext = uploadedFile.getFileName().substring(inicio, fin)
+					.toLowerCase();
+			ext2 = uploadedFile.getFileName().substring(inicio + 1, fin)
+					.toLowerCase();
+
+			String rutaFoto = seleccionado.getProductosInventario().getSku()
+					+ ext;
+
+			path2 = "grande_" + seleccionado.getProductosInventario().getSku()
+					+ ext;
+			String rutaFoto3 = path2;
+			strfileName = pathFoto + path2;
+			System.out.println("ruta a cargar: " + strfileName);
+
+			File dst = new File(strfileName);
+			byte[] src = uploadedFile.getContents();
+
+			writeFileToServer(src, dst);
+
+			path2 = "med_" + seleccionado.getProductosInventario().getSku()
+					+ ext;
+			String rutaFoto1 = path2;
+			strfileName = pathFoto + path2;
+
+			ancho = 165;
+			alto = 181;
+
+			writeFileToServer2(src, dst, strfileName, ancho, ext2, alto);
+
+			path2 = "peq_" + seleccionado.getProductosInventario().getSku()
+					+ ext;
+			String rutaFoto2 = path2;
+			strfileName = pathFoto + path2;
+			ancho = 51;
+			alto = 77;
+
+			writeFileToServer2(src, dst, strfileName, ancho, ext2, alto);
+
+			seleccionado.setRutaFoto1(rutaFoto1);
+			seleccionado.setRutaFoto2(rutaFoto2);
+			seleccionado.setRutaFoto3(rutaFoto3);
+
+			this.maestrosEJBLocal
+					.actualizarProductoInventarioComext(seleccionado);
+
+			this.addMensajeInfo("Archivo cargado con éxito");
+
+		} catch (Exception e) {
+			LOGGER.error(e);
+			Exception unrollException = (Exception) this.unrollException(e,
+					ConstraintViolationException.class);
+			if (unrollException != null) {
+				this.addMensajeError(unrollException.getLocalizedMessage());
+			} else {
+				this.addMensajeError(e);
+			}
+		}
+	}
+
+	public void writeFileToServer(byte[] src, File dst) throws IOException {
+
+		InputStream in = new ByteArrayInputStream(src);
+		OutputStream out = new FileOutputStream(dst);
+
+		// Transfer bytes from in to out
+		byte[] buf = new byte[1024];
+		int len;
+		while ((len = in.read(buf)) > 0) {
+			out.write(buf, 0, len);
+		}
+
+		in.close();
+		out.close();
+
+	}
+
+	public void writeFileToServer2(byte[] src, File dst, String strfileName,
+			int ancho, String ext2, int alto) throws IOException {
+		InputStream in = new ByteArrayInputStream(src);
+		BufferedImage src2 = ImageIO.read(in);
+
+		int nuevo_ancho = (src2.getWidth() * alto) / src2.getHeight();
+
+		ResampleOp resampleOp = new ResampleOp(nuevo_ancho, alto);
+		BufferedImage rescaled = resampleOp.filter(src2, null);
+
+		ImageIO.write(rescaled, ext2, new File(strfileName));
+
+		in.close();
+	}
+
 	public MenuMB getMenu() {
 		return menu;
 	}
@@ -211,5 +354,29 @@ public class InventarioComercioFotosMB extends UtilMB {
 
 	public void setCategoriasInventarios(List<SelectItem> categoriasInventarios) {
 		this.categoriasInventarios = categoriasInventarios;
+	}
+
+	public String getRutaFotoPequena() {
+		return rutaFotoPequena;
+	}
+
+	public void setRutaFotoPequena(String rutaFotoPequena) {
+		this.rutaFotoPequena = rutaFotoPequena;
+	}
+
+	public String getRutaFotoMediana() {
+		return rutaFotoMediana;
+	}
+
+	public void setRutaFotoMediana(String rutaFotoMediana) {
+		this.rutaFotoMediana = rutaFotoMediana;
+	}
+
+	public String getRutaFotoGrande() {
+		return rutaFotoGrande;
+	}
+
+	public void setRutaFotoGrande(String rutaFotoGrande) {
+		this.rutaFotoGrande = rutaFotoGrande;
 	}
 }
