@@ -4,70 +4,75 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the tipo_documento database table.
- * 
+ *
  */
 @Entity
-@Table(name="tipo_documento")
-@NamedQuery(name="TipoDocumento.findAll", query="SELECT t FROM TipoDocumento t")
+@Table(name = "tipo_documento")
+@NamedQuery(name = "TipoDocumento.findAll", query = "SELECT t FROM TipoDocumento t")
 public class TipoDocumento implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String abreviatura;
+  @Id
+  private Long id;
 
-	private String nombre;
+  private String abreviatura;
 
-	//bi-directional many-to-many association to Estado
-	@ManyToMany
-	@JoinTable(
-		name="estadosxdocumento"
-		, joinColumns={
-			@JoinColumn(name="id_tipo_documento")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="id_estado")
-			}
-		)
-	private List<Estado> estados;
+  private String nombre;
 
-	public TipoDocumento() {
-	}
+  //bi-directional many-to-many association to Estado
+  @ManyToMany
+  @JoinTable(
+          name = "estadosxdocumento", joinColumns = {
+            @JoinColumn(name = "id_tipo_documento")
+          }, inverseJoinColumns = {
+            @JoinColumn(name = "id_estado")
+          }
+  )
+  private List<Estado> estados;
 
-	public Long getId() {
-		return this.id;
-	}
+  public TipoDocumento() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  /**
+   *
+   * @param id
+   */
+  public TipoDocumento(Long id) {
+  }
 
-	public String getAbreviatura() {
-		return this.abreviatura;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public void setAbreviatura(String abreviatura) {
-		this.abreviatura = abreviatura;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public String getAbreviatura() {
+    return this.abreviatura;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public void setAbreviatura(String abreviatura) {
+    this.abreviatura = abreviatura;
+  }
 
-	public List<Estado> getEstados() {
-		return this.estados;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public void setEstados(List<Estado> estados) {
-		this.estados = estados;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
+
+  public List<Estado> getEstados() {
+    return this.estados;
+  }
+
+  public void setEstados(List<Estado> estados) {
+    this.estados = estados;
+  }
 
 }

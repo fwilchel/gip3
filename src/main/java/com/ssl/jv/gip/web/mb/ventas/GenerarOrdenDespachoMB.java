@@ -12,10 +12,15 @@ import javax.faces.bean.ViewScoped;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.Estado;
+import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
+import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -116,7 +121,7 @@ public class GenerarOrdenDespachoMB extends UtilMB {
 
   /**
    *
-   * @return 
+   * @return
    */
   public StreamedContent generarVistaPrevia() {
     LOGGER.debug("Metodo: <<generarVistaPrevia>>");
@@ -164,14 +169,20 @@ public class GenerarOrdenDespachoMB extends UtilMB {
     parametrosReporte.put("fechaMaxEntrega", (seleccionado.getFechaEntrega()));
     parametrosReporte.put("sitioEntrega", seleccionado.getSitioEntrega());
     parametrosReporte.put("ordenCompraCliente", seleccionado.getDocumentoCliente());
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosXDocumento, false);
+    parametrosReporte.put("datos", listaProductosXDocumento);
     try {
+      StringBuilder nombreArchivo = new StringBuilder();
+      nombreArchivo.append(seleccionado.getConsecutivoDocumento());
+      nombreArchivo.append("-");
+      nombreArchivo.append(formatoFecha.format(getFechaActual()));
+      nombreArchivo.append(".");
+      nombreArchivo.append("xls");
       Hashtable<String, String> parametrosConfiguracionReporte;
       parametrosConfiguracionReporte = new Hashtable<>();
-      parametrosConfiguracionReporte.put("tipo", "xls");
-      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteOrdenDespachoVF_xls.jasper");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, ds);
-      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "ReporteOrdenDespachoVF.xls");
+      parametrosConfiguracionReporte.put("tipo", "jxls");
+      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteOrdenDespachoVF.xls");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, null);
+      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", nombreArchivo.toString());
     } catch (Exception e) {
       this.addMensajeError("Problemas al generar el reporte");
     }
@@ -183,7 +194,25 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    */
   public void generarOrdenDespacho() {
     LOGGER.debug("Metodo: <<generarOrdenDespacho>>");
-
+    Documento ordenDespacho = new Documento();
+    ordenDespacho.setFechaEsperadaEntrega(seleccionado.getFechaEsperadaEntrega());
+    ordenDespacho.setFechaEntrega(seleccionado.getFechaEntrega());
+    ordenDespacho.setSitioEntrega(seleccionado.getSitioEntrega());
+    ordenDespacho.setDocumentoCliente(seleccionado.getDocumentoCliente());
+    ordenDespacho.setFechaGeneracion(getFechaActual());
+    ordenDespacho.setUbicacionOrigen(seleccionado.getUbicacionOrigen());
+    ordenDespacho.setUbicacionDestino(seleccionado.getUbicacionDestino());
+    TipoDocumento tipoDocumento = new TipoDocumento((long) ConstantesTipoDocumento.ORDEN_DESPACHO);
+    Estado estado = new Estado((long) ConstantesDocumento.ACTIVO);
+    Estadosxdocumento exd = new Estadosxdocumento();
+    exd.setTipoDocumento(tipoDocumento);
+    exd.setEstado(estado);
+    ordenDespacho.setEstadosxdocumento(exd);
+    ordenDespacho.setCliente(seleccionado.getCliente());
+    ordenDespacho.setPuntoVenta(seleccionado.getPuntoVenta());//TODO:validar info.
+    ordenDespacho.setConsecutivoDocumento(seleccionado.getConsecutivoDocumento());
+    ordenDespacho.setProveedore(seleccionado.getProveedore());
+    ordenDespacho.setObservacionDocumento(seleccionado.getConsecutivoDocumento());
   }
 
   /**
