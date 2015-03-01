@@ -571,6 +571,11 @@
       <to-view-id>/ui/ventas/generarOrdenDespacho.xhtml</to-view-id>
     </navigation-case>
     
+    <navigation-case>
+      <from-outcome>devolucion_cliente_tienda</from-outcome>
+      <to-view-id>/ui/devoluciones/devolucionClienteTienda.xhtml</to-view-id>
+    </navigation-case>
+    
   </navigation-rule>
 
   <application>
