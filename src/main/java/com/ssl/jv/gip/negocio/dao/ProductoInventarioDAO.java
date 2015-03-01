@@ -11,6 +11,7 @@ import org.primefaces.model.SortOrder;
 
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
+
 import java.util.Map;
 
 @Stateless
@@ -159,5 +160,13 @@ public class ProductoInventarioDAO extends GenericDAO<ProductosInventario>
     query.setParameter("desactivado", true);
     return query.getResultList();
   }
+
+@Override
+public List<ProductosInventario> consultarActivosPorPaises(List<String> paises) {
+	Query query = em
+            .createNamedQuery(ProductosInventario.PRODUCTOS_INVENTARIO_FIND_ACTIVOS_PAISES);
+    query.setParameter("paises", paises);
+    return query.getResultList();
+}
 
 }

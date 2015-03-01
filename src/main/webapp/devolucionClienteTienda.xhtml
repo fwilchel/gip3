@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:misc="http://java.sun.com/jsf/composite/misc"
+	template="/ui/templates/general.xhtml">
+
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.devolucionClienteTiendaTituloI}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.devolucionClienteTiendaTituloI}">
+					
+					<p:panelGrid columns="3" id="panelFiltro"
+						columnClasses="label,value,">
+
+					
+
+						<p:outputLabel value="#{msg.RequisicionNombrFechaSistema}" for="fechaActual"
+							styleClass="negrita" />
+						<h:outputText value="#{devolucionClienteTiendaMB.fechaActual}">
+							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+						</h:outputText>
+						<p:message for="fechaActual"></p:message>
+						
+						<p:outputLabel value="#{msg.movimientosUbicacionOrigen}" for="ubicacion" styleClass="negrita" />
+						<p:selectOneMenu id="ubicacion" value="#{devolucionClienteTiendaMB.ubicacionSeleccionada}" label="#{msg.movimientosUbicacionOrigen}">
+							<f:selectItems value="#{devolucionClienteTiendaMB.listaUbicaciones}" var="ubc" itemValue="#{ubc.id}" itemLabel="#{ubc.nombre}" />
+						</p:selectOneMenu>
+						<p:message for="ubicacion"></p:message>
+						
+						
+
+					</p:panelGrid>
+					
+					
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+		
+
+	</ui:define>
+
+</ui:composition>
+
