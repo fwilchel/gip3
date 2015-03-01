@@ -194,25 +194,12 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    */
   public void generarOrdenDespacho() {
     LOGGER.debug("Metodo: <<generarOrdenDespacho>>");
-    Documento ordenDespacho = new Documento();
-    ordenDespacho.setFechaEsperadaEntrega(seleccionado.getFechaEsperadaEntrega());
-    ordenDespacho.setFechaEntrega(seleccionado.getFechaEntrega());
-    ordenDespacho.setSitioEntrega(seleccionado.getSitioEntrega());
-    ordenDespacho.setDocumentoCliente(seleccionado.getDocumentoCliente());
-    ordenDespacho.setFechaGeneracion(getFechaActual());
-    ordenDespacho.setUbicacionOrigen(seleccionado.getUbicacionOrigen());
-    ordenDespacho.setUbicacionDestino(seleccionado.getUbicacionDestino());
-    TipoDocumento tipoDocumento = new TipoDocumento((long) ConstantesTipoDocumento.ORDEN_DESPACHO);
-    Estado estado = new Estado((long) ConstantesDocumento.ACTIVO);
-    Estadosxdocumento exd = new Estadosxdocumento();
-    exd.setTipoDocumento(tipoDocumento);
-    exd.setEstado(estado);
-    ordenDespacho.setEstadosxdocumento(exd);
-    ordenDespacho.setCliente(seleccionado.getCliente());
-    ordenDespacho.setPuntoVenta(seleccionado.getPuntoVenta());//TODO:validar info.
-    ordenDespacho.setConsecutivoDocumento(seleccionado.getConsecutivoDocumento());
-    ordenDespacho.setProveedore(seleccionado.getProveedore());
-    ordenDespacho.setObservacionDocumento(seleccionado.getConsecutivoDocumento());
+//    try{
+    ventasFacturacionEJB.generarOrdenDespacho(seleccionado, listaProductosXDocumento);
+    this.addMensajeInfo(AplicacionMB.getMessage("godMsgExito", language));
+//    }catch(){
+    this.addMensajeError(AplicacionMB.getMessage("godMsgError", language));
+//    }
   }
 
   /**
