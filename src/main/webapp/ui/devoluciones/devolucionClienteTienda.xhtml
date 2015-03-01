@@ -20,35 +20,171 @@
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.devolucionClienteTiendaTituloI}">
-					
+
 					<p:panelGrid columns="3" id="panelFiltro"
 						columnClasses="label,value,">
 
-					
 
-						<p:outputLabel value="#{msg.RequisicionNombrFechaSistema}" for="fechaActual"
-							styleClass="negrita" />
-						<h:outputText value="#{devolucionClienteTiendaMB.fechaActual}">
+
+						<p:outputLabel value="#{msg.RequisicionNombrFechaSistema}"
+							for="fechaActual" styleClass="negrita" />
+						<h:outputText value="#{devolucionClienteTiendaMB.fechaActual}"
+							id="fechaActual">
 							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
 						</h:outputText>
 						<p:message for="fechaActual"></p:message>
-						
-						<p:outputLabel value="#{msg.movimientosUbicacionOrigen}" for="ubicacion" styleClass="negrita" />
-						<p:selectOneMenu id="ubicacion" value="#{devolucionClienteTiendaMB.ubicacionSeleccionada}" label="#{msg.movimientosUbicacionOrigen}">
-							<f:selectItems value="#{devolucionClienteTiendaMB.listaUbicaciones}" var="ubc" itemValue="#{ubc.id}" itemLabel="#{ubc.nombre}" />
+
+						<p:outputLabel value="#{msg.movimientosUbicacionOrigen}"
+							for="ubicacion" styleClass="negrita" />
+						<p:selectOneMenu id="ubicacion"
+							value="#{devolucionClienteTiendaMB.ubicacionSeleccionada}"
+							label="#{msg.movimientosUbicacionOrigen}">
+							<f:selectItems
+								value="#{devolucionClienteTiendaMB.listaUbicaciones}" var="ubc"
+								itemValue="#{ubc.id}" itemLabel="#{ubc.nombre}" />
 						</p:selectOneMenu>
 						<p:message for="ubicacion"></p:message>
-						
-						
+
+
 
 					</p:panelGrid>
+
+					<p:commandButton value="#{msg.comprasBuscadorProducto}"
+						oncomplete="PF('datoDialog').show()"
+						process="@this"
+						action="#{devolucionClienteTiendaMB.consultarProductos}"
+						icon="ui-icon-search" update=":datoDlg">
+					</p:commandButton>
+					
+			
+					<p:dataTable var="productoS" widgetVar="productoDocS"
+						id="tablaProductosS"
+						rendered="#{not empty devolucionClienteTiendaMB.listaProductosSeleccionados}"
+						paginator="true"
+						paginatorPosition="bottom"
+						rows="10"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15"
+						value="#{devolucionClienteTiendaMB.listaProductosSeleccionados}">
+
+						<p:column   sortBy="#{productoS.sku}" headerText="#{msg.buscadorCodigoProducto}">
+							<h:outputText  value="#{productoS.sku}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorNombreProducto}"  sortBy="#{productoS.nombre}">
+							<h:outputText value="#{productoS.nombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.devolucionTiendaBodegaADevolver}">
+							<h:inputText  id="cantidaddbl"
+								value="#{productoS.cantidadDevolver}" size="5">
+								<f:validator
+									validatorId="com.ssl.jv.gip.web.mb.util.ValidadorPositivos" />
+							</h:inputText>
+							<h:message  for="cantidaddbl" showDetail="true"
+								styleClass="error" />
+						</p:column>
+						
+						<p:column headerText="#{msg.recibiProductoUnidadVenta}"  sortBy="#{productoS.unidadNombre}">
+							<h:outputText value="#{productoS.unidadNombre}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.comprasObservacion}"  sortBy="#{productoS.unidadNombre}">
+							<h:inputTextarea value="#{productoS.observacion}" rows="1" cols="50" />
+						</p:column>
+
+						<p:column  headerText="#{msg.buscadorCategoria}"
+							 sortBy="#{productoS.categoriasInventarioNombre}">
+							<h:outputText value="#{productoS.categoriasInventarioNombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorIncluirProducto}">
+							<p:selectBooleanCheckbox value="#{productoS.incluido}"
+								id="seleccionado"
+								label="#{msg.buscadorIncluirProducto}" />
+						</p:column>
+
+
+
+					</p:dataTable>
 					
 					
+
+
 				</p:tab>
 			</p:tabView>
 		</h:form>
 
-		
+		<p:dialog header="#{msg.comprasBuscadorProducto}"
+			widgetVar="datoDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+			<h:form id="formaDlg">
+				
+					<p:messages id="msgs2" showDetail="false" showSummary="true"
+						globalOnly="true" showIcon="true"></p:messages>
+
+					<p:tabView id="tabPanel">
+					<p:tab title="#{msg.buscadorConsultarProducto}"> 
+					<p:dataTable var="producto" widgetVar="productoDoc"
+						id="tablaProductos"
+						rendered="#{not empty devolucionClienteTiendaMB.listaProductos}"
+						paginator="true"
+						paginatorPosition="bottom"
+						rows="10"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15"
+						value="#{devolucionClienteTiendaMB.listaProductos}">
+
+						<p:column  filterBy="#{producto.sku}" filterMatchMode="contains" sortBy="#{producto.sku}" headerText="#{msg.buscadorCodigoProducto}">
+							<h:outputText  value="#{producto.sku}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorNombreProducto}" filterBy="#{producto.nombre}" filterMatchMode="contains" sortBy="#{producto.nombre}">
+							<h:outputText value="#{producto.nombre}" />
+						</p:column>
+						
+						<p:column filterBy="#{producto.categoriasInventarioNombre}" headerText="#{msg.buscadorCategoria}"
+							filterMatchMode="exact" sortBy="#{producto.categoriasInventarioNombre}">
+							<f:facet name="filter">
+				                <p:selectOneMenu onchange="PF('productoDoc').filter()" style="width:120px" >
+				                    <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{devolucionClienteTiendaMB.categoriasInventarios}" />
+				                </p:selectOneMenu>
+				            </f:facet>
+							<h:outputText value="#{producto.categoriasInventarioNombre}" />
+						</p:column>
+
+						<p:column headerText="#{msg.buscadorIncluirProducto}">
+							<p:selectBooleanCheckbox value="#{producto.incluido}"
+								id="seleccionado"
+								label="#{msg.buscadorIncluirProducto}" />
+						</p:column>
+
+
+
+					</p:dataTable>
+					
+					
+								
+					</p:tab>
+					</p:tabView>
+				
+					
+				
+					<p:commandButton id="btnSelectProductos" value="#{msg.buscadorInsertarProductoSeleccionado}"  icon="ui-icon-script"
+							action="#{devolucionClienteTiendaMB.seleccionarProductos}" 	oncomplete="PF('datoDialog').hide()" update="@all" 
+								/>		
+					
+						
+
+
+				
+			</h:form>
+				
+		</p:dialog>
+
+
+
 
 	</ui:define>
 

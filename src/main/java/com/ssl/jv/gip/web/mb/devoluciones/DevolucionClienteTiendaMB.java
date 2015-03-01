@@ -9,6 +9,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
 
@@ -17,6 +19,7 @@ import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.FiltroProductoDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoDevolucionDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.negocio.ejb.DevolucionesEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
@@ -54,16 +57,20 @@ public class DevolucionClienteTiendaMB extends UtilMB {
 	
 	private List<CategoriasInventario> listaCategorias;
 	
-	private List <ProductosInventario> listaProductos;
+	private List <ProductoDevolucionDTO> listaProductos;
+	
+	private List <ProductoDevolucionDTO> listaProductosSeleccionados;
 	
 	private List <Ubicacion> listaUbicaciones;
 	
 	private Long ubicacionSeleccionada;
 	
+	private List<SelectItem> categoriasInventarios;
+	
 	@PostConstruct
 	public void init() {
-		this.listaCategorias = maestrosEjb.consultarCategoriasInventario();
-		this.listaUbicaciones = maestrosEjb.consultarUbicaciones();
+		this.cargarCategoriasInventario();
+		this.listaUbicaciones = devolucionesEJBLocal.consultarUbicacionesOrdenadas();
 		fechaActual = new Date();
 	}
 	
@@ -99,6 +106,47 @@ public class DevolucionClienteTiendaMB extends UtilMB {
 		}		
 		
 	}
+	
+	
+	public void seleccionarProductos(){
+		this.listaProductosSeleccionados = new ArrayList<ProductoDevolucionDTO>();
+		for(ProductoDevolucionDTO prod :listaProductos){
+			if(prod.isIncluido()){
+				this.listaProductosSeleccionados.add(prod);
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	private void cargarCategoriasInventario() {
+		List<CategoriasInventario> categorias = maestrosEjb
+				.consultarCategoriasInventarios();
+		SelectItemGroup group = null;
+		categoriasInventarios = new ArrayList<SelectItem>();
+		for (CategoriasInventario categoriasInventario : categorias) {
+			group = new SelectItemGroup(categoriasInventario.getNombre());
+			group.setSelectItems(getSelectItems(categoriasInventario
+					.getCategoriasInventarios()));
+			categoriasInventarios.add(group);
+		}
+
+	}
+
+	private SelectItem[] getSelectItems(
+			List<CategoriasInventario> categoriasInventarios) {
+		List<SelectItem> items = new ArrayList<SelectItem>();
+		SelectItem item = null;
+		for (CategoriasInventario categoriasInventario : categoriasInventarios) {
+			item = new SelectItem(categoriasInventario.getNombre(),
+					categoriasInventario.getNombre());
+			items.add(item);
+		}
+		return items.toArray(new SelectItem[categoriasInventarios.size()]);
+	}
+
 
 
 
@@ -122,12 +170,12 @@ public class DevolucionClienteTiendaMB extends UtilMB {
 	}
 
 
-	public List<ProductosInventario> getListaProductos() {
+	public List<ProductoDevolucionDTO> getListaProductos() {
 		return listaProductos;
 	}
 
 
-	public void setListaProductos(List<ProductosInventario> listaProductos) {
+	public void setListaProductos(List<ProductoDevolucionDTO> listaProductos) {
 		this.listaProductos = listaProductos;
 	}
 
@@ -149,6 +197,37 @@ public class DevolucionClienteTiendaMB extends UtilMB {
 
 	public void setUbicacionSeleccionada(Long ubicacionSeleccionada) {
 		this.ubicacionSeleccionada = ubicacionSeleccionada;
+	}
+
+
+	public MenuMB getMenu() {
+		return menu;
+	}
+
+
+	public void setMenu(MenuMB menu) {
+		this.menu = menu;
+	}
+
+
+	public List<SelectItem> getCategoriasInventarios() {
+		return categoriasInventarios;
+	}
+
+
+	public void setCategoriasInventarios(List<SelectItem> categoriasInventarios) {
+		this.categoriasInventarios = categoriasInventarios;
+	}
+
+
+	public List<ProductoDevolucionDTO> getListaProductosSeleccionados() {
+		return listaProductosSeleccionados;
+	}
+
+
+	public void setListaProductosSeleccionados(
+			List<ProductoDevolucionDTO> listaProductosSeleccionados) {
+		this.listaProductosSeleccionados = listaProductosSeleccionados;
 	}
 	
 	

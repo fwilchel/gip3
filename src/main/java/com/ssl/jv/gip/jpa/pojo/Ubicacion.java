@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ubicaciones")
 @NamedQueries({
-@NamedQuery(name = "Ubicacion.findAll", query = "SELECT u FROM Ubicacion u LEFT JOIN FETCH u.regione r LEFT JOIN FETCH r.pais p LEFT JOIN FETCH u.empresa e LEFT JOIN FETCH u.tipoCanal tc"),
+@NamedQuery(name = "Ubicacion.findAll", query = "SELECT u FROM Ubicacion u LEFT JOIN FETCH u.regione r LEFT JOIN FETCH r.pais p LEFT JOIN FETCH u.empresa e LEFT JOIN FETCH u.tipoCanal tc order by u.nombre"),
 @NamedQuery(name = "Ubicacion.findByIDs", query = "SELECT u FROM Ubicacion u LEFT JOIN FETCH u.regione r LEFT JOIN FETCH r.pais p WHERE u.id IN :ids")
 })
 public class Ubicacion implements Serializable {

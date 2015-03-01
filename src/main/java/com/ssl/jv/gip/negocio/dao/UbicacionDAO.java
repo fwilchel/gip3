@@ -79,4 +79,11 @@ public class UbicacionDAO extends GenericDAO<Ubicacion> implements UbicacionDAOL
 		
 	}
 
+	@Override
+	public List<Ubicacion> consultarTodasOrdenadas() {
+		Query query = em
+				.createNamedQuery("Ubicacion.findAll",Ubicacion.class);
+		return query.getResultList();
+	}
+
 }

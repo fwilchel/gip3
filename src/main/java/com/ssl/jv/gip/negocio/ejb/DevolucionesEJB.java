@@ -10,6 +10,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
+import com.ssl.jv.gip.negocio.dto.ProductoDevolucionDTO;
 
 /**
  * Session Bean implementation class DevolucionesEJB
@@ -37,13 +38,18 @@ public class DevolucionesEJB implements DevolucionesEJBLocal {
 	}
 	
 	@Override
-	public List<ProductosInventario> consultarProductosInventarioPorPais(List<String> paises){
+	public List<ProductoDevolucionDTO> consultarProductosInventarioPorPais(List<String> paises){
 		return productoInventarioDAO.consultarActivosPorPaises(paises);
 	}
 
 	@Override
-	public List<ProductosInventario> consultarProductosActivos() {
-		return productoInventarioDAO.consultarActivos();
+	public List<ProductoDevolucionDTO> consultarProductosActivos() {
+		return productoInventarioDAO.consultarActivosDev();
+	}
+	
+	@Override
+	public List<Ubicacion> consultarUbicacionesOrdenadas() {
+		return ubicacionDAO.consultarTodasOrdenadas();
 	}
 
 }
