@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -22,7 +23,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ubicaciones")
-@NamedQuery(name = "Ubicacion.findAll", query = "SELECT u FROM Ubicacion u LEFT JOIN FETCH u.regione r LEFT JOIN FETCH r.pais p LEFT JOIN FETCH u.empresa e LEFT JOIN FETCH u.tipoCanal tc")
+@NamedQueries({
+@NamedQuery(name = "Ubicacion.findAll", query = "SELECT u FROM Ubicacion u LEFT JOIN FETCH u.regione r LEFT JOIN FETCH r.pais p LEFT JOIN FETCH u.empresa e LEFT JOIN FETCH u.tipoCanal tc"),
+@NamedQuery(name = "Ubicacion.findByIDs", query = "SELECT u FROM Ubicacion u LEFT JOIN FETCH u.regione r LEFT JOIN FETCH r.pais p WHERE u.id IN :ids")
+})
 public class Ubicacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 

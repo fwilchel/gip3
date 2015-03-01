@@ -8,6 +8,8 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.Estado;
+import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
@@ -29,6 +31,7 @@ import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
+import java.util.Date;
 
 import java.util.HashMap;
 
@@ -164,5 +167,29 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
   public List<ProductosXDocumento> consultarProductosPorDocumento(Long id) {
     LOGGER.debug("Metodo: <<consultarProductosPorDocumento>>");
     return productoDocumentoDAO.consultarPorDocumento(id);
+  }
+
+  @Override
+  public void generarOrdenDespacho(Documento documento, List<ProductosXDocumento> listaProductosXDocumento) {
+    LOGGER.debug("Metodo: <<generarOrdenDespacho>>");
+    Documento ordenDespacho = new Documento();
+    ordenDespacho.setFechaEsperadaEntrega(documento.getFechaEsperadaEntrega());
+    ordenDespacho.setFechaEntrega(documento.getFechaEntrega());
+    ordenDespacho.setSitioEntrega(documento.getSitioEntrega());
+    ordenDespacho.setDocumentoCliente(documento.getDocumentoCliente());
+    ordenDespacho.setFechaGeneracion(new Date());
+    ordenDespacho.setUbicacionOrigen(documento.getUbicacionOrigen());
+    ordenDespacho.setUbicacionDestino(documento.getUbicacionDestino());
+    TipoDocumento tipoDocumento = new TipoDocumento((long) ConstantesTipoDocumento.ORDEN_DESPACHO);
+    Estado estado = new Estado((long) ConstantesDocumento.ACTIVO);
+    Estadosxdocumento exd = new Estadosxdocumento();
+    exd.setTipoDocumento(tipoDocumento);
+    exd.setEstado(estado);
+    ordenDespacho.setEstadosxdocumento(exd);
+    ordenDespacho.setCliente(documento.getCliente());
+    ordenDespacho.setPuntoVenta(documento.getPuntoVenta());
+    ordenDespacho.setConsecutivoDocumento(documento.getConsecutivoDocumento());
+    ordenDespacho.setProveedore(documento.getProveedore());
+    ordenDespacho.setObservacionDocumento(documento.getConsecutivoDocumento());
   }
 }

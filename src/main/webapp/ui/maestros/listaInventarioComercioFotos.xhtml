@@ -87,7 +87,15 @@
 				            <p:panelGrid columns="2" columnClasses="label, value" style="width: 100%;margin:0px" >
 								
 								<p:outputLabel value="#{msg.inventarioComercioFotos_Foto}" for="foto" styleClass="negrita" />
-								<p:graphicImage name="#{msg.inventarioComercioFotos_RutaHttp}#{dato.rutaFoto1}" id="foto" />
+								<p:commandLink action="#{inventarioComercioFotosMB.editar}" title="#{msg.inventarioComercioFotos_RutaHttp}#{dato.rutaFoto1}">
+									<p:graphicImage name="#{msg.inventarioComercioFotos_RutaHttp}#{dato.rutaFoto1}" id="foto" />
+									
+									<f:param name="tipoRuta" value="#{msg.Producto}" />
+						            <f:param name="pathServidor" value="#{msg.pathServidor}" />
+						            <f:param name="pathFoto" value="#{msg.pathFoto}" />
+						            
+									<f:setPropertyActionListener value="#{dato}" target="#{inventarioComercioFotosMB.seleccionado}" />
+								</p:commandLink>
 
 
 								<p:outputLabel value="#{msg.inventarioComercioFotos_Sku}" for="sku2" styleClass="negrita" />

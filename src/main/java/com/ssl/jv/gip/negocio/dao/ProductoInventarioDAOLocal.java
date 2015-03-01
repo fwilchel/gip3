@@ -37,4 +37,6 @@ public interface ProductoInventarioDAOLocal extends
    * @return
    */
   public List<ProductosInventario> consultarListadoProductosReporteVentasCE(Map<String, Object> parametros);
+  
+  public List<ProductosInventario> consultarActivosPorPaises(List<String> paises);
 }
