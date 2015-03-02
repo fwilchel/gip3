@@ -100,7 +100,7 @@ public class ItemCostoLogisticoDAO extends GenericDAO<ItemCostoLogistico> implem
 				") subq where basefob) "+
 				") /100, case when icl.id_moneda='USD' then icl.valor_minimo else (select source_destination_exchange_rate from facts_currency_conversion where id=:idCurrency) * icl.valor_minimo end as valorMinimo, icl.base_fob "+ 
 				"from item_costo_logistico icl left outer join categorias_costos_logisticos ccl on icl.id_categoria=ccl.id "+
-				"where icl.tipo=6 order by tipo, categoria, item) sqn WHERE valor>0 ORDER BY tipo, categoria, item, descripcion";
+				"where icl.tipo=6 and icl.aplica_"+terminoIncoterm+" order by tipo, categoria, item) sqn WHERE valor>0 ORDER BY tipo, categoria, item, descripcion";
 		
 		Query q=em.createNativeQuery(query2, CostoLogisticoDTO.class);
 		q=q.setParameter("idCliente", idCliente).setParameter("idCurrency", idCurrency);
