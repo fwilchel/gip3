@@ -25,6 +25,7 @@ public class ProductoDespacharMercanciaDTO implements Serializable {
 	private BigDecimal precioUnitario;
 	private String observaciones;
 	private boolean seleccionado;
+	private String moneda;
 	
 	public String getId() {
 		return id;
@@ -86,5 +87,13 @@ public class ProductoDespacharMercanciaDTO implements Serializable {
 	public void setSeleccionado(boolean seleccionado) {
 		this.seleccionado = seleccionado;
 	}
+	public String getMoneda() {
+		return moneda;
+	}
+	public void setMoneda(String moneda) {
+		this.moneda = moneda;
+	}
+	
+	
 	
 }

@@ -9,9 +9,12 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Estado;
+import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.TipoMovimiento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
@@ -69,6 +72,12 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	
 	public void despacharVentaDirecta() {
 		List<Unidad> unidades = comunEJBlocal.consultarUnidades();
+		List<Moneda> monedas = comunEJBlocal.consultarMonedas();
+		List<ProductosXDocumento> pxd = comercioExteriorEJB.consultarProductosXDocumentosPorDocumento(seleccionado.getId());
+		BodegasLogica bodegas =new BodegasLogica();
+		bodegas.setId(0L);
+		bodegas.setNombre("Default");
+		bodegas.setTipoBodega("default");
 		if (seleccionado.getEstadosxdocumento().getTipoDocumento().getId() == ConstantesTipoDocumento.ORDEN_DESPACHO) {
 
 		} else {
@@ -92,13 +101,21 @@ public class DespacharMercanciaVDMB extends UtilMB{
 				movimiento.setFecha(new Timestamp(System.currentTimeMillis()));
 				movimiento.setUbicacionOrigen(seleccionado.getUbicacionOrigen());
 				movimiento.setUbicacionDestino(seleccionado.getUbicacionDestino());//Externa
-				movimiento.setBodegasLogica1(null);//default
-				movimiento.setBodegasLogica2(null);//default
+				movimiento.setBodegasLogica1(bodegas);
+				movimiento.setBodegasLogica2(bodegas);
 				for (ProductoDespacharMercanciaDTO p : productos) {
 					if(p.isSeleccionado()){
-						movimiento.setCantidad(p.getCantidadAdespachar());//revisar
-						movimiento.setMoneda(null);//Moneda
-						movimiento.setProductosInventario(null);//Convert
+						movimiento.setCantidad(p.getCantidadAdespachar());
+						for (Moneda moneda : monedas) {
+							if(moneda.getId()==p.getMoneda()){
+								movimiento.setMoneda(moneda);
+							}
+						}
+						for (ProductosXDocumento prod : pxd) {
+							if(prod.getId().getIdProducto()+""==p.getId()){
+								movimiento.setProductosInventario(prod.getProductosInventario());
+							}
+						}
 						for (Unidad unidad : unidades) {
 							if(unidad.getAbreviacion()==p.getUnidadVenta()){
 								movimiento.setUnidade(unidad);

@@ -178,7 +178,7 @@
 						<p:column styleClass="derecha"
 							headerText="#{msg.despachoCantidadADespachada}">
 							<h:outputText
-								value="#{producto.cantidadAdespachar-producto.cantidadDespachada}">
+								value="#{producto.cantidadAdespachar}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
@@ -205,7 +205,6 @@
 					<p:panelGrid columns="2">
 						<p:column styleClass="derecha">
 							<p:commandButton value="#{msg.despachoDespachar}"
-								action="#{despacharMercanciaMB.generarReporte('Excel')}"
 								icon="ui-icon-check"
 								process="@this"
 								oncomplete="PF('confirmacionDLG').show()"
@@ -230,15 +229,14 @@
 			</h:form>
 		</p:dialog>
 
-		<p:dialog header="#{msg.TituloAnularFX}" widgetVar="confirmacionDLG"
+		<p:dialog header="#{msg.despacharMercanciaConfirmar}" widgetVar="confirmacionDLG"
 			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
 			id="confirmacionDlg">
 			<h:form id="confirmacionFormaDlg">
-				<h:outputText value="Mensaje" />
+				<h:outputText value="#{msg.despacharMercanciaSeguro}" />
 				<p:spacer height="10" />
 				<p:commandButton value="#{msg.generalConfirmar}"
-					oncomplete="PF('confirmacionDLG').hide()"
-					oncomplete="PF('datoDialog').hide()"
+					oncomplete="PF('confirmacionDLG').hide();PF('datoDialog').hide()"
 					action="#{despacharMercanciaMB.despacharVentaDirecta()}"
 					update=":forma:tabPanel">
 				</p:commandButton>

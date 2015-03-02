@@ -54,7 +54,7 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
 		List<ProductoDespacharMercanciaDTO> listado = new ArrayList<ProductoDespacharMercanciaDTO>();
 	    String query;
 	    try {
-	      query = "SELECT pxd.id_producto, pxd.id_documento, pi.sku, pi.nombre, u.abreviacion, pxd.cantidad1, pxd.cantidad2, pxd.valor_unitatrio_ml, pxd.observacion1 "
+	      query = "SELECT pxd.id_producto, pxd.id_documento, pi.sku, pi.nombre, u.abreviacion, pxd.cantidad1, pxd.cantidad2, pxd.valor_unitatrio_ml, pxd.observacion1, pxd.id_ml "
 	      		  + "from productosxdocumentos pxd inner join documentos d on pxd.id_documento=d.id "
 	      		  + "inner join productos_inventario pi on pi.id=pxd.id_producto "
 	      		  + "inner join unidades u on u.id=pi.id_ud " 
@@ -72,6 +72,7 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
 					dto.setCantidadDespachada(objs[6] != null ? new BigDecimal(objs[6].toString()) : null);
 					dto.setPrecioUnitario(objs[7] != null ? new BigDecimal(objs[7].toString()) : null);
 					dto.setObservaciones(objs[8] != null ? objs[8].toString() : null);
+					dto.setMoneda(objs[9] != null ? objs[9].toString() : null);
 					dto.setSeleccionado(false);
 					listado.add(dto);
 				}
