@@ -338,16 +338,16 @@ public class ImprimirReporteVentasFDMB  extends UtilMB {
 					c5.setCellValue("CONSECUTIVO RM");					
 					
 					c6 = r.createCell((short) 6);
-					c6.setCellValue("CONSECUTIVO FÁCTURA");
+					c6.setCellValue("CONSECUTIVO FACTURA");
 					
 					c7 = r.createCell((short) 7);
-					c7.setCellValue("NÚMERO FÁCTURA");
+					c7.setCellValue("NÃšMERO FACTURA");
 					
 					c8 = r.createCell((short) 8);
 					c8.setCellValue("SKU PRODUCTO");
 					
 					c9 = r.createCell((short) 9);
-					c9.setCellValue("DESCRIPCIÓN PRODUCTO");
+					c9.setCellValue("DESCRIPCIÃ“N PRODUCTO");
 					
 					c10 = r.createCell((short) 10);
 					c10.setCellValue("CANTIDAD VD");

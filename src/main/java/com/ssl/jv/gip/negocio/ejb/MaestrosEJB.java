@@ -630,7 +630,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 
 	@Override
 	public List<Moneda> consultarMonedas() {
-		return monedaDAO.consultarTodas();
+		return (List<Moneda>)monedaDAO.findAll();
 	}
 
 	@Override

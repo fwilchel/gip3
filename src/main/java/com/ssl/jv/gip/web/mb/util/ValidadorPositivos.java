@@ -14,8 +14,8 @@ public class ValidadorPositivos implements Validator {
 
 		if (d <= 0) {
 
-			FacesMessage msg = new FacesMessage("Error de validación:", 
-                    "El número debe ser mayor a cero");
+			FacesMessage msg = new FacesMessage("Error de validaciÃ³n:", 
+                    "El nÃºmero debe ser mayor a cero");
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 
 			throw new ValidatorException(msg);

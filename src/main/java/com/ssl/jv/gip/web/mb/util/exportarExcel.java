@@ -1,6 +1,6 @@
 //=======================================================================
 //ARCHIVO exportarExcel.java
-//FECHA CREACIÓN: 26 Julio 2006  
+//FECHA CREACIÃ“N: 26 Julio 2006  
 //AUTOR: Compucetro Colombia LTDA.
 //AUTOR: Diana Garcia
 //=======================================================================

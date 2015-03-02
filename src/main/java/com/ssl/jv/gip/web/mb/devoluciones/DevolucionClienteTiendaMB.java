@@ -200,13 +200,13 @@ public class DevolucionClienteTiendaMB extends UtilMB {
 
 		documento=this.ventasFacturacionEJBLocal.crearVentaDirecta(documento, auditoria, productos);
 		
-		this.addMensajeInfo("La mercancía ha sido recibida satisfactoriamente");
+		this.addMensajeInfo("La mercancÃ­a ha sido recibida satisfactoriamente");
 		
 		this.listaProductos = new ArrayList<ProductoDevolucionDTO>();
 		this.listaProductosSeleccionados = new ArrayList<ProductoDevolucionDTO>();
 		}catch(Exception e){
 			LOGGER.error(e);
-			this.addMensajeError("Ha ocurrido un error guardando la devolución.");
+			this.addMensajeError("Ha ocurrido un error guardando la devoluciÃ³n.");
 		}
 
 

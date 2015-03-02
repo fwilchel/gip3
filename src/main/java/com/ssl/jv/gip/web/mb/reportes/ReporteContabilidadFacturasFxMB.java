@@ -179,7 +179,7 @@ public class ReporteContabilidadFacturasFxMB extends UtilMB {
 							contaFact = contaFact + 1;
 
 
-							if (cuentaxfactura.getBlnSolicitudCafe()) //Factura de Café
+							if (cuentaxfactura.getBlnSolicitudCafe()) //Factura de CafÃ©
 							{
 								writer.write("2," + contaFact + ",01,1305100001," + cuentaxfactura.getStrCodigoSAP() + ",,,,,," + cuentaxfactura.getDblTotalFactura()+",,,AC,C1,"+cuentaxfactura.getDblTotalFactura()+",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + "VENTAS " + cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomCliente());	    												
 
