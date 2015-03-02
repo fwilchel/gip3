@@ -76,6 +76,7 @@
 						</p:column>
 
 						<p:column headerText="#{msg.devolucionTiendaBodegaADevolver}">
+							
 							<h:inputText  id="cantidaddbl"
 								value="#{productoS.cantidadDevolver}" size="5">
 								<f:validator
@@ -89,7 +90,7 @@
 							<h:outputText value="#{productoS.unidadNombre}" />
 						</p:column>
 						
-						<p:column headerText="#{msg.comprasObservacion}"  sortBy="#{productoS.unidadNombre}">
+						<p:column headerText="#{msg.comprasObservacion}" width="35%"  sortBy="#{productoS.unidadNombre}">
 							<h:inputTextarea value="#{productoS.observacion}" rows="1" cols="50" />
 						</p:column>
 
@@ -109,6 +110,22 @@
 					</p:dataTable>
 					
 					
+
+					<p:commandButton value="#{msg.devolucionTiendaBodegaIngresarDevoluciones}" update="@all" rendered="#{not empty devolucionClienteTiendaMB.listaProductos}"
+						actionListener="#{devolucionClienteTiendaMB.devolverProductos}"   >
+						<p:confirm header="Confirmación" message="#{msg.devolucionClienteTiendaSeguro}"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+					
+					<p:commandButton value="#{msg.comprasPDF}" rendered="#{not empty devolucionClienteTiendaMB.listaProductos}"></p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade"
+						hideEffect="explode">
+						<p:commandButton value="#{msg.comprasSeguro}" type="button" 
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="#{msg.comprasNoSeguro}" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
 
 
 				</p:tab>

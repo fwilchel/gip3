@@ -174,7 +174,7 @@ implements ProductoInventarioDAOLocal {
 
 		if(listado != null){
 			for(Object[] objs : listado){
-				ProductoDevolucionDTO dto = new ProductoDevolucionDTO((Long)objs[0],(String)objs[1],(String)objs[2],(Long)objs[3],(String)objs[4] ,(String)objs[5]);			
+				ProductoDevolucionDTO dto = new ProductoDevolucionDTO((Long)objs[0],(String)objs[1],(String)objs[2],(Long)objs[3],(String)objs[4] ,(String)objs[5],(Long)objs[6]);			
 				lista.add(dto);
 			}
 		}
@@ -192,7 +192,7 @@ implements ProductoInventarioDAOLocal {
 
 		if(listado != null){
 			for(Object[] objs : listado){
-				ProductoDevolucionDTO dto = new ProductoDevolucionDTO((Long)objs[0],(String)objs[1],(String)objs[2],(Long)objs[3],(String)objs[4],(String)objs[5]);			
+				ProductoDevolucionDTO dto = new ProductoDevolucionDTO((Long)objs[0],(String)objs[1],(String)objs[2],(Long)objs[3],(String)objs[4],(String)objs[5],(Long)objs[6]);			
 				lista.add(dto);
 			}
 		}

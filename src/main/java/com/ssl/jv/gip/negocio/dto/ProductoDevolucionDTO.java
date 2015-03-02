@@ -26,6 +26,7 @@ public class ProductoDevolucionDTO implements Serializable{
 	
 	private String unidadNombre;
 	
+	private Long unidadId;
 	
 	private boolean incluido;
 	
@@ -33,7 +34,7 @@ public class ProductoDevolucionDTO implements Serializable{
 
 
 	public ProductoDevolucionDTO(Long id, String sku, String nombre,
-			Long categoriasInventarioId, String categoriasInventarioNombre, String unidadNombre) {
+			Long categoriasInventarioId, String categoriasInventarioNombre, String unidadNombre, Long unidadId) {
 		super();
 		this.id = id;
 		this.sku = sku;
@@ -41,6 +42,7 @@ public class ProductoDevolucionDTO implements Serializable{
 		this.categoriasInventarioId = categoriasInventarioId;
 		this.categoriasInventarioNombre = categoriasInventarioNombre;
 		this.unidadNombre = unidadNombre;
+		this.unidadId = unidadId;
 	}
 
 	public Long getId() {
@@ -113,6 +115,14 @@ public class ProductoDevolucionDTO implements Serializable{
 
 	public void setUnidadNombre(String unidadNombre) {
 		this.unidadNombre = unidadNombre;
+	}
+
+	public Long getUnidadId() {
+		return unidadId;
+	}
+
+	public void setUnidadId(Long unidadId) {
+		this.unidadId = unidadId;
 	}
 	
 	
