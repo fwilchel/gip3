@@ -11,6 +11,7 @@ import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.jpa.pojo.Unidad;
 
 /**
  * The Interface ComunEJBLocal.
@@ -53,5 +54,7 @@ public interface ComunEJBLocal {
 	public List<Proveedor> consultarProveedores();
 	
 	public List<Pais> consultarPaisesTodos();
+
+	public List<Unidad> consultarUnidades();
 
 }

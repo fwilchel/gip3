@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.abastecimiento;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -9,11 +10,20 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.Estado;
+import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
+import com.ssl.jv.gip.jpa.pojo.TipoMovimiento;
+import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
+import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
+import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.DespachoMercanciaEJBLocal;
+import com.ssl.jv.gip.util.BodegaLogica;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
+import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 @ManagedBean(name="despacharMercanciaMB")
 @ViewScoped
@@ -28,19 +38,24 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	private String consecutivoDocumento;
 	private List<Documento> documentos;
 	private List<ProductoDespacharMercanciaDTO> productos;
-	private List<ProductoDespacharMercanciaDTO> productosDespacho;
+	List<Estado> estados;
 	private Documento seleccionado;
 	private Documento filtro;
 	private boolean listo;
 	
 	@EJB
 	private DespachoMercanciaEJBLocal despachoMercancia;
+	@EJB
+	private ComercioExteriorEJBLocal comercioExteriorEJB;
+	@EJB
+	private ComunEJBLocal comunEJBlocal;
 	
 	private Integer language=AplicacionMB.SPANISH;
 	
 	@PostConstruct
 	public void init(){
 		currentTimeStamp = new Timestamp(System.currentTimeMillis());
+		estados = comunEJBlocal.consultarEstados();
 	}
 	
 	public String buscarDocumentos() {
@@ -52,8 +67,59 @@ public class DespacharMercanciaVDMB extends UtilMB{
 		productos=despachoMercancia.consultarProductoPorDocumento(seleccionado.getId()+"",seleccionado.getCliente().getId()+"");
 	}
 	
-	public void despacharVentaDirecta(){
-		
+	public void despacharVentaDirecta() {
+		List<Unidad> unidades = comunEJBlocal.consultarUnidades();
+		if (seleccionado.getEstadosxdocumento().getTipoDocumento().getId() == ConstantesTipoDocumento.ORDEN_DESPACHO) {
+
+		} else {
+			try {
+				List<Estado> estados = comunEJBlocal.consultarEstados();
+				
+				for (Estado estado : estados) {
+					if (estado.getId() == ConstantesDocumento.CERRADO) {
+						seleccionado.getEstadosxdocumento().setEstado(estado);
+						this.comercioExteriorEJB.actualizarEstadoDocumento(this.seleccionado);
+					}
+				}
+				this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
+			}
+			try {
+				MovimientosInventario movimiento = new MovimientosInventario();
+				movimiento.setDocumento(seleccionado);
+				movimiento.setFecha(new Timestamp(System.currentTimeMillis()));
+				movimiento.setUbicacionOrigen(seleccionado.getUbicacionOrigen());
+				movimiento.setUbicacionDestino(seleccionado.getUbicacionDestino());//Externa
+				movimiento.setBodegasLogica1(null);//default
+				movimiento.setBodegasLogica2(null);//default
+				for (ProductoDespacharMercanciaDTO p : productos) {
+					if(p.isSeleccionado()){
+						movimiento.setCantidad(p.getCantidadAdespachar());//revisar
+						movimiento.setMoneda(null);//Moneda
+						movimiento.setProductosInventario(null);//Convert
+						for (Unidad unidad : unidades) {
+							if(unidad.getAbreviacion()==p.getUnidadVenta()){
+								movimiento.setUnidade(unidad);
+							}
+						}
+						movimiento.setValorUnitarioMl(0);
+						movimiento.setValotUnitarioUsd(0);
+						try {
+							despachoMercancia.crearMovimientoInventario(movimiento);
+						} catch (Exception e) {
+							e.printStackTrace();
+						} 
+					}
+				}
+				this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
+			}
+		}
+		documentos = despachoMercancia.consultarVentasDirectas(consecutivoDocumento);
 	}
 	
 	public void generarReporte(String tipo){
@@ -106,15 +172,6 @@ public class DespacharMercanciaVDMB extends UtilMB{
 
 	public void setLanguage(Integer language) {
 		this.language = language;
-	}
-
-	public List<ProductoDespacharMercanciaDTO> getProductosDespacho() {
-		return productosDespacho;
-	}
-
-	public void setProductosDespacho(
-			List<ProductoDespacharMercanciaDTO> productosDespacho) {
-		this.productosDespacho = productosDespacho;
 	}
 
 	public Timestamp getCurrentTimeStamp() {
