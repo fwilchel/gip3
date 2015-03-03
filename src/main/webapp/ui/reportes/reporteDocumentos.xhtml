@@ -151,7 +151,7 @@
 						
 						<p:column headerText="#{msg.documentoFechaGeneracion}">
 							<h:outputText value="#{dato.fechaGeneracion}">
-								<f:convertDateTime pattern="dd-MMM-yyyy" />
+								<f:convertDateTime pattern="EEE, d MMM yyyy HH:mm:ss a" timeZone="EST" />
 							</h:outputText>
 						</p:column>
 						
