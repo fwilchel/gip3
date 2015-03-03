@@ -292,13 +292,17 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	public void guardar(){
 		BigDecimal valorTotal = new BigDecimal(0);
 		for (DocumentoCostosLogisticosDTO d:this.solicitudes){
-			valorTotal=valorTotal.add(d.getValorTotalDocumento());
+			if (d.getSeleccionada()){
+				valorTotal=valorTotal.add(d.getValorTotalDocumento());
+			}
 		}
 		BigDecimal fob=this.getTotalFOB();
 		BigDecimal fletes=this.getTotalFletes();
 		BigDecimal seguros=this.getTotalSeguros();
 		for (DocumentoCostosLogisticosDTO d:this.solicitudes){
-			this.comercioEjb.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal).multiply(fob), d.getValorTotalDocumento().divide(valorTotal).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal).multiply(seguros));
+			if (d.getSeleccionada()){
+				this.comercioEjb.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal).multiply(fob), d.getValorTotalDocumento().divide(valorTotal).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal).multiply(seguros));
+			}
 		}
 		
 		this.addMensajeInfo("Se han actualizado correctamente los costos logísticos en las Solicitudes seleccionadas");
