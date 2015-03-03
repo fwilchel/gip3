@@ -260,4 +260,38 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 		return v;
 	}
 
+	public BigDecimal getTotalFOB(){
+		BigDecimal v=new BigDecimal(0);
+		if (this.costos!=null){
+			for (GrupoCostoLogistico g:this.costos){
+				v=v.add(g.getTotalFOB());
+			}
+		}
+		return v;
+	}
+
+	public BigDecimal getTotalFletes(){
+		BigDecimal v=new BigDecimal(0);
+		if (this.costos!=null){
+			for (GrupoCostoLogistico g:this.costos){
+				v=v.add(g.getTotalFletes());
+			}
+		}
+		return v;
+	}
+	
+	public BigDecimal getTotalSeguros(){
+		BigDecimal v=new BigDecimal(0);
+		if (this.costos!=null){
+			for (GrupoCostoLogistico g:this.costos){
+				v=v.add(g.getTotalSeguros());
+			}
+		}
+		return v;
+	}
+	
+	public void guardar(){
+		
+	}
+	
 }

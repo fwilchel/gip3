@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ssl.jv.gip.util.ECampoAcumula;
+
 public class GrupoCostoLogistico implements Comparable{
 
 	private String categoria;
@@ -76,4 +78,35 @@ public class GrupoCostoLogistico implements Comparable{
 		}
 		return v;
 	}
+
+	public BigDecimal getTotalFOB(){
+		BigDecimal v=new BigDecimal(0);
+		for (CostoLogisticoDTO c:this.costos){
+			if (c.isSeleccionado() && c.getId().getCampoAcumula().equals(ECampoAcumula.FOB.name())){
+				v=v.add(new BigDecimal(c.getId().getValor()));
+			}
+		}
+		return v;
+	}
+
+	public BigDecimal getTotalFletes(){
+		BigDecimal v=new BigDecimal(0);
+		for (CostoLogisticoDTO c:this.costos){
+			if (c.isSeleccionado() && c.getId().getCampoAcumula().equals(ECampoAcumula.FLETES.name())){
+				v=v.add(new BigDecimal(c.getId().getValor()));
+			}
+		}
+		return v;
+	}
+	
+	public BigDecimal getTotalSeguros(){
+		BigDecimal v=new BigDecimal(0);
+		for (CostoLogisticoDTO c:this.costos){
+			if (c.isSeleccionado() && c.getId().getCampoAcumula().equals(ECampoAcumula.SEGURO.name())){
+				v=v.add(new BigDecimal(c.getId().getValor()));
+			}
+		}
+		return v;
+	}
+	
 }

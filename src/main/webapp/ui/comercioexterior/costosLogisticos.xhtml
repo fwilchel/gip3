@@ -69,7 +69,7 @@
 						</p:selectOneMenu>
 						<p:message for="puertoInternal"></p:message>
 						
-						<p:commandButton action="#{generarCLMB.consultarSolicitudes}" update="tablaDatos" value="#{msg.costosLogisticosConsultar}" process="@form"></p:commandButton>
+						<p:commandButton action="#{generarCLMB.consultarSolicitudes}" update="tablaDatos" value="#{msg.costosLogisticosConsultar}" icon="ui-icon-search" process="@form"></p:commandButton>
 						
 					</p:panelGrid>
 
@@ -107,7 +107,7 @@
 					
 					<p:panel id="panelCostos">
 						<p:panelGrid columns="1" id="panelG">
-							<p:commandButton value="#{msg.costosLogisticosGenerar}" action="#{generarCLMB.generarCostosLogisticos()}" process="@form" update=":forma"></p:commandButton>
+							<p:commandButton value="#{msg.costosLogisticosGenerar}" action="#{generarCLMB.generarCostosLogisticos()}" process="@form" update=":forma" icon="ui-icon-play"></p:commandButton>
 							<p:spacer height="10"></p:spacer>
 						    <p:dataTable var="grupo" id="costos" value="#{generarCLMB.costos}" emptyMessage="No hay registros" >
 						        <f:facet name="header">
@@ -118,9 +118,9 @@
 						            <p:row>
 						                <p:column  headerText="Incluido" style="width:40px" width="40" />
 						                <p:column  headerText="Item" />
-						                <p:column  headerText="Descripciï¿½n" />
+						                <p:column  headerText="Descripción" />
 						                <p:column  headerText="Cantidad" style="width:100px" width="100"/>
-						                <p:column  headerText="Valor Mï¿½nimo" style="width:100px" width="100"/>
+						                <p:column  headerText="Valor Mínimo" style="width:100px" width="100"/>
 						                <p:column  headerText="Valor" style="width:100px" width="100"/>
 						            </p:row>
 						        </p:columnGroup>
@@ -139,13 +139,13 @@
 							        <p:column headerText="Item">
 		            					<h:outputText value="#{costo.id.item}" />
 		        					</p:column>
-		        					<p:column headerText="Descripcion">
+		        					<p:column headerText="Descripción">
 		            					<h:outputText value="#{costo.id.descripcion}" />
 		        					</p:column>
 		        					<p:column headerText="Cantidad" styleClass="derecha">
 		            					<h:outputText value="#{costo.id.cantidad}" />
 		        					</p:column>
-		        					<p:column headerText="Valor Mï¿½nimo" styleClass="derecha">
+		        					<p:column headerText="Valor Mínimo" styleClass="derecha">
 		            					<h:outputText value="#{costo.id.valorMinimo}" />
 		        					</p:column>
 							 		<p:column headerText="Valor" styleClass="derecha">
@@ -172,13 +172,33 @@
 								
 								 <p:columnGroup type="footer">
 						            <p:row>
-						                <p:column footerText="Total :" colspan="5" style="text-align:right"/>
-						                <p:column style="text-align:right">
+						                <p:column colspan="4" style="text-align:right">
 						                	<f:facet name="footer">
-								                    <h:outputText value="#{generarCLMB.total}"  >
+						                		<p:commandButton value="Guardar" icon="ui-icon-disk" action="#{generarCLMB.guardar}" update=":forma:msgs"></p:commandButton>
+							                </f:facet>
+						                </p:column>
+						                <p:column style="text-align:right; border:none" colspan="2">
+						                	<f:facet name="footer">
+						                		<h:panelGrid columns="2" style="text-align:right; border:none; font-size:10">
+						                			<h:outputText value="FOB" style="text-align:right; border:none; font-size:10"/>
+								                    <h:outputText value="#{generarCLMB.totalFOB}" style="text-align:right; border:none; font-size:10" >
 				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
 				            						</h:outputText>
-			            						</f:facet>
+				            						<h:outputText value="Fletes" style="text-align:right; border:none; font-size:10"/>
+				            						<h:outputText value="#{generarCLMB.totalFletes}" style="text-align:right; border:none; font-size:10" >
+				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+				            						</h:outputText>
+				            						<h:outputText value="Seguros" style="text-align:right; border:none; font-size:10"/>
+				            						<h:outputText value="#{generarCLMB.totalSeguros}" style="text-align:right; border:none; font-size:10" >
+				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+				            						</h:outputText>
+				            						<h:outputText value="Total" style="text-align:right; border:none; font-size:12; font-weight:bold"/>
+				            						<h:outputText value="#{generarCLMB.total}" style="text-align:right; border:none; font-size:12; font-weight:bold" >
+				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+				            						</h:outputText>
+				            					</h:panelGrid>
+			            					</f:facet>
+		            					
 						                </p:column>
 						            </p:row>
 						        </p:columnGroup>
