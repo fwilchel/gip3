@@ -1,8 +1,17 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 
 /**
@@ -25,6 +34,9 @@ public class CategoriaCostoLogistico implements Serializable {
 	//bi-directional many-to-one association to ItemCostoLogistico
 	@OneToMany(mappedBy="categoriaCostoLogistico")
 	private List<ItemCostoLogistico> itemsCostosLogisticos;
+	
+	@Column(name="campo_acumula")
+	private String campoAcumula; 
 
 	public CategoriaCostoLogistico() {
 	}
@@ -65,6 +77,14 @@ public class CategoriaCostoLogistico implements Serializable {
 		itemCostoLogistico.setCategoriaCostoLogistico(null);
 
 		return itemCostoLogistico;
+	}
+
+	public String getCampoAcumula() {
+		return campoAcumula;
+	}
+
+	public void setCampoAcumula(String campoAcumula) {
+		this.campoAcumula = campoAcumula;
 	}
 
 }

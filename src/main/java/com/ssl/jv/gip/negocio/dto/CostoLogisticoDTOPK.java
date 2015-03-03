@@ -16,6 +16,7 @@ public class CostoLogisticoDTOPK implements Serializable {
 	private Double valor;
 	private Double valorMinimo;
 	private Boolean baseFob;
+	private String campoAcumula;
 
 	public Integer getTipo() {
 		return tipo;
@@ -80,12 +81,22 @@ public class CostoLogisticoDTOPK implements Serializable {
 	public void setBaseFob(Boolean baseFob) {
 		this.baseFob = baseFob;
 	}
+	
+	public String getCampoAcumula() {
+		return campoAcumula;
+	}
+
+	public void setCampoAcumula(String campoAcumula) {
+		this.campoAcumula = campoAcumula;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((baseFob == null) ? 0 : baseFob.hashCode());
+		result = prime * result
+				+ ((campoAcumula == null) ? 0 : campoAcumula.hashCode());
 		result = prime * result
 				+ ((cantidad == null) ? 0 : cantidad.hashCode());
 		result = prime * result
@@ -113,6 +124,11 @@ public class CostoLogisticoDTOPK implements Serializable {
 			if (other.baseFob != null)
 				return false;
 		} else if (!baseFob.equals(other.baseFob))
+			return false;
+		if (campoAcumula == null) {
+			if (other.campoAcumula != null)
+				return false;
+		} else if (!campoAcumula.equals(other.campoAcumula))
 			return false;
 		if (cantidad == null) {
 			if (other.cantidad != null)

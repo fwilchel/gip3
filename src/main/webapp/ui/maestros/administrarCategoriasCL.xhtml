@@ -67,6 +67,10 @@
 							<h:outputText value="#{registro.nombre}" />
 						</p:column>
 
+						<p:column headerText="#{msg.categoriasCLCampoAcumula}"
+							sortBy="#{registro.campoAcumula}">
+							<h:outputText value="#{registro.campoAcumula}" />
+						</p:column>
 
 					</p:dataTable>
 				</p:tab>
@@ -101,7 +105,14 @@
 							label="#{msg.categoriasCLNombre}" />
 						<p:message for="nombre"></p:message>
 
-
+						<p:outputLabel value="#{msg.categoriasCLCampoAcumula}" for="campoA"
+							styleClass="negrita" />
+						<p:selectOneMenu id="campoA"
+							value="#{categoriasCLMB.seleccionado.campoAcumula}"
+							label="#{msg.categoriasCLCampoAcumula}">
+							<f:selectItems value="#{categoriasCLMB.campoAcumula}" />
+						</p:selectOneMenu>
+						<p:message for="campoA"></p:message>
 
 						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
 							action="#{categoriasCLMB.guardar}"

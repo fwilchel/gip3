@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -7,11 +8,13 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriaCostoLogistico;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
+import com.ssl.jv.gip.util.ECampoAcumula;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
@@ -43,6 +46,7 @@ public class CategoriasCLMB extends UtilMB{
 
 	private List<CategoriaCostoLogistico> categorias;
 	private CategoriaCostoLogistico seleccionado;
+	private List<SelectItem> campoAcumula;
 	
 	private Modo modo;
 	
@@ -62,6 +66,10 @@ public class CategoriasCLMB extends UtilMB{
 	@PostConstruct
 	public void init(){
 		categorias=this.maestrosEjb.consultarCategoriasCostosLogisticos();
+		campoAcumula=new ArrayList<SelectItem>();
+		for (ECampoAcumula eca:ECampoAcumula.values()){
+			this.campoAcumula.add(new SelectItem(eca.name(), eca.getDescripcion()));
+		}
 	}
 
 	public AplicacionMB getAppMB() {
@@ -128,6 +136,14 @@ public class CategoriasCLMB extends UtilMB{
 
 	public void setCategorias(List<CategoriaCostoLogistico> categorias) {
 		this.categorias = categorias;
+	}
+
+	public List<SelectItem> getCampoAcumula() {
+		return campoAcumula;
+	}
+
+	public void setCampoAcumula(List<SelectItem> campoAcumula) {
+		this.campoAcumula = campoAcumula;
 	}
 
 	
