@@ -10,11 +10,12 @@ public class CostoLogisticoDTO {
 	@EmbeddedId
 	private CostoLogisticoDTOPK id;
 	@Transient
-	private boolean seleccionado=true;
-	
+	private boolean seleccionado = true;
+
 	public CostoLogisticoDTOPK getId() {
 		return id;
 	}
+
 	public void setId(CostoLogisticoDTOPK id) {
 		this.id = id;
 	}
@@ -22,8 +23,9 @@ public class CostoLogisticoDTO {
 	public boolean isSeleccionado() {
 		return seleccionado;
 	}
+
 	public void setSeleccionado(boolean seleccionado) {
 		this.seleccionado = seleccionado;
 	}
-	
+
 }
