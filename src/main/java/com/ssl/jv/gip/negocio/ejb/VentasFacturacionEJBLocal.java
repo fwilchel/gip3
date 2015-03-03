@@ -70,7 +70,7 @@ public interface VentasFacturacionEJBLocal {
    * @return
    */
   List<ProductosXDocumento> consultarProductosPorDocumento(Long id);
-  
+
   /**
    * Metodo que crea la orden de despacho
    *
@@ -78,7 +78,7 @@ public interface VentasFacturacionEJBLocal {
    * @email dpoveda@gmail.com
    * @phone 3192594013
    * @param documento
-   * @param listaProductosXDocumento 
+   * @param listaProductosXDocumento
    */
   void generarOrdenDespacho(Documento documento, List<ProductosXDocumento> listaProductosXDocumento);
 }

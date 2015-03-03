@@ -12,15 +12,10 @@ import javax.faces.bean.ViewScoped;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.Estado;
-import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
-import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -33,14 +28,10 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 /**
- * <p>
- * Title: GIP</p>
- * <p>
- * Description: GIP</p>
- * <p>
- * Copyright: Copyright (c) 2014</p>
- * <p>
- * Company: Soft Studio Ltda.</p>
+ * <p>Title: GIP</p>
+ * <p>Description: GIP</p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: Soft Studio Ltda.</p>
  *
  * @author Diego Poveda
  * @email dpoveda@gmail.com

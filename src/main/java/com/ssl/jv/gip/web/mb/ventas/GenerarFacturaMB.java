@@ -15,25 +15,25 @@ import javax.faces.model.SelectItem;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import java.math.RoundingMode;
+import java.util.Objects;
 
 /**
  * <p>
  * Title: GIP
  * </p>
- *
  * <p>
  * Description: GIP
  * </p>
- *
  * <p>
  * Copyright: Copyright (c) 2014
  * </p>
- *
  * <p>
  * Company: Soft Studio Ltda.
  * </p>
@@ -62,6 +62,9 @@ public class GenerarFacturaMB extends UtilMB {
   @EJB
   private VentasFacturacionEJBLocal ventasFacturacionEJB;
 
+  @EJB
+  private MaestrosEJBLocal maestrosEJB;
+
   @ManagedProperty(value = "#{aplicacionMB}")
   private AplicacionMB appMB;
 
@@ -75,24 +78,28 @@ public class GenerarFacturaMB extends UtilMB {
    */
   private List<SelectItem> listaTiposFacturas;
   /**
-   * tipo de factura seleccionado
+   * tipo de factura remisionSeleccionada
    */
   private Integer tipoFacturaSeleccionado;
   /**
    * lista de documentos que retorna la consulta a la base de datos
    */
-  private List<Documento> listaDocumentos;
+  private List<Documento> listaRemisiones;
   /**
-   * Registro seleccionado
+   * Registro remisionSeleccionada
    */
-  private Documento seleccionado;
+  private Documento remisionSeleccionada;
+  /**
+   *
+   */
+  private List<ProductosXDocumento> listaProductosXRemision;
 
-  private BigDecimal subtotal = new BigDecimal(123456789);
-  private BigDecimal descuento = new BigDecimal(189);
-  private BigDecimal totalIva10 = new BigDecimal(123456789);
-  private BigDecimal totalIva16 = new BigDecimal(6789);
-  private BigDecimal totalIva5 = new BigDecimal(123456789);
-  private BigDecimal total = new BigDecimal(16789);
+  private BigDecimal subtotal = new BigDecimal(0);
+  private BigDecimal descuento = new BigDecimal(0);
+  private BigDecimal totalIva10 = new BigDecimal(0);
+  private BigDecimal totalIva16 = new BigDecimal(0);
+  private BigDecimal totalIva5 = new BigDecimal(0);
+  private BigDecimal total = new BigDecimal(0);
 
   private Modo modo;
 
@@ -107,10 +114,10 @@ public class GenerarFacturaMB extends UtilMB {
    */
   private void cargarTiposFacuras() {
     LOGGER.debug("Metodo: <<init>>");
-    listaTiposFacturas = new ArrayList<>();
-    listaTiposFacturas.add(new SelectItem(ConstantesTipoDocumento.FACTURA, AplicacionMB.getMessage("gfFltLblItmTipoFacturaDirecta", language)));
-    listaTiposFacturas.add(new SelectItem(ConstantesTipoDocumento.FACTURA_ESPECIAL, AplicacionMB.getMessage("gfFltLblItmTipoFacturaEspecial", language)));
-    listaTiposFacturas.add(new SelectItem(ConstantesTipoDocumento.SOLICITUD_PEDIDO, AplicacionMB.getMessage("gfFltLblItmTipoFacturaConsumoServicios", language)));
+    setListaTiposFacturas(new ArrayList<SelectItem>());
+    getListaTiposFacturas().add(new SelectItem(ConstantesTipoDocumento.FACTURA, AplicacionMB.getMessage("gfFltLblItmTipoFacturaDirecta", language)));
+    getListaTiposFacturas().add(new SelectItem(ConstantesTipoDocumento.FACTURA_ESPECIAL, AplicacionMB.getMessage("gfFltLblItmTipoFacturaEspecial", language)));
+    getListaTiposFacturas().add(new SelectItem(ConstantesTipoDocumento.SOLICITUD_PEDIDO, AplicacionMB.getMessage("gfFltLblItmTipoFacturaConsumoServicios", language)));
   }
 
   /**
@@ -118,7 +125,7 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void buscar() {
     LOGGER.debug("Metodo: <<buscar>>");
-    setListaDocumentos(ventasFacturacionEJB.consultarRemisionesPendientesPorRecibir(getConsecutivoDocumento()));
+    setListaRemisiones(ventasFacturacionEJB.consultarRemisionesPendientesPorRecibir(getConsecutivoDocumento()));
   }
 
   /**
@@ -127,18 +134,64 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void seleccionarRemision(Documento documento) {
     LOGGER.debug("Metodo: <<seleccionarRemision>>");
-    seleccionado = documento;
-    seleccionado.setTerminosTransportes(new ArrayList<TerminosTransporte>());
-    seleccionado.setFechaGeneracion(getFechaActual());
-
-    if (seleccionado.getSitioEntrega() != null && seleccionado.getSitioEntrega().equals("CS") && tipoFacturaSeleccionado != ConstantesTipoDocumento.SOLICITUD_PEDIDO) {
+    setRemisionSeleccionada(documento);
+    if (getRemisionSeleccionada().getSitioEntrega() != null && getRemisionSeleccionada().getSitioEntrega().equals("CS") && getTipoFacturaSeleccionado() != ConstantesTipoDocumento.SOLICITUD_PEDIDO) {
       modo = Modo.MENSAGE;
       addMensajeError("msgDetalle", AplicacionMB.getMessage("gfErrorValidacion1", language));
-    } else if (tipoFacturaSeleccionado == ConstantesTipoDocumento.SOLICITUD_PEDIDO && (seleccionado.getSitioEntrega() == null || !seleccionado.getSitioEntrega().equals("CS"))) {
+    } else if (getTipoFacturaSeleccionado() == ConstantesTipoDocumento.SOLICITUD_PEDIDO && (getRemisionSeleccionada().getSitioEntrega() == null || !remisionSeleccionada.getSitioEntrega().equals("CS"))) {
       modo = Modo.MENSAGE;
       addMensajeError("msgDetalle", AplicacionMB.getMessage("gfErrorValidacion2", language));
     } else {
       modo = Modo.DETALLE;
+      // lista de productos para el documento de VD relacionado a la remision
+      Documento documentoRelacionado = maestrosEJB.consultarDocumentoPorConsecutivo(getRemisionSeleccionada().getObservacionDocumento());
+      List<ProductosXDocumento> listaSugrenciasConsultadas = ventasFacturacionEJB.consultarProductosPorDocumento(documentoRelacionado.getId());
+      // lista de productos para la remision seleccionada
+      List<ProductosXDocumento> listaCantidadesRemision = ventasFacturacionEJB.consultarProductosPorDocumento(remisionSeleccionada.getId());
+      listaProductosXRemision = new ArrayList<>();
+      // se cruzan las dos listas para crear una nueva
+      for (ProductosXDocumento pxd : listaSugrenciasConsultadas) {
+        for (ProductosXDocumento pxdqty : listaCantidadesRemision) {
+          if (Objects.equals(pxd.getId().getIdProducto(), pxdqty.getId().getIdProducto())) {
+            BigDecimal valorUnitatrioMl = pxd.getValorUnitatrioMl().setScale(1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal cantidad = pxdqty.getCantidad1().setScale(1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal descuentoProducto = pxd.getDescuentoxproducto().setScale(1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal descuentoCliente = documentoRelacionado.getCliente().getDescuentoCliente().setScale(1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal desc = ((valorUnitatrioMl.multiply(cantidad)).multiply((descuentoProducto.divide(new BigDecimal(100))))).setScale(1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal valorTotal = ((valorUnitatrioMl.multiply(cantidad)).subtract(desc)).setScale(1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal descCliente = (valorTotal.multiply(descuentoCliente.divide(new BigDecimal(100)))).setScale(1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal otrosDescuentos = valorTotal.multiply(pxd.getOtrosDescuentos().divide(new BigDecimal(100))).setScale(1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal iva = (pxd.getIva()).setScale(1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal valorIva = ((valorTotal.subtract(descCliente).subtract(otrosDescuentos)).multiply(pxd.getIva().divide(new BigDecimal(100)))).setScale(1, BigDecimal.ROUND_HALF_UP);
+
+            ProductosXDocumento p = new ProductosXDocumento();
+            p.setValorUnitatrioMl(valorUnitatrioMl);
+            p.setObservacion2("blank");
+            p.setProductosInventario(pxd.getProductosInventario());
+            p.setUnidade(pxd.getUnidade());
+            p.setCantidad1(cantidad);
+            p.setValorTotal(valorTotal);
+            p.setDescuentoxproducto(descuentoProducto);
+            p.setIva(iva);
+            p.setOtrosDescuentos(otrosDescuentos);
+//            objpxd.setDblCantidadADespachada(pxd.getDblCantidadADespachada());
+
+            listaProductosXRemision.add(p);
+
+            // totales
+            subtotal = subtotal.add(valorTotal);
+            descuento = descuento.add(otrosDescuentos).add(descCliente);
+            if (p.getIva().compareTo(new BigDecimal(10.0)) == 0) {
+              totalIva10 = totalIva10.add(valorIva);
+            } else if (p.getIva().compareTo(new BigDecimal(5.0)) == 0) {
+              totalIva5 = totalIva5.add(valorIva);
+            } else if (p.getIva().compareTo(new BigDecimal(16.0)) == 0) {
+              totalIva16 = totalIva16.add(valorIva);
+            }
+          }
+        }
+      }
+      total = subtotal.add(descuento).add(totalIva10).add(totalIva5).add(totalIva16);
     }
   }
 
@@ -163,8 +216,8 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void cancelar() {
     LOGGER.debug("Metodo: <<cancelar>>");
-    this.seleccionado = null;
-    this.consecutivoDocumento = "";
+    this.setRemisionSeleccionada(null);
+    this.setConsecutivoDocumento("");
   }
 
   /**
@@ -182,7 +235,7 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public boolean isFacturaDirecta() {
     LOGGER.debug("Metodo: <<isFacturaDirecta>>");
-    return tipoFacturaSeleccionado == null ? false : tipoFacturaSeleccionado.equals(ConstantesTipoDocumento.FACTURA);
+    return getTipoFacturaSeleccionado() == null ? false : getTipoFacturaSeleccionado().equals(ConstantesTipoDocumento.FACTURA);
   }
 
   /**
@@ -191,7 +244,7 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public boolean isFacturaEspecial() {
     LOGGER.debug("Metodo: <<isFacturaEspecial>>");
-    return tipoFacturaSeleccionado == null ? false : tipoFacturaSeleccionado.equals(ConstantesTipoDocumento.FACTURA_ESPECIAL);
+    return getTipoFacturaSeleccionado() == null ? false : getTipoFacturaSeleccionado().equals(ConstantesTipoDocumento.FACTURA_ESPECIAL);
   }
 
   /**
@@ -200,7 +253,7 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public boolean isFacturaConsumoServicios() {
     LOGGER.debug("Metodo: <<isFacturaConsumoServicios>>");
-    return tipoFacturaSeleccionado == null ? false : tipoFacturaSeleccionado.equals(ConstantesTipoDocumento.SOLICITUD_PEDIDO);
+    return getTipoFacturaSeleccionado() == null ? false : getTipoFacturaSeleccionado().equals(ConstantesTipoDocumento.SOLICITUD_PEDIDO);
   }
 
   /**
@@ -243,34 +296,6 @@ public class GenerarFacturaMB extends UtilMB {
   }
 
   /**
-   * @return the listaDocumentos
-   */
-  public List<Documento> getListaDocumentos() {
-    return listaDocumentos;
-  }
-
-  /**
-   * @param listaDocumentos the listaDocumentos to set
-   */
-  public void setListaDocumentos(List<Documento> listaDocumentos) {
-    this.listaDocumentos = listaDocumentos;
-  }
-
-  /**
-   * @return the seleccionado
-   */
-  public Documento getSeleccionado() {
-    return seleccionado;
-  }
-
-  /**
-   * @param seleccionado the seleccionado to set
-   */
-  public void setSeleccionado(Documento seleccionado) {
-    this.seleccionado = seleccionado;
-  }
-
-  /**
    * @return the listaTiposFacturas
    */
   public List<SelectItem> getListaTiposFacturas() {
@@ -296,6 +321,48 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void setTipoFacturaSeleccionado(Integer tipoFacturaSeleccionado) {
     this.tipoFacturaSeleccionado = tipoFacturaSeleccionado;
+  }
+
+  /**
+   * @return the listaRemisiones
+   */
+  public List<Documento> getListaRemisiones() {
+    return listaRemisiones;
+  }
+
+  /**
+   * @param listaRemisiones the listaRemisiones to set
+   */
+  public void setListaRemisiones(List<Documento> listaRemisiones) {
+    this.listaRemisiones = listaRemisiones;
+  }
+
+  /**
+   * @return the remisionSeleccionada
+   */
+  public Documento getRemisionSeleccionada() {
+    return remisionSeleccionada;
+  }
+
+  /**
+   * @param remisionSeleccionada the remisionSeleccionada to set
+   */
+  public void setRemisionSeleccionada(Documento remisionSeleccionada) {
+    this.remisionSeleccionada = remisionSeleccionada;
+  }
+
+  /**
+   * @return the listaProductosXRemision
+   */
+  public List<ProductosXDocumento> getListaProductosXRemision() {
+    return listaProductosXRemision;
+  }
+
+  /**
+   * @param listaProductosXRemision the listaProductosXRemision to set
+   */
+  public void setListaProductosXRemision(List<ProductosXDocumento> listaProductosXRemision) {
+    this.listaProductosXRemision = listaProductosXRemision;
   }
 
   /**
@@ -381,4 +448,5 @@ public class GenerarFacturaMB extends UtilMB {
   public void setTotal(BigDecimal total) {
     this.total = total;
   }
+
 }

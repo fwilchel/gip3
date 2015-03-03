@@ -88,7 +88,7 @@
             id="tblDocumentos"
             var="documento" 
             widgetVar="tblDocumentos" 
-            value="#{generarFacturaMB.listaDocumentos}" 
+            value="#{generarFacturaMB.listaRemisiones}" 
             rows="10"
             emptyMessage="#{msg.generalNoDatos}" 
             paginator="true"
@@ -216,7 +216,7 @@
                 styleClass="negrita"/>
               <h:outputText 
                 id="nombreCliente"
-                value="#{generarFacturaMB.seleccionado.cliente.nombre}"/>
+                value="#{generarFacturaMB.remisionSeleccionada.cliente.nombre}"/>
               <p:message
                 for="nombreCliente"/>
               <p:spacer/>
@@ -229,7 +229,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="id"
-                value="#{generarFacturaMB.seleccionado.id}" 
+                value="#{generarFacturaMB.remisionSeleccionada.id}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true"/>
@@ -242,7 +242,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="consecutivoDocumento"
-                value="#{generarFacturaMB.seleccionado.consecutivoDocumento}" 
+                value="#{generarFacturaMB.remisionSeleccionada.consecutivoDocumento}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="false"/>
@@ -255,7 +255,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="fechaGeneracion"
-                value="#{generarFacturaMB.seleccionado.fechaGeneracion}" 
+                value="#{generarFacturaMB.remisionSeleccionada.fechaGeneracion}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true">
@@ -271,7 +271,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="ubicacionDestino"
-                value="#{generarFacturaMB.seleccionado.ubicacionDestino.nombre}" 
+                value="#{generarFacturaMB.remisionSeleccionada.ubicacionDestino.nombre}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true"/>
@@ -284,7 +284,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="observacionDocumento"
-                value="#{generarFacturaMB.seleccionado.observacionDocumento}" 
+                value="#{generarFacturaMB.remisionSeleccionada.observacionDocumento}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true"/>
@@ -298,7 +298,7 @@
                 rendered="#{generarFacturaMB.facturaEspecial or generarFacturaMB.facturaConsumoServicios}"/>
               <h:inputText
                 id="numeroFacturaEspecial"
-                value="#{generarFacturaMB.seleccionado.observacionDocumento}" 
+                value="#{generarFacturaMB.remisionSeleccionada.observacionDocumento}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true"
@@ -315,69 +315,69 @@
             <p:dataTable 
               id="tblItems"
               var="item" 
-              value="#{generarFacturaMB.seleccionado.terminosTransportes}" 
+              value="#{generarFacturaMB.listaProductosXRemision}" 
               emptyMessage="#{msg.generalNoDatos}" 
               paginator="false">
               <!-- SKU -->
               <p:column   
                 headerText="#{msg.gfTblColSKU}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.productosInventario.sku}" />
               </p:column>
               <!-- Nombre del producto -->
               <p:column   
                 headerText="#{msg.gfTblColNombreProducto}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.productosInventario.nombre}" />
               </p:column>
               <!-- Unidad Venta -->
               <p:column   
                 headerText="#{msg.gfTblColUnidadVenta}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.productosInventario.unidadVenta.nombre}" />
               </p:column>
               <!-- Cantidad Remisionada -->
               <p:column   
                 headerText="#{msg.gfTblColCantidadRemisionada}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.cantidad1}" />
               </p:column>
               <!-- Vr.Unitario -->
               <p:column   
                 headerText="#{msg.gfTblColValorUnitario}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.valorUnitatrioMl}" />
               </p:column>
               <!-- %Dcto. Prod. -->
               <p:column   
                 headerText="#{msg.gfTblColDctoProd}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.descuentoxproducto}" />
               </p:column>
               <!-- Valor Total -->
               <p:column   
                 headerText="#{msg.gfTblColValorTotal}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.valorTotal}" />
               </p:column>
               <!-- %Otros Dctos. -->
               <p:column   
                 headerText="#{msg.gfTblColOtrosDescuentos}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.otrosDescuentos}" />
               </p:column>
               <!-- %Iva -->
               <p:column   
                 headerText="#{msg.gfTblColIva}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.iva}" />
               </p:column>
               <!-- Cantidad Venta Directa -->
               <p:column   
                 headerText="#{msg.gfTblColCantidadVentaDirecta}"
                 rendered="#{generarFacturaMB.facturaDirecta}">
                 <h:outputText 
-                  value="#{item.id}" />
+                  value="#{item.cantidad1}" />
               </p:column>
             </p:dataTable>
           </div>
