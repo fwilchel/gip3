@@ -154,7 +154,8 @@
 						rendered="#{not empty despacharMercanciaMB.productos}"
 						value="#{despacharMercanciaMB.productos}">
 
-						<p:column styleClass="centro" headerText="#{msg.comprasProductoSKU}">
+						<p:column styleClass="centro"
+							headerText="#{msg.comprasProductoSKU}">
 							<h:outputText value="#{producto.sku}" />
 						</p:column>
 
@@ -176,7 +177,8 @@
 
 						<p:column styleClass="derecha"
 							headerText="#{msg.despachoCantidadADespachada}">
-							<h:outputText value="#{producto.cantidadAdespachar-producto.cantidadDespachada}">
+							<h:outputText
+								value="#{producto.cantidadAdespachar}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
@@ -198,12 +200,14 @@
 							<p:selectBooleanCheckbox value="#{despacharMercanciaMB.listo}" />
 						</p:column>
 					</p:dataTable>
-					
+
 					<p:spacer height="10" />
 					<p:panelGrid columns="2">
 						<p:column styleClass="derecha">
-							<p:commandButton value="#{msg.despachoDespachar}" icon="ui-icon-check"
-								action="#{despacharMercanciaMB.despacharVentaDirecta()}"
+							<p:commandButton value="#{msg.despachoDespachar}"
+								icon="ui-icon-check"
+								process="@this"
+								oncomplete="PF('confirmacionDLG').show()"
 								disabled="#{ordenesDespachoMB.deshabilitado}" id="btnDespachar" />
 						</p:column>
 						<p:column styleClass="derecha">
@@ -220,11 +224,25 @@
 								id="btnGenerarExcel" />
 						</p:column>
 					</p:panelGrid>
-					
+
 				</p:outputPanel>
 			</h:form>
 		</p:dialog>
 
+		<p:dialog header="#{msg.despacharMercanciaConfirmar}" widgetVar="confirmacionDLG"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+			id="confirmacionDlg">
+			<h:form id="confirmacionFormaDlg">
+				<h:outputText value="#{msg.despacharMercanciaSeguro}" />
+				<p:spacer height="10" />
+				<p:commandButton value="#{msg.generalConfirmar}"
+					oncomplete="PF('confirmacionDLG').hide();PF('datoDialog').hide()"
+					action="#{despacharMercanciaMB.despacharVentaDirecta()}"
+					update=":forma:tabPanel">
+				</p:commandButton>
+			</h:form>
+		</p:dialog>
+		
 	</ui:define>
 </ui:composition>
 

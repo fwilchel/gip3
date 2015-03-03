@@ -182,7 +182,7 @@ public class ImprimirRemisionMB  extends UtilMB {
 
 		 	parametros.put("despachado_a",seleccionado2.getNombrePuntoVenta());
 			parametros.put("direccionpv",seleccionado2.getDireccionPuntoVenta());
-			parametros.put("telefonopv","Teléfono: " + seleccionado2.getTelefonoPuntoVenta());		 
+			parametros.put("telefonopv","TelÃ©fono: " + seleccionado2.getTelefonoPuntoVenta());		 
 			parametros.put("ciudadpv",seleccionado2.getNombreCiudadPuntoVenta());
 			parametros.put("documento",seleccionado.getDocumentoCliente());
 			parametros.put("fecha",fechaStringGeneracion);

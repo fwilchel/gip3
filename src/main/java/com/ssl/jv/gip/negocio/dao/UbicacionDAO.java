@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 
 @Stateless
@@ -66,6 +68,22 @@ public class UbicacionDAO extends GenericDAO<Ubicacion> implements UbicacionDAOL
 	
 	public List<Ubicacion> findAll(){
 		return this.em.createNamedQuery("Ubicacion.findAll").getResultList();
+	}
+	
+	@Override
+	public List <Ubicacion> consultarPorIds(List<Long> ids){
+		Query query = em
+				.createNamedQuery("Ubicacion.findByIDs",Ubicacion.class);
+		query.setParameter("ids", ids);
+		return query.getResultList();
+		
+	}
+
+	@Override
+	public List<Ubicacion> consultarTodasOrdenadas() {
+		Query query = em
+				.createNamedQuery("Ubicacion.findAll",Ubicacion.class);
+		return query.getResultList();
 	}
 
 }

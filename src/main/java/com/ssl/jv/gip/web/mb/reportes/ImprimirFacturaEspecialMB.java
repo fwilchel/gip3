@@ -182,7 +182,7 @@ public class ImprimirFacturaEspecialMB  extends UtilMB {
 		
 		 /*parametros.put("despachado_a",pv.getStrNombre());
 		 parametros.put("direccionpv",pv.getStrDireccion());
-		 parametros.put("telefonopv","TelÈfono: " + pv.getStrTelefono());		 
+		 parametros.put("telefonopv","Tel√©fono: " + pv.getStrTelefono());		 
 		 parametros.put("ciudadpv",pv.getStrNomCiudad());
 		 parametros.put("documento",docCabecera.getStrDocumentoCliente());
 		 parametros.put("fecha",fechaStringGeneracion);
@@ -221,7 +221,7 @@ public class ImprimirFacturaEspecialMB  extends UtilMB {
 			
 			 parametros.put("despachado_a",seleccionado2.getNombrePuntoVenta());
 			 parametros.put("direccionpv",seleccionado2.getDireccionPuntoVenta());
-			 parametros.put("telefonopv","TelÈfono: " + seleccionado2.getTelefonoPuntoVenta());		 
+			 parametros.put("telefonopv","Tel√©fono: " + seleccionado2.getTelefonoPuntoVenta());		 
 			 parametros.put("ciudadpv",seleccionado2.getNombreCiudadPuntoVenta());
 			 parametros.put("documento",seleccionado.getDocumentoCliente());
 			 parametros.put("fecha",fechaStringGeneracion);
@@ -262,7 +262,7 @@ public class ImprimirFacturaEspecialMB  extends UtilMB {
 				}
 				
 				
-				if (n > 0){ //Existe alg˙n registro con descuento adicioanl
+				if (n > 0){ //Existe alg√∫n registro con descuento adicioanl
 					 parametros.put("descuentoCliente",seleccionado2.getDescuentoCliente().toString()+ "%");
 					 parametros.put("observaciones", "Los productos marcados con (*) incluyen descuento adicional.");
 					 parametros.put("mark", "(*)");				 

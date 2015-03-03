@@ -172,8 +172,8 @@ public class ReporteContabilidadFacturasFDMB extends UtilMB {
 				CuentaContableDTO cuentaxfacturadtlle2 = new CuentaContableDTO();
 				
 				
-				System.out.println("TAMAÑO LIST:"+ listaCuentasxFactura.size());
-				System.out.println("TAMAÑO LIST2:"+ listaCuentasxFactura2.size());
+				System.out.println("TAMAÃ‘O LIST:"+ listaCuentasxFactura.size());
+				System.out.println("TAMAÃ‘O LIST2:"+ listaCuentasxFactura2.size());
 				
 				
 				
@@ -246,7 +246,7 @@ public class ReporteContabilidadFacturasFDMB extends UtilMB {
 									
 									if (contaX == 1)
 									{
-										if (contaX == contaP) //Es el último
+										if (contaX == contaP) //Es el Ãºltimo
 										{
 											cuadrar = cuentaxfactura.getDblTotalFactura().intValue() - total_Cuentas;												
 											valor_UltimaCuenta = (cuadrar) + cuentaxfacturadtlle.getDblTotal().intValue();
@@ -260,7 +260,7 @@ public class ReporteContabilidadFacturasFDMB extends UtilMB {
 									}
 									else
 									{
-										if (contaX == contaP) //Es el último
+										if (contaX == contaP) //Es el Ãºltimo
 										{
 											cuadrar = cuentaxfactura.getDblTotalFactura().intValue() - total_Cuentas;												
 											valor_UltimaCuenta = (cuadrar) + cuentaxfacturadtlle.getDblTotal().intValue();

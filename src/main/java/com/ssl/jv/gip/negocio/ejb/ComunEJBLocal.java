@@ -6,11 +6,14 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Empresa;
 import com.ssl.jv.gip.jpa.pojo.Estado;
+import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.jpa.pojo.Unidad;
+import com.ssl.jv.gip.util.BodegaLogica;
 
 /**
  * The Interface ComunEJBLocal.
@@ -53,5 +56,9 @@ public interface ComunEJBLocal {
 	public List<Proveedor> consultarProveedores();
 	
 	public List<Pais> consultarPaisesTodos();
+
+	public List<Unidad> consultarUnidades();
+
+	public List<Moneda> consultarMonedas();
 
 }

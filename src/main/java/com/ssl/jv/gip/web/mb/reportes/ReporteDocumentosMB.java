@@ -640,7 +640,7 @@ public class ReporteDocumentosMB extends UtilMB{
 	public void setIntUbicacion(Long intUbicacion) {
 		this.intUbicacion = intUbicacion;
 		/*
-		 * Si la ubicación escogida es diferente a Todas, la asignamos a
+		 * Si la ubicaciÃ³n escogida es diferente a Todas, la asignamos a
 		 * strUbicaciones De lo contrario asignamos a strUbicaciones la lista de
 		 * ubicaciones a las cuales tiene acceso el usuario
 		 */

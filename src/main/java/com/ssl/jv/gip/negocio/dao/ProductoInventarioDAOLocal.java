@@ -7,7 +7,9 @@ import javax.ejb.Local;
 import org.primefaces.model.SortOrder;
 
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.negocio.dto.ProductoDevolucionDTO;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
+
 import java.util.Map;
 
 @Local
@@ -37,4 +39,8 @@ public interface ProductoInventarioDAOLocal extends
    * @return
    */
   public List<ProductosInventario> consultarListadoProductosReporteVentasCE(Map<String, Object> parametros);
+  
+  public List<ProductoDevolucionDTO> consultarActivosPorPaises(List<String> paises);
+
+  public List<ProductoDevolucionDTO> consultarActivosDev();
 }

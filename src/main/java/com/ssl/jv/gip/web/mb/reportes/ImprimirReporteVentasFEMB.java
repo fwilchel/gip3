@@ -331,13 +331,13 @@ public class ImprimirReporteVentasFEMB  extends UtilMB {
 					c4 = r.createCell((short) 4);
 					c4.setCellValue("CONSECUTIVO RM");					
 					c5 = r.createCell((short) 5);
-					c5.setCellValue("CONSECUTIVO FÁCTURA");
+					c5.setCellValue("CONSECUTIVO FACTURA");
 					c6 = r.createCell((short) 6);
-					c6.setCellValue("NÚMERO FÁCTURA");
+					c6.setCellValue("NÃšMERO FACTURA");
 					c7 = r.createCell((short) 7);
 					c7.setCellValue("SKU PRODUCTO");
 					c8 = r.createCell((short) 8);
-					c8.setCellValue("DESCRIPCIÓN PRODUCTO");
+					c8.setCellValue("DESCRIPCIÃ“N PRODUCTO");
 					c9 = r.createCell((short) 9);
 					c9.setCellValue("CANTIDAD VD");
 					c10 = r.createCell((short) 10);

@@ -221,7 +221,7 @@ public class GenerarInstruccionEmbarqueMB extends UtilMB {
 				for(DocumentoInstruccionEmbarqueDTO dto : listadoDocumentos){
 					if(dto.isSeleccionado()){
 
-						if (dto.isSolicitudCafe())//Es de tipo Café
+						if (dto.isSolicitudCafe())//Es de tipo CafÃ©
 						{
 							conta1 = conta1 + 1;
 							if (conta1 == 1)
