@@ -15,7 +15,8 @@ import java.math.BigDecimal;
 @Table(name="documento_x_negociacion")
 @NamedQueries({
 	@NamedQuery(name="DocumentoXNegociacion.findAll", query="SELECT d FROM DocumentoXNegociacion d"),
-	@NamedQuery(name="DocumentoXNegociacion.findByIdDocumento", query="SELECT d FROM DocumentoXNegociacion d WHERE d.pk.idDocumento = :idDocumento")
+	@NamedQuery(name="DocumentoXNegociacion.findByIdDocumento", query="SELECT d FROM DocumentoXNegociacion d WHERE d.pk.idDocumento = :idDocumento"),
+	@NamedQuery(name="DocumentoXNegociacion.updateCostosLogisticos", query="UPDATE DocumentoXNegociacion dn SET dn.costoEntrega= :fob, dn.costoFlete= :fletes, dn.costoSeguro= :seguros WHERE dn.pk.idDocumento= :idDocumento and dn.pk.idTerminoIncoterm= :idTerminoIncoterm")
 })
 public class DocumentoXNegociacion implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -1707,4 +1707,8 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		return lista2;
 	}
 	
+	public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros){
+		return this.documentoDAO.actualizarCostosLogisticos(idDocumento, idTerminoIncoterm, valorFob, valorFletes, valorSeguros);
+	}
+	
 }

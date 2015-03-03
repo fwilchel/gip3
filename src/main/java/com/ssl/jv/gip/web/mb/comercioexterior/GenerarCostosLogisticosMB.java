@@ -62,7 +62,6 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	private Long cliente;
 	private List<GrupoCostoLogistico> costos;
 	private List<DocumentoCostosLogisticosDTO> solicitudes = new ArrayList<DocumentoCostosLogisticosDTO>();
-	private BigDecimal valor;
 	
 	@ManagedProperty(value="#{menuMB}")
 	private MenuMB menu;
@@ -291,7 +290,18 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	}
 	
 	public void guardar(){
+		BigDecimal valorTotal = new BigDecimal(0);
+		for (DocumentoCostosLogisticosDTO d:this.solicitudes){
+			valorTotal=valorTotal.add(d.getValorTotalDocumento());
+		}
+		BigDecimal fob=this.getTotalFOB();
+		BigDecimal fletes=this.getTotalFletes();
+		BigDecimal seguros=this.getTotalSeguros();
+		for (DocumentoCostosLogisticosDTO d:this.solicitudes){
+			this.comercioEjb.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal).multiply(fob), d.getValorTotalDocumento().divide(valorTotal).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal).multiply(seguros));
+		}
 		
+		this.addMensajeInfo("Se han actualizado correctamente los costos logísticos en las Solicitudes seleccionadas");
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.dao;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -202,8 +203,10 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
    * @param parametros
    * @return
    */
-  List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros);
+  public List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros);
 
   public List<Documento> consultaFP(String consecutivoDocumento, Long estado1,Long estado2);
+  
+  public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros);
 
 }

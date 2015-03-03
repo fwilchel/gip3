@@ -2686,4 +2686,10 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     query.setParameter("tipoDocumento", ConstantesTipoDocumento.FACTURA_EXPORTACION);
     return query.getResultList();
   }
+  
+  public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros){
+	  Query q=em.createNamedQuery("DocumentoXNegociacion.updateCostosLogisticos").setParameter("fob", valorFob).setParameter("fletes", valorFletes).setParameter("seguros", valorSeguros).setParameter("idDocumento", idDocumento).setParameter("idTerminoIncoterm", idTerminoIncoterm);
+	  return q.executeUpdate();
+  }
+  
 }
