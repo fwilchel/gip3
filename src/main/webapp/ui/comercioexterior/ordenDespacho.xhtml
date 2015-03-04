@@ -277,13 +277,13 @@
 						<p:column styleClass="derecha">
 							<p:commandButton value="#{msg.ReportePdf}" 
 								icon="ui-icon-script"
-								action="#{ordenesDespachoMB.buscarDocumentos()}"
+								action="#{ordenesDespachoMB.generarReportePDF()}"
 								disabled="#{ordenesDespachoMB.deshabilitado}" 
 								id="btnGenerarPdf" />
 
 							<p:commandButton value="#{msg.ReporteExcel}" 
 								icon="ui-icon-script"
-								action="#{ordenesDespachoMB.buscarDocumentos()}"
+								action="#{ordenesDespachoMB.generarReporteExcel()}"
 								disabled="#{ordenesDespachoMB.deshabilitado}"
 								id="btnGenerarExcel"  />
 						</p:column>
