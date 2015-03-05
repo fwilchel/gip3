@@ -1,13 +1,23 @@
 package com.ssl.jv.gip.web.mb.abastecimiento;
 
-import java.sql.SQLException;
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
 import com.ssl.jv.gip.jpa.pojo.Documento;
@@ -15,14 +25,11 @@ import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.jpa.pojo.TipoMovimiento;
-import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.DespachoMercanciaEJBLocal;
-import com.ssl.jv.gip.util.BodegaLogica;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
@@ -45,6 +52,8 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	private Documento seleccionado;
 	private Documento filtro;
 	private boolean listo;
+	
+	private JasperPrint jasperPrint;
 	
 	@EJB
 	private DespachoMercanciaEJBLocal despachoMercancia;
@@ -139,8 +148,37 @@ public class DespacharMercanciaVDMB extends UtilMB{
 		documentos = despachoMercancia.consultarVentasDirectas(consecutivoDocumento);
 	}
 	
-	public void generarReporte(String tipo){
-		
+	public void generarReporte(String tipo) throws IOException, JRException{
+		if(tipo=="PDF"){
+			reportBuilder();
+			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
+					.getCurrentInstance().getExternalContext().getResponse();
+			httpServletResponse.addHeader("Content-disposition",
+					"attachment; filename="+seleccionado.getId()+".pdf");
+			ServletOutputStream servletStream = httpServletResponse
+					.getOutputStream();
+			JasperExportManager.exportReportToPdfStream(jasperPrint,
+					servletStream);
+			FacesContext.getCurrentInstance().responseComplete();
+		}else{
+			
+		}
+	}
+	
+	public void reportBuilder() throws JRException {
+
+		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
+				productos);
+
+		String report = FacesContext
+				.getCurrentInstance()
+				.getExternalContext()
+				.getRealPath(
+						"/resources/reports/EmployeesReportToJSFApp.jasper");
+
+		jasperPrint = JasperFillManager.fillReport(report, new HashMap(),
+				beanCollectionDataSource);
+
 	}
 
 	public List<Documento> getDocumentos() {
