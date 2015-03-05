@@ -55,7 +55,7 @@ public class OrdenesDespachoMB extends UtilMB{
 	private String consecutivoDocumento;
 	private boolean deshabilitado=false;
 	private List<Documento> documentos;
-	private List<ProductoODDTO> productos;
+	private static List<ProductoODDTO> productos;
 	private Documento seleccionado;
 	private Documento filtro;
 	private double totalCantidad=0;
@@ -133,19 +133,13 @@ public class OrdenesDespachoMB extends UtilMB{
 	}
 	
 	public void generarReporteExcel2() throws JRException, IOException {
-//		private List<ProductoReporteDTO> productosReporte=mapearLista(productos);
-		Connection conn = null;
-		Timestamp tmsFecha;
-		int resultado;
-
-		// modificar fecha de cargue
 
 		try {
 
 			// SERVIDOR LINUX
-			String filename = "/reportes/Report_OD.jasper";
-			String filepdf = "/reportes/Report_OD.pdf";
-			String xmlfile = "/reportes/Report_OD.jrxml";
+			String filename = "C:/A/jboss-as-7.1.1.Final/standalone/deployments/gip3.war/reportes/Report_OD.jasper";
+			String filepdf = "C:/A/jboss-as-7.1.1.Final/standalone/deployments/gip3.war/reportes/Report_OD.pdf";
+			String xmlfile = "C:/A/jboss-as-7.1.1.Final/standalone/deployments/gip3.war/reportes/Report_OD.jrxml";
 
 			Map parametros = new HashMap();
 
@@ -167,14 +161,14 @@ public class OrdenesDespachoMB extends UtilMB{
 
 			parametros.put("cliente", seleccionado.getCliente().getNombre());
 			parametros.put("nit", seleccionado.getCliente().getNit());
-			parametros.put("ciudad", seleccionado.getCliente().getCiudad());
+			parametros.put("ciudad", seleccionado.getCliente().getCiudad().getNombre());
 			parametros.put("direccion", seleccionado.getCliente().getDireccion());
 			parametros.put("telefono", seleccionado.getCliente().getTelefono());
 			parametros.put("contacto", seleccionado.getCliente().getContacto());
-			parametros.put("documento", seleccionado.getId());
-			parametros.put("fecha", seleccionado.getFechaGeneracion());
+			parametros.put("documento", seleccionado.getId()+"");
+			parametros.put("fecha", seleccionado.getFechaGeneracion().toString());
 			parametros.put("numFactura",seleccionado.getConsecutivoDocumento());
-			parametros.put("fechaCargue", seleccionado.getFechaEntrega());
+			parametros.put("fechaCargue", seleccionado.getFechaEntrega().toString());
 			parametros.put("solicitud", seleccionado.getObservacionDocumento());
 			parametros.put("observacionDoc",seleccionado.getObservacion2());
 			parametros.put("observacionMar", seleccionado.getDocumentoXNegociacions()
@@ -287,8 +281,8 @@ public class OrdenesDespachoMB extends UtilMB{
 		return productos;
 	}
 
-	public void setProductos(List<ProductoODDTO> productos) {
-		this.productos = productos;
+	public static void setProductos(List<ProductoODDTO> productos2) {
+		productos = productos2;
 	}
 
 	public Documento getSeleccionado() {
