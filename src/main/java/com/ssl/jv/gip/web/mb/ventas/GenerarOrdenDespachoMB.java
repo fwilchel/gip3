@@ -118,17 +118,19 @@ public class GenerarOrdenDespachoMB extends UtilMB {
     LOGGER.debug("Metodo: <<generarVistaPrevia>>");
     StreamedContent reporte = null;
     Map<String, Object> parametrosReporte = new HashMap<>();
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat formatoFecha;
     parametrosReporte.put("id", seleccionado.getId());
-    parametrosReporte.put("fechaGeneracion", getFechaActual());
+    formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    parametrosReporte.put("fechaGeneracion", formatoFecha.format(getFechaActual()));
     parametrosReporte.put("ordenCompraCliente", seleccionado.getDocumentoCliente());
     parametrosReporte.put("entidadFacturar", seleccionado.getCliente().getNombre());
     parametrosReporte.put("nombre", seleccionado.getPuntoVenta().getNombre());
     parametrosReporte.put("direccion", seleccionado.getPuntoVenta().getDireccion());
     parametrosReporte.put("telefono", seleccionado.getPuntoVenta().getTelefono());
     parametrosReporte.put("ciudad", seleccionado.getPuntoVenta().getCiudade().getNombre());
-    parametrosReporte.put("fechaMinEntrega", (seleccionado.getFechaEsperadaEntrega()));
-    parametrosReporte.put("fechaMaxEntrega", (seleccionado.getFechaEntrega()));
+    formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    parametrosReporte.put("fechaMinEntrega", formatoFecha.format(seleccionado.getFechaEsperadaEntrega()));
+    parametrosReporte.put("fechaMaxEntrega", formatoFecha.format(seleccionado.getFechaEntrega()));
     JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosXDocumento, false);
     try {
       Hashtable<String, String> parametrosConfiguracionReporte;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-02-28T09:08:10 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteOrdenDespachoVF" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="556" leftMargin="28" rightMargin="28" topMargin="85" bottomMargin="28" whenResourceMissingType="Empty" isIgnorePagination="true" uuid="17f40ffc-edc1-4597-91e4-5a99f9567b63">
+<!-- 2015-03-05T09:17:19 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteOrdenDespachoVF" pageWidth="612" pageHeight="792" whenNoDataType="NoDataSection" columnWidth="556" leftMargin="28" rightMargin="28" topMargin="85" bottomMargin="28" whenResourceMissingType="Empty" isIgnorePagination="true" uuid="17f40ffc-edc1-4597-91e4-5a99f9567b63">
 	<property name="ireport.zoom" value="1.815000000000028"/>
 	<property name="ireport.x" value="4498"/>
 	<property name="ireport.y" value="19"/>
@@ -562,11 +562,11 @@
 	<parameter name="id" class="java.lang.Long"/>
 	<parameter name="direccion" class="java.lang.String"/>
 	<parameter name="entidadFacturar" class="java.lang.String"/>
-	<parameter name="fechaMinEntrega" class="java.util.Date"/>
-	<parameter name="fechaMaxEntrega" class="java.util.Date"/>
+	<parameter name="fechaMinEntrega" class="java.lang.String"/>
+	<parameter name="fechaMaxEntrega" class="java.lang.String"/>
 	<parameter name="telefono" class="java.lang.String"/>
 	<parameter name="ordenCompraCliente" class="java.lang.String"/>
-	<parameter name="fechaGeneracion" class="java.util.Date"/>
+	<parameter name="fechaGeneracion" class="java.lang.String"/>
 	<parameter name="ciudad" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
@@ -792,7 +792,7 @@
 				<text><![CDATA[NOMBRE PRODUCTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="table" mode="Transparent" x="381" y="0" width="99" height="20" uuid="798c1902-32b7-41f0-8503-8a160cdc3d5b">
+				<reportElement style="table" mode="Transparent" x="381" y="0" width="69" height="20" uuid="798c1902-32b7-41f0-8503-8a160cdc3d5b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="local_mesure_unitheight" value="pixel"/>
 				</reportElement>
@@ -811,7 +811,7 @@
 				<text><![CDATA[CANTIDAD REQUERIDA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="table" mode="Transparent" x="480" y="0" width="74" height="20" uuid="dd8708b8-7479-48e3-8601-e82176e2c230">
+				<reportElement style="table" mode="Transparent" x="450" y="0" width="104" height="20" uuid="dd8708b8-7479-48e3-8601-e82176e2c230">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -844,7 +844,7 @@
 				<textFieldExpression><![CDATA[$F{productosInventario.nombre}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="table" stretchType="RelativeToBandHeight" mode="Transparent" x="381" y="0" width="99" height="20" uuid="cba8e7eb-6d8e-4281-a1cb-076b79a89ebf">
+				<reportElement style="table" stretchType="RelativeToBandHeight" mode="Transparent" x="381" y="0" width="69" height="20" uuid="cba8e7eb-6d8e-4281-a1cb-076b79a89ebf">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
@@ -862,7 +862,7 @@
 				<textFieldExpression><![CDATA[$F{cantidad1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement style="table" stretchType="RelativeToBandHeight" mode="Transparent" x="480" y="0" width="74" height="20" uuid="f669d642-888d-484e-9f80-9993e2d2d6ca">
+				<reportElement style="table" stretchType="RelativeToBandHeight" mode="Transparent" x="450" y="0" width="104" height="20" uuid="f669d642-888d-484e-9f80-9993e2d2d6ca">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right">
