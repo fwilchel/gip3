@@ -9,12 +9,12 @@ import com.ssl.jv.gip.jpa.pojo.Unidad;
 
 @Stateless
 @LocalBean
-public class UnidadDAO extends GenericDAO<Unidad> implements UnidadDAOLocal{
+public class UnidadDAO extends GenericDAO<Unidad> implements UnidadDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(UnidadDAO.class);
-	
-	public UnidadDAO(){
-		this.persistentClass = Unidad.class;
-	}	
-	
+  private static final Logger LOGGER = Logger.getLogger(UnidadDAO.class);
+
+  public UnidadDAO() {
+    this.persistentClass = Unidad.class;
+  }
+
 }

@@ -5,7 +5,6 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 
 @Local
-public interface UnidadDAOLocal extends IGenericDAO<Unidad>{
+public interface UnidadDAOLocal extends IGenericDAO<Unidad> {
 
-	
 }

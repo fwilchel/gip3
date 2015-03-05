@@ -1,6 +1,5 @@
 package com.ssl.jv.gip.web.mb.devoluciones;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,16 +8,16 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.ejb.DevolucionesEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
-import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
+import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import org.primefaces.model.StreamedContent;
 
 /**
@@ -52,7 +51,7 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   private static final Logger LOGGER = Logger.getLogger(DevolucionTiendaBodegaMB.class);
 
   @EJB
-  private VentasFacturacionEJBLocal ventasFacturacionEJB;
+  private DevolucionesEJBLocal devolucionesEJB;
 
   @EJB
   private MaestrosEJBLocal maestrosEJB;
@@ -60,43 +59,38 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   @ManagedProperty(value = "#{aplicacionMB}")
   private AplicacionMB appMB;
 
+  @ManagedProperty(value = "#{menuMB}")
+  private MenuMB menu;
+
   private final Integer language = AplicacionMB.SPANISH;
   /**
-   * Consecutivo por el cual se va a realizar la busqueda
+   * listado de ubicaciones
    */
-  private String consecutivoDocumento;
+  private List<Ubicacion> listaUbicaciones;
   /**
-   * Tipo de factura a generar
+   * ubicacion seleccionada
    */
-  private List<SelectItem> listaTiposFacturas;
-  /**
-   * tipo de factura remisionSeleccionada
-   */
-  private Integer tipoFacturaSeleccionado;
+  private Ubicacion ubicacionDestinoSeleccionada;
   /**
    * lista de documentos que retorna la consulta a la base de datos
    */
-  private List<Documento> listaRemisiones;
-  /**
-   * Registro remisionSeleccionada
-   */
-  private Documento remisionSeleccionada;
+  private List<Documento> listaDocumentos;
 
   @PostConstruct
   public void init() {
     LOGGER.debug("Metodo: <<init>>");
-    cargarTiposFacuras();
+    cargarListaUbicaciones();
   }
 
   /**
    *
    */
-  private void cargarTiposFacuras() {
-    LOGGER.debug("Metodo: <<init>>");
-    setListaTiposFacturas(new ArrayList<SelectItem>());
-    getListaTiposFacturas().add(new SelectItem(ConstantesTipoDocumento.FACTURA, AplicacionMB.getMessage("gfFltLblItmTipoFacturaDirecta", language)));
-    getListaTiposFacturas().add(new SelectItem(ConstantesTipoDocumento.FACTURA_ESPECIAL, AplicacionMB.getMessage("gfFltLblItmTipoFacturaEspecial", language)));
-    getListaTiposFacturas().add(new SelectItem(ConstantesTipoDocumento.SOLICITUD_PEDIDO, AplicacionMB.getMessage("gfFltLblItmTipoFacturaConsumoServicios", language)));
+  private void cargarListaUbicaciones() {
+    LOGGER.debug("Metodo: <<cargarListaUbicaciones>>");
+    setListaUbicaciones(devolucionesEJB.consultarUbicacionesQueSonTiendaPorUsuario(menu.getUsuario().getId()));
+    if(getListaUbicaciones() != null){
+      setUbicacionDestinoSeleccionada(getListaUbicaciones().get(0));
+    }
   }
 
   /**
@@ -104,7 +98,6 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
    */
   public void buscar() {
     LOGGER.debug("Metodo: <<buscar>>");
-    setListaRemisiones(ventasFacturacionEJB.consultarRemisionesPendientesPorRecibir(getConsecutivoDocumento()));
   }
 
   /**
@@ -129,8 +122,6 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
    */
   public void cancelar() {
     LOGGER.debug("Metodo: <<cancelar>>");
-    this.setRemisionSeleccionada(null);
-    this.setConsecutivoDocumento("");
   }
 
   /**
@@ -150,73 +141,52 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   }
 
   /**
-   * @return the consecutivoDocumento
+   * @param menu the menu to set
    */
-  public String getConsecutivoDocumento() {
-    return consecutivoDocumento;
+  public void setMenu(MenuMB menu) {
+    this.menu = menu;
   }
 
   /**
-   * @param consecutivoDocumento the consecutivoDocumento to set
+   * @return the listaUbicaciones
    */
-  public void setConsecutivoDocumento(String consecutivoDocumento) {
-    this.consecutivoDocumento = consecutivoDocumento;
+  public List<Ubicacion> getListaUbicaciones() {
+    return listaUbicaciones;
   }
 
   /**
-   * @return the listaTiposFacturas
+   * @param listaUbicaciones the listaUbicaciones to set
    */
-  public List<SelectItem> getListaTiposFacturas() {
-    return listaTiposFacturas;
+  public void setListaUbicaciones(List<Ubicacion> listaUbicaciones) {
+    this.listaUbicaciones = listaUbicaciones;
   }
 
   /**
-   * @param listaTiposFacturas the listaTiposFacturas to set
+   * @return the ubicacionDestinoSeleccionada
    */
-  public void setListaTiposFacturas(List<SelectItem> listaTiposFacturas) {
-    this.listaTiposFacturas = listaTiposFacturas;
+  public Ubicacion getUbicacionDestinoSeleccionada() {
+    return ubicacionDestinoSeleccionada;
   }
 
   /**
-   * @return the tipoFacturaSeleccionado
+   * @param ubicacionDestinoSeleccionada the ubicacionDestinoSeleccionada to set
    */
-  public Integer getTipoFacturaSeleccionado() {
-    return tipoFacturaSeleccionado;
+  public void setUbicacionDestinoSeleccionada(Ubicacion ubicacionDestinoSeleccionada) {
+    this.ubicacionDestinoSeleccionada = ubicacionDestinoSeleccionada;
   }
 
   /**
-   * @param tipoFacturaSeleccionado the tipoFacturaSeleccionado to set
+   * @return the listaDocumentos
    */
-  public void setTipoFacturaSeleccionado(Integer tipoFacturaSeleccionado) {
-    this.tipoFacturaSeleccionado = tipoFacturaSeleccionado;
+  public List<Documento> getListaDocumentos() {
+    return listaDocumentos;
   }
 
   /**
-   * @return the listaRemisiones
+   * @param listaDocumentos the listaDocumentos to set
    */
-  public List<Documento> getListaRemisiones() {
-    return listaRemisiones;
-  }
-
-  /**
-   * @param listaRemisiones the listaRemisiones to set
-   */
-  public void setListaRemisiones(List<Documento> listaRemisiones) {
-    this.listaRemisiones = listaRemisiones;
-  }
-
-  /**
-   * @return the remisionSeleccionada
-   */
-  public Documento getRemisionSeleccionada() {
-    return remisionSeleccionada;
-  }
-
-  /**
-   * @param remisionSeleccionada the remisionSeleccionada to set
-   */
-  public void setRemisionSeleccionada(Documento remisionSeleccionada) {
-    this.remisionSeleccionada = remisionSeleccionada;
+  public void setListaDocumentos(List<Documento> listaDocumentos) {
+    this.listaDocumentos = listaDocumentos;
   }
 
 }

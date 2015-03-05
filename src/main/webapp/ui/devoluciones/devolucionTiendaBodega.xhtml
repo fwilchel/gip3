@@ -58,12 +58,14 @@
                   styleClass="negrita"/>
                 <p:selectOneMenu 
                   id="filtroUbicacionOrigen" 
-                  value="#{devolucionTiendaBodegaMB.tipoFacturaSeleccionado}">
+                  value="#{devolucionTiendaBodegaMB.ubicacionDestinoSeleccionada}">
+                  <p:ajax 
+                  update="filtroBodegaDestino" />
                   <f:selectItems 
-                    value="#{devolucionTiendaBodegaMB.listaTiposFacturas}" 
-                    var="tipoFactura"
-                    itemLabel="#{tipoFactura.label}"
-                    itemValue="#{tipoFactura.value}"/>
+                    value="#{devolucionTiendaBodegaMB.listaUbicaciones}" 
+                    var="ubicacion"
+                    itemLabel="#{ubicacion.nombre}"
+                    itemValue="#{ubicacion.id}"/>
                 </p:selectOneMenu>
                 <p:message
                   for="filtroUbicacionOrigen"/>
@@ -72,11 +74,9 @@
                   for="filtroBodegaDestino" 
                   value="#{msg.dtbFltLblBodegaDestino}" 
                   styleClass="negrita"/>
-                <p:inputText 
+                <h:outputText 
                   id="filtroBodegaDestino" 
-                  value="#{devolucionTiendaBodegaMB.consecutivoDocumento}" 
-                  maxlength="40" 
-                  label="#{msg.gfFltLblConsecutivo}"/>
+                  value="#{devolucionTiendaBodegaMB.ubicacionDestinoSeleccionada.ubicacione.nombre}"/>
                 <p:message
                   for="filtroBodegaDestino"/>
                 <f:facet
@@ -93,7 +93,7 @@
               id="tblDocumentos"
               var="documento" 
               widgetVar="tblDocumentos" 
-              value="#{devolucionTiendaBodegaMB.listaRemisiones}" 
+              value="#{devolucionTiendaBodegaMB.listaDocumentos}" 
               rows="10"
               emptyMessage="#{msg.generalNoDatos}" 
               paginator="true"
