@@ -21,7 +21,6 @@ import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
@@ -166,7 +165,6 @@ public class GenerarFacturaMB extends UtilMB {
 
             ProductosXDocumento p = new ProductosXDocumento();
             p.setValorUnitatrioMl(valorUnitatrioMl);
-            p.setObservacion2("blank");
             p.setProductosInventario(pxd.getProductosInventario());
             p.setUnidade(pxd.getUnidade());
             p.setCantidad1(cantidad);
@@ -174,10 +172,13 @@ public class GenerarFacturaMB extends UtilMB {
             p.setDescuentoxproducto(descuentoProducto);
             p.setIva(iva);
             p.setOtrosDescuentos(otrosDescuentos);
-//            objpxd.setDblCantidadADespachada(pxd.getDblCantidadADespachada());
-
+            if (pxd.getCantidad1().compareTo(pxdqty.getCantidad1()) <= 0) {
+              p.setObservacion2("blank");
+            } else {
+              p.setObservacion2("red");
+            }
+            // agregar a la lista
             listaProductosXRemision.add(p);
-
             // totales
             subtotal = subtotal.add(valorTotal);
             descuento = descuento.add(otrosDescuentos).add(descCliente);
