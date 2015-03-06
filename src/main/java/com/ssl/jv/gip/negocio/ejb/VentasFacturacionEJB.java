@@ -192,4 +192,76 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     ordenDespacho.setProveedore(documento.getProveedore());
     ordenDespacho.setObservacionDocumento(documento.getConsecutivoDocumento());
   }
+
+  @Override
+  public List<Documento> consultarOrdenesDespachoPorObservacion(String observacion) {
+    LOGGER.debug("Metodo: <<consultarOrdenesDespachoPorObservacion>>");
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("observacionDocumento", observacion);
+    parametros.put("idTipoDocumento", (long) ConstantesTipoDocumento.ORDEN_DESPACHO);
+    return documentoDAO.buscarPorConsultaNombrada(Documento.FIND_BY_TIPO_DOCUMENTO_AND_OBSERVACION_DOCUMENTO, parametros);
+  }
+
+  @Override
+  public Documento generarFactura(Documento factura, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria) {
+    LOGGER.debug("Metodo: <<generarFactura>>");
+    Documento documento = new Documento();
+    documento.setFechaEsperadaEntrega(factura.getFechaEsperadaEntrega());
+    documento.setUbicacionOrigen(factura.getUbicacionOrigen());
+    documento.setUbicacionDestino(factura.getUbicacionDestino());
+    documento.setEstadosxdocumento(factura.getEstadosxdocumento());
+    documento.setFechaGeneracion(factura.getFechaGeneracion());
+    documento.setFechaEntrega(factura.getFechaEntrega());
+    documento.setProveedore(factura.getProveedore());
+    documento.setObservacionDocumento(factura.getObservacionDocumento());
+    documento.setDocumentoCliente(factura.getDocumentoCliente());
+    documento.setSitioEntrega(factura.getSitioEntrega());
+    if (factura.getCliente() != null) {
+      documento.setCliente(factura.getCliente());
+      documento.setSubtotal(factura.getSubtotal());
+      documento.setDescuento(factura.getDescuento());
+      documento.setValorIva16(factura.getValorIva16());
+      documento.setValorTotal(factura.getValorTotal());
+      documento.setValorIva10(factura.getValorIva10());
+      documento.setPuntoVenta(factura.getPuntoVenta());
+      documento.setDescuentoCliente(factura.getDescuentoCliente());
+      if (factura.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA || factura.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA_ESPECIAL) {
+        documento.setNumeroFactura(factura.getNumeroFactura());
+        documento.setValorIva5(factura.getValorIva5());
+        documento.setObservacion2(factura.getObservacion2());
+        documento.setObservacion3(factura.getObservacion3());
+      }
+    }
+    StringBuilder secuencia = new StringBuilder();
+    if (factura.getConsecutivoDocumento() == null || factura.getConsecutivoDocumento().isEmpty() || factura.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
+      TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(factura.getEstadosxdocumento().getId().getIdTipoDocumento());
+      secuencia.append(tipoDocumento.getAbreviatura());
+      if (factura.getUbicacionDestino() != null && factura.getUbicacionDestino().getId() == -1) {
+        secuencia.append(factura.getUbicacionOrigen().getEmpresa().getId());
+      } else {
+        Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(factura.getUbicacionDestino().getId());
+        secuencia.append(ubicacionDestino.getEmpresa().getId());
+      }
+      Long valorSecuencia = documentoDAO.consultarProximoValorSecuencia(secuencia.toString().concat("_SEQ"));
+      secuencia.append("-");
+      secuencia.append(valorSecuencia);
+      String consecutivoDocumento = secuencia.toString();
+      documento.setConsecutivoDocumento(consecutivoDocumento);
+      if (factura.getCliente() != null) {
+        if (factura.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA) {
+          documento.setNumeroFactura(consecutivoDocumento);
+        }
+      }
+    } else {
+      // el usuario ha introducido un consecutivo manualmente
+      documento.setConsecutivoDocumento(factura.getConsecutivoDocumento());
+      if (factura.getCliente() != null) {
+        if (factura.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA) {
+          documento.setNumeroFactura(factura.getConsecutivoDocumento());
+        }
+      }
+    }
+    documento = (Documento) documentoDAO.add(documento);
+    return documento;
+  }
 }

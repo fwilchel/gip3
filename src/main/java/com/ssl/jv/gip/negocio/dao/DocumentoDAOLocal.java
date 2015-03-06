@@ -205,8 +205,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
    */
   public List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros);
 
-  public List<Documento> consultaFP(String consecutivoDocumento, Long estado1,Long estado2);
-  
+  public List<Documento> consultaFP(String consecutivoDocumento, Long estado1, Long estado2);
+
   public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros);
 
 }

@@ -15,12 +15,20 @@ import javax.faces.model.SelectItem;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
+import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
+import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -66,6 +74,9 @@ public class GenerarFacturaMB extends UtilMB {
 
   @ManagedProperty(value = "#{aplicacionMB}")
   private AplicacionMB appMB;
+
+  @ManagedProperty(value = "#{menuMB}")
+  private MenuMB menu;
 
   private final Integer language = AplicacionMB.SPANISH;
   /**
@@ -201,7 +212,77 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void generarFactura() {
     LOGGER.debug("Metodo: <<generarFactura>>");
+    Documento factura = new Documento();
+    // tipo de documento y estado
+    Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
+    EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
+    estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.GENERADO);
+    if (tipoFacturaSeleccionado == ConstantesTipoDocumento.FACTURA) {
+      estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.FACTURA);
+    } else {
+      estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.FACTURA_ESPECIAL);
+    }
+    estadosxdocumento.setId(estadosxdocumentoPK);
+    // llenar el objeto documento
+    factura.setEstadosxdocumento(estadosxdocumento);
+    factura.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
+    factura.setObservacionDocumento(this.remisionSeleccionada.getConsecutivoDocumento());
+    factura.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.UBICACION_DESTINO_DEFAULT));
+    factura.setUbicacionDestino(remisionSeleccionada.getUbicacionDestino());
+    factura.setObservacionDocumento(remisionSeleccionada.getConsecutivoDocumento());
+    Documento ordenDespacho = consultarOrdenDespacho(remisionSeleccionada.getObservacionDocumento());
+    if (ordenDespacho == null) {
+      factura.setDocumentoCliente(this.remisionSeleccionada.getDocumentoCliente());
+      factura.setObservacion3(null);
+    } else {
+      factura.setDocumentoCliente(ordenDespacho.getDocumentoCliente());
+      factura.setObservacion3(ordenDespacho.getConsecutivoDocumento());
+    }
+    factura.setCliente(this.remisionSeleccionada.getCliente());
+    factura.setPuntoVenta(this.remisionSeleccionada.getPuntoVenta());
+    factura.setSubtotal(subtotal);
+    factura.setDescuento(descuento);
+    factura.setValorIva16(totalIva16);
+    factura.setValorIva10(totalIva10);
+    factura.setValorIva5(totalIva5);
+    factura.setValorTotal(total);
+    factura.setNumeroFactura(null);
+    factura.setObservacion2(this.remisionSeleccionada.getObservacion2());
+    if (getRemisionSeleccionada().getSitioEntrega() != null && getRemisionSeleccionada().getSitioEntrega().equals("CS")) {
+      factura.setSitioEntrega(remisionSeleccionada.getSitioEntrega());
+    } else {
+      factura.setSitioEntrega(remisionSeleccionada.getDocumentoCliente());
+    }
+    factura.setFechaEntrega(null);//TODO: de donde os saco o no van
+    factura.setFechaEsperadaEntrega(null);//TODO: de donde os saco o no van
+    factura.setDescuentoCliente(null);//TODO: de donde os saco o no van
+    // auditoria
+    LogAuditoria auditoria = new LogAuditoria();
+    auditoria.setIdUsuario(menu.getUsuario().getId());
+    auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
+    auditoria.setTabla(Documento.class.getName());
+    auditoria.setAccion("CRE");
+    auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+    // enviar a generar la factura
+    factura = ventasFacturacionEJB.generarFactura(factura, listaProductosXRemision, auditoria);
+    String msg = "" + factura.getConsecutivoDocumento();
+  }
 
+  /**
+   *
+   * @param observacionDocumento
+   * @return
+   */
+  private Documento consultarOrdenDespacho(String observacionDocumento) {
+    LOGGER.debug("Metodo: <<imprimirFactura>>");
+    List<Documento> listaOrdenesDespacho;
+    listaOrdenesDespacho = ventasFacturacionEJB.consultarOrdenesDespachoPorObservacion(observacionDocumento);
+    if (listaOrdenesDespacho != null) {
+      for (Documento ordenDespacho : listaOrdenesDespacho) {
+        return ordenDespacho;
+      }
+    }
+    return null;
   }
 
   /**
@@ -280,6 +361,13 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void setAppMB(AplicacionMB appMB) {
     this.appMB = appMB;
+  }
+
+  /**
+   * @param menu the menu to set
+   */
+  public void setMenu(MenuMB menu) {
+    this.menu = menu;
   }
 
   /**

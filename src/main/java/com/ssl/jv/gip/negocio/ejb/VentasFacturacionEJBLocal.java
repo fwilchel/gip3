@@ -81,4 +81,21 @@ public interface VentasFacturacionEJBLocal {
    * @param listaProductosXDocumento
    */
   void generarOrdenDespacho(Documento documento, List<ProductosXDocumento> listaProductosXDocumento);
+
+  /**
+   * Metodo que consulta los documentos que son ordenes de despacho por observacion.
+   *
+   * @param observacion
+   * @return
+   */
+  List<Documento> consultarOrdenesDespachoPorObservacion(String observacion);
+  
+  /**
+   * 
+   * @param factura
+   * @param listaProductos
+   * @param auditoria
+   * @return 
+   */
+  Documento generarFactura(Documento factura, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria);
 }
