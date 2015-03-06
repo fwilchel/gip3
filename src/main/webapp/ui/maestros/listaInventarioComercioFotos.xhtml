@@ -27,7 +27,7 @@
 						columnClasses="label,value">
 
 						<p:outputLabel value="#{msg.inventarioComercioFotos_RutaServidor}" for="ruta" styleClass="negrita" />
-						<h:outputText value="#{msg.pathServidor}" id="ruta" required="false" disabled="false" 
+						<h:outputText value="#{inventarioComercioFotosMB.pathServidor}" id="ruta" required="false" disabled="false" 
 							label="#{msg.inventarioComercioFotos_RutaServidor}" />
 						<p:message for="ruta"></p:message>
 
@@ -54,7 +54,6 @@
 						<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" 
 							actionListener="#{inventarioComercioFotosMB.consultarProductosInventarioComExt}" 
 							update=":forma:tabPanel:tablaDatos" >
-							<f:param name="pathFoto" value="#{msg.pathFoto}"></f:param>
 						</p:commandButton>
 						
 					<p:spacer width="30"></p:spacer>					
@@ -87,13 +86,8 @@
 				            <p:panelGrid columns="2" columnClasses="label, value" style="width: 100%;margin:0px" >
 								
 								<p:outputLabel value="#{msg.inventarioComercioFotos_Foto}" for="foto" styleClass="negrita" />
-								<p:commandLink action="#{inventarioComercioFotosMB.editar}" title="#{msg.pathServidor}#{dato.rutaFoto1}">
-									<p:graphicImage name="#{msg.pathServidor}#{dato.rutaFoto1}" id="foto" />
-									
-									<f:param name="tipoRuta" value="#{msg.Producto}" />
-						            <f:param name="pathServidor" value="#{msg.pathServidor}" />
-						            <f:param name="pathFoto" value="#{msg.pathFoto}" />
-						            
+								<p:commandLink action="#{inventarioComercioFotosMB.editar}" title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}">
+									<p:graphicImage url="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}" id="foto" />
 									<f:setPropertyActionListener value="#{dato}" target="#{inventarioComercioFotosMB.seleccionado}" />
 								</p:commandLink>
 

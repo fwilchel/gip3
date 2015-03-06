@@ -7,11 +7,11 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
 import com.ssl.jv.gip.jpa.pojo.Empresa;
 import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.Pais;
+import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
@@ -21,12 +21,12 @@ import com.ssl.jv.gip.negocio.dao.EmpresaDAO;
 import com.ssl.jv.gip.negocio.dao.EstadoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MonedaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAO;
+import com.ssl.jv.gip.negocio.dao.ParametroDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProveedorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.RegionDAO;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
-import com.ssl.jv.gip.util.BodegaLogica;
 
 /**
  * Session Bean implementation class ComunEJB
@@ -49,18 +49,21 @@ public class ComunEJB implements ComunEJBLocal {
 
 	@EJB
 	private EstadoDAOLocal estadoDAOLocal;
-	
+
 	@EJB
 	private TipoDocumentoDAOLocal tipoDocumentoDAOLocal;
-	
+
 	@EJB
 	private ProveedorDAOLocal proveedorDAOLocal;
-	
+
 	@EJB
 	private UnidadDAOLocal unidadDAOLocal;
-	
+
 	@EJB
 	private MonedaDAOLocal monedaDAOLocal;
+
+	@EJB
+	private ParametroDAOLocal parametroDAOLocal;
 
 	/**
 	 * Default constructor.
@@ -128,7 +131,7 @@ public class ComunEJB implements ComunEJBLocal {
 		return listado;
 
 	}
-	
+
 	@Override
 	public List<Pais> consultarPaisesTodos() {
 
@@ -143,7 +146,6 @@ public class ComunEJB implements ComunEJBLocal {
 		return listado;
 
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -175,12 +177,12 @@ public class ComunEJB implements ComunEJBLocal {
 	public List<Estado> consultarEstados() {
 		return (List<Estado>) estadoDAOLocal.findAll();
 	}
-	
+
 	@Override
 	public List<TipoDocumento> consultarTiposDocumentos() {
 		return (List<TipoDocumento>) tipoDocumentoDAOLocal.findAll();
 	}
-	
+
 	@Override
 	public List<Proveedor> consultarProveedores() {
 		return (List<Proveedor>) proveedorDAOLocal.findAll();
@@ -195,6 +197,16 @@ public class ComunEJB implements ComunEJBLocal {
 	public List<Moneda> consultarMonedas() {
 		// TODO Auto-generated method stub
 		return (List<Moneda>) monedaDAOLocal.findAll();
+	}
+
+	@Override
+	public Parametro consultarParametroPorNombre(String nombre) {
+		return parametroDAOLocal.consultarParametroPorNombre(nombre);
+	}
+
+	@Override
+	public List<Parametro> consultarParametroPorNombres(String... nombres) {
+		return parametroDAOLocal.consultarParametroPorNombres(nombres);
 	}
 
 }
