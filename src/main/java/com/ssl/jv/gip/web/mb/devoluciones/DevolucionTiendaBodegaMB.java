@@ -18,6 +18,14 @@ import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+import javax.faces.context.FacesContext;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 /**
@@ -68,13 +76,25 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
    */
   private List<Ubicacion> listaUbicaciones;
   /**
-   * ubicacion seleccionada
+   * Mapa q almacena las ubicaciones para acceder a ellas mucho mas rapido.
    */
-  private Ubicacion ubicacionDestinoSeleccionada;
+  private Map<Long, Ubicacion> ubicaciones;
+  /**
+   * tienda origen
+   */
+  private Long idUbicacionOrigen;
+  /**
+   * bodega de destino
+   */
+  private Ubicacion ubicacionOrigenSeeccionada;
   /**
    * lista de documentos que retorna la consulta a la base de datos
    */
   private List<Documento> listaDocumentos;
+  /**
+   * lista de documentos seleccionados
+   */
+  private List<Documento> listaDocumentosSeleccionados;
 
   @PostConstruct
   public void init() {
@@ -88,8 +108,21 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   private void cargarListaUbicaciones() {
     LOGGER.debug("Metodo: <<cargarListaUbicaciones>>");
     setListaUbicaciones(devolucionesEJB.consultarUbicacionesQueSonTiendaPorUsuario(menu.getUsuario().getId()));
-    if(getListaUbicaciones() != null){
-      setUbicacionDestinoSeleccionada(getListaUbicaciones().get(0));
+    if (getListaUbicaciones() != null) {
+      setUbicacionOrigenSeeccionada(getListaUbicaciones().get(0));
+      ubicaciones = new HashMap<>();
+      for (Ubicacion ubicacion : getListaUbicaciones()) {
+        ubicaciones.put(ubicacion.getId(), ubicacion);
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  public void onUbicacionOrigenChange() {
+    if (idUbicacionOrigen != null) {
+      ubicacionOrigenSeeccionada = ubicaciones.get(idUbicacionOrigen);
     }
   }
 
@@ -114,7 +147,23 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
    */
   public StreamedContent generarVistaPrevia() {
     LOGGER.debug("Metodo: <<generarVistaPrevia>>");
-    return null;
+    StreamedContent reporte = null;
+    Map<String, Object> parametrosReporte = new HashMap<>();
+    parametrosReporte.put("fechaGeneracion", getFechaActual());
+    parametrosReporte.put("tiendaOrigen", getUbicacionOrigenSeeccionada().getNombre());
+    parametrosReporte.put("bodegaDestino", getUbicacionOrigenSeeccionada().getUbicacione().getNombre());
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(null, false);
+    try {
+      Hashtable<String, String> parametrosConfiguracionReporte;
+      parametrosConfiguracionReporte = new Hashtable<>();
+      parametrosConfiguracionReporte.put("tipo", "pdf");
+      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/DevolucionTiendaBodega.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, ds);
+      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "DevolucionTiendaBodega.pdf");
+    } catch (Exception e) {
+      this.addMensajeError("Problemas al generar el reporte");
+    }
+    return reporte;
   }
 
   /**
@@ -131,6 +180,10 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   public Date getFechaActual() {
     LOGGER.debug("Metodo: <<getFechaActual>>");
     return new Date();
+  }
+
+  public boolean habilitarBtnIngresoDevoluciones() {
+    return !(getListaDocumentosSeleccionados() == null || getListaDocumentosSeleccionados().isEmpty());
   }
 
   /**
@@ -162,17 +215,31 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   }
 
   /**
-   * @return the ubicacionDestinoSeleccionada
+   * @return the idUbicacionOrigen
    */
-  public Ubicacion getUbicacionDestinoSeleccionada() {
-    return ubicacionDestinoSeleccionada;
+  public Long getIdUbicacionOrigen() {
+    return idUbicacionOrigen;
   }
 
   /**
-   * @param ubicacionDestinoSeleccionada the ubicacionDestinoSeleccionada to set
+   * @param idUbicacionOrigen the idUbicacionOrigen to set
    */
-  public void setUbicacionDestinoSeleccionada(Ubicacion ubicacionDestinoSeleccionada) {
-    this.ubicacionDestinoSeleccionada = ubicacionDestinoSeleccionada;
+  public void setIdUbicacionOrigen(Long idUbicacionOrigen) {
+    this.idUbicacionOrigen = idUbicacionOrigen;
+  }
+
+  /**
+   * @return the ubicacionOrigenSeeccionada
+   */
+  public Ubicacion getUbicacionOrigenSeeccionada() {
+    return ubicacionOrigenSeeccionada;
+  }
+
+  /**
+   * @param ubicacionOrigenSeeccionada the ubicacionOrigenSeeccionada to set
+   */
+  public void setUbicacionOrigenSeeccionada(Ubicacion ubicacionOrigenSeeccionada) {
+    this.ubicacionOrigenSeeccionada = ubicacionOrigenSeeccionada;
   }
 
   /**
@@ -180,6 +247,20 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
    */
   public List<Documento> getListaDocumentos() {
     return listaDocumentos;
+  }
+
+  /**
+   * @return the listaDocumentosSeleccionados
+   */
+  public List<Documento> getListaDocumentosSeleccionados() {
+    return listaDocumentosSeleccionados;
+  }
+
+  /**
+   * @param listaDocumentosSeleccionados the listaDocumentosSeleccionados to set
+   */
+  public void setListaDocumentosSeleccionados(List<Documento> listaDocumentosSeleccionados) {
+    this.listaDocumentosSeleccionados = listaDocumentosSeleccionados;
   }
 
   /**

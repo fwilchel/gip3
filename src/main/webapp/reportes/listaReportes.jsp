@@ -33,6 +33,7 @@
       <li><a href="compilarReporte.jsp?reporte=report2FDO.jrxml">report2FDO.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=report2ORIGINAL.jrxml">report2ORIGINAL.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=ReporteOrdenDespachoVF.jrxml">ReporteOrdenDespachoVF.jrxml</a></li>
+      <li><a href="compilarReporte.jsp?reporte=DevolucionTiendaBodega.jrxml">DevolucionTiendaBodega.jrxml</a></li>
     </ol>
   </body>
 </html>

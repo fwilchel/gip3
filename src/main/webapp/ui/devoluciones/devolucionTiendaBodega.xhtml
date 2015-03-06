@@ -58,9 +58,10 @@
                   styleClass="negrita"/>
                 <p:selectOneMenu 
                   id="filtroUbicacionOrigen" 
-                  value="#{devolucionTiendaBodegaMB.ubicacionDestinoSeleccionada}">
+                  value="#{devolucionTiendaBodegaMB.idUbicacionOrigen}">
                   <p:ajax 
-                  update="filtroBodegaDestino" />
+                    listener="#{devolucionTiendaBodegaMB.onUbicacionOrigenChange()}"
+                    update="filtroBodegaDestino" />
                   <f:selectItems 
                     value="#{devolucionTiendaBodegaMB.listaUbicaciones}" 
                     var="ubicacion"
@@ -76,7 +77,7 @@
                   styleClass="negrita"/>
                 <h:outputText 
                   id="filtroBodegaDestino" 
-                  value="#{devolucionTiendaBodegaMB.ubicacionDestinoSeleccionada.ubicacione.nombre}"/>
+                  value="#{devolucionTiendaBodegaMB.ubicacionOrigenSeeccionada.ubicacione.nombre}"/>
                 <p:message
                   for="filtroBodegaDestino"/>
                 <f:facet
@@ -196,7 +197,8 @@
                 value="#{msg.dtbBtnIngresarDevoluciones}" 
                 styleClass="ui-confirmdialog-yes" 
                 icon="ui-icon-check" 
-                actionListener="#{devolucionTiendaBodegaMB.ingresarDevouciones()}"/>
+                actionListener="#{devolucionTiendaBodegaMB.ingresarDevouciones()}"
+                disabled="#{devolucionTiendaBodegaMB.habilitarBtnIngresoDevoluciones()}"/>
               <!-- Vista previa -->
               <p:commandButton 
                 value="#{msg.dtbBtnVistaPrevia}" 
