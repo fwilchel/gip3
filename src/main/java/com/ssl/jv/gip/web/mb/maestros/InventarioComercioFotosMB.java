@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -32,11 +31,13 @@ import thirdparty.mortennobel.ResampleOp;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioComextFiltroVO;
+import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
+import com.ssl.jv.gip.web.util.Parametro;
 
 /**
  * @author Juan Jose Buzon
@@ -68,11 +69,13 @@ public class InventarioComercioFotosMB extends UtilMB {
 
 	@EJB
 	private MaestrosEJBLocal maestrosEJBLocal;
+	@EJB
+	private ComunEJBLocal comunEJBLocal;
 	private String rutaFotoPequena;
 	private String rutaFotoMediana;
 	private String rutaFotoGrande;
 
-	private String pathFoto;
+	private String pathFotos;
 	private String pathServidor;
 
 	@PostConstruct
@@ -82,9 +85,26 @@ public class InventarioComercioFotosMB extends UtilMB {
 			filtroVO = new ProductosInventarioComextFiltroVO();
 			productosInventarioComexts = new ArrayList<ProductosInventarioComext>();
 			cargarCategoriasInventario();
+			cargarParametros();
 		} catch (Exception e) {
 			LOGGER.error(e);
 			this.addMensajeError(e);
+		}
+	}
+
+	private void cargarParametros() {
+		String[] nombresParametros = new String[] {
+				Parametro.PATH_FOTOS.getNombre(),
+				Parametro.PATH_SERVIDOR.getNombre() };
+		List<com.ssl.jv.gip.jpa.pojo.Parametro> parametros = this.comunEJBLocal
+				.consultarParametroPorNombres(nombresParametros);
+		for (com.ssl.jv.gip.jpa.pojo.Parametro parametro : parametros) {
+			if (Parametro.PATH_SERVIDOR.getNombre().equals(
+					parametro.getNombre())) {
+				this.pathServidor = parametro.getValor();
+			} else {
+				this.pathFotos = parametro.getValor();
+			}
 		}
 	}
 
@@ -116,8 +136,7 @@ public class InventarioComercioFotosMB extends UtilMB {
 	public void consultarProductosInventarioComExt(ActionEvent actionEvent) {
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
-			Map map = context.getExternalContext().getRequestParameterMap();
-			String strPathFoto = (String) map.get("pathFoto");
+			// Map map = context.getExternalContext().getRequestParameterMap();
 
 			if ("".equals(filtroVO.getSkuProducto())) {
 				filtroVO.setSkuProducto("%");
@@ -136,7 +155,7 @@ public class InventarioComercioFotosMB extends UtilMB {
 					.consultarProductosInventarioComextsParaInventarioComercioFotos(filtroVO);
 
 			for (ProductosInventarioComext productosInventarioComext : productosInventarioComexts) {
-				File f = new File(strPathFoto
+				File f = new File(this.pathFotos
 						+ "med_"
 						+ productosInventarioComext.getProductosInventario()
 								.getSku() + ".jpg");
@@ -186,13 +205,9 @@ public class InventarioComercioFotosMB extends UtilMB {
 		try {
 			modo = Modo.EDICION;
 
-			FacesContext context = FacesContext.getCurrentInstance();
-			Map<String, String> map = context.getExternalContext()
-					.getRequestParameterMap();
-
-			// String sku = (String) map.get("sku");
-			pathServidor = (String) map.get("pathServidor");
-			pathFoto = (String) map.get("pathFoto");
+			// FacesContext context = FacesContext.getCurrentInstance();
+			// Map<String, String> map = context.getExternalContext()
+			// .getRequestParameterMap();
 
 			String sku = seleccionado.getProductosInventario().getSku();
 
@@ -227,7 +242,7 @@ public class InventarioComercioFotosMB extends UtilMB {
 			path2 = "grande_" + seleccionado.getProductosInventario().getSku()
 					+ ext;
 			String rutaFoto3 = path2;
-			strfileName = pathFoto + path2;
+			strfileName = pathFotos + path2;
 			System.out.println("ruta a cargar: " + strfileName);
 
 			File dst = new File(strfileName);
@@ -238,7 +253,7 @@ public class InventarioComercioFotosMB extends UtilMB {
 			path2 = "med_" + seleccionado.getProductosInventario().getSku()
 					+ ext;
 			String rutaFoto1 = path2;
-			strfileName = pathFoto + path2;
+			strfileName = pathFotos + path2;
 
 			ancho = 165;
 			alto = 181;
@@ -248,7 +263,7 @@ public class InventarioComercioFotosMB extends UtilMB {
 			path2 = "peq_" + seleccionado.getProductosInventario().getSku()
 					+ ext;
 			String rutaFoto2 = path2;
-			strfileName = pathFoto + path2;
+			strfileName = pathFotos + path2;
 			ancho = 51;
 			alto = 77;
 
@@ -378,5 +393,21 @@ public class InventarioComercioFotosMB extends UtilMB {
 
 	public void setRutaFotoGrande(String rutaFotoGrande) {
 		this.rutaFotoGrande = rutaFotoGrande;
+	}
+
+	public String getPathFotos() {
+		return pathFotos;
+	}
+
+	public void setPathFotos(String pathFotos) {
+		this.pathFotos = pathFotos;
+	}
+
+	public String getPathServidor() {
+		return pathServidor;
+	}
+
+	public void setPathServidor(String pathServidor) {
+		this.pathServidor = pathServidor;
 	}
 }

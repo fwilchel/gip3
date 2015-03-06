@@ -27,4 +27,8 @@ public interface DespachoMercanciaEJBLocal {
 
 	public Unidad consultarUnidad(String unidadVenta);
 
+	public void generarReporteDespacharMercanciaExcel(
+			List<ProductoDespacharMercanciaDTO> productos,
+			Documento documento);
+
 }
