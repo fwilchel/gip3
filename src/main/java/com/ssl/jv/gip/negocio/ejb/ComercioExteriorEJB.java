@@ -1,13 +1,17 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +19,16 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 
 import org.apache.log4j.Logger;
 
@@ -28,7 +42,6 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
-import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
@@ -1711,4 +1724,29 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		return this.documentoDAO.actualizarCostosLogisticos(idDocumento, idTerminoIncoterm, valorFob, valorFletes, valorSeguros);
 	}
 	
+	@Override
+	public void generarReporteOrdenDespachoPDF(JasperPrint jasperPrint,Long id) throws ClassNotFoundException, IOException, JRException{
+		HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		httpServletResponse.addHeader("Content-disposition","attachment; filename="+id+".pdf");
+		ServletOutputStream servletStream = httpServletResponse.getOutputStream();
+		JasperExportManager.exportReportToPdfStream(jasperPrint,servletStream);
+		FacesContext.getCurrentInstance().responseComplete();
+	}
+	
+	@Override
+	public void generarReporteOrdenDespachoExcel(JasperPrint jasperPrint,Long id) throws ClassNotFoundException, IOException, JRException{
+		HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
+				.getCurrentInstance().getExternalContext().getResponse();
+		httpServletResponse.addHeader("Content-disposition",
+				"attachment; filename="+id+".xlsx");
+		ServletOutputStream servletOutputStream = httpServletResponse
+				.getOutputStream();
+		JRXlsxExporter docxExporter = new JRXlsxExporter();
+		docxExporter
+				.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+				servletOutputStream);
+		docxExporter.exportReport();
+		FacesContext.getCurrentInstance().responseComplete();
+	}
 }

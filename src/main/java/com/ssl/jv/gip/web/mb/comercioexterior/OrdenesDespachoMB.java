@@ -101,35 +101,36 @@ public class OrdenesDespachoMB extends UtilMB{
 		}
 	}
 	
-	public void generarReportePDF() throws JRException, IOException{
-			reportBuilder();
-			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
-					.getCurrentInstance().getExternalContext().getResponse();
-			httpServletResponse.addHeader("Content-disposition",
-					"attachment; filename="+seleccionado.getId()+".pdf");
-			ServletOutputStream servletStream = httpServletResponse
-					.getOutputStream();
-			JasperExportManager.exportReportToPdfStream(jasperPrint,
-					servletStream);
-			FacesContext.getCurrentInstance().responseComplete();
+	public void generarReportePDF() throws ClassNotFoundException, IOException, JRException{
+//			reportBuilder();
+//			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
+//					.getCurrentInstance().getExternalContext().getResponse();
+//			httpServletResponse.addHeader("Content-disposition",
+//					"attachment; filename="+seleccionado.getId()+".pdf");
+//			ServletOutputStream servletStream = httpServletResponse
+//					.getOutputStream();
+//			JasperExportManager.exportReportToPdfStream(jasperPrint,
+//					servletStream);
+//			FacesContext.getCurrentInstance().responseComplete();
+		comercioEjb.generarReporteOrdenDespachoPDF(reportBuilder(), seleccionado.getId());
 	}
 	
-	@SuppressWarnings("deprecation")
-	public void generarReporteExcel() throws JRException, IOException{
-		reportBuilder();
-		HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
-				.getCurrentInstance().getExternalContext().getResponse();
-		httpServletResponse.addHeader("Content-disposition",
-				"attachment; filename=Employees_List.xlsx");
-		ServletOutputStream servletOutputStream = httpServletResponse
-				.getOutputStream();
-		JRXlsxExporter docxExporter = new JRXlsxExporter();
-		docxExporter
-				.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
-				servletOutputStream);
-		docxExporter.exportReport();
-		FacesContext.getCurrentInstance().responseComplete();
+	public void generarReporteExcel() throws ClassNotFoundException, IOException, JRException{
+//		reportBuilder();
+//		HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
+//				.getCurrentInstance().getExternalContext().getResponse();
+//		httpServletResponse.addHeader("Content-disposition",
+//				"attachment; filename=Employees_List.xlsx");
+//		ServletOutputStream servletOutputStream = httpServletResponse
+//				.getOutputStream();
+//		JRXlsxExporter docxExporter = new JRXlsxExporter();
+//		docxExporter
+//				.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+//		docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+//				servletOutputStream);
+//		docxExporter.exportReport();
+//		FacesContext.getCurrentInstance().responseComplete();
+		comercioEjb.generarReporteOrdenDespachoExcel(reportBuilder(), seleccionado.getId());
 	}
 	
 	public void generarReporteExcel2() throws JRException, IOException {
@@ -225,7 +226,7 @@ public class OrdenesDespachoMB extends UtilMB{
 //		return null;
 //	}
 
-	public void reportBuilder() throws JRException {
+	public JasperPrint reportBuilder() throws JRException {
 
 		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
 				productos);
@@ -236,9 +237,7 @@ public class OrdenesDespachoMB extends UtilMB{
 				.getRealPath(
 						"/reportes/Report_OD.jasper");
 
-		jasperPrint = JasperFillManager.fillReport(report, new HashMap(),
-				beanCollectionDataSource);
-
+		return JasperFillManager.fillReport(report, new HashMap(),beanCollectionDataSource);
 	}
 	
 	public static HttpServletResponse configureResponse(

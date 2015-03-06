@@ -148,38 +148,39 @@ public class DespacharMercanciaVDMB extends UtilMB{
 		documentos = despachoMercancia.consultarVentasDirectas(consecutivoDocumento);
 	}
 	
-	public void generarReporte(String tipo) throws IOException, JRException{
-		if(tipo=="PDF"){
-			reportBuilder();
-			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
-					.getCurrentInstance().getExternalContext().getResponse();
-			httpServletResponse.addHeader("Content-disposition",
-					"attachment; filename="+seleccionado.getId()+".pdf");
-			ServletOutputStream servletStream = httpServletResponse
-					.getOutputStream();
-			JasperExportManager.exportReportToPdfStream(jasperPrint,
-					servletStream);
-			FacesContext.getCurrentInstance().responseComplete();
-		}else{
-			
-		}
+	public void generarReporteExcel() throws IOException, JRException{
+//		if(tipo=="PDF"){
+//			reportBuilder();
+//			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
+//					.getCurrentInstance().getExternalContext().getResponse();
+//			httpServletResponse.addHeader("Content-disposition",
+//					"attachment; filename="+seleccionado.getId()+".pdf");
+//			ServletOutputStream servletStream = httpServletResponse
+//					.getOutputStream();
+//			JasperExportManager.exportReportToPdfStream(jasperPrint,
+//					servletStream);
+//			FacesContext.getCurrentInstance().responseComplete();
+//		}else{
+//			
+//		}
+		despachoMercancia.generarReporteDespacharMercanciaExcel(productos, seleccionado);
 	}
 	
-	public void reportBuilder() throws JRException {
-
-		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
-				productos);
-
-		String report = FacesContext
-				.getCurrentInstance()
-				.getExternalContext()
-				.getRealPath(
-						"/resources/reports/EmployeesReportToJSFApp.jasper");
-
-		jasperPrint = JasperFillManager.fillReport(report, new HashMap(),
-				beanCollectionDataSource);
-
-	}
+//	public void reportBuilder() throws JRException {
+//
+//		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
+//				productos);
+//
+//		String report = FacesContext
+//				.getCurrentInstance()
+//				.getExternalContext()
+//				.getRealPath(
+//						"/resources/reports/EmployeesReportToJSFApp.jasper");
+//
+//		jasperPrint = JasperFillManager.fillReport(report, new HashMap(),
+//				beanCollectionDataSource);
+//
+//	}
 
 	public List<Documento> getDocumentos() {
 		return documentos;

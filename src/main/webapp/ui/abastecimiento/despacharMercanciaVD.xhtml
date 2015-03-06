@@ -16,7 +16,7 @@
 				globalOnly="false" showIcon="true"></p:messages>
 
 			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.genrarOrdenDespachoVentaDirectaTituloFrame}">
+				<p:tab title="#{msg.despacharVDInicio}">
 
 					<p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha" />
 					<p:inputText value="#{despacharMercanciaMB.currentTimeStamp}"
@@ -213,13 +213,10 @@
 						<p:column styleClass="derecha">
 							<h:outputText value="#{msg.MenuReportes}" />
 							<p:spacer width="10" />
-							<p:commandButton value="#{msg.ReportePdf}" icon="ui-icon-script"
-								action="#{despacharMercanciaMB.generarReporte('Excel')}"
-								disabled="#{ordenesDespachoMB.deshabilitado}" id="btnGenerarPdf" />
 
 							<p:commandButton value="#{msg.ReporteExcel}"
 								icon="ui-icon-script"
-								action="#{despacharMercanciaMB.generarReporte('PDF')}"
+								action="#{despacharMercanciaMB.generarReporteExcel()}"
 								disabled="#{ordenesDespachoMB.deshabilitado}"
 								id="btnGenerarExcel" />
 						</p:column>

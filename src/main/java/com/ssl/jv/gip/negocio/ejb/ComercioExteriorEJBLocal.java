@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Hashtable;
@@ -7,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Local;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
 
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
@@ -359,5 +363,11 @@ public interface ComercioExteriorEJBLocal {
 			Long estado2);
 	
 	public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros);
+
+	public void generarReporteOrdenDespachoPDF(JasperPrint jasperPrint, Long id)
+			throws ClassNotFoundException, IOException, JRException;
+
+	void generarReporteOrdenDespachoExcel(JasperPrint jasperPrint, Long id)
+			throws ClassNotFoundException, IOException, JRException;
 	
 }
