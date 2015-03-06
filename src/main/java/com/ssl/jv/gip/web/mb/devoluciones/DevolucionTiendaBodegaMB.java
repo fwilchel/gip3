@@ -11,7 +11,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.ejb.DevolucionesEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
@@ -88,13 +88,13 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
    */
   private Ubicacion ubicacionOrigenSeeccionada;
   /**
-   * lista de documentos que retorna la consulta a la base de datos
+   *
    */
-  private List<Documento> listaDocumentos;
+  private List<ProductosXDocumento> listaProductosXDocumento;
   /**
-   * lista de documentos seleccionados
+   *
    */
-  private List<Documento> listaDocumentosSeleccionados;
+  private List<ProductosXDocumento> listaProductosXDocumentoSeleccionados;
 
   @PostConstruct
   public void init() {
@@ -131,6 +131,14 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
    */
   public void buscar() {
     LOGGER.debug("Metodo: <<buscar>>");
+
+  }
+
+  /**
+   *
+   */
+  public void asignarProductosSeleccionados() {
+    LOGGER.debug("Metodo: <<asignarProductosSeleccionados>>");
   }
 
   /**
@@ -183,7 +191,7 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   }
 
   public boolean habilitarBtnIngresoDevoluciones() {
-    return !(getListaDocumentosSeleccionados() == null || getListaDocumentosSeleccionados().isEmpty());
+    return !(getListaProductosXDocumentoSeleccionados() == null || getListaProductosXDocumentoSeleccionados().isEmpty());
   }
 
   /**
@@ -243,31 +251,31 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   }
 
   /**
-   * @return the listaDocumentos
+   * @return the listaProductosXDocumento
    */
-  public List<Documento> getListaDocumentos() {
-    return listaDocumentos;
+  public List<ProductosXDocumento> getListaProductosXDocumento() {
+    return listaProductosXDocumento;
   }
 
   /**
-   * @return the listaDocumentosSeleccionados
+   * @param listaProductosXDocumento the listaProductosXDocumento to set
    */
-  public List<Documento> getListaDocumentosSeleccionados() {
-    return listaDocumentosSeleccionados;
+  public void setListaProductosXDocumento(List<ProductosXDocumento> listaProductosXDocumento) {
+    this.listaProductosXDocumento = listaProductosXDocumento;
   }
 
   /**
-   * @param listaDocumentosSeleccionados the listaDocumentosSeleccionados to set
+   * @return the listaProductosXDocumentoSeleccionados
    */
-  public void setListaDocumentosSeleccionados(List<Documento> listaDocumentosSeleccionados) {
-    this.listaDocumentosSeleccionados = listaDocumentosSeleccionados;
+  public List<ProductosXDocumento> getListaProductosXDocumentoSeleccionados() {
+    return listaProductosXDocumentoSeleccionados;
   }
 
   /**
-   * @param listaDocumentos the listaDocumentos to set
+   * @param listaProductosXDocumentoSeleccionados the listaProductosXDocumentoSeleccionados to set
    */
-  public void setListaDocumentos(List<Documento> listaDocumentos) {
-    this.listaDocumentos = listaDocumentos;
+  public void setListaProductosXDocumentoSeleccionados(List<ProductosXDocumento> listaProductosXDocumentoSeleccionados) {
+    this.listaProductosXDocumentoSeleccionados = listaProductosXDocumentoSeleccionados;
   }
 
 }

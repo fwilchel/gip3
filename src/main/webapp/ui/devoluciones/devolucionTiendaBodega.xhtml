@@ -19,7 +19,7 @@
       height="40"/>
 
     <h:form 
-      id="forma"
+      id="formListado"
       prependId="false" >
 
       <p:messages 
@@ -84,109 +84,65 @@
                   name="footer">
                   <p:commandButton
                     value="#{msg.gfFltBtnBuscar}"
-                    actionListener="#{devolucionTiendaBodegaMB.buscar()}"
-                    update="tblDocumentos"/>
+                    oncomplete="PF('dlgSeleccionarProductos').show()"
+                    update=":dlgSeleccionarProductos"
+                    process="@this"/>
                 </f:facet>
               </p:panelGrid>
             </p:panel>
 
             <p:dataTable 
-              id="tblDocumentos"
-              var="documento" 
-              widgetVar="tblDocumentos" 
-              value="#{devolucionTiendaBodegaMB.listaDocumentos}" 
+              id="tblProductosSeleccionados"
+              var="producto" 
+              widgetVar="tblProductosSeleccionados" 
+              value="#{devolucionTiendaBodegaMB.listaProductosXDocumentoSeleccionados}" 
               rows="10"
               emptyMessage="#{msg.generalNoDatos}" 
               paginator="true"
               paginatorPosition="bottom"
               paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
               rowsPerPageTemplate="5,10,15">
-              <f:facet 
-                name="header">
-                <div 
-                  align="right">
-                  <p:outputPanel>
-                    <h:outputText 
-                      value="#{msg.generalBuscarTodosCampos}: " />
-                    <p:inputText 
-                      id="globalFilter"
-                      onkeyup="PF('tblDocumentos').filter()" 
-                      style="width:150px"
-                      placeholder="#{msg.generalPalabrasBuscar}" />
-                    <p:spacer 
-                      width="30">
-                    </p:spacer>				
-                    <p:commandButton 
-                      action="introduccion" 
-                      title="#{msg.generalCancelar}" 
-                      ajax="false"
-                      icon="ui-icon-cancel" 
-                      value="#{msg.generalCancelar}" />
-                  </p:outputPanel>
-                </div>
-              </f:facet>
               <!-- SKU -->
               <p:column   
-                headerText="#{msg.dtbTblColSKU}"
-                sortBy="#{documento.id}"
-                filterBy="#{documento.id}"
-                filterMatchMode="contains">
+                headerText="#{msg.dtbTblColSKU}">
                 <h:outputText 
-                  value="#{documento.id}" />
+                  value="#{producto.id}" />
               </p:column>
               <!-- Nombre del producto -->
               <p:column 
-                headerText="#{msg.dtbTblColNombreProducto}"
-                sortBy="#{documento.consecutivoDocumento}"
-                filterBy="#{documento.consecutivoDocumento}"
-                filterMatchMode="contains">
+                headerText="#{msg.dtbTblColNombreProducto}">
                 <h:outputText 
-                  value="#{documento.consecutivoDocumento}" />
+                  value="#{producto.productosInventario.sku}" />
               </p:column>
               <!-- Cantidad Teórica en Tienda -->
               <p:column 
-                headerText="#{msg.dtbTblColCantidadTeoricaTienda}"
-                sortBy="#{documento.fechaGeneracion}"
-                filterBy="#{documento.fechaGeneracion}"
-                filterMatchMode="contains">
+                headerText="#{msg.dtbTblColCantidadTeoricaTienda}">
                 <h:outputText 
-                  value="#{documento.fechaGeneracion}"/>
+                  value="#{producto.productosInventario.sku}"/>
               </p:column>
               <!-- Cantidad a Devolver -->
               <p:column 
-                headerText="#{msg.dtbTblColCantidadDevolver}"
-                sortBy="#{documento.fechaGeneracion}"
-                filterBy="#{documento.fechaGeneracion}"
-                filterMatchMode="contains">
+                headerText="#{msg.dtbTblColCantidadDevolver}">
                 <h:outputText 
-                  value="#{documento.fechaGeneracion}"/>
+                  value="#{producto.productosInventario.sku}"/>
               </p:column>
               <!-- Unidad Venta -->
               <p:column 
-                headerText="#{msg.dtbTblColUnidadVenta}"
-                sortBy="#{documento.fechaGeneracion}"
-                filterBy="#{documento.fechaGeneracion}"
-                filterMatchMode="contains">
+                headerText="#{msg.dtbTblColUnidadVenta}">
                 <h:outputText 
-                  value="#{documento.fechaGeneracion}"/>
+                  value="#{producto.productosInventario.sku}"/>
               </p:column>
               <!-- Causal de devolución -->
               <p:column 
-                headerText="#{msg.dtbTblColCausalDevolucion}"
-                sortBy="#{documento.fechaGeneracion}"
-                filterBy="#{documento.fechaGeneracion}"
-                filterMatchMode="contains">
+                headerText="#{msg.dtbTblColCausalDevolucion}">
                 <h:outputText 
-                  value="#{documento.fechaGeneracion}"/>
+                  value="#{producto.productosInventario.sku}"/>
               </p:column>
               <!-- Observación -->
               <p:column 
-                headerText="#{msg.dtbTblColObservacion}"
-                sortBy="#{documento.fechaGeneracion}"
-                filterBy="#{documento.fechaGeneracion}"
-                filterMatchMode="contains">
+                headerText="#{msg.dtbTblColObservacion}">
                 <h:outputText 
-                  value="#{documento.fechaGeneracion}"/>
+                  value="#{producto.productosInventario.sku}"/>
               </p:column>
             </p:dataTable>
 
@@ -204,7 +160,8 @@
                 value="#{msg.dtbBtnVistaPrevia}" 
                 ajax="false" 
                 icon="ui-icon-document"
-                process="@this">
+                process="@this"
+                disabled="#{devolucionTiendaBodegaMB.habilitarBtnIngresoDevoluciones()}">
                 <p:fileDownload 
                   value="#{devolucionTiendaBodegaMB.generarVistaPrevia()}" />
               </p:commandButton>
@@ -217,6 +174,93 @@
       </p:tabView>
 
     </h:form>
+
+    <p:dialog 
+      id="dlgSeleccionarProductos" 
+      widgetVar="dlgSeleccionarProductos" 
+      header="#{msg.grvceFltProductosTitle}" 
+      resizable="false" 
+      showEffect="clip" 
+      hideEffect="clip"
+      modal="true">
+      <h:form
+        id="formSeleccionarProductos"
+        prependId="false">
+        <p:panel 
+          id="pnlFiltroProductos">
+          <p:dataTable 
+            id="tblProductos"
+            var="producto" 
+            widgetVar="tblProductos" 
+            value="#{devolucionTiendaBodegaMB.listaProductosXDocumento}"
+            selection="#{devolucionTiendaBodegaMB.listaProductosXDocumentoSeleccionados}" 
+            rowKey="#{producto.id}" 
+            rows="10"
+            emptyMessage="#{msg.generalNoDatos}" 
+            paginator="true"
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
+            <f:facet 
+              name="header">
+              <div 
+                align="right">
+                <p:outputPanel>
+                  <h:outputText 
+                    value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText 
+                    id="globalFilter"
+                    onkeyup="PF('tblProductos').filter()" 
+                    style="width:150px"
+                    placeholder="#{msg.generalPalabrasBuscar}" />
+                </p:outputPanel>
+              </div>
+            </f:facet>
+            <!-- opcion de anular el registro -->
+            <p:column 
+              selectionMode="multiple" 
+              style="width:16px;text-align:center"/>
+            <!-- SKU -->
+            <p:column   
+              headerText="#{msg.grvceTblProductoClmSKU}"
+              sortBy="#{producto.productosInventario.sku}"
+              filterBy="#{producto.productosInventario.sku}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{producto.productosInventario.sku}" />
+            </p:column>
+            <!-- Nombre -->
+            <p:column 
+              headerText="#{msg.grvceTblProductoClmNombre}"
+              sortBy="#{producto.productosInventario.nombre}"
+              filterBy="#{producto.productosInventario.nombre}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{producto.productosInventario.nombre}" />
+            </p:column>
+          </p:dataTable>
+          <f:facet
+            name="footer">
+            <!-- asignar productos seleccionados -->
+            <p:commandButton 
+              value="#{msg.grvceFltProductosBtnAsignarProductosSeleccionados}" 
+              styleClass="ui-confirmdialog-yes" 
+              icon="ui-icon-check" 
+              actionListener="#{devolucionTiendaBodegaMB.asignarProductosSeleccionados()}"
+              oncomplete="PF('dlgSeleccionarProductos').hide()"
+              update=":formListado:pnlTab:tblProductosSeleccionados"/>
+            <!-- Cancelar -->
+            <p:commandButton 
+              value="#{msg.generalCerrar}" 
+              styleClass="ui-confirmdialog-no" 
+              icon="ui-icon-close" 
+              immediate="true"
+              ajax="false"
+              oncomplete="PF('dlgSeleccionarProductos').hide()"/>
+          </f:facet>
+        </p:panel>
+      </h:form>          
+    </p:dialog>
 
   </ui:define>
 
