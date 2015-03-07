@@ -4,65 +4,69 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the tipo_movimiento database table.
- * 
+ *
  */
 @Entity
-@Table(name="tipo_movimiento")
-@NamedQuery(name="TipoMovimiento.findAll", query="SELECT t FROM TipoMovimiento t")
+@Table(name = "tipo_movimiento")
+@NamedQuery(name = "TipoMovimiento.findAll", query = "SELECT t FROM TipoMovimiento t")
 public class TipoMovimiento implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  private Long id;
 
-	//bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy="tipoMovimiento")
-	private List<MovimientosInventario> movimientosInventarios;
+  private String nombre;
 
-	public TipoMovimiento() {
-	}
+  //bi-directional many-to-one association to MovimientosInventario
+  @OneToMany(mappedBy = "tipoMovimiento")
+  private List<MovimientosInventario> movimientosInventarios;
 
-	public Long getId() {
-		return this.id;
-	}
+  public TipoMovimiento() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public TipoMovimiento(Long id) {
+    this.id = id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public List<MovimientosInventario> getMovimientosInventarios() {
-		return this.movimientosInventarios;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public void setMovimientosInventarios(List<MovimientosInventario> movimientosInventarios) {
-		this.movimientosInventarios = movimientosInventarios;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public MovimientosInventario addMovimientosInventario(MovimientosInventario movimientosInventario) {
-		getMovimientosInventarios().add(movimientosInventario);
-		movimientosInventario.setTipoMovimiento(this);
+  public List<MovimientosInventario> getMovimientosInventarios() {
+    return this.movimientosInventarios;
+  }
 
-		return movimientosInventario;
-	}
+  public void setMovimientosInventarios(List<MovimientosInventario> movimientosInventarios) {
+    this.movimientosInventarios = movimientosInventarios;
+  }
 
-	public MovimientosInventario removeMovimientosInventario(MovimientosInventario movimientosInventario) {
-		getMovimientosInventarios().remove(movimientosInventario);
-		movimientosInventario.setTipoMovimiento(null);
+  public MovimientosInventario addMovimientosInventario(MovimientosInventario movimientosInventario) {
+    getMovimientosInventarios().add(movimientosInventario);
+    movimientosInventario.setTipoMovimiento(this);
 
-		return movimientosInventario;
-	}
+    return movimientosInventario;
+  }
+
+  public MovimientosInventario removeMovimientosInventario(MovimientosInventario movimientosInventario) {
+    getMovimientosInventarios().remove(movimientosInventario);
+    movimientosInventario.setTipoMovimiento(null);
+
+    return movimientosInventario;
+  }
 
 }

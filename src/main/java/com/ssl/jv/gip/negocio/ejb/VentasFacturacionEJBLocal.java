@@ -94,8 +94,9 @@ public interface VentasFacturacionEJBLocal {
    * 
    * @param factura
    * @param listaProductos
+   * @param remisionRelacionada
    * @param auditoria
    * @return 
    */
-  Documento generarFactura(Documento factura, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria);
+  Documento generarFactura(Documento factura, List<ProductosXDocumento> listaProductos, Documento remisionRelacionada, LogAuditoria auditoria);
 }

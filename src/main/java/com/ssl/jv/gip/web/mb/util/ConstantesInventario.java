@@ -19,12 +19,10 @@ package com.ssl.jv.gip.web.mb.util;
  * @phone 3192594013
  * @version 1.0
  */
-public interface ConstantesUbicacion {
+public interface ConstantesInventario {
 
-  public Long UBICACION_DESTINO_DEFAULT = 99L;
+  public Long ENTRADAS = 1L;
 
-  public Long EXTERNA = -1L;
-
-  public Long TRANSITO = -2L;
+  public Long SALIDAS = 2L;
 
 }

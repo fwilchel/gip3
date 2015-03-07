@@ -115,7 +115,7 @@ public class GenerarFacturaMB extends UtilMB {
 
   @PostConstruct
   public void init() {
-    LOGGER.debug("Metodo: <<init>>");
+    LOGGER.trace("Metodo: <<init>>");
     cargarTiposFacuras();
   }
 
@@ -123,7 +123,7 @@ public class GenerarFacturaMB extends UtilMB {
    *
    */
   private void cargarTiposFacuras() {
-    LOGGER.debug("Metodo: <<init>>");
+    LOGGER.trace("Metodo: <<cargarTiposFacuras>>");
     setListaTiposFacturas(new ArrayList<SelectItem>());
     getListaTiposFacturas().add(new SelectItem(ConstantesTipoDocumento.FACTURA, AplicacionMB.getMessage("gfFltLblItmTipoFacturaDirecta", language)));
     getListaTiposFacturas().add(new SelectItem(ConstantesTipoDocumento.FACTURA_ESPECIAL, AplicacionMB.getMessage("gfFltLblItmTipoFacturaEspecial", language)));
@@ -134,7 +134,7 @@ public class GenerarFacturaMB extends UtilMB {
    *
    */
   public void buscar() {
-    LOGGER.debug("Metodo: <<buscar>>");
+    LOGGER.trace("Metodo: <<buscar>>");
     setListaRemisiones(ventasFacturacionEJB.consultarRemisionesPendientesPorRecibir(getConsecutivoDocumento()));
   }
 
@@ -143,7 +143,7 @@ public class GenerarFacturaMB extends UtilMB {
    * @param documento
    */
   public void seleccionarRemision(Documento documento) {
-    LOGGER.debug("Metodo: <<seleccionarRemision>>");
+    LOGGER.trace("Metodo: <<seleccionarRemision>>");
     setRemisionSeleccionada(documento);
     if (getRemisionSeleccionada().getSitioEntrega() != null && getRemisionSeleccionada().getSitioEntrega().equals("CS") && getTipoFacturaSeleccionado() != ConstantesTipoDocumento.SOLICITUD_PEDIDO) {
       modo = Modo.MENSAGE;
@@ -204,6 +204,7 @@ public class GenerarFacturaMB extends UtilMB {
         }
       }
       total = subtotal.add(descuento).add(totalIva10).add(totalIva5).add(totalIva16);
+      LOGGER.debug("Total factura: " + total);
     }
   }
 
@@ -211,7 +212,7 @@ public class GenerarFacturaMB extends UtilMB {
    *
    */
   public void generarFactura() {
-    LOGGER.debug("Metodo: <<generarFactura>>");
+    LOGGER.trace("Metodo: <<generarFactura>>");
     Documento factura = new Documento();
     // tipo de documento y estado
     Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
@@ -260,12 +261,9 @@ public class GenerarFacturaMB extends UtilMB {
     LogAuditoria auditoria = new LogAuditoria();
     auditoria.setIdUsuario(menu.getUsuario().getId());
     auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
-    auditoria.setTabla(Documento.class.getName());
-    auditoria.setAccion("CRE");
-    auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
     // enviar a generar la factura
-    factura = ventasFacturacionEJB.generarFactura(factura, listaProductosXRemision, auditoria);
-    String msg = "" + factura.getConsecutivoDocumento();
+    factura = ventasFacturacionEJB.generarFactura(factura, listaProductosXRemision, remisionSeleccionada, auditoria);
+    LOGGER.debug("id: " + factura.getId() + " consecutivo: " + factura.getConsecutivoDocumento());
   }
 
   /**
@@ -274,7 +272,7 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   private Documento consultarOrdenDespacho(String observacionDocumento) {
-    LOGGER.debug("Metodo: <<imprimirFactura>>");
+    LOGGER.trace("Metodo: <<consultarOrdenDespacho>>");
     List<Documento> listaOrdenesDespacho;
     listaOrdenesDespacho = ventasFacturacionEJB.consultarOrdenesDespachoPorObservacion(observacionDocumento);
     if (listaOrdenesDespacho != null) {
@@ -289,7 +287,7 @@ public class GenerarFacturaMB extends UtilMB {
    *
    */
   public void imprimirFactura() {
-    LOGGER.debug("Metodo: <<imprimirFactura>>");
+    LOGGER.trace("Metodo: <<imprimirFactura>>");
 
   }
 
@@ -297,7 +295,7 @@ public class GenerarFacturaMB extends UtilMB {
    *
    */
   public void cancelar() {
-    LOGGER.debug("Metodo: <<cancelar>>");
+    LOGGER.trace("Metodo: <<cancelar>>");
     this.setRemisionSeleccionada(null);
     this.setConsecutivoDocumento("");
   }
@@ -307,7 +305,7 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public Date getFechaActual() {
-    LOGGER.debug("Metodo: <<getFechaActual>>");
+    LOGGER.trace("Metodo: <<getFechaActual>>");
     return new Date();
   }
 
@@ -316,7 +314,7 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public boolean isFacturaDirecta() {
-    LOGGER.debug("Metodo: <<isFacturaDirecta>>");
+    LOGGER.trace("Metodo: <<isFacturaDirecta>>");
     return getTipoFacturaSeleccionado() == null ? false : getTipoFacturaSeleccionado().equals(ConstantesTipoDocumento.FACTURA);
   }
 
@@ -325,7 +323,7 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public boolean isFacturaEspecial() {
-    LOGGER.debug("Metodo: <<isFacturaEspecial>>");
+    LOGGER.trace("Metodo: <<isFacturaEspecial>>");
     return getTipoFacturaSeleccionado() == null ? false : getTipoFacturaSeleccionado().equals(ConstantesTipoDocumento.FACTURA_ESPECIAL);
   }
 
@@ -334,7 +332,7 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public boolean isFacturaConsumoServicios() {
-    LOGGER.debug("Metodo: <<isFacturaConsumoServicios>>");
+    LOGGER.trace("Metodo: <<isFacturaConsumoServicios>>");
     return getTipoFacturaSeleccionado() == null ? false : getTipoFacturaSeleccionado().equals(ConstantesTipoDocumento.SOLICITUD_PEDIDO);
   }
 
@@ -343,7 +341,7 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public boolean isModoDetalle() {
-    LOGGER.debug("Metodo: <<isModoDetalle>>");
+    LOGGER.trace("Metodo: <<isModoDetalle>>");
     return modo.equals(Modo.DETALLE);
   }
 
@@ -352,7 +350,7 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public boolean isModoMensage() {
-    LOGGER.debug("Metodo: <<isModoMensage>>");
+    LOGGER.trace("Metodo: <<isModoMensage>>");
     return modo.equals(Modo.MENSAGE);
   }
 

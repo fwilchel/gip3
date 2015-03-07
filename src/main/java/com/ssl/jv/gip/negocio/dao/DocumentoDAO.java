@@ -1668,7 +1668,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   @Override
   public List<Documento> consultarDocumentosPorEstadoPorTipoPorConsecutivo(Map<String, Object> parametros) {
-    LOGGER.debug("Metodo: <<consultarDocumentosPorEstadoPorTipoPorConsecutivo>> parametros / parametros ->> {" + parametros + "} ");
+    LOGGER.trace("Metodo: <<consultarDocumentosPorEstadoPorTipoPorConsecutivo>> parametros / parametros ->> {" + parametros + "} ");
     Long tipo = (Long) parametros.get("idTipoDocumento");
     Long estado = (Long) parametros.get("idEstado");
     String consecutivo = (String) parametros.get("consecutivoDocumento");
@@ -1828,14 +1828,14 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   @Override
   public List<Documento> consultarTodosLosDocumentos() {
-    LOGGER.debug("Metodo: <<consultarTodosLosDocumentos>>");
+    LOGGER.trace("Metodo: <<consultarTodosLosDocumentos>>");
     Query query = em.createNamedQuery(Documento.FIND_ALL);
     return query.getResultList();
   }
 
   @Override
   public List<Documento> consultarSolicitudesPedidoPorAnular(String consecutivoDocumento) {
-    LOGGER.debug("Metodo: <<consultarSolicitudesPedidoPorAnular>> parametros / consecutivoDocumento ->> {" + consecutivoDocumento + "} ");
+    LOGGER.trace("Metodo: <<consultarSolicitudesPedidoPorAnular>> parametros / consecutivoDocumento ->> {" + consecutivoDocumento + "} ");
     Query query = em.createNamedQuery(Documento.LISTADO_ANULAR_SOLICITUD_PEDIDO);
     query.setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
     query.setParameter("cerrado", (long) ConstantesDocumento.CERRADO);
@@ -1851,7 +1851,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   @Override
   public void anularSolicitudPedido(Documento documento) {
-    LOGGER.debug("Metodo: <<anularSolicitudPedido>> parametros / documento ->> {"
+    LOGGER.trace("Metodo: <<anularSolicitudPedido>> parametros / documento ->> {"
             + documento + "} ");
     Query query = em
             .createNativeQuery(Documento.ACTUALIZAR_ESTADO_DOCUMENTO);
@@ -2552,7 +2552,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   @Override
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros) {
-    LOGGER.debug("Metodo: <<consultarDocumentosReporteVentasCE>>");
+    LOGGER.trace("Metodo: <<consultarDocumentosReporteVentasCE>>");
     String sql = DocumentoReporteVentasCEDTO.LISTADO_DOCUMENTOS_REPORTE_VENTAS_CE;
     boolean buscarPorClientes = false;
     boolean buscarPorProductos = false;
@@ -2675,7 +2675,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   @Override
   public List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros) {
-    LOGGER.debug("Metodo: <<consultarDocumentosReporteCintaTestigoMagnetica>>");
+    LOGGER.trace("Metodo: <<consultarDocumentosReporteCintaTestigoMagnetica>>");
     String sql = DocumentoCintaTestigoMagneticaDTO.REPORTE_CINTA_TESTIGO_MAGNETICA;
     Query query = em.createNativeQuery(sql, DocumentoCintaTestigoMagneticaDTO.class);
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
