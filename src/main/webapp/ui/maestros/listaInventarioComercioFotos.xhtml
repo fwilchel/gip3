@@ -86,8 +86,8 @@
 				            <p:panelGrid columns="2" columnClasses="label, value" style="width: 100%;margin:0px" >
 								
 								<p:outputLabel value="#{msg.inventarioComercioFotos_Foto}" for="foto" styleClass="negrita" />
-								<p:commandLink action="#{inventarioComercioFotosMB.editar}" title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}">
-									<p:graphicImage url="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}" id="foto" />
+								<p:commandLink id="foto" action="#{inventarioComercioFotosMB.editar}" title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}">
+									<h:graphicImage value="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}" title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}" />
 									<f:setPropertyActionListener value="#{dato}" target="#{inventarioComercioFotosMB.seleccionado}" />
 								</p:commandLink>
 
