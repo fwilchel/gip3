@@ -27,6 +27,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoRecibirDevolucionDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
@@ -35,6 +36,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
+import com.ssl.jv.gip.negocio.dto.UbicacionRecibirDevolucionDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
@@ -2690,6 +2692,50 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros){
 	  Query q=em.createNamedQuery("DocumentoXNegociacion.updateCostosLogisticos").setParameter("fob", valorFob).setParameter("fletes", valorFletes).setParameter("seguros", valorSeguros).setParameter("idDocumento", idDocumento).setParameter("idTerminoIncoterm", idTerminoIncoterm);
 	  return q.executeUpdate();
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<DocumentoRecibirDevolucionDTO> consultarDocumentosRecibirDevolucion(String bodega) {
+    List<DocumentoRecibirDevolucionDTO> listado = new ArrayList<DocumentoRecibirDevolucionDTO>();
+    String query;
+    try {
+      query = "SELECT  documentos.id,documentos.consecutivo_documento,documentos.fecha_esperada_entrega,documentos.id_ubicacion_origen,"
+      		+ "documentos.id_ubicacion_destino,documentos.id_tipo_documento,documentos.fecha_generacion,"
+      		+ "documentos.fecha_entrega,documentos.id_proveedor,documentos.id_estado,documentos.observacion_documento,ubicaciones.nombre "
+      		+ "FROM documentos,ubicaciones WHERE documentos.id_tipo_documento=7 AND documentos.id_estado=7 AND documentos.id_ubicacion_destino = :ubicacion "
+      		+ "AND documentos.id_ubicacion_destino=ubicaciones.id";
+      
+      query = query.replaceAll(":ubicacion", bodega);
+      
+      List<Object[]> listadoInicial = em.createNativeQuery(query)
+  			.getResultList();
+      
+      for (Object[] objs : listadoInicial) {
+    	  DocumentoRecibirDevolucionDTO doc = new DocumentoRecibirDevolucionDTO();
+    	  
+    	  doc.setIdDocumento(objs[0] != null ? new Long(objs[0].toString()) : null);
+    	  doc.setConsecutivoDocumento(objs[1] != null ? objs[1].toString() : null);
+    	  doc.setFechaEsperadaEntrega(objs[2] != null ? (Timestamp)objs[2] : null);
+    	  doc.setIdUbicacionOrigen(objs[3] != null ? new Long(objs[3].toString()) : null);
+    	  doc.setIdUbicacionDestino(objs[4] != null ? new Long(objs[4].toString()) : null);
+    	  doc.setIdTipoDocumento(objs[5] != null ?new Long( objs[5].toString()) : null);
+    	  doc.setFechaGeneracion(objs[6] != null ? (Timestamp)objs[6] : null);
+    	  doc.setFechaEntrega(objs[7] != null ? (Timestamp)objs[7] : null);
+    	  doc.setIdProveedor(objs[8] != null ? new Long(objs[8].toString()) : null);
+    	  doc.setIdEstado(objs[9] != null ? new Long(objs[9].toString()) : null);
+    	  doc.setObservacionDocumento(objs[10] != null ? objs[10].toString() : null);
+    	  doc.setNombreUbicacionOrigen(objs[11] != null ? objs[11].toString() : null);
+    	  
+          listado.add(doc);
+        }
+
+    } catch (Exception e) {
+      LOGGER.error(e
+              + "********Error DocumentoRecibirDevolucionDTO");
+      return null;
+    }
+    return listado;
   }
   
 }

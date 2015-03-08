@@ -576,6 +576,11 @@
       <to-view-id>/ui/devoluciones/devolucionClienteTienda.xhtml</to-view-id>
     </navigation-case>
     
+    <navigation-case>
+			<from-outcome>recibir_devoluciones_tiendas</from-outcome>
+			<to-view-id>/ui/devoluciones/recibirDevolucionTienda.xhtml</to-view-id>
+		</navigation-case>
+    
     <!-- Devouciones / Devolucion Tienda Bodega -->
     <navigation-case>
       <from-outcome>devolucion_tienda_bodega</from-outcome>

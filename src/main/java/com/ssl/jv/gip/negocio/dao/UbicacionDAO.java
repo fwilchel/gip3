@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dto.UbicacionRecibirDevolucionDTO;
 
 @Stateless
 @LocalBean
@@ -107,6 +108,39 @@ public class UbicacionDAO extends GenericDAO<Ubicacion> implements UbicacionDAOL
       }
     }
     return ubicaciones;
+  }
+  
+  /* (non-Javadoc)
+   * @see com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal#consultarUbicacionesRecibirDevolucionPorUsuario(java.lang.String)
+   */
+  @Override
+  public List<UbicacionRecibirDevolucionDTO> consultarUbicacionesRecibirDevolucionPorUsuario(String usuario) {
+    LOGGER.debug("Metodo: <<consultarUbicacionesRecibirDevolucionPorUsuario>>");
+    String sql = Ubicacion.BUSCAR_UBICACIONES_RECIBIR_DEVOLUCIONES_TIENDA;
+    
+    sql = sql.replaceAll(":usuario", usuario);
+    
+    List<Object[]> listado = em.createNativeQuery(sql)
+			.getResultList();
+    
+    List<UbicacionRecibirDevolucionDTO> listadoFinal = new ArrayList<UbicacionRecibirDevolucionDTO>();
+    
+    for (Object[] objs : listado) {
+    	UbicacionRecibirDevolucionDTO ubicacion = new UbicacionRecibirDevolucionDTO();
+    	ubicacion.setIdGeografia(objs[0] != null ? objs[0].toString() : null);
+    	ubicacion.setIdUsuario(objs[1] != null ? objs[1].toString() : null);
+    	ubicacion.setTipoGeografia(objs[2] != null ? objs[2].toString() : null);
+    	ubicacion.setIdRegion(objs[3] != null ? objs[3].toString() : null);
+    	ubicacion.setIdPais(objs[4] != null ? objs[4].toString() : null);
+    	ubicacion.setNombrePais(objs[5] != null ? objs[5].toString() : null);
+    	ubicacion.setIdEmpresa(objs[6] != null ? objs[6].toString() : null);
+    	ubicacion.setNombreEmpresa(objs[7] != null ? objs[7].toString() : null);
+    	ubicacion.setBodegaAbastecedora(objs[8] != null ? objs[8].toString() : null);
+    	ubicacion.setNombre(objs[9] != null ? objs[9].toString() : null);
+        listadoFinal.add(ubicacion);
+      }
+    
+    return listadoFinal;
   }
 
 }
