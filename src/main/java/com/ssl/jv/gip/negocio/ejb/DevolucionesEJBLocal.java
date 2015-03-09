@@ -5,7 +5,9 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dto.DocumentoRecibirDevolucionDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDevolucionDTO;
+import com.ssl.jv.gip.negocio.dto.UbicacionRecibirDevolucionDTO;
 
 @Local
 public interface DevolucionesEJBLocal {
@@ -28,4 +30,21 @@ public interface DevolucionesEJBLocal {
    * @return 
    */
   List<Ubicacion> consultarUbicacionesQueSonTiendaPorUsuario(String usuario);
+  
+  /**
+   * Consultar ubicaciones recibir devolucion por usuario.
+   *
+   * @param usuario the usuario
+   * @return the list
+   */
+  public List<UbicacionRecibirDevolucionDTO> consultarUbicacionesRecibirDevolucionPorUsuario(String usuario);
+  
+  /**
+   * Consultar documentos recibir devolucion.
+   *
+   * @param bodega the bodega
+   * @return the list
+   */
+  public List<DocumentoRecibirDevolucionDTO> consultarDocumentosRecibirDevolucion(String bodega);
+  
 }

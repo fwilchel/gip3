@@ -33,6 +33,13 @@ public class Ubicacion implements Serializable {
 
   public static final String BUSCAR_UBICACIONES_QUE_SON_TIENDA_POR_USUARIO = "select u.id uid, u.nombre unombre, b.id bid, b.nombre bnombre from ubicaciones u inner join usuariosXgeografias uxg on u.id=uxg.id_geografia inner join regiones r on u.id_region=r.id inner join empresa e on u.id_empresa=e.id inner join paises p on r.id_pais=p.id inner join ubicaciones b on u.id_bodega_abastecedora=b.id where uxg.id_usuario=:usuario and u.es_tienda=true ORDER BY UPPER (u.nombre) ASC";
 
+  public static final String BUSCAR_UBICACIONES_RECIBIR_DEVOLUCIONES_TIENDA = "SELECT  distinct 'usuariosXgeografias.id_geografia' uno,'usuariosXgeografias.id_usuario' dos,'usuariosXgeografias.tipo_geografia' tres,'ubicaciones.id_region' cuatro, "
+  		+ "'paises.id' cinco,'paises.nombre ' seis,'empresa.id' AS ID_EMPRESA, 'empresa.nombre' AS NOMBRE_EMPRESA, ubicaciones.id_bodega_abastecedora, ub.nombre "
+  		+ "FROM usuariosXgeografias,ubicaciones,regiones,paises,empresa, ubicaciones ub  "
+  		+ "WHERE ubicaciones.id=usuariosXgeografias.id_geografia AND ubicaciones.id_region=regiones.id AND regiones.id_pais=paises.id "
+  		+ "AND usuariosXgeografias.id_usuario=':usuario' AND ubicaciones.id_empresa = empresa.id AND ubicaciones.id_bodega_abastecedora NOT IN (-1, -2) "
+  		+ "AND ubicaciones.id not in (-1, -2) AND ub.id = ubicaciones.id_bodega_abastecedora ORDER BY ub.nombre ASC";
+  
   @Id
   @SequenceGenerator(name = "ubicacion_id_seq", sequenceName = "ubicacion_id_seq", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ubicacion_id_seq")

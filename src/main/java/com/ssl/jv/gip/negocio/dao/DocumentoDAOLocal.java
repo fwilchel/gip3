@@ -16,6 +16,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoRecibirDevolucionDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
@@ -209,4 +210,11 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
   public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros);
 
+  /**
+   * Consultar documentos recibir devolucion.
+   *
+   * @param bodega the bodega
+   * @return the list
+   */
+  public List<DocumentoRecibirDevolucionDTO> consultarDocumentosRecibirDevolucion(String bodega) ;
 }
