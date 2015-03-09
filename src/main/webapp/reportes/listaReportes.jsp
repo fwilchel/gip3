@@ -29,7 +29,7 @@
       <li><a href="compilarReporte.jsp?reporte=Report_SP2.jrxml">Report_SP2.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_VCE.jrxml">Report_VCE.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=report2_FE.jrxml">report2_FE.jrxml</a></li>
-      <li><a href="compilarReporte.jsp?reporte=report2.jrxml">report2.jrxml</a></li>
+      <li><a href="compilarReporte.jsp?reporte=FacturaDirecta.jrxml">FacturaDirecta.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=report2FDO.jrxml">report2FDO.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=report2ORIGINAL.jrxml">report2ORIGINAL.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=ReporteOrdenDespachoVF.jrxml">ReporteOrdenDespachoVF.jrxml</a></li>

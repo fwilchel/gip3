@@ -29,9 +29,19 @@ import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
 import com.ssl.jv.gip.web.util.Utilidad;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Objects;
+import javax.faces.context.FacesContext;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  * <p>
@@ -101,6 +111,10 @@ public class GenerarFacturaMB extends UtilMB {
    * Registro remisionSeleccionada
    */
   private Documento remisionSeleccionada;
+  /**
+   * Factura generada
+   */
+  private Documento facturaGenerada;
   /**
    *
    */
@@ -205,7 +219,7 @@ public class GenerarFacturaMB extends UtilMB {
           }
         }
       }
-      total = subtotal.add(descuento).add(totalIva10).add(totalIva5).add(totalIva16);
+      total = Utilidad.round(subtotal.add(descuento).add(totalIva10).add(totalIva5).add(totalIva16));
       LOGGER.debug("Total factura: " + total);
 //      RequestContext.getCurrentInstance().openDialog("dlgDetalle");
 //      RequestContext.getCurrentInstance().update(":dlgDetalle");
@@ -267,10 +281,10 @@ public class GenerarFacturaMB extends UtilMB {
       auditoria.setIdUsuario(menu.getUsuario().getId());
       auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
       // enviar a generar la factura
-      factura = ventasFacturacionEJB.generarFactura(factura, listaProductosXRemision, remisionSeleccionada, auditoria);
-      LOGGER.debug("Factura generada exitosamente con id: " + factura.getId() + " y consecutivo: " + factura.getConsecutivoDocumento());
+      setFacturaGenerada(ventasFacturacionEJB.generarFactura(factura, listaProductosXRemision, remisionSeleccionada, auditoria));
+      LOGGER.debug("Factura generada exitosamente con id: " + getFacturaGenerada().getId() + " y consecutivo: " + getFacturaGenerada().getConsecutivoDocumento());
       modo = Modo.MENSAGE;
-      addMensajeInfo(formatearCadenaConParametros("gfMsgExitoGenerarFactura", language, factura.getId().toString(), factura.getConsecutivoDocumento()));
+      addMensajeInfo(formatearCadenaConParametros("gfMsgExitoGenerarFactura", language, getFacturaGenerada().getId().toString(), getFacturaGenerada().getConsecutivoDocumento()));
       // refrescar lista de remisiones
       consultarListaRemisiones();
     } catch (Exception ex) {
@@ -298,11 +312,85 @@ public class GenerarFacturaMB extends UtilMB {
   }
 
   /**
-   *
+   * Metodo que se encarga de enviar la solicitud de poner en estado impreso el documento.
    */
   public void imprimirFactura() {
     LOGGER.trace("Metodo: <<imprimirFactura>>");
+    LOGGER.debug("Actuaizar el numero de factura y estado de la factura");
+    facturaGenerada.setNumeroFactura(remisionSeleccionada.getNumeroFactura());
+    ventasFacturacionEJB.imprimirFactura(facturaGenerada);
+    LOGGER.debug("Factura actualizada a estado impresa");
+  }
 
+  /**
+   *
+   * @return
+   */
+  public StreamedContent previsuaizarFactura() {
+    LOGGER.trace("Metodo: <<previsuaizarFactura>>");
+    imprimirFactura();
+    StreamedContent reporte = null;
+    Map<String, Object> parametrosReporte = new HashMap<>();
+    SimpleDateFormat formatoFecha;
+    formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+    parametrosReporte.put("cliente", facturaGenerada.getCliente().getNombre());
+    parametrosReporte.put("nit", facturaGenerada.getCliente().getNit());
+    parametrosReporte.put("ciudad", facturaGenerada.getCliente().getCiudad().getNombre() + " - " + facturaGenerada.getCliente().getCiudad().getPais().getNombre());
+    parametrosReporte.put("direccion", facturaGenerada.getCliente().getDireccion());
+    parametrosReporte.put("telefono", facturaGenerada.getCliente().getTelefono());
+    parametrosReporte.put("despachado_a", facturaGenerada.getPuntoVenta().getNombre());
+    parametrosReporte.put("direccionpv", facturaGenerada.getPuntoVenta().getDireccion());
+    parametrosReporte.put("telefonopv", "Teléfono: " + facturaGenerada.getPuntoVenta().getTelefono());
+    parametrosReporte.put("ciudadpv", facturaGenerada.getPuntoVenta().getCiudade().getNombre());
+    parametrosReporte.put("documento", facturaGenerada.getDocumentoCliente());
+    parametrosReporte.put("fecha", formatoFecha.format(getFechaActual()));
+    parametrosReporte.put("sku", "A28");
+    parametrosReporte.put("numFactura", facturaGenerada.getConsecutivoDocumento());
+    parametrosReporte.put("tipoImp", "Original");
+    parametrosReporte.put("anulada", "");
+    boolean tieneOtrosDescuentos = false;
+    List<ProductosXDocumento> pxds = ventasFacturacionEJB.consultarProductosPorDocumentoOrdenadosPorSKU(facturaGenerada.getId());
+    for (ProductosXDocumento pxd : pxds) {
+      if (pxd.getOtrosDescuentos() == null || pxd.getOtrosDescuentos() == BigDecimal.ZERO) {
+        tieneOtrosDescuentos = true;
+        pxd.setObservacion2("(*)");
+      } else {
+    	pxd.setObservacion2("");
+      }
+    }
+    parametrosReporte.put("subtotal", facturaGenerada.getSubtotal());
+    parametrosReporte.put("descuento", facturaGenerada.getDescuento());
+    parametrosReporte.put("valorIva10", facturaGenerada.getValorIva10());
+    parametrosReporte.put("valorIva16", facturaGenerada.getValorIva16());
+    parametrosReporte.put("valorIva5", facturaGenerada.getValorIva5());
+    parametrosReporte.put("valorTotal", facturaGenerada.getValorTotal());
+    if (tieneOtrosDescuentos) { // Existe algun registro con descuento adicioanl
+      parametrosReporte.put("descuentoCliente", facturaGenerada.getDescuentoCliente() + "%");
+      parametrosReporte.put("observaciones", "Los productos marcados con (*) incluyen descuento adicional.");
+      parametrosReporte.put("mark", "(*)");
+    } else {
+      parametrosReporte.put("descuentoCliente", "");
+      parametrosReporte.put("observaciones", "");
+      parametrosReporte.put("mark", "");
+    }
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(pxds, false);
+    try {
+      StringBuilder nombreArchivo = new StringBuilder();
+      nombreArchivo.append("FacturaDirecta");
+      nombreArchivo.append("-");
+      nombreArchivo.append(facturaGenerada.getConsecutivoDocumento());
+      nombreArchivo.append(".");
+      nombreArchivo.append("pdf");
+      Hashtable<String, String> parametrosConfiguracionReporte;
+      parametrosConfiguracionReporte = new Hashtable<>();
+      parametrosConfiguracionReporte.put("tipo", "pdf");
+      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/FacturaDirecta.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, ds);
+      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", nombreArchivo.toString());
+    } catch (Exception e) {
+      this.addMensajeError("Problemas al generar el reporte");
+    }
+    return reporte;
   }
 
   /**
@@ -444,6 +532,20 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void setRemisionSeleccionada(Documento remisionSeleccionada) {
     this.remisionSeleccionada = remisionSeleccionada;
+  }
+
+  /**
+   * @return the facturaGenerada
+   */
+  public Documento getFacturaGenerada() {
+    return facturaGenerada;
+  }
+
+  /**
+   * @param facturaGenerada the facturaGenerada to set
+   */
+  public void setFacturaGenerada(Documento facturaGenerada) {
+    this.facturaGenerada = facturaGenerada;
   }
 
   /**

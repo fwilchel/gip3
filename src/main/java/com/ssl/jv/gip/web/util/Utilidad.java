@@ -804,7 +804,10 @@ public class Utilidad {
    * @return
    */
   public static BigDecimal round(BigDecimal value) {
-    return value.setScale(1, BigDecimal.ROUND_HALF_UP);
+	System.out.println("Valor a redondear: " + value);
+	value = value.setScale(0, BigDecimal.ROUND_HALF_UP); 
+	System.out.println("Valor redondeado: " + value);
+    return value;
   }
 
   /**

@@ -370,4 +370,20 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     LOGGER.debug("Remision actualizada exitosamente");
     return documento;
   }
+
+  @Override
+  public void imprimirFactura(Documento factura) {
+    LOGGER.trace("Metodo: <<imprimirFactura>>");
+    LOGGER.debug("Actualizar numero de factura y estado de la factura con id: " + factura.getId());
+    documentoDAO.actuaizarNumeroFacturaYEstadoDeUnDocumento(factura.getNumeroFactura(), (long) ConstantesDocumento.IMPRESO, factura.getId());
+    LOGGER.debug("Factura actualizada exitosamente");
+  }
+
+  @Override
+  public List<ProductosXDocumento> consultarProductosPorDocumentoOrdenadosPorSKU(Long id) {
+    LOGGER.trace("Metodo: <<consultarProductosPorDocumentoOrdenadosPorSKU>>");
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("idDocumento", id);
+    return documentoDAO.buscarPorConsultaNombrada(ProductosXDocumento.FIND_BY_DOCUMENTO_ORDER_BY_SKU, parametros);
+  }
 }
