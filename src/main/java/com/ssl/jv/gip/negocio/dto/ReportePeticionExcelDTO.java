@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.negocio.dto;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,15 +22,14 @@ public class ReportePeticionExcelDTO extends HttpServlet  {
 	 * @param String,
 	 *            nombre del arcivo en excel a abrir
 	 */
-	public void doGet(HttpServletRequest httpServletRequest,
+	public OutputStream doGet(HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse, HSSFWorkbook wb,
 			String nombre) throws ServletException, IOException {
 
 		httpServletResponse.setContentType("application/vnd.ms-excel");
 		httpServletResponse.addHeader("Content-disposition",
 				"attachment; filename=\"" + nombre + ".xlsx\"");
-		wb.write(httpServletResponse.getOutputStream());
-
+		return httpServletResponse.getOutputStream();
 	}
 	
 }

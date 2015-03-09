@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -26,9 +27,5 @@ public interface DespachoMercanciaEJBLocal {
 	public MovimientosInventario crearMovimientoInventario(MovimientosInventario movimiento);
 
 	public Unidad consultarUnidad(String unidadVenta);
-
-	public void generarReporteDespacharMercanciaExcel(
-			List<ProductoDespacharMercanciaDTO> productos,
-			Documento documento);
 
 }

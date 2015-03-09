@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.negocio.ejb;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Hashtable;
@@ -367,7 +368,9 @@ public interface ComercioExteriorEJBLocal {
 	public void generarReporteOrdenDespachoPDF(JasperPrint jasperPrint, Long id)
 			throws ClassNotFoundException, IOException, JRException;
 
-	void generarReporteOrdenDespachoExcel(JasperPrint jasperPrint, Long id)
+	public void generarReporteOrdenDespachoExcel(JasperPrint jasperPrint, Long id)
 			throws ClassNotFoundException, IOException, JRException;
+
+	public OutputStream generar(JasperPrint jasperPrint, String nombre, String tipo) throws JRException, IOException;
 	
 }

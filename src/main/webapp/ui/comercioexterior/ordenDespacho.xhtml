@@ -277,15 +277,16 @@
 						<p:column styleClass="derecha">
 							<p:commandButton value="#{msg.ReportePdf}" 
 								icon="ui-icon-script"
-								action="#{ordenesDespachoMB.generarReportePDF()}"
-								disabled="#{ordenesDespachoMB.deshabilitado}" 
-								id="btnGenerarPdf" />
-
+								ajax="false"
+								id="btnGenerarPdf">
+								<p:fileDownload value="#{ordenesDespachoMB.reportePDF}" />	
+							</p:commandButton>
 							<p:commandButton value="#{msg.ReporteExcel}" 
 								icon="ui-icon-script"
-								action="#{ordenesDespachoMB.generarReporteExcel2()}"
-								disabled="#{ordenesDespachoMB.deshabilitado}"
-								id="btnGenerarExcel"  />
+								ajax="false"
+								id="btnGenerarExcel">
+								<p:fileDownload value="#{ordenesDespachoMB.reporteExcel}" />	
+							</p:commandButton>
 						</p:column>
 					</p:panelGrid>
 
