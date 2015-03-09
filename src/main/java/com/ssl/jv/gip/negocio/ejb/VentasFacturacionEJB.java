@@ -305,7 +305,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       pxd.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
       pxd.setValorUnitarioUsd(BigDecimal.ZERO);
       pxd = productoXDocumentoDAO.add(pxd);
-      LOGGER.debug("Producto creado con id: " + pxd.getId());
+      LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
     }
     LOGGER.debug("Productos creados exitosamente");
     LOGGER.debug("Consultar los productos de un documento por su consecutivo [informacion relacionada a los movimientos]");
@@ -316,7 +316,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     Documento ordenDespacho = documentoDAO.consultarDocumentoPorConsecutivo(remisionRelacionada.getObservacionDocumento());
     ordenDespacho.getEstadosxdocumento().setEstado(new Estado((long) ConstantesDocumento.CERRADO));
     ordenDespacho.setDocumentoCliente(remisionRelacionada.getDocumentoCliente());
-    documentoDAO.update(ordenDespacho);
+    documentoDAO.actualizarEstadoDocumentoPorId(ordenDespacho);
     LOGGER.debug("Orden despacho actualizada");
     LOGGER.debug("Crear los movimientos de salida");
     for (ProductosXDocumento pxd : pxds) {
@@ -343,7 +343,6 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     for (ProductosXDocumento pxd : pxds) {
       MovimientosInventario movimiento = new MovimientosInventario();
       movimiento.setFecha(new Timestamp(System.currentTimeMillis()));
-      movimiento.setTipoMovimiento(new TipoMovimiento(ConstantesInventario.ENTRADAS));
       movimiento.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.TRANSITO));
       movimiento.setUbicacionDestino(remisionRelacionada.getUbicacionDestino());
       movimiento.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
@@ -367,7 +366,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     LOGGER.debug("Movimientos creados exitosamente");
     LOGGER.debug("Actualizar estado de la remision con id: " + remisionRelacionada.getId());
     remisionRelacionada.getEstadosxdocumento().setEstado(new Estado((long) ConstantesDocumento.RECIBIDO));
-    documentoDAO.update(remisionRelacionada);
+    documentoDAO.actualizarEstadoDocumentoPorId(remisionRelacionada);
     LOGGER.debug("Remision actualizada exitosamente");
     return documento;
   }

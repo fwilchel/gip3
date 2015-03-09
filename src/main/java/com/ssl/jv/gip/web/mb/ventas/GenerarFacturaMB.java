@@ -28,6 +28,8 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
+import com.ssl.jv.gip.web.util.Utilidad;
+
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -133,8 +135,8 @@ public class GenerarFacturaMB extends UtilMB {
   /**
    *
    */
-  public void buscar() {
-    LOGGER.trace("Metodo: <<buscar>>");
+  public void consultarListaRemisiones() {
+    LOGGER.trace("Metodo: <<consultarListaRemisiones>>");
     setListaRemisiones(ventasFacturacionEJB.consultarRemisionesPendientesPorRecibir(getConsecutivoDocumento()));
   }
 
@@ -146,11 +148,11 @@ public class GenerarFacturaMB extends UtilMB {
     LOGGER.trace("Metodo: <<seleccionarRemision>>");
     setRemisionSeleccionada(documento);
     if (getRemisionSeleccionada().getSitioEntrega() != null && getRemisionSeleccionada().getSitioEntrega().equals("CS") && getTipoFacturaSeleccionado() != ConstantesTipoDocumento.SOLICITUD_PEDIDO) {
-      modo = Modo.MENSAGE;
-      addMensajeError("msgDetalle", AplicacionMB.getMessage("gfErrorValidacion1", language));
+      addMensajeError(AplicacionMB.getMessage("gfErrorValidacion1", language));
+      LOGGER.debug(AplicacionMB.getMessage("gfErrorValidacion1", language));
     } else if (getTipoFacturaSeleccionado() == ConstantesTipoDocumento.SOLICITUD_PEDIDO && (getRemisionSeleccionada().getSitioEntrega() == null || !remisionSeleccionada.getSitioEntrega().equals("CS"))) {
-      modo = Modo.MENSAGE;
-      addMensajeError("msgDetalle", AplicacionMB.getMessage("gfErrorValidacion2", language));
+      addMensajeError(AplicacionMB.getMessage("gfErrorValidacion2", language));
+      LOGGER.debug(AplicacionMB.getMessage("gfErrorValidacion2", language));
     } else {
       modo = Modo.DETALLE;
       // lista de productos para el documento de VD relacionado a la remision
@@ -163,26 +165,26 @@ public class GenerarFacturaMB extends UtilMB {
       for (ProductosXDocumento pxd : listaSugrenciasConsultadas) {
         for (ProductosXDocumento pxdqty : listaCantidadesRemision) {
           if (Objects.equals(pxd.getId().getIdProducto(), pxdqty.getId().getIdProducto())) {
-            BigDecimal valorUnitatrioMl = pxd.getValorUnitatrioMl().setScale(1, BigDecimal.ROUND_HALF_UP);
-            BigDecimal cantidad = pxdqty.getCantidad1().setScale(1, BigDecimal.ROUND_HALF_UP);
-            BigDecimal descuentoProducto = pxd.getDescuentoxproducto().setScale(1, BigDecimal.ROUND_HALF_UP);
-            BigDecimal descuentoCliente = documentoRelacionado.getCliente().getDescuentoCliente().setScale(1, BigDecimal.ROUND_HALF_UP);
-            BigDecimal desc = ((valorUnitatrioMl.multiply(cantidad)).multiply((descuentoProducto.divide(new BigDecimal(100))))).setScale(1, BigDecimal.ROUND_HALF_UP);
-            BigDecimal valorTotal = ((valorUnitatrioMl.multiply(cantidad)).subtract(desc)).setScale(1, BigDecimal.ROUND_HALF_UP);
-            BigDecimal descCliente = (valorTotal.multiply(descuentoCliente.divide(new BigDecimal(100)))).setScale(1, BigDecimal.ROUND_HALF_UP);
-            BigDecimal otrosDescuentos = valorTotal.multiply(pxd.getOtrosDescuentos().divide(new BigDecimal(100))).setScale(1, BigDecimal.ROUND_HALF_UP);
-            BigDecimal iva = (pxd.getIva()).setScale(1, BigDecimal.ROUND_HALF_UP);
-            BigDecimal valorIva = ((valorTotal.subtract(descCliente).subtract(otrosDescuentos)).multiply(pxd.getIva().divide(new BigDecimal(100)))).setScale(1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal valorUnitatrioMl = pxd.getValorUnitatrioMl();
+            BigDecimal cantidad = pxdqty.getCantidad1();
+            BigDecimal descuentoProducto = pxd.getDescuentoxproducto();
+            BigDecimal descuentoCliente = documentoRelacionado.getCliente().getDescuentoCliente();
+            BigDecimal desc = ((valorUnitatrioMl.multiply(cantidad)).multiply((descuentoProducto.divide(new BigDecimal(100)))));
+            BigDecimal valorTotal = ((valorUnitatrioMl.multiply(cantidad)).subtract(desc));
+            BigDecimal descCliente = (valorTotal.multiply(descuentoCliente.divide(new BigDecimal(100))));
+            BigDecimal otrosDescuentos = valorTotal.multiply(pxd.getOtrosDescuentos().divide(new BigDecimal(100)));
+            BigDecimal iva = (pxd.getIva());
+            BigDecimal valorIva = ((valorTotal.subtract(descCliente).subtract(otrosDescuentos)).multiply(pxd.getIva().divide(new BigDecimal(100))));
 
             ProductosXDocumento p = new ProductosXDocumento();
-            p.setValorUnitatrioMl(valorUnitatrioMl);
+            p.setValorUnitatrioMl(Utilidad.round(valorUnitatrioMl));
             p.setProductosInventario(pxd.getProductosInventario());
             p.setUnidade(pxd.getUnidade());
-            p.setCantidad1(cantidad);
-            p.setValorTotal(valorTotal);
-            p.setDescuentoxproducto(descuentoProducto);
-            p.setIva(iva);
-            p.setOtrosDescuentos(otrosDescuentos);
+            p.setCantidad1(Utilidad.round(cantidad));
+            p.setValorTotal(Utilidad.round(valorTotal));
+            p.setDescuentoxproducto(Utilidad.round(descuentoProducto));
+            p.setIva(Utilidad.round(iva));
+            p.setOtrosDescuentos(Utilidad.round(otrosDescuentos));
             if (pxd.getCantidad1().compareTo(pxdqty.getCantidad1()) <= 0) {
               p.setObservacion2("blank");
             } else {
@@ -191,20 +193,22 @@ public class GenerarFacturaMB extends UtilMB {
             // agregar a la lista
             listaProductosXRemision.add(p);
             // totales
-            subtotal = subtotal.add(valorTotal);
-            descuento = descuento.add(otrosDescuentos).add(descCliente);
+            subtotal = Utilidad.round(subtotal.add(valorTotal));
+            descuento = Utilidad.round(descuento.add(otrosDescuentos).add(descCliente));
             if (p.getIva().compareTo(new BigDecimal(10.0)) == 0) {
-              totalIva10 = totalIva10.add(valorIva);
+              totalIva10 = Utilidad.round(totalIva10.add(valorIva));
             } else if (p.getIva().compareTo(new BigDecimal(5.0)) == 0) {
-              totalIva5 = totalIva5.add(valorIva);
+              totalIva5 = Utilidad.round(totalIva5.add(valorIva));
             } else if (p.getIva().compareTo(new BigDecimal(16.0)) == 0) {
-              totalIva16 = totalIva16.add(valorIva);
+              totalIva16 = Utilidad.round(totalIva16.add(valorIva));
             }
           }
         }
       }
       total = subtotal.add(descuento).add(totalIva10).add(totalIva5).add(totalIva16);
       LOGGER.debug("Total factura: " + total);
+//      RequestContext.getCurrentInstance().openDialog("dlgDetalle");
+//      RequestContext.getCurrentInstance().update(":dlgDetalle");
     }
   }
 
@@ -213,57 +217,67 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void generarFactura() {
     LOGGER.trace("Metodo: <<generarFactura>>");
-    Documento factura = new Documento();
-    // tipo de documento y estado
-    Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
-    EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
-    estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.GENERADO);
-    if (tipoFacturaSeleccionado == ConstantesTipoDocumento.FACTURA) {
-      estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.FACTURA);
-    } else {
-      estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.FACTURA_ESPECIAL);
+    try {
+      Documento factura = new Documento();
+      // tipo de documento y estado
+      Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
+      EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
+      estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.GENERADO);
+      if (tipoFacturaSeleccionado == ConstantesTipoDocumento.FACTURA) {
+        estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.FACTURA);
+      } else {
+        estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.FACTURA_ESPECIAL);
+      }
+      estadosxdocumento.setId(estadosxdocumentoPK);
+      // llenar el objeto documento
+      factura.setEstadosxdocumento(estadosxdocumento);
+      factura.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
+      factura.setObservacionDocumento(this.remisionSeleccionada.getConsecutivoDocumento());
+      factura.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.UBICACION_DESTINO_DEFAULT));
+      factura.setUbicacionDestino(remisionSeleccionada.getUbicacionDestino());
+      factura.setObservacionDocumento(remisionSeleccionada.getConsecutivoDocumento());
+      Documento ordenDespacho = consultarOrdenDespacho(remisionSeleccionada.getObservacionDocumento());
+      if (ordenDespacho == null) {
+        factura.setDocumentoCliente(this.remisionSeleccionada.getDocumentoCliente());
+        factura.setObservacion3(null);
+      } else {
+        factura.setDocumentoCliente(ordenDespacho.getDocumentoCliente());
+        factura.setObservacion3(ordenDespacho.getConsecutivoDocumento());
+      }
+      factura.setCliente(this.remisionSeleccionada.getCliente());
+      factura.setPuntoVenta(this.remisionSeleccionada.getPuntoVenta());
+      factura.setSubtotal(subtotal);
+      factura.setDescuento(descuento);
+      factura.setValorIva16(totalIva16);
+      factura.setValorIva10(totalIva10);
+      factura.setValorIva5(totalIva5);
+      factura.setValorTotal(total);
+      factura.setNumeroFactura(null);
+      factura.setObservacion2(this.remisionSeleccionada.getObservacion2());
+      if (getRemisionSeleccionada().getSitioEntrega() != null && getRemisionSeleccionada().getSitioEntrega().equals("CS")) {
+        factura.setSitioEntrega(remisionSeleccionada.getSitioEntrega());
+      } else {
+        factura.setSitioEntrega(remisionSeleccionada.getDocumentoCliente());
+      }
+      factura.setFechaEntrega(null);//TODO: de donde os saco o no van
+      factura.setFechaEsperadaEntrega(null);//TODO: de donde os saco o no van
+      factura.setDescuentoCliente(null);//TODO: de donde os saco o no van
+      // auditoria
+      LogAuditoria auditoria = new LogAuditoria();
+      auditoria.setIdUsuario(menu.getUsuario().getId());
+      auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
+      // enviar a generar la factura
+      factura = ventasFacturacionEJB.generarFactura(factura, listaProductosXRemision, remisionSeleccionada, auditoria);
+      LOGGER.debug("Factura generada exitosamente con id: " + factura.getId() + " y consecutivo: " + factura.getConsecutivoDocumento());
+      modo = Modo.MENSAGE;
+      addMensajeInfo(formatearCadenaConParametros("gfMsgExitoGenerarFactura", language, factura.getId().toString(), factura.getConsecutivoDocumento()));
+      // refrescar lista de remisiones
+      consultarListaRemisiones();
+    } catch (Exception ex) {
+      modo = Modo.DETALLE;
+      addMensajeError("Error");
+      LOGGER.error("Error");
     }
-    estadosxdocumento.setId(estadosxdocumentoPK);
-    // llenar el objeto documento
-    factura.setEstadosxdocumento(estadosxdocumento);
-    factura.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
-    factura.setObservacionDocumento(this.remisionSeleccionada.getConsecutivoDocumento());
-    factura.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.UBICACION_DESTINO_DEFAULT));
-    factura.setUbicacionDestino(remisionSeleccionada.getUbicacionDestino());
-    factura.setObservacionDocumento(remisionSeleccionada.getConsecutivoDocumento());
-    Documento ordenDespacho = consultarOrdenDespacho(remisionSeleccionada.getObservacionDocumento());
-    if (ordenDespacho == null) {
-      factura.setDocumentoCliente(this.remisionSeleccionada.getDocumentoCliente());
-      factura.setObservacion3(null);
-    } else {
-      factura.setDocumentoCliente(ordenDespacho.getDocumentoCliente());
-      factura.setObservacion3(ordenDespacho.getConsecutivoDocumento());
-    }
-    factura.setCliente(this.remisionSeleccionada.getCliente());
-    factura.setPuntoVenta(this.remisionSeleccionada.getPuntoVenta());
-    factura.setSubtotal(subtotal);
-    factura.setDescuento(descuento);
-    factura.setValorIva16(totalIva16);
-    factura.setValorIva10(totalIva10);
-    factura.setValorIva5(totalIva5);
-    factura.setValorTotal(total);
-    factura.setNumeroFactura(null);
-    factura.setObservacion2(this.remisionSeleccionada.getObservacion2());
-    if (getRemisionSeleccionada().getSitioEntrega() != null && getRemisionSeleccionada().getSitioEntrega().equals("CS")) {
-      factura.setSitioEntrega(remisionSeleccionada.getSitioEntrega());
-    } else {
-      factura.setSitioEntrega(remisionSeleccionada.getDocumentoCliente());
-    }
-    factura.setFechaEntrega(null);//TODO: de donde os saco o no van
-    factura.setFechaEsperadaEntrega(null);//TODO: de donde os saco o no van
-    factura.setDescuentoCliente(null);//TODO: de donde os saco o no van
-    // auditoria
-    LogAuditoria auditoria = new LogAuditoria();
-    auditoria.setIdUsuario(menu.getUsuario().getId());
-    auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
-    // enviar a generar la factura
-    factura = ventasFacturacionEJB.generarFactura(factura, listaProductosXRemision, remisionSeleccionada, auditoria);
-    LOGGER.debug("id: " + factura.getId() + " consecutivo: " + factura.getConsecutivoDocumento());
   }
 
   /**
@@ -305,7 +319,6 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public Date getFechaActual() {
-    LOGGER.trace("Metodo: <<getFechaActual>>");
     return new Date();
   }
 
@@ -314,7 +327,6 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public boolean isFacturaDirecta() {
-    LOGGER.trace("Metodo: <<isFacturaDirecta>>");
     return getTipoFacturaSeleccionado() == null ? false : getTipoFacturaSeleccionado().equals(ConstantesTipoDocumento.FACTURA);
   }
 
@@ -323,7 +335,6 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public boolean isFacturaEspecial() {
-    LOGGER.trace("Metodo: <<isFacturaEspecial>>");
     return getTipoFacturaSeleccionado() == null ? false : getTipoFacturaSeleccionado().equals(ConstantesTipoDocumento.FACTURA_ESPECIAL);
   }
 
@@ -332,7 +343,6 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public boolean isFacturaConsumoServicios() {
-    LOGGER.trace("Metodo: <<isFacturaConsumoServicios>>");
     return getTipoFacturaSeleccionado() == null ? false : getTipoFacturaSeleccionado().equals(ConstantesTipoDocumento.SOLICITUD_PEDIDO);
   }
 
@@ -341,7 +351,6 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public boolean isModoDetalle() {
-    LOGGER.trace("Metodo: <<isModoDetalle>>");
     return modo.equals(Modo.DETALLE);
   }
 
@@ -350,7 +359,6 @@ public class GenerarFacturaMB extends UtilMB {
    * @return
    */
   public boolean isModoMensage() {
-    LOGGER.trace("Metodo: <<isModoMensage>>");
     return modo.equals(Modo.MENSAGE);
   }
 
