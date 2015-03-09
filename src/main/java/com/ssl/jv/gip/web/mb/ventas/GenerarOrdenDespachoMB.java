@@ -63,7 +63,7 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   /**
    * lista de documentos que retorna la consulta a la base de datos
    */
-  private List<Documento> listaDocumentos;
+  private List<Documento> listaVentasDirectas;
   /**
    * Registro ventaDirectaSeleccionada
    */
@@ -71,28 +71,28 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   /**
    *
    */
-  private List<ProductosXDocumento> listaProductosXDocumento;
+  private List<ProductosXDocumento> listaProductosXVentaDirecta;
 
   @PostConstruct
   public void init() {
     LOGGER.debug("Metodo: <<init>>");
-    cargarListaDocumentos();
+    consultarListaVentasDirectas();
   }
 
   /**
    *
    */
-  public void cargarListaDocumentos() {
-    LOGGER.debug("Metodo: <<cargarListaDocumentos>>");
-    setListaDocumentos(ventasFacturacionEJB.consultarDocumentosOrdenDespacho());
+  public void consultarListaVentasDirectas() {
+    LOGGER.debug("Metodo: <<consultarListaVentasDirectas>>");
+    setListaVentasDirectas(ventasFacturacionEJB.consultarDocumentosOrdenDespacho());
   }
 
   /**
    *
    * @param documento
    */
-  public void seleccionarDocumento(Documento documento) {
-    LOGGER.debug("Metodo: <<seleccionarDocumento>>");
+  public void seleccionarVentaDirecta(Documento documento) {
+    LOGGER.debug("Metodo: <<seleccionarVentaDirecta>>");
     ventaDirectaSeleccionada = documento;
     // TODO: concatenar valores del punto de venta para sobreescribir sitio de entrega.
     if (ventaDirectaSeleccionada.getPuntoVenta() != null) {
@@ -106,12 +106,12 @@ public class GenerarOrdenDespachoMB extends UtilMB {
       sb.append(ventaDirectaSeleccionada.getPuntoVenta().getTelefono());
       ventaDirectaSeleccionada.setSitioEntrega(sb.toString());
     }
-    cargarListaProductosXDocumento();
+    consultarListaProductosXVentaDirecta();
   }
 
-  private void cargarListaProductosXDocumento() {
-    LOGGER.debug("Metodo: <<cargarListaProductosXDocumento>>");
-    setListaProductosXDocumento(ventasFacturacionEJB.consultarProductosPorDocumento(ventaDirectaSeleccionada.getId()));
+  private void consultarListaProductosXVentaDirecta() {
+    LOGGER.debug("Metodo: <<consultarListaProductosXVentaDirecta>>");
+    setListaProductosXVentaDirecta(ventasFacturacionEJB.consultarProductosPorDocumento(ventaDirectaSeleccionada.getId()));
   }
 
   /**
@@ -135,7 +135,7 @@ public class GenerarOrdenDespachoMB extends UtilMB {
     formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     parametrosReporte.put("fechaMinEntrega", formatoFecha.format(ventaDirectaSeleccionada.getFechaEsperadaEntrega()));
     parametrosReporte.put("fechaMaxEntrega", formatoFecha.format(ventaDirectaSeleccionada.getFechaEntrega()));
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosXDocumento, false);
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosXVentaDirecta, false);
     try {
       Hashtable<String, String> parametrosConfiguracionReporte;
       parametrosConfiguracionReporte = new Hashtable<>();
@@ -166,7 +166,7 @@ public class GenerarOrdenDespachoMB extends UtilMB {
     parametrosReporte.put("fechaMaxEntrega", (ventaDirectaSeleccionada.getFechaEntrega()));
     parametrosReporte.put("sitioEntrega", ventaDirectaSeleccionada.getSitioEntrega());
     parametrosReporte.put("ordenCompraCliente", ventaDirectaSeleccionada.getDocumentoCliente());
-    parametrosReporte.put("datos", listaProductosXDocumento);
+    parametrosReporte.put("datos", listaProductosXVentaDirecta);
     try {
       StringBuilder nombreArchivo = new StringBuilder();
       nombreArchivo.append(ventaDirectaSeleccionada.getConsecutivoDocumento());
@@ -192,8 +192,9 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   public void generarOrdenDespacho() {
     LOGGER.debug("Metodo: <<generarOrdenDespacho>>");
     try {
-      ventasFacturacionEJB.generarOrdenDespacho(ventaDirectaSeleccionada, listaProductosXDocumento);
+      ventasFacturacionEJB.generarOrdenDespacho(ventaDirectaSeleccionada, listaProductosXVentaDirecta);
       this.addMensajeInfo(AplicacionMB.getMessage("godMsgExito", language));
+      consultarListaVentasDirectas();
     } catch (Exception ex) {
       this.addMensajeError(AplicacionMB.getMessage("godMsgError", language));
     }
@@ -212,7 +213,6 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    * @return
    */
   public Date getFechaActual() {
-    LOGGER.debug("Metodo: <<getFechaActual>>");
     return new Date();
   }
 
@@ -224,17 +224,17 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   }
 
   /**
-   * @return the listaDocumentos
+   * @return the listaVentasDirectas
    */
-  public List<Documento> getListaDocumentos() {
-    return listaDocumentos;
+  public List<Documento> getListaVentasDirectas() {
+    return listaVentasDirectas;
   }
 
   /**
-   * @param listaDocumentos the listaDocumentos to set
+   * @param listaVentasDirectas the listaVentasDirectas to set
    */
-  public void setListaDocumentos(List<Documento> listaDocumentos) {
-    this.listaDocumentos = listaDocumentos;
+  public void setListaVentasDirectas(List<Documento> listaVentasDirectas) {
+    this.listaVentasDirectas = listaVentasDirectas;
   }
 
   /**
@@ -252,17 +252,17 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   }
 
   /**
-   * @return the listaProductosXDocumento
+   * @return the listaProductosXVentaDirecta
    */
-  public List<ProductosXDocumento> getListaProductosXDocumento() {
-    return listaProductosXDocumento;
+  public List<ProductosXDocumento> getListaProductosXVentaDirecta() {
+    return listaProductosXVentaDirecta;
   }
 
   /**
-   * @param listaProductosXDocumento the listaProductosXDocumento to set
+   * @param listaProductosXVentaDirecta the listaProductosXVentaDirecta to set
    */
-  public void setListaProductosXDocumento(List<ProductosXDocumento> listaProductosXDocumento) {
-    this.listaProductosXDocumento = listaProductosXDocumento;
+  public void setListaProductosXVentaDirecta(List<ProductosXDocumento> listaProductosXVentaDirecta) {
+    this.listaProductosXVentaDirecta = listaProductosXVentaDirecta;
   }
 
 }

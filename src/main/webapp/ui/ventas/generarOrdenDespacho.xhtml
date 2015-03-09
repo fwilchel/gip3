@@ -35,7 +35,7 @@
             id="tblDocumentos"
             var="documento" 
             widgetVar="tblDocumentos" 
-            value="#{generarOrdenDespachoMB.listaDocumentos}" 
+            value="#{generarOrdenDespachoMB.listaVentasDirectas}" 
             rows="10"
             emptyMessage="#{msg.generalNoDatos}" 
             paginator="true"
@@ -72,7 +72,7 @@
               <p:commandButton 
                 icon="ui-icon-zoomin" 
                 title="#{msg.godBtnDetalle}"
-                actionListener="#{generarOrdenDespachoMB.seleccionarDocumento(documento)}"
+                actionListener="#{generarOrdenDespachoMB.seleccionarVentaDirecta(documento)}"
                 oncomplete="PF('dlgDetalle').show()"
                 update=":dlgDetalle"/>
             </p:column>
@@ -138,6 +138,8 @@
       <h:form
         id="formaDetalle"
         prependId="false">
+        <p:messages 
+          id="msgsDetalle"/>
         <p:panel 
           id="pnlDetalle">
           <div 
@@ -166,7 +168,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="consecutivoDocumento"
-                value="#{generarOrdeventaDirectaSeleccionadaseleccionado.consecutivoDocumento}" 
+                value="#{generarOrdenDespachoMB.ventaDirectaSeleccionada.consecutivoDocumento}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="false"/>
@@ -195,7 +197,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="ubicacionDestino"
-                value="#{generarOrdeventaDirectaSeleccionadaseleccionado.ubicacionDestino.nombre}" 
+                value="#{generarOrdenDespachoMB.ventaDirectaSeleccionada.ubicacionDestino.nombre}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true"
@@ -209,7 +211,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="fechaEsperadaEntrega"
-            ventaDirectaSeleccionada{generarOrdenDespachoMB.seleccionado.fechaEsperadaEntrega}" 
+                value="#{generarOrdenDespachoMB.ventaDirectaSeleccionada.fechaEsperadaEntrega}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true">
@@ -225,7 +227,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="fechaEntrega"
-                value="#{generarOrdeventaDirectaSeleccionadaseleccionado.fechaEntrega}" 
+                value="#{generarOrdenDespachoMB.ventaDirectaSeleccionada.fechaEntrega}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true">
@@ -241,7 +243,7 @@
                 styleClass="negrita"/>
               <h:inputText 
                 id="nombreCliente"
-            ventaDirectaSeleccionada{generarOrdenDespachoMB.seleccionado.cliente.nombre}"
+                value="#{generarOrdenDespachoMB.ventaDirectaSeleccionada.cliente.nombre}"
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true"/>
@@ -254,7 +256,7 @@
                 styleClass="negrita"/>
               <h:inputText
                 id="sitioEntrega"
-            ventaDirectaSeleccionada{generarOrdenDespachoMB.seleccionado.sitioEntrega}" 
+                value="#{generarOrdenDespachoMB.ventaDirectaSeleccionada.sitioEntrega}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true"
@@ -267,7 +269,8 @@
                 value="#{msg.godLblOrdenCompra}"
                 styleClass="negrita"/>
               <h:inputText
-                id="documeventaDirectaSeleccionada                value="#{generarOrdenDespachoMB.seleccionado.documentoCliente}" 
+                id="documentoCliente"
+                value="#{generarOrdenDespachoMB.ventaDirectaSeleccionada.documentoCliente}" 
                 disabled="true"
                 styleClass="filas_contenido"
                 required="true"/>
@@ -282,7 +285,7 @@
             <p:dataTable 
               id="tblItems"
               var="item" 
-              value="#{generarOrdenDespachoMB.listaProductosXDocumento}" 
+              value="#{generarOrdenDespachoMB.listaProductosXVentaDirecta}" 
               emptyMessage="#{msg.generalNoDatos}" 
               paginator="false">
               <!-- SKU -->
@@ -339,12 +342,11 @@
             <!-- generar orden despacho -->
             <p:commandButton 
               value="#{msg.godBtnGenerarOrdenDespacho}" 
-              ajax="false" 
-              icon="ui-icon-document">
-              <p:fileDownload 
-                value="#{generarOrdenDespachoMB.generarOrdenDespacho()}" />
-            </p:commandButton>
-            <!-- cancelar -->
+              icon="ui-icon-document"
+              process="pnlDetalle"
+              actionListener="#{generarOrdenDespachoMB.generarOrdenDespacho()}"
+              update="formaDetalle :forma:pnlTab:tblDocumentos"/>
+            <!-- cerrar -->
             <p:commandButton 
               value="#{msg.generalCerrar}" 
               styleClass="ui-confirmdialog-no" 
