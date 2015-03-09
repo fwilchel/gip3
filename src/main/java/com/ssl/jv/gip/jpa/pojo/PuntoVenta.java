@@ -4,122 +4,123 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the punto_venta database table.
- * 
+ *
  */
 @Entity
-@Table(name="punto_venta")
+@Table(name = "punto_venta")
 @NamedQueries({
-@NamedQuery(name="PuntoVenta.findAll", query="SELECT p FROM PuntoVenta p"),
-@NamedQuery(name="PuntoVenta.findByCliente", query="SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente")
+  @NamedQuery(name = "PuntoVenta.findAll", query = "SELECT p FROM PuntoVenta p"),
+  @NamedQuery(name = "PuntoVenta.findByCliente", query = "SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente")
 })
 public class PuntoVenta implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@SequenceGenerator( name = "punto_venta_id_seq1", sequenceName = "punto_venta_id_seq1", allocationSize = 1)
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "punto_venta_id_seq1" )
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private Boolean activo;
+  public static final String FIND_BY_OBSERVACION_DOCUMENTO = "Documento.findByObservacionDocumento";
+  @Id
+  @SequenceGenerator(name = "punto_venta_id_seq1", sequenceName = "punto_venta_id_seq1", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "punto_venta_id_seq1")
+  private Long id;
 
-	@Column(name="cod_despacho_sap")
-	private String codDespachoSap;
+  private Boolean activo;
 
-	@Column(name="codigo_barras")
-	private Long codigoBarras;
+  @Column(name = "cod_despacho_sap")
+  private String codDespachoSap;
 
-	private String direccion;
+  @Column(name = "codigo_barras")
+  private Long codigoBarras;
 
-	private String nombre;
+  private String direccion;
 
-	private String telefono;
+  private String nombre;
 
-	//bi-directional many-to-one association to Ciudad
-	@ManyToOne
-	@JoinColumn(name="id_ciudad")
-	private Ciudad ciudade;
+  private String telefono;
 
-	//bi-directional many-to-one association to Cliente
-	@ManyToOne
-	@JoinColumn(name="id_cliente")
-	private Cliente cliente;
+  //bi-directional many-to-one association to Ciudad
+  @ManyToOne
+  @JoinColumn(name = "id_ciudad")
+  private Ciudad ciudade;
 
-	public PuntoVenta() {
-	}
+  //bi-directional many-to-one association to Cliente
+  @ManyToOne
+  @JoinColumn(name = "id_cliente")
+  private Cliente cliente;
 
-	public Long getId() {
-		return this.id;
-	}
+  public PuntoVenta() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public Boolean getActivo() {
-		return this.activo;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setActivo(Boolean activo) {
-		this.activo = activo;
-	}
+  public Boolean getActivo() {
+    return this.activo;
+  }
 
-	public String getCodDespachoSap() {
-		return this.codDespachoSap;
-	}
+  public void setActivo(Boolean activo) {
+    this.activo = activo;
+  }
 
-	public void setCodDespachoSap(String codDespachoSap) {
-		this.codDespachoSap = codDespachoSap;
-	}
+  public String getCodDespachoSap() {
+    return this.codDespachoSap;
+  }
 
-	public Long getCodigoBarras() {
-		return this.codigoBarras;
-	}
+  public void setCodDespachoSap(String codDespachoSap) {
+    this.codDespachoSap = codDespachoSap;
+  }
 
-	public void setCodigoBarras(Long codigoBarras) {
-		this.codigoBarras = codigoBarras;
-	}
+  public Long getCodigoBarras() {
+    return this.codigoBarras;
+  }
 
-	public String getDireccion() {
-		return this.direccion;
-	}
+  public void setCodigoBarras(Long codigoBarras) {
+    this.codigoBarras = codigoBarras;
+  }
 
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
+  public String getDireccion() {
+    return this.direccion;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setDireccion(String direccion) {
+    this.direccion = direccion;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public String getTelefono() {
-		return this.telefono;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
+  public String getTelefono() {
+    return this.telefono;
+  }
 
-	public Ciudad getCiudade() {
-		return this.ciudade;
-	}
+  public void setTelefono(String telefono) {
+    this.telefono = telefono;
+  }
 
-	public void setCiudade(Ciudad ciudade) {
-		this.ciudade = ciudade;
-	}
+  public Ciudad getCiudade() {
+    return this.ciudade;
+  }
 
-	public Cliente getCliente() {
-		return this.cliente;
-	}
+  public void setCiudade(Ciudad ciudade) {
+    this.ciudade = ciudade;
+  }
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+  public Cliente getCliente() {
+    return this.cliente;
+  }
+
+  public void setCliente(Cliente cliente) {
+    this.cliente = cliente;
+  }
 
 }

@@ -332,44 +332,65 @@
                 <p:column   
                   headerText="#{msg.gfTblColCantidadRemisionada}">
                   <h:outputText 
-                    value="#{item.cantidad1}" />
+                    value="#{item.cantidad1}" >
+                    <f:convertNumber 
+                      pattern="$#####,###,###,###.0" />
+                  </h:outputText>
                 </p:column>
                 <!-- Vr.Unitario -->
                 <p:column   
                   headerText="#{msg.gfTblColValorUnitario}">
                   <h:outputText 
-                    value="#{item.valorUnitatrioMl}" />
+                    value="#{item.valorUnitatrioMl}" >
+                    <f:convertNumber 
+                      pattern="$#####,###,###,###.0" />
+                  </h:outputText>
                 </p:column>
                 <!-- %Dcto. Prod. -->
                 <p:column   
                   headerText="#{msg.gfTblColDctoProd}">
                   <h:outputText 
-                    value="#{item.descuentoxproducto}" />
+                    value="#{item.descuentoxproducto}" >
+                    <f:convertNumber 
+                      pattern="$#####,###,###,###.0" />
+                  </h:outputText>
                 </p:column>
                 <!-- Valor Total -->
                 <p:column   
                   headerText="#{msg.gfTblColValorTotal}">
                   <h:outputText 
-                    value="#{item.valorTotal}" />
+                    value="#{item.valorTotal}" >
+                    <f:convertNumber 
+                      pattern="$#####,###,###,###.0" />
+                  </h:outputText>
                 </p:column>
                 <!-- %Otros Dctos. -->
                 <p:column   
                   headerText="#{msg.gfTblColOtrosDescuentos}">
                   <h:outputText 
-                    value="#{item.otrosDescuentos}" />
+                    value="#{item.otrosDescuentos}" >
+                    <f:convertNumber 
+                      pattern="$#####,###,###,###.0" />
+                  </h:outputText>
                 </p:column>
                 <!-- %Iva -->
                 <p:column   
                   headerText="#{msg.gfTblColIva}">
                   <h:outputText 
-                    value="#{item.iva}" />
+                    value="#{item.iva}" >
+                    <f:convertNumber 
+                      pattern="$#####,###,###,###.0" />
+                  </h:outputText>
                 </p:column>
                 <!-- Cantidad Venta Directa -->
                 <p:column   
                   headerText="#{msg.gfTblColCantidadVentaDirecta}"
                   rendered="#{generarFacturaMB.facturaDirecta}">
                   <h:outputText 
-                    value="#{item.cantidad1}" />
+                    value="#{item.cantidad1}" >
+                    <f:convertNumber 
+                      pattern="$#####,###,###,###.0" />
+                  </h:outputText>
                 </p:column>
               </p:dataTable>
             </div>
@@ -469,10 +490,12 @@
             <!-- Imprimir factura -->
             <p:commandButton 
               value="#{msg.gfBtnImprimirFactura}" 
+              ajax="false" 
               icon="ui-icon-document"
-              actionListener="#{generarFacturaMB.generarFactura()}"
-              update="msgsDetalle pnlDetalle"
-              rendered="#{generarFacturaMB.modoMensage}"/>
+              rendered="#{generarFacturaMB.modoMensage}">
+              <p:fileDownload 
+                value="#{generarFacturaMB.previsuaizarFactura()}" />
+            </p:commandButton>
           </f:facet>
         </p:panel>
 

@@ -99,4 +99,22 @@ public interface VentasFacturacionEJBLocal {
    * @return 
    */
   Documento generarFactura(Documento factura, List<ProductosXDocumento> listaProductos, Documento remisionRelacionada, LogAuditoria auditoria);
+  
+  /**
+   * Metodo que cambia e estado y e numero de factura de un documento
+   * 
+   * @param factura 
+   */
+  void imprimirFactura(Documento factura);
+
+  /**
+   * Metodo que consulta los productos por documento
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param id
+   * @return
+   */
+  List<ProductosXDocumento> consultarProductosPorDocumentoOrdenadosPorSKU(Long id);
 }

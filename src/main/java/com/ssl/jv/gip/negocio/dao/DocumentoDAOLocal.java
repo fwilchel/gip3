@@ -217,4 +217,13 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
    * @return the list
    */
   public List<DocumentoRecibirDevolucionDTO> consultarDocumentosRecibirDevolucion(String bodega) ;
+  
+  /**
+   * Metodo que actuaiza el numero de factura y e estado de un documento
+   * 
+   * @param numeroFactura
+   * @param estado
+   * @param id 
+   */
+  public void actuaizarNumeroFacturaYEstadoDeUnDocumento(String numeroFactura, Long estado, Long id);
 }
