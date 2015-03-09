@@ -804,7 +804,7 @@ public class Utilidad {
    * @return
    */
   public static BigDecimal round(BigDecimal value) {
-	value = value.setScale(0, BigDecimal.ROUND_HALF_UP); 
+    value = value.setScale(0, BigDecimal.ROUND_HALF_UP);
     return value;
   }
 
@@ -818,4 +818,14 @@ public class Utilidad {
     return value.setScale(scale, BigDecimal.ROUND_HALF_UP);
   }
 
+  /**
+   * 
+   * @param fecha
+   * @param formato
+   * @return 
+   */
+  public static String formatearFecha(Date fecha, String formato) {
+    SimpleDateFormat formatoFecha = new SimpleDateFormat(formato);
+    return formatoFecha.format(fecha);
+  }
 }

@@ -28,10 +28,14 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 /**
- * <p>Title: GIP</p>
- * <p>Description: GIP</p>
- * <p>Copyright: Copyright (c) 2014</p>
- * <p>Company: Soft Studio Ltda.</p>
+ * <p>
+ * Title: GIP</p>
+ * <p>
+ * Description: GIP</p>
+ * <p>
+ * Copyright: Copyright (c) 2014</p>
+ * <p>
+ * Company: Soft Studio Ltda.</p>
  *
  * @author Diego Poveda
  * @email dpoveda@gmail.com
@@ -61,9 +65,9 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    */
   private List<Documento> listaDocumentos;
   /**
-   * Registro seleccionado
+   * Registro ventaDirectaSeleccionada
    */
-  private Documento seleccionado;
+  private Documento ventaDirectaSeleccionada;
   /**
    *
    */
@@ -89,25 +93,25 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    */
   public void seleccionarDocumento(Documento documento) {
     LOGGER.debug("Metodo: <<seleccionarDocumento>>");
-    seleccionado = documento;
+    ventaDirectaSeleccionada = documento;
     // TODO: concatenar valores del punto de venta para sobreescribir sitio de entrega.
-    if (seleccionado.getPuntoVenta() != null) {
+    if (ventaDirectaSeleccionada.getPuntoVenta() != null) {
       StringBuilder sb = new StringBuilder();
-      sb.append(seleccionado.getPuntoVenta().getDireccion());
+      sb.append(ventaDirectaSeleccionada.getPuntoVenta().getDireccion());
       sb.append("---");
-      sb.append(seleccionado.getPuntoVenta().getNombre());
+      sb.append(ventaDirectaSeleccionada.getPuntoVenta().getNombre());
       sb.append("---");
-      sb.append(seleccionado.getPuntoVenta().getCiudade().getNombre());
+      sb.append(ventaDirectaSeleccionada.getPuntoVenta().getCiudade().getNombre());
       sb.append("---Tel: ");
-      sb.append(seleccionado.getPuntoVenta().getTelefono());
-      seleccionado.setSitioEntrega(sb.toString());
+      sb.append(ventaDirectaSeleccionada.getPuntoVenta().getTelefono());
+      ventaDirectaSeleccionada.setSitioEntrega(sb.toString());
     }
     cargarListaProductosXDocumento();
   }
 
   private void cargarListaProductosXDocumento() {
     LOGGER.debug("Metodo: <<cargarListaProductosXDocumento>>");
-    setListaProductosXDocumento(ventasFacturacionEJB.consultarProductosPorDocumento(seleccionado.getId()));
+    setListaProductosXDocumento(ventasFacturacionEJB.consultarProductosPorDocumento(ventaDirectaSeleccionada.getId()));
   }
 
   /**
@@ -119,18 +123,18 @@ public class GenerarOrdenDespachoMB extends UtilMB {
     StreamedContent reporte = null;
     Map<String, Object> parametrosReporte = new HashMap<>();
     SimpleDateFormat formatoFecha;
-    parametrosReporte.put("id", seleccionado.getId());
+    parametrosReporte.put("id", ventaDirectaSeleccionada.getId());
     formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     parametrosReporte.put("fechaGeneracion", formatoFecha.format(getFechaActual()));
-    parametrosReporte.put("ordenCompraCliente", seleccionado.getDocumentoCliente());
-    parametrosReporte.put("entidadFacturar", seleccionado.getCliente().getNombre());
-    parametrosReporte.put("nombre", seleccionado.getPuntoVenta().getNombre());
-    parametrosReporte.put("direccion", seleccionado.getPuntoVenta().getDireccion());
-    parametrosReporte.put("telefono", seleccionado.getPuntoVenta().getTelefono());
-    parametrosReporte.put("ciudad", seleccionado.getPuntoVenta().getCiudade().getNombre());
+    parametrosReporte.put("ordenCompraCliente", ventaDirectaSeleccionada.getDocumentoCliente());
+    parametrosReporte.put("entidadFacturar", ventaDirectaSeleccionada.getCliente().getNombre());
+    parametrosReporte.put("nombre", ventaDirectaSeleccionada.getPuntoVenta().getNombre());
+    parametrosReporte.put("direccion", ventaDirectaSeleccionada.getPuntoVenta().getDireccion());
+    parametrosReporte.put("telefono", ventaDirectaSeleccionada.getPuntoVenta().getTelefono());
+    parametrosReporte.put("ciudad", ventaDirectaSeleccionada.getPuntoVenta().getCiudade().getNombre());
     formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    parametrosReporte.put("fechaMinEntrega", formatoFecha.format(seleccionado.getFechaEsperadaEntrega()));
-    parametrosReporte.put("fechaMaxEntrega", formatoFecha.format(seleccionado.getFechaEntrega()));
+    parametrosReporte.put("fechaMinEntrega", formatoFecha.format(ventaDirectaSeleccionada.getFechaEsperadaEntrega()));
+    parametrosReporte.put("fechaMaxEntrega", formatoFecha.format(ventaDirectaSeleccionada.getFechaEntrega()));
     JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosXDocumento, false);
     try {
       Hashtable<String, String> parametrosConfiguracionReporte;
@@ -154,18 +158,18 @@ public class GenerarOrdenDespachoMB extends UtilMB {
     StreamedContent reporte = null;
     Map<String, Object> parametrosReporte = new HashMap<>();
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-    parametrosReporte.put("ubicacionDestino", seleccionado.getUbicacionDestino().getNombre());
-    parametrosReporte.put("id", seleccionado.getId());
-    parametrosReporte.put("consecutivo", seleccionado.getConsecutivoDocumento());
-    parametrosReporte.put("entidadFacturar", seleccionado.getCliente().getNombre());
-    parametrosReporte.put("fechaMinEntrega", (seleccionado.getFechaEsperadaEntrega()));
-    parametrosReporte.put("fechaMaxEntrega", (seleccionado.getFechaEntrega()));
-    parametrosReporte.put("sitioEntrega", seleccionado.getSitioEntrega());
-    parametrosReporte.put("ordenCompraCliente", seleccionado.getDocumentoCliente());
+    parametrosReporte.put("ubicacionDestino", ventaDirectaSeleccionada.getUbicacionDestino().getNombre());
+    parametrosReporte.put("id", ventaDirectaSeleccionada.getId());
+    parametrosReporte.put("consecutivo", ventaDirectaSeleccionada.getConsecutivoDocumento());
+    parametrosReporte.put("entidadFacturar", ventaDirectaSeleccionada.getCliente().getNombre());
+    parametrosReporte.put("fechaMinEntrega", (ventaDirectaSeleccionada.getFechaEsperadaEntrega()));
+    parametrosReporte.put("fechaMaxEntrega", (ventaDirectaSeleccionada.getFechaEntrega()));
+    parametrosReporte.put("sitioEntrega", ventaDirectaSeleccionada.getSitioEntrega());
+    parametrosReporte.put("ordenCompraCliente", ventaDirectaSeleccionada.getDocumentoCliente());
     parametrosReporte.put("datos", listaProductosXDocumento);
     try {
       StringBuilder nombreArchivo = new StringBuilder();
-      nombreArchivo.append(seleccionado.getConsecutivoDocumento());
+      nombreArchivo.append(ventaDirectaSeleccionada.getConsecutivoDocumento());
       nombreArchivo.append("-");
       nombreArchivo.append(formatoFecha.format(getFechaActual()));
       nombreArchivo.append(".");
@@ -187,12 +191,12 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    */
   public void generarOrdenDespacho() {
     LOGGER.debug("Metodo: <<generarOrdenDespacho>>");
-//    try{
-    ventasFacturacionEJB.generarOrdenDespacho(seleccionado, listaProductosXDocumento);
-    this.addMensajeInfo(AplicacionMB.getMessage("godMsgExito", language));
-//    }catch(){
-    this.addMensajeError(AplicacionMB.getMessage("godMsgError", language));
-//    }
+    try {
+      ventasFacturacionEJB.generarOrdenDespacho(ventaDirectaSeleccionada, listaProductosXDocumento);
+      this.addMensajeInfo(AplicacionMB.getMessage("godMsgExito", language));
+    } catch (Exception ex) {
+      this.addMensajeError(AplicacionMB.getMessage("godMsgError", language));
+    }
   }
 
   /**
@@ -200,7 +204,7 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    */
   public void cancelar() {
     LOGGER.debug("Metodo: <<cancelar>>");
-    this.seleccionado = null;
+    this.ventaDirectaSeleccionada = null;
   }
 
   /**
@@ -234,17 +238,17 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   }
 
   /**
-   * @return the seleccionado
+   * @return the ventaDirectaSeleccionada
    */
-  public Documento getSeleccionado() {
-    return seleccionado;
+  public Documento getVentaDirectaSeleccionada() {
+    return ventaDirectaSeleccionada;
   }
 
   /**
-   * @param seleccionado the seleccionado to set
+   * @param ventaDirectaSeleccionada the ventaDirectaSeleccionada to set
    */
-  public void setSeleccionado(Documento seleccionado) {
-    this.seleccionado = seleccionado;
+  public void setVentaDirectaSeleccionada(Documento ventaDirectaSeleccionada) {
+    this.ventaDirectaSeleccionada = ventaDirectaSeleccionada;
   }
 
   /**
