@@ -179,8 +179,7 @@
       showEffect="clip" 
       hideEffect="clip"
       modal="true"
-      dynamic="true"
-      closeOnEscape="true">
+      dynamic="true">
       <p:ajax 
         event="close" 
         listener="#{generarFacturaMB.cancelar()}" />
@@ -290,7 +289,7 @@
                   rendered="#{generarFacturaMB.facturaEspecial or generarFacturaMB.facturaConsumoServicios}"/>
                 <h:inputText
                   id="numeroFacturaEspecial"
-                  value="#{generarFacturaMB.remisionSeleccionada.observacionDocumento}" 
+                  value="#{generarFacturaMB.remisionSeleccionada.numeroFacturaEspecial}" 
                   disabled="true"
                   styleClass="filas_contenido"
                   required="true"
@@ -387,7 +386,8 @@
                   headerText="#{msg.gfTblColCantidadVentaDirecta}"
                   rendered="#{generarFacturaMB.facturaDirecta}">
                   <h:outputText 
-                    value="#{item.cantidad1}" >
+                    value="#{item.cantidad1}" 
+                    style="text-align:right;width:100px;color:#{item.observacion2};font-weight:bold">
                     <f:convertNumber 
                       pattern="$#####,###,###,###.0" />
                   </h:outputText>
@@ -484,8 +484,9 @@
             <p:commandButton 
               value="#{msg.gfBtnGenerarFactura}" 
               icon="ui-icon-document"
+              process="pnlDetalleRemisionSeleccionada"
               actionListener="#{generarFacturaMB.generarFactura()}"
-              update="msgsDetalle pnlDetalle :forma:pnlTab:tblDocumentos"
+              update="formaDetalle :forma:pnlTab:tblDocumentos"
               rendered="#{generarFacturaMB.modoDetalle}"/>
             <!-- Imprimir factura -->
             <p:commandButton 
@@ -496,6 +497,13 @@
               <p:fileDownload 
                 value="#{generarFacturaMB.previsuaizarFactura()}" />
             </p:commandButton>
+            <!-- cerrar -->
+            <p:commandButton 
+              value="#{msg.generalCerrar}" 
+              styleClass="ui-confirmdialog-no" 
+              icon="ui-icon-close" 
+              oncomplete="PF('dlgDetalle').hide()"
+              update=":forma:msgs"/>
           </f:facet>
         </p:panel>
 

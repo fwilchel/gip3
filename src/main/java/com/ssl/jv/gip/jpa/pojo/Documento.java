@@ -21,6 +21,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -179,6 +180,9 @@ public class Documento implements Serializable {
   // bi-directional many-to-many association to TerminosTransporte
   @ManyToMany(mappedBy = "documentos")
   private List<TerminosTransporte> terminosTransportes;
+
+  @Transient
+  private String numeroFacturaEspecial;
 
   public Documento() {
   }
@@ -475,6 +479,20 @@ public class Documento implements Serializable {
     this.terminosTransportes = terminosTransportes;
   }
 
+  /**
+   * @return the numeroFacturaEspecial
+   */
+  public String getNumeroFacturaEspecial() {
+    return numeroFacturaEspecial;
+  }
+
+  /**
+   * @param numeroFacturaEspecial the numeroFacturaEspecial to set
+   */
+  public void setNumeroFacturaEspecial(String numeroFacturaEspecial) {
+    this.numeroFacturaEspecial = numeroFacturaEspecial;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -504,5 +522,4 @@ public class Documento implements Serializable {
     }
     return true;
   }
-
 }
