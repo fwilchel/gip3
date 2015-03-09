@@ -1,17 +1,27 @@
 package com.ssl.jv.gip.web.mb.abastecimiento;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -24,6 +34,7 @@ import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
@@ -52,6 +63,8 @@ public class DespacharMercanciaVDMB extends UtilMB{
 	private Documento seleccionado;
 	private Documento filtro;
 	private boolean listo;
+	private StreamedContent reporteExcel;
+	private StreamedContent reportePDF;
 	
 	private JasperPrint jasperPrint;
 	
@@ -148,39 +161,28 @@ public class DespacharMercanciaVDMB extends UtilMB{
 		documentos = despachoMercancia.consultarVentasDirectas(consecutivoDocumento);
 	}
 	
-	public void generarReporteExcel() throws IOException, JRException{
-//		if(tipo=="PDF"){
-//			reportBuilder();
-//			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
-//					.getCurrentInstance().getExternalContext().getResponse();
-//			httpServletResponse.addHeader("Content-disposition",
-//					"attachment; filename="+seleccionado.getId()+".pdf");
-//			ServletOutputStream servletStream = httpServletResponse
-//					.getOutputStream();
-//			JasperExportManager.exportReportToPdfStream(jasperPrint,
-//					servletStream);
-//			FacesContext.getCurrentInstance().responseComplete();
-//		}else{
-//			
-//		}
-		despachoMercancia.generarReporteDespacharMercanciaExcel(productos, seleccionado);
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public JasperPrint reportBuilder() throws JRException {
+		Map parametros = new HashMap();
+		parametros.put("id", seleccionado.getId());
+		parametros.put("consecutivoDocumento", seleccionado.getConsecutivoDocumento());
+		parametros.put("entidadAfacturar","");
+		parametros.put("SitioEntrega","");
+		parametros.put("OrdenCompraCliente","");
+		parametros.put("FechaMin", seleccionado.getFechaEsperadaEntrega().toString());
+		parametros.put("FechaMax", seleccionado.getFechaEntrega().toString());
+		
+		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
+				productos);
+
+		String report = FacesContext
+				.getCurrentInstance()
+				.getExternalContext()
+				.getRealPath(
+						"/reportes/Report_VD.jasper");
+
+		return JasperFillManager.fillReport(report,parametros,beanCollectionDataSource);
 	}
-	
-//	public void reportBuilder() throws JRException {
-//
-//		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
-//				productos);
-//
-//		String report = FacesContext
-//				.getCurrentInstance()
-//				.getExternalContext()
-//				.getRealPath(
-//						"/resources/reports/EmployeesReportToJSFApp.jasper");
-//
-//		jasperPrint = JasperFillManager.fillReport(report, new HashMap(),
-//				beanCollectionDataSource);
-//
-//	}
 
 	public List<Documento> getDocumentos() {
 		return documentos;
@@ -254,6 +256,27 @@ public class DespacharMercanciaVDMB extends UtilMB{
 		this.listo = listo;
 	}
 	
+	public StreamedContent getReporteExcel() throws ClassNotFoundException, IOException, JRException {
+		comercioExteriorEJB.generarReporteOrdenDespachoExcel(reportBuilder(), seleccionado.getId());
+		ByteArrayOutputStream os=(ByteArrayOutputStream) comercioExteriorEJB.generar(jasperPrint,"","xls");
+		reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "OrdenDespacho.xls");			
+		return this.reporteExcel;
+	}
+
+	public void setReporteExcel(StreamedContent reporteExcel) {
+		this.reporteExcel = reporteExcel;
+	}
+	
+	public StreamedContent getReportePDF() throws ClassNotFoundException,IOException, JRException {
+		comercioExteriorEJB.generarReporteOrdenDespachoPDF(reportBuilder(),seleccionado.getId());
+		ByteArrayOutputStream os = (ByteArrayOutputStream) comercioExteriorEJB.generar(jasperPrint,"A", "pdf");
+		reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "OD"+ seleccionado.getId());
+		return reportePDF;
+	}
+
+	public void setReportePDF(StreamedContent reportePDF) {
+		this.reportePDF = reportePDF;
+	}
 	
 
 }

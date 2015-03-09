@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Connection;
@@ -28,7 +30,11 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 import org.apache.log4j.Logger;
 
@@ -1733,6 +1739,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		FacesContext.getCurrentInstance().responseComplete();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void generarReporteOrdenDespachoExcel(JasperPrint jasperPrint,Long id) throws ClassNotFoundException, IOException, JRException{
 		HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
@@ -1748,5 +1755,23 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 				servletOutputStream);
 		docxExporter.exportReport();
 		FacesContext.getCurrentInstance().responseComplete();
+	}
+	
+	@Override
+	public OutputStream generar(JasperPrint jasperPrint, String nombre, String tipo) throws JRException, IOException {
+		OutputStream os = new ByteArrayOutputStream();
+		if (tipo.equals("pdf")) {
+			JasperExportManager.exportReportToPdfStream(jasperPrint, os);
+		} else if (tipo.equals("xls")) {
+			JRXlsExporter exporter = new JRXlsExporter();
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
+			SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
+			configuration.setOnePagePerSheet(true);
+			exporter.setConfiguration(configuration);
+			exporter.exportReport();
+		}
+		os.flush();
+		return os;
 	}
 }
