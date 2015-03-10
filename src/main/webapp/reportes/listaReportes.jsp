@@ -23,6 +23,7 @@
       <li><a href="compilarReporte.jsp?reporte=Report_LE_ANT.jrxml">Report_LE_ANT.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_LE.jrxml">Report_LE.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_OD.jrxml">Report_OD.jrxml</a></li>
+      <li><a href="compilarReporte.jsp?reporte=Report_VD.jrxml">Report_VD.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_PCE.jrxml">Report_PCE.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=report_Remision.jrxml">report_Remision.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_SP.jrxml">Report_SP.jrxml</a></li>
