@@ -2736,15 +2736,4 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     }
     return listado;
   }
-
-  @Override
-  public void actuaizarNumeroFacturaYEstadoDeUnDocumento(String numeroFactura, Long estado, Long id) {
-    LOGGER.trace("Metodo: <<actuaizarNumeroFacturaYEstadoDeUnDocumento>>");
-    Query query = em.createNativeQuery(Documento.ACTUALIZAR_NUMERO_FACTURA_Y_ESTADO);
-    query.setParameter("numero_factura", numeroFactura);
-    query.setParameter("id_estado", estado);
-    query.setParameter("id", id);
-    query.executeUpdate();
-  }
-
 }

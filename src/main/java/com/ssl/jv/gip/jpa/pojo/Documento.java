@@ -69,7 +69,8 @@ public class Documento implements Serializable {
   public static final String FIND_BY_FECHAS_AND_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE = "Documento.findByFechasAndTipoDocumentoAndEstado";
   public static final String FIND_BY_ESTADO_AND_TIPO_AND_CONSECUTIVO = "Documento.findByEstadoAndTipoAndConsecutivo";
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_OBSERVACION_DOCUMENTO = "Documento.findByObservacionAndTipo";
-  public static final String ACTUALIZAR_NUMERO_FACTURA_Y_ESTADO = "UPDATE documentos SET id_estado = :id_estado, numero_factura = :numero_factura WHERE id = :id";
+  public static final String ACTUALIZAR_ESTADO_Y_NUMERO_FACTURA = "UPDATE documentos SET id_estado = :estado, numero_factura = :numeroFactura WHERE id = :id";
+  public static final String ACTUALIZAR_ESTADO_Y_OBSERVACION = "UPDATE documentos SET id_estado = :estado, observacion_documento = :observacionDocumento WHERE id = :id";
 
   @Id
   @SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)

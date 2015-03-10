@@ -298,25 +298,30 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 //          }
 //        }
 //        if (cargueExitoso) {
-          LOGGER.debug("Crear la orden de despacho");
-          ordenDespacho = documentoDAO.add(ordenDespacho);
-          LOGGER.debug("Orden de despacho creada exitosamente con e id: " + ordenDespacho.getId());
-          LOGGER.debug("Crea los productos relacionados a la orden de despacho");
-          for (ProductosXDocumento pxd : listaProductosXDocumento) {
-            LOGGER.debug("Crear producto para la orden de despacho");
-            ProductosXDocumentoPK productosXDocumentoPK = new ProductosXDocumentoPK();
-            productosXDocumentoPK.setIdDocumento(ordenDespacho.getId());
-            productosXDocumentoPK.setIdProducto(pxd.getProductosInventario().getId());
-            pxd = productoXDocumentoDAO.add(pxd);
-            LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
-          }
-          LOGGER.debug("Productos creados satisfactoriamente");
-          LOGGER.debug("Actualizar la venta directa");
-          // debe llamar a un metodo que actialice el estado y la observacion de documento
-//          ventaDirecta.setObservacionDocumento(logRespuesta);
-          ventaDirecta.getEstadosxdocumento().getId().setIdEstado((long) ConstantesDocumento.DESPACHADO);
-          documentoDAO.actualizarEstadoDocumentoPorId(ordenDespacho);
-          LOGGER.debug("Venta directa actualizada");
+    LOGGER.debug("Crear la orden de despacho");
+    ordenDespacho = documentoDAO.add(ordenDespacho);
+    LOGGER.debug("Orden de despacho creada exitosamente con e id: " + ordenDespacho.getId());
+    LOGGER.debug("Crea los productos relacionados a la orden de despacho");
+    for (ProductosXDocumento pxd : listaProductosXDocumento) {
+      LOGGER.debug("Crear producto para la orden de despacho");
+      ProductosXDocumentoPK productosXDocumentoPK = new ProductosXDocumentoPK();
+      productosXDocumentoPK.setIdDocumento(ordenDespacho.getId());
+      productosXDocumentoPK.setIdProducto(pxd.getProductosInventario().getId());
+      pxd = productoXDocumentoDAO.add(pxd);
+      LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
+    }
+    LOGGER.debug("Productos creados satisfactoriamente");
+    LOGGER.debug("Actualizar la venta directa");
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("estado", (long) ConstantesDocumento.DESPACHADO);
+    parametros.put("observacionDocumento", ordenDespacho.getId().toString());
+    parametros.put("id", (long) ventaDirecta.getId());
+    documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_Y_OBSERVACION, parametros);
+//    ventaDirecta.getEstadosxdocumento().getEstado().setId((long) ConstantesDocumento.DESPACHADO);
+//    ventaDirecta.setObservacionDocumento(ordenDespacho.getId().toString());
+//    documentoDAO.actualizarEstadoDocumentoPorId(ventaDirecta);
+//    documentoDAO.actuaizarEstadoYObservacionDeUnDocumento(ventaDirecta.getEstadosxdocumento().getEstado().getId(), ventaDirecta.getObservacionDocumento(), ventaDirecta.getId());
+    LOGGER.debug("Venta directa actualizada");
 //        } else {
 //          // restabecer la secuencia.
 //          //mensage de error
@@ -495,7 +500,12 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
   public void imprimirFactura(Documento factura) {
     LOGGER.trace("Metodo: <<imprimirFactura>>");
     LOGGER.debug("Actualizar numero de factura y estado de la factura con id: " + factura.getId());
-    documentoDAO.actuaizarNumeroFacturaYEstadoDeUnDocumento(factura.getNumeroFactura(), (long) ConstantesDocumento.IMPRESO, factura.getId());
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("estado", (long) ConstantesDocumento.IMPRESO);
+    parametros.put("numeroFactura", factura.getNumeroFactura());
+    parametros.put("id", (long) factura.getId());
+    documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_Y_NUMERO_FACTURA, parametros);
+//    documentoDAO.actuaizarEstadoYNumeroFacturaDeUnDocumento((long) ConstantesDocumento.IMPRESO, factura.getNumeroFactura(), factura.getId());
     LOGGER.debug("Factura actualizada exitosamente");
   }
 

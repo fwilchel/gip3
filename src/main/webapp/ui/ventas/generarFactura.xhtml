@@ -24,7 +24,9 @@
 
       <p:messages 
         id="msgs" 
-        autoUpdate="true"/>
+        showIcon="true"
+        autoUpdate="true"
+        globalOnly="true"/>
 
       <p:tabView 
         id="pnlTab">
@@ -41,7 +43,7 @@
               <p:outputLabel 
                 for="filtroFechaActual" 
                 value="#{msg.generalFechaActual}" 
-                styleClass="negrita"/>
+                styleClass="label"/>
               <h:outputText
                 id="filtroFechaActual"
                 value="#{generarFacturaMB.fechaActual}">
@@ -54,7 +56,7 @@
               <p:outputLabel 
                 for="filtroConsecutivoDocumento" 
                 value="#{msg.gfFltLblConsecutivo}" 
-                styleClass="negrita"/>
+                styleClass="label"/>
               <p:inputText 
                 id="filtroConsecutivoDocumento" 
                 value="#{generarFacturaMB.consecutivoDocumento}" 
@@ -66,7 +68,7 @@
               <p:outputLabel 
                 for="filtroTipoFactura" 
                 value="#{msg.gfFltLblTipoFactura} " 
-                styleClass="negrita"/>
+                styleClass="label"/>
               <p:selectOneMenu 
                 id="filtroTipoFactura" 
                 value="#{generarFacturaMB.tipoFacturaSeleccionado}">
@@ -187,24 +189,27 @@
         id="formaDetalle"
         prependId="false">
         <p:messages 
-          id="msgsDetalle"/>
+          id="msgsDetalle"
+          showIcon="true"
+          autoUpdate="true"/>
         <p:panel 
-          id="pnlDetalle">
+          id="pnlPrincipal">
           <h:panelGroup 
-            id="pnlDetalleRemisionSeleccionada"
+            id="pnlDetalle"
             layout="block"
             rendered="#{generarFacturaMB.modoDetalle}">
             <div 
               align="left" 
               style="margin-bottom:20px;">
               <p:panelGrid 
+                id="pnlDetalleCliente"
                 columns="6"
                 styleClass="noBorders">
                 <!--Cliente-->
                 <p:outputLabel 
                   for="nombreCliente"
                   value="#{msg.gfLblCliente}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:outputText 
                   id="nombreCliente"
                   value="#{generarFacturaMB.remisionSeleccionada.cliente.nombre}"/>
@@ -217,7 +222,7 @@
                 <p:outputLabel 
                   for="id"
                   value="#{msg.gfLblDocumento}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:inputText
                   id="id"
                   value="#{generarFacturaMB.remisionSeleccionada.id}" 
@@ -230,7 +235,7 @@
                 <p:outputLabel 
                   for="consecutivoDocumento"
                   value="#{msg.gfLblConsecutivoDocumento}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:inputText
                   id="consecutivoDocumento"
                   value="#{generarFacturaMB.remisionSeleccionada.consecutivoDocumento}" 
@@ -243,7 +248,7 @@
                 <p:outputLabel 
                   for="fechaGeneracion"
                   value="#{msg.gfLblFechaGeneracion}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:inputText
                   id="fechaGeneracion"
                   value="#{generarFacturaMB.remisionSeleccionada.fechaGeneracion}" 
@@ -259,7 +264,7 @@
                 <p:outputLabel 
                   for="ubicacionDestino"
                   value="#{msg.gfLblUbicacionDestino}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:inputText
                   id="ubicacionDestino"
                   value="#{generarFacturaMB.remisionSeleccionada.ubicacionDestino.nombre}" 
@@ -272,7 +277,7 @@
                 <p:outputLabel 
                   for="observacionDocumento"
                   value="#{msg.gfLblDocVDRel}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:inputText
                   id="observacionDocumento"
                   value="#{generarFacturaMB.remisionSeleccionada.observacionDocumento}" 
@@ -285,7 +290,7 @@
                 <p:outputLabel 
                   for="numeroFacturaEspecial"
                   value="#{msg.gfLblNumeroFacturaEspecial}"
-                  styleClass="negrita"
+                  styleClass="label"
                   rendered="#{generarFacturaMB.facturaEspecial or generarFacturaMB.facturaConsumoServicios}"/>
                 <h:inputText
                   id="numeroFacturaEspecial"
@@ -401,16 +406,16 @@
               <p:panelGrid 
                 columns="2"
                 styleClass="noBorders"
-                style="text-align:right;">
+                columnClasses="label,filas_contenido_numero">
                 <!-- Subtotal -->
                 <p:outputLabel 
                   for="sociedadIntermediacionAduanera1"
                   value="#{msg.gfLblSubtotal}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:outputText
                   id="sociedadIntermediacionAduanera1"
                   value="#{generarFacturaMB.subtotal}"
-                  styleClass="filas_contenido">
+                  styleClass="filas_contenido_numero">
                   <f:convertNumber 
                     pattern="$#####,###,###,###.0" />
                 </h:outputText>
@@ -418,11 +423,11 @@
                 <p:outputLabel 
                   for="sociedadIntermediacionAduanera2"
                   value="#{msg.gfLblDescuento}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:outputText
                   id="sociedadIntermediacionAduanera2"
                   value="#{generarFacturaMB.descuento}" 
-                  styleClass="filas_contenido">
+                  styleClass="filas_contenido_numero">
                   <f:convertNumber 
                     pattern="$#####,###,###,###.0" />
                 </h:outputText>
@@ -430,11 +435,11 @@
                 <p:outputLabel 
                   for="mesEmbarque"
                   value="#{msg.gfLblValorIva10}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:outputText
                   id="mesEmbarque"
                   value="#{generarFacturaMB.totalIva10}" 
-                  styleClass="filas_contenido">
+                  styleClass="filas_contenido_numero">
                   <f:convertNumber 
                     pattern="$#####,###,###,###.0" />
                 </h:outputText>
@@ -442,11 +447,11 @@
                 <p:outputLabel 
                   for="puertoEmbarque"
                   value="#{msg.gfLblValorIva16}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:outputText
                   id="puertoEmbarque"
                   value="#{generarFacturaMB.totalIva16}" 
-                  styleClass="filas_contenido">
+                  styleClass="filas_contenido_numero">
                   <f:convertNumber 
                     pattern="$#####,###,###,###.0" />
                 </h:outputText>
@@ -454,11 +459,11 @@
                 <p:outputLabel 
                   for="fechaEmbarque"
                   value="#{msg.gfLblValorIva5}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:outputText
                   id="fechaEmbarque"
                   value="#{generarFacturaMB.totalIva5}" 
-                  styleClass="filas_contenido">
+                  styleClass="filas_contenido_numero">
                   <f:convertNumber 
                     pattern="$#####,###,###,###.0" />
                 </h:outputText>
@@ -466,11 +471,11 @@
                 <p:outputLabel 
                   for="naviera"
                   value="#{msg.gfLblTotal}"
-                  styleClass="negrita"/>
+                  styleClass="label"/>
                 <h:outputText
                   id="naviera"
                   value="#{generarFacturaMB.total}" 
-                  styleClass="filas_contenido">
+                  styleClass="filas_contenido_numero">
                   <f:convertNumber 
                     pattern="$#####,###,###,###.0" />
                 </h:outputText>
@@ -484,7 +489,6 @@
             <p:commandButton 
               value="#{msg.gfBtnGenerarFactura}" 
               icon="ui-icon-document"
-              process="pnlDetalleRemisionSeleccionada"
               actionListener="#{generarFacturaMB.generarFactura()}"
               update="formaDetalle :forma:pnlTab:tblDocumentos"
               rendered="#{generarFacturaMB.modoDetalle}"/>
