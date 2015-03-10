@@ -161,6 +161,7 @@ public class GenerarFacturaMB extends UtilMB {
   public void seleccionarRemision(Documento documento) {
     LOGGER.trace("Metodo: <<seleccionarRemision>>");
     setRemisionSeleccionada(documento);
+    modo = Modo.DETALLE;
     if (getRemisionSeleccionada().getSitioEntrega() != null && getRemisionSeleccionada().getSitioEntrega().equals("CS") && getTipoFacturaSeleccionado() != ConstantesTipoDocumento.SOLICITUD_PEDIDO) {
       addMensajeError(AplicacionMB.getMessage("gfErrorValidacion1", language));
       LOGGER.debug(AplicacionMB.getMessage("gfErrorValidacion1", language));
@@ -168,7 +169,6 @@ public class GenerarFacturaMB extends UtilMB {
       addMensajeError(AplicacionMB.getMessage("gfErrorValidacion2", language));
       LOGGER.debug(AplicacionMB.getMessage("gfErrorValidacion2", language));
     } else {
-      modo = Modo.DETALLE;
       // lista de productos para el documento de VD relacionado a la remision
       Documento documentoRelacionado = maestrosEJB.consultarDocumentoPorConsecutivo(getRemisionSeleccionada().getObservacionDocumento());
       List<ProductosXDocumento> listaSugrenciasConsultadas = ventasFacturacionEJB.consultarProductosPorDocumento(documentoRelacionado.getId());
@@ -258,15 +258,16 @@ public class GenerarFacturaMB extends UtilMB {
         factura.setDocumentoCliente(ordenDespacho.getDocumentoCliente());
         factura.setObservacion3(ordenDespacho.getConsecutivoDocumento());
       }
-      factura.setCliente(this.remisionSeleccionada.getCliente());
-      factura.setPuntoVenta(this.remisionSeleccionada.getPuntoVenta());
+      factura.setCliente(remisionSeleccionada.getCliente());
+      factura.setPuntoVenta(remisionSeleccionada.getPuntoVenta());
       factura.setSubtotal(subtotal);
       factura.setDescuento(descuento);
       factura.setValorIva16(totalIva16);
       factura.setValorIva10(totalIva10);
       factura.setValorIva5(totalIva5);
       factura.setValorTotal(total);
-      factura.setNumeroFactura(null);
+      //TODO: a parecer en este campo deberia viajar e numero de a factura especial, pero no se de donde debo sacarlo.
+      factura.setNumeroFactura(remisionSeleccionada.getNumeroFacturaEspecial());
       factura.setObservacion2(this.remisionSeleccionada.getObservacion2());
       if (getRemisionSeleccionada().getSitioEntrega() != null && getRemisionSeleccionada().getSitioEntrega().equals("CS")) {
         factura.setSitioEntrega(remisionSeleccionada.getSitioEntrega());
@@ -355,7 +356,7 @@ public class GenerarFacturaMB extends UtilMB {
         tieneOtrosDescuentos = true;
         pxd.setObservacion2("(*)");
       } else {
-    	pxd.setObservacion2("");
+        pxd.setObservacion2("");
       }
     }
     parametrosReporte.put("subtotal", facturaGenerada.getSubtotal());
