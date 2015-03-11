@@ -25,7 +25,6 @@
       <p:messages 
         id="msgs" 
         showIcon="true"
-        autoUpdate="true"
         globalOnly="true"/>
 
       <p:tabView 
@@ -85,7 +84,7 @@
                 <p:commandButton
                   value="#{msg.gfFltBtnBuscar}"
                   actionListener="#{generarFacturaMB.consultarListaRemisiones()}"
-                  update="tblDocumentos"/>
+                  update=":forma:msgs tblDocumentos"/>
               </f:facet>
             </p:panelGrid>
           </p:panel>
@@ -133,7 +132,7 @@
                 title="#{msg.gfBtnDetalle}"
                 actionListener="#{generarFacturaMB.seleccionarRemision(documento)}"
                 onsuccess="PF('dlgDetalle').show()"
-                update=":dlgDetalle @form"/>
+                update=":dlgDetalle :forma:msgs"/>
             </p:column>
             <!-- Documento -->
             <p:column   
