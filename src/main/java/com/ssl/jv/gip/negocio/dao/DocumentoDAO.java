@@ -1225,7 +1225,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     String parametroConseDoc = (String) parametros.get("parametroConseDoc");
     try {
 
-      String query = "select d from Documento d LEFT JOIN FETCH d.cliente cli LEFT JOIN FETCH cli.ciudad ciu where id_tipo_documento= :tipo AND id_estado in( :estados) AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
+      String query = "select d from Documento d LEFT JOIN FETCH d.cliente cli LEFT JOIN FETCH cli.ciudad ciu where id_tipo_documento= :tipo AND id_estado in( :estados) AND UPPER(consecutivo_documento) LIKE UPPER( :parametroConseDoc) ORDER BY d.id DESC";
 
       lista = em.createQuery(query)
               .setParameter("tipo", tipo)
