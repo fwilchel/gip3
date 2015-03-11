@@ -439,7 +439,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     ordenDespacho.setDocumentoCliente(remisionRelacionada.getDocumentoCliente());
     documentoDAO.actualizarEstadoDocumentoPorId(ordenDespacho);
     LOGGER.debug("Orden despacho actualizada");
-    LOGGER.debug("Crear los movimientos de salida");
+    LOGGER.debug("Crear los movimientos de salida para la orden de despacho con id: " + ordenDespacho.getId());
     for (ProductosXDocumento pxd : pxds) {
       MovimientosInventario movimientosSalida = new MovimientosInventario();
       movimientosSalida.setDocumento(ordenDespacho);
@@ -460,7 +460,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     }
     LOGGER.debug("Movimientos de salida creados exitosamente");
     LOGGER.debug("Orden despacho ejecutada exitosamente");
-    LOGGER.debug("Crear los movimientos");
+    LOGGER.debug("Crear los movimientos a la remision seleccionada con id: " + remisionRelacionada.getId());
     for (ProductosXDocumento pxd : pxds) {
       MovimientosInventario movimiento = new MovimientosInventario();
       movimiento.setFecha(new Timestamp(System.currentTimeMillis()));
@@ -469,7 +469,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       movimiento.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
       movimiento.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
       movimiento.setProductosInventario(pxd.getProductosInventario());
-      movimiento.setDocumento(ordenDespacho);
+      movimiento.setDocumento(remisionRelacionada);
       movimiento.setUnidade(pxd.getUnidade());
       movimiento.setCantidad(pxd.getCantidad1());
       movimiento.setMoneda(pxd.getMoneda());
