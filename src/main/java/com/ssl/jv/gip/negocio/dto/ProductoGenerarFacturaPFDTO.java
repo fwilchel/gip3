@@ -13,266 +13,265 @@ import javax.persistence.Id;
 @Entity
 public class ProductoGenerarFacturaPFDTO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Id
-	private BigInteger id;
-	private String sku;
-	private String nombre;
-	private BigDecimal cantidad;
-	private BigDecimal pesoNeto;
-	private BigDecimal pesoBruto;
-	private BigDecimal cantidadCajas;
-	private BigDecimal cantidadPorEmbalaje;
-	private BigDecimal precio;
-	private BigDecimal valorTotal;
-	private BigDecimal totalPesoNeto;
-	private BigDecimal totalPesoBruto;
-	private BigInteger idCliente;
-	private BigDecimal cajasPorPallets;
-	private BigInteger idUnidad;
-	private BigDecimal totalCajas; 
-	private BigDecimal totalCajasTendido; 
-	private BigDecimal totalCajasPallet;
-	private String posicionArancelaria;
-	private String unidad;
-	private String nombreIngles; 
-	private String descripcion;
-	private BigDecimal pesoNetoEmbalaje; 
-	private BigDecimal pesoBrutoEmbalaje; 
-	private BigInteger controlStock;
-	
-	public ProductoGenerarFacturaPFDTO(){
-		
-	}
-	
-	/*public ProductoGenerarFacturaPFDTO(BigInteger id, String nombre, String sku, BigDecimal cantidad, BigDecimal precio, BigDecimal valorTotal, BigDecimal totalPesoNeto, BigDecimal totalPesoBruto, BigInteger idCliente, BigDecimal pesoBruto, BigDecimal pesoNeto,
-			BigDecimal cantidadCajas, BigDecimal cajasPorPallets, BigDecimal cantidadPorEmbalaje, BigInteger idUnidad, BigDecimal totalCajas, BigDecimal totalCajasTendido, BigDecimal totalCajasPallet, String posicionArancelaria, String unidad, 
-			String nombreIngles, String descripcion, BigDecimal pesoNetoEmbalaje, BigDecimal pesoBrutoEmbalaje, BigInteger controlStock){
-		this.id=id;
-		this.nombre=nombre;
-		this.sku=sku;
-		this.cantidad = cantidad;
-		this.precio=precio;
-		this.valorTotal =valorTotal;
-		this.totalPesoNeto=totalPesoNeto;
-		this.totalPesoBruto=totalPesoBruto;
-		this.idCliente=idCliente;
-		this.pesoBruto=pesoBruto;
-		this.pesoNeto=pesoNeto;
-		this.cantidadCajas = cantidadCajas;
-		this.cajasPorPallets=cajasPorPallets;
-		this.cantidadPorEmbalaje=cantidadPorEmbalaje;
-		this.idUnidad=idUnidad;
-		this.totalCajas=totalCajas;
-		this.totalCajasTendido=totalCajasTendido;
-		this.totalCajasPallet=totalCajasPallet;
-		this.posicionArancelaria = posicionArancelaria;
-		this.unidad=unidad;
-		this.nombreIngles=nombreIngles;
-		this.descripcion=descripcion;
-		this.pesoNetoEmbalaje=pesoNetoEmbalaje;
-		this.pesoBrutoEmbalaje=pesoBrutoEmbalaje;
-		this.controlStock=controlStock;
-	}*/
+  private static final long serialVersionUID = 1L;
+  @Id
+  private BigInteger id;
+  private String sku;
+  private String nombre;
+  private BigDecimal cantidad;
+  private BigDecimal pesoNeto;
+  private BigDecimal pesoBruto;
+  private BigDecimal cantidadCajas;
+  private BigDecimal cantidadPorEmbalaje;
+  private BigDecimal precio;
+  private BigDecimal valorTotal;
+  private BigDecimal totalPesoNeto;
+  private BigDecimal totalPesoBruto;
+  private BigInteger idCliente;
+  private BigDecimal cajasPorPallets;
+  private BigInteger idUnidad;
+  private BigDecimal totalCajas;
+  private BigDecimal totalCajasTendido;
+  private BigDecimal totalCajasPallet;
+  private String posicionArancelaria;
+  private String unidad;
+  private String nombreIngles;
+  private String descripcion;
+  private BigDecimal pesoNetoEmbalaje;
+  private BigDecimal pesoBrutoEmbalaje;
+  private Boolean controlStock;
 
-	public BigInteger getId() {
-		return id;
-	}
+  public ProductoGenerarFacturaPFDTO() {
 
-	public void setId(BigInteger id) {
-		this.id = id;
-	}
+  }
 
-	public String getSku() {
-		return sku;
-	}
+  /*public ProductoGenerarFacturaPFDTO(BigInteger id, String nombre, String sku, BigDecimal cantidad, BigDecimal precio, BigDecimal valorTotal, BigDecimal totalPesoNeto, BigDecimal totalPesoBruto, BigInteger idCliente, BigDecimal pesoBruto, BigDecimal pesoNeto,
+   BigDecimal cantidadCajas, BigDecimal cajasPorPallets, BigDecimal cantidadPorEmbalaje, BigInteger idUnidad, BigDecimal totalCajas, BigDecimal totalCajasTendido, BigDecimal totalCajasPallet, String posicionArancelaria, String unidad, 
+   String nombreIngles, String descripcion, BigDecimal pesoNetoEmbalaje, BigDecimal pesoBrutoEmbalaje, BigInteger controlStock){
+   this.id=id;
+   this.nombre=nombre;
+   this.sku=sku;
+   this.cantidad = cantidad;
+   this.precio=precio;
+   this.valorTotal =valorTotal;
+   this.totalPesoNeto=totalPesoNeto;
+   this.totalPesoBruto=totalPesoBruto;
+   this.idCliente=idCliente;
+   this.pesoBruto=pesoBruto;
+   this.pesoNeto=pesoNeto;
+   this.cantidadCajas = cantidadCajas;
+   this.cajasPorPallets=cajasPorPallets;
+   this.cantidadPorEmbalaje=cantidadPorEmbalaje;
+   this.idUnidad=idUnidad;
+   this.totalCajas=totalCajas;
+   this.totalCajasTendido=totalCajasTendido;
+   this.totalCajasPallet=totalCajasPallet;
+   this.posicionArancelaria = posicionArancelaria;
+   this.unidad=unidad;
+   this.nombreIngles=nombreIngles;
+   this.descripcion=descripcion;
+   this.pesoNetoEmbalaje=pesoNetoEmbalaje;
+   this.pesoBrutoEmbalaje=pesoBrutoEmbalaje;
+   this.controlStock=controlStock;
+   }*/
+  public BigInteger getId() {
+    return id;
+  }
 
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
+  public void setId(BigInteger id) {
+    this.id = id;
+  }
 
-	public String getNombre() {
-		return nombre;
-	}
+  public String getSku() {
+    return sku;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public void setSku(String sku) {
+    this.sku = sku;
+  }
 
-	public BigDecimal getCantidad() {
-		return cantidad;
-	}
+  public String getNombre() {
+    return nombre;
+  }
 
-	public void setCantidad(BigDecimal cantidad) {
-		this.cantidad = cantidad;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public BigDecimal getPesoNeto() {
-		return pesoNeto;
-	}
+  public BigDecimal getCantidad() {
+    return cantidad;
+  }
 
-	public void setPesoNeto(BigDecimal pesoNeto) {
-		this.pesoNeto = pesoNeto;
-	}
+  public void setCantidad(BigDecimal cantidad) {
+    this.cantidad = cantidad;
+  }
 
-	public BigDecimal getPesoBruto() {
-		return pesoBruto;
-	}
+  public BigDecimal getPesoNeto() {
+    return pesoNeto;
+  }
 
-	public void setPesoBruto(BigDecimal pesoBruto) {
-		this.pesoBruto = pesoBruto;
-	}
+  public void setPesoNeto(BigDecimal pesoNeto) {
+    this.pesoNeto = pesoNeto;
+  }
 
-	public BigDecimal getCantidadCajas() {
-		return cantidadCajas;
-	}
+  public BigDecimal getPesoBruto() {
+    return pesoBruto;
+  }
 
-	public void setCantidadCajas(BigDecimal cantidadCajas) {
-		this.cantidadCajas = cantidadCajas;
-	}
+  public void setPesoBruto(BigDecimal pesoBruto) {
+    this.pesoBruto = pesoBruto;
+  }
 
-	public BigDecimal getCantidadPorEmbalaje() {
-		return cantidadPorEmbalaje;
-	}
+  public BigDecimal getCantidadCajas() {
+    return cantidadCajas;
+  }
 
-	public void setCantidadPorEmbalaje(BigDecimal cantidadPorEmbalaje) {
-		this.cantidadPorEmbalaje = cantidadPorEmbalaje;
-	}
+  public void setCantidadCajas(BigDecimal cantidadCajas) {
+    this.cantidadCajas = cantidadCajas;
+  }
 
-	public BigDecimal getPrecio() {
-		return precio;
-	}
+  public BigDecimal getCantidadPorEmbalaje() {
+    return cantidadPorEmbalaje;
+  }
 
-	public void setPrecio(BigDecimal precio) {
-		this.precio = precio;
-	}
+  public void setCantidadPorEmbalaje(BigDecimal cantidadPorEmbalaje) {
+    this.cantidadPorEmbalaje = cantidadPorEmbalaje;
+  }
 
-	public BigDecimal getValorTotal() {
-		return valorTotal;
-	}
+  public BigDecimal getPrecio() {
+    return precio;
+  }
 
-	public void setValorTotal(BigDecimal valorTotal) {
-		this.valorTotal = valorTotal;
-	}
+  public void setPrecio(BigDecimal precio) {
+    this.precio = precio;
+  }
 
-	public BigDecimal getTotalPesoNeto() {
-		return totalPesoNeto;
-	}
+  public BigDecimal getValorTotal() {
+    return valorTotal;
+  }
 
-	public void setTotalPesoNeto(BigDecimal totalPesoNeto) {
-		this.totalPesoNeto = totalPesoNeto;
-	}
+  public void setValorTotal(BigDecimal valorTotal) {
+    this.valorTotal = valorTotal;
+  }
 
-	public BigDecimal getTotalPesoBruto() {
-		return totalPesoBruto;
-	}
+  public BigDecimal getTotalPesoNeto() {
+    return totalPesoNeto;
+  }
 
-	public void setTotalPesoBruto(BigDecimal totalPesoBruto) {
-		this.totalPesoBruto = totalPesoBruto;
-	}
+  public void setTotalPesoNeto(BigDecimal totalPesoNeto) {
+    this.totalPesoNeto = totalPesoNeto;
+  }
 
-	public BigInteger getIdCliente() {
-		return idCliente;
-	}
+  public BigDecimal getTotalPesoBruto() {
+    return totalPesoBruto;
+  }
 
-	public void setIdCliente(BigInteger idCliente) {
-		this.idCliente = idCliente;
-	}
+  public void setTotalPesoBruto(BigDecimal totalPesoBruto) {
+    this.totalPesoBruto = totalPesoBruto;
+  }
 
-	public BigDecimal getCajasPorPallets() {
-		return cajasPorPallets;
-	}
+  public BigInteger getIdCliente() {
+    return idCliente;
+  }
 
-	public void setCajasPorPallets(BigDecimal cajasPorPallets) {
-		this.cajasPorPallets = cajasPorPallets;
-	}
+  public void setIdCliente(BigInteger idCliente) {
+    this.idCliente = idCliente;
+  }
 
-	public BigInteger getIdUnidad() {
-		return idUnidad;
-	}
+  public BigDecimal getCajasPorPallets() {
+    return cajasPorPallets;
+  }
 
-	public void setIdUnidad(BigInteger idUnidad) {
-		this.idUnidad = idUnidad;
-	}
+  public void setCajasPorPallets(BigDecimal cajasPorPallets) {
+    this.cajasPorPallets = cajasPorPallets;
+  }
 
-	public BigDecimal getTotalCajas() {
-		return totalCajas;
-	}
+  public BigInteger getIdUnidad() {
+    return idUnidad;
+  }
 
-	public void setTotalCajas(BigDecimal totalCajas) {
-		this.totalCajas = totalCajas;
-	}
+  public void setIdUnidad(BigInteger idUnidad) {
+    this.idUnidad = idUnidad;
+  }
 
-	public BigDecimal getTotalCajasTendido() {
-		return totalCajasTendido;
-	}
+  public BigDecimal getTotalCajas() {
+    return totalCajas;
+  }
 
-	public void setTotalCajasTendido(BigDecimal totalCajasTendido) {
-		this.totalCajasTendido = totalCajasTendido;
-	}
+  public void setTotalCajas(BigDecimal totalCajas) {
+    this.totalCajas = totalCajas;
+  }
 
-	public BigDecimal getTotalCajasPallet() {
-		return totalCajasPallet;
-	}
+  public BigDecimal getTotalCajasTendido() {
+    return totalCajasTendido;
+  }
 
-	public void setTotalCajasPallet(BigDecimal totalCajasPallet) {
-		this.totalCajasPallet = totalCajasPallet;
-	}
+  public void setTotalCajasTendido(BigDecimal totalCajasTendido) {
+    this.totalCajasTendido = totalCajasTendido;
+  }
 
-	public String getPosicionArancelaria() {
-		return posicionArancelaria;
-	}
+  public BigDecimal getTotalCajasPallet() {
+    return totalCajasPallet;
+  }
 
-	public void setPosicionArancelaria(String posicionArancelaria) {
-		this.posicionArancelaria = posicionArancelaria;
-	}
+  public void setTotalCajasPallet(BigDecimal totalCajasPallet) {
+    this.totalCajasPallet = totalCajasPallet;
+  }
 
-	public String getUnidad() {
-		return unidad;
-	}
+  public String getPosicionArancelaria() {
+    return posicionArancelaria;
+  }
 
-	public void setUnidad(String unidad) {
-		this.unidad = unidad;
-	}
+  public void setPosicionArancelaria(String posicionArancelaria) {
+    this.posicionArancelaria = posicionArancelaria;
+  }
 
-	public String getNombreIngles() {
-		return nombreIngles;
-	}
+  public String getUnidad() {
+    return unidad;
+  }
 
-	public void setNombreIngles(String nombreIngles) {
-		this.nombreIngles = nombreIngles;
-	}
+  public void setUnidad(String unidad) {
+    this.unidad = unidad;
+  }
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+  public String getNombreIngles() {
+    return nombreIngles;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public void setNombreIngles(String nombreIngles) {
+    this.nombreIngles = nombreIngles;
+  }
 
-	public BigDecimal getPesoNetoEmbalaje() {
-		return pesoNetoEmbalaje;
-	}
+  public String getDescripcion() {
+    return descripcion;
+  }
 
-	public void setPesoNetoEmbalaje(BigDecimal pesoNetoEmbalaje) {
-		this.pesoNetoEmbalaje = pesoNetoEmbalaje;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public BigDecimal getPesoBrutoEmbalaje() {
-		return pesoBrutoEmbalaje;
-	}
+  public BigDecimal getPesoNetoEmbalaje() {
+    return pesoNetoEmbalaje;
+  }
 
-	public void setPesoBrutoEmbalaje(BigDecimal pesoBrutoEmbalaje) {
-		this.pesoBrutoEmbalaje = pesoBrutoEmbalaje;
-	}
+  public void setPesoNetoEmbalaje(BigDecimal pesoNetoEmbalaje) {
+    this.pesoNetoEmbalaje = pesoNetoEmbalaje;
+  }
 
-	public BigInteger getControlStock() {
-		return controlStock;
-	}
+  public BigDecimal getPesoBrutoEmbalaje() {
+    return pesoBrutoEmbalaje;
+  }
 
-	public void setControlStock(BigInteger controlStock) {
-		this.controlStock = controlStock;
-	}
+  public void setPesoBrutoEmbalaje(BigDecimal pesoBrutoEmbalaje) {
+    this.pesoBrutoEmbalaje = pesoBrutoEmbalaje;
+  }
+
+  public Boolean getControlStock() {
+    return controlStock;
+  }
+
+  public void setControlStock(Boolean controlStock) {
+    this.controlStock = controlStock;
+  }
 
 }
