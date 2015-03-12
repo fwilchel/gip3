@@ -1,41 +1,47 @@
 package com.ssl.jv.gip.web.mb.ventas;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.apache.log4j.Logger;
-
-import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
-import com.ssl.jv.gip.web.mb.AplicacionMB;
-import com.ssl.jv.gip.web.mb.UtilMB;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import javax.faces.context.FacesContext;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
+import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
+import com.ssl.jv.gip.web.mb.AplicacionMB;
+import com.ssl.jv.gip.web.mb.UtilMB;
+
 /**
  * <p>
- * Title: GIP</p>
+ * Title: GIP
+ * </p>
  * <p>
- * Description: GIP</p>
+ * Description: GIP
+ * </p>
  * <p>
- * Copyright: Copyright (c) 2014</p>
+ * Copyright: Copyright (c) 2014
+ * </p>
  * <p>
- * Company: Soft Studio Ltda.</p>
+ * Company: Soft Studio Ltda.
+ * </p>
  *
  * @author Diego Poveda
  * @email dpoveda@gmail.com
@@ -55,6 +61,9 @@ public class GenerarOrdenDespachoMB extends UtilMB {
 
   @EJB
   private VentasFacturacionEJBLocal ventasFacturacionEJB;
+
+  @EJB
+  private ComunEJBLocal comunEJB;
 
   @ManagedProperty(value = "#{aplicacionMB}")
   private AplicacionMB appMB;
@@ -85,6 +94,7 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   public void consultarListaVentasDirectas() {
     LOGGER.debug("Metodo: <<consultarListaVentasDirectas>>");
     setListaVentasDirectas(ventasFacturacionEJB.consultarDocumentosOrdenDespacho());
+    LOGGER.debug("listaVentasDirectas.size(): " + listaVentasDirectas.size());
   }
 
   /**
@@ -94,7 +104,8 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   public void seleccionarVentaDirecta(Documento documento) {
     LOGGER.debug("Metodo: <<seleccionarVentaDirecta>>");
     ventaDirectaSeleccionada = documento;
-    // TODO: concatenar valores del punto de venta para sobreescribir sitio de entrega.
+    // TODO: concatenar valores del punto de venta para sobreescribir sitio de
+    // entrega.
     if (ventaDirectaSeleccionada.getPuntoVenta() != null) {
       StringBuilder sb = new StringBuilder();
       sb.append(ventaDirectaSeleccionada.getPuntoVenta().getDireccion());

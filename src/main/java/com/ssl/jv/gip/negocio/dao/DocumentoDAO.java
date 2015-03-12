@@ -38,6 +38,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import org.primefaces.model.SortOrder;
 
 @Stateless
 @LocalBean
@@ -2735,5 +2736,183 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
       return null;
     }
     return listado;
+  }
+
+  @Override
+  public List<Documento> consultarDocumentos(FiltroDocumentoDTO filtro) {
+    LOGGER.trace("Metodo: <<consultarDocumentos (filtro)>>");
+    StringBuilder select = new StringBuilder();
+    select.append("SELECT d ");
+    StringBuilder from = new StringBuilder();
+    from.append("FROM Documento d ");
+    from.append("JOIN d.ubicacionOrigen origen ");
+    from.append("JOIN d.cliente cliente ");
+    StringBuilder where = buildWhereStatement(filtro);
+    StringBuilder orderBy = new StringBuilder();
+    if (filtro != null && filtro.getOrdenCampo() != null && !filtro.getOrdenCampo().isEmpty()) {
+      orderBy.append("ORDER BY d.");
+      orderBy.append(filtro.getOrdenCampo());
+    } else {
+      orderBy.append("ORDER BY d.id");
+    }
+    StringBuilder jpql = new StringBuilder();
+    jpql.append(select);
+    jpql.append(from);
+    jpql.append(where);
+    jpql.append(orderBy);
+    Query query = em.createQuery(jpql.toString());
+    if (filtro != null) {
+      setParameters(filtro, query);
+    }
+    return query.getResultList();
+  }
+
+  @Override
+  public Object[] consultarDocumentos(FiltroDocumentoDTO filtro, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count) {
+    LOGGER.trace("Metodo: <<consultarDocumentos (filtro, first, pageSize, sortField, sortOrder, count)>>");
+    StringBuilder select = new StringBuilder();
+    select.append("SELECT ");
+    if (count) {
+      select.append("COUNT(d) ");
+    } else {
+      select.append("d ");
+    }
+    StringBuilder from = new StringBuilder();
+    from.append("Documento d ");
+    if (count) {
+      from.append("");
+    } else {
+      from.append("JOIN d.ubicacionOrigen origen ");
+      from.append("JOIN d.cliente cliente ");
+    }
+    StringBuilder where = buildWhereStatement(filtro);
+    StringBuilder orderBy = new StringBuilder();
+    if (!count && sortField != null && !sortField.equals("")) {
+      orderBy.append("ORDER BY d.");
+      orderBy.append(sortField);
+      if (!sortOrder.equals(SortOrder.UNSORTED)) {
+        if (sortOrder.equals(SortOrder.ASCENDING)) {
+          orderBy.append(" ASC");
+        } else {
+          orderBy.append(" DESC");
+        }
+      }
+    } else {
+      if (filtro != null && filtro.getOrdenCampo() != null && !filtro.getOrdenCampo().isEmpty()) {
+        orderBy.append("ORDER BY d.");
+        orderBy.append(filtro.getOrdenCampo());
+      } else {
+        orderBy.append("ORDER BY d.id");
+      }
+    }
+    StringBuilder jpql = new StringBuilder();
+    jpql.append(select);
+    jpql.append(from);
+    jpql.append(where);
+    jpql.append(orderBy);
+    Query query = em.createQuery(jpql.toString());
+    if (filtro != null) {
+      setParameters(filtro, query);
+    }
+    LOGGER.debug(first + " " + pageSize + " " + jpql.toString());
+    Object rta[] = new Object[2];
+    if (count) {
+      rta[0] = query.getSingleResult();
+    } else {
+      if (sortField != null && !sortField.equals("")) {
+        query.setFirstResult(first);
+      }
+      query.setMaxResults(pageSize);
+      rta[1] = (List<Documento>) query.getResultList();
+    }
+    return rta;
+  }
+
+  /**
+   * @param filtro
+   * @return
+   */
+  public StringBuilder buildWhereStatement(FiltroDocumentoDTO filtro) {
+    LOGGER.trace("Metodo: <<buildWhereStatement (filtro)>>");
+    StringBuilder where = new StringBuilder();
+    if (filtro != null) {
+      where.append("WHERE 1=1 ");
+      if (filtro.getConsecutivoDocumento() != null && !filtro.getConsecutivoDocumento().isEmpty()) {
+        where.append("AND UPPER(d.consecutivoDocumento) = UPPER(:consecutivoDocumento) ");
+      }
+      if (filtro.getTipoDocumento() != null && !filtro.getTipoDocumento().isEmpty()) {
+        where.append("AND d.estadosxdocumento.id.idTipoDocumento IN (:tipoDocumento) ");
+      }
+      if (filtro.getEstado() != null && !filtro.getEstado().isEmpty()) {
+        where.append("AND d.estadosxdocumento.id.idEstado IN (:estado) ");
+      }
+      if (filtro.getFechaGeneracionInicio() != null && filtro.getFechaGeneracionFin() != null) {
+        where.append("AND d.fechaGeneracion BETWEEN :fechaGeneracionInicio AND :fechaGeneracionFin ");
+      }
+      if (filtro.getCliente() != null) {
+        where.append("AND d.cliente.id IN (:cliente) ");
+      }
+      if (filtro.getPuntoVenta() != null) {
+        where.append("AND d.puntoVenta.id IN (:puntoVenta) ");
+      }
+      if (filtro.getNumeroFactura() != null) {
+        where.append("d.numeroFactura LIKE (:numeroFactura) ");
+      }
+      if (filtro.getObservacionDocumento() != null) {
+        where.append("AND d.observacionDocumento LIKE (:observacionDocumento) ");
+      }
+      if (filtro.getProveedor() != null) {
+        where.append("AND d.proveedore IN (:proveedor) ");
+      }
+      if (filtro.getUbicacionOrigen() != null) {
+        where.append("AND d.ubicacionOrigen.id IN (:ubicacionOrigen) ");
+      }
+      if (filtro.getUbicacionDestino() != null) {
+        where.append("AND d.ubicacionDestino.id IN (:ubicacionDestino) ");
+      }
+    }
+    return where;
+  }
+
+  /**
+   * @param filtro
+   * @param query
+   */
+  public void setParameters(FiltroDocumentoDTO filtro, Query query) {
+    LOGGER.trace("Metodo: <<setParameters (filtro, query)>>");
+    if (filtro.getConsecutivoDocumento() != null && !filtro.getConsecutivoDocumento().isEmpty()) {
+      query.setParameter("consecutivoDocumento", "%" + filtro.getConsecutivoDocumento() + "%");
+    }
+    if (filtro.getTipoDocumento() != null && !filtro.getTipoDocumento().isEmpty()) {
+      query.setParameter("tipoDocumento", filtro.getTipoDocumento());
+    }
+    if (filtro.getEstado() != null && !filtro.getEstado().isEmpty()) {
+      query.setParameter("estado", filtro.getEstado());
+    }
+    if (filtro.getFechaGeneracionInicio() != null && filtro.getFechaGeneracionFin() != null) {
+      query.setParameter("fechaGeneracionInicio", filtro.getFechaGeneracionInicio());
+      query.setParameter("fechaGeneracionFin", filtro.getFechaGeneracionFin());
+    }
+    if (filtro.getCliente() != null) {
+      query.setParameter("cliente", filtro.getCliente());
+    }
+    if (filtro.getPuntoVenta() != null) {
+      query.setParameter("puntoVenta", filtro.getPuntoVenta());
+    }
+    if (filtro.getNumeroFactura() != null) {
+      query.setParameter("numeroFactura", "%" + filtro.getNumeroFactura() + "%");
+    }
+    if (filtro.getObservacionDocumento() != null && !filtro.getObservacionDocumento().isEmpty()) {
+      query.setParameter("observacionDocumento", "%" + filtro.getObservacionDocumento() + "%");
+    }
+    if (filtro.getProveedor() != null) {
+      query.setParameter("proveedor", filtro.getProveedor());
+    }
+    if (filtro.getUbicacionOrigen() != null) {
+      query.setParameter("ubicacionOrigen", filtro.getUbicacionOrigen());
+    }
+    if (filtro.getUbicacionDestino() != null) {
+      query.setParameter("ubicacionDestino", filtro.getUbicacionDestino());
+    }
   }
 }
