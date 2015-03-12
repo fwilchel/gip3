@@ -65,6 +65,22 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
   public List<DocumentoIncontermDTO> consultarDocumentosGeneral(
           FiltroConsultaSolicitudDTO filtro);
+  
+  /**
+   * Metodo que consulta los documentos por uno o varios de los campos del filtro y adicionalmente paginados
+   * 
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param filtro
+   * @param first
+   * @param pageSize
+   * @param sortField
+   * @param sortOrder
+   * @param count
+   * @return 
+   */
+  Object[] consultarDocumentosGeneral(FiltroConsultaSolicitudDTO filtro, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count);
 
   public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
 
