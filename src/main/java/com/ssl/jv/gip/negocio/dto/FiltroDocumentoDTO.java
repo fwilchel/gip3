@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -188,6 +189,13 @@ public class FiltroDocumentoDTO implements Serializable {
   }
 
   /**
+   * @param tipoDocumento the tipoDocumento to set
+   */
+  public void setTipoDocumento(Long... tipoDocumento) {
+    this.tipoDocumento = Arrays.asList(tipoDocumento);
+  }
+
+  /**
    * @return the estado
    */
   public List<Long> getEstado() {
@@ -199,6 +207,13 @@ public class FiltroDocumentoDTO implements Serializable {
    */
   public void setEstado(List<Long> estado) {
     this.estado = estado;
+  }
+
+  /**
+   * @param estado the estado to set
+   */
+  public void setEstado(Long... estado) {
+    this.estado = Arrays.asList(estado);
   }
 
   /**
@@ -244,6 +259,13 @@ public class FiltroDocumentoDTO implements Serializable {
   }
 
   /**
+   * @param cliente the cliente to set
+   */
+  public void setCliente(Long... cliente) {
+    this.cliente = Arrays.asList(cliente);
+  }
+
+  /**
    * @return the puntoVenta
    */
   public List<Long> getPuntoVenta() {
@@ -255,6 +277,13 @@ public class FiltroDocumentoDTO implements Serializable {
    */
   public void setPuntoVenta(List<Long> puntoVenta) {
     this.puntoVenta = puntoVenta;
+  }
+
+  /**
+   * @param puntoVenta the puntoVenta to set
+   */
+  public void setPuntoVenta(Long... puntoVenta) {
+    this.puntoVenta = Arrays.asList(puntoVenta);
   }
 
   /**
@@ -314,6 +343,13 @@ public class FiltroDocumentoDTO implements Serializable {
   }
 
   /**
+   * @param ubicacionOrigen the ubicacionOrigen to set
+   */
+  public void setUbicacionOrigen(Long... ubicacionOrigen) {
+    this.ubicacionOrigen = Arrays.asList(ubicacionOrigen);
+  }
+
+  /**
    * @return the ubicacionDestino
    */
   public List<Long> getUbicacionDestino() {
@@ -325,6 +361,13 @@ public class FiltroDocumentoDTO implements Serializable {
    */
   public void setUbicacionDestino(List<Long> ubicacionDestino) {
     this.ubicacionDestino = ubicacionDestino;
+  }
+
+  /**
+   * @param ubicacionDestino the ubicacionDestino to set
+   */
+  public void setUbicacionDestino(Long... ubicacionDestino) {
+    this.ubicacionDestino = Arrays.asList(ubicacionDestino);
   }
 
   /**

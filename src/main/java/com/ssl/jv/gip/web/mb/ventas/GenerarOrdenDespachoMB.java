@@ -3,6 +3,7 @@ package com.ssl.jv.gip.web.mb.ventas;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -24,10 +25,13 @@ import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
+import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 /**
  * <p>
@@ -84,17 +88,32 @@ public class GenerarOrdenDespachoMB extends UtilMB {
 
   @PostConstruct
   public void init() {
-    LOGGER.debug("Metodo: <<init>>");
-    consultarListaVentasDirectas();
+	LOGGER.debug("Metodo: <<init>>");
+	consultarListaVentasDirectas();
   }
 
   /**
    *
    */
   public void consultarListaVentasDirectas() {
-    LOGGER.debug("Metodo: <<consultarListaVentasDirectas>>");
-    setListaVentasDirectas(ventasFacturacionEJB.consultarDocumentosOrdenDespacho());
-    LOGGER.debug("listaVentasDirectas.size(): " + listaVentasDirectas.size());
+	LOGGER.debug("Metodo: <<consultarListaVentasDirectas>>");
+//	setListaVentasDirectas(ventasFacturacionEJB.consultarDocumentosOrdenDespacho());
+	FiltroDocumentoDTO filtroDocumento = new FiltroDocumentoDTO();
+	filtroDocumento.setConsecutivoDocumento(null);
+	filtroDocumento.setTipoDocumento(Arrays.asList((long) ConstantesTipoDocumento.VENTA_DIRECTA));
+	filtroDocumento.setEstado((long) ConstantesDocumento.ACTIVO, 6L);
+//	filtroDocumento.setFechaGeneracionInicio(null);
+//	filtroDocumento.setFechaGeneracionFin(null);
+//	filtroDocumento.setCliente(null);
+//	filtroDocumento.setPuntoVenta(null);
+//	filtroDocumento.setNumeroFactura(null);
+//	filtroDocumento.setObservacionDocumento(null);
+//	filtroDocumento.setProveedor(null);
+//	filtroDocumento.setUbicacionOrigen(null);
+//	filtroDocumento.setUbicacionDestino(null);
+//	filtroDocumento.setOrdenCampo("consecutivoDocumento");
+	listaVentasDirectas = comunEJB.consultarDocumentos(filtroDocumento);
+	LOGGER.debug("listaVentasDirectas.size(): " + listaVentasDirectas.size());
   }
 
   /**
@@ -102,27 +121,27 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    * @param documento
    */
   public void seleccionarVentaDirecta(Documento documento) {
-    LOGGER.debug("Metodo: <<seleccionarVentaDirecta>>");
-    ventaDirectaSeleccionada = documento;
-    // TODO: concatenar valores del punto de venta para sobreescribir sitio de
-    // entrega.
-    if (ventaDirectaSeleccionada.getPuntoVenta() != null) {
-      StringBuilder sb = new StringBuilder();
-      sb.append(ventaDirectaSeleccionada.getPuntoVenta().getDireccion());
-      sb.append("---");
-      sb.append(ventaDirectaSeleccionada.getPuntoVenta().getNombre());
-      sb.append("---");
-      sb.append(ventaDirectaSeleccionada.getPuntoVenta().getCiudade().getNombre());
-      sb.append("---Tel: ");
-      sb.append(ventaDirectaSeleccionada.getPuntoVenta().getTelefono());
-      ventaDirectaSeleccionada.setSitioEntrega(sb.toString());
-    }
-    consultarListaProductosXVentaDirecta();
+	LOGGER.debug("Metodo: <<seleccionarVentaDirecta>>");
+	ventaDirectaSeleccionada = documento;
+	// TODO: concatenar valores del punto de venta para sobreescribir sitio de
+	// entrega.
+	if (ventaDirectaSeleccionada.getPuntoVenta() != null) {
+	  StringBuilder sb = new StringBuilder();
+	  sb.append(ventaDirectaSeleccionada.getPuntoVenta().getDireccion());
+	  sb.append("---");
+	  sb.append(ventaDirectaSeleccionada.getPuntoVenta().getNombre());
+	  sb.append("---");
+	  sb.append(ventaDirectaSeleccionada.getPuntoVenta().getCiudade().getNombre());
+	  sb.append("---Tel: ");
+	  sb.append(ventaDirectaSeleccionada.getPuntoVenta().getTelefono());
+	  ventaDirectaSeleccionada.setSitioEntrega(sb.toString());
+	}
+	consultarListaProductosXVentaDirecta();
   }
 
   private void consultarListaProductosXVentaDirecta() {
-    LOGGER.debug("Metodo: <<consultarListaProductosXVentaDirecta>>");
-    setListaProductosXVentaDirecta(ventasFacturacionEJB.consultarProductosPorDocumento(ventaDirectaSeleccionada.getId()));
+	LOGGER.debug("Metodo: <<consultarListaProductosXVentaDirecta>>");
+	setListaProductosXVentaDirecta(ventasFacturacionEJB.consultarProductosPorDocumento(ventaDirectaSeleccionada.getId()));
   }
 
   /**
@@ -130,34 +149,34 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    * @return
    */
   public StreamedContent generarVistaPrevia() {
-    LOGGER.debug("Metodo: <<generarVistaPrevia>>");
-    StreamedContent reporte = null;
-    Map<String, Object> parametrosReporte = new HashMap<>();
-    SimpleDateFormat formatoFecha;
-    parametrosReporte.put("id", ventaDirectaSeleccionada.getId());
-    formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-    parametrosReporte.put("fechaGeneracion", formatoFecha.format(getFechaActual()));
-    parametrosReporte.put("ordenCompraCliente", ventaDirectaSeleccionada.getDocumentoCliente());
-    parametrosReporte.put("entidadFacturar", ventaDirectaSeleccionada.getCliente().getNombre());
-    parametrosReporte.put("nombre", ventaDirectaSeleccionada.getPuntoVenta().getNombre());
-    parametrosReporte.put("direccion", ventaDirectaSeleccionada.getPuntoVenta().getDireccion());
-    parametrosReporte.put("telefono", ventaDirectaSeleccionada.getPuntoVenta().getTelefono());
-    parametrosReporte.put("ciudad", ventaDirectaSeleccionada.getPuntoVenta().getCiudade().getNombre());
-    formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    parametrosReporte.put("fechaMinEntrega", formatoFecha.format(ventaDirectaSeleccionada.getFechaEsperadaEntrega()));
-    parametrosReporte.put("fechaMaxEntrega", formatoFecha.format(ventaDirectaSeleccionada.getFechaEntrega()));
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosXVentaDirecta, false);
-    try {
-      Hashtable<String, String> parametrosConfiguracionReporte;
-      parametrosConfiguracionReporte = new Hashtable<>();
-      parametrosConfiguracionReporte.put("tipo", "pdf");
-      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteOrdenDespachoVF.jasper");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, ds);
-      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "ReporteOrdenDespachoVF.pdf");
-    } catch (Exception e) {
-      this.addMensajeError("Problemas al generar el reporte");
-    }
-    return reporte;
+	LOGGER.debug("Metodo: <<generarVistaPrevia>>");
+	StreamedContent reporte = null;
+	Map<String, Object> parametrosReporte = new HashMap<>();
+	SimpleDateFormat formatoFecha;
+	parametrosReporte.put("id", ventaDirectaSeleccionada.getId());
+	formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+	parametrosReporte.put("fechaGeneracion", formatoFecha.format(getFechaActual()));
+	parametrosReporte.put("ordenCompraCliente", ventaDirectaSeleccionada.getDocumentoCliente());
+	parametrosReporte.put("entidadFacturar", ventaDirectaSeleccionada.getCliente().getNombre());
+	parametrosReporte.put("nombre", ventaDirectaSeleccionada.getPuntoVenta().getNombre());
+	parametrosReporte.put("direccion", ventaDirectaSeleccionada.getPuntoVenta().getDireccion());
+	parametrosReporte.put("telefono", ventaDirectaSeleccionada.getPuntoVenta().getTelefono());
+	parametrosReporte.put("ciudad", ventaDirectaSeleccionada.getPuntoVenta().getCiudade().getNombre());
+	formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	parametrosReporte.put("fechaMinEntrega", formatoFecha.format(ventaDirectaSeleccionada.getFechaEsperadaEntrega()));
+	parametrosReporte.put("fechaMaxEntrega", formatoFecha.format(ventaDirectaSeleccionada.getFechaEntrega()));
+	JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosXVentaDirecta, false);
+	try {
+	  Hashtable<String, String> parametrosConfiguracionReporte;
+	  parametrosConfiguracionReporte = new Hashtable<>();
+	  parametrosConfiguracionReporte.put("tipo", "pdf");
+	  String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteOrdenDespachoVF.jasper");
+	  ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, ds);
+	  reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "ReporteOrdenDespachoVF.pdf");
+	} catch (Exception e) {
+	  this.addMensajeError("Problemas al generar el reporte");
+	}
+	return reporte;
   }
 
   /**
@@ -165,58 +184,58 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    * @return
    */
   public StreamedContent generarExcel() {
-    LOGGER.debug("Metodo: <<generarExcel>>");
-    StreamedContent reporte = null;
-    Map<String, Object> parametrosReporte = new HashMap<>();
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-    parametrosReporte.put("ubicacionDestino", ventaDirectaSeleccionada.getUbicacionDestino().getNombre());
-    parametrosReporte.put("id", ventaDirectaSeleccionada.getId());
-    parametrosReporte.put("consecutivo", ventaDirectaSeleccionada.getConsecutivoDocumento());
-    parametrosReporte.put("entidadFacturar", ventaDirectaSeleccionada.getCliente().getNombre());
-    parametrosReporte.put("fechaMinEntrega", (ventaDirectaSeleccionada.getFechaEsperadaEntrega()));
-    parametrosReporte.put("fechaMaxEntrega", (ventaDirectaSeleccionada.getFechaEntrega()));
-    parametrosReporte.put("sitioEntrega", ventaDirectaSeleccionada.getSitioEntrega());
-    parametrosReporte.put("ordenCompraCliente", ventaDirectaSeleccionada.getDocumentoCliente());
-    parametrosReporte.put("datos", listaProductosXVentaDirecta);
-    try {
-      StringBuilder nombreArchivo = new StringBuilder();
-      nombreArchivo.append(ventaDirectaSeleccionada.getConsecutivoDocumento());
-      nombreArchivo.append("-");
-      nombreArchivo.append(formatoFecha.format(getFechaActual()));
-      nombreArchivo.append(".");
-      nombreArchivo.append("xls");
-      Hashtable<String, String> parametrosConfiguracionReporte;
-      parametrosConfiguracionReporte = new Hashtable<>();
-      parametrosConfiguracionReporte.put("tipo", "jxls");
-      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteOrdenDespachoVF.xls");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, null);
-      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", nombreArchivo.toString());
-    } catch (Exception e) {
-      this.addMensajeError("Problemas al generar el reporte");
-    }
-    return reporte;
+	LOGGER.debug("Metodo: <<generarExcel>>");
+	StreamedContent reporte = null;
+	Map<String, Object> parametrosReporte = new HashMap<>();
+	SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+	parametrosReporte.put("ubicacionDestino", ventaDirectaSeleccionada.getUbicacionDestino().getNombre());
+	parametrosReporte.put("id", ventaDirectaSeleccionada.getId());
+	parametrosReporte.put("consecutivo", ventaDirectaSeleccionada.getConsecutivoDocumento());
+	parametrosReporte.put("entidadFacturar", ventaDirectaSeleccionada.getCliente().getNombre());
+	parametrosReporte.put("fechaMinEntrega", (ventaDirectaSeleccionada.getFechaEsperadaEntrega()));
+	parametrosReporte.put("fechaMaxEntrega", (ventaDirectaSeleccionada.getFechaEntrega()));
+	parametrosReporte.put("sitioEntrega", ventaDirectaSeleccionada.getSitioEntrega());
+	parametrosReporte.put("ordenCompraCliente", ventaDirectaSeleccionada.getDocumentoCliente());
+	parametrosReporte.put("datos", listaProductosXVentaDirecta);
+	try {
+	  StringBuilder nombreArchivo = new StringBuilder();
+	  nombreArchivo.append(ventaDirectaSeleccionada.getConsecutivoDocumento());
+	  nombreArchivo.append("-");
+	  nombreArchivo.append(formatoFecha.format(getFechaActual()));
+	  nombreArchivo.append(".");
+	  nombreArchivo.append("xls");
+	  Hashtable<String, String> parametrosConfiguracionReporte;
+	  parametrosConfiguracionReporte = new Hashtable<>();
+	  parametrosConfiguracionReporte.put("tipo", "jxls");
+	  String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteOrdenDespachoVF.xls");
+	  ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, null);
+	  reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", nombreArchivo.toString());
+	} catch (Exception e) {
+	  this.addMensajeError("Problemas al generar el reporte");
+	}
+	return reporte;
   }
 
   /**
    *
    */
   public void generarOrdenDespacho() {
-    LOGGER.debug("Metodo: <<generarOrdenDespacho>>");
-    try {
-      ventasFacturacionEJB.generarOrdenDespacho(ventaDirectaSeleccionada, listaProductosXVentaDirecta);
-      this.addMensajeInfo(AplicacionMB.getMessage("godMsgExito", language));
-      consultarListaVentasDirectas();
-    } catch (Exception ex) {
-      this.addMensajeError(AplicacionMB.getMessage("godMsgError", language));
-    }
+	LOGGER.debug("Metodo: <<generarOrdenDespacho>>");
+	try {
+	  ventasFacturacionEJB.generarOrdenDespacho(ventaDirectaSeleccionada, listaProductosXVentaDirecta);
+	  this.addMensajeInfo(AplicacionMB.getMessage("godMsgExito", language));
+	  consultarListaVentasDirectas();
+	} catch (Exception ex) {
+	  this.addMensajeError(AplicacionMB.getMessage("godMsgError", language));
+	}
   }
 
   /**
    *
    */
   public void cancelar() {
-    LOGGER.debug("Metodo: <<cancelar>>");
-    this.ventaDirectaSeleccionada = null;
+	LOGGER.debug("Metodo: <<cancelar>>");
+	this.ventaDirectaSeleccionada = null;
   }
 
   /**
@@ -224,56 +243,60 @@ public class GenerarOrdenDespachoMB extends UtilMB {
    * @return
    */
   public Date getFechaActual() {
-    return new Date();
+	return new Date();
   }
 
   /**
-   * @param appMB the appMB to set
+   * @param appMB
+   *          the appMB to set
    */
   public void setAppMB(AplicacionMB appMB) {
-    this.appMB = appMB;
+	this.appMB = appMB;
   }
 
   /**
    * @return the listaVentasDirectas
    */
   public List<Documento> getListaVentasDirectas() {
-    return listaVentasDirectas;
+	return listaVentasDirectas;
   }
 
   /**
-   * @param listaVentasDirectas the listaVentasDirectas to set
+   * @param listaVentasDirectas
+   *          the listaVentasDirectas to set
    */
   public void setListaVentasDirectas(List<Documento> listaVentasDirectas) {
-    this.listaVentasDirectas = listaVentasDirectas;
+	this.listaVentasDirectas = listaVentasDirectas;
   }
 
   /**
    * @return the ventaDirectaSeleccionada
    */
   public Documento getVentaDirectaSeleccionada() {
-    return ventaDirectaSeleccionada;
+	return ventaDirectaSeleccionada;
   }
 
   /**
-   * @param ventaDirectaSeleccionada the ventaDirectaSeleccionada to set
+   * @param ventaDirectaSeleccionada
+   *          the ventaDirectaSeleccionada to set
    */
   public void setVentaDirectaSeleccionada(Documento ventaDirectaSeleccionada) {
-    this.ventaDirectaSeleccionada = ventaDirectaSeleccionada;
+	this.ventaDirectaSeleccionada = ventaDirectaSeleccionada;
   }
 
   /**
    * @return the listaProductosXVentaDirecta
    */
   public List<ProductosXDocumento> getListaProductosXVentaDirecta() {
-    return listaProductosXVentaDirecta;
+	return listaProductosXVentaDirecta;
   }
 
   /**
-   * @param listaProductosXVentaDirecta the listaProductosXVentaDirecta to set
+   * @param listaProductosXVentaDirecta
+   *          the listaProductosXVentaDirecta to set
    */
   public void setListaProductosXVentaDirecta(List<ProductosXDocumento> listaProductosXVentaDirecta) {
-    this.listaProductosXVentaDirecta = listaProductosXVentaDirecta;
+	this.listaProductosXVentaDirecta = listaProductosXVentaDirecta;
   }
 
 }
