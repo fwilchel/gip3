@@ -360,8 +360,8 @@
 
 					<br />
 
-					<h:panelGrid columns="2" columnClasses="label,value">
-						<h:outputText 
+					<h:panelGrid columns="2">
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.SP_CostoEntrega}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo1"
 							value="#{generarFacturaExportacionMB.totalCostoEntrega}"
@@ -369,7 +369,7 @@
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:outputLabel>
 
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.SP_CostoSeguro}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo2"
 							value="#{generarFacturaExportacionMB.totalCostoSeguro}"
@@ -377,7 +377,7 @@
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:outputLabel>
 
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.SP_CostoFlete}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo3"
 							value="#{generarFacturaExportacionMB.totalCostoFlete}"
@@ -385,7 +385,7 @@
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:outputLabel>
 
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.SP_OtrosGastos}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo4"
 							value="#{generarFacturaExportacionMB.totalOtrosGastos}"
@@ -393,7 +393,7 @@
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:outputLabel>
 
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.SP_TotalCostos}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo5"
 							value="#{generarFacturaExportacionMB.totalCostos}"
@@ -401,7 +401,7 @@
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 						</h:outputLabel>
 
-						<h:outputText 
+						<h:outputText styleClass="filas_contenido"
 							value="#{msg.TotalNegociacion}" />
 						<h:outputLabel styleClass="filas_contenido" for="Costo6"
 							value="#{generarFacturaExportacionMB.totalValorNeg}"
