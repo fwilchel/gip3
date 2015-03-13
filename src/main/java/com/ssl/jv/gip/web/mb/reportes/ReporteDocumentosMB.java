@@ -30,7 +30,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.ssl.jv.gip.jpa.pojo.Estado;
-import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
@@ -135,8 +134,6 @@ public class ReporteDocumentosMB extends UtilMB {
   private MenuMB menu;
 
   private LazyDataModel<DocumentoIncontermDTO> listaDocumentosLazyModel;
-  private String campoOrden;
-  private SortOrder orden;
 
   /**
    * Instantiates a new ingresar costos inconterm mb.
@@ -160,7 +157,6 @@ public class ReporteDocumentosMB extends UtilMB {
     LOGGER.trace("Metodo: consultarDocumentos()");
     setListaDocumentosLazyModel(new LazyDocumentoDataModel());
     filtro.setUbicaciones(getStrUbicaciones());
-//    listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosGeneral(filtro);
   }
 
   /**
@@ -805,8 +801,6 @@ public class ReporteDocumentosMB extends UtilMB {
     @Override
     public List<DocumentoIncontermDTO> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
       LOGGER.trace("Metodo: <<load>>");
-      campoOrden = sortField;
-      orden = sortOrder;
       Object rta[] = comercioEjb.consultarDocumentosGeneral(filtro, first, pageSize, sortField, sortOrder, true);
       this.setRowCount(((BigInteger) rta[0]).intValue());
       rta = comercioEjb.consultarDocumentosGeneral(filtro, first, pageSize, sortField, sortOrder, false);
