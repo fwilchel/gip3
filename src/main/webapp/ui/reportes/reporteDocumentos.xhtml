@@ -1,327 +1,334 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:misc="http://java.sun.com/jsf/composite/misc"
+  template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.documentoReporteGeneral}::.</ui:define>
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.documentoReporteGeneral}::.</ui:define>
 
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form prependId="false" id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
-
-
-
-			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.documentoReporteGeneral}">
-					
-					<p:panelGrid columns="3" id="panelFiltro"
-						columnClasses="label,value,">
-
-						<p:outputLabel value="#{msg.documentoConsecutivo}" for="filtroconsecutivo"
-							styleClass="negrita" />
-						<h:inputText
-							value="#{reporteDocumentosMB.filtro.consecutivoDocumento}"
-							id="filtroconsecutivo"
-							label="#{msg.ConsecutivoSP}" />
-						<p:message for="filtroconsecutivo"></p:message>
-						
-						<p:outputLabel value="#{msg.documentoFechaInicial}" for="filtrofechainicio"
-							styleClass="negrita" />
-						<p:calendar id="filtrofechainicio"
-							value="#{reporteDocumentosMB.filtro.fechaInicio}"
-							pattern="yyyy-MM-dd">
-						</p:calendar>
-						<p:message for="filtrofechainicio"></p:message>
-						
-						<p:outputLabel value="#{msg.documentoFechaFinal}" for="filtrofechafin"
-							styleClass="negrita" />
-						<p:calendar id="filtrofechafin"
-							value="#{reporteDocumentosMB.filtro.fechaFinal}"
-							pattern="yyyy-MM-dd">
-						</p:calendar>
-						<p:message for="filtrofechafin"></p:message>
-						
-						<p:outputLabel value="#{msg.documentoTipo}" for="intTipoDocumento"
-							styleClass="negrita" />
-						<p:selectOneMenu id="intTipoDocumento"
-							value="#{reporteDocumentosMB.filtro.tipoDocumento}"
-							label="#{msg.documentoTipo}">
-							<f:selectItem itemLabel="TODOS" />
-							<f:selectItems value="#{reporteDocumentosMB.listaTipoDocumento}"
-								var="tipodoc" itemValue="#{tipodoc.id}"
-								itemLabel="#{tipodoc.nombre}" />
-						</p:selectOneMenu>
-						<p:message for="intTipoDocumento"></p:message>
-						
-						<p:outputLabel value="#{msg.documentoUbicacion}" for="idUbicacion"
-							styleClass="negrita" />
-						<p:selectOneMenu id="idUbicacion"
-							value="#{reporteDocumentosMB.intUbicacion}"
-							label="#{msg.documentoUbicacion}">
-							<f:selectItem itemLabel="TODAS" />
-							<f:selectItems value="#{reporteDocumentosMB.listaUbicaciones}"
-								var="ubicacion" itemValue="#{ubicacion.id}"
-								itemLabel="#{ubicacion.nombre}" />
-						</p:selectOneMenu>
-						<p:message for="idUbicacion"></p:message>
-						
-						<p:outputLabel value="#{msg.documentoEstado}" for="selectEstado"
-							styleClass="negrita" />
-						<p:selectOneMenu id="selectEstado"
-							value="#{reporteDocumentosMB.filtro.idEstado}"
-							label="#{msg.documentoEstado}">
-							<f:selectItem itemLabel="TODOS" />
-							<f:selectItems value="#{reporteDocumentosMB.listaEstado}"
-								var="estado" itemValue="#{estado.id}"
-								itemLabel="#{estado.nombre}" />
-						</p:selectOneMenu>
-						<p:message for="selectEstado"></p:message>
-						
-						<p:outputLabel value="#{msg.documentoProveedor}" for="selectProveedor"
-							styleClass="negrita" />
-						<p:selectOneMenu id="selectProveedor"
-							value="#{reporteDocumentosMB.filtro.proveedor}"
-							label="#{msg.documentoProveedor}">
-							<f:selectItem itemLabel="TODOS" />
-							<f:selectItems value="#{reporteDocumentosMB.listaProveedor}"
-								var="proveedor" itemValue="#{proveedor.id}"
-								itemLabel="#{proveedor.nombre}" />
-						</p:selectOneMenu>
-						<p:message for="selectProveedor"></p:message>
-						
-						
-
-					</p:panelGrid>
-					
-					<p:panelGrid columns="1">
-						<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
-							update="tabPanel"
-							action="#{reporteDocumentosMB.consultarDocumentos}"></p:commandButton>
-					</p:panelGrid>
-					
-					
-					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-						value="#{reporteDocumentosMB.listaDocumentos}" rows="10"
-						emptyMessage="No se encontraron documentos"
-						paginator="true" paginatorPosition="bottom"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
-
-
-						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete="PF('datoDialog').show()"
-								icon="ui-icon-zoomin" title="Consultar Documento"
-								update=":datoDlg"
-								action="#{reporteDocumentosMB.consultarSolicitudPedido}">
-								<f:setPropertyActionListener value="#{dato}"
-									target="#{reporteDocumentosMB.seleccionado}" />
-							</p:commandButton>
-						</p:column>
-
-						<p:column headerText="#{msg.documentoId}">
-							<h:outputText value="#{dato.idDocumento}" />
-						</p:column>
-
-						<p:column headerText="#{msg.documentoConsecutivo}">
-							<h:outputText value="#{dato.consecutivoDocumento}" />
-						</p:column>
-						
-						<p:column headerText="#{msg.documentoTipo}">
-							<h:outputText value="#{dato.nombreTipoDocumento}" />
-						</p:column>
-						
-						<p:column headerText="#{msg.documentoOrigen}">
-							<h:outputText value="#{dato.nombreUbicacionOrigen}" />
-						</p:column>
-						
-						<p:column headerText="#{msg.documentoDestino}">
-							<h:outputText value="#{dato.nombreUbicacionDestino}" />
-						</p:column>
-						
-						<p:column headerText="#{msg.documentoProveedor}">
-							<h:outputText value="#{dato.nombreProveedor}" />
-						</p:column>
-						
-						<p:column headerText="#{msg.documentoFechaGeneracion}">
-							<h:outputText value="#{dato.fechaGeneracion}">
-								<f:convertDateTime pattern="dd-MMM-yyyy" />
-							</h:outputText>
-						</p:column>
-						
-						<p:column headerText="#{msg.documentoEstado}">
-							<h:outputText value="#{dato.estadoNombre}" />
-						</p:column>
-						
-						<p:column headerText="#{msg.maestroObservacion}">
-							<h:outputText value="#{dato.observacionDocumento}" />
-						</p:column>
-
-						<p:column headerText="#{msg.VDDocumentoCliente2}">
-							<h:outputText value="#{dato.documentoCliente}" />
-						</p:column>
-
-						<p:column headerText="#{msg.VDSitioEntrega}">
-							<h:outputText value="#{dato.sitioEntrega}" />
-						</p:column>
-
-
-					</p:dataTable>
-				</p:tab>
-			</p:tabView>
-		</h:form>
-
-		<p:dialog header="#{msg.documentoConsultaDocumento}" widgetVar="datoDialog"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
-			dynamic="true" id="datoDlg">
-			<h:form id="formaDlg">
-				<p:outputPanel id="datoDetalle" style="text-align:center;">
-					<p:messages id="msgs2" showDetail="false" showSummary="true"
-						globalOnly="true" showIcon="true"></p:messages>
-					<p:panelGrid columns="4"
-						rendered="#{not empty reporteDocumentosMB.seleccionado}"
-						columnClasses="label,value,label,value">
-
-						<p:outputLabel value="#{msg.documentoId}" for="strId"
-							styleClass="negrita" />
-						<h:inputText value="#{reporteDocumentosMB.seleccionado.idDocumento}"
-							id="strId" disabled="true" label="#{msg.documentoId}" />
-
-						<p:outputLabel value="#{msg.documentoConsecutivo}"
-							for="strConsecutivo" styleClass="negrita" />
-						<h:inputText
-							value="#{reporteDocumentosMB.seleccionado.consecutivoDocumento}"
-							id="strConsecutivo" disabled="true"
-							label="#{msg.documentoConsecutivo}" />
-							
-
-						<p:outputLabel value="#{msg.documentoFechaGeneracion}"
-							for="strFechaGeneracion" styleClass="negrita" />
-						<h:inputText
-							value="#{reporteDocumentosMB.seleccionado.fechaGeneracion}"
-							id="strFechaGeneracion" disabled="true"
-							label="#{msg.documentoFechaGeneracion}">
-							<f:convertDateTime pattern="dd-MMM-yyyy" />
-						</h:inputText>
-						
-						<p:outputLabel value="#{msg.RequisicionNombreFechaEsperada}" for="dtmFechaDespacho"
-							styleClass="negrita" />
-						<h:inputText
-							value="#{reporteDocumentosMB.seleccionado.fechaEntrega}"
-							id="dtmFechaDespacho" disabled="true"
-							label="#{msg.RequisicionNombreFechaEsperada}">
-							<f:convertDateTime pattern="dd-MMM-yyyy" />
-						</h:inputText>
-						
-						
-						<p:outputLabel value="#{msg.documentoOrigen}" for="strUbicacionOrigen"
-							styleClass="negrita" />
-						<h:inputText 
-							value="#{reporteDocumentosMB.seleccionado.nombreUbicacionOrigen}"
-							id="strUbicacionOrigen" disabled="true" label="#{msg.documentoOrigen}" />
-							
-						<p:outputLabel value="#{msg.documentoDestino}" for="strUbicacionDestino"
-							styleClass="negrita" />
-						<h:inputText 
-							value="#{reporteDocumentosMB.seleccionado.nombreUbicacionDestino}"
-							id="strUbicacionDestino" disabled="true" label="#{msg.documentoDestino}" />
-							
-							
-						<p:outputLabel value="#{msg.documentoTipo}" for="strTipoDocumento"
-							styleClass="negrita" />
-						<h:inputText 
-							value="#{reporteDocumentosMB.seleccionado.nombreTipoDocumento}"
-							id="strTipoDocumento" disabled="true" label="#{msg.documentoTipo}" />
-							
-						<p:outputLabel value="#{msg.documentoEstado}" for="strEstado"
-							styleClass="negrita" />
-						<h:inputText 
-							value="#{reporteDocumentosMB.seleccionado.estadoNombre}"
-							id="strEstado" disabled="true" label="#{msg.documentoEstado}" />
-							
-													
-						<p:outputLabel value="#{msg.documentoProveedor}" for="strNombreProveedor"
-							styleClass="negrita" />
-						<h:inputText 
-							value="#{reporteDocumentosMB.seleccionado.nombreProveedor}"
-							id="strNombreProveedor" disabled="true" label="#{msg.documentoProveedor}" />
-
-						<p:outputLabel value="#{msg.documentoObsercacion}"
-							for="strObservacionDoc" styleClass="negrita" />
-						<h:inputTextarea
-							value="#{reporteDocumentosMB.seleccionado.observacionDocumento}"
-							id="strObservacionDoc" readonly="true" rows="4" cols="40"
-							label="#{msg.documentoObsercacion}" />
+      <p:messages id="msgs" showDetail="false" showSummary="true"
+                  globalOnly="false" showIcon="true"></p:messages>
 
 
 
-					</p:panelGrid>
+      <p:tabView id="tabPanel">
+        <p:tab title="#{msg.documentoReporteGeneral}">
 
-					<p:dataTable var="producto" widgetVar="productoTabla"
-						id="tablaProductos"
-						value="#{reporteDocumentosMB.listaProductosDocumento}" rows="10"
-						emptyMessage="No se encontraron productos" paginator="true"
-						paginatorPosition="bottom"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
+          <p:panelGrid columns="3" id="panelFiltro"
+                       columnClasses="label,value,">
 
-						<p:column headerText="#{msg.comprasProductoSKU}">
-							<h:outputText value="#{producto.productosInventario.sku}" />
-						</p:column>
+            <p:outputLabel value="#{msg.documentoConsecutivo}" for="filtroconsecutivo"
+                           styleClass="negrita" />
+            <h:inputText
+              value="#{reporteDocumentosMB.filtro.consecutivoDocumento}"
+              id="filtroconsecutivo"
+              label="#{msg.ConsecutivoSP}" />
+            <p:message for="filtroconsecutivo"></p:message>
 
-						<p:column headerText="#{msg.buscadorNombreProducto}">
-							<h:outputText value="#{producto.productosInventario.nombre}" />
-						</p:column>
+            <p:outputLabel value="#{msg.documentoFechaInicial}" for="filtrofechainicio"
+                           styleClass="negrita" />
+            <p:calendar id="filtrofechainicio"
+                        value="#{reporteDocumentosMB.filtro.fechaInicio}"
+                        pattern="yyyy-MM-dd">
+            </p:calendar>
+            <p:message for="filtrofechainicio"></p:message>
 
-						<p:column headerText="#{msg.comprasCantidadRequerida}">
-							<h:outputText value="#{producto.cantidad1}"
-								id="cantidadProd1">
-							</h:outputText>
-						</p:column>
+            <p:outputLabel value="#{msg.documentoFechaFinal}" for="filtrofechafin"
+                           styleClass="negrita" />
+            <p:calendar id="filtrofechafin"
+                        value="#{reporteDocumentosMB.filtro.fechaFinal}"
+                        pattern="yyyy-MM-dd">
+            </p:calendar>
+            <p:message for="filtrofechafin"></p:message>
 
-						<p:column headerText="#{msg.RequisicionNombreFechaEsperada}">
-							<h:outputText value="#{producto.fechaEstimadaEntrega}">
-								<f:convertDateTime pattern="yyyy-MMM-dd" />
-							</h:outputText>
-						</p:column>
-						
-						<p:column headerText="#{msg.recibiProductoUnidadCompra}">
-							<h:outputText value="#{producto.unidade.nombre}" />
-						</p:column>
-						
-						<p:column headerText="#{msg.comprasObservacion}">
-							<h:outputText value="#{producto.observacion1}" />
-						</p:column>
+            <p:outputLabel value="#{msg.documentoTipo}" for="intTipoDocumento"
+                           styleClass="negrita" />
+            <p:selectOneMenu id="intTipoDocumento"
+                             value="#{reporteDocumentosMB.filtro.tipoDocumento}"
+                             label="#{msg.documentoTipo}">
+              <f:selectItem itemLabel="TODOS" />
+              <f:selectItems value="#{reporteDocumentosMB.listaTipoDocumento}"
+                             var="tipodoc" itemValue="#{tipodoc.id}"
+                             itemLabel="#{tipodoc.nombre}" />
+            </p:selectOneMenu>
+            <p:message for="intTipoDocumento"></p:message>
 
-					</p:dataTable>
+            <p:outputLabel value="#{msg.documentoUbicacion}" for="idUbicacion"
+                           styleClass="negrita" />
+            <p:selectOneMenu id="idUbicacion"
+                             value="#{reporteDocumentosMB.intUbicacion}"
+                             label="#{msg.documentoUbicacion}">
+              <f:selectItem itemLabel="TODAS" />
+              <f:selectItems value="#{reporteDocumentosMB.listaUbicaciones}"
+                             var="ubicacion" itemValue="#{ubicacion.id}"
+                             itemLabel="#{ubicacion.nombre}" />
+            </p:selectOneMenu>
+            <p:message for="idUbicacion"></p:message>
+
+            <p:outputLabel value="#{msg.documentoEstado}" for="selectEstado"
+                           styleClass="negrita" />
+            <p:selectOneMenu id="selectEstado"
+                             value="#{reporteDocumentosMB.filtro.idEstado}"
+                             label="#{msg.documentoEstado}">
+              <f:selectItem itemLabel="TODOS" />
+              <f:selectItems value="#{reporteDocumentosMB.listaEstado}"
+                             var="estado" itemValue="#{estado.id}"
+                             itemLabel="#{estado.nombre}" />
+            </p:selectOneMenu>
+            <p:message for="selectEstado"></p:message>
+
+            <p:outputLabel value="#{msg.documentoProveedor}" for="selectProveedor"
+                           styleClass="negrita" />
+            <p:selectOneMenu id="selectProveedor"
+                             value="#{reporteDocumentosMB.filtro.proveedor}"
+                             label="#{msg.documentoProveedor}">
+              <f:selectItem itemLabel="TODOS" />
+              <f:selectItems value="#{reporteDocumentosMB.listaProveedor}"
+                             var="proveedor" itemValue="#{proveedor.id}"
+                             itemLabel="#{proveedor.nombre}" />
+            </p:selectOneMenu>
+            <p:message for="selectProveedor"></p:message>
 
 
-					<p:panelGrid columns="2"
-						rendered="#{not empty reporteDocumentosMB.seleccionado}"
-						columnClasses="label,value">
-						
-						<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false" icon="ui-icon-document"
-							action="#{reporteDocumentosMB.hacerExcel}">
-					    </p:commandButton>
-					    					    
-						<p:commandButton value="#{msg.generalCancelar}"
-							update=":formaDlg:datoDetalle,:forma:tabPanel:tablaDatos"
-							action="#{reporteDocumentosMB.cancelar}"
-							oncomplete="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
-					</p:panelGrid>
 
-				</p:outputPanel>
-			</h:form>
-		</p:dialog>
+          </p:panelGrid>
+
+          <p:panelGrid columns="1">
+            <p:commandButton value="#{msg.documentoEjecutarBusqueda}"
+                             update="tabPanel"
+                             action="#{reporteDocumentosMB.consultarDocumentos}"></p:commandButton>
+          </p:panelGrid>
 
 
-	</ui:define>
+          <p:dataTable 
+            var="dato" 
+            widgetVar="datoTabla" 
+            id="tablaDatos"
+            value="#{reporteDocumentosMB.listaDocumentosLazyModel}" 
+            lazy="true"
+            rows="10"
+            emptyMessage="No se encontraron documentos"
+            paginator="true" 
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
+
+
+            <p:column style="width:32px;text-align: center">
+              <p:commandButton oncomplete="PF('datoDialog').show()"
+                               icon="ui-icon-zoomin" title="Consultar Documento"
+                               update=":datoDlg"
+                               action="#{reporteDocumentosMB.consultarSolicitudPedido}">
+                <f:setPropertyActionListener value="#{dato}"
+                                             target="#{reporteDocumentosMB.seleccionado}" />
+              </p:commandButton>
+            </p:column>
+
+            <p:column headerText="#{msg.documentoId}">
+              <h:outputText value="#{dato.idDocumento}" />
+            </p:column>
+
+            <p:column headerText="#{msg.documentoConsecutivo}">
+              <h:outputText value="#{dato.consecutivoDocumento}" />
+            </p:column>
+
+            <p:column headerText="#{msg.documentoTipo}">
+              <h:outputText value="#{dato.nombreTipoDocumento}" />
+            </p:column>
+
+            <p:column headerText="#{msg.documentoOrigen}">
+              <h:outputText value="#{dato.nombreUbicacionOrigen}" />
+            </p:column>
+
+            <p:column headerText="#{msg.documentoDestino}">
+              <h:outputText value="#{dato.nombreUbicacionDestino}" />
+            </p:column>
+
+            <p:column headerText="#{msg.documentoProveedor}">
+              <h:outputText value="#{dato.nombreProveedor}" />
+            </p:column>
+
+            <p:column headerText="#{msg.documentoFechaGeneracion}">
+              <h:outputText value="#{dato.fechaGeneracion}">
+                <f:convertDateTime pattern="dd-MMM-yyyy" />
+              </h:outputText>
+            </p:column>
+
+            <p:column headerText="#{msg.documentoEstado}">
+              <h:outputText value="#{dato.estadoNombre}" />
+            </p:column>
+
+            <p:column headerText="#{msg.maestroObservacion}">
+              <h:outputText value="#{dato.observacionDocumento}" />
+            </p:column>
+
+            <p:column headerText="#{msg.VDDocumentoCliente2}">
+              <h:outputText value="#{dato.documentoCliente}" />
+            </p:column>
+
+            <p:column headerText="#{msg.VDSitioEntrega}">
+              <h:outputText value="#{dato.sitioEntrega}" />
+            </p:column>
+
+
+          </p:dataTable>
+        </p:tab>
+      </p:tabView>
+    </h:form>
+
+    <p:dialog header="#{msg.documentoConsultaDocumento}" widgetVar="datoDialog"
+              modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+              dynamic="true" id="datoDlg">
+      <h:form id="formaDlg">
+        <p:outputPanel id="datoDetalle" style="text-align:center;">
+          <p:messages id="msgs2" showDetail="false" showSummary="true"
+                      globalOnly="true" showIcon="true"></p:messages>
+          <p:panelGrid columns="4"
+                       rendered="#{not empty reporteDocumentosMB.seleccionado}"
+                       columnClasses="label,value,label,value">
+
+            <p:outputLabel value="#{msg.documentoId}" for="strId"
+                           styleClass="negrita" />
+            <h:inputText value="#{reporteDocumentosMB.seleccionado.idDocumento}"
+                         id="strId" disabled="true" label="#{msg.documentoId}" />
+
+            <p:outputLabel value="#{msg.documentoConsecutivo}"
+                           for="strConsecutivo" styleClass="negrita" />
+            <h:inputText
+              value="#{reporteDocumentosMB.seleccionado.consecutivoDocumento}"
+              id="strConsecutivo" disabled="true"
+              label="#{msg.documentoConsecutivo}" />
+
+
+            <p:outputLabel value="#{msg.documentoFechaGeneracion}"
+                           for="strFechaGeneracion" styleClass="negrita" />
+            <h:inputText
+              value="#{reporteDocumentosMB.seleccionado.fechaGeneracion}"
+              id="strFechaGeneracion" disabled="true"
+              label="#{msg.documentoFechaGeneracion}">
+              <f:convertDateTime pattern="dd-MMM-yyyy" />
+            </h:inputText>
+
+            <p:outputLabel value="#{msg.RequisicionNombreFechaEsperada}" for="dtmFechaDespacho"
+                           styleClass="negrita" />
+            <h:inputText
+              value="#{reporteDocumentosMB.seleccionado.fechaEntrega}"
+              id="dtmFechaDespacho" disabled="true"
+              label="#{msg.RequisicionNombreFechaEsperada}">
+              <f:convertDateTime pattern="dd-MMM-yyyy" />
+            </h:inputText>
+
+
+            <p:outputLabel value="#{msg.documentoOrigen}" for="strUbicacionOrigen"
+                           styleClass="negrita" />
+            <h:inputText 
+              value="#{reporteDocumentosMB.seleccionado.nombreUbicacionOrigen}"
+              id="strUbicacionOrigen" disabled="true" label="#{msg.documentoOrigen}" />
+
+            <p:outputLabel value="#{msg.documentoDestino}" for="strUbicacionDestino"
+                           styleClass="negrita" />
+            <h:inputText 
+              value="#{reporteDocumentosMB.seleccionado.nombreUbicacionDestino}"
+              id="strUbicacionDestino" disabled="true" label="#{msg.documentoDestino}" />
+
+
+            <p:outputLabel value="#{msg.documentoTipo}" for="strTipoDocumento"
+                           styleClass="negrita" />
+            <h:inputText 
+              value="#{reporteDocumentosMB.seleccionado.nombreTipoDocumento}"
+              id="strTipoDocumento" disabled="true" label="#{msg.documentoTipo}" />
+
+            <p:outputLabel value="#{msg.documentoEstado}" for="strEstado"
+                           styleClass="negrita" />
+            <h:inputText 
+              value="#{reporteDocumentosMB.seleccionado.estadoNombre}"
+              id="strEstado" disabled="true" label="#{msg.documentoEstado}" />
+
+
+            <p:outputLabel value="#{msg.documentoProveedor}" for="strNombreProveedor"
+                           styleClass="negrita" />
+            <h:inputText 
+              value="#{reporteDocumentosMB.seleccionado.nombreProveedor}"
+              id="strNombreProveedor" disabled="true" label="#{msg.documentoProveedor}" />
+
+            <p:outputLabel value="#{msg.documentoObsercacion}"
+                           for="strObservacionDoc" styleClass="negrita" />
+            <h:inputTextarea
+              value="#{reporteDocumentosMB.seleccionado.observacionDocumento}"
+              id="strObservacionDoc" readonly="true" rows="4" cols="40"
+              label="#{msg.documentoObsercacion}" />
+
+
+
+          </p:panelGrid>
+
+          <p:dataTable var="producto" widgetVar="productoTabla"
+                       id="tablaProductos"
+                       value="#{reporteDocumentosMB.listaProductosDocumento}" rows="10"
+                       emptyMessage="No se encontraron productos" paginator="true"
+                       paginatorPosition="bottom"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
+
+            <p:column headerText="#{msg.comprasProductoSKU}">
+              <h:outputText value="#{producto.productosInventario.sku}" />
+            </p:column>
+
+            <p:column headerText="#{msg.buscadorNombreProducto}">
+              <h:outputText value="#{producto.productosInventario.nombre}" />
+            </p:column>
+
+            <p:column headerText="#{msg.comprasCantidadRequerida}">
+              <h:outputText value="#{producto.cantidad1}"
+                            id="cantidadProd1">
+              </h:outputText>
+            </p:column>
+
+            <p:column headerText="#{msg.RequisicionNombreFechaEsperada}">
+              <h:outputText value="#{producto.fechaEstimadaEntrega}">
+                <f:convertDateTime pattern="yyyy-MMM-dd" />
+              </h:outputText>
+            </p:column>
+
+            <p:column headerText="#{msg.recibiProductoUnidadCompra}">
+              <h:outputText value="#{producto.unidade.nombre}" />
+            </p:column>
+
+            <p:column headerText="#{msg.comprasObservacion}">
+              <h:outputText value="#{producto.observacion1}" />
+            </p:column>
+
+          </p:dataTable>
+
+
+          <p:panelGrid columns="2"
+                       rendered="#{not empty reporteDocumentosMB.seleccionado}"
+                       columnClasses="label,value">
+
+            <p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false" icon="ui-icon-document"
+                             action="#{reporteDocumentosMB.hacerExcel}">
+            </p:commandButton>
+
+            <p:commandButton value="#{msg.generalCancelar}"
+                             update=":formaDlg:datoDetalle,:forma:tabPanel:tablaDatos"
+                             action="#{reporteDocumentosMB.cancelar}"
+                             oncomplete="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+          </p:panelGrid>
+
+        </p:outputPanel>
+      </h:form>
+    </p:dialog>
+
+
+  </ui:define>
 
 </ui:composition>
 

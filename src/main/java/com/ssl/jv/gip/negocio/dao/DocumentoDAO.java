@@ -38,6 +38,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import org.primefaces.model.SortOrder;
 
 @Stateless
 @LocalBean
@@ -690,13 +691,13 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   }
 
-  public List<DocumentoIncontermDTO> consultarDocumentosGeneral(
-          FiltroConsultaSolicitudDTO filtro) {
+  @Override
+  public List<DocumentoIncontermDTO> consultarDocumentosGeneral(FiltroConsultaSolicitudDTO filtro) {
 
     List<DocumentoIncontermDTO> lista = new ArrayList<DocumentoIncontermDTO>();
 
     StringBuilder sql = new StringBuilder(
-            "SELECT  documentos.id,"
+            "SELECT documentos.id,"
             + "documentos.consecutivo_documento,"
             + "documentos.fecha_esperada_entrega,"
             + "documentos.id_ubicacion_origen,"
@@ -819,6 +820,140 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
     return lista;
 
+  }
+
+  @Override
+  public Object[] consultarDocumentosGeneral(FiltroConsultaSolicitudDTO filtro, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count) {
+    LOGGER.trace("Metodo: <<consultarDocumentosGeneral (filtro, first, pageSize, sortField, sortOrder, count)>>");
+    StringBuilder select = new StringBuilder();
+    select.append("SELECT ");
+    if (count) {
+      select.append("COUNT(d) ");
+    } else {
+      select.append("d.id, d.consecutivo_documento, d.fecha_esperada_entrega, d.id_ubicacion_origen, d.id_ubicacion_destino, d.id_tipo_documento, d.fecha_generacion, d.fecha_entrega, d.id_proveedor, d.id_estado, d.observacion_documento, tipo_documento.abreviatura, tipo_documento.nombre AS NOMBRE_TIPO_DOCUMENTO, estados.nombre AS NOMBRE_ESTADO, UO.nombre AS NOMBRE_ORIGEN, UD.nombre AS NOMBRE_DESTINO, proveedores.nombre AS NOMBRE_PROVEEDOR, d.documento_cliente, d.sitio_entrega ");
+    }
+    StringBuilder from = new StringBuilder();
+    from.append("FROM documentos d ");
+    if (count) {
+      from.append("");
+    } else {
+      from.append("INNER JOIN tipo_documento ON d.id_tipo_documento=tipo_documento.id ");
+      from.append("INNER JOIN estados ON estados.id=d.id_estado ");
+      from.append("INNER JOIN ubicaciones AS UO ON UO.id=d.id_ubicacion_origen ");
+      from.append("INNER JOIN ubicaciones AS UD ON UD.id=d.id_ubicacion_destino ");
+      from.append("LEFT JOIN proveedores ON proveedores.id=d.id_proveedor ");
+    }
+    StringBuilder where = new StringBuilder();
+    where.append("WHERE ");
+    where.append("(d.id_ubicacion_origen IN (");
+    where.append(filtro.getUbicaciones());
+    where.append(") OR d.id_ubicacion_destino IN (");
+    where.append(filtro.getUbicaciones());
+    where.append("))");
+
+    DateFormat df;
+
+    if (filtro.getTipoDocumento() != null && filtro.getTipoDocumento().compareTo(new Long(0)) != 0) {
+      where.append(" AND d.id_tipo_documento = ");
+      where.append(filtro.getTipoDocumento());
+    }
+
+    if (filtro.getFechaInicio() != null) {
+      df = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+      where.append(" AND d.fecha_generacion >= '");
+      where.append(df.format(filtro.getFechaInicio()));
+      where.append("'");
+    }
+
+    if (filtro.getFechaFinal() != null) {
+      df = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+      where.append(" AND d.fecha_generacion <= '");
+      where.append(df.format(filtro.getFechaFinal()));
+      where.append("'");
+    }
+
+    if (filtro.getConsecutivoDocumento() != null && !filtro.getConsecutivoDocumento().isEmpty()) {
+      where.append(" AND UPPER(d.consecutivo_documento) LIKE UPPER('");
+      where.append(filtro.getConsecutivoDocumento());
+      where.append("%')");
+    }
+
+    if (filtro.getIdEstado() != null && filtro.getIdEstado().compareTo(new Long(0)) != 0) {
+      where.append(" AND d.id_estado = ");
+      where.append(filtro.getIdEstado());
+    }
+
+    if (filtro.getProveedor() != null && !filtro.getProveedor().trim().isEmpty()) {
+      where.append(" AND d.id_proveedor = '");
+      where.append(filtro.getProveedor());
+      where.append("' ");
+    }
+
+    StringBuilder orderBy = new StringBuilder();
+    if (!count && sortField != null && !sortField.equals("")) {
+      orderBy.append(" ORDER BY d.");
+      orderBy.append(sortField);
+      if (!sortOrder.equals(SortOrder.UNSORTED)) {
+        if (sortOrder.equals(SortOrder.ASCENDING)) {
+          orderBy.append(" ASC");
+        } else {
+          orderBy.append(" DESC");
+        }
+      }
+    } else {
+      if (!count) {
+        orderBy.append(" ORDER BY d.id");
+      }
+    }
+    StringBuilder sql = new StringBuilder();
+    sql.append(select);
+    sql.append(from);
+    sql.append(where);
+    sql.append(orderBy);
+    Query query = em.createNativeQuery(sql.toString());
+    LOGGER.debug(first + " " + pageSize + " " + sql.toString());
+    Object rta[] = new Object[2];
+    if (count) {
+      rta[0] = query.getSingleResult();
+    } else {
+      if (sortField != null && !sortField.equals("")) {
+        query.setFirstResult(first);
+      }
+      query.setMaxResults(pageSize);
+      List<DocumentoIncontermDTO> listaDocumentoInconterm = new ArrayList<>();
+      List<Object[]> listado = query.getResultList();
+      if (listado != null) {
+        for (Object[] objs : listado) {
+          DocumentoIncontermDTO dto = new DocumentoIncontermDTO();
+          dto.setIdDocumento(objs[0] != null ? Long.parseLong(objs[0].toString()) : null);
+          dto.setConsecutivoDocumento(objs[1] != null ? objs[1].toString() : null);
+          dto.setFechaEsperadaEntrega((Timestamp) (objs[2] != null ? objs[2] : null));
+          if (dto.getFechaEsperadaEntrega() != null) {
+            dto.setFechaEsperadaEntregaDate(new java.sql.Date(dto.getFechaEsperadaEntrega().getTime()));
+          }
+          dto.setIdUbicacionOrigen(objs[3] != null ? Long.parseLong(objs[3].toString()) : null);
+          dto.setIdUbicacionDestino(objs[4] != null ? Long.parseLong(objs[4].toString()) : null);
+          dto.setIdTipoDocumento(objs[5] != null ? Long.parseLong(objs[5].toString()) : null);
+          dto.setFechaGeneracion((Timestamp) (objs[6] != null ? objs[6] : null));
+          dto.setFechaEntrega((Timestamp) (objs[7] != null ? objs[7] : null));
+          dto.setIdProveedor(objs[8] != null ? Long.parseLong(objs[8].toString()) : null);
+          dto.setIdEstado(objs[9] != null ? Long.parseLong(objs[9].toString()) : null);
+          dto.setObservacionDocumento(objs[10] != null ? objs[10].toString() : null);
+          dto.setAbreviaturaTipoDocumento(objs[11] != null ? objs[11].toString() : null);
+          dto.setNombreTipoDocumento(objs[12] != null ? objs[12].toString() : null);
+          dto.setEstadoNombre(objs[13] != null ? objs[13].toString() : null);
+          dto.setNombreUbicacionOrigen(objs[14] != null ? objs[14].toString() : null);
+          dto.setNombreUbicacionDestino(objs[15] != null ? objs[15].toString() : null);
+          dto.setNombreProveedor(objs[16] != null ? objs[16].toString() : null);
+          dto.setDocumentoCliente(objs[17] != null ? objs[17].toString() : null);
+          dto.setSitioEntrega(objs[18] != null ? objs[18].toString() : null);
+
+          listaDocumentoInconterm.add(dto);
+        }
+      }
+      rta[1] = listaDocumentoInconterm;
+    }
+    return rta;
   }
 
   /**
@@ -2735,5 +2870,183 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
       return null;
     }
     return listado;
+  }
+
+  @Override
+  public List<Documento> consultarDocumentos(FiltroDocumentoDTO filtro) {
+    LOGGER.trace("Metodo: <<consultarDocumentos (filtro)>>");
+    StringBuilder select = new StringBuilder();
+    select.append("SELECT d ");
+    StringBuilder from = new StringBuilder();
+    from.append("FROM Documento d ");
+    from.append("JOIN d.ubicacionOrigen origen ");
+    from.append("JOIN d.cliente cliente ");
+    StringBuilder where = buildWhereStatement(filtro);
+    StringBuilder orderBy = new StringBuilder();
+    if (filtro != null && filtro.getOrdenCampo() != null && !filtro.getOrdenCampo().isEmpty()) {
+      orderBy.append("ORDER BY d.");
+      orderBy.append(filtro.getOrdenCampo());
+    } else {
+      orderBy.append("ORDER BY d.id");
+    }
+    StringBuilder jpql = new StringBuilder();
+    jpql.append(select);
+    jpql.append(from);
+    jpql.append(where);
+    jpql.append(orderBy);
+    Query query = em.createQuery(jpql.toString());
+    if (filtro != null) {
+      setParameters(filtro, query);
+    }
+    return query.getResultList();
+  }
+
+  @Override
+  public Object[] consultarDocumentos(FiltroDocumentoDTO filtro, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count) {
+    LOGGER.trace("Metodo: <<consultarDocumentos (filtro, first, pageSize, sortField, sortOrder, count)>>");
+    StringBuilder select = new StringBuilder();
+    select.append("SELECT ");
+    if (count) {
+      select.append("COUNT(d) ");
+    } else {
+      select.append("d ");
+    }
+    StringBuilder from = new StringBuilder();
+    from.append("Documento d ");
+    if (count) {
+      from.append("");
+    } else {
+      from.append("JOIN d.ubicacionOrigen origen ");
+      from.append("JOIN d.cliente cliente ");
+    }
+    StringBuilder where = buildWhereStatement(filtro);
+    StringBuilder orderBy = new StringBuilder();
+    if (!count && sortField != null && !sortField.equals("")) {
+      orderBy.append("ORDER BY d.");
+      orderBy.append(sortField);
+      if (!sortOrder.equals(SortOrder.UNSORTED)) {
+        if (sortOrder.equals(SortOrder.ASCENDING)) {
+          orderBy.append(" ASC");
+        } else {
+          orderBy.append(" DESC");
+        }
+      }
+    } else {
+      if (filtro != null && filtro.getOrdenCampo() != null && !filtro.getOrdenCampo().isEmpty()) {
+        orderBy.append("ORDER BY d.");
+        orderBy.append(filtro.getOrdenCampo());
+      } else {
+        orderBy.append("ORDER BY d.id");
+      }
+    }
+    StringBuilder jpql = new StringBuilder();
+    jpql.append(select);
+    jpql.append(from);
+    jpql.append(where);
+    jpql.append(orderBy);
+    Query query = em.createQuery(jpql.toString());
+    if (filtro != null) {
+      setParameters(filtro, query);
+    }
+    LOGGER.debug(first + " " + pageSize + " " + jpql.toString());
+    Object rta[] = new Object[2];
+    if (count) {
+      rta[0] = query.getSingleResult();
+    } else {
+      if (sortField != null && !sortField.equals("")) {
+        query.setFirstResult(first);
+      }
+      query.setMaxResults(pageSize);
+      rta[1] = (List<Documento>) query.getResultList();
+    }
+    return rta;
+  }
+
+  /**
+   * @param filtro
+   * @return
+   */
+  public StringBuilder buildWhereStatement(FiltroDocumentoDTO filtro) {
+    LOGGER.trace("Metodo: <<buildWhereStatement (filtro)>>");
+    StringBuilder where = new StringBuilder();
+    if (filtro != null) {
+      where.append("WHERE 1=1 ");
+      if (filtro.getConsecutivoDocumento() != null && !filtro.getConsecutivoDocumento().isEmpty()) {
+        where.append("AND UPPER(d.consecutivoDocumento) = UPPER(:consecutivoDocumento) ");
+      }
+      if (filtro.getTipoDocumento() != null && !filtro.getTipoDocumento().isEmpty()) {
+        where.append("AND d.estadosxdocumento.id.idTipoDocumento IN (:tipoDocumento) ");
+      }
+      if (filtro.getEstado() != null && !filtro.getEstado().isEmpty()) {
+        where.append("AND d.estadosxdocumento.id.idEstado IN (:estado) ");
+      }
+      if (filtro.getFechaGeneracionInicio() != null && filtro.getFechaGeneracionFin() != null) {
+        where.append("AND d.fechaGeneracion BETWEEN :fechaGeneracionInicio AND :fechaGeneracionFin ");
+      }
+      if (filtro.getCliente() != null) {
+        where.append("AND d.cliente.id IN (:cliente) ");
+      }
+      if (filtro.getPuntoVenta() != null) {
+        where.append("AND d.puntoVenta.id IN (:puntoVenta) ");
+      }
+      if (filtro.getNumeroFactura() != null) {
+        where.append("d.numeroFactura LIKE (:numeroFactura) ");
+      }
+      if (filtro.getObservacionDocumento() != null) {
+        where.append("AND d.observacionDocumento LIKE (:observacionDocumento) ");
+      }
+      if (filtro.getProveedor() != null) {
+        where.append("AND d.proveedore IN (:proveedor) ");
+      }
+      if (filtro.getUbicacionOrigen() != null) {
+        where.append("AND d.ubicacionOrigen.id IN (:ubicacionOrigen) ");
+      }
+      if (filtro.getUbicacionDestino() != null) {
+        where.append("AND d.ubicacionDestino.id IN (:ubicacionDestino) ");
+      }
+    }
+    return where;
+  }
+
+  /**
+   * @param filtro
+   * @param query
+   */
+  public void setParameters(FiltroDocumentoDTO filtro, Query query) {
+    LOGGER.trace("Metodo: <<setParameters (filtro, query)>>");
+    if (filtro.getConsecutivoDocumento() != null && !filtro.getConsecutivoDocumento().isEmpty()) {
+      query.setParameter("consecutivoDocumento", "%" + filtro.getConsecutivoDocumento() + "%");
+    }
+    if (filtro.getTipoDocumento() != null && !filtro.getTipoDocumento().isEmpty()) {
+      query.setParameter("tipoDocumento", filtro.getTipoDocumento());
+    }
+    if (filtro.getEstado() != null && !filtro.getEstado().isEmpty()) {
+      query.setParameter("estado", filtro.getEstado());
+    }
+    if (filtro.getFechaGeneracionInicio() != null && filtro.getFechaGeneracionFin() != null) {
+      query.setParameter("fechaGeneracionInicio", filtro.getFechaGeneracionInicio());
+      query.setParameter("fechaGeneracionFin", filtro.getFechaGeneracionFin());
+    }
+    if (filtro.getCliente() != null) {
+      query.setParameter("cliente", filtro.getCliente());
+    }
+    if (filtro.getPuntoVenta() != null) {
+      query.setParameter("puntoVenta", filtro.getPuntoVenta());
+    }
+    if (filtro.getNumeroFactura() != null) {
+      query.setParameter("numeroFactura", "%" + filtro.getNumeroFactura() + "%");
+    }
+    if (filtro.getObservacionDocumento() != null && !filtro.getObservacionDocumento().isEmpty()) {
+      query.setParameter("observacionDocumento", "%" + filtro.getObservacionDocumento() + "%");
+    }
+    if (filtro.getProveedor() != null) {
+      query.setParameter("proveedor", filtro.getProveedor());
+    }
+    if (filtro.getUbicacionOrigen() != null) {
+      query.setParameter("ubicacionOrigen", filtro.getUbicacionOrigen());
+    }
+    if (filtro.getUbicacionDestino() != null) {
+      query.setParameter("ubicacionDestino", filtro.getUbicacionDestino());
+    }
   }
 }
