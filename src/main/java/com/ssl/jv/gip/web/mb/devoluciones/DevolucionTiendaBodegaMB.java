@@ -1,15 +1,24 @@
 package com.ssl.jv.gip.web.mb.devoluciones;
 
-import java.util.Date;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
@@ -18,15 +27,6 @@ import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import javax.faces.context.FacesContext;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 /**
  * <p>
@@ -182,14 +182,9 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   }
 
   /**
-   *
+   * 
    * @return
    */
-  public Date getFechaActual() {
-    LOGGER.debug("Metodo: <<getFechaActual>>");
-    return new Date();
-  }
-
   public boolean habilitarBtnIngresoDevoluciones() {
     return !(getListaProductosXDocumentoSeleccionados() == null || getListaProductosXDocumentoSeleccionados().isEmpty());
   }
