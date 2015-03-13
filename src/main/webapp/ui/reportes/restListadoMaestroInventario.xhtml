@@ -67,9 +67,9 @@
 
 						<p:commandButton value="#{msg.buscadorConsultarProducto}"
 							icon="ui-icon-search" oncomplete="PF('registrosTabla').getPaginator().setPage(0)"
-							action="#{maestroInventarioMB.loadProductos}"
+							action="#{maestroInventarioMB.loadProductos}" process="@this"
 							update="tablaRegistros,:forma:msgs"/>
-						<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false"  icon="ui-icon-calculator" >
+						<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false"  icon="ui-icon-calculator">
   								<p:fileDownload value="#{maestroInventarioMB.reporteExcel}" />
 						</p:commandButton>
 

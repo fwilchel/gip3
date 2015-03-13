@@ -23,13 +23,14 @@
       <li><a href="compilarReporte.jsp?reporte=Report_LE_ANT.jrxml">Report_LE_ANT.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_LE.jrxml">Report_LE.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_OD.jrxml">Report_OD.jrxml</a></li>
+      <li><a href="compilarReporte.jsp?reporte=Report_VD.jrxml">Report_VD.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_PCE.jrxml">Report_PCE.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=report_Remision.jrxml">report_Remision.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_SP.jrxml">Report_SP.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_SP2.jrxml">Report_SP2.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=Report_VCE.jrxml">Report_VCE.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=report2_FE.jrxml">report2_FE.jrxml</a></li>
-      <li><a href="compilarReporte.jsp?reporte=report2.jrxml">report2.jrxml</a></li>
+      <li><a href="compilarReporte.jsp?reporte=FacturaDirecta.jrxml">FacturaDirecta.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=report2FDO.jrxml">report2FDO.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=report2ORIGINAL.jrxml">report2ORIGINAL.jrxml</a></li>
       <li><a href="compilarReporte.jsp?reporte=ReporteOrdenDespachoVF.jrxml">ReporteOrdenDespachoVF.jrxml</a></li>

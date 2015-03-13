@@ -100,10 +100,10 @@
 							</h:inputText>
 					</p:column>
 
-					<p:column filterBy="#{dato.unidade.nombre}" headerText="#{msg.sugerenciasCompra_UnidadVenta}"
+<!--					<p:column filterBy="#{dato.unidade.nombre}" headerText="#{msg.sugerenciasCompra_UnidadVenta}"
 						filterMatchMode="contains" sortBy="#{dato.unidade.nombre}">
 						<h:outputText value="#{dato.unidade.nombre}" />
-					</p:column>
+					</p:column>-->
 						
 					<p:column headerText="#{msg.sugerenciasCompra_IncluirProducto}" rendered="#{sugerenciaCompraMB.creacion}">
 						<p:selectBooleanCheckbox value="#{dato.productosInventario.incluido}" id="seleccionado" label="#{msg.maestroProductosXClienteIncluirProd}"/>

@@ -75,12 +75,13 @@ public interface VentasFacturacionEJBLocal {
    * Metodo que crea la orden de despacho
    *
    * @author Diego Poveda - Soft Studio Ltda.
+   * @return 
    * @email dpoveda@gmail.com
    * @phone 3192594013
    * @param documento
    * @param listaProductosXDocumento
    */
-  void generarOrdenDespacho(Documento documento, List<ProductosXDocumento> listaProductosXDocumento);
+  Documento generarOrdenDespacho(Documento documento, List<ProductosXDocumento> listaProductosXDocumento);
 
   /**
    * Metodo que consulta los documentos que son ordenes de despacho por observacion.
@@ -99,4 +100,22 @@ public interface VentasFacturacionEJBLocal {
    * @return 
    */
   Documento generarFactura(Documento factura, List<ProductosXDocumento> listaProductos, Documento remisionRelacionada, LogAuditoria auditoria);
+  
+  /**
+   * Metodo que cambia e estado y e numero de factura de un documento
+   * 
+   * @param factura 
+   */
+  void imprimirFactura(Documento factura);
+
+  /**
+   * Metodo que consulta los productos por documento
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param id
+   * @return
+   */
+  List<ProductosXDocumento> consultarProductosPorDocumentoOrdenadosPorSKU(Long id);
 }

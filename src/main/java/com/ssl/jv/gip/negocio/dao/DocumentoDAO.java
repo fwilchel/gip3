@@ -36,9 +36,9 @@ import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
-import com.ssl.jv.gip.negocio.dto.UbicacionRecibirDevolucionDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import org.primefaces.model.SortOrder;
 
 @Stateless
 @LocalBean
@@ -1226,7 +1226,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     String parametroConseDoc = (String) parametros.get("parametroConseDoc");
     try {
 
-      String query = "select d from Documento d LEFT JOIN FETCH d.cliente cli LEFT JOIN FETCH cli.ciudad ciu where id_tipo_documento= :tipo AND id_estado in( :estados) AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
+      String query = "select d from Documento d LEFT JOIN FETCH d.cliente cli LEFT JOIN FETCH cli.ciudad ciu where id_tipo_documento= :tipo AND id_estado in( :estados) AND UPPER(consecutivo_documento) LIKE UPPER( :parametroConseDoc) ORDER BY d.id DESC";
 
       lista = em.createQuery(query)
               .setParameter("tipo", tipo)
@@ -2010,9 +2010,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     query.setParameter("idEstado2",
             com.ssl.jv.gip.util.Estado.ASIGNADA.getCodigo());
     query.setParameter("consecutivoDocumento", consecutivoDocumento);
-    List<Documento> docs= query.getResultList();
-    for (Documento d:docs){
-    	d.getCliente().getTerminoIncoterms().size();
+    List<Documento> docs = query.getResultList();
+    for (Documento d : docs) {
+      d.getCliente().getTerminoIncoterms().size();
     }
     return docs;
   }
@@ -2181,38 +2181,38 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Documento> consultarDocumentosDespacharMercancia(
-			String consecutivoDocumento) {
-		List<Documento> listado = new ArrayList<Documento>();
-		String query;
-		try {
-			query = "SELECT d FROM Documento d "
-					+ "JOIN FETCH d.estadosxdocumento exd "
-					+ "JOIN FETCH d.ubicacionDestino dest "
-					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
-					+ "AND d.estadosxdocumento.estado.id= :estado "
-					+ "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
-					+ "ORDER BY d.id DESC";
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<Documento> consultarDocumentosDespacharMercancia(
+          String consecutivoDocumento) {
+    List<Documento> listado = new ArrayList<Documento>();
+    String query;
+    try {
+      query = "SELECT d FROM Documento d "
+              + "JOIN FETCH d.estadosxdocumento exd "
+              + "JOIN FETCH d.ubicacionDestino dest "
+              + "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
+              + "AND d.estadosxdocumento.estado.id= :estado "
+              + "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
+              + "ORDER BY d.id DESC";
 
-			listado = em
-					.createQuery(query)
-					.setParameter("estado", (long) ConstantesDocumento.ACTIVO)
-					.setParameter("tipoDocumento",
-							(long) ConstantesTipoDocumento.VENTA_DIRECTA)
-					.setParameter(
-							"consecutivo",
-							consecutivoDocumento.equals("") ? "%" : "%"
-									+ consecutivoDocumento + "%")
-					.setMaxResults(35).getResultList();
-		} catch (Exception e) {
-			LOGGER.error(e
-					+ "********Error consultando Documentos por tipo de documento VENTA DIRECTA");
-			return null;
-		}
-		return listado;
-	}
+      listado = em
+              .createQuery(query)
+              .setParameter("estado", (long) ConstantesDocumento.ACTIVO)
+              .setParameter("tipoDocumento",
+                      (long) ConstantesTipoDocumento.VENTA_DIRECTA)
+              .setParameter(
+                      "consecutivo",
+                      consecutivoDocumento.equals("") ? "%" : "%"
+                              + consecutivoDocumento + "%")
+              .setMaxResults(35).getResultList();
+    } catch (Exception e) {
+      LOGGER.error(e
+              + "********Error consultando Documentos por tipo de documento VENTA DIRECTA");
+      return null;
+    }
+    return listado;
+  }
 
   @Override
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(
@@ -2513,44 +2513,44 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     }
   }
 
-	@Override
-	public List<Documento> consultaFP(String consecutivoDocumento,Long estado1, Long estado2) {
+  @Override
+  public List<Documento> consultaFP(String consecutivoDocumento, Long estado1, Long estado2) {
 
-		List<Documento> listado = new ArrayList<Documento>();
-		String query;
-		try {
-			query = "SELECT d FROM Documento d "
-					+ "JOIN FETCH d.cliente c "
-					+ "JOIN FETCH d.estadosxdocumento exd "
-					+ "JOIN FETCH exd.estado e "
-					+ "JOIN FETCH d.documentoXNegociacions dxn "
-					+ "JOIN FETCH dxn.terminoIncoterm ti "
-					+ "JOIN FETCH c.ciudad ciu "
-					+ "JOIN FETCH c.metodoPago mp "
-					+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
-					+ "AND (d.estadosxdocumento.estado.id = :estado1 "
-					+ "OR d.estadosxdocumento.estado.id = :estado2) "
-					+ "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
-					+ "ORDER BY d.id DESC";
+    List<Documento> listado = new ArrayList<Documento>();
+    String query;
+    try {
+      query = "SELECT d FROM Documento d "
+              + "JOIN FETCH d.cliente c "
+              + "JOIN FETCH d.estadosxdocumento exd "
+              + "JOIN FETCH exd.estado e "
+              + "JOIN FETCH d.documentoXNegociacions dxn "
+              + "JOIN FETCH dxn.terminoIncoterm ti "
+              + "JOIN FETCH c.ciudad ciu "
+              + "JOIN FETCH c.metodoPago mp "
+              + "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
+              + "AND (d.estadosxdocumento.estado.id = :estado1 "
+              + "OR d.estadosxdocumento.estado.id = :estado2) "
+              + "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
+              + "ORDER BY d.id DESC";
 
-			listado = em
-					.createQuery(query)
-					.setParameter("tipoDocumento",
-							(long) ConstantesTipoDocumento.FACTURA_PROFORMA)
-					.setParameter(
-							"consecutivo",
-							consecutivoDocumento.equals("") ? "%" : "%"
-									+ consecutivoDocumento + "%")
-					.setParameter("estado1", estado1)
-					.setParameter("estado2", estado2)
-					.setMaxResults(35).getResultList();
-		} catch (Exception e) {
-			LOGGER.error(e
-					+ "********Error consultando Documentos por Consecutivo de Pedido");
-			return null;
-		}
-		return listado;
-	}
+      listado = em
+              .createQuery(query)
+              .setParameter("tipoDocumento",
+                      (long) ConstantesTipoDocumento.FACTURA_PROFORMA)
+              .setParameter(
+                      "consecutivo",
+                      consecutivoDocumento.equals("") ? "%" : "%"
+                              + consecutivoDocumento + "%")
+              .setParameter("estado1", estado1)
+              .setParameter("estado2", estado2)
+              .setMaxResults(35).getResultList();
+    } catch (Exception e) {
+      LOGGER.error(e
+              + "********Error consultando Documentos por Consecutivo de Pedido");
+      return null;
+    }
+    return listado;
+  }
 
   @Override
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros) {
@@ -2688,12 +2688,12 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     query.setParameter("tipoDocumento", ConstantesTipoDocumento.FACTURA_EXPORTACION);
     return query.getResultList();
   }
-  
-  public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros){
-	  Query q=em.createNamedQuery("DocumentoXNegociacion.updateCostosLogisticos").setParameter("fob", valorFob).setParameter("fletes", valorFletes).setParameter("seguros", valorSeguros).setParameter("idDocumento", idDocumento).setParameter("idTerminoIncoterm", idTerminoIncoterm);
-	  return q.executeUpdate();
+
+  public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros) {
+    Query q = em.createNamedQuery("DocumentoXNegociacion.updateCostosLogisticos").setParameter("fob", valorFob).setParameter("fletes", valorFletes).setParameter("seguros", valorSeguros).setParameter("idDocumento", idDocumento).setParameter("idTerminoIncoterm", idTerminoIncoterm);
+    return q.executeUpdate();
   }
-  
+
   @SuppressWarnings("unchecked")
   @Override
   public List<DocumentoRecibirDevolucionDTO> consultarDocumentosRecibirDevolucion(String bodega) {
@@ -2701,34 +2701,34 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     String query;
     try {
       query = "SELECT  documentos.id,documentos.consecutivo_documento,documentos.fecha_esperada_entrega,documentos.id_ubicacion_origen,"
-      		+ "documentos.id_ubicacion_destino,documentos.id_tipo_documento,documentos.fecha_generacion,"
-      		+ "documentos.fecha_entrega,documentos.id_proveedor,documentos.id_estado,documentos.observacion_documento,ubicaciones.nombre "
-      		+ "FROM documentos,ubicaciones WHERE documentos.id_tipo_documento=7 AND documentos.id_estado=7 AND documentos.id_ubicacion_destino = :ubicacion "
-      		+ "AND documentos.id_ubicacion_destino=ubicaciones.id";
-      
+              + "documentos.id_ubicacion_destino,documentos.id_tipo_documento,documentos.fecha_generacion,"
+              + "documentos.fecha_entrega,documentos.id_proveedor,documentos.id_estado,documentos.observacion_documento,ubicaciones.nombre "
+              + "FROM documentos,ubicaciones WHERE documentos.id_tipo_documento=7 AND documentos.id_estado=7 AND documentos.id_ubicacion_destino = :ubicacion "
+              + "AND documentos.id_ubicacion_destino=ubicaciones.id";
+
       query = query.replaceAll(":ubicacion", bodega);
-      
+
       List<Object[]> listadoInicial = em.createNativeQuery(query)
-  			.getResultList();
-      
+              .getResultList();
+
       for (Object[] objs : listadoInicial) {
-    	  DocumentoRecibirDevolucionDTO doc = new DocumentoRecibirDevolucionDTO();
-    	  
-    	  doc.setIdDocumento(objs[0] != null ? new Long(objs[0].toString()) : null);
-    	  doc.setConsecutivoDocumento(objs[1] != null ? objs[1].toString() : null);
-    	  doc.setFechaEsperadaEntrega(objs[2] != null ? (Timestamp)objs[2] : null);
-    	  doc.setIdUbicacionOrigen(objs[3] != null ? new Long(objs[3].toString()) : null);
-    	  doc.setIdUbicacionDestino(objs[4] != null ? new Long(objs[4].toString()) : null);
-    	  doc.setIdTipoDocumento(objs[5] != null ?new Long( objs[5].toString()) : null);
-    	  doc.setFechaGeneracion(objs[6] != null ? (Timestamp)objs[6] : null);
-    	  doc.setFechaEntrega(objs[7] != null ? (Timestamp)objs[7] : null);
-    	  doc.setIdProveedor(objs[8] != null ? new Long(objs[8].toString()) : null);
-    	  doc.setIdEstado(objs[9] != null ? new Long(objs[9].toString()) : null);
-    	  doc.setObservacionDocumento(objs[10] != null ? objs[10].toString() : null);
-    	  doc.setNombreUbicacionOrigen(objs[11] != null ? objs[11].toString() : null);
-    	  
-          listado.add(doc);
-        }
+        DocumentoRecibirDevolucionDTO doc = new DocumentoRecibirDevolucionDTO();
+
+        doc.setIdDocumento(objs[0] != null ? new Long(objs[0].toString()) : null);
+        doc.setConsecutivoDocumento(objs[1] != null ? objs[1].toString() : null);
+        doc.setFechaEsperadaEntrega(objs[2] != null ? (Timestamp) objs[2] : null);
+        doc.setIdUbicacionOrigen(objs[3] != null ? new Long(objs[3].toString()) : null);
+        doc.setIdUbicacionDestino(objs[4] != null ? new Long(objs[4].toString()) : null);
+        doc.setIdTipoDocumento(objs[5] != null ? new Long(objs[5].toString()) : null);
+        doc.setFechaGeneracion(objs[6] != null ? (Timestamp) objs[6] : null);
+        doc.setFechaEntrega(objs[7] != null ? (Timestamp) objs[7] : null);
+        doc.setIdProveedor(objs[8] != null ? new Long(objs[8].toString()) : null);
+        doc.setIdEstado(objs[9] != null ? new Long(objs[9].toString()) : null);
+        doc.setObservacionDocumento(objs[10] != null ? objs[10].toString() : null);
+        doc.setNombreUbicacionOrigen(objs[11] != null ? objs[11].toString() : null);
+
+        listado.add(doc);
+      }
 
     } catch (Exception e) {
       LOGGER.error(e
@@ -2737,5 +2737,182 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     }
     return listado;
   }
-  
+
+  @Override
+  public List<Documento> consultarDocumentos(FiltroDocumentoDTO filtro) {
+    LOGGER.trace("Metodo: <<consultarDocumentos (filtro)>>");
+    StringBuilder select = new StringBuilder();
+    select.append("SELECT d ");
+    StringBuilder from = new StringBuilder();
+    from.append("FROM Documento d ");
+    from.append("JOIN d.ubicacionOrigen origen ");
+    from.append("JOIN d.cliente cliente ");
+    StringBuilder where = buildWhereStatement(filtro);
+    StringBuilder orderBy = new StringBuilder();
+    if (filtro != null && filtro.getOrdenCampo() != null && !filtro.getOrdenCampo().isEmpty()) {
+      orderBy.append("ORDER BY d.");
+      orderBy.append(filtro.getOrdenCampo());
+    } else {
+      orderBy.append("ORDER BY d.id");
+    }
+    StringBuilder jpql = new StringBuilder();
+    jpql.append(select);
+    jpql.append(from);
+    jpql.append(where);
+    jpql.append(orderBy);
+    Query query = em.createQuery(jpql.toString());
+    if (filtro != null) {
+      setParameters(filtro, query);
+    }
+    return query.getResultList();
+  }
+
+  @Override
+  public Object[] consultarDocumentos(FiltroDocumentoDTO filtro, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count) {
+    LOGGER.trace("Metodo: <<consultarDocumentos (filtro, first, pageSize, sortField, sortOrder, count)>>");
+    StringBuilder select = new StringBuilder();
+    select.append("SELECT ");
+    if (count) {
+      select.append("COUNT(d) ");
+    } else {
+      select.append("d ");
+    }
+    StringBuilder from = new StringBuilder();
+    from.append("Documento d ");
+    if (count) {
+      from.append("");
+    } else {
+      from.append("JOIN d.ubicacionOrigen origen ");
+      from.append("JOIN d.cliente cliente ");
+    }
+    StringBuilder where = buildWhereStatement(filtro);
+    StringBuilder orderBy = new StringBuilder();
+    if (!count && sortField != null && !sortField.equals("")) {
+      orderBy.append("ORDER BY d.");
+      orderBy.append(sortField);
+      if (!sortOrder.equals(SortOrder.UNSORTED)) {
+        if (sortOrder.equals(SortOrder.ASCENDING)) {
+          orderBy.append(" ASC");
+        } else {
+          orderBy.append(" DESC");
+        }
+      }
+    } else {
+      if (filtro != null && filtro.getOrdenCampo() != null && !filtro.getOrdenCampo().isEmpty()) {
+        orderBy.append("ORDER BY d.");
+        orderBy.append(filtro.getOrdenCampo());
+      } else {
+        orderBy.append("ORDER BY d.id");
+      }
+    }
+    StringBuilder jpql = new StringBuilder();
+    jpql.append(select);
+    jpql.append(from);
+    jpql.append(where);
+    jpql.append(orderBy);
+    Query query = em.createQuery(jpql.toString());
+    if (filtro != null) {
+      setParameters(filtro, query);
+    }
+    LOGGER.debug(first + " " + pageSize + " " + jpql.toString());
+    Object rta[] = new Object[2];
+    if (count) {
+      rta[0] = query.getSingleResult();
+    } else {
+      if (sortField != null && !sortField.equals("")) {
+        query.setFirstResult(first);
+      }
+      query.setMaxResults(pageSize);
+      rta[1] = (List<Documento>) query.getResultList();
+    }
+    return rta;
+  }
+
+  /**
+   * @param filtro
+   * @return
+   */
+  public StringBuilder buildWhereStatement(FiltroDocumentoDTO filtro) {
+    LOGGER.trace("Metodo: <<buildWhereStatement (filtro)>>");
+    StringBuilder where = new StringBuilder();
+    if (filtro != null) {
+      where.append("WHERE 1=1 ");
+      if (filtro.getConsecutivoDocumento() != null && !filtro.getConsecutivoDocumento().isEmpty()) {
+        where.append("AND UPPER(d.consecutivoDocumento) = UPPER(:consecutivoDocumento) ");
+      }
+      if (filtro.getTipoDocumento() != null && !filtro.getTipoDocumento().isEmpty()) {
+        where.append("AND d.estadosxdocumento.id.idTipoDocumento IN (:tipoDocumento) ");
+      }
+      if (filtro.getEstado() != null && !filtro.getEstado().isEmpty()) {
+        where.append("AND d.estadosxdocumento.id.idEstado IN (:estado) ");
+      }
+      if (filtro.getFechaGeneracionInicio() != null && filtro.getFechaGeneracionFin() != null) {
+        where.append("AND d.fechaGeneracion BETWEEN :fechaGeneracionInicio AND :fechaGeneracionFin ");
+      }
+      if (filtro.getCliente() != null) {
+        where.append("AND d.cliente.id IN (:cliente) ");
+      }
+      if (filtro.getPuntoVenta() != null) {
+        where.append("AND d.puntoVenta.id IN (:puntoVenta) ");
+      }
+      if (filtro.getNumeroFactura() != null) {
+        where.append("d.numeroFactura LIKE (:numeroFactura) ");
+      }
+      if (filtro.getObservacionDocumento() != null) {
+        where.append("AND d.observacionDocumento LIKE (:observacionDocumento) ");
+      }
+      if (filtro.getProveedor() != null) {
+        where.append("AND d.proveedore IN (:proveedor) ");
+      }
+      if (filtro.getUbicacionOrigen() != null) {
+        where.append("AND d.ubicacionOrigen.id IN (:ubicacionOrigen) ");
+      }
+      if (filtro.getUbicacionDestino() != null) {
+        where.append("AND d.ubicacionDestino.id IN (:ubicacionDestino) ");
+      }
+    }
+    return where;
+  }
+
+  /**
+   * @param filtro
+   * @param query
+   */
+  public void setParameters(FiltroDocumentoDTO filtro, Query query) {
+    LOGGER.trace("Metodo: <<setParameters (filtro, query)>>");
+    if (filtro.getConsecutivoDocumento() != null && !filtro.getConsecutivoDocumento().isEmpty()) {
+      query.setParameter("consecutivoDocumento", "%" + filtro.getConsecutivoDocumento() + "%");
+    }
+    if (filtro.getTipoDocumento() != null && !filtro.getTipoDocumento().isEmpty()) {
+      query.setParameter("tipoDocumento", filtro.getTipoDocumento());
+    }
+    if (filtro.getEstado() != null && !filtro.getEstado().isEmpty()) {
+      query.setParameter("estado", filtro.getEstado());
+    }
+    if (filtro.getFechaGeneracionInicio() != null && filtro.getFechaGeneracionFin() != null) {
+      query.setParameter("fechaGeneracionInicio", filtro.getFechaGeneracionInicio());
+      query.setParameter("fechaGeneracionFin", filtro.getFechaGeneracionFin());
+    }
+    if (filtro.getCliente() != null) {
+      query.setParameter("cliente", filtro.getCliente());
+    }
+    if (filtro.getPuntoVenta() != null) {
+      query.setParameter("puntoVenta", filtro.getPuntoVenta());
+    }
+    if (filtro.getNumeroFactura() != null) {
+      query.setParameter("numeroFactura", "%" + filtro.getNumeroFactura() + "%");
+    }
+    if (filtro.getObservacionDocumento() != null && !filtro.getObservacionDocumento().isEmpty()) {
+      query.setParameter("observacionDocumento", "%" + filtro.getObservacionDocumento() + "%");
+    }
+    if (filtro.getProveedor() != null) {
+      query.setParameter("proveedor", filtro.getProveedor());
+    }
+    if (filtro.getUbicacionOrigen() != null) {
+      query.setParameter("ubicacionOrigen", filtro.getUbicacionOrigen());
+    }
+    if (filtro.getUbicacionDestino() != null) {
+      query.setParameter("ubicacionDestino", filtro.getUbicacionDestino());
+    }
+  }
 }

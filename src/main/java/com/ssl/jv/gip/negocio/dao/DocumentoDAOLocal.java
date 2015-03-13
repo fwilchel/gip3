@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
@@ -25,6 +26,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
+import org.primefaces.model.SortOrder;
 
 @Local
 public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
@@ -216,5 +218,29 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
    * @param bodega the bodega
    * @return the list
    */
-  public List<DocumentoRecibirDevolucionDTO> consultarDocumentosRecibirDevolucion(String bodega) ;
+  public List<DocumentoRecibirDevolucionDTO> consultarDocumentosRecibirDevolucion(String bodega);
+
+  /**
+   * Metodo que consulta los documentos por uno o varios de los campos del filtro.
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param filtro
+   * @return
+   */
+  List<Documento> consultarDocumentos(FiltroDocumentoDTO filtro);
+
+  /**
+   * Metodo que consulta los documentos por uno o varios de los campos del filtro y adicionalmente paginados
+   *
+   * @param filtro
+   * @param first
+   * @param pageSize
+   * @param sortField
+   * @param sortOrder
+   * @param count
+   * @return
+   */
+  Object[] consultarDocumentos(FiltroDocumentoDTO filtro, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count);
 }
