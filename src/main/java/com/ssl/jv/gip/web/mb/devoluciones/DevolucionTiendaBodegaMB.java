@@ -86,7 +86,7 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   /**
    * bodega de destino
    */
-  private Ubicacion ubicacionOrigenSeeccionada;
+  private Ubicacion ubicacionOrigenSeleccionada;
   /**
    *
    */
@@ -109,7 +109,7 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
     LOGGER.debug("Metodo: <<cargarListaUbicaciones>>");
     setListaUbicaciones(devolucionesEJB.consultarUbicacionesQueSonTiendaPorUsuario(menu.getUsuario().getId()));
     if (getListaUbicaciones() != null) {
-      setUbicacionOrigenSeeccionada(getListaUbicaciones().get(0));
+      setUbicacionOrigenSeleccionada(getListaUbicaciones().get(0));
       ubicaciones = new HashMap<>();
       for (Ubicacion ubicacion : getListaUbicaciones()) {
         ubicaciones.put(ubicacion.getId(), ubicacion);
@@ -122,7 +122,7 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
    */
   public void onUbicacionOrigenChange() {
     if (idUbicacionOrigen != null) {
-      ubicacionOrigenSeeccionada = ubicaciones.get(idUbicacionOrigen);
+      ubicacionOrigenSeleccionada = ubicaciones.get(idUbicacionOrigen);
     }
   }
 
@@ -146,7 +146,12 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
    */
   public void ingresarDevouciones() {
     LOGGER.debug("Metodo: <<ingresarDevouciones>>");
-
+    //TODO: validar la lista de productos seleccionados
+    if (listaProductosXDocumentoSeleccionados != null && !listaProductosXDocumentoSeleccionados.isEmpty()){
+      devolucionesEJB.ingresarDevolucionTiendaBodega(null, listaProductosXDocumentoSeleccionados);
+    } else {
+      addMensajeError("");
+    }
   }
 
   /**
@@ -158,8 +163,8 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
     StreamedContent reporte = null;
     Map<String, Object> parametrosReporte = new HashMap<>();
     parametrosReporte.put("fechaGeneracion", getFechaActual());
-    parametrosReporte.put("tiendaOrigen", getUbicacionOrigenSeeccionada().getNombre());
-    parametrosReporte.put("bodegaDestino", getUbicacionOrigenSeeccionada().getUbicacione().getNombre());
+    parametrosReporte.put("tiendaOrigen", getUbicacionOrigenSeleccionada().getNombre());
+    parametrosReporte.put("bodegaDestino", getUbicacionOrigenSeleccionada().getUbicacione().getNombre());
     JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(null, false);
     try {
       Hashtable<String, String> parametrosConfiguracionReporte;
@@ -232,17 +237,17 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   }
 
   /**
-   * @return the ubicacionOrigenSeeccionada
+   * @return the ubicacionOrigenSeleccionada
    */
-  public Ubicacion getUbicacionOrigenSeeccionada() {
-    return ubicacionOrigenSeeccionada;
+  public Ubicacion getUbicacionOrigenSeleccionada() {
+    return ubicacionOrigenSeleccionada;
   }
 
   /**
-   * @param ubicacionOrigenSeeccionada the ubicacionOrigenSeeccionada to set
+   * @param ubicacionOrigenSeleccionada the ubicacionOrigenSeleccionada to set
    */
-  public void setUbicacionOrigenSeeccionada(Ubicacion ubicacionOrigenSeeccionada) {
-    this.ubicacionOrigenSeeccionada = ubicacionOrigenSeeccionada;
+  public void setUbicacionOrigenSeleccionada(Ubicacion ubicacionOrigenSeleccionada) {
+    this.ubicacionOrigenSeleccionada = ubicacionOrigenSeleccionada;
   }
 
   /**
