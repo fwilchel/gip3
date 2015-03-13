@@ -130,7 +130,7 @@ public class OrdenesDespachoMB extends UtilMB{
 		parametros.put("documento", seleccionado.getId()+"");
 		parametros.put("fecha", seleccionado.getFechaGeneracion().toString());
 		parametros.put("numFactura",seleccionado.getConsecutivoDocumento());
-		parametros.put("fechaCargue", seleccionado.getFechaEntrega().toString());
+		parametros.put("fechaCargue", seleccionado.getFechaEntrega()!=null?seleccionado.getFechaEntrega().toString():null);
 		parametros.put("solicitud", seleccionado.getObservacionDocumento());
 		parametros.put("observacionDoc",seleccionado.getObservacion2());
 		parametros.put("observacionMar", seleccionado.getDocumentoXNegociacions()
