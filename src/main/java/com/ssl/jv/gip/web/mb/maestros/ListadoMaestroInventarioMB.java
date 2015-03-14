@@ -93,7 +93,7 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 	public AplicacionMB getAppMB() {
 		return appMB;
 	}
-
+	
 	public void setAppMB(AplicacionMB appMB) {
 		this.appMB = appMB;
 	}
@@ -192,6 +192,10 @@ public class ListadoMaestroInventarioMB extends UtilMB{
 			String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/maestroInventario.xls");
 			ByteArrayOutputStream os=(ByteArrayOutputStream)com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametrosReporte, null);
 			reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "maestroInventario.xls");
+			
+			if(this.filtro.getPais() == null){
+				this.filtro.setPais(new Pais());
+			}
 			
 		} catch (Exception e) {
 			this.addMensajeError(e);

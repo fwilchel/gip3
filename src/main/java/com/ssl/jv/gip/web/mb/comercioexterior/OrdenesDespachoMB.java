@@ -1,12 +1,16 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +20,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -27,10 +36,16 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoODDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
@@ -63,6 +78,8 @@ public class OrdenesDespachoMB extends UtilMB{
 	private double totalCantidadCajas=0;
 	private double muestrasFITOANTICO=0;
 	private double muestrasCalidades=0;
+	private StreamedContent reporteExcel;
+	private StreamedContent reportePDF;
 	
 	private JasperPrint jasperPrint;
 	
@@ -100,134 +117,31 @@ public class OrdenesDespachoMB extends UtilMB{
 			this.muestrasFITOANTICO+=p.getMuestrasFITOYANTICO().doubleValue();
 		}
 	}
-	
-	public void generarReportePDF() throws ClassNotFoundException, IOException, JRException{
-//			reportBuilder();
-//			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
-//					.getCurrentInstance().getExternalContext().getResponse();
-//			httpServletResponse.addHeader("Content-disposition",
-//					"attachment; filename="+seleccionado.getId()+".pdf");
-//			ServletOutputStream servletStream = httpServletResponse
-//					.getOutputStream();
-//			JasperExportManager.exportReportToPdfStream(jasperPrint,
-//					servletStream);
-//			FacesContext.getCurrentInstance().responseComplete();
-		comercioEjb.generarReporteOrdenDespachoPDF(reportBuilder(), seleccionado.getId());
-	}
-	
-	public void generarReporteExcel() throws ClassNotFoundException, IOException, JRException{
-//		reportBuilder();
-//		HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
-//				.getCurrentInstance().getExternalContext().getResponse();
-//		httpServletResponse.addHeader("Content-disposition",
-//				"attachment; filename=Employees_List.xlsx");
-//		ServletOutputStream servletOutputStream = httpServletResponse
-//				.getOutputStream();
-//		JRXlsxExporter docxExporter = new JRXlsxExporter();
-//		docxExporter
-//				.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-//		docxExporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
-//				servletOutputStream);
-//		docxExporter.exportReport();
-//		FacesContext.getCurrentInstance().responseComplete();
-		comercioEjb.generarReporteOrdenDespachoExcel(reportBuilder(), seleccionado.getId());
-	}
-	
-	public void generarReporteExcel2() throws JRException, IOException {
 
-		try {
-
-			// SERVIDOR LINUX
-			String filename = "C:/A/jboss-as-7.1.1.Final/standalone/deployments/gip3.war/reportes/Report_OD.jasper";
-			String filepdf = "C:/A/jboss-as-7.1.1.Final/standalone/deployments/gip3.war/reportes/Report_OD.pdf";
-			String xmlfile = "C:/A/jboss-as-7.1.1.Final/standalone/deployments/gip3.war/reportes/Report_OD.jrxml";
-
-			Map parametros = new HashMap();
-
-			HttpServletResponse response = null;
-
-			FacesContext context = null;
-
-			context = FacesContext.getCurrentInstance();
-
-			ExternalContext external = context.getExternalContext();
-			response = (HttpServletResponse) external.getResponse();
-
-			SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
-			String fechaStringGeneracion = ft.format(seleccionado
-					.getFechaGeneracion());
-
-			String fechaStringCargue = ft
-					.format(seleccionado.getFechaEntrega());
-
-			parametros.put("cliente", seleccionado.getCliente().getNombre());
-			parametros.put("nit", seleccionado.getCliente().getNit());
-			parametros.put("ciudad", seleccionado.getCliente().getCiudad().getNombre());
-			parametros.put("direccion", seleccionado.getCliente().getDireccion());
-			parametros.put("telefono", seleccionado.getCliente().getTelefono());
-			parametros.put("contacto", seleccionado.getCliente().getContacto());
-			parametros.put("documento", seleccionado.getId()+"");
-			parametros.put("fecha", seleccionado.getFechaGeneracion().toString());
-			parametros.put("numFactura",seleccionado.getConsecutivoDocumento());
-			parametros.put("fechaCargue", seleccionado.getFechaEntrega().toString());
-			parametros.put("solicitud", seleccionado.getObservacionDocumento());
-			parametros.put("observacionDoc",seleccionado.getObservacion2());
-			parametros.put("observacionMar", seleccionado.getDocumentoXNegociacions()
-					.get(0).getObservacionesMarcacion2());
-			parametros.put("despacho",seleccionado.getSitioEntrega());
-
-			JasperReport report = JasperCompileManager.compileReport(xmlfile);
-
-			JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(
-					productos);
-			JasperPrint print = JasperFillManager.fillReport(report,
-					parametros, ds);
-
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-			String fileName = "ReporteOD";
-			// if (strboton.contentEquals("pdf") || strboton=="pdf")
-			// {
-			// net.sf.jasperreports.engine.JasperExportManager.exportReportToPdfStream(print,baos);
-			// response = Utilidad.configureResponse(response,
-			// "Reporte_OD.pdf");
-			// }
-			// else
-			// if (strboton.contentEquals("xls") || strboton=="xls")
-			// {
-			JRXlsExporter exporterXLS = new JRXlsExporter();
-			exporterXLS.setParameter(JRExporterParameter.JASPER_PRINT, print);
-			exporterXLS.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
-			exporterXLS.exportReport();
-
-			response = configureResponse(response, "Reporte_OD.xls");
-			// }
-
-			response.setContentLength(baos.size());
-			
-			ServletOutputStream out = null;
-			try {
-				out = response.getOutputStream();
-				baos.writeTo(out);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			baos.flush();
-			context.responseComplete();
-		} catch (JRException se) {
-			se.printStackTrace();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
-	
-//	private List<ProductoReporteDTO> mapearLista(List<ProductoODDTO> productos2) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public JasperPrint reportBuilder() throws JRException {
-
+		Map parametros = new HashMap();
+		parametros.put("cliente", seleccionado.getCliente().getNombre());
+		parametros.put("nit", seleccionado.getCliente().getNit());
+		parametros.put("ciudad", seleccionado.getCliente().getCiudad().getNombre());
+		parametros.put("direccion", seleccionado.getCliente().getDireccion());
+		parametros.put("telefono", seleccionado.getCliente().getTelefono());
+		parametros.put("contacto", seleccionado.getCliente().getContacto());
+		parametros.put("documento", seleccionado.getId()+"");
+		parametros.put("fecha", seleccionado.getFechaGeneracion().toString());
+		parametros.put("numFactura",seleccionado.getConsecutivoDocumento());
+		parametros.put("fechaCargue", seleccionado.getFechaEntrega()!=null?seleccionado.getFechaEntrega().toString():null);
+		parametros.put("solicitud", seleccionado.getObservacionDocumento());
+		parametros.put("observacionDoc",seleccionado.getObservacion2());
+		parametros.put("observacionMar", seleccionado.getDocumentoXNegociacions()
+				.get(0).getObservacionesMarcacion2());
+		parametros.put("despacho",seleccionado.getSitioEntrega());
+		parametros.put("totalCantidad",totalCantidad);
+		parametros.put("totalUnidadXEmbalaje",totalCantidadPorEmbalaje);
+		parametros.put("totalCantidadCajas",totalCantidadCajas);
+		parametros.put("totalMuestrasFito",muestrasFITOANTICO);
+		parametros.put("totalMuestrasCalidades",muestrasCalidades);	
+		
 		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
 				productos);
 
@@ -237,19 +151,7 @@ public class OrdenesDespachoMB extends UtilMB{
 				.getRealPath(
 						"/reportes/Report_OD.jasper");
 
-		return JasperFillManager.fillReport(report, new HashMap(),beanCollectionDataSource);
-	}
-	
-	public static HttpServletResponse configureResponse(
-			HttpServletResponse response, String fileName) {
-		response.setHeader("Expires", "0");
-		response.setHeader("Cache-Control",
-				"must-revalidate, post-check=0, pre-check=0");
-		response.setHeader("Pragma", "public");
-		response.setContentType("application/pdf");
-		response.addHeader("Content-disposition", "attachment; filename=\""
-				+ fileName);
-		return response;
+		return JasperFillManager.fillReport(report,parametros,beanCollectionDataSource);
 	}
 
 	public String getConsecutivoDocumento() {
@@ -354,5 +256,28 @@ public class OrdenesDespachoMB extends UtilMB{
 
 	public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
 		this.currentTimeStamp = currentTimeStamp;
+	}
+	
+	public StreamedContent getReporteExcel() throws ClassNotFoundException, IOException, JRException {
+		comercioEjb.generarReporteOrdenDespachoExcel(reportBuilder(), seleccionado.getId());
+		ByteArrayOutputStream os=(ByteArrayOutputStream) comercioEjb.generar(jasperPrint,"","xls");
+		reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "OrdenDespacho.xls");			
+		return this.reporteExcel;
+	}
+
+	public void setReporteExcel(StreamedContent reporteExcel) {
+		this.reporteExcel = reporteExcel;
+	}
+	
+	
+	public StreamedContent getReportePDF() throws ClassNotFoundException,IOException, JRException {
+		comercioEjb.generarReporteOrdenDespachoPDF(reportBuilder(),seleccionado.getId());
+		ByteArrayOutputStream os = (ByteArrayOutputStream) comercioEjb.generar(jasperPrint,"A", "pdf");
+		reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "OD"+ seleccionado.getId());
+		return reportePDF;
+	}
+
+	public void setReportePDF(StreamedContent reportePDF) {
+		this.reportePDF = reportePDF;
 	}
 }

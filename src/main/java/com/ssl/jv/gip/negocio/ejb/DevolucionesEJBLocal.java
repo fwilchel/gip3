@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.DocumentoRecibirDevolucionDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDevolucionDTO;
@@ -19,7 +21,7 @@ public interface DevolucionesEJBLocal {
   public List<ProductoDevolucionDTO> consultarProductosActivos();
 
   public List<Ubicacion> consultarUbicacionesOrdenadas();
-  
+
   /**
    * Metodo que consulta las ubicaciones que son tienda, para un usuario
    *
@@ -27,24 +29,37 @@ public interface DevolucionesEJBLocal {
    * @email dpoveda@gmail.com
    * @phone 3192594013
    * @param usuario
-   * @return 
+   * @return
    */
   List<Ubicacion> consultarUbicacionesQueSonTiendaPorUsuario(String usuario);
-  
+
   /**
    * Consultar ubicaciones recibir devolucion por usuario.
    *
-   * @param usuario the usuario
+   * @param usuario
+   *          the usuario
    * @return the list
    */
   public List<UbicacionRecibirDevolucionDTO> consultarUbicacionesRecibirDevolucionPorUsuario(String usuario);
-  
+
   /**
    * Consultar documentos recibir devolucion.
    *
-   * @param bodega the bodega
+   * @param bodega
+   *          the bodega
    * @return the list
    */
   public List<DocumentoRecibirDevolucionDTO> consultarDocumentosRecibirDevolucion(String bodega);
-  
+
+  /**
+   * Metodo que hace el ingreso de una devolucion de una tienda a la bodega
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param documento
+   * @param listaProductos
+   * @return
+   */
+  Documento ingresarDevolucionTiendaBodega(Documento documento, List<ProductosXDocumento> listaProductos);
 }

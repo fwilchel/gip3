@@ -67,9 +67,9 @@
 
 						<p:commandButton value="#{msg.buscadorConsultarProducto}"
 							icon="ui-icon-search" oncomplete="PF('registrosTabla').getPaginator().setPage(0)"
-							action="#{maestroInventarioMB.loadProductos}"
+							action="#{maestroInventarioMB.loadProductos}" process="@this"
 							update="tablaRegistros,:forma:msgs"/>
-						<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false"  icon="ui-icon-calculator" >
+						<p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false"  icon="ui-icon-calculator">
   								<p:fileDownload value="#{maestroInventarioMB.reporteExcel}" />
 						</p:commandButton>
 
@@ -82,7 +82,7 @@
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
 
-						<p:column headerText="Acciï¿½n">
+						<p:column headerText="Acción">
 							<p:commandButton  icon="ui-icon-search" process="@this"
 								oncomplete="PF('editarDialog').show()"
 								update=":formaDlg">

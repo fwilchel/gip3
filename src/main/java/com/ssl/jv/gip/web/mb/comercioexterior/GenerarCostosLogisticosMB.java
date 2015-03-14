@@ -20,7 +20,6 @@ import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
-import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.GrupoCostoLogistico;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ComunEJB;

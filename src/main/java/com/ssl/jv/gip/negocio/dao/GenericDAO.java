@@ -143,7 +143,7 @@ public class GenericDAO<T> {
    * @return listado de entidades resultado de la consulta en el contexto de persistencia
    * @throws PersistenceException
    */
-  public <T> List<T> buscarPorConsultaNombrada(String nombreConsulta, Map<String, Object> parametros) throws PersistenceException {
+  public <T> List<T> buscarPorConsultaNombrada(String nombreConsulta, Map<String, Object> parametros) {
     LOGGER.info("Entro a: <<buscarPorConsultaNombrada>> nombreConsulta ->> {" + nombreConsulta + "}");
     try {
       Query consulta = em.createNamedQuery(nombreConsulta);
@@ -169,7 +169,7 @@ public class GenericDAO<T> {
    * @return listado de entidades resultado de la consulta en el contexto de persistencia
    * @throws PersistenceException
    */
-  public <T> List<T> buscarPorConsultaJPQL(String consultaJPQL, Map<String, Object> parametros) throws PersistenceException {
+  public <T> List<T> buscarPorConsultaJPQL(String consultaJPQL, Map<String, Object> parametros) {
     LOGGER.info("Entro a: <<buscarPorConsultaJPQL>> consultaJPQL ->> {" + consultaJPQL + "}");
     try {
       Query consulta = em.createQuery(consultaJPQL);
@@ -193,7 +193,7 @@ public class GenericDAO<T> {
    * @return
    * @throws PersistenceException 
    */
-  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Map<String, Object> parametros) throws PersistenceException {
+  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Map<String, Object> parametros) {
     LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaJPQL ->> {" + consultaNativa + "}");
     try {
       Query consulta = em.createNativeQuery(consultaNativa);
@@ -205,6 +205,51 @@ public class GenericDAO<T> {
       return o;
     } catch (Exception ebd) {
       LOGGER.error("Error en <<buscarPorConsultaNativa>>", ebd.getCause());
+      throw new PersistenceException(ebd);
+    }
+  }
+
+  public <T> void ejecutarConsultaNombrada(String nombreConsulta, Map<String, Object> parametros) throws PersistenceException {
+    LOGGER.info("Entro a: <<ejecutarConsultaNombrada>> consultaJPQL ->> {" + nombreConsulta + "}");
+    try {
+      Query consulta = em.createNamedQuery(nombreConsulta);
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+      int registrosAfectados = consulta.executeUpdate();
+      LOGGER.info("Sale de <<ejecutarConsultaNombrada>> con resultado ->> {" + registrosAfectados + "} registro(s) afectado(s)");
+    } catch (Exception ebd) {
+      LOGGER.error("Error en <<ejecutarConsultaNombrada>>", ebd.getCause());
+      throw new PersistenceException(ebd);
+    }
+  }
+
+  public <T> void ejecutarConsultaJPQL(String consultaJPQL, Map<String, Object> parametros) throws PersistenceException {
+    LOGGER.info("Entro a: <<ejecutarConsultaJPQL>> consultaJPQL ->> {" + consultaJPQL + "}");
+    try {
+      Query consulta = em.createQuery(consultaJPQL);
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+      int registrosAfectados = consulta.executeUpdate();
+      LOGGER.info("Sale de <<ejecutarConsultaJPQL>> con resultado ->> {" + registrosAfectados + "} registro(s) afectado(s)");
+    } catch (Exception ebd) {
+      LOGGER.error("Error en <<ejecutarConsultaJPQL>>", ebd.getCause());
+      throw new PersistenceException(ebd);
+    }
+  }
+
+  public <T> void ejecutarConsultaNativa(String consultaNativa, Map<String, Object> parametros) throws PersistenceException {
+    LOGGER.info("Entro a: <<ejecutarConsultaNativa>> consultaJPQL ->> {" + consultaNativa + "}");
+    try {
+      Query consulta = em.createNativeQuery(consultaNativa);
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+      int registrosAfectados = consulta.executeUpdate();
+      LOGGER.info("Sale de <<ejecutarConsultaNativa>> con resultado ->> {" + registrosAfectados + "} registro(s) afectado(s)");
+    } catch (Exception ebd) {
+      LOGGER.error("Error en <<ejecutarConsultaNativa>>", ebd.getCause());
       throw new PersistenceException(ebd);
     }
   }

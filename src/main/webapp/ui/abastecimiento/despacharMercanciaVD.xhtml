@@ -213,12 +213,18 @@
 						<p:column styleClass="derecha">
 							<h:outputText value="#{msg.MenuReportes}" />
 							<p:spacer width="10" />
-
-							<p:commandButton value="#{msg.ReporteExcel}"
+							<p:commandButton value="#{msg.ReporteExcel}" 
 								icon="ui-icon-script"
-								action="#{despacharMercanciaMB.generarReporteExcel()}"
-								disabled="#{ordenesDespachoMB.deshabilitado}"
-								id="btnGenerarExcel" />
+								ajax="false"
+								id="btnGenerarExcel">
+								<p:fileDownload value="#{despacharMercanciaMB.reporteExcel}" />	
+							</p:commandButton>
+							<p:commandButton value="#{msg.ReportePdf}" 
+								icon="ui-icon-script"
+								ajax="false"
+								id="btnGenerarPdf">
+								<p:fileDownload value="#{despacharMercanciaMB.reportePDF}" />	
+							</p:commandButton>
 						</p:column>
 					</p:panelGrid>
 

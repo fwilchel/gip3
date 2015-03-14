@@ -21,6 +21,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -68,6 +69,8 @@ public class Documento implements Serializable {
   public static final String FIND_BY_FECHAS_AND_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE = "Documento.findByFechasAndTipoDocumentoAndEstado";
   public static final String FIND_BY_ESTADO_AND_TIPO_AND_CONSECUTIVO = "Documento.findByEstadoAndTipoAndConsecutivo";
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_OBSERVACION_DOCUMENTO = "Documento.findByObservacionAndTipo";
+  public static final String ACTUALIZAR_ESTADO_Y_NUMERO_FACTURA = "UPDATE documentos SET id_estado = :estado, numero_factura = :numeroFactura WHERE id = :id";
+  public static final String ACTUALIZAR_ESTADO_Y_OBSERVACION = "UPDATE documentos SET id_estado = :estado, observacion_documento = :observacionDocumento WHERE id = :id";
 
   @Id
   @SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)
@@ -178,6 +181,9 @@ public class Documento implements Serializable {
   // bi-directional many-to-many association to TerminosTransporte
   @ManyToMany(mappedBy = "documentos")
   private List<TerminosTransporte> terminosTransportes;
+
+  @Transient
+  private String numeroFacturaEspecial;
 
   public Documento() {
   }
@@ -474,6 +480,20 @@ public class Documento implements Serializable {
     this.terminosTransportes = terminosTransportes;
   }
 
+  /**
+   * @return the numeroFacturaEspecial
+   */
+  public String getNumeroFacturaEspecial() {
+    return numeroFacturaEspecial;
+  }
+
+  /**
+   * @param numeroFacturaEspecial the numeroFacturaEspecial to set
+   */
+  public void setNumeroFacturaEspecial(String numeroFacturaEspecial) {
+    this.numeroFacturaEspecial = numeroFacturaEspecial;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -503,5 +523,4 @@ public class Documento implements Serializable {
     }
     return true;
   }
-
 }

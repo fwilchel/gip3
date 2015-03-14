@@ -109,8 +109,8 @@
   <exception-type>java.lang.Throwable</exception-type>
   <location>/ui/error/error.jsf</location>
  </error-page>
- <error-page>
+ <!-- error-page>
   <exception-type>javax.faces.application.ViewExpiredException</exception-type>
   <location>/ui/login.jsf</location>
- </error-page>
+ </error-page-->
 </web-app>
