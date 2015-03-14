@@ -268,9 +268,8 @@ public class SugerenciaCompraMB extends UtilMB {
     BodegasLogica bodegasLogicaDefault = new BodegasLogica(BodegaLogica.DEFAULT.getCodigo());
     productosXDocumento.setBodegasLogica1(bodegasLogicaDefault);
     productosXDocumento.setBodegasLogica2(bodegasLogicaDefault);
-    //TODO: toma un valor como si estuviera atado aun a la sesion, no es nulo pero todos sus atributos si.
     if (productosInventario.getPais() != null) {
-//      productosXDocumento.setMoneda(productosInventario.getPais().getMoneda());
+      productosXDocumento.setMoneda(productosInventario.getPais().getMoneda());
     } else {
       productosXDocumento.setMoneda(null);
       addMensajeWarn("El producto " + productosInventario.getSku() + " no tiene asociado un pais.");
