@@ -338,6 +338,8 @@
             var="producto" 
             widgetVar="tblProductos" 
             value="#{generarReporteVentasCE.listaProductosLazyModel}" 
+            sortField="id"
+            sortMode="single" 
             lazy="true"
             selection="#{generarReporteVentasCE.listaProductosSeleccionados}" 
             rowKey="#{producto.id}" 
