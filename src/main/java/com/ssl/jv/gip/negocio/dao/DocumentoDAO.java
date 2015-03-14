@@ -2325,6 +2325,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
       query = "SELECT d FROM Documento d "
               + "JOIN FETCH d.estadosxdocumento exd "
               + "JOIN FETCH d.ubicacionDestino dest "
+              + "JOIN FETCH d.cliente c "
               + "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
               + "AND d.estadosxdocumento.estado.id= :estado "
               + "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
