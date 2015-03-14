@@ -22,7 +22,7 @@
       <p:tabView id="tabPanel">
         <p:tab title="#{msg.documentoReporteGeneral}">
 
-          <p:panelGrid columns="3" id="panelFiltro"
+          <p:panelGrid columns="9" id="panelFiltro"
                        columnClasses="label,value,">
 
             <p:outputLabel value="#{msg.documentoConsecutivo}" for="filtroconsecutivo"
@@ -113,10 +113,12 @@
             widgetVar="datoTabla" 
             id="tablaDatos"
             value="#{reporteDocumentosMB.listaDocumentosLazyModel}" 
+            sortField="id"
             lazy="true"
             rows="10"
             emptyMessage="No se encontraron documentos"
             paginator="true" 
+            sortMode="single" 
             paginatorPosition="bottom"
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
             rowsPerPageTemplate="5,10,15">
