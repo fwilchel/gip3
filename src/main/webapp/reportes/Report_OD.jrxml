@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
+<!-- 2015-03-13T19:11:58 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_OD" pageWidth="720" pageHeight="800" columnWidth="720" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f1bc1c0a-4d0e-4562-9858-8ee627b5db15">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
@@ -952,7 +954,7 @@
 			</staticText>
 			<image>
 				<reportElement x="23" y="16" width="193" height="112" uuid="a38464b6-71b7-46d4-a516-fdc5eba49268"/>
-				<imageExpression><![CDATA["C:/A/jboss-as-7.1.1.Final/standalone/deployments/gip3.war/reportes/LogoProcafecolC2.JPG"]]></imageExpression>
+				<imageExpression><![CDATA["LogoProcafecolC2.JPG"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="8" y="148" width="52" height="13" uuid="1a6cf2df-172c-46d2-971c-e860beaacfa7"/>
