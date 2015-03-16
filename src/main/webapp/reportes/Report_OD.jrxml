@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-03-13T19:11:58 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_OD" pageWidth="720" pageHeight="800" columnWidth="720" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f1bc1c0a-4d0e-4562-9858-8ee627b5db15">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="184"/>
+	<property name="ireport.y" value="162"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="false,true,0.75,0,0,0,0,0,0"/>
 	<style name="table">
@@ -889,28 +887,28 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{numFactura}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="365" y="164" width="63" height="14" uuid="2952e337-c113-48a8-8a26-504d4a0479b8"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{documento}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="365" y="146" width="133" height="14" uuid="b8c6f82f-96dc-40b9-ac83-3b8033623142"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="365" y="183" width="133" height="14" uuid="1a32d2f2-2447-40dd-94a3-276a18ecc879"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{despacho}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="365" y="201" width="133" height="14" uuid="4826bbe3-a04b-4a99-a582-c3c0beb55b8f"/>
 				<textElement>
 					<font size="8"/>
@@ -931,7 +929,7 @@
 				</textElement>
 				<text><![CDATA[/]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="440" y="164" width="58" height="14" uuid="7ef6d292-397a-4d45-a6f1-0fd23c251cbb"/>
 				<textElement>
 					<font size="8"/>
@@ -963,14 +961,14 @@
 				</textElement>
 				<text><![CDATA[Nombre:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="365" y="223" width="353" height="14" uuid="5fa2192f-f502-47a5-b66e-8606301efa96"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{observacionDoc}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="365" y="241" width="353" height="14" uuid="b2b46dc2-8521-4a25-9003-a0d815710ecc"/>
 				<textElement>
 					<font size="8"/>
