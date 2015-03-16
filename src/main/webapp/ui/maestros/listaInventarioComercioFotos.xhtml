@@ -87,7 +87,11 @@
 								
 								<p:outputLabel value="#{msg.inventarioComercioFotos_Foto}" for="foto" styleClass="negrita" />
 								<p:commandLink id="foto" action="#{inventarioComercioFotosMB.editar}" title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}">
-									<h:graphicImage value="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}" title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}" />
+									<h:graphicImage 
+										value="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}" 
+										title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}"
+										height="181"
+										width="165" />
 									<f:setPropertyActionListener value="#{dato}" target="#{inventarioComercioFotosMB.seleccionado}" />
 								</p:commandLink>
 
