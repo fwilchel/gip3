@@ -112,13 +112,13 @@
 						</h:inputText>
 
 						<p:outputLabel value="#{msg.VDEntidadFacturar}"
-							for="clienteDireccion" styleClass="negrita" />
+							for="ubicacionDestino" styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.ubicacionDestino.nombre}"
-							size="30" id="clienteDireccion"
+							size="30" id="ubicacionDestino"
 							label="#{msg.maestroDireccionCliente}" disabled="true" />
 						
-						<p:outputLabel value="#{msg.VDNombreFechaEsperadaEntrega}" for="fechaGeneracion"
+						<p:outputLabel value="#{msg.VDNombreFechaEsperadaEntrega}" for="fechaEsperadaEntrega"
 							styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.fechaEsperadaEntrega}"
@@ -127,11 +127,11 @@
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
 						
-						<p:outputLabel value="#{msg.VDNombreFechaEntrega}" for="fechaGeneracion"
+						<p:outputLabel value="#{msg.VDNombreFechaEntrega}" for="fechaEntrega"
 							styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.fechaEntrega}"
-							id="fechaEsperadaEntrega" label="#{msg.FechaDespacho}"
+							id="fechaEntrega" label="#{msg.FechaDespacho}"
 							disabled="true">
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
@@ -144,10 +144,10 @@
 							label="#{msg.maestroDireccionCliente}" disabled="true" />
 						
 						<p:outputLabel value="#{msg.VDSitioEntrega}"
-							for="clienteDireccion" styleClass="negrita" />
+							for="sitioEntrega" styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.sitioEntrega}"
-							size="30" id="clienteDireccion"
+							size="30" id="sitioEntrega"
 							label="#{msg.maestroDireccionCliente}" disabled="true" />
 
 						<p:outputLabel value="#{msg.VDDocumentoCliente}" for="clienteId"
