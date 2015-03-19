@@ -45,7 +45,8 @@
 							<p:commandButton oncomplete="PF('datoDialog').show()"
 								process="@this"
 								action="#{despacharMercanciaMB.consultarProductosVentaDirecta}"
-								icon="ui-icon-search">
+								icon="ui-icon-search"
+								update=":datoDlg">
 								<f:setPropertyActionListener value="#{dato}"
 									target="#{despacharMercanciaMB.seleccionado}" />
 							</p:commandButton>
@@ -72,14 +73,17 @@
 						<p:column filterBy="#{dato.fechaGeneracion}"
 							headerText="#{msg.documentoFechaGeneracion}"
 							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
-							<h:outputText value="#{dato.fechaGeneracion}" />
+							<h:outputText value="#{dato.fechaGeneracion}" >
+								<f:convertDateTime 
+                  					pattern="dd-MMM-yyyy"/>
+							</h:outputText>
 						</p:column>
 					</p:dataTable>
 				</p:tab>
 			</p:tabView>
 		</h:form>
 
-		<p:dialog header="#{msg.generarOrdenDespachoTituloFrame}"
+		<p:dialog header="#{msg.VDTitulo}"
 			widgetVar="datoDialog" modal="true" showEffect="fade"
 			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
 			<h:form id="formaDlg">
@@ -111,7 +115,7 @@
 							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
 						</h:inputText>
 
-						<p:outputLabel value="#{msg.VDEntidadFacturar}"
+						<p:outputLabel value="#{msg.VDUbicacionDestino}"
 							for="ubicacionDestino" styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.ubicacionDestino.nombre}"
