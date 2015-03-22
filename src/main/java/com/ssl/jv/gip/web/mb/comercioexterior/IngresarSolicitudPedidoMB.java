@@ -271,7 +271,7 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
           if (this.solicitudCafe && pi.getProductosInventarioComext().getTipoLoteoic().getId().equals(5L)) {
             this.addMensajeError("Tipo Lote de los productos no corresponde con el Tipo de Solicitud");
             this.deshabilitado = true;
-          } else if (!pi.getProductosInventarioComext().getTipoLoteoic().getId().equals(5L)) {
+          } else if (!this.solicitudCafe && !pi.getProductosInventarioComext().getTipoLoteoic().getId().equals(5L)) {
             this.addMensajeError("Tipo Lote de los productos no corresponde con el Tipo de Solicitud");
             this.deshabilitado = true;
           }

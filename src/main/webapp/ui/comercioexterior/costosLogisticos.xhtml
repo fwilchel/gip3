@@ -102,6 +102,10 @@
 								<f:convertDateTime pattern="dd-MMM-yyyy"/>
 							</h:outputText>
 						</p:column>
+						
+						<p:column headerText="#{msg.costosLogisticosValorTotal}">
+							<h:outputText value="#{dato.valorTotalDocumento}" />
+						</p:column>
 
 					</p:dataTable>
 					
@@ -118,9 +122,10 @@
 						            <p:row>
 						                <p:column  headerText="Incluido" style="width:40px" width="40" />
 						                <p:column  headerText="Item" />
-						                <p:column  headerText="Descripciï¿½n" />
+						                <p:column  headerText="Descripción" />
+						                <p:column  headerText="Documento" style="width:100px" width="100"/>
 						                <p:column  headerText="Cantidad" style="width:100px" width="100"/>
-						                <p:column  headerText="Valor Mï¿½nimo" style="width:100px" width="100"/>
+						                <p:column  headerText="Valor Mínimo" style="width:100px" width="100"/>
 						                <p:column  headerText="Valor" style="width:100px" width="100"/>
 						            </p:row>
 						        </p:columnGroup>
@@ -133,19 +138,22 @@
 						            
 						            <p:column headerText="Incluido"  >
 										<p:selectBooleanCheckbox value="#{costo.seleccionado}">
-							            	<p:ajax update=":forma:tabPanel:panelCostos" process="@form" immediate="true" />
+							            	<p:ajax update=":forma:tabPanel:panelCostos" process="@form" listener="#{generarCLMB.recalcular}" immediate="true" event="change" />
 							        	</p:selectBooleanCheckbox>
 							        </p:column>	        	
 							        <p:column headerText="Item">
 		            					<h:outputText value="#{costo.id.item}" />
 		        					</p:column>
-		        					<p:column headerText="Descripciï¿½n">
+		        					<p:column headerText="Descripción">
 		            					<h:outputText value="#{costo.id.descripcion}" />
 		        					</p:column>
+		        					<p:column headerText="#{msg.costosLogisticosConsecutivo}">
+										<h:outputText value="#{costo.id.consecutivoDocumento}" />
+									</p:column>
 		        					<p:column headerText="Cantidad" styleClass="derecha">
 		            					<h:outputText value="#{costo.id.cantidad}" />
 		        					</p:column>
-		        					<p:column headerText="Valor Mï¿½nimo" styleClass="derecha">
+		        					<p:column headerText="Valor Mínimo" styleClass="derecha">
 		            					<h:outputText value="#{costo.id.valorMinimo}" />
 		        					</p:column>
 							 		<p:column headerText="Valor" styleClass="derecha">
@@ -157,7 +165,7 @@
 		        					
 		        					<p:columnGroup type="footer">
 						                <p:row>
-						                    <p:column footerText="Total #{grupo.categoria} :" colspan="5" style="text-align:right"/>
+						                    <p:column footerText="Total #{grupo.categoria} :" colspan="6" style="text-align:right"/>
 						                    <p:column style="text-align:right">
 							                    <f:facet name="footer">
 								                    <h:outputText value="#{grupo.total}"  >
@@ -172,7 +180,7 @@
 								
 								 <p:columnGroup type="footer">
 						            <p:row>
-						                <p:column colspan="4" style="text-align:right">
+						                <p:column colspan="5" style="text-align:right">
 						                	<f:facet name="footer">
 						                		<p:commandButton value="Guardar" icon="ui-icon-disk" action="#{generarCLMB.guardar}" update=":forma:msgs"></p:commandButton>
 							                </f:facet>

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
+import com.ssl.jv.gip.jpa.pojo.LiquidacionCostoLogistico;
 import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 
 @Local

@@ -16,6 +16,9 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.FactsCurrencyConversion;
+import com.ssl.jv.gip.jpa.pojo.LiquidacionCostoLogistico;
+import com.ssl.jv.gip.jpa.pojo.LiquidacionDocumento;
+import com.ssl.jv.gip.jpa.pojo.LiquidacionItem;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
@@ -37,7 +40,7 @@ import com.ssl.jv.gip.web.mb.UtilMB;
  *
  * <p>Company: Soft Studio Ltda.</p>
  *
- * @author Fredy Giovanny Wilches LÃ³pez
+ * @author Fredy Giovanny Wilches López
  * @email fredy.wilches@gmail.com
  * @phone 300 2146240
  * @version 1.0
@@ -61,6 +64,10 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	private Long cliente;
 	private List<GrupoCostoLogistico> costos;
 	private List<DocumentoCostosLogisticosDTO> solicitudes = new ArrayList<DocumentoCostosLogisticosDTO>();
+	private BigDecimal cantidad1;
+	private BigDecimal cantidad2;
+	private Integer tipoContenedor1;
+	private Integer tipoContenedor2;
 	
 	@ManagedProperty(value="#{menuMB}")
 	private MenuMB menu;
@@ -158,6 +165,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 				g.addCosto(cl);
 			}
 		}
+		this.recalcular();
 	}
 
 	public Long getTerminoIncoterm() {
@@ -288,23 +296,91 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 		return v;
 	}
 	
-	public void guardar(){
+	public BigDecimal getValorDocumentos(){
 		BigDecimal valorTotal = new BigDecimal(0);
 		for (DocumentoCostosLogisticosDTO d:this.solicitudes){
 			if (d.getSeleccionada()){
 				valorTotal=valorTotal.add(d.getValorTotalDocumento());
 			}
 		}
+		return valorTotal;
+	}
+	
+	public void guardar(){
+		BigDecimal valorTotal = this.getValorDocumentos();
 		BigDecimal fob=this.getTotalFOB();
 		BigDecimal fletes=this.getTotalFletes();
 		BigDecimal seguros=this.getTotalSeguros();
-		for (DocumentoCostosLogisticosDTO d:this.solicitudes){
-			if (d.getSeleccionada()){
-				this.comercioEjb.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal).multiply(fob), d.getValorTotalDocumento().divide(valorTotal).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal).multiply(seguros));
+		
+		LiquidacionCostoLogistico lcl=new LiquidacionCostoLogistico();
+		lcl.setCantidad1(cantidad1);
+		lcl.setCantidad2(cantidad2);
+		lcl.setClienteId(this.cliente);
+		lcl.setIncotermTransporteId(this.terminoIncoterm);
+		lcl.setPaisId(pais);
+		lcl.setPuertoInternal(puertoInternal);
+		lcl.setPuertoNal(puertoNal);
+		lcl.setTipoContenedor1(tipoContenedor1);
+		lcl.setTipoContenedor2(tipoContenedor2);
+		
+		for (GrupoCostoLogistico g:this.costos){
+			for (CostoLogisticoDTO cl:g.getCostos()){
+				if (cl.isSeleccionado()){
+					LiquidacionItem li=new LiquidacionItem();
+					
+					li.setBaseFob(cl.getId().getBaseFob());
+					li.setCampoAcumula(cl.getId().getCampoAcumula());
+					li.setCantidad(cl.getId().getCantidad());
+					li.setCategoriaId(cl.getId().getCategoriaId());
+					li.setConsecutivoDocumento(cl.getId().getConsecutivoDocumento());
+					li.setItemId(cl.getId().getItemId());
+					li.setLiquidacionCostoLogistico(lcl);
+					li.setOrden(cl.getId().getOrden());
+					li.setTipo(cl.getId().getTipo());
+					li.setValor(new BigDecimal(cl.getId().getValor()));
+					li.setValorMinimo(new BigDecimal(cl.getId().getValorMinimo()));
+					
+					lcl.getLiquidacionItems().add(li);
+				}
 			}
 		}
 		
-		this.addMensajeInfo("Se han actualizado correctamente los costos logÃ­sticos en las Solicitudes seleccionadas");
+		for (DocumentoCostosLogisticosDTO d:this.solicitudes){
+			if (d.getSeleccionada()){
+				
+				LiquidacionDocumento ld=new LiquidacionDocumento();
+				ld.setConsecutivoDocumento(d.getConsecutivoDocumento());
+				ld.setLiquidacionCostoLogistico(lcl);
+				lcl.getLiquidacionDocumentos().add(ld);
+				
+				this.comercioEjb.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal).multiply(fob), d.getValorTotalDocumento().divide(valorTotal).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal).multiply(seguros), lcl);
+			}
+		}
+		
+		this.addMensajeInfo("Se han actualizado correctamente los costos logísticos en las Solicitudes seleccionadas");
+	}
+	
+	public void recalcular(){
+		BigDecimal valorTotal = this.getValorDocumentos();
+		Double valorFob = new Double(0);
+		if (this.costos!=null){
+			for (GrupoCostoLogistico g:this.costos){
+				for (CostoLogisticoDTO cl:g.getCostos()){
+					if (cl.isSeleccionado() && !cl.getId().getTipo().equals(new Integer(6))){
+						valorFob+=cl.getId().getValor();
+					}
+				}
+			}
+		}
+		if (this.costos!=null){
+			for (GrupoCostoLogistico g:this.costos){
+				for (CostoLogisticoDTO cl:g.getCostos()){
+					if (cl.getId().getTipo().equals(new Integer(6))){
+						cl.getId().setValor(valorTotal.add(new BigDecimal(valorFob)).multiply(cl.getId().getCantidad()).doubleValue()/100);
+					}
+				}
+			}
+		}
 	}
 	
 }

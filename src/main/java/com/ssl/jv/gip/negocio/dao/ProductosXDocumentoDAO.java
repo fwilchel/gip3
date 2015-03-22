@@ -12,14 +12,10 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoReporteTxtFacturaDirectaDTO;
-import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
-import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
-import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 /**
  * Session Bean implementation class ProductosXDocumentoDAO

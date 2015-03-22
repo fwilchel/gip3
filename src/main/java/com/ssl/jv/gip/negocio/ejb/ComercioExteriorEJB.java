@@ -42,6 +42,7 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
+import com.ssl.jv.gip.jpa.pojo.LiquidacionCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
@@ -67,6 +68,7 @@ import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.EstadoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ItemCostoLogisticoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.LiquidacionCostoLogisticoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ModalidadEmbarqueDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientoInventarioDAOLocal;
@@ -104,6 +106,7 @@ import com.ssl.jv.gip.util.Moneda;
 import com.ssl.jv.gip.util.TipoMovimiento;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+
 import org.primefaces.model.SortOrder;
 
 /**
@@ -193,6 +196,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @EJB
   private ItemCostoLogisticoDAOLocal itemCostoLogisticoDAO;
+  
+  @EJB
+  private LiquidacionCostoLogisticoDAOLocal liquidacionCostoLogisticoDAO;
 
   @EJB
   private MuestrasXLoteDAOLocal muestrasxloteDAO;
@@ -1724,8 +1730,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     return lista2;
   }
 
-  public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros) {
-    return this.documentoDAO.actualizarCostosLogisticos(idDocumento, idTerminoIncoterm, valorFob, valorFletes, valorSeguros);
+  public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros, LiquidacionCostoLogistico lcl) {
+	  this.liquidacionCostoLogisticoDAO.add(lcl);	  
+	  return this.documentoDAO.actualizarCostosLogisticos(idDocumento, idTerminoIncoterm, valorFob, valorFletes, valorSeguros);
   }
 
   @Override

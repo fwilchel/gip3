@@ -65,6 +65,9 @@
     <class>com.ssl.jv.gip.jpa.pojo.HistorialContrasenaPK</class>
     <class>com.ssl.jv.gip.jpa.pojo.HistorialCosto</class>
     <class>com.ssl.jv.gip.jpa.pojo.Insumo</class>
+	<class>com.ssl.jv.gip.jpa.pojo.LiquidacionCostoLogistico</class>
+	<class>com.ssl.jv.gip.jpa.pojo.LiquidacionDocumento</class>
+	<class>com.ssl.jv.gip.jpa.pojo.LiquidacionItem</class>    
     <class>com.ssl.jv.gip.jpa.pojo.LogAuditoria</class>
     <class>com.ssl.jv.gip.jpa.pojo.LugarIncoterm</class>
     <class>com.ssl.jv.gip.jpa.pojo.Maxfecha</class>

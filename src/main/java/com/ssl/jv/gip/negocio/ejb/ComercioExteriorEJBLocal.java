@@ -19,6 +19,7 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
+import com.ssl.jv.gip.jpa.pojo.LiquidacionCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
@@ -47,6 +48,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoODDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
+
 import org.primefaces.model.SortOrder;
 
 /**
@@ -370,7 +372,7 @@ public interface ComercioExteriorEJBLocal {
   public List<Documento> consultarFP(String consecutivoDocumento, Long estado1,
           Long estado2);
 
-  public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros);
+  public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros, LiquidacionCostoLogistico lcl);
 
   public void generarReporteOrdenDespachoPDF(JasperPrint jasperPrint, Long id)
           throws ClassNotFoundException, IOException, JRException;

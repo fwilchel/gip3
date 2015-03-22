@@ -30,6 +30,7 @@ public class CategoriaCostoLogistico implements Serializable {
 	private Long id;
 
 	private String nombre;
+	private Integer orden;
 
 	//bi-directional many-to-one association to ItemCostoLogistico
 	@OneToMany(mappedBy="categoriaCostoLogistico")
@@ -85,6 +86,14 @@ public class CategoriaCostoLogistico implements Serializable {
 
 	public void setCampoAcumula(String campoAcumula) {
 		this.campoAcumula = campoAcumula;
+	}
+
+	public Integer getOrden() {
+		return orden;
+	}
+
+	public void setOrden(Integer orden) {
+		this.orden = orden;
 	}
 
 }

@@ -71,6 +71,11 @@
 							sortBy="#{registro.campoAcumula}">
 							<h:outputText value="#{registro.campoAcumula}" />
 						</p:column>
+						
+						<p:column headerText="#{msg.categoriasCLCampoOrden}"
+							sortBy="#{registro.orden}">
+							<h:outputText value="#{registro.orden}" />
+						</p:column>
 
 					</p:dataTable>
 				</p:tab>
@@ -104,6 +109,13 @@
 							id="nombre" maxlength="100" required="true"
 							label="#{msg.categoriasCLNombre}" />
 						<p:message for="nombre"></p:message>
+						
+						<p:outputLabel value="#{msg.categoriasCLCampoOrden}" for="orden"
+							styleClass="negrita" />
+						<h:inputText value="#{categoriasCLMB.seleccionado.orden}"
+							id="orden" maxlength="100" required="false"
+							label="#{msg.categoriasCLCampoOrden}" />
+						<p:message for="orden"></p:message>
 
 						<p:outputLabel value="#{msg.categoriasCLCampoAcumula}" for="campoA"
 							styleClass="negrita" />

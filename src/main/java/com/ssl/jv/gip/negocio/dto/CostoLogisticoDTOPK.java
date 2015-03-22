@@ -18,6 +18,25 @@ public class CostoLogisticoDTOPK implements Serializable {
 	private Boolean baseFob;
 	private String campoAcumula;
 	private String consecutivoDocumento;
+	private Long categoriaId;
+	private Long itemId;
+	private Integer orden;
+
+	public Long getCategoriaId() {
+		return categoriaId;
+	}
+
+	public void setCategoriaId(Long categoriaId) {
+		this.categoriaId = categoriaId;
+	}
+
+	public Long getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
+	}
 
 	public Integer getTipo() {
 		return tipo;
@@ -97,6 +116,14 @@ public class CostoLogisticoDTOPK implements Serializable {
 
 	public void setConsecutivoDocumento(String consecutivoDocumento) {
 		this.consecutivoDocumento = consecutivoDocumento;
+	}
+
+	public Integer getOrden() {
+		return orden;
+	}
+
+	public void setOrden(Integer orden) {
+		this.orden = orden;
 	}
 
 	@Override
