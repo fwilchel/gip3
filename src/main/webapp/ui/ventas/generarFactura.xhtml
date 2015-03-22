@@ -131,7 +131,6 @@
                 icon="ui-icon-zoomin" 
                 title="#{msg.gfBtnDetalle}"
                 actionListener="#{generarFacturaMB.seleccionarRemision(documento)}"
-                onsuccess="PF('dlgDetalle').show()"
                 update=":dlgDetalle :forma:msgs"/>
             </p:column>
             <!-- Documento -->
@@ -180,7 +179,8 @@
       showEffect="clip" 
       hideEffect="clip"
       modal="true"
-      dynamic="true">
+      dynamic="true"
+      visible="#{generarFacturaMB.mostrarDialogo}">
       <p:ajax 
         event="close" 
         listener="#{generarFacturaMB.cancelar()}" />

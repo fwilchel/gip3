@@ -158,7 +158,11 @@ public class DespacharMercanciaVDMB extends UtilMB{
 				this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
 			}
 		}
+		// reload list
 		documentos = despachoMercancia.consultarVentasDirectas(consecutivoDocumento);
+		// reset
+		seleccionado = null;
+		consecutivoDocumento = null;
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

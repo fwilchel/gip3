@@ -119,15 +119,17 @@ public class GenerarFacturaMB extends UtilMB {
    *
    */
   private List<ProductosXDocumento> listaProductosXRemision;
-
   private BigDecimal subtotal = new BigDecimal(0);
   private BigDecimal descuento = new BigDecimal(0);
   private BigDecimal totalIva10 = new BigDecimal(0);
   private BigDecimal totalIva16 = new BigDecimal(0);
   private BigDecimal totalIva5 = new BigDecimal(0);
   private BigDecimal total = new BigDecimal(0);
-
   private Modo modo;
+  /**
+   * Valida si se muestra o no el dialogo
+   */
+  private boolean mostrarDialogo;
 
   @PostConstruct
   public void init() {
@@ -164,11 +166,14 @@ public class GenerarFacturaMB extends UtilMB {
     modo = Modo.DETALLE;
     if (getRemisionSeleccionada().getSitioEntrega() != null && getRemisionSeleccionada().getSitioEntrega().equals("CS") && getTipoFacturaSeleccionado() != ConstantesTipoDocumento.SOLICITUD_PEDIDO) {
       addMensajeError(AplicacionMB.getMessage("gfErrorValidacion1", language));
+      setMostrarDialogo(false);
       LOGGER.debug(AplicacionMB.getMessage("gfErrorValidacion1", language));
     } else if (getTipoFacturaSeleccionado() == ConstantesTipoDocumento.SOLICITUD_PEDIDO && (getRemisionSeleccionada().getSitioEntrega() == null || !remisionSeleccionada.getSitioEntrega().equals("CS"))) {
       addMensajeError(AplicacionMB.getMessage("gfErrorValidacion2", language));
+      setMostrarDialogo(false);
       LOGGER.debug(AplicacionMB.getMessage("gfErrorValidacion2", language));
     } else {
+      setMostrarDialogo(true);
       // lista de productos para el documento de VD relacionado a la remision
       Documento documentoRelacionado = maestrosEJB.consultarDocumentoPorConsecutivo(getRemisionSeleccionada().getObservacionDocumento());
       List<ProductosXDocumento> listaSugrenciasConsultadas = ventasFacturacionEJB.consultarProductosPorDocumento(documentoRelacionado.getId());
@@ -199,10 +204,10 @@ public class GenerarFacturaMB extends UtilMB {
             p.setDescuentoxproducto(Utilidad.round(descuentoProducto));
             p.setIva(Utilidad.round(iva));
             p.setOtrosDescuentos(Utilidad.round(otrosDescuentos));
-            if (pxd.getCantidad1().compareTo(pxdqty.getCantidad1()) <= 0) {
-              p.setObservacion2("blank");
-            } else {
+            if (pxdqty.getCantidad1().compareTo(pxd.getCantidad1()) > 0) {
               p.setObservacion2("red");
+            } else {
+              p.setObservacion2("blank");
             }
             // agregar a la lista
             listaProductosXRemision.add(p);
@@ -221,8 +226,6 @@ public class GenerarFacturaMB extends UtilMB {
       }
       total = Utilidad.round(subtotal.add(descuento).add(totalIva10).add(totalIva5).add(totalIva16));
       LOGGER.debug("Total factura: " + total);
-//      RequestContext.getCurrentInstance().openDialog("dlgDetalle");
-//      RequestContext.getCurrentInstance().update(":dlgDetalle");
     }
   }
 
@@ -645,6 +648,14 @@ public class GenerarFacturaMB extends UtilMB {
    */
   public void setTotal(BigDecimal total) {
     this.total = total;
+  }
+
+  public boolean isMostrarDialogo() {
+    return mostrarDialogo;
+  }
+
+  public void setMostrarDialogo(boolean mostrarDialogo) {
+    this.mostrarDialogo = mostrarDialogo;
   }
 
 }
