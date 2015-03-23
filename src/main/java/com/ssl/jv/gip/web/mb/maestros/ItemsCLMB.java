@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -33,7 +34,7 @@ import com.ssl.jv.gip.web.util.Modo;
  *
  * <p>Company: Soft Studio Ltda.</p>
  *
- * @author Fredy Giovanny Wilches LÃ³pez
+ * @author Fredy Giovanny Wilches López
  * @email fredy.wilches@gmail.com
  * @phone 300 2146240
  * @version 1.0
@@ -118,6 +119,7 @@ public class ItemsCLMB extends UtilMB{
 		if (this.seleccionado.getMoneda()==null)
 			this.seleccionado.setMoneda(new Moneda());
 		if (this.seleccionado.getRangoCostoLogisticos()!=null){
+			Collections.sort(this.seleccionado.getRangoCostoLogisticos());
 			for (RangoCostoLogistico rcl:this.seleccionado.getRangoCostoLogisticos()){
 				if (rcl.getMoneda()==null)
 					rcl.setMoneda(new Moneda());

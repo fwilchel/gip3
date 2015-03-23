@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 
 
@@ -16,7 +18,7 @@ import java.math.BigDecimal;
 	@NamedQuery(name="RangoCostoLogistico.findByItem", query="SELECT r FROM RangoCostoLogistico r WHERE r.itemCostoLogistico= :itemCostoLogistico")
 })
 
-public class RangoCostoLogistico implements Serializable {
+public class RangoCostoLogistico implements Serializable, Comparable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -101,6 +103,12 @@ public class RangoCostoLogistico implements Serializable {
 
 	public void setMoneda(Moneda moneda) {
 		this.moneda = moneda;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		RangoCostoLogistico rcl=(RangoCostoLogistico)arg0;
+		return desde.compareTo(rcl.getDesde());
 	}
 
 }
