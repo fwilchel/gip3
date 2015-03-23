@@ -11,6 +11,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
@@ -68,6 +69,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	private BigDecimal cantidad2;
 	private Integer tipoContenedor1;
 	private Integer tipoContenedor2;
+	private List<SelectItem> tipoContenedores=new ArrayList<SelectItem>();
 	
 	@ManagedProperty(value="#{menuMB}")
 	private MenuMB menu;
@@ -100,6 +102,10 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 		Collections.sort(paises);
 		this.incoterms=this.maestrosEjb.consultarTerminoIncotermXMedioTransporte();
 		this.puertosNacionales = this.comercioEjb.consultarPuertosNacionales();
+		this.tipoContenedores.add(new SelectItem(new Integer(0), "No aplica"));
+		this.tipoContenedores.add(new SelectItem(new Integer(1), "Contenedor de 20"));
+		this.tipoContenedores.add(new SelectItem(new Integer(2), "Contenedor de 40"));
+		this.tipoContenedores.add(new SelectItem(new Integer(3), "Contenedor"));
 	}
 	
 	public AplicacionMB getAppMB() {
@@ -108,6 +114,14 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 
 	public void setAppMB(AplicacionMB appMB) {
 		this.appMB = appMB;
+	}
+	
+	public List<SelectItem> getTipoContenedores() {
+		return tipoContenedores;
+	}
+
+	public void setTipoContenedores(List<SelectItem> tipoContenedores) {
+		this.tipoContenedores = tipoContenedores;
 	}
 	
 	public MenuMB getMenu() {
@@ -124,6 +138,38 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 
 	public void setMenu(MenuMB menu) {
 		this.menu = menu;
+	}
+
+	public BigDecimal getCantidad1() {
+		return cantidad1;
+	}
+
+	public void setCantidad1(BigDecimal cantidad1) {
+		this.cantidad1 = cantidad1;
+	}
+
+	public BigDecimal getCantidad2() {
+		return cantidad2;
+	}
+
+	public void setCantidad2(BigDecimal cantidad2) {
+		this.cantidad2 = cantidad2;
+	}
+
+	public Integer getTipoContenedor1() {
+		return tipoContenedor1;
+	}
+
+	public void setTipoContenedor1(Integer tipoContenedor1) {
+		this.tipoContenedor1 = tipoContenedor1;
+	}
+
+	public Integer getTipoContenedor2() {
+		return tipoContenedor2;
+	}
+
+	public void setTipoContenedor2(Integer tipoContenedor2) {
+		this.tipoContenedor2 = tipoContenedor2;
 	}
 
 	public List<Cliente> getClientes() {
@@ -152,7 +198,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 				break;
 			}
 		}
-		List<CostoLogisticoDTO> datos=this.comercioEjb.generarCostosLogisticos(cliente, documentos, timt1, puertoNal, puertoInternal, this.trm.getId(), this.pais);
+		List<CostoLogisticoDTO> datos=this.comercioEjb.generarCostosLogisticos(cliente, documentos, timt1, puertoNal, puertoInternal, this.trm.getId(), this.pais, this.tipoContenedor1, this.cantidad1, this.tipoContenedor2, this.cantidad2);
 		this.costos=new ArrayList<GrupoCostoLogistico>();
 		for (CostoLogisticoDTO cl:datos){
 			GrupoCostoLogistico g=new GrupoCostoLogistico(cl.getId().getCategoria());;
@@ -344,20 +390,27 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 				}
 			}
 		}
+		List<DocumentoCostosLogisticosDTO> doctos=new ArrayList<DocumentoCostosLogisticosDTO>();
 		
 		for (DocumentoCostosLogisticosDTO d:this.solicitudes){
 			if (d.getSeleccionada()){
-				
+				doctos.add(d);
 				LiquidacionDocumento ld=new LiquidacionDocumento();
 				ld.setConsecutivoDocumento(d.getConsecutivoDocumento());
 				ld.setLiquidacionCostoLogistico(lcl);
 				lcl.getLiquidacionDocumentos().add(ld);
 				
-				this.comercioEjb.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal).multiply(fob), d.getValorTotalDocumento().divide(valorTotal).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal).multiply(seguros), lcl);
+				//this.comercioEjb.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal).multiply(fob), d.getValorTotalDocumento().divide(valorTotal).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal).multiply(seguros), lcl);
 			}
 		}
+		try{
+			this.comercioEjb.actualizarCostosLogisticos(valorTotal, fob, fletes, seguros, doctos, lcl);
 		
-		this.addMensajeInfo("Se han actualizado correctamente los costos logísticos en las Solicitudes seleccionadas");
+			this.addMensajeInfo("Se han actualizado correctamente los costos logísticos en las Solicitudes seleccionadas");
+		}catch(Exception e){
+			this.addMensajeError("Ya existe una liquidación previa para alguna de las solicitudes");
+			this.addMensajeInfo(e.getCause().getCause().getMessage());
+		}
 	}
 	
 	public void recalcular(){
@@ -381,6 +434,5 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 				}
 			}
 		}
-	}
-	
+	}	
 }

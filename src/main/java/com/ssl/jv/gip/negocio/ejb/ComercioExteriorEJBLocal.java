@@ -336,7 +336,7 @@ public interface ComercioExteriorEJBLocal {
           DocumentoXNegociacion documentoXNegociacion,
           List<ProductoDTO> productoDTOs);
 
-  public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais);
+  public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2);
 
   public List<Documento> consultarListaEmpaquesParaAsignarDatosTL(
           String consecutivo);
@@ -372,7 +372,8 @@ public interface ComercioExteriorEJBLocal {
   public List<Documento> consultarFP(String consecutivoDocumento, Long estado1,
           Long estado2);
 
-  public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros, LiquidacionCostoLogistico lcl);
+  //public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros, LiquidacionCostoLogistico lcl);
+  public int actualizarCostosLogisticos(BigDecimal valorTotal, BigDecimal fob, BigDecimal fletes, BigDecimal seguros, List<DocumentoCostosLogisticosDTO> documentos, LiquidacionCostoLogistico lcl);
 
   public void generarReporteOrdenDespachoPDF(JasperPrint jasperPrint, Long id)
           throws ClassNotFoundException, IOException, JRException;

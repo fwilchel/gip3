@@ -16,7 +16,7 @@ public class LiquidacionItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="LIQUIDACION_ITEM_ID_GENERATOR", sequenceName="LIQUIDACION_ITEM_ID_SEQ")
+	@SequenceGenerator(name="LIQUIDACION_ITEM_ID_GENERATOR", sequenceName="LIQUIDACION_ITEM_ID_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="LIQUIDACION_ITEM_ID_GENERATOR")
 	private Long id;
 

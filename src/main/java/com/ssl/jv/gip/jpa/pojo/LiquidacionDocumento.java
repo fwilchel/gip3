@@ -15,7 +15,7 @@ public class LiquidacionDocumento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="LIQUIDACION_DOCUMENTOS_ID_GENERATOR", sequenceName="LIQUIDACION_DOCUMENTO_ID_SEQ")
+	@SequenceGenerator(name="LIQUIDACION_DOCUMENTOS_ID_GENERATOR", sequenceName="LIQUIDACION_DOCUMENTO_ID_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="LIQUIDACION_DOCUMENTOS_ID_GENERATOR")
 	private Long id;
 

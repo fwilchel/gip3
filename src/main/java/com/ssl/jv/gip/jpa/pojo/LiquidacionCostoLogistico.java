@@ -1,8 +1,11 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,7 +20,7 @@ public class LiquidacionCostoLogistico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="LIQUIDACION_COSTO_LOGISTICO_ID_GENERATOR", sequenceName="LIQUIDACION_COSTOS_LOGISTICOS_ID_SEQ")
+	@SequenceGenerator(name="LIQUIDACION_COSTO_LOGISTICO_ID_GENERATOR", sequenceName="LIQUIDACION_COSTOS_LOGISTICOS_ID_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="LIQUIDACION_COSTO_LOGISTICO_ID_GENERATOR")
 	private Long id;
 
@@ -57,6 +60,8 @@ public class LiquidacionCostoLogistico implements Serializable {
 	private List<LiquidacionItem> liquidacionItems;
 
 	public LiquidacionCostoLogistico() {
+		this.liquidacionDocumentos=new ArrayList<LiquidacionDocumento>();
+		this.liquidacionItems=new ArrayList<LiquidacionItem>();
 	}
 
 	public Long getId() {

@@ -111,7 +111,25 @@
 					
 					<p:panel id="panelCostos">
 						<p:panelGrid columns="1" id="panelG">
-							<p:commandButton value="#{msg.costosLogisticosGenerar}" action="#{generarCLMB.generarCostosLogisticos()}" process="@form" update=":forma" icon="ui-icon-play"></p:commandButton>
+							<p:panelGrid columns="11">
+								<p:outputLabel value="Tipo de contenedor"></p:outputLabel>
+								<p:selectOneMenu value="#{generarCLMB.tipoContenedor1}">
+									<f:selectItems value="#{generarCLMB.tipoContenedores}"/>
+								</p:selectOneMenu>
+								<p:outputLabel value="Cantidad"></p:outputLabel>
+								<p:inputText value="#{generarCLMB.cantidad1}"></p:inputText>
+								
+								<p:spacer width="50"></p:spacer>
+								
+								<p:outputLabel value="Tipo de contenedor"></p:outputLabel>
+								<p:selectOneMenu value="#{generarCLMB.tipoContenedor2}">
+									<f:selectItems value="#{generarCLMB.tipoContenedores}"/>
+								</p:selectOneMenu>
+								<p:outputLabel value="Cantidad"></p:outputLabel>
+								<p:inputText value="#{generarCLMB.cantidad2}"></p:inputText>
+								
+								<p:commandButton value="#{msg.costosLogisticosGenerar}" action="#{generarCLMB.generarCostosLogisticos()}" process="@form" update=":forma" icon="ui-icon-play"></p:commandButton>
+							</p:panelGrid>
 							<p:spacer height="10"></p:spacer>
 						    <p:dataTable var="grupo" id="costos" value="#{generarCLMB.costos}" emptyMessage="No hay registros" >
 						        <f:facet name="header">

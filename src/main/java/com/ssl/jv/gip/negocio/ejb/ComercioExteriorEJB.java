@@ -1532,7 +1532,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     return productosXDocumento;
   }
 
-  public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais) {
+  public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2) {
     /*
      * aplica_fob, cfr, cif, fca, cip, dap, dapm, cpt, fcat 
      */
@@ -1544,7 +1544,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
         campo += "m";
       }
     }
-    return this.itemCostoLogisticoDAO.getCostosLogisticos(idCliente, documentos, campo, puerto, puertos, idCurrency, pais);
+    return this.itemCostoLogisticoDAO.getCostosLogisticos(idCliente, documentos, campo, puerto, puertos, idCurrency, pais, tipoContenedor1, cantidad1, tipoContenedor2, cantidad2);
   }
 
   @Override
@@ -1730,9 +1730,14 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     return lista2;
   }
 
-  public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros, LiquidacionCostoLogistico lcl) {
-	  this.liquidacionCostoLogisticoDAO.add(lcl);	  
-	  return this.documentoDAO.actualizarCostosLogisticos(idDocumento, idTerminoIncoterm, valorFob, valorFletes, valorSeguros);
+  public int actualizarCostosLogisticos(BigDecimal valorTotal, BigDecimal fob, BigDecimal fletes, BigDecimal seguros, List<DocumentoCostosLogisticosDTO> documentos, LiquidacionCostoLogistico lcl){
+  //public int actualizarCostosLogisticos(Long idDocumento, Long idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal valorSeguros, LiquidacionCostoLogistico lcl) {
+	  this.liquidacionCostoLogisticoDAO.add(lcl);
+	  int cuantos=0;
+	  for (DocumentoCostosLogisticosDTO d:documentos){
+		  cuantos+=this.documentoDAO.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal).multiply(fob), d.getValorTotalDocumento().divide(valorTotal).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal).multiply(seguros));
+	  }
+	  return cuantos;
   }
 
   @Override
