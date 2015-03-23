@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +10,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
@@ -273,6 +276,17 @@ public class ItemsCLMB extends UtilMB{
 
 	public void setMonedas(List<Moneda> monedas) {
 		this.monedas = monedas;
+	}
+	
+	public void actualizarValor(AjaxBehaviorEvent e){
+		Long l=new Long(((org.primefaces.component.inputtext.InputText)e.getSource()).getLabel());
+		for (ItemCostoLogistico icl:this.items){
+			if (icl.getId().equals(l)){
+				icl.setValor(new BigDecimal(((org.primefaces.component.inputtext.InputText)e.getSource()).getSubmittedValue().toString()));
+				this.maestrosEjb.actualizarItemCostoLogistico(icl);
+				break;
+			}
+		}
 	}
 
 }

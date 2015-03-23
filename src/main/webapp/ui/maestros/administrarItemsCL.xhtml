@@ -89,7 +89,9 @@
 						
 						<p:column headerText="#{msg.itemsCLValor}" styleClass="derecha"
 							sortBy="#{registro.valor}">
-							<h:outputText value="#{registro.valor}" />
+							<p:inputText value="#{registro.valor}" label="#{registro.id}" >
+								<p:ajax event="change" immediate="true" process="@this" listener="#{itemsCLMB.actualizarValor}" ></p:ajax>
+							</p:inputText>
 						</p:column>
 						
 						<p:column headerText="#{msg.itemsCLMoneda}" styleClass="centro"
