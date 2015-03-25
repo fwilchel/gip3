@@ -84,6 +84,7 @@ public class ClienteMB extends UtilMB{
 		this.idPais = null;
 		seleccionado.setCiudad(new Ciudad());
 		this.modo=Modo.CREACION;
+		this.isEditar = false;
 	}
 
 	public void guardar(){
