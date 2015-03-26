@@ -1020,4 +1020,59 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
     LOGGER.debug("Metodo: <<consultarDocumentoPorConsecutivo>>");
     return documentoDAO.consultarDocumentoPorConsecutivo(consecutivo);
   }
+  
+  
+  @Override
+  public void cargarPuntoEntregaDesdeArchivo(List<String[]> lines) {
+
+    int numLinea = 1;
+    List<PuntoVenta> objPuntoVentas = new ArrayList<PuntoVenta>();
+    for (String[] lineFile : lines) {
+    	objPuntoVentas.add(getPuntoVenta(numLinea, lineFile));
+    	 
+    	
+      numLinea++;
+    }
+
+    for (PuntoVenta objPuntoVenta : objPuntoVentas) {
+     
+        puntoVentaDao.guardarPuntoVenta(objPuntoVenta);
+        
+        
+        
+      }
+
+  }
+  
+  
+  private PuntoVenta getPuntoVenta(int numLinea,
+          String[] lineFile) {
+    //Nombre | Dirección | Id Ciudad | Telefono | Código Barras | Código GIP Cliente | Activo(true-false)
+	  
+	  PuntoVenta objPuntoVenta = new PuntoVenta();
+    String nombre =(lineFile[0]);
+    String direccion =(lineFile[1]);
+    Long idCiudad = Long.parseLong(lineFile[2]);
+    String telefono =(lineFile[3]);
+    Long codigoBarras = Long.parseLong(lineFile[4]);
+    Long codigoGip = Long.parseLong(lineFile[5]);
+    Boolean estado = Boolean.parseBoolean(lineFile[6]);
+    
+   
+    objPuntoVenta.setNombre(nombre);
+    objPuntoVenta.setDireccion(direccion);
+    Ciudad objCity = new Ciudad();
+	objCity.setId(idCiudad);
+	objPuntoVenta.setCiudade(objCity);
+	objPuntoVenta.setTelefono(telefono);    
+	objPuntoVenta.setCodigoBarras(codigoBarras);
+	Cliente cliente =new Cliente();
+	cliente.setId(codigoGip);
+	objPuntoVenta.setCliente(cliente);
+	objPuntoVenta.setActivo(estado);
+	
+	    
+    return objPuntoVenta;
+  }
+  
 }

@@ -13,8 +13,11 @@
 		<p:spacer height="40"></p:spacer>
 		<h:form prependId="false" id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
+		
+
+
+<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+				showIcon="true" autoUpdate="true"></p:messages>
 
 
 
@@ -286,19 +289,23 @@
 
 						<p:outputLabel value="Buscar el archivo plano con los datos de los puntos de venta a insertar formado de la siguiente manera:"
 						 styleClass="negrita" />
-						<p:outputLabel value="Nombre | Direcci�n | Id Ciudad | Telefono | C�digo Barras | C�digo GIP Cliente | Activo(true-false)"  />
+						<p:outputLabel value="Nombre | Direccion | Id Ciudad | Telefono | Codigo Barras | Codigo GIP Cliente | Activo(true-false)"  />
 						
 							
 					<p:fileUpload fileUploadListener="#{puntoEntregaMB.cargarArchivo}" 
 						 style="width:1000;" 
 						label="#{msg.generalSeleccionarArchivo}" uploadLabel="#{msg.generalCargarArchivo}" cancelLabel="#{msg.generalCancelar}" 
-						invalidFileMessage="#{msg.generalTipoArchivoNoValido}" allowTypes="/(\.|\/)(txt)$/" />
+						invalidFileMessage="#{msg.generalTipoArchivoNoValido}" allowTypes="/(\.|\/)(txt)$/"></p:fileUpload>
+						
+						
+						
 						
 											
 
 					</p:panelGrid>
 
 				
+
 
 
 					
