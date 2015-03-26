@@ -243,7 +243,7 @@
             <p:outputLabel value="#{msg.maestroCodigoInventario}" for="sku"
                            styleClass="negrita" />
             <h:inputText value="#{productosMB.seleccionado.sku}" id="sku"
-                         maxlength="10" required="false"
+                         maxlength="10" required="true"
                          disabled="#{!productosMB.creacion}"
                          label="#{msg.maestroCodigoInventario}" />
             <p:message for="sku"></p:message>
