@@ -104,12 +104,12 @@ public class IngresarCostosIncontermMB extends UtilMB{
 	 * @return the string
 	 */
 	public String consultarSolicitudPedido(){
-		dblTotalValorT=seleccionado.getValorTotalDocumento();
-		this.dblValorCostoLogistico=seleccionado.getCostoEntrega();
-		dblValorFOB=seleccionado.getCostoEntrega();
-		dblValorFletes=seleccionado.getCostoFlete();
-		dblValorSeguro=seleccionado.getCostoSeguro();
-		dblValorOtrosGastos=seleccionado.getOtrosGastos();		
+		dblTotalValorT=seleccionado.getValorTotalDocumento()==null?new BigDecimal(0):seleccionado.getValorTotalDocumento();
+		this.dblValorCostoLogistico=seleccionado.getCostoEntrega()==null?new BigDecimal(0):seleccionado.getCostoEntrega();
+		dblValorFOB=seleccionado.getCostoEntrega()==null?new BigDecimal(0):seleccionado.getCostoEntrega();
+		dblValorFletes=seleccionado.getCostoFlete()==null?new BigDecimal(0):seleccionado.getCostoFlete();
+		dblValorSeguro=seleccionado.getCostoSeguro()==null?new BigDecimal(0):seleccionado.getCostoSeguro();
+		dblValorOtrosGastos=seleccionado.getOtrosGastos()==null?new BigDecimal(0):seleccionado.getOtrosGastos();
 		dblValorTotalNeg=dblTotalValorT.add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
 		
 		return "";
