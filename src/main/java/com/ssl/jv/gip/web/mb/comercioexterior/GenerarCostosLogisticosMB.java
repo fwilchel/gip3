@@ -200,12 +200,12 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 		}
 		List<CostoLogisticoDTO> datos=this.comercioEjb.generarCostosLogisticos(cliente, documentos, timt1, puertoNal, puertoInternal, this.trm.getId(), this.pais, this.tipoContenedor1, this.cantidad1, this.tipoContenedor2, this.cantidad2);
 		
-		System.out.println("Cuantos "+datos.size());
+		//System.out.println("Cuantos "+datos.size());
 		
 		this.costos=new ArrayList<GrupoCostoLogistico>();
 		for (CostoLogisticoDTO cl:datos){
-			System.out.println(cl);
-			if (cl!=null && cl.getId()!=null){
+			//System.out.println(cl);
+			//if (cl!=null && cl.getId()!=null){
 			GrupoCostoLogistico g=new GrupoCostoLogistico(cl.getId().getCategoria());;
 			int pos=this.costos.indexOf(g);
 			if (pos==-1){
@@ -215,7 +215,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 				g=this.costos.get(pos);
 				g.addCosto(cl);
 			}
-			}
+			//}
 		}
 		this.recalcular();
 	}
