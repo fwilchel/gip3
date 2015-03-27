@@ -105,6 +105,7 @@ public class IngresarCostosIncontermMB extends UtilMB{
 	 */
 	public String consultarSolicitudPedido(){
 		dblTotalValorT=seleccionado.getValorTotalDocumento();
+		this.dblValorCostoLogistico=seleccionado.getCostoEntrega();
 		dblValorFOB=seleccionado.getCostoEntrega();
 		dblValorFletes=seleccionado.getCostoFlete();
 		dblValorSeguro=seleccionado.getCostoSeguro();
