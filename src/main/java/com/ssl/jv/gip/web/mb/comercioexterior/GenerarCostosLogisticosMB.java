@@ -205,6 +205,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 		this.costos=new ArrayList<GrupoCostoLogistico>();
 		for (CostoLogisticoDTO cl:datos){
 			System.out.println(cl);
+			if (cl.getId()!=null){
 			GrupoCostoLogistico g=new GrupoCostoLogistico(cl.getId().getCategoria());;
 			int pos=this.costos.indexOf(g);
 			if (pos==-1){
@@ -213,6 +214,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 			}else{
 				g=this.costos.get(pos);
 				g.addCosto(cl);
+			}
 			}
 		}
 		this.recalcular();
