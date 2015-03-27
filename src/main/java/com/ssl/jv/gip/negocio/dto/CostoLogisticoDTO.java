@@ -28,4 +28,12 @@ public class CostoLogisticoDTO {
 		this.seleccionado = seleccionado;
 	}
 
+	@Override
+	public String toString() {
+		return "CostoLogisticoDTO [id=" + id + ", seleccionado=" + seleccionado
+				+ "]";
+	}
+	
+	
+
 }

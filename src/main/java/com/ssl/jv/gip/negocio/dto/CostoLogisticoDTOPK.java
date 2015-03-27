@@ -138,5 +138,16 @@ public class CostoLogisticoDTOPK implements Serializable {
 		return super.hashCode();
 	}
 
+	@Override
+	public String toString() {
+		return "CostoLogisticoDTOPK [tipo=" + tipo + ", categoria=" + categoria
+				+ ", item=" + item + ", descripcion=" + descripcion
+				+ ", cantidad=" + cantidad + ", valor=" + valor
+				+ ", valorMinimo=" + valorMinimo + ", baseFob=" + baseFob
+				+ ", campoAcumula=" + campoAcumula + ", consecutivoDocumento="
+				+ consecutivoDocumento + ", categoriaId=" + categoriaId
+				+ ", itemId=" + itemId + ", orden=" + orden + "]";
+	}
+
 	
 }
