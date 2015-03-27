@@ -45,8 +45,7 @@
 							<p:commandButton oncomplete="PF('datoDialog').show()"
 								process="@this"
 								action="#{despacharMercanciaMB.consultarProductosVentaDirecta}"
-								icon="ui-icon-search"
-								update=":datoDlg">
+								icon="ui-icon-search" update=":datoDlg">
 								<f:setPropertyActionListener value="#{dato}"
 									target="#{despacharMercanciaMB.seleccionado}" />
 							</p:commandButton>
@@ -73,9 +72,8 @@
 						<p:column filterBy="#{dato.fechaGeneracion}"
 							headerText="#{msg.documentoFechaGeneracion}"
 							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
-							<h:outputText value="#{dato.fechaGeneracion}" >
-								<f:convertDateTime 
-                  					pattern="dd-MMM-yyyy"/>
+							<h:outputText value="#{dato.fechaGeneracion}">
+								<f:convertDateTime pattern="dd-MMM-yyyy" />
 							</h:outputText>
 						</p:column>
 					</p:dataTable>
@@ -83,9 +81,9 @@
 			</p:tabView>
 		</h:form>
 
-		<p:dialog header="#{msg.VDTitulo}"
-			widgetVar="datoDialog" modal="true" showEffect="fade"
-			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+		<p:dialog header="#{msg.VDTitulo}" widgetVar="datoDialog" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false" dynamic="true"
+			id="datoDlg">
 			<h:form id="formaDlg">
 				<p:outputPanel id="datoDetalle" style="text-align:center;">
 					<p:messages id="msgs2" showDetail="false" showSummary="true"
@@ -121,34 +119,33 @@
 							value="#{despacharMercanciaMB.seleccionado.ubicacionDestino.nombre}"
 							size="30" id="ubicacionDestino"
 							label="#{msg.maestroDireccionCliente}" disabled="true" />
-						
-						<p:outputLabel value="#{msg.VDNombreFechaEsperadaEntrega}" for="fechaEsperadaEntrega"
-							styleClass="negrita" />
+
+						<p:outputLabel value="#{msg.VDNombreFechaEsperadaEntrega}"
+							for="fechaEsperadaEntrega" styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.fechaEsperadaEntrega}"
 							id="fechaEsperadaEntrega" label="#{msg.FechaDespacho}"
 							disabled="true">
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
-						
-						<p:outputLabel value="#{msg.VDNombreFechaEntrega}" for="fechaEntrega"
-							styleClass="negrita" />
+
+						<p:outputLabel value="#{msg.VDNombreFechaEntrega}"
+							for="fechaEntrega" styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.fechaEntrega}"
-							id="fechaEntrega" label="#{msg.FechaDespacho}"
-							disabled="true">
+							id="fechaEntrega" label="#{msg.FechaDespacho}" disabled="true">
 							<f:convertDateTime pattern="dd-MMM-yyyy" />
 						</h:inputText>
-						
+
 						<p:outputLabel value="#{msg.VDEntidadFacturar}"
 							for="clienteDireccion" styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.observacionDocumento}"
-							size="30" id="entidadFacturar"
+							size="30" id="clienteDireccion"
 							label="#{msg.maestroDireccionCliente}" disabled="true" />
-						
-						<p:outputLabel value="#{msg.VDSitioEntrega}"
-							for="sitioEntrega" styleClass="negrita" />
+
+						<p:outputLabel value="#{msg.VDSitioEntrega}" for="sitioEntrega"
+							styleClass="negrita" />
 						<h:inputText
 							value="#{despacharMercanciaMB.seleccionado.sitioEntrega}"
 							size="30" id="sitioEntrega"
@@ -162,10 +159,15 @@
 
 					</p:panelGrid>
 
-					<p:dataTable var="producto" widgetVar="productoDoc"
-						id="tablaProductos" sortBy="#{producto.idDocumento}"
-						rendered="#{not empty despacharMercanciaMB.productos}"
-						value="#{despacharMercanciaMB.productos}">
+					<p:dataTable 
+						id="tablaProductos" 
+						value="#{despacharMercanciaMB.productos}"
+						var="producto" 
+						widgetVar="productoDoc"
+						sortBy="#{producto.idDocumento}"
+						selection="#{despacharMercanciaMB.productosSeleccionados}" 
+            			rowKey="#{producto.idDocumento}" 
+            			rendered="#{not empty despacharMercanciaMB.productos}">
 
 						<p:column styleClass="centro"
 							headerText="#{msg.comprasProductoSKU}">
@@ -190,8 +192,7 @@
 
 						<p:column styleClass="derecha"
 							headerText="#{msg.despachoCantidadADespachada}">
-							<h:outputText
-								value="#{producto.cantidadAdespachar}">
+							<h:outputText value="#{producto.cantidadAdespachar}">
 								<f:convertNumber maxFractionDigits="2" />
 							</h:outputText>
 						</p:column>
@@ -208,35 +209,30 @@
 							<h:outputText value="#{producto.observaciones}" />
 						</p:column>
 
-						<p:column styleClass="derecha"
-							headerText="#{msg.despachoIncluirDespacho}">
-							<p:selectBooleanCheckbox value="#{despacharMercanciaMB.listo}" />
-						</p:column>
+			            <!-- opcion de anular el registro -->
+			            <p:column 
+			              selectionMode="multiple" 
+			              style="width:16px;text-align:center" />
 					</p:dataTable>
 
 					<p:spacer height="10" />
 					<p:panelGrid columns="2">
 						<p:column styleClass="derecha">
 							<p:commandButton value="#{msg.despachoDespachar}"
-								icon="ui-icon-check"
-								process="@this"
+								icon="ui-icon-check" process="@this tablaProductos"
 								oncomplete="PF('confirmacionDLG').show()"
 								disabled="#{ordenesDespachoMB.deshabilitado}" id="btnDespachar" />
 						</p:column>
 						<p:column styleClass="derecha">
 							<h:outputText value="#{msg.MenuReportes}" />
 							<p:spacer width="10" />
-							<p:commandButton value="#{msg.ReporteExcel}" 
-								icon="ui-icon-script"
-								ajax="false"
-								id="btnGenerarExcel">
-								<p:fileDownload value="#{despacharMercanciaMB.reporteExcel}" />	
+							<p:commandButton value="#{msg.ReporteExcel}"
+								icon="ui-icon-script" ajax="false" id="btnGenerarExcel">
+								<p:fileDownload value="#{despacharMercanciaMB.reporteExcel}" />
 							</p:commandButton>
-							<p:commandButton value="#{msg.ReportePdf}" 
-								icon="ui-icon-script"
-								ajax="false"
-								id="btnGenerarPdf">
-								<p:fileDownload value="#{despacharMercanciaMB.reportePDF}" />	
+							<p:commandButton value="#{msg.ReportePdf}" icon="ui-icon-script"
+								ajax="false" id="btnGenerarPdf">
+								<p:fileDownload value="#{despacharMercanciaMB.reportePDF}" />
 							</p:commandButton>
 						</p:column>
 					</p:panelGrid>
@@ -245,9 +241,9 @@
 			</h:form>
 		</p:dialog>
 
-		<p:dialog header="#{msg.despacharMercanciaConfirmar}" widgetVar="confirmacionDLG"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
-			id="confirmacionDlg">
+		<p:dialog header="#{msg.despacharMercanciaConfirmar}"
+			widgetVar="confirmacionDLG" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" id="confirmacionDlg">
 			<h:form id="confirmacionFormaDlg">
 				<h:outputText value="#{msg.despacharMercanciaSeguro}" />
 				<p:spacer height="10" />
@@ -258,7 +254,7 @@
 				</p:commandButton>
 			</h:form>
 		</p:dialog>
-		
+
 	</ui:define>
 </ui:composition>
 

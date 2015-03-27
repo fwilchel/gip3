@@ -3,6 +3,7 @@ package com.ssl.jv.gip.web.mb.maestros;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -79,6 +80,11 @@ public class PuntoEntregaMB extends UtilMB{
 	
 	
 	private Modo modoDetalle;
+	
+	@EJB
+	private MaestrosEJBLocal maestroFacade;
+	
+	private UploadedFile uploadedFile;
 	
 
 	public PuntoEntregaMB(){
@@ -274,8 +280,9 @@ public class PuntoEntregaMB extends UtilMB{
 	
 	public void cargarArchivo(FileUploadEvent fileUploadEvent) {
 		try {
-			UploadedFile uploadedFile = fileUploadEvent.getFile();
-			// this.comercioExteriorEJBLocal
+			
+			uploadedFile = fileUploadEvent.getFile();
+			
 
 			List<String[]> lines = obtenerDatosDesdeArchivo(uploadedFile
 					.getContents());
@@ -284,33 +291,13 @@ public class PuntoEntregaMB extends UtilMB{
 			if (lines.isEmpty()) {
 				this.addMensajeError("Archivo vacío");
 			} else {
-				List<String> skus = new ArrayList<String>();
-				for (String[] line : lines) {
-					skus.add(line[0]);
-				}
-			/*	List<ProductosInventario> productos = comercioExteriorEJBLocal
-						.consultarProductosInventariosPorSkus(skus);
-
-				this.productosInventarios = obtenerProductosInexistentes(skus,
-						productos);
-
-				this.productosXDocumentos = comercioExteriorEJBLocal
-						.consultarProductosXDocumentosPorDocumento(seleccionado
-								.getId());
-				for (ProductosXDocumento productosXDocumento : productosXDocumentos) {
-					actualizarConDatosDeArchivo(productosXDocumento, lines);
-					totalCantidad = totalCantidad.add(productosXDocumento
-							.getCantidad1());
-					totalPallets = totalPallets.add(productosXDocumento
-							.getCantidadPalletsItem());
-					totalCajas = totalCajas.add(productosXDocumento
-							.getCantidadCajasItem());
-					totalPesoNeto = totalPesoNeto.add(productosXDocumento
-							.getTotalPesoNetoItem());
-					totalPesoBruto = totalPesoBruto.add(productosXDocumento
-							.getTotalPesoBrutoItem());
-				}
-*/
+				
+				maestroFacade.cargarPuntoEntregaDesdeArchivo(lines);
+				
+				
+		this.addMensajeInfo("Archivo cargado con éxito");
+				
+			
 				this.addMensajeInfo("Vista preliminar cargada con éxito");
 			}
 
@@ -343,13 +330,30 @@ public class PuntoEntregaMB extends UtilMB{
 		boolean error = false;
 		String message = null;
 		int numLinea = 0;
-		String line = reader.readLine();
+		String line = null;
+		
+		System.out.println("line0: "+line);
+		
+		
 		while ((line = reader.readLine()) != null) {
 			numLinea++;
+			System.out.println("line1: "+line);
+			
 			if (!line.isEmpty()) {
 				String[] values = line.split("\\|");
-				if (values.length != 5) {
+				
+				System.out.println("linea: "+values);
+				
+				if (values.length < 6 || values.length > 7) {
 					message = "Error de estructura en la línea " + numLinea;
+					error = true;
+					break;
+				}
+				
+				System.out.println("linea0: "+values[0].trim());
+
+				if (values[0].trim().isEmpty()) {
+					message = "Error de datos en la línea " + numLinea;
 					error = true;
 					break;
 				}
@@ -361,10 +365,11 @@ public class PuntoEntregaMB extends UtilMB{
 				// }
 
 				try {
-					new BigDecimal(values[1].trim());
-					new BigDecimal(values[2].trim());
-					new BigDecimal(values[3].trim());
-					new BigDecimal(values[4].trim());
+				//	new BigDecimal(values[1].trim());
+					//new BigDecimal(values[2].trim());
+					Long.parseLong(values[2].trim());
+					Long.parseLong(values[4].trim());
+					Long.parseLong(values[5].trim());
 				} catch (NumberFormatException e) {
 					message = "Error de datos en la línea " + numLinea;
 					error = true;
@@ -391,5 +396,13 @@ public class PuntoEntregaMB extends UtilMB{
 		this.filtro = filtro;
 	}
 
+	
+	public UploadedFile getUploadedFile() {
+		return uploadedFile;
+	}
+
+	public void setUploadedFile(UploadedFile uploadedFile) {
+		this.uploadedFile = uploadedFile;
+	}
 
 }

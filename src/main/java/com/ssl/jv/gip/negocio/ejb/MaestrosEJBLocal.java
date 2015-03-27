@@ -397,4 +397,7 @@ public interface MaestrosEJBLocal {
    * @return 
    */
   Documento consultarDocumentoPorConsecutivo(String consecutivo);
+  
+  
+  public void cargarPuntoEntregaDesdeArchivo(List<String[]> lines);
 }
