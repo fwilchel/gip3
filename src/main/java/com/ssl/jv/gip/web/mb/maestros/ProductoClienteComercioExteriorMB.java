@@ -234,8 +234,8 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
 				productosXClienteComext.setActivo(seleccionado.getActivo());
 				productosXClienteComext.setIva(BigDecimal.ZERO);
 			}
-			maestroFacade
-					.guardarRelacionProductosClienteComercioExterior(productosSeleccionados);
+			maestroFacade.guardarRelacionProductosClienteComercioExterior(
+					idUsuario, productosSeleccionados);
 			for (ProductosXClienteComext productosXClienteComext : productosSeleccionados) {
 				if (productosXClienteComext.getProductosInventario()
 						.isIncluido()) {
