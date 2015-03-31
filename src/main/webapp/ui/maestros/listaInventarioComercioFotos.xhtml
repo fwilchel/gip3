@@ -11,119 +11,152 @@
 
 	<ui:define name="contenido">
 		<p:spacer height="40"></p:spacer>
-		
+
 		<h:form prependId="false" id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
-				showIcon="true" autoUpdate="true"></p:messages>
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true" autoUpdate="true"></p:messages>
 
 
 
 			<p:tabView id="tabPanel">
-			
-				<p:tab title="#{msg.inventarioComercioFotos_TituloFrame}">
-					
-					<p:panelGrid columns="3"
-						columnClasses="label,value">
 
-						<p:outputLabel value="#{msg.inventarioComercioFotos_RutaServidor}" for="ruta" styleClass="negrita" />
-						<h:outputText value="#{inventarioComercioFotosMB.pathServidor}" id="ruta" required="false" disabled="false" 
+				<p:tab title="#{msg.inventarioComercioFotos_TituloFrame}">
+
+					<p:panelGrid columns="3" columnClasses="label,value">
+
+						<p:outputLabel value="#{msg.inventarioComercioFotos_RutaServidor}"
+							for="ruta" styleClass="negrita" />
+						<h:outputText value="#{inventarioComercioFotosMB.pathServidor}"
+							id="ruta" required="false" disabled="false"
 							label="#{msg.inventarioComercioFotos_RutaServidor}" />
 						<p:message for="ruta"></p:message>
 
-						<p:outputLabel value="#{msg.inventarioComercioFotos_SKU}" for="sku" styleClass="negrita" />
-						<p:inputText value="#{inventarioComercioFotosMB.filtroVO.skuProducto}" id="sku" required="false" maxlength="40" 
+						<p:outputLabel value="#{msg.inventarioComercioFotos_SKU}"
+							for="sku" styleClass="negrita" />
+						<p:inputText
+							value="#{inventarioComercioFotosMB.filtroVO.skuProducto}"
+							id="sku" required="false" maxlength="40"
 							label="#{msg.inventarioComercioFotos_SKU}" />
 						<p:message for="sku"></p:message>
-					
-						<p:outputLabel value="#{msg.inventarioComercioFotos_Nombredelproducto}" for="nombreProd" styleClass="negrita"/>
-						<p:inputText value="#{inventarioComercioFotosMB.filtroVO.nombreProducto}" id="nombreProd" maxlength="40" 
-							label="#{msg.inventarioComercioFotos_Nombredelproducto}" required="false" />
+
+						<p:outputLabel
+							value="#{msg.inventarioComercioFotos_Nombredelproducto}"
+							for="nombreProd" styleClass="negrita" />
+						<p:inputText
+							value="#{inventarioComercioFotosMB.filtroVO.nombreProducto}"
+							id="nombreProd" maxlength="40"
+							label="#{msg.inventarioComercioFotos_Nombredelproducto}"
+							required="false" />
 						<p:message for="nombreProd"></p:message>
-	
-						<p:outputLabel value="#{msg.inventarioComercioFotos_Categoriadeinventario}" for="categoria" styleClass="negrita" />
-						<p:selectOneMenu id="categoria" value="#{inventarioComercioFotosMB.filtroVO.idCategoria}" height="200" 
+
+						<p:outputLabel
+							value="#{msg.inventarioComercioFotos_Categoriadeinventario}"
+							for="categoria" styleClass="negrita" />
+						<p:selectOneMenu id="categoria"
+							value="#{inventarioComercioFotosMB.filtroVO.idCategoria}"
+							height="200"
 							label="#{msg.inventarioComercioFotos_Categoriadeinventario}">
 							<f:selectItem itemValue="-1" itemLabel="#{msg.generalTodos}"></f:selectItem>
-							<f:selectItems value="#{inventarioComercioFotosMB.categoriasInventarios}" />
+							<f:selectItems
+								value="#{inventarioComercioFotosMB.categoriasInventarios}" />
 						</p:selectOneMenu>
 						<p:message for="categoria"></p:message>
 
 					</p:panelGrid>
-					
-						<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" 
-							actionListener="#{inventarioComercioFotosMB.consultarProductosInventarioComExt}" 
-							update=":forma:tabPanel:tablaDatos" >
-						</p:commandButton>
-						
-					<p:spacer width="30"></p:spacer>					
-					
-					<p:dataGrid var="dato" widgetVar="datoTabla" id="tablaDatos" columns="4"
+
+					<p:commandButton value="#{msg.generalConsultar}"
+						icon="ui-icon-disk"
+						actionListener="#{inventarioComercioFotosMB.consultarProductosInventarioComExt}"
+						update=":forma:tabPanel:tablaDatos">
+					</p:commandButton>
+
+					<p:spacer width="30"></p:spacer>
+
+					<p:dataGrid var="dato" widgetVar="datoTabla" id="tablaDatos"
+						columns="4"
 						value="#{inventarioComercioFotosMB.productosInventarioComexts}"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true" rows="10"
-						paginatorPosition="bottom"  layout="grid"
+						paginatorPosition="bottom" layout="grid"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
-						
+
 						<f:facet name="header">
 							<div align="right">
 								<p:outputPanel>
-									<p:commandButton action="#{inventarioComercioExteriorMB.nuevo}" title="#{msg.generalAdicionarRegistro}"
-										icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
-									<p:spacer width="30"></p:spacer>	
+									<p:commandButton action="#{inventarioComercioExteriorMB.nuevo}"
+										title="#{msg.generalAdicionarRegistro}"
+										icon="ui-icon-document"
+										value="#{msg.generalAdicionarRegistro}" />
+									<p:spacer width="30"></p:spacer>
 									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
-												<p:inputText id="globalFilter"
-													onkeyup="PF('datoTabla').filter()" style="width:150px"
-													placeholder="#{msg.generalPalabrasBuscar}" />
-									<p:spacer width="30"></p:spacer>				
-									<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
+									<p:inputText id="globalFilter"
+										onkeyup="PF('datoTabla').filter()" style="width:150px"
+										placeholder="#{msg.generalPalabrasBuscar}" />
+									<p:spacer width="30"></p:spacer>
+									<p:commandButton action="introduccion"
+										title="#{msg.generalCancelar}" ajax="false"
 										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
 								</p:outputPanel>
 							</div>
 						</f:facet>
-						
-						<p:panel header="#{dato.productosInventario.nombre}" style="text-align:center"  >
-				            <p:panelGrid columns="2" columnClasses="label, value" style="width: 100%;margin:0px" >
-								
-								<p:outputLabel value="#{msg.inventarioComercioFotos_Foto}" for="foto" styleClass="negrita" />
-								<p:commandLink id="foto" action="#{inventarioComercioFotosMB.editar}" title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}">
-									<h:graphicImage 
-										value="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}" 
+
+						<p:panel header="#{dato.productosInventario.nombre}"
+							style="text-align:center">
+							<p:panelGrid columns="2" columnClasses="label, value"
+								style="width: 100%;margin:0px">
+
+								<p:outputLabel value="#{msg.inventarioComercioFotos_Foto}"
+									for="foto" styleClass="negrita" />
+								<p:commandLink id="foto"
+									action="#{inventarioComercioFotosMB.editar}"
+									title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}">
+									<h:graphicImage
+										value="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}"
 										title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}"
-										height="181"
-										width="165" />
-									<f:setPropertyActionListener value="#{dato}" target="#{inventarioComercioFotosMB.seleccionado}" />
+										height="181" width="165" />
+									<f:setPropertyActionListener value="#{dato}"
+										target="#{inventarioComercioFotosMB.seleccionado}" />
 								</p:commandLink>
 
 
-								<p:outputLabel value="#{msg.inventarioComercioFotos_Sku}" for="sku2" styleClass="negrita" />
+								<p:outputLabel value="#{msg.inventarioComercioFotos_Sku}"
+									for="sku2" styleClass="negrita" />
 								<h:outputText id="sku2" value="#{dato.productosInventario.sku}"></h:outputText>
-								
-								
-								<p:outputLabel value="#{msg.inventarioComercioFotos_NombreIngles}" for="nombre" styleClass="negrita" />
-								<p:inputTextarea value="#{dato.descripcion}"
-									id="nombre" label="#{msg.inventarioComercioFotos_NombreIngles}" />
-								
-								
-								<p:outputLabel value="#{msg.inventarioComercioFotos_NombreProveedor}" for="proovedor" styleClass="negrita" />
-								<p:inputTextarea value="#{dato.nombrePrdProveedor}"
-									id="proovedor" label="#{msg.inventarioComercioFotos_NombreProveedor}" />
-								
-								
-								<p:outputLabel value="#{msg.inventarioComercioFotos_Estado}" for="estado" styleClass="negrita" />
-								<h:outputText id="estado" value="#{dato.productosInventario.desactivado}"></h:outputText>								
-								
-								<p:outputLabel value="#{msg.inventarioComercioFotos_Ruta}" for="ruta" styleClass="negrita" />
-								<h:outputText id="ruta" value="#{dato.rutaFoto1}"></h:outputText>
-								
-				            </p:panelGrid>
-				        </p:panel>
 
-						
+
+								<p:outputLabel
+									value="#{msg.inventarioComercioFotos_NombreIngles}"
+									for="nombre" styleClass="negrita" />
+								<p:inputTextarea value="#{dato.descripcion}" id="nombre"
+									label="#{msg.inventarioComercioFotos_NombreIngles}" />
+
+
+								<p:outputLabel
+									value="#{msg.inventarioComercioFotos_NombreProveedor}"
+									for="proovedor" styleClass="negrita" />
+								<p:inputTextarea value="#{dato.nombrePrdProveedor}"
+									id="proovedor"
+									label="#{msg.inventarioComercioFotos_NombreProveedor}" />
+
+
+								<p:outputLabel value="#{msg.inventarioComercioFotos_Estado}"
+									for="estado" styleClass="negrita" />
+								<h:outputText id="estado"
+									value="#{dato.productosInventario.desactivado}"></h:outputText>
+
+								<p:outputLabel value="#{msg.inventarioComercioFotos_Ruta}"
+									for="ruta" styleClass="negrita" />
+								<h:outputText id="ruta" value="#{dato.rutaFoto1}"></h:outputText>
+
+							</p:panelGrid>
+						</p:panel>
+
+
 					</p:dataGrid>
-					
+
 				</p:tab>
-								
+
 			</p:tabView>
 
 		</h:form>
