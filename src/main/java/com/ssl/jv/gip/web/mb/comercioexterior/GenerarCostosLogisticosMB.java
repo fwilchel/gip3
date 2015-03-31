@@ -188,7 +188,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 			}
 		}
 		if (documentos.size()==0){
-			this.addMensajeError("Debe seleccionar al menos una solicitud");
+			this.addMensajeError(AplicacionMB.getMessage("costosLogisticosMinimoUnaSolicitud", language));
 			return;
 		}
 		TerminoIncotermXMedioTransporte timt1=null;
@@ -412,9 +412,9 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 		try{
 			this.comercioEjb.actualizarCostosLogisticos(valorTotal, fob, fletes, seguros, doctos, lcl);
 		
-			this.addMensajeInfo("Se han actualizado correctamente los costos logísticos en las Solicitudes seleccionadas");
+			this.addMensajeInfo(AplicacionMB.getMessage("costosLogisticosActualizacionExitosa", language));
 		}catch(Exception e){
-			this.addMensajeError("Ya existe una liquidación previa para alguna de las solicitudes");
+			this.addMensajeError(AplicacionMB.getMessage("costosLogisticosSolicitudYaGuardada", language));
 			this.addMensajeInfo(e.getCause().getCause().getMessage());
 		}
 	}

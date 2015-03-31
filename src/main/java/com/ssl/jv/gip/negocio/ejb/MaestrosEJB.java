@@ -845,7 +845,14 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		return this.itemCostoLogisticoDAO.findByPK(id);
 	}
 
+
+	
 	public ItemCostoLogistico actualizarItemCostoLogistico(ItemCostoLogistico icl) {
+		if (icl.getNombrePuertoNal()!=null && icl.getNombrePuertoNal().equals(""))
+			icl.setNombrePuertoNal(null);
+		if (icl.getNombrePuertosNalInternal()!=null && icl.getNombrePuertosNalInternal().equals(""))
+			icl.setNombrePuertosNalInternal(null);
+
 		this.itemCostoLogisticoDAO.update(icl);
 		if (icl.getRangoCostoLogisticos() != null) {
 			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
@@ -864,6 +871,11 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl) {
+		if (icl.getNombrePuertoNal()!=null && icl.getNombrePuertoNal().equals(""))
+			icl.setNombrePuertoNal(null);
+		if (icl.getNombrePuertosNalInternal()!=null && icl.getNombrePuertosNalInternal().equals(""))
+			icl.setNombrePuertosNalInternal(null);
+		
 		ItemCostoLogistico icl2 = this.itemCostoLogisticoDAO.add(icl);
 		icl.setId(icl2.getId());
 		if (icl.getRangoCostoLogisticos() != null) {
