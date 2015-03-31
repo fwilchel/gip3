@@ -232,7 +232,9 @@ public class ProductosMB extends UtilMB{
 		}catch(EJBTransactionRolledbackException e){
 			if (this.isException(e, "productosinventario_pkey")){
 				this.addMensajeError("formaDlg:codigo", AplicacionMB.getMessage("MaestroInventarioErrorPaginaBotonYaExiste", language));
-			}else{
+			} if (this.isException(e, "productos_inventario_codigo_inventario_id_pais_idx")){
+				this.addMensajeError("formaDlg:sku", AplicacionMB.getMessage("maestroProductoMsgValidacionSku", language));
+			} else {
 				this.addMensajeError(AplicacionMB.getMessage("MaestroInventarioErrorPaginaBoton", language));
 			}
 			LOGGER.error(e);

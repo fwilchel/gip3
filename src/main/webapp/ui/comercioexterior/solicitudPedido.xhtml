@@ -260,43 +260,43 @@
 
 						<p:column headerText="#{msg.costeoComperasValorUnitarioML}">
 							<h:outputText value="#{producto.dblPrecioUSD}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="$#####,###,###,###.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.VentasRemisionValorTotal}">
 							<h:outputText value="#{producto.dblValorTotalProductoxDocumento}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="$#####,###,###,###.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.PesoNetoVista}">
 							<h:outputText value="#{producto.dblTotalPesoNeto}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,###.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.PesoBrutoVista}">
 							<h:outputText value="#{producto.dblTotalPesoBruto}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,###.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.SPcantidadCajas}">
 							<h:outputText value="#{producto.dblTotalCajas}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,###.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.SPcantidadTendido}">
 							<h:outputText value="#{producto.dblTotalCajasTendido}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,###.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.SPcantidadPallet}">
 							<h:outputText value="#{producto.dblTotalCajasPallet}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,###.00" />
 							</h:outputText>
 						</p:column>
 

@@ -193,6 +193,18 @@
 							label="#{msg.maestroUbicacionesEsTienda}" />
 						<p:message for="estienda"></p:message>
 
+						<h:outputLabel 
+							for="codigoSAP" 
+							value="#{msg.maestroUbicacionLabelCodigoSAP}"
+							styleClass="negrita" />
+						<p:inputText
+							id="codigoSAP"
+							value="#{ubicacionMB.seleccionado.objetoCo}" 
+							required="true"
+							label="#{msg.maestroUbicacionLabelCodigoSAP}" />
+						<p:message 
+							for="codigoSAP"/>
+
 					</p:panelGrid>
 
 

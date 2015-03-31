@@ -17,6 +17,7 @@ import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.FactsCurrencyConversion;
 import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.MetodoPago;
@@ -57,7 +58,7 @@ public interface MaestrosEJBLocal {
 	 * Consultar ubicaciones.
 	 *
 	 * @param pFiltro
-	 *            the filtro
+	 *          the filtro
 	 * @return the list
 	 */
 	public List<Ubicacion> consultarUbicaciones(Ubicacion pFiltro);
@@ -66,7 +67,7 @@ public interface MaestrosEJBLocal {
 	 * Consultar ubicacion.
 	 *
 	 * @param pId
-	 *            the id
+	 *          the id
 	 * @return the ubicacion
 	 */
 	public Ubicacion consultarUbicacion(Long pId);
@@ -75,7 +76,7 @@ public interface MaestrosEJBLocal {
 	 * Crear ubicacion.
 	 *
 	 * @param pEntidad
-	 *            the entidad
+	 *          the entidad
 	 * @return the ubicacion
 	 */
 	public Ubicacion crearUbicacion(Ubicacion pEntidad);
@@ -84,7 +85,7 @@ public interface MaestrosEJBLocal {
 	 * Modificar ubicacion.
 	 *
 	 * @param pEntidad
-	 *            the entidad
+	 *          the entidad
 	 * @return the ubicacion
 	 */
 	public Ubicacion actualizarUbicacion(Ubicacion pEntidad);
@@ -100,7 +101,7 @@ public interface MaestrosEJBLocal {
 	 * Consultar agencias carga.
 	 *
 	 * @param pFiltro
-	 *            the filtro
+	 *          the filtro
 	 * @return the list
 	 */
 	public List<AgenciaCarga> consultarAgenciasCarga(AgenciaCarga pFiltro);
@@ -109,7 +110,7 @@ public interface MaestrosEJBLocal {
 	 * Crear agencia carga.
 	 *
 	 * @param pEntidad
-	 *            the entidad
+	 *          the entidad
 	 * @return the agencia carga
 	 */
 	public AgenciaCarga crearAgenciaCarga(AgenciaCarga pEntidad);
@@ -118,7 +119,7 @@ public interface MaestrosEJBLocal {
 	 * Actualizar agencia carga.
 	 *
 	 * @param pEntidad
-	 *            the entidad
+	 *          the entidad
 	 * @return the agencia carga
 	 */
 	public AgenciaCarga actualizarAgenciaCarga(AgenciaCarga pEntidad);
@@ -134,7 +135,7 @@ public interface MaestrosEJBLocal {
 	 * Consultar LugarIncoterm.
 	 *
 	 * @param pId
-	 *            the id
+	 *          the id
 	 * @return the LugarIncoterm
 	 */
 	public LugarIncoterm consultarLugarIncoterm(Long pId);
@@ -143,7 +144,7 @@ public interface MaestrosEJBLocal {
 	 * Crear LugarIncoterm.
 	 *
 	 * @param pEntidad
-	 *            the entidad
+	 *          the entidad
 	 * @return the LugarIncoterm
 	 */
 	public LugarIncoterm crearLugarIncoterm(LugarIncoterm pEntidad);
@@ -152,7 +153,7 @@ public interface MaestrosEJBLocal {
 	 * Modificar LugarIncoterm.
 	 *
 	 * @param pEntidad
-	 *            the entidad
+	 *          the entidad
 	 * @return the LugarIncoterm
 	 */
 	public LugarIncoterm actualizarLugarIncoterm(LugarIncoterm pEntidad);
@@ -163,8 +164,7 @@ public interface MaestrosEJBLocal {
 	 * @return lista de productos por cliente que cumplan las condiciones del
 	 *         filtro
 	 */
-	public List<ProductosXClienteComext> consultarProductosClienteComercioExteriorPorFiltro(
-			ProductosXClienteComExtFiltroVO filtroVO);
+	public List<ProductosXClienteComext> consultarProductosClienteComercioExteriorPorFiltro(ProductosXClienteComExtFiltroVO filtroVO);
 
 	/**
 	 * @return lista de productos por cliente
@@ -182,31 +182,28 @@ public interface MaestrosEJBLocal {
 	 * Consultar TerminoIncotermXMedioTransporte.
 	 *
 	 * @param pId
-	 *            the id
+	 *          the id
 	 * @return the TerminoIncotermXMedioTransporte
 	 */
-	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(
-			Long pId);
+	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(Long pId);
 
 	/**
 	 * Crear TerminoIncotermXMedioTransporte.
 	 *
 	 * @param pEntidad
-	 *            the entidad
+	 *          the entidad
 	 * @return the TerminoIncotermXMedioTransporte
 	 */
-	public TerminoIncotermXMedioTransporte crearTerminoIncotermXMedioTransporte(
-			TerminoIncotermXMedioTransporte pEntidad);
+	public TerminoIncotermXMedioTransporte crearTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad);
 
 	/**
 	 * Modificar TerminoIncotermXMedioTransporte.
 	 *
 	 * @param pEntidad
-	 *            the entidad
+	 *          the entidad
 	 * @return the TerminoIncotermXMedioTransporte
 	 */
-	public TerminoIncotermXMedioTransporte actualizarTerminoIncotermXMedioTransporte(
-			TerminoIncotermXMedioTransporte pEntidad);
+	public TerminoIncotermXMedioTransporte actualizarTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad);
 
 	/**
 	 * Consultar TerminoIncoterm.
@@ -233,7 +230,7 @@ public interface MaestrosEJBLocal {
 	 * Crea un agente de aduana
 	 *
 	 * @param pEntidad
-	 *            nuevo agente de aduana
+	 *          nuevo agente de aduana
 	 * @return
 	 */
 	public AgenteAduana crearAgenteAduana(AgenteAduana pEntidad);
@@ -242,7 +239,7 @@ public interface MaestrosEJBLocal {
 	 * Actualiza un agente de aduana
 	 *
 	 * @param pEntidad
-	 *            agente actualizado
+	 *          agente actualizado
 	 * @return
 	 */
 	public AgenteAduana actualizarAgenteAduana(AgenteAduana pEntidad);
@@ -257,8 +254,7 @@ public interface MaestrosEJBLocal {
 
 	public void crearProductoInventario(ProductosInventario pi);
 
-	public Object[] consultarProductos(ProductosInventario pi, int first,
-			int pageSize, String sortField, SortOrder sortOrder, boolean count);
+	public Object[] consultarProductos(ProductosInventario pi, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count);
 
 	/**
 	 * Consultar clientes.
@@ -271,24 +267,23 @@ public interface MaestrosEJBLocal {
 	 * Crear clientes
 	 *
 	 * @param pEntidad
-	 *            the entidad
+	 *          the entidad
 	 * @return the Cliente
 	 */
-	public Cliente crearCliente(Cliente pEntidad);
+	public Cliente crearCliente(Cliente pEntidad, LogAuditoria auditoria);
 
 	/**
 	 * Actualizar clientes.
 	 *
 	 * @param pEntidad
-	 *            the entidad
+	 *          the entidad
 	 * @return the cliente
 	 */
-	public Cliente actualizarCliente(Cliente pEntidad);
+	public Cliente actualizarCliente(Cliente pEntidad, LogAuditoria auditoria);
 
 	public List<TipoLoteoic> consultarTipoLotesOic();
 
-	public ProductosInventarioComext consultarProductoInventarioComext(
-			String sku);
+	public ProductosInventarioComext consultarProductoInventarioComext(String sku);
 
 	public void crearProductoInventarioComext(ProductosInventarioComext pic);
 
@@ -304,12 +299,9 @@ public interface MaestrosEJBLocal {
 
 	public List<ProductosInventario> consultarProductosInventariosActivos();
 
-	public List<ProductosInventario> consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(
-			ProductosInventarioFiltroDTO filtroDTO);
+	public List<ProductosInventario> consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(ProductosInventarioFiltroDTO filtroDTO);
 
-	public void guardarRelacionProductosClienteComercioExterior(
-			String idUsuario,
-			List<ProductosXClienteComext> productosXClienteComexts);
+	public void guardarRelacionProductosClienteComercioExterior(String idUsuario, List<ProductosXClienteComext> productosXClienteComexts);
 
 	public void cargarProductosPorClienteComExtDesdeArchivo(List<String[]> lines);
 
@@ -324,7 +316,7 @@ public interface MaestrosEJBLocal {
 	 * Consultar ciudades por pais.
 	 *
 	 * @param idPais
-	 *            the id pais
+	 *          the id pais
 	 * @return the list
 	 */
 	public List<Ciudad> consultarCiudadesPorPais(String idPais);
@@ -356,43 +348,35 @@ public interface MaestrosEJBLocal {
 
 	public CategoriaCostoLogistico consultarCategoriaCostoLogistico(Long id);
 
-	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(
-			CategoriaCostoLogistico ccl);
+	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(CategoriaCostoLogistico ccl);
 
-	public CategoriaCostoLogistico crearCategoriaCostoLogistico(
-			CategoriaCostoLogistico ccl);
+	public CategoriaCostoLogistico crearCategoriaCostoLogistico(CategoriaCostoLogistico ccl);
 
 	public List<ItemCostoLogistico> consultarItemsCostosLogisticos();
 
 	public ItemCostoLogistico consultarItemCostoLogistico(Long id);
 
-	public ItemCostoLogistico actualizarItemCostoLogistico(
-			ItemCostoLogistico icl);
+	public ItemCostoLogistico actualizarItemCostoLogistico(ItemCostoLogistico icl);
 
 	public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl);
 
-	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(
-			ItemCostoLogistico icl);
+	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(ItemCostoLogistico icl);
 
 	public RangoCostoLogistico consultarRangoCostoLogistico(Long id);
 
-	public RangoCostoLogistico actualizarRangoCostoLogistico(
-			RangoCostoLogistico icl);
+	public RangoCostoLogistico actualizarRangoCostoLogistico(RangoCostoLogistico icl);
 
 	public RangoCostoLogistico crearRangoCostoLogistico(RangoCostoLogistico icl);
 
 	public void eliminarRangoCostoLogistico(RangoCostoLogistico icl);
 
-	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(
-			String sku);
+	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(String sku);
 
 	public FactsCurrencyConversion getTRMDian(Date fecha);
 
-	public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(
-			ProductosInventarioFiltroDTO filtroDTO);
+	public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(ProductosInventarioFiltroDTO filtroDTO);
 
-	public void guardarMovimientosInventarioComercioExterior(
-			List<MovimientosInventarioComext> movimientosInventarioComexts);
+	public void guardarMovimientosInventarioComercioExterior(List<MovimientosInventarioComext> movimientosInventarioComexts);
 
 	public List<PuntoVenta> consultarPuntoEntrega();
 
@@ -404,8 +388,7 @@ public interface MaestrosEJBLocal {
 
 	public List<Ciudad> consultarCiudades();
 
-	public List<ProductosInventarioComext> consultarProductosInventarioComextsParaInventarioComercioFotos(
-			ProductosInventarioComextFiltroVO filtroVO);
+	public List<ProductosInventarioComext> consultarProductosInventarioComextsParaInventarioComercioFotos(ProductosInventarioComextFiltroVO filtroVO);
 
 	/**
 	 * Metodo que consulta un documento por consecutivo

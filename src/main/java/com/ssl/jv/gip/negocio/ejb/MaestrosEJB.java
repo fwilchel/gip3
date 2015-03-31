@@ -1,5 +1,7 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -209,8 +211,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarUbicaciones(com.
+	 * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarUbicaciones(com.
 	 * ssl.jv.gip.jpa.pojo.Ubicacion)
 	 */
 	@Override
@@ -253,8 +254,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#crearUbicacion(com.ssl.jv
+	 * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#crearUbicacion(com.ssl.jv
 	 * .gip.jpa.pojo.Ubicacion)
 	 */
 	@Override
@@ -309,15 +309,13 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarAgenciasCarga(com
+	 * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarAgenciasCarga(com
 	 * .ssl.jv.gip.jpa.pojo.AgenciaCarga)
 	 */
 	@Override
 	public List<AgenciaCarga> consultarAgenciasCarga(AgenciaCarga pFiltro) {
 		try {
-			return (List<AgenciaCarga>) agenciaCargaDAO
-					.consultarAgenciaCargaPorFiltro(pFiltro);
+			return (List<AgenciaCarga>) agenciaCargaDAO.consultarAgenciaCargaPorFiltro(pFiltro);
 		} catch (Exception e) {
 			LOGGER.error(e + "Error consultando agencias de carga por filtro");
 			return null;
@@ -390,8 +388,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#crearLugarIncoterm(com.ssl
+	 * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#crearLugarIncoterm(com.ssl
 	 * .jv.gip.jpa.pojo.LugarIncoterm)
 	 */
 	@Override
@@ -428,8 +425,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public List<ProductosXClienteComext> consultarProductosClienteComercioExteriorPorFiltro(
-			ProductosXClienteComExtFiltroVO filtroVO) {
+	public List<ProductosXClienteComext> consultarProductosClienteComercioExteriorPorFiltro(ProductosXClienteComExtFiltroVO filtroVO) {
 		return productoClienteComercioExteriorDAO.consultarPorFiltro(filtroVO);
 	}
 
@@ -441,8 +437,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarAgentesAduana(com
+	 * @see com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal#consultarAgentesAduana(com
 	 * .ssl.jv.gip.jpa.pojo.AgenciaCarga)
 	 */
 	@SuppressWarnings("unchecked")
@@ -458,13 +453,11 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 
 	@Override
 	public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte() {
-		return incotermXMedioTransDAO
-				.consultarTerminoIncotermXMedioTransporte();
+		return incotermXMedioTransDAO.consultarTerminoIncotermXMedioTransporte();
 	}
 
 	@Override
-	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(
-			Long pId) {
+	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(Long pId) {
 		TerminoIncotermXMedioTransporte entidad = new TerminoIncotermXMedioTransporte();
 
 		try {
@@ -477,8 +470,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public TerminoIncotermXMedioTransporte crearTerminoIncotermXMedioTransporte(
-			TerminoIncotermXMedioTransporte pEntidad) {
+	public TerminoIncotermXMedioTransporte crearTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad) {
 		try {
 			pEntidad = incotermXMedioTransDAO.add(pEntidad);
 		} catch (Exception e) {
@@ -489,8 +481,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public TerminoIncotermXMedioTransporte actualizarTerminoIncotermXMedioTransporte(
-			TerminoIncotermXMedioTransporte pEntidad) {
+	public TerminoIncotermXMedioTransporte actualizarTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad) {
 		try {
 			incotermXMedioTransDAO.update(pEntidad);
 		} catch (Exception e) {
@@ -517,8 +508,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	public List<MedioTransporte> consultarMedioTransporteActivo() {
 		List<MedioTransporte> listado = new ArrayList<MedioTransporte>();
 		try {
-			listado = (List<MedioTransporte>) medioTransporteDAO
-					.findAllActivoBoolean();
+			listado = (List<MedioTransporte>) medioTransporteDAO.findAllActivoBoolean();
 		} catch (Exception e) {
 
 		}
@@ -554,8 +544,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	public List<CategoriasInventario> consultarCategoriasInventario() {
-		return (List<CategoriasInventario>) this.categoriaInventarioDao
-				.findAll();
+		return (List<CategoriasInventario>) this.categoriaInventarioDao.findAll();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -571,10 +560,8 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		this.productoInventarioDao.add(pi);
 	}
 
-	public Object[] consultarProductos(ProductosInventario pi, int first,
-			int pageSize, String sortField, SortOrder sortOrder, boolean count) {
-		return this.productoInventarioDao.consultar(pi, first, pageSize,
-				sortField, sortOrder, count);
+	public Object[] consultarProductos(ProductosInventario pi, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count) {
+		return this.productoInventarioDao.consultar(pi, first, pageSize, sortField, sortOrder, count);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -589,9 +576,16 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public Cliente crearCliente(Cliente pEntidad) {
+	public Cliente crearCliente(Cliente pEntidad, LogAuditoria auditoria) {
 		try {
 			clienteDao.guardarCliente(pEntidad);
+			LOGGER.debug("Crear log de auditoria");
+			auditoria.setTabla(Cliente.class.getName());
+			auditoria.setAccion("CRE");
+			auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+			auditoria.setIdRegTabla(pEntidad.getId());
+			auditoria = logAuditoriaDAO.add(auditoria);
+			LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
 			return pEntidad;
 		} catch (Exception e) {
 			LOGGER.error(e + " Error creando clientes");
@@ -600,9 +594,16 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public Cliente actualizarCliente(Cliente pEntidad) {
+	public Cliente actualizarCliente(Cliente pEntidad, LogAuditoria auditoria) {
 		try {
 			clienteDao.update(pEntidad);
+			LOGGER.debug("Crear log de auditoria");
+			auditoria.setTabla(Cliente.class.getName());
+			auditoria.setAccion("MOD");
+			auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+			auditoria.setIdRegTabla(pEntidad.getId());
+			auditoria = logAuditoriaDAO.add(auditoria);
+			LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
 			return pEntidad;
 		} catch (Exception e) {
 			LOGGER.error(e + " Error creando clientes");
@@ -615,11 +616,9 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		return (List<TipoLoteoic>) this.tipoLoteOicDao.findAll();
 	}
 
-	public ProductosInventarioComext consultarProductoInventarioComext(
-			String sku) {
+	public ProductosInventarioComext consultarProductoInventarioComext(String sku) {
 		try {
-			ProductosInventarioComext pi = productosInventarioComextDao
-					.findBySku(sku);
+			ProductosInventarioComext pi = productosInventarioComextDao.findBySku(sku);
 			return pi;
 		} catch (Exception e) {
 			return null;
@@ -655,10 +654,8 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public List<ProductosInventario> consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(
-			ProductosInventarioFiltroDTO filtroDTO) {
-		return productoInventarioDao
-				.consultarPorUsuarioCategoriaSKUNombreAndEstado(filtroDTO);
+	public List<ProductosInventario> consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(ProductosInventarioFiltroDTO filtroDTO) {
+		return productoInventarioDao.consultarPorUsuarioCategoriaSKUNombreAndEstado(filtroDTO);
 	}
 
 	@Override
@@ -667,93 +664,52 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public void guardarRelacionProductosClienteComercioExterior(
-			String idUsuario,
-			List<ProductosXClienteComext> productosXClienteComexts) {
+	public void guardarRelacionProductosClienteComercioExterior(String idUsuario, List<ProductosXClienteComext> productosXClienteComexts) {
 		for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
 			if (productosXClienteComext.getProductosInventario().isIncluido()) {
-				productosXClienteComext
-						.setCliente(clienteDao.findByPK(productosXClienteComext
-								.getCliente().getId()));
+				productosXClienteComext.setCliente(clienteDao.findByPK(productosXClienteComext.getCliente().getId()));
 				if (productosXClienteComext.getId() != null) {
-					ProductosXClienteComext productosXClienteComextCons = productoClienteComercioExteriorDAO
-							.consultarPorPK(productosXClienteComext.getPk());
+					ProductosXClienteComext productosXClienteComextCons = productoClienteComercioExteriorDAO.consultarPorPK(productosXClienteComext.getPk());
 					// "Precio","DescuentoxProducto","Otros_Descuentos","Reg_Sanitario"
-					if (!productosXClienteComextCons.getPrecio().equals(
-							productosXClienteComext.getPrecio())) {
-						logAuditoriaDAO.add(getLogAuditoria("MOD", 85L,
-								productosXClienteComext.getId(), idUsuario,
-								"Productos_x_Cliente_ComExt", "Precio",
-								productosXClienteComextCons.getPrecio()
-										.toPlainString(),
-								productosXClienteComext.getPrecio()
-										.toPlainString()));
+					if (!productosXClienteComextCons.getPrecio().equals(productosXClienteComext.getPrecio())) {
+						logAuditoriaDAO.add(getLogAuditoria("MOD", 85L, productosXClienteComext.getId(), idUsuario, "Productos_x_Cliente_ComExt", "Precio",
+								productosXClienteComextCons.getPrecio().toPlainString(), productosXClienteComext.getPrecio().toPlainString()));
 					}
 
-					if (!productosXClienteComextCons.getDescuentoxproducto()
-							.equals(productosXClienteComext
-									.getDescuentoxproducto())) {
-						logAuditoriaDAO.add(getLogAuditoria("MOD", 85L,
-								productosXClienteComext.getId(), idUsuario,
-								"Productos_x_Cliente_ComExt",
-								"DescuentoxProducto",
-								productosXClienteComextCons
-										.getDescuentoxproducto()
-										.toPlainString(),
-								productosXClienteComext.getDescuentoxproducto()
-										.toPlainString()));
+					if (!productosXClienteComextCons.getDescuentoxproducto().equals(productosXClienteComext.getDescuentoxproducto())) {
+						logAuditoriaDAO.add(getLogAuditoria("MOD", 85L, productosXClienteComext.getId(), idUsuario, "Productos_x_Cliente_ComExt", "DescuentoxProducto", productosXClienteComextCons
+								.getDescuentoxproducto().toPlainString(), productosXClienteComext.getDescuentoxproducto().toPlainString()));
 					}
 
-					if (!productosXClienteComextCons.getOtrosDescuentos()
-							.equals(productosXClienteComext
-									.getOtrosDescuentos())) {
-						logAuditoriaDAO.add(getLogAuditoria("MOD", 85L,
-								productosXClienteComext.getId(), idUsuario,
-								"Productos_x_Cliente_ComExt",
-								"Otros_Descuentos", productosXClienteComextCons
-										.getOtrosDescuentos().toPlainString(),
-								productosXClienteComext.getOtrosDescuentos()
-										.toPlainString()));
+					if (!productosXClienteComextCons.getOtrosDescuentos().equals(productosXClienteComext.getOtrosDescuentos())) {
+						logAuditoriaDAO.add(getLogAuditoria("MOD", 85L, productosXClienteComext.getId(), idUsuario, "Productos_x_Cliente_ComExt", "Otros_Descuentos", productosXClienteComextCons
+								.getOtrosDescuentos().toPlainString(), productosXClienteComext.getOtrosDescuentos().toPlainString()));
 					}
 
-					if (!productosXClienteComextCons.getRegSanitario().equals(
-							productosXClienteComext.getRegSanitario())) {
-						logAuditoriaDAO.add(getLogAuditoria("MOD", 85L,
-								productosXClienteComext.getId(), idUsuario,
-								"Productos_x_Cliente_ComExt", "Reg_Sanitario",
-								productosXClienteComextCons.getRegSanitario(),
+					if (!productosXClienteComextCons.getRegSanitario().equals(productosXClienteComext.getRegSanitario())) {
+						logAuditoriaDAO.add(getLogAuditoria("MOD", 85L, productosXClienteComext.getId(), idUsuario, "Productos_x_Cliente_ComExt", "Reg_Sanitario", productosXClienteComextCons.getRegSanitario(),
 								productosXClienteComext.getRegSanitario()));
 					}
-					productoClienteComercioExteriorDAO
-							.update(productosXClienteComext);
+					productoClienteComercioExteriorDAO.update(productosXClienteComext);
 				} else {
-					Number max = productoClienteComercioExteriorDAO
-							.consultarMaximoValorColumna("id");
+					Number max = productoClienteComercioExteriorDAO.consultarMaximoValorColumna("id");
 					if (max == null) {
 						productosXClienteComext.setId(1L);
 					} else {
 						productosXClienteComext.setId(max.longValue() + 1);
 					}
-					productosXClienteComext = productoClienteComercioExteriorDAO
-							.add(productosXClienteComext);
-					logAuditoriaDAO.add(getLogAuditoria("CRE", 85L,
-							productosXClienteComext.getId(), idUsuario,
-							"Productos_x_Cliente_ComExt", null, null, null));
+					productosXClienteComext = productoClienteComercioExteriorDAO.add(productosXClienteComext);
+					logAuditoriaDAO.add(getLogAuditoria("CRE", 85L, productosXClienteComext.getId(), idUsuario, "Productos_x_Cliente_ComExt", null, null, null));
 				}
 			} else if (productosXClienteComext.getId() != null) {
-				productoClienteComercioExteriorDAO
-						.delete(productosXClienteComext);
-				logAuditoriaDAO.add(getLogAuditoria("ELI", 85L,
-						productosXClienteComext.getId(), idUsuario,
-						"Productos_x_Cliente_ComExt", null, null, null));
+				productoClienteComercioExteriorDAO.delete(productosXClienteComext);
+				logAuditoriaDAO.add(getLogAuditoria("ELI", 85L, productosXClienteComext.getId(), idUsuario, "Productos_x_Cliente_ComExt", null, null, null));
 			}
 
 		}
 	}
 
-	private LogAuditoria getLogAuditoria(String accion, Long idFuncionalidad,
-			Long idRegTabla, String idUsuario, String tabla, String campo,
-			String valorAnterior, String valorNuevo) {
+	private LogAuditoria getLogAuditoria(String accion, Long idFuncionalidad, Long idRegTabla, String idUsuario, String tabla, String campo, String valorAnterior, String valorNuevo) {
 		LogAuditoria logAuditoria = new LogAuditoria();
 		logAuditoria.setAccion(accion);
 		logAuditoria.setIdFuncionalidad(idFuncionalidad);
@@ -773,20 +729,16 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		int numLinea = 1;
 		List<ProductosXClienteComext> productosXClienteComexts = new ArrayList<ProductosXClienteComext>();
 		for (String[] lineFile : lines) {
-			productosXClienteComexts.add(getProductoXClienteComExt(numLinea,
-					lineFile));
+			productosXClienteComexts.add(getProductoXClienteComExt(numLinea, lineFile));
 			numLinea++;
 		}
 
 		for (ProductosXClienteComext productosXClienteComext : productosXClienteComexts) {
-			ProductosXClienteComext consultarPorPK = productoClienteComercioExteriorDAO
-					.consultarPorPK(productosXClienteComext.getPk());
+			ProductosXClienteComext consultarPorPK = productoClienteComercioExteriorDAO.consultarPorPK(productosXClienteComext.getPk());
 			if (consultarPorPK != null) {
-				productoClienteComercioExteriorDAO
-						.update(productosXClienteComext);
+				productoClienteComercioExteriorDAO.update(productosXClienteComext);
 			} else {
-				Number max = productoClienteComercioExteriorDAO
-						.consultarMaximoValorColumna("id");
+				Number max = productoClienteComercioExteriorDAO.consultarMaximoValorColumna("id");
 				if (max == null) {
 					productosXClienteComext.setId(1L);
 				} else {
@@ -798,8 +750,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 
 	}
 
-	private ProductosXClienteComext getProductoXClienteComExt(int numLinea,
-			String[] lineFile) {
+	private ProductosXClienteComext getProductoXClienteComExt(int numLinea, String[] lineFile) {
 		ProductosXClienteComext productosXClienteComext = new ProductosXClienteComext();
 		ProductosInventario productoInv = null;
 		try {
@@ -808,18 +759,13 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 			productoInv = null;
 		}
 		if (productoInv == null) {
-			throw new EJBException(
-					String.format(
-							"Producto referenciando en la línea %d no existe",
-							numLinea));
+			throw new EJBException(String.format("Producto referenciando en la línea %d no existe", numLinea));
 		}
 		Long idProducto = productoInv.getId();
 		Long idCliente = Long.parseLong(lineFile[1]);
-		ProductosXClienteComextPK pk = new ProductosXClienteComextPK(
-				idProducto, idCliente);
+		ProductosXClienteComextPK pk = new ProductosXClienteComextPK(idProducto, idCliente);
 		productosXClienteComext.setPk(pk);
-		ProductosXClienteComext productoClienteComext = productoClienteComercioExteriorDAO
-				.consultarPorPK(pk);
+		ProductosXClienteComext productoClienteComext = productoClienteComercioExteriorDAO.consultarPorPK(pk);
 		if (productoClienteComext != null) {
 			productosXClienteComext = productoClienteComext;
 		} else {
@@ -829,10 +775,8 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		productosXClienteComext.setPrecio(new BigDecimal(lineFile[6]));
 		productosXClienteComext.setIdMoneda(lineFile[7]);
 		productosXClienteComext.setIva(new BigDecimal(lineFile[8]));
-		productosXClienteComext.setDescuentoxproducto(new BigDecimal(
-				lineFile[9]));
-		productosXClienteComext
-				.setOtrosDescuentos(new BigDecimal(lineFile[10]));
+		productosXClienteComext.setDescuentoxproducto(new BigDecimal(lineFile[9]));
+		productosXClienteComext.setOtrosDescuentos(new BigDecimal(lineFile[10]));
 		productosXClienteComext.setActivo(Boolean.parseBoolean(lineFile[12]));
 		if (lineFile.length == 14) {
 			productosXClienteComext.setRegSanitario(lineFile[13]);
@@ -877,22 +821,19 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	public List<CategoriaCostoLogistico> consultarCategoriasCostosLogisticos() {
-		return (List<CategoriaCostoLogistico>) this.categoriaCostoLogisticoDAO
-				.findAll();
+		return (List<CategoriaCostoLogistico>) this.categoriaCostoLogisticoDAO.findAll();
 	}
 
 	public CategoriaCostoLogistico consultarCategoriaCostoLogistico(Long id) {
 		return this.categoriaCostoLogisticoDAO.findByPK(id);
 	}
 
-	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(
-			CategoriaCostoLogistico ccl) {
+	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(CategoriaCostoLogistico ccl) {
 		this.categoriaCostoLogisticoDAO.update(ccl);
 		return ccl;
 	}
 
-	public CategoriaCostoLogistico crearCategoriaCostoLogistico(
-			CategoriaCostoLogistico ccl) {
+	public CategoriaCostoLogistico crearCategoriaCostoLogistico(CategoriaCostoLogistico ccl) {
 		return this.categoriaCostoLogisticoDAO.add(ccl);
 	}
 
@@ -904,21 +845,17 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		return this.itemCostoLogisticoDAO.findByPK(id);
 	}
 
-	public ItemCostoLogistico actualizarItemCostoLogistico(
-			ItemCostoLogistico icl) {
+	public ItemCostoLogistico actualizarItemCostoLogistico(ItemCostoLogistico icl) {
 		this.itemCostoLogisticoDAO.update(icl);
 		if (icl.getRangoCostoLogisticos() != null) {
 			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
-				if (rcl.getMoneda() != null
-						&& (rcl.getMoneda().getId() == null || rcl.getMoneda()
-								.getId().equals(""))) {
+				if (rcl.getMoneda() != null && (rcl.getMoneda().getId() == null || rcl.getMoneda().getId().equals(""))) {
 					rcl.setMoneda(null);
 				}
 				if (rcl.getId() != null && rcl.getId() != 0) {
 					this.rangoCostoLogisticoDAO.update(rcl);
 				} else {
-					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO
-							.add(rcl);
+					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO.add(rcl);
 					rcl.setId(rcl2.getId());
 				}
 			}
@@ -932,16 +869,13 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		if (icl.getRangoCostoLogisticos() != null) {
 			for (RangoCostoLogistico rcl : icl.getRangoCostoLogisticos()) {
 				rcl.setItemCostoLogistico(icl);
-				if (rcl.getMoneda() != null
-						&& (rcl.getMoneda().getId() == null || rcl.getMoneda()
-								.getId().equals(""))) {
+				if (rcl.getMoneda() != null && (rcl.getMoneda().getId() == null || rcl.getMoneda().getId().equals(""))) {
 					rcl.setMoneda(null);
 				}
 				if (rcl.getId() != null && rcl.getId() != 0) {
 					this.rangoCostoLogisticoDAO.update(rcl);
 				} else {
-					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO
-							.add(rcl);
+					RangoCostoLogistico rcl2 = this.rangoCostoLogisticoDAO.add(rcl);
 					rcl.setId(rcl2.getId());
 				}
 			}
@@ -949,18 +883,15 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		return icl;
 	}
 
-	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(
-			ItemCostoLogistico icl) {
-		return (List<RangoCostoLogistico>) this.rangoCostoLogisticoDAO
-				.findByItem(icl);
+	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(ItemCostoLogistico icl) {
+		return (List<RangoCostoLogistico>) this.rangoCostoLogisticoDAO.findByItem(icl);
 	}
 
 	public RangoCostoLogistico consultarRangoCostoLogistico(Long id) {
 		return this.rangoCostoLogisticoDAO.findByPK(id);
 	}
 
-	public RangoCostoLogistico actualizarRangoCostoLogistico(
-			RangoCostoLogistico icl) {
+	public RangoCostoLogistico actualizarRangoCostoLogistico(RangoCostoLogistico icl) {
 		this.rangoCostoLogisticoDAO.update(icl);
 		return icl;
 	}
@@ -974,18 +905,17 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(
-			String sku) {
+	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(String sku) {
 		return movimientosInventarioComextDAO.consultarPorSKU(sku);
 	}
 
 	/*
 	 * @SuppressWarnings("unchecked")
 	 * 
-	 * @Override public List<PuntoVenta> consultarPuntoEntrega(PuntoVenta pi,
-	 * int first,int pageSize, String sortField, SortOrder sortOrder, boolean
-	 * count) { try { return (List<PuntoVenta>) puntoVentaDao.consultar(pi,
-	 * first, pageSize,sortField, sortOrder, count); } catch (Exception e) {
+	 * @Override public List<PuntoVenta> consultarPuntoEntrega(PuntoVenta pi, int
+	 * first,int pageSize, String sortField, SortOrder sortOrder, boolean count) {
+	 * try { return (List<PuntoVenta>) puntoVentaDao.consultar(pi, first,
+	 * pageSize,sortField, sortOrder, count); } catch (Exception e) {
 	 * LOGGER.error(e + " Error consultando puntos ventas"); return null; }
 	 * 
 	 * }
@@ -1048,49 +978,31 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	}
 
 	@Override
-	public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(
-			ProductosInventarioFiltroDTO filtroDTO) {
-		return productoInventarioDao
-				.consultarPorEstadoCategoriaSKUNombreAndControlStock(filtroDTO);
+	public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(ProductosInventarioFiltroDTO filtroDTO) {
+		return productoInventarioDao.consultarPorEstadoCategoriaSKUNombreAndControlStock(filtroDTO);
 	}
 
 	@Override
-	public void guardarMovimientosInventarioComercioExterior(
-			List<MovimientosInventarioComext> movimientosInventarioComexts) {
+	public void guardarMovimientosInventarioComercioExterior(List<MovimientosInventarioComext> movimientosInventarioComexts) {
 		Date fecha = new Date();
-		List<MovimientosInventarioComext> ultimosSaldosMovimientosInventarioComExt = movimientosInventarioComextDAO
-				.getUltimosSaldos();
+		List<MovimientosInventarioComext> ultimosSaldosMovimientosInventarioComExt = movimientosInventarioComextDAO.getUltimosSaldos();
 		for (MovimientosInventarioComext movimientosInventarioComext : movimientosInventarioComexts) {
 			for (MovimientosInventarioComext ultimoSaldomovimientosInventarioComext : ultimosSaldosMovimientosInventarioComExt) {
-				if (movimientosInventarioComext
-						.getProductosInventarioComext()
-						.getProductosInventario()
-						.getId()
-						.equals(ultimoSaldomovimientosInventarioComext
-								.getProductosInventarioComext()
-								.getProductosInventario().getId())) {
-					movimientosInventarioComext
-							.setSaldo(movimientosInventarioComext.getCantidad()
-									.add(ultimoSaldomovimientosInventarioComext
-											.getSaldo()));
+				if (movimientosInventarioComext.getProductosInventarioComext().getProductosInventario().getId()
+						.equals(ultimoSaldomovimientosInventarioComext.getProductosInventarioComext().getProductosInventario().getId())) {
+					movimientosInventarioComext.setSaldo(movimientosInventarioComext.getCantidad().add(ultimoSaldomovimientosInventarioComext.getSaldo()));
 					break;
 				}
 			}
 			movimientosInventarioComext.setFecha(fecha);
-			movimientosInventarioComext
-					.setProductosInventarioComext(productosInventarioComextDao
-							.findByPK(movimientosInventarioComext
-									.getProductosInventarioComext()
-									.getProductosInventario().getId()));
+			movimientosInventarioComext.setProductosInventarioComext(productosInventarioComextDao.findByPK(movimientosInventarioComext.getProductosInventarioComext().getProductosInventario().getId()));
 			movimientosInventarioComextDAO.add(movimientosInventarioComext);
 		}
 	}
 
 	@Override
-	public List<ProductosInventarioComext> consultarProductosInventarioComextsParaInventarioComercioFotos(
-			ProductosInventarioComextFiltroVO filtroVO) {
-		return productosInventarioComextDao
-				.consultarPorNombreSKUProductoOCategoria(filtroVO);
+	public List<ProductosInventarioComext> consultarProductosInventarioComextsParaInventarioComercioFotos(ProductosInventarioComextFiltroVO filtroVO) {
+		return productosInventarioComextDao.consultarPorNombreSKUProductoOCategoria(filtroVO);
 	}
 
 	@Override

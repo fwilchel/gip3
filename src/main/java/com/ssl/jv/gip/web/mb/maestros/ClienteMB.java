@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 
@@ -18,6 +19,7 @@ import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.MetodoPago;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
@@ -25,13 +27,14 @@ import com.ssl.jv.gip.jpa.pojo.TipoCanal;
 import com.ssl.jv.gip.jpa.pojo.TipoPrecio;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
+import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.administracion.UsuariosMB;
 import com.ssl.jv.gip.web.util.Modo;
 
-@ManagedBean(name="clienteMB")
+@ManagedBean(name = "clienteMB")
 @ViewScoped
-public class ClienteMB extends UtilMB{
+public class ClienteMB extends UtilMB {
 
 	/**
 	 * 
@@ -47,8 +50,11 @@ public class ClienteMB extends UtilMB{
 	@EJB
 	private MaestrosEJBLocal servicio;
 
+	@ManagedProperty(value = "#{menuMB}")
+	private MenuMB menu;
+
 	private Modo modo;
-	private Integer language=AplicacionMB.SPANISH;
+	private Integer language = AplicacionMB.SPANISH;
 
 	private List<Pais> listaPaises;
 	private List<Ciudad> listaCiudades;
@@ -57,24 +63,24 @@ public class ClienteMB extends UtilMB{
 	private List<MetodoPago> listaMetodosPago;
 	private List<CuentaContable> listaCuentaContable;
 	private List<TipoPrecio> listaTiposPrecio;
-	
+
 	private List<TerminoIncoterm> listaTerminosIncoterm;
 	private List<TerminoIncoterm> listaTerminosIncotermSeleccionados = new ArrayList<TerminoIncoterm>();
-	
+
 	private boolean isEditar;
 
-	public ClienteMB(){
+	public ClienteMB() {
 
 	}
 
 	@PostConstruct
-	public void init(){
+	public void init() {
 		clientes = servicio.consultarClientes();
 		listaTerminosIncoterm = servicio.consultarTerminoIncotermActivo();
 	}
 
-	public void nuevo(){
-		seleccionado=new Cliente();
+	public void nuevo() {
+		seleccionado = new Cliente();
 		seleccionado.setAgenteAduana(new AgenteAduana());
 		seleccionado.setCuentaContable(new CuentaContable());
 		seleccionado.setMetodoPago(new MetodoPago());
@@ -83,108 +89,108 @@ public class ClienteMB extends UtilMB{
 		seleccionado.setTipoPrecio(new TipoPrecio());
 		this.idPais = null;
 		seleccionado.setCiudad(new Ciudad());
-		this.modo=Modo.CREACION;
+		this.modo = Modo.CREACION;
 		this.isEditar = false;
 	}
 
-	public void guardar(){
-		try{
+	public void guardar() {
+		try {
 			this.seleccionado.setTerminoIncoterms(listaTerminosIncotermSeleccionados);
-			
-			if(this.seleccionado.getAgenteAduana() != null && this.seleccionado.getAgenteAduana().getId().equals(0l)){
+
+			if (this.seleccionado.getAgenteAduana() != null && this.seleccionado.getAgenteAduana().getId().equals(0l)) {
 				this.seleccionado.setAgenteAduana(null);
 			}
-			
-			if(this.seleccionado.getMetodoPago() != null && this.seleccionado.getMetodoPago().getId().equals(0l)){
+
+			if (this.seleccionado.getMetodoPago() != null && this.seleccionado.getMetodoPago().getId().equals(0l)) {
 				this.seleccionado.setMetodoPago(null);
 			}
-			
-			if(this.seleccionado.getCuentaContable() != null && this.seleccionado.getCuentaContable().getId().equals(0l)){
+
+			if (this.seleccionado.getCuentaContable() != null && this.seleccionado.getCuentaContable().getId().equals(0l)) {
 				this.seleccionado.setCuentaContable(null);
 			}
-			
-			if(this.seleccionado.getTipoPrecio() != null && this.seleccionado.getTipoPrecio().getId().equals(0l)){
+
+			if (this.seleccionado.getTipoPrecio() != null && this.seleccionado.getTipoPrecio().getId().equals(0l)) {
 				this.seleccionado.setTipoPrecio(null);
 			}
-			
-			
-			if (this.modo.equals(Modo.CREACION)){
-				this.seleccionado = this.servicio.crearCliente(this.seleccionado);
-				if(this.clientes == null){
+
+			// auditoria
+			LogAuditoria auditoria = new LogAuditoria();
+			auditoria.setIdUsuario(menu.getUsuario().getId());
+			auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
+
+			if (this.modo.equals(Modo.CREACION)) {
+				this.seleccionado = this.servicio.crearCliente(this.seleccionado, auditoria);
+				if (this.clientes == null) {
 					this.clientes = new ArrayList<Cliente>();
 				}
 				clientes = servicio.consultarClientes();
 				this.nuevo();
-			}else{
-				this.servicio.actualizarCliente(this.seleccionado);
+			} else {
+				this.servicio.actualizarCliente(this.seleccionado, auditoria);
 				clientes = servicio.consultarClientes();
 			}
 			listaTerminosIncotermSeleccionados = new ArrayList<TerminoIncoterm>();
 			this.seleccionado = new Cliente();
-			if(this.seleccionado.getAgenteAduana() == null){
+			if (this.seleccionado.getAgenteAduana() == null) {
 				this.seleccionado.setAgenteAduana(new AgenteAduana());
 			}
-			
-			if(this.seleccionado.getMetodoPago() == null){
+
+			if (this.seleccionado.getMetodoPago() == null) {
 				this.seleccionado.setMetodoPago(new MetodoPago());
 			}
-			
-			if(this.seleccionado.getCuentaContable() == null){
+
+			if (this.seleccionado.getCuentaContable() == null) {
 				this.seleccionado.setCuentaContable(new CuentaContable());
 			}
-			
-			if(this.seleccionado.getTipoPrecio() == null){
+
+			if (this.seleccionado.getTipoPrecio() == null) {
 				this.seleccionado.setTipoPrecio(new TipoPrecio());
 			}
-			
-			if(this.seleccionado.getCiudad() == null){
+
+			if (this.seleccionado.getCiudad() == null) {
 				seleccionado.setCiudad(new Ciudad());
 			}
-			
-			if(this.seleccionado.getTipoCanal() == null){
+
+			if (this.seleccionado.getTipoCanal() == null) {
 				seleccionado.setTipoCanal(new TipoCanal());
 			}
-			
-			
 
 			this.addMensajeInfo("Cliente almacenado exitosamente");
 
-		}catch(EJBTransactionRolledbackException e){
-			if (this.isException(e, "dist_termino_incoterm_x_medio_transporte_key")){
+		} catch (EJBTransactionRolledbackException e) {
+			if (this.isException(e, "dist_termino_incoterm_x_medio_transporte_key")) {
 				this.addMensajeError(AplicacionMB.getMessage("maestroTerminoIncotermMedioTransUnique", language));
 			}
 			LOGGER.error(e);
-		}catch(Exception e){
+		} catch (Exception e) {
 			this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
 			LOGGER.error(e);
 		}
 
 	}
 
-	public boolean isCreacion(){
-		if (this.modo!=null && this.modo.equals(Modo.CREACION)){
+	public boolean isCreacion() {
+		if (this.modo != null && this.modo.equals(Modo.CREACION)) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
-	public void cambioPais(ValueChangeEvent ev){
+	public void cambioPais(ValueChangeEvent ev) {
 		String idPais = (String) ev.getNewValue();
-		if(idPais != null && !idPais.isEmpty()){
+		if (idPais != null && !idPais.isEmpty()) {
 			listaCiudades = servicio.consultarCiudadesPorPais(idPais);
-			
-			Collections.sort(listaCiudades, new Comparator<Ciudad>() {
-		        @Override
-		        public int compare(Ciudad  ciudad, Ciudad  ciudad2)
-		        {
 
-		            return  ciudad.getNombre().compareTo(ciudad2.getNombre());
-		        }
-		    });
+			Collections.sort(listaCiudades, new Comparator<Ciudad>() {
+				@Override
+				public int compare(Ciudad ciudad, Ciudad ciudad2) {
+
+					return ciudad.getNombre().compareTo(ciudad2.getNombre());
+				}
+			});
 		}
 	}
-
 
 	public Modo getModo() {
 		return modo;
@@ -208,62 +214,60 @@ public class ClienteMB extends UtilMB{
 
 	public void setSeleccionado(Cliente seleccionado) {
 		this.seleccionado = seleccionado;
-		this.modo=Modo.EDICION;
+		this.modo = Modo.EDICION;
 		this.isEditar = true;
-		this.idPais =this.seleccionado.getCiudad().getIdPais();
+		this.idPais = this.seleccionado.getCiudad().getIdPais();
 		this.listaTerminosIncotermSeleccionados = this.seleccionado.getTerminoIncoterms();
-		
-		if(idPais != null && !idPais.isEmpty()){
-			listaCiudades = servicio.consultarCiudadesPorPais(idPais);
-			
-			Collections.sort(listaCiudades, new Comparator<Ciudad>() {
-		        @Override
-		        public int compare(Ciudad  ciudad, Ciudad  ciudad2)
-		        {
 
-		            return  ciudad.getNombre().compareTo(ciudad2.getNombre());
-		        }
-		    });
+		if (idPais != null && !idPais.isEmpty()) {
+			listaCiudades = servicio.consultarCiudadesPorPais(idPais);
+
+			Collections.sort(listaCiudades, new Comparator<Ciudad>() {
+				@Override
+				public int compare(Ciudad ciudad, Ciudad ciudad2) {
+
+					return ciudad.getNombre().compareTo(ciudad2.getNombre());
+				}
+			});
 		}
-		
-		if(this.seleccionado.getAgenteAduana() == null){
+
+		if (this.seleccionado.getAgenteAduana() == null) {
 			this.seleccionado.setAgenteAduana(new AgenteAduana());
 		}
-		
-		if(this.seleccionado.getMetodoPago() == null){
+
+		if (this.seleccionado.getMetodoPago() == null) {
 			this.seleccionado.setMetodoPago(new MetodoPago());
 		}
-		
-		if(this.seleccionado.getCuentaContable() == null){
+
+		if (this.seleccionado.getCuentaContable() == null) {
 			this.seleccionado.setCuentaContable(new CuentaContable());
 		}
-		
-		if(this.seleccionado.getTipoPrecio() == null){
+
+		if (this.seleccionado.getTipoPrecio() == null) {
 			this.seleccionado.setTipoPrecio(new TipoPrecio());
 		}
-		
-		if(this.seleccionado.getCiudad() == null){
+
+		if (this.seleccionado.getCiudad() == null) {
 			this.seleccionado.setCiudad(new Ciudad());
 		}
-		
-		if(this.seleccionado.getTipoCanal() == null){
+
+		if (this.seleccionado.getTipoCanal() == null) {
 			this.seleccionado.setTipoCanal(new TipoCanal());
 		}
-		
+
 	}
 
 	public List<Pais> getListaPaises() {
-		if(listaPaises == null || listaPaises.isEmpty()){
+		if (listaPaises == null || listaPaises.isEmpty()) {
 			listaPaises = servicio.consultarPaises();
-			
-			Collections.sort(listaPaises, new Comparator<Pais>() {
-		        @Override
-		        public int compare(Pais  pais, Pais  pais2)
-		        {
 
-		            return  pais.getNombre().compareTo(pais2.getNombre());
-		        }
-		    });
+			Collections.sort(listaPaises, new Comparator<Pais>() {
+				@Override
+				public int compare(Pais pais, Pais pais2) {
+
+					return pais.getNombre().compareTo(pais2.getNombre());
+				}
+			});
 		}
 		return listaPaises;
 	}
@@ -281,19 +285,18 @@ public class ClienteMB extends UtilMB{
 	}
 
 	public List<TipoCanal> getListaTiposCanal() {
-		if(listaTiposCanal == null || listaTiposCanal.isEmpty()){
+		if (listaTiposCanal == null || listaTiposCanal.isEmpty()) {
 			listaTiposCanal = servicio.consultarTiposCanal();
-			
-			Collections.sort(listaTiposCanal, new Comparator<TipoCanal>() {
-		        @Override
-		        public int compare(TipoCanal  tipoCanal, TipoCanal  tipoCanal2)
-		        {
 
-		            return  tipoCanal.getNombre().compareTo(tipoCanal2.getNombre());
-		        }
-		    });
+			Collections.sort(listaTiposCanal, new Comparator<TipoCanal>() {
+				@Override
+				public int compare(TipoCanal tipoCanal, TipoCanal tipoCanal2) {
+
+					return tipoCanal.getNombre().compareTo(tipoCanal2.getNombre());
+				}
+			});
 		}
-		
+
 		return listaTiposCanal;
 	}
 
@@ -302,17 +305,16 @@ public class ClienteMB extends UtilMB{
 	}
 
 	public List<AgenteAduana> getListaAgentesAduana() {
-		if(listaAgentesAduana == null || listaAgentesAduana.isEmpty()){
+		if (listaAgentesAduana == null || listaAgentesAduana.isEmpty()) {
 			listaAgentesAduana = servicio.consultarAgentesAduana();
-			
-			Collections.sort(listaAgentesAduana, new Comparator<AgenteAduana>() {
-		        @Override
-		        public int compare(AgenteAduana  agenteAduana, AgenteAduana  agenteAduana2)
-		        {
 
-		            return  agenteAduana.getNombre().compareTo(agenteAduana2.getNombre());
-		        }
-		    });
+			Collections.sort(listaAgentesAduana, new Comparator<AgenteAduana>() {
+				@Override
+				public int compare(AgenteAduana agenteAduana, AgenteAduana agenteAduana2) {
+
+					return agenteAduana.getNombre().compareTo(agenteAduana2.getNombre());
+				}
+			});
 		}
 		return listaAgentesAduana;
 	}
@@ -322,17 +324,16 @@ public class ClienteMB extends UtilMB{
 	}
 
 	public List<MetodoPago> getListaMetodosPago() {
-		if(listaMetodosPago == null || listaMetodosPago.isEmpty()){
+		if (listaMetodosPago == null || listaMetodosPago.isEmpty()) {
 			listaMetodosPago = servicio.consultarMetodosPago();
-			
-			Collections.sort(listaMetodosPago, new Comparator<MetodoPago>() {
-		        @Override
-		        public int compare(MetodoPago  metodoPago, MetodoPago  metodoPago2)
-		        {
 
-		            return  metodoPago.getDescripcion().compareTo(metodoPago2.getDescripcion());
-		        }
-		    });
+			Collections.sort(listaMetodosPago, new Comparator<MetodoPago>() {
+				@Override
+				public int compare(MetodoPago metodoPago, MetodoPago metodoPago2) {
+
+					return metodoPago.getDescripcion().compareTo(metodoPago2.getDescripcion());
+				}
+			});
 		}
 		return listaMetodosPago;
 	}
@@ -342,17 +343,16 @@ public class ClienteMB extends UtilMB{
 	}
 
 	public List<CuentaContable> getListaCuentaContable() {
-		if(listaCuentaContable == null || listaCuentaContable.isEmpty()){
+		if (listaCuentaContable == null || listaCuentaContable.isEmpty()) {
 			listaCuentaContable = servicio.consultarCuentasContables();
-			
-			Collections.sort(listaCuentaContable, new Comparator<CuentaContable>() {
-		        @Override
-		        public int compare(CuentaContable  cuentaContable, CuentaContable  cuentaContable2)
-		        {
 
-		            return  cuentaContable.getDescripcion().compareTo(cuentaContable2.getDescripcion());
-		        }
-		    });
+			Collections.sort(listaCuentaContable, new Comparator<CuentaContable>() {
+				@Override
+				public int compare(CuentaContable cuentaContable, CuentaContable cuentaContable2) {
+
+					return cuentaContable.getDescripcion().compareTo(cuentaContable2.getDescripcion());
+				}
+			});
 		}
 		return listaCuentaContable;
 	}
@@ -362,7 +362,7 @@ public class ClienteMB extends UtilMB{
 	}
 
 	public List<TipoPrecio> getListaTiposPrecio() {
-		if(listaTiposPrecio == null || listaTiposPrecio.isEmpty()){
+		if (listaTiposPrecio == null || listaTiposPrecio.isEmpty()) {
 			listaTiposPrecio = servicio.consultarTiposPrecio();
 		}
 		return listaTiposPrecio;
@@ -392,8 +392,7 @@ public class ClienteMB extends UtilMB{
 		return listaTerminosIncotermSeleccionados;
 	}
 
-	public void setListaTerminosIncotermSeleccionados(
-			List<TerminoIncoterm> listaTerminosIncotermSeleccionados) {
+	public void setListaTerminosIncotermSeleccionados(List<TerminoIncoterm> listaTerminosIncotermSeleccionados) {
 		this.listaTerminosIncotermSeleccionados = listaTerminosIncotermSeleccionados;
 	}
 
@@ -404,11 +403,12 @@ public class ClienteMB extends UtilMB{
 	public void setEditar(boolean isEditar) {
 		this.isEditar = isEditar;
 	}
-	
-	
 
-	
-
-
+	/**
+	 * @param menu the menu to set
+	 */
+	public void setMenu(MenuMB menu) {
+		this.menu = menu;
+	}
 
 }

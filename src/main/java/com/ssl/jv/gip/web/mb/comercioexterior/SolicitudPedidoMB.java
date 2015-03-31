@@ -26,13 +26,12 @@ import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 
-
 /**
  * The Class SolicitudPedidoMB.
  */
-@ManagedBean(name="solicitudPedidoMB")
+@ManagedBean(name = "solicitudPedidoMB")
 @ViewScoped
-public class SolicitudPedidoMB extends UtilMB{
+public class SolicitudPedidoMB extends UtilMB {
 
 	/** The lista documentos. */
 	private ArrayList<DocumentoIncontermDTO> listaDocumentos = new ArrayList<DocumentoIncontermDTO>();
@@ -53,41 +52,41 @@ public class SolicitudPedidoMB extends UtilMB{
 	private DocumentoIncontermDTO seleccionado;
 
 	/** The total valor t. */
-	private BigDecimal totalValorT  =  new BigDecimal(0.00);
-	
+	private BigDecimal totalValorT = new BigDecimal(0.00);
+
 	/** The cantidad valor t. */
-	private BigDecimal cantidadValorT  =  new BigDecimal(0.00);
-	
+	private BigDecimal cantidadValorT = new BigDecimal(0.00);
+
 	/** The valor peso neto t. */
-	private BigDecimal valorPesoNetoT  =  new BigDecimal(0.00);
-	
+	private BigDecimal valorPesoNetoT = new BigDecimal(0.00);
+
 	/** The valor peso bruto t. */
-	private BigDecimal valorPesoBrutoT  =  new BigDecimal(0.00);
-	
+	private BigDecimal valorPesoBrutoT = new BigDecimal(0.00);
+
 	/** The valor cajas pallet t. */
-	private BigDecimal valorCajasPalletT =  new BigDecimal(0.00); 
-	
+	private BigDecimal valorCajasPalletT = new BigDecimal(0.00);
+
 	/** The valor cajas tendido t. */
-	private BigDecimal valorCajasTendidoT =  new BigDecimal(0.00); 
-	
+	private BigDecimal valorCajasTendidoT = new BigDecimal(0.00);
+
 	/** The valor cajas t. */
-	private BigDecimal valorCajasT =  new BigDecimal(0.00); 
-	
+	private BigDecimal valorCajasT = new BigDecimal(0.00);
+
 	/** The dbl total precio. */
-	private BigDecimal dblTotalPrecio =  new BigDecimal(0.00);
+	private BigDecimal dblTotalPrecio = new BigDecimal(0.00);
 
 	/** The comercio ejb. */
 	@EJB
-	private ComercioExteriorEJB comercioEjb;	
-	
+	private ComercioExteriorEJB comercioEjb;
+
 	/** The menu. */
-	@ManagedProperty(value="#{menuMB}")
+	@ManagedProperty(value = "#{menuMB}")
 	private MenuMB menu;
 
 	/**
 	 * Instantiates a new ingresar costos inconterm mb.
 	 */
-	public SolicitudPedidoMB(){
+	public SolicitudPedidoMB() {
 
 	}
 
@@ -95,7 +94,7 @@ public class SolicitudPedidoMB extends UtilMB{
 	 * Inits the.
 	 */
 	@PostConstruct
-	public void init(){
+	public void init() {
 		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
 	}
 
@@ -106,76 +105,58 @@ public class SolicitudPedidoMB extends UtilMB{
 		BigDecimal ValorTotal = new BigDecimal(0);
 		BigDecimal ValorPesoNeto = new BigDecimal(0);
 		BigDecimal ValorPesoBruto = new BigDecimal(0);
-		BigDecimal ValorCajas = new BigDecimal(0);		
+		BigDecimal ValorCajas = new BigDecimal(0);
 		BigDecimal ValorCajasTendido = new BigDecimal(0);
 		BigDecimal ValorCajasPallet = new BigDecimal(0);
 
-		totalValorT=new BigDecimal(0);
-		cantidadValorT=new BigDecimal(0);
-		valorPesoNetoT=new BigDecimal(0);
-		valorPesoBrutoT=new BigDecimal(0);
-		valorCajasTendidoT=new BigDecimal(0);
-		valorCajasPalletT=new BigDecimal(0);
-		valorCajasT=new BigDecimal(0);
-		dblTotalPrecio=new BigDecimal(0);
+		totalValorT = new BigDecimal(0);
+		cantidadValorT = new BigDecimal(0);
+		valorPesoNetoT = new BigDecimal(0);
+		valorPesoBrutoT = new BigDecimal(0);
+		valorCajasTendidoT = new BigDecimal(0);
+		valorCajasPalletT = new BigDecimal(0);
+		valorCajasT = new BigDecimal(0);
+		dblTotalPrecio = new BigDecimal(0);
 
-		if(listaSolicitudPedido!=null && !listaSolicitudPedido.isEmpty()){
-			for(ProductoPorClienteComExtDTO pxc:listaSolicitudPedido){
+		if (listaSolicitudPedido != null && !listaSolicitudPedido.isEmpty()) {
+			for (ProductoPorClienteComExtDTO pxc : listaSolicitudPedido) {
 				if (pxc.isBlnIncluirBusqueda()) {
 
 					ValorTotal = pxc.getDblCantidad1ProductoxDocumento().multiply(pxc.getDblPrecioUSD());
-
-					MathContext mc = new MathContext(2, RoundingMode.HALF_UP);
-
-					if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0))==1)
-					{
-						ValorPesoNeto = (pxc.getDblPesoNetoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(),mc))
-								.multiply(pxc.getDblCantidad1ProductoxDocumento());
-						ValorPesoBruto = (pxc.getDblPesoBrutoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(),mc))
-								.multiply(pxc.getDblCantidad1ProductoxDocumento());
-						ValorCajas = pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(),mc);
-					}					
-					else
-					{
+					
+					if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
+						ValorPesoNeto = (pxc.getDblPesoNetoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2)).multiply(pxc.getDblCantidad1ProductoxDocumento());
+						ValorPesoBruto = (pxc.getDblPesoBrutoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2)).multiply(pxc.getDblCantidad1ProductoxDocumento());
+						ValorCajas = pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2);
+					} else {
 						ValorPesoNeto = new BigDecimal(0);
 						ValorPesoBruto = new BigDecimal(0);
 						ValorCajas = new BigDecimal(0);
-					}				
-
-					if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0))==1 
-							&& pxc.getDblCantCajasXTendidoProductoInventarioCE() .compareTo(new BigDecimal(0))==1 )
-					{
-						ValorCajasTendido = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(),mc))
-								.divide(pxc.getDblCantCajasXTendidoProductoInventarioCE(),mc);
 					}
-					else
-					{
+
+					if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1 && pxc.getDblCantCajasXTendidoProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
+						ValorCajasTendido = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2)).divide(pxc.getDblCantCajasXTendidoProductoInventarioCE(), 2);
+					} else {
 						ValorCajasTendido = new BigDecimal(0);
 					}
 
-					if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0))==1 
-							&& pxc.getDblTotalCajasXPalletProductoInventarioCE().compareTo(new BigDecimal(0))==1)
-					{
-						ValorCajasPallet = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(),mc))
-								.divide(pxc.getDblTotalCajasXPalletProductoInventarioCE(),mc);
-					}
-					else
-					{
+					if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1 && pxc.getDblTotalCajasXPalletProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
+						ValorCajasPallet = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2)).divide(pxc.getDblTotalCajasXPalletProductoInventarioCE(), 2);
+					} else {
 						ValorCajasPallet = new BigDecimal(0);
 					}
 
-					totalValorT =totalValorT.add(ValorTotal);
+					totalValorT = totalValorT.add(ValorTotal);
 
-					cantidadValorT=cantidadValorT.add(pxc.getDblCantidad1ProductoxDocumento());
+					cantidadValorT = cantidadValorT.add(pxc.getDblCantidad1ProductoxDocumento());
 
-					valorPesoNetoT=valorPesoNetoT.add(ValorPesoNeto);
-					valorPesoBrutoT=valorPesoBrutoT.add(ValorPesoBruto);
-					valorCajasTendidoT=valorCajasTendidoT.add(ValorCajasTendido);
-					valorCajasPalletT=valorCajasPalletT.add(ValorCajasPallet);
-					valorCajasT=valorCajasT.add(ValorCajas);
+					valorPesoNetoT = valorPesoNetoT.add(ValorPesoNeto);
+					valorPesoBrutoT = valorPesoBrutoT.add(ValorPesoBruto);
+					valorCajasTendidoT = valorCajasTendidoT.add(ValorCajasTendido);
+					valorCajasPalletT = valorCajasPalletT.add(ValorCajasPallet);
+					valorCajasT = valorCajasT.add(ValorCajas);
 
-
-					dblTotalPrecio=dblTotalPrecio.add(pxc.getDblPrecioUSD());
+					dblTotalPrecio = dblTotalPrecio.add(pxc.getDblPrecioUSD());
 
 					pxc.setDblValorTotalProductoxDocumento(ValorTotal);
 
@@ -193,36 +174,32 @@ public class SolicitudPedidoMB extends UtilMB{
 			}
 		}
 
-
 	}
 
 	/**
 	 * Consultar lista productosx cli.
 	 */
-	public void consultarListaProductosxCli(){
+	public void consultarListaProductosxCli() {
 
 		listaProductosMostrarUno = new ArrayList<ProductoPorClienteComExtDTO>();
 
 		StringBuilder cadenaIdPrds = new StringBuilder("");
 
-		if(listaSolicitudPedido!=null && !listaSolicitudPedido.isEmpty()){
+		if (listaSolicitudPedido != null && !listaSolicitudPedido.isEmpty()) {
 			int x = 0;
-			for(ProductoPorClienteComExtDTO prdxcom:listaSolicitudPedido){
-				if (x == listaSolicitudPedido.size() - 1){
+			for (ProductoPorClienteComExtDTO prdxcom : listaSolicitudPedido) {
+				if (x == listaSolicitudPedido.size() - 1) {
 					cadenaIdPrds.append(prdxcom.getIntIdProductoInventario());
-				}
-				else{
+				} else {
 					cadenaIdPrds.append(prdxcom.getIntIdProductoInventario() + ",");
 				}
 				x++;
 			}
 		}
 
-		listaProductosMostrarUno = comercioEjb.consultarListaProductosPorClienteCE(seleccionado.getClientesId(),cadenaIdPrds.toString(),seleccionado.getSolicitudCafe() );
+		listaProductosMostrarUno = comercioEjb.consultarListaProductosPorClienteCE(seleccionado.getClientesId(), cadenaIdPrds.toString(), seleccionado.getSolicitudCafe());
 
 	}
-
-
 
 	/**
 	 * Gets the seleccionado.
@@ -236,7 +213,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the seleccionado.
 	 *
-	 * @param seleccionado the new seleccionado
+	 * @param seleccionado
+	 *          the new seleccionado
 	 */
 	public void setSeleccionado(DocumentoIncontermDTO seleccionado) {
 		this.seleccionado = seleccionado;
@@ -247,27 +225,27 @@ public class SolicitudPedidoMB extends UtilMB{
 	 *
 	 * @return the string
 	 */
-	public String consultarSolicitudPedido(){
-		//Consultar la lista inconterm poor cliente
+	public String consultarSolicitudPedido() {
+		// Consultar la lista inconterm poor cliente
 		listaTerminoInconterm = comercioEjb.consultarListaIncontermPorCliente(seleccionado.getClientesId());
 		listaSolicitudPedido = comercioEjb.consultarListaSolicitudesPedido(seleccionado.getIdDocumento(), seleccionado.getClientesId());
 		listaProductosMostrarUno = new ArrayList<ProductoPorClienteComExtDTO>();
 
 		return "";
 	}
-	
-	public void cancelar(){
+
+	public void cancelar() {
 		listaTerminoInconterm = null;
 		listaSolicitudPedido = new ArrayList<ProductoPorClienteComExtDTO>();
 		listaProductosMostrarUno = new ArrayList<ProductoPorClienteComExtDTO>();
-		totalValorT  =  new BigDecimal(0.00);
-		cantidadValorT  =  new BigDecimal(0.00);
-		valorPesoNetoT  =  new BigDecimal(0.00);
-		valorPesoBrutoT  =  new BigDecimal(0.00);
-		valorCajasPalletT =  new BigDecimal(0.00); 
-		valorCajasTendidoT =  new BigDecimal(0.00); 
-		valorCajasT =  new BigDecimal(0.00); 
-		dblTotalPrecio =  new BigDecimal(0.00);
+		totalValorT = new BigDecimal(0.00);
+		cantidadValorT = new BigDecimal(0.00);
+		valorPesoNetoT = new BigDecimal(0.00);
+		valorPesoBrutoT = new BigDecimal(0.00);
+		valorCajasPalletT = new BigDecimal(0.00);
+		valorCajasTendidoT = new BigDecimal(0.00);
+		valorCajasT = new BigDecimal(0.00);
+		dblTotalPrecio = new BigDecimal(0.00);
 		seleccionado = new DocumentoIncontermDTO();
 		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
 	}
@@ -283,10 +261,10 @@ public class SolicitudPedidoMB extends UtilMB{
 		while (iterator.hasNext()) {
 			objProducto = iterator.next();
 
-			if (objProducto.isBlnIncluirBusqueda()) {		
+			if (objProducto.isBlnIncluirBusqueda()) {
 
-				for(ProductoPorClienteComExtDTO vProducto:listaSolicitudPedido){
-					if(vProducto.getIntIdProductoInventario().equals(objProducto.getIntIdProductoInventario())){
+				for (ProductoPorClienteComExtDTO vProducto : listaSolicitudPedido) {
+					if (vProducto.getIntIdProductoInventario().equals(objProducto.getIntIdProductoInventario())) {
 						yaEsta = true;
 						break;
 					}
@@ -299,12 +277,12 @@ public class SolicitudPedidoMB extends UtilMB{
 			yaEsta = false;
 		}
 		objProducto = null;
-	}	
+	}
 
 	/**
 	 * Guardar ajustes pedido.
 	 */
-	public void guardarAjustesSP(){
+	public void guardarAjustesSP() {
 
 		this.refrescarTotales();
 
@@ -319,8 +297,8 @@ public class SolicitudPedidoMB extends UtilMB{
 
 		this.addMensajeInfo("Se almaceno la solicitud de pedido exitosamente");
 		listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
-		for(DocumentoIncontermDTO vdoc:listaDocumentos){
-			if(vdoc.getIdDocumento().equals(seleccionado.getIdDocumento())){
+		for (DocumentoIncontermDTO vdoc : listaDocumentos) {
+			if (vdoc.getIdDocumento().equals(seleccionado.getIdDocumento())) {
 				seleccionado = vdoc;
 				break;
 			}
@@ -328,7 +306,6 @@ public class SolicitudPedidoMB extends UtilMB{
 		consultarSolicitudPedido();
 
 	}
-
 
 	/**
 	 * Gets the lista documentos.
@@ -342,7 +319,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the lista documentos.
 	 *
-	 * @param listaDocumentos the new lista documentos
+	 * @param listaDocumentos
+	 *          the new lista documentos
 	 */
 	public void setListaDocumentos(ArrayList<DocumentoIncontermDTO> listaDocumentos) {
 		this.listaDocumentos = listaDocumentos;
@@ -360,10 +338,10 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the lista termino inconterm.
 	 *
-	 * @param listaTerminoInconterm the new lista termino inconterm
+	 * @param listaTerminoInconterm
+	 *          the new lista termino inconterm
 	 */
-	public void setListaTerminoInconterm(
-			List<TerminoIncoterm> listaTerminoInconterm) {
+	public void setListaTerminoInconterm(List<TerminoIncoterm> listaTerminoInconterm) {
 		this.listaTerminoInconterm = listaTerminoInconterm;
 	}
 
@@ -379,10 +357,10 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the lista solicitud pedido.
 	 *
-	 * @param listaSolicitudPedido the new lista solicitud pedido
+	 * @param listaSolicitudPedido
+	 *          the new lista solicitud pedido
 	 */
-	public void setListaSolicitudPedido(
-			List<ProductoPorClienteComExtDTO> listaSolicitudPedido) {
+	public void setListaSolicitudPedido(List<ProductoPorClienteComExtDTO> listaSolicitudPedido) {
 		this.listaSolicitudPedido = listaSolicitudPedido;
 	}
 
@@ -398,7 +376,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the total valor t.
 	 *
-	 * @param totalValorT the new total valor t
+	 * @param totalValorT
+	 *          the new total valor t
 	 */
 	public void setTotalValorT(BigDecimal totalValorT) {
 		this.totalValorT = totalValorT;
@@ -416,7 +395,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the cantidad valor t.
 	 *
-	 * @param cantidadValorT the new cantidad valor t
+	 * @param cantidadValorT
+	 *          the new cantidad valor t
 	 */
 	public void setCantidadValorT(BigDecimal cantidadValorT) {
 		this.cantidadValorT = cantidadValorT;
@@ -434,7 +414,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the valor peso neto t.
 	 *
-	 * @param valorPesoNetoT the new valor peso neto t
+	 * @param valorPesoNetoT
+	 *          the new valor peso neto t
 	 */
 	public void setValorPesoNetoT(BigDecimal valorPesoNetoT) {
 		this.valorPesoNetoT = valorPesoNetoT;
@@ -452,7 +433,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the valor peso bruto t.
 	 *
-	 * @param valorPesoBrutoT the new valor peso bruto t
+	 * @param valorPesoBrutoT
+	 *          the new valor peso bruto t
 	 */
 	public void setValorPesoBrutoT(BigDecimal valorPesoBrutoT) {
 		this.valorPesoBrutoT = valorPesoBrutoT;
@@ -470,7 +452,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the valor cajas pallet t.
 	 *
-	 * @param valorCajasPalletT the new valor cajas pallet t
+	 * @param valorCajasPalletT
+	 *          the new valor cajas pallet t
 	 */
 	public void setValorCajasPalletT(BigDecimal valorCajasPalletT) {
 		this.valorCajasPalletT = valorCajasPalletT;
@@ -488,7 +471,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the valor cajas tendido t.
 	 *
-	 * @param valorCajasTendidoT the new valor cajas tendido t
+	 * @param valorCajasTendidoT
+	 *          the new valor cajas tendido t
 	 */
 	public void setValorCajasTendidoT(BigDecimal valorCajasTendidoT) {
 		this.valorCajasTendidoT = valorCajasTendidoT;
@@ -506,7 +490,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the valor cajas t.
 	 *
-	 * @param valorCajasT the new valor cajas t
+	 * @param valorCajasT
+	 *          the new valor cajas t
 	 */
 	public void setValorCajasT(BigDecimal valorCajasT) {
 		this.valorCajasT = valorCajasT;
@@ -524,7 +509,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the dbl total precio.
 	 *
-	 * @param dblTotalPrecio the new dbl total precio
+	 * @param dblTotalPrecio
+	 *          the new dbl total precio
 	 */
 	public void setDblTotalPrecio(BigDecimal dblTotalPrecio) {
 		this.dblTotalPrecio = dblTotalPrecio;
@@ -542,10 +528,10 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the lista productos mostrar uno.
 	 *
-	 * @param listaProductosMostrarUno the new lista productos mostrar uno
+	 * @param listaProductosMostrarUno
+	 *          the new lista productos mostrar uno
 	 */
-	public void setListaProductosMostrarUno(
-			List<ProductoPorClienteComExtDTO> listaProductosMostrarUno) {
+	public void setListaProductosMostrarUno(List<ProductoPorClienteComExtDTO> listaProductosMostrarUno) {
 		this.listaProductosMostrarUno = listaProductosMostrarUno;
 	}
 
@@ -555,11 +541,10 @@ public class SolicitudPedidoMB extends UtilMB{
 	 * @return the lista ubicaciones
 	 */
 	public List<Ubicacion> getListaUbicaciones() {
-		if(listaUbicaciones==null){
+		if (listaUbicaciones == null) {
 			Usuario objUsuario;
 
-			ExternalContext context = FacesContext.getCurrentInstance()
-					.getExternalContext();
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			HttpSession session = (HttpSession) context.getSession(true);
 			objUsuario = (Usuario) session.getAttribute("usuarioLogin");
 
@@ -571,7 +556,8 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the lista ubicaciones.
 	 *
-	 * @param listaUbicaciones the new lista ubicaciones
+	 * @param listaUbicaciones
+	 *          the new lista ubicaciones
 	 */
 	public void setListaUbicaciones(List<Ubicacion> listaUbicaciones) {
 		this.listaUbicaciones = listaUbicaciones;
@@ -581,7 +567,7 @@ public class SolicitudPedidoMB extends UtilMB{
 	 * Gets the menu.
 	 *
 	 * @return the menu
-	 */
+	 */	
 	public MenuMB getMenu() {
 		return menu;
 	}
@@ -589,13 +575,11 @@ public class SolicitudPedidoMB extends UtilMB{
 	/**
 	 * Sets the menu.
 	 *
-	 * @param menu the new menu
+	 * @param menu
+	 *          the new menu
 	 */
 	public void setMenu(MenuMB menu) {
 		this.menu = menu;
 	}
-
-	
-
 
 }
