@@ -49,7 +49,6 @@
                            styleClass="negrita" />
             <p:selectOneMenu id="pais" value="#{productosMB.filtro.pais.id}"
                              label="#{msg.UsuarioNombrePais}">
-              <f:selectItem itemLabel="#{msg.generalSinSeleccionar}" />
               <f:selectItems value="#{aplicacionMB.paises}" var="pais"
                              itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
             </p:selectOneMenu>

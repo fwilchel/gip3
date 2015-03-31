@@ -49,6 +49,10 @@ public class Pais implements Serializable, Comparable<Object> {
 	public Pais() {
 	}
 
+	public Pais(String id) {
+	  this.id = id;
+	}
+
 	public String getId() {
 		return this.id;
 	}
