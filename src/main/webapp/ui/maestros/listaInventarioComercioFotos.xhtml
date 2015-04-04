@@ -74,7 +74,7 @@
 					<p:spacer width="30"></p:spacer>
 
 					<p:dataGrid var="dato" widgetVar="datoTabla" id="tablaDatos"
-						columns="4"
+						columns="4" rowIndexVar="rowIndexVar"
 						value="#{inventarioComercioFotosMB.productosInventarioComexts}"
 						emptyMessage="#{msg.generalNoDatos}" paginator="true" rows="10"
 						paginatorPosition="bottom" layout="grid"
@@ -111,8 +111,7 @@
 								<p:commandLink id="foto"
 									action="#{inventarioComercioFotosMB.editar}"
 									title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}">
-									<h:graphicImage
-										value="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}"
+									<p:graphicImage url="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}" cache="false"
 										title="#{inventarioComercioFotosMB.pathServidor}#{dato.rutaFoto1}"
 										height="181" width="165" />
 									<f:setPropertyActionListener value="#{dato}"
