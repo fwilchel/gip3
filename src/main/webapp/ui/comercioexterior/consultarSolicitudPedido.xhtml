@@ -16,28 +16,24 @@
 			<p:messages id="msgs" showDetail="false" showSummary="true"
 				globalOnly="false" showIcon="true"></p:messages>
 
-
-
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.TituloConsultarSolicitudPedido}">
-					
+
 					<p:panelGrid columns="3" id="panelFiltro"
 						columnClasses="label,value,">
 
-						<p:outputLabel value="#{msg.ConsecutivoSP}" for="filtroconsecutivo"
-							styleClass="negrita" />
+						<p:outputLabel value="#{msg.ConsecutivoSP}"
+							for="filtroconsecutivo" styleClass="negrita" />
 						<h:inputText
 							value="#{consultarSolicitudPedidoMB.filtro.consecutivoDocumento}"
-							id="filtroconsecutivo"
-							label="#{msg.ConsecutivoSP}" />
+							id="filtroconsecutivo" label="#{msg.ConsecutivoSP}" />
 						<p:message for="filtroconsecutivo"></p:message>
-						
-						<p:outputLabel value="#{msg.NumeroPedidoWeb}" for="filtronumeropedido"
-							styleClass="negrita" />
+
+						<p:outputLabel value="#{msg.NumeroPedidoWeb}"
+							for="filtronumeropedido" styleClass="negrita" />
 						<h:inputText
 							value="#{consultarSolicitudPedidoMB.filtro.numeroPedido}"
-							id="filtronumeropedido"
-							label="#{msg.NumeroPedidoWeb}" />
+							id="filtronumeropedido" label="#{msg.NumeroPedidoWeb}" />
 						<p:message for="filtronumeropedido"></p:message>
 
 						<p:outputLabel value="#{msg.FechaBusqueda}" for="filtrofecha"
@@ -47,24 +43,22 @@
 							pattern="yyyy-MM-dd">
 						</p:calendar>
 						<p:message for="filtrofecha"></p:message>
-						
+
 						<p:outputLabel value="#{msg.NombreClienteSP}" for="filtrocliente"
 							styleClass="negrita" />
 						<h:inputText
 							value="#{consultarSolicitudPedidoMB.filtro.nombreCliente}"
-							id="filtrocliente"
-							label="#{msg.NombreClienteSP}" />
+							id="filtrocliente" label="#{msg.NombreClienteSP}" />
 						<p:message for="filtrocliente"></p:message>
 
 					</p:panelGrid>
-					
+
 					<p:panelGrid columns="1">
 						<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
 							update="tabPanel"
 							action="#{consultarSolicitudPedidoMB.consultarDocumentos}"></p:commandButton>
 					</p:panelGrid>
-					
-					
+
 					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
 						value="#{consultarSolicitudPedidoMB.listaDocumentos}" rows="10"
 						emptyMessage="#{msg.comercioDocumentosIncotermNoEncontrados}"
@@ -116,9 +110,9 @@
 			</p:tabView>
 		</h:form>
 
-		<p:dialog header="#{msg.TituloConsultarSolicitudPedidoD}" widgetVar="datoDialog"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
-			dynamic="true" id="datoDlg">
+		<p:dialog header="#{msg.TituloConsultarSolicitudPedidoD}"
+			widgetVar="datoDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
 			<h:form id="formaDlg">
 				<p:outputPanel id="datoDetalle" style="text-align:center;">
 					<p:messages id="msgs2" showDetail="false" showSummary="true"
@@ -129,7 +123,8 @@
 
 						<p:outputLabel value="#{msg.recibiProductoDcoumento}" for="strId"
 							styleClass="negrita" />
-						<h:inputText value="#{consultarSolicitudPedidoMB.seleccionado.idDocumento}"
+						<h:inputText
+							value="#{consultarSolicitudPedidoMB.seleccionado.idDocumento}"
 							id="strId" disabled="true" label="#{msg.recibiProductoDcoumento}" />
 
 						<p:outputLabel value="#{msg.RequisicionNombreCons}"
@@ -181,7 +176,7 @@
 							value="#{consultarSolicitudPedidoMB.seleccionado.clientesContacto}"
 							id="strDocumentoClienteCont" disabled="true"
 							label="#{msg.maestroContactoAgente}" />
-						
+
 						<p:outputLabel value="#{msg.TerminoIncotermSP}"
 							for="strTerminoIncoterm" styleClass="negrita" />
 						<h:inputText
@@ -207,7 +202,7 @@
 
 						<p:outputLabel value="#{msg.CantidadContenedores40}"
 							for="dblCantidadContenedores40" styleClass="negrita" />
-						<h:inputText 
+						<h:inputText
 							value="#{consultarSolicitudPedidoMB.seleccionado.cantidadContenedores40}"
 							id="dblCantidadContenedores40" disabled="true"
 							label="#{msg.CantidadContenedores40}">
@@ -242,9 +237,9 @@
 
 					<p:dataTable var="producto" widgetVar="productoTabla"
 						id="tablaProductos"
-						value="#{consultarSolicitudPedidoMB.listaSolicitudPedido}" rows="10"
-						emptyMessage="No se encontraron productos" paginator="true"
-						paginatorPosition="bottom"
+						value="#{consultarSolicitudPedidoMB.listaSolicitudPedido}"
+						rows="10" emptyMessage="No se encontraron productos"
+						paginator="true" paginatorPosition="bottom"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,10,15">
 
@@ -259,55 +254,55 @@
 						<p:column headerText="#{msg.comprasCantidadSola}">
 							<h:outputText value="#{producto.dblCantidad1ProductoxDocumento}"
 								id="cantidadProd1">
-								<f:convertNumber maxFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.costeoComperasValorUnitarioML}">
 							<h:outputText value="#{producto.dblPrecioUSD}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.VentasRemisionValorTotal}">
 							<h:outputText value="#{producto.dblValorTotalProductoxDocumento}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.PesoNetoVista}">
 							<h:outputText value="#{producto.dblTotalPesoNeto}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.PesoBrutoVista}">
 							<h:outputText value="#{producto.dblTotalPesoBruto}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.SPcantidadCajas}">
 							<h:outputText value="#{producto.dblTotalCajas}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.SPcantidadTendido}">
 							<h:outputText value="#{producto.dblTotalCajasTendido}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.SPcantidadPallet}">
 							<h:outputText value="#{producto.dblTotalCajasPallet}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
-						</p:column>						
+						</p:column>
 
 					</p:dataTable>
 
-	
+
 					<p:panelGrid columns="16" id="panelTotales"
 						rendered="#{not empty consultarSolicitudPedidoMB.seleccionado}"
 						columnClasses="label,value,label,value,label,value,label,value,label,value,label,value,label,value,label,value">
@@ -316,120 +311,129 @@
 							styleClass="negrita" />
 						<h:outputText id="total0"
 							value="#{consultarSolicitudPedidoMB.cantidadValorT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.costeoComperasValorUnitarioML}"
 							for="total1" styleClass="negrita" />
 						<h:outputText id="total1" value="">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.VentasRemisionValorTotal}"
 							for="total2" styleClass="negrita" />
-						<h:outputText id="total2" value="#{consultarSolicitudPedidoMB.totalValorT}">
-							<f:convertNumber maxFractionDigits="2" />
+						<h:outputText id="total2"
+							value="#{consultarSolicitudPedidoMB.totalValorT}">
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.PesoNetoVista}" for="total3"
 							styleClass="negrita" />
 						<h:outputText id="total3"
 							value="#{consultarSolicitudPedidoMB.valorPesoNetoT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.PesoBrutoVista}" for="total4"
 							styleClass="negrita" />
 						<h:outputText id="total4"
 							value="#{consultarSolicitudPedidoMB.valorPesoBrutoT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.SPcantidadCajas}" for="total5"
 							styleClass="negrita" />
-						<h:outputText id="total5" value="#{consultarSolicitudPedidoMB.valorCajasT}">
-							<f:convertNumber maxFractionDigits="2" />
+						<h:outputText id="total5"
+							value="#{consultarSolicitudPedidoMB.valorCajasT}">
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.SPcantidadTendido}" for="total6"
 							styleClass="negrita" />
 						<h:outputText id="total6"
 							value="#{consultarSolicitudPedidoMB.valorCajasTendidoT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.SPcantidadPallet}" for="total7"
 							styleClass="negrita" />
 						<h:outputText id="total7"
 							value="#{consultarSolicitudPedidoMB.valorCajasPalletT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 					</p:panelGrid>
-					
+
 					<p:panelGrid columns="2"
 						rendered="#{not empty consultarSolicitudPedidoMB.seleccionado}"
 						columnClasses="label,value">
 
-						
-						<p:outputLabel value="#{msg.SP_CostoEntrega}"
-							for="dblValorFOB" styleClass="negrita" />
-						<h:inputText id="dblValorFOB" value="#{consultarSolicitudPedidoMB.dblValorFOB}" 
-							disabled="true" label="#{msg.SP_CostoEntrega}" >
-		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-		      			</h:inputText>
-		      			
-		      			<p:outputLabel value="#{msg.SP_CostoSeguro}"
-							for="dblValorSeguro" styleClass="negrita" />
-						<h:inputText id="dblValorSeguro" value="#{consultarSolicitudPedidoMB.dblValorSeguro}" 
-							disabled="true" label="#{msg.SP_CostoSeguro}" >
-		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-		      			</h:inputText>
-						
-						<p:outputLabel value="#{msg.SP_CostoFlete}"
-							for="dblValorFletes" styleClass="negrita" />
-						<h:inputText id="dblValorFletes" value="#{consultarSolicitudPedidoMB.dblValorFletes}" 
-							disabled="true" label="#{msg.ValorFletes}" >
-		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-		      			</h:inputText>
-												
+
+						<p:outputLabel value="#{msg.SP_CostoEntrega}" for="dblValorFOB"
+							styleClass="negrita" />
+						<h:inputText id="dblValorFOB"
+							value="#{consultarSolicitudPedidoMB.dblValorFOB}" disabled="true"
+							label="#{msg.SP_CostoEntrega}">
+							<f:convertNumber pattern="#####,###,###,##0.00" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.SP_CostoSeguro}" for="dblValorSeguro"
+							styleClass="negrita" />
+						<h:inputText id="dblValorSeguro"
+							value="#{consultarSolicitudPedidoMB.dblValorSeguro}"
+							disabled="true" label="#{msg.SP_CostoSeguro}">
+							<f:convertNumber pattern="#####,###,###,##0.00" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.SP_CostoFlete}" for="dblValorFletes"
+							styleClass="negrita" />
+						<h:inputText id="dblValorFletes"
+							value="#{consultarSolicitudPedidoMB.dblValorFletes}"
+							disabled="true" label="#{msg.ValorFletes}">
+							<f:convertNumber pattern="#####,###,###,##0.00" />
+						</h:inputText>
+
 						<p:outputLabel value="#{msg.SP_OtrosGastos}"
 							for="dblValorOtrosGastos" styleClass="negrita" />
-						<h:inputText id="dblValorOtrosGastos" value="#{consultarSolicitudPedidoMB.dblValorOtrosGastos}" 
-							disabled="true" label="#{msg.SP_OtrosGastos}" >
-		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-		      			</h:inputText>
-		      			
-		      			<p:outputLabel value="#{msg.SP_TotalCostos}"
-							for="dblTotalGastos" styleClass="negrita" />
-						<h:inputText id="dblTotalGastos" value="#{consultarSolicitudPedidoMB.dblTotalValorT}" 
-							disabled="true" label="#{msg.SP_TotalCostos}" >
-		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-		      			</h:inputText>
-						
-						<p:outputLabel value="#{msg.TotalNegociacion}"
-							for="dblValorNeg" styleClass="negrita" />
-						<h:inputText id="dblValorNeg" value="#{consultarSolicitudPedidoMB.dblValorTotalNeg}" 
-							disabled = "true" label="#{msg.TotalNegociacion}" >
-		       	              <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-		      			</h:inputText>
+						<h:inputText id="dblValorOtrosGastos"
+							value="#{consultarSolicitudPedidoMB.dblValorOtrosGastos}"
+							disabled="true" label="#{msg.SP_OtrosGastos}">
+							<f:convertNumber pattern="#####,###,###,##0.00" />
+						</h:inputText>
 
-						
+						<p:outputLabel value="#{msg.SP_TotalCostos}" for="dblTotalGastos"
+							styleClass="negrita" />
+						<h:inputText id="dblTotalGastos"
+							value="#{consultarSolicitudPedidoMB.dblTotalValorT}"
+							disabled="true" label="#{msg.SP_TotalCostos}">
+							<f:convertNumber pattern="#####,###,###,##0.00" />
+						</h:inputText>
+
+						<p:outputLabel value="#{msg.TotalNegociacion}" for="dblValorNeg"
+							styleClass="negrita" />
+						<h:inputText id="dblValorNeg"
+							value="#{consultarSolicitudPedidoMB.dblValorTotalNeg}"
+							disabled="true" label="#{msg.TotalNegociacion}">
+							<f:convertNumber pattern="#####,###,###,##0.00" />
+						</h:inputText>
+
 					</p:panelGrid>
-					
 
 					<p:panelGrid columns="2"
 						rendered="#{not empty consultarSolicitudPedidoMB.seleccionado}"
 						columnClasses="label,value">
-						
-						<p:commandButton value="#{msg.ReporteExcel}" ajax="false" icon="ui-icon-document">
-					        <p:fileDownload value="#{consultarSolicitudPedidoMB.reporteExcel}" />
-					    </p:commandButton>
-					    
-					    <p:commandButton value="#{msg.ReportePdf}" ajax="false" icon="ui-icon-document">
-					        <p:fileDownload value="#{consultarSolicitudPedidoMB.reportePDF}" />
-					    </p:commandButton>
-					    
+
+						<p:commandButton value="#{msg.ReporteExcel}" ajax="false"
+							icon="ui-icon-document">
+							<p:fileDownload
+								value="#{consultarSolicitudPedidoMB.reporteExcel}" />
+						</p:commandButton>
+
+						<p:commandButton value="#{msg.ReportePdf}" ajax="false"
+							icon="ui-icon-document">
+							<p:fileDownload value="#{consultarSolicitudPedidoMB.reportePDF}" />
+						</p:commandButton>
+
 						<p:commandButton value="#{msg.generalCancelar}"
 							update=":formaDlg:datoDetalle,:forma:tabPanel:tablaDatos"
 							action="#{consultarSolicitudPedidoMB.cancelar}"

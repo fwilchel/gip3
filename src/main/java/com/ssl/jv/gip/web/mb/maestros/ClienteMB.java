@@ -190,7 +190,7 @@ public class ClienteMB extends UtilMB {
   }
 
   public void cambioPais(ValueChangeEvent ev) {
-	String idPais = (String) ev.getNewValue();
+	idPais = (String) ev.getNewValue();
 	cargarListaCiudades();
   }
 

@@ -81,9 +81,9 @@ public class ProductosMB extends UtilMB {
   private List<TipoLoteoic> tiposLotesOic;
   private String campoOrden;
   private SortOrder orden;
-
   private Modo modo;
   private Modo modoDetalle;
+  private List<SelectItem> listaPaises;
 
   @EJB
   private MaestrosEJBLocal maestrosEjb;
@@ -119,6 +119,14 @@ public class ProductosMB extends UtilMB {
 	filtro.setCategoriasInventario(new CategoriasInventario());
 	filtro.setDesactivado(true);
 	this.tiposLotesOic = this.maestrosEjb.consultarTipoLotesOic();
+	cargarListaPaises();
+  }
+
+  private void cargarListaPaises() {
+	if (listaPaises == null) {
+	  listaPaises = new ArrayList<>();
+	}
+	listaPaises.add(new SelectItem("CO", "Colombia"));
   }
 
   public AplicacionMB getAppMB() {
@@ -358,6 +366,21 @@ public class ProductosMB extends UtilMB {
 
   public void setReporteExcel(StreamedContent reporteExcel) {
 	this.reporteExcel = reporteExcel;
+  }
+
+  /**
+   * @return the listaPaises
+   */
+  public List<SelectItem> getListaPaises() {
+	return listaPaises;
+  }
+
+  /**
+   * @param listaPaises
+   *          the listaPaises to set
+   */
+  public void setListaPaises(List<SelectItem> listaPaises) {
+	this.listaPaises = listaPaises;
   }
 
 }

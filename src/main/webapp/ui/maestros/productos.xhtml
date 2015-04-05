@@ -16,8 +16,6 @@
       <p:messages id="msgs" showDetail="false" showSummary="true"
                   globalOnly="false" showIcon="true"></p:messages>
 
-
-
       <p:tabView id="tabPanel">
         <p:tab title="#{msg.maestroInventarioInicio}">
           <p:panelGrid columns="9">
@@ -45,14 +43,22 @@
             </p:selectOneMenu>
             <p:message for="categoia"></p:message>
 
-            <p:outputLabel value="#{msg.generalNombrePais}" for="pais"
-                           styleClass="negrita" />
-            <p:selectOneMenu id="pais" value="#{productosMB.filtro.pais.id}"
-                             label="#{msg.UsuarioNombrePais}">
-              <f:selectItems value="#{aplicacionMB.paises}" var="pais"
-                             itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+            <p:outputLabel 
+              value="#{msg.generalNombrePais}" 
+              for="pais"
+              styleClass="negrita" />
+            <p:selectOneMenu 
+              id="pais" 
+              value="#{productosMB.filtro.pais.id}"
+              label="#{msg.UsuarioNombrePais}">
+              <f:selectItems 
+                value="#{productosMB.listaPaises}" 
+                var="pais"
+                itemValue="#{pais.value}" 
+                itemLabel="#{pais.label}" />
             </p:selectOneMenu>
-            <p:message for="pais"></p:message>
+            <p:message 
+              for="pais"/>
 
             <p:outputLabel value="#{msg.generalActivo}" for="activo"
                            styleClass="negrita" />
@@ -179,13 +185,6 @@
                        rendered="#{not empty productosMB.seleccionado}"
                        columnClasses="label,value">
 
-<!--             <p:outputLabel value="#{msg.maestroCodigoProducto}" for="codigo" -->
-<!--                            styleClass="negrita" /> -->
-<!--             <h:inputText value="#{productosMB.seleccionado.id}" id="codigo" -->
-<!--                          required="true" disabled="#{!productosMB.creacion}" -->
-<!--                          label="#{msg.maestroCodigoProducto}" /> -->
-<!--             <p:message for="codigo"></p:message> -->
-
             <p:outputLabel value="#{msg.maestroNombreProducto}" for="nombre"
                            styleClass="negrita" />
             <h:inputText value="#{productosMB.seleccionado.nombre}"
@@ -202,15 +201,22 @@
             </p:selectOneMenu>
             <p:message for="categoria"></p:message>
 
-            <p:outputLabel value="#{msg.generalNombrePais}" for="pais"
-                           styleClass="negrita" />
-            <p:selectOneMenu id="pais"
-                             value="#{productosMB.seleccionado.pais.id}"
-                             label="#{msg.generalNombrePais}">
-              <f:selectItems value="#{aplicacionMB.paises}" var="pais"
-                             itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+            <p:outputLabel 
+              value="#{msg.generalNombrePais}" 
+              for="pais"
+              styleClass="negrita" />
+            <p:selectOneMenu 
+              id="pais"
+              value="#{productosMB.seleccionado.pais.id}"
+              label="#{msg.generalNombrePais}">
+              <f:selectItems 
+                value="#{productosMB.listaPaises}" 
+                var="pais"
+                itemValue="#{pais.value}" 
+                itemLabel="#{pais.label}" />
             </p:selectOneMenu>
-            <p:message for="pais"></p:message>
+            <p:message 
+              for="pais"/>
 
             <p:outputLabel value="#{msg.maestroUnidadDevolucion}"
                            for="unidadDespacho" styleClass="negrita" />

@@ -261,16 +261,27 @@
 							label="#{msg.maestroCreModTelefonoCliente}" />
 						<p:message for="telefono"></p:message>
 
-						<p:outputLabel value="#{msg.maestroCreModPaisCliente}" for="pais"
+						<p:outputLabel 
+							value="#{msg.maestroCreModPaisCliente}" 
+							for="pais"
 							styleClass="negrita" />
-						<p:selectOneMenu id="pais" value="#{clienteMB.idPais}"
-							valueChangeListener="#{clienteMB.cambioPais}" immediate="true"
+						<p:selectOneMenu 
+							id="pais" 
+							value="#{clienteMB.idPais}"
+							valueChangeListener="#{clienteMB.cambioPais}" 
+							immediate="true"
 							label="#{msg.maestroCreModPaisCliente}">
-							<f:selectItems value="#{clienteMB.listaPaises}" var="pais"
-								itemValue="#{pais.value}" itemLabel="#{pais.label}" />
-							<p:ajax event="change" update="ciudad" />
+							<f:selectItems 
+								value="#{aplicacionMB.paises}" 
+								var="pais"
+								itemValue="#{pais.id}" 
+								itemLabel="#{pais.nombre}" />
+							<p:ajax 
+								event="change" 
+								update="ciudad" />
 						</p:selectOneMenu>
-						<p:message for="pais"></p:message>
+						<p:message 
+							for="pais"/>
 
 						<p:outputLabel value="#{msg.maestroCreModCiudadCliente}"
 							for="ciudad" styleClass="negrita" />

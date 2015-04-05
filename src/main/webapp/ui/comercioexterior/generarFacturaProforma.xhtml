@@ -205,54 +205,54 @@
 						<p:column styleClass="derecha"
 							headerText="#{msg.comprasCantidadSola}">
 							<h:outputText value="#{producto.cantidad}">
-								<f:convertNumber maxFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha"
 							headerText="#{msg.costeoComperasValorUnitarioML}">
 							<h:outputText value="#{producto.precio}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha"
 							headerText="#{msg.VentasRemisionValorTotal}">
 							<h:outputText value="#{producto.valorTotal}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha" headerText="#{msg.PesoNetoVista}">
 							<h:outputText value="#{producto.totalPesoNeto}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha" headerText="#{msg.PesoBrutoVista}">
 							<h:outputText value="#{producto.totalPesoBruto}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 
 						<p:column styleClass="derecha" headerText="#{msg.SPcantidadCajas}">
 							<h:outputText value="#{producto.totalCajas}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha"
 							headerText="#{msg.SPcantidadTendido}">
 							<h:outputText value="#{producto.totalCajasTendido}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha"
 							headerText="#{msg.SPcantidadPallet}">
 							<h:outputText value="#{producto.totalCajasPallet}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 						<p:summaryRow>
@@ -261,40 +261,40 @@
 							</p:column>
 							<p:column styleClass="derecha">
 								<h:outputText value="#{generarFacturaPFMB.totalCantidad}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 							<p:column>
 							</p:column>
 							<p:column styleClass="derecha">
 								<h:outputText value="#{generarFacturaPFMB.totalValorTotal}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 							<p:column styleClass="derecha">
 								<h:outputText value="#{generarFacturaPFMB.totalPesoNeto}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 							<p:column styleClass="derecha">
 								<h:outputText value="#{generarFacturaPFMB.totalPesoBruto}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 							<p:column styleClass="derecha">
 								<h:outputText value="#{generarFacturaPFMB.totalCantidadCajas}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 							<p:column styleClass="derecha">
 								<h:outputText
 									value="#{generarFacturaPFMB.totalCantidadTendidos}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 							<p:column styleClass="derecha">
 								<h:outputText value="#{generarFacturaPFMB.totalCantidadPallets}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 

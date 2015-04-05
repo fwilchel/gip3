@@ -260,43 +260,43 @@
 
 						<p:column headerText="#{msg.costeoComperasValorUnitarioML}">
 							<h:outputText value="#{producto.dblPrecioUSD}">
-								<f:convertNumber pattern="$#####,###,###,###.00" />
+								<f:convertNumber pattern="$#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.VentasRemisionValorTotal}">
 							<h:outputText value="#{producto.dblValorTotalProductoxDocumento}">
-								<f:convertNumber pattern="$#####,###,###,###.00" />
+								<f:convertNumber pattern="$#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.PesoNetoVista}">
 							<h:outputText value="#{producto.dblTotalPesoNeto}">
-								<f:convertNumber pattern="#####,###,###,###.00" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.PesoBrutoVista}">
 							<h:outputText value="#{producto.dblTotalPesoBruto}">
-								<f:convertNumber pattern="#####,###,###,###.00" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.SPcantidadCajas}">
 							<h:outputText value="#{producto.dblTotalCajas}">
-								<f:convertNumber pattern="#####,###,###,###.00" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.SPcantidadTendido}">
 							<h:outputText value="#{producto.dblTotalCajasTendido}">
-								<f:convertNumber pattern="#####,###,###,###.00" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="#{msg.SPcantidadPallet}">
 							<h:outputText value="#{producto.dblTotalCajasPallet}">
-								<f:convertNumber pattern="#####,###,###,###.00" />
+								<f:convertNumber pattern="#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
@@ -321,53 +321,53 @@
 							styleClass="negrita" />
 						<h:outputText id="total0"
 							value="#{solicitudPedidoMB.cantidadValorT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.costeoComperasValorUnitarioML}"
 							for="total1" styleClass="negrita" />
 						<h:outputText id="total1" value="">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.VentasRemisionValorTotal}"
 							for="total2" styleClass="negrita" />
 						<h:outputText id="total2" value="#{solicitudPedidoMB.totalValorT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.PesoNetoVista}" for="total3"
 							styleClass="negrita" />
 						<h:outputText id="total3"
 							value="#{solicitudPedidoMB.valorPesoNetoT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.PesoBrutoVista}" for="total4"
 							styleClass="negrita" />
 						<h:outputText id="total4"
 							value="#{solicitudPedidoMB.valorPesoBrutoT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.SPcantidadCajas}" for="total5"
 							styleClass="negrita" />
 						<h:outputText id="total5" value="#{solicitudPedidoMB.valorCajasT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.SPcantidadTendido}" for="total6"
 							styleClass="negrita" />
 						<h:outputText id="total6"
 							value="#{solicitudPedidoMB.valorCajasTendidoT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 						<p:outputLabel value="#{msg.SPcantidadPallet}" for="total7"
 							styleClass="negrita" />
 						<h:outputText id="total7"
 							value="#{solicitudPedidoMB.valorCajasPalletT}">
-							<f:convertNumber maxFractionDigits="2" />
+							<f:convertNumber pattern="#####,###,###,##0.00" />
 						</h:outputText>
 
 					</p:panelGrid>
