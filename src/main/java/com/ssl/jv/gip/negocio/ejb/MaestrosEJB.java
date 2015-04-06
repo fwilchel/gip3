@@ -1,7 +1,5 @@
 package com.ssl.jv.gip.negocio.ejb;
 
-import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -575,6 +573,16 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Cliente> consultarClientesInternacionales() {
+		try {
+			return (List<Cliente>) clienteDao.consultarActivosInternacionales();
+		} catch (Exception e) {
+			LOGGER.error(e + " Error consultando clientes");
+			return null;
+		}
+	}
 	@Override
 	public Cliente crearCliente(Cliente pEntidad, LogAuditoria auditoria) {
 		try {

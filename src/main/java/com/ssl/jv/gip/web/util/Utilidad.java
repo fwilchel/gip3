@@ -794,6 +794,7 @@ public class Utilidad {
 
     String c = Utilidad.cifrar("Fwilches750930"); // vA8JBDmgfXLHPPumFEqPAA==
     System.out.println("1 " + c);
+    c="uALODFtunHXKFwcG+t021A==";
     String d = Utilidad.descifrar(c);
     System.out.println("2 " + d);
   }

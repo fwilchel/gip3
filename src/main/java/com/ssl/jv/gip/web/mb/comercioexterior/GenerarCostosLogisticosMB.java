@@ -95,7 +95,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init(){
-		clientes=this.maestrosEjb.consultarClientes();
+		clientes=this.maestrosEjb.consultarClientesInternacionales();
 		Collections.sort(clientes);
 		trm=this.maestrosEjb.getTRMDian(new Date());
 		paises = comunEJB.consultarPaisesTodos();

@@ -11,11 +11,11 @@ import java.util.Map;
 @Local
 public interface ClienteDAOLocal extends IGenericDAO<Cliente> {
 
-	List<Cliente> consultarPorFiltro(ClienteFiltroVO filtroVO);
+	public List<Cliente> consultarPorFiltro(ClienteFiltroVO filtroVO);
 
-	List<Cliente> consultarActivosPorUsuario(String idUsuario);
+	public List<Cliente> consultarActivosPorUsuario(String idUsuario);
 	
-	void guardarCliente(Cliente cliente);
+	public void guardarCliente(Cliente cliente);
 
     /**
      * 
@@ -24,4 +24,5 @@ public interface ClienteDAOLocal extends IGenericDAO<Cliente> {
      */
     public List<Cliente> consultarListadoClientesReporteVentasCE(Map<String, Object> parametros);
     
+    public List<Cliente> consultarActivosInternacionales();
 }

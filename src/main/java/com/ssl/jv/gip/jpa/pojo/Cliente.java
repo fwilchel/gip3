@@ -29,7 +29,9 @@ import javax.persistence.Table;
 @NamedQueries({
 		@NamedQuery(name = Cliente.CLIENTE_FIND_ALL, query = "SELECT c FROM Cliente c"),
 		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u LEFT JOIN FETCH c.ciudad ciu WHERE c.activo = true AND u.id = :idUsuario ORDER BY c.nombre ASC"),
-		@NamedQuery(name = Cliente.BUSCAR_CLIENTES_REPORTE_VENTAS_CE, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE UPPER (c.nombre) LIKE UPPER (:nombre) AND c.activo = :activo AND u.id = :idUsuario ORDER BY c.nombre ASC") })
+		@NamedQuery(name = Cliente.BUSCAR_CLIENTES_REPORTE_VENTAS_CE, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE UPPER (c.nombre) LIKE UPPER (:nombre) AND c.activo = :activo AND u.id = :idUsuario ORDER BY c.nombre ASC"),
+		@NamedQuery(name = Cliente.CLIENTE_ACTIVO_INTERNACIONAL, query = "SELECT c FROM Cliente c WHERE c.activo = :activo AND c.ciudad.idPais<>'CO' ORDER BY c.nombre ASC")
+		})
 public class Cliente implements Serializable, Comparable {
 
 	/**
@@ -39,6 +41,8 @@ public class Cliente implements Serializable, Comparable {
 	public static final String CLIENTE_FIND_ALL = "Cliente.findAll";
 	public static final String CLIENTE_ACTIVO_FIND_BY_USUARIO = "Cliente.findActivoFindByUsuario";
 	public static final String BUSCAR_CLIENTES_REPORTE_VENTAS_CE = "Cliente.buscarClientesReporteVentasCE";
+	public static final String CLIENTE_ACTIVO_INTERNACIONAL = "Cliente.findActivoInternacional";
+	
 
 	@Id
 	@SequenceGenerator( name = "clientes_id_seq", sequenceName = "clientes_id_seq", allocationSize = 1)

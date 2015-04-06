@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -10,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.negocio.dto.ClienteFiltroVO;
+
 import java.util.Map;
 
 @Stateless
@@ -69,6 +71,16 @@ public class ClienteDAO extends GenericDAO<Cliente> implements ClienteDAOLocal {
     query.setParameter("activo", true);
     query.setParameter("idUsuario", parametros.get("idUsuario"));
     return query.getResultList();
+  }
+  
+  @Override
+  public List<Cliente> consultarActivosInternacionales(){
+	  /*Map <String, Object> p=new HashMap<String, Object>();
+	  p.put("activo", true);
+	  return buscarPorConsultaJPQL(Cliente.CLIENTE_ACTIVO_INTERNACIONAL, p);*/
+	  
+	  Query query = em.createNamedQuery(Cliente.CLIENTE_ACTIVO_INTERNACIONAL).setParameter("activo", true);
+	  return (List<Cliente>)query.getResultList();
   }
 
 }
