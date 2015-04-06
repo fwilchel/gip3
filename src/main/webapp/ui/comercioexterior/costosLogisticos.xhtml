@@ -169,7 +169,9 @@
 										<h:outputText value="#{costo.id.consecutivoDocumento}" />
 									</p:column>
 		        					<p:column headerText="Cantidad" styleClass="derecha">
-		            					<h:outputText value="#{costo.id.cantidad}" />
+		            					<h:outputText value="#{costo.id.cantidad}" >
+		            						<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" pattern="#,##0.00"/>
+		            					</h:outputText>
 		        					</p:column>
 		        					<p:column headerText="Valor Mínimo" styleClass="derecha">
 		            					<h:outputText value="#{costo.id.valorMinimo}" />
