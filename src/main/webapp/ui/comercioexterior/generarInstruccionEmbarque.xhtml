@@ -13,17 +13,23 @@
 		<p:spacer height="40"></p:spacer>
 		<h:form id="forma">
 
+			<p:messages 
+				id="msgs" 
+				showDetail="false" 
+				showSummary="true"
+				globalOnly="false" 
+				showIcon="true"
+				autoUpdate="true"/>
+
 			<p:tabView id="tabPanel">
-			
-				<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
-			
+
 				<p:tab title="#{msg.TituloGenerarInstruccionEmbarque}"
 					rendered="#{!generarInstruccionEmbarqueMB.generarInstruccion}">
 
 					<p:outputLabel value="#{msg.trasladoInventarioFecha}:"
 						styleClass="negrita" />
-					<h:outputText value="#{generarInstruccionEmbarqueMB.currentTimeStamp}">
+					<h:outputText
+						value="#{generarInstruccionEmbarqueMB.currentTimeStamp}">
 						<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
 					</h:outputText>
 
@@ -34,6 +40,8 @@
 						styleClass="negrita" />
 					<p:selectOneMenu id="busquedaCliente"
 						value="#{generarInstruccionEmbarqueMB.cliente}">
+		                <f:selectItem 
+		                	itemLabel="#{msg.generalSinSeleccionar}" />
 						<f:selectItems
 							value="#{generarInstruccionEmbarqueMB.listadoClientes}" var="cli"
 							itemLabel="#{cli.nombre}" itemValue="#{cli.id}" />
@@ -175,7 +183,7 @@
 
 
 					</p:dataTable>
-					
+
 					<p:spacer height="20px"></p:spacer>
 
 					<p:panelGrid id="i5" columns="6" border="0">
@@ -361,7 +369,7 @@
 								itemValue="C" />
 						</p:selectOneRadio>
 						<p:message id="strFleteExternoError" for="strFleteExterno" />
-						
+
 						<h:outputText value="" />
 						<h:outputText value="" />
 						<h:outputText value="" />
@@ -375,7 +383,7 @@
 							<f:selectItems value="#{generarInstruccionEmbarqueMB.listaPais}" />
 						</p:selectOneMenu>
 						<p:message for="selectidpais" />
-						
+
 						<h:outputText value="" />
 						<h:outputText value="" />
 						<h:outputText value="" />
@@ -387,15 +395,14 @@
 								value="#{generarInstruccionEmbarqueMB.listaCiudad}" />
 						</p:selectOneMenu>
 						<p:message for="selectidcity" />
-						
+
 						<h:outputText value="" />
 						<h:outputText value="" />
 						<h:outputText value="" />
 
 					</p:panelGrid>
-					
-					<p:commandButton value="#{msg.BotonGuardarIE}"
-						update="tabPanel"
+
+					<p:commandButton value="#{msg.BotonGuardarIE}" update="tabPanel"
 						actionListener="#{generarInstruccionEmbarqueMB.guardarInstruccionEmbarque}" />
 
 				</p:tab>
