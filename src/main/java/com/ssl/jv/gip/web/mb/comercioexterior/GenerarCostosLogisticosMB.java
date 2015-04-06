@@ -181,6 +181,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	}
 	
 	public void generarCostosLogisticos(){
+		BigDecimal valorTotal = this.getValorDocumentos();
 		List<Long> documentos = new ArrayList<Long>();
 		for (DocumentoCostosLogisticosDTO r:this.solicitudes){
 			if (r.getSeleccionada()){
@@ -198,7 +199,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 				break;
 			}
 		}
-		List<CostoLogisticoDTO> datos=this.comercioEjb.generarCostosLogisticos(cliente, documentos, timt1, puertoNal, puertoInternal, this.trm.getId(), this.pais, this.tipoContenedor1, this.cantidad1, this.tipoContenedor2, this.cantidad2);
+		List<CostoLogisticoDTO> datos=this.comercioEjb.generarCostosLogisticos(cliente, documentos, timt1, puertoNal, puertoInternal, this.trm.getId(), this.pais, this.tipoContenedor1, this.cantidad1, this.tipoContenedor2, this.cantidad2, valorTotal);
 		
 		//System.out.println("Cuantos "+datos.size());
 		

@@ -30,7 +30,7 @@ public class ItemCostoLogisticoDAO extends GenericDAO<ItemCostoLogistico> implem
 
 	
 	@SuppressWarnings("unchecked")
-	public List<CostoLogisticoDTO> getCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2){
+	public List<CostoLogisticoDTO> getCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal){
 		if (puerto!=null && puerto.equals(""))
 			puerto=null;
 		if (puertos!=null && puertos.equals(""))
@@ -46,7 +46,7 @@ public class ItemCostoLogisticoDAO extends GenericDAO<ItemCostoLogistico> implem
 		String query1="";
 		
 		if (tipoContenedor1.equals(1) || tipoContenedor2.equals(1)){
-			query1+="select 1 as tipo, ccl.nombre as categoria, icl.nombre as item, icl.descripcion, dn.cantidad_contenedores_de_20 as cantidad, :cantidad20 * case when icl.id_moneda='USD' then icl.valor else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency)* icl.valor end as valor, case when icl.id_moneda='USD' then icl.valor_minimo else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency) * icl.valor_minimo end as valorMinimo, icl.base_Fob baseFob, ccl.campo_acumula campoAcumula, d.consecutivo_documento as consecutivoDocumento, ccl.orden, ccl.id as categoriaId, icl.id as itemId "+
+			query1+="select 1 as tipo, ccl.nombre as categoria, icl.nombre as item, icl.descripcion, d.valor_total / :valorTotal * :cantidad20 as cantidad, d.valor_total / :valorTotal * :cantidad20 * case when icl.id_moneda='USD' then icl.valor else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency)* icl.valor end as valor, case when icl.id_moneda='USD' then icl.valor_minimo else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency) * icl.valor_minimo end as valorMinimo, icl.base_Fob baseFob, ccl.campo_acumula campoAcumula, d.consecutivo_documento as consecutivoDocumento, ccl.orden, ccl.id as categoriaId, icl.id as itemId "+
 					"from documentos d inner join documento_x_negociacion dn on d.id=dn.id_documento inner join item_costo_logistico icl on 1=1 inner join categorias_costos_logisticos ccl on icl.id_categoria=ccl.id "+
 					"where icl.tipo=1 and id_cliente=:idCliente and d.id in ("+documento+") and icl.aplica_"+terminoIncoterm+" and (icl.nombre_puerto_nal IS NULL "+(puerto!=null?" or icl.nombre_puerto_nal= :puertoNal":"")+") and (icl.id_pais_destino IS NULL "+(pais!=null?"or icl.id_pais_destino= :pais":"")+") and (icl.nombre_puertos_nal_internal IS NULL "+(puertos!=null?" or icl.nombre_puertos_nal_internal= :puertoInternal":"")+") ";
 		}
@@ -54,15 +54,15 @@ public class ItemCostoLogisticoDAO extends GenericDAO<ItemCostoLogistico> implem
 			if (!query1.equals("")){
 				query1+="UNION ALL ";
 			}
-			query1+="select 2 as tipo, ccl.nombre as categoria, icl.nombre as item, icl.descripcion, sum(dn.cantidad_contenedores_de_40) as cantidad, sum( :cantidad40 * case when icl.id_moneda='USD' then icl.valor else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency)* icl.valor end) as valor, case when icl.id_moneda='USD' then icl.valor_minimo else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency) * icl.valor_minimo end as valorMinimo, icl.base_Fob as baseFob, ccl.campo_acumula campoAcumula, d.consecutivo_documento as consecutivoDocumento, ccl.orden, ccl.id as categoriaId, icl.id as itemId "+
+			query1+="select 2 as tipo, ccl.nombre as categoria, icl.nombre as item, icl.descripcion, d.valor_total / :valorTotal * :cantidad40 as cantidad, d.valor_total / :valorTotal * :cantidad40 * case when icl.id_moneda='USD' then icl.valor else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency)* icl.valor end as valor, case when icl.id_moneda='USD' then icl.valor_minimo else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency) * icl.valor_minimo end as valorMinimo, icl.base_Fob as baseFob, ccl.campo_acumula campoAcumula, d.consecutivo_documento as consecutivoDocumento, ccl.orden, ccl.id as categoriaId, icl.id as itemId "+
 					"from documentos d inner join documento_x_negociacion dn on d.id=dn.id_documento inner join item_costo_logistico icl on 1=1 inner join categorias_costos_logisticos ccl on icl.id_categoria=ccl.id "+
-					"where icl.tipo=2 and id_cliente=:idCliente and d.id in ("+documento+") and icl.aplica_"+terminoIncoterm+" and (icl.nombre_puerto_nal IS NULL "+(puerto!=null?" or icl.nombre_puerto_nal= :puertoNal":"")+") and (icl.id_pais_destino IS NULL "+(pais!=null?"or icl.id_pais_destino= :pais":"")+")  and (icl.nombre_puertos_nal_internal IS NULL "+(puertos!=null?" or icl.nombre_puertos_nal_internal= :puertoInternal":"")+") group by 1,2,3,4,7,8,campo_acumula,consecutivoDocumento, ccl.orden, ccl.id, icl.id ";
+					"where icl.tipo=2 and id_cliente=:idCliente and d.id in ("+documento+") and icl.aplica_"+terminoIncoterm+" and (icl.nombre_puerto_nal IS NULL "+(puerto!=null?" or icl.nombre_puerto_nal= :puertoNal":"")+") and (icl.id_pais_destino IS NULL "+(pais!=null?"or icl.id_pais_destino= :pais":"")+")  and (icl.nombre_puertos_nal_internal IS NULL "+(puertos!=null?" or icl.nombre_puertos_nal_internal= :puertoInternal":"")+")  "; //group by 1,2,3,4,7,8,campo_acumula,consecutivoDocumento, ccl.orden, ccl.id, icl.id
 		}
 		if (tipoContenedor1.equals(3) || tipoContenedor2.equals(3)){
 			if (!query1.equals("")){
 				query1+="UNION ALL ";
 			}
-			query1+="select 10 as tipo, ccl.nombre as categoria, icl.nombre as item, icl.descripcion, :cantidad as cantidad, (dn.cantidad_contenedores_de_20 +dn.cantidad_contenedores_de_40) * case when icl.id_moneda='USD' then icl.valor else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency)* icl.valor end as valor, case when icl.id_moneda='USD' then icl.valor_minimo else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency) * icl.valor_minimo end as valorMinimo, icl.base_fob as baseFob, ccl.campo_acumula campoAcumula, d.consecutivo_documento as consecutivoDocumento, ccl.orden, ccl.id as categoriaId, icl.id as itemId "+
+			query1+="select 10 as tipo, ccl.nombre as categoria, icl.nombre as item, icl.descripcion, d.valor_total / :valorTotal * :cantidad as cantidad, d.valor_total / :valorTotal * :cantidad * case when icl.id_moneda='USD' then icl.valor else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency)* icl.valor end as valor, case when icl.id_moneda='USD' then icl.valor_minimo else (select destination_source_exchange_rate from facts_currency_conversion where id=:idCurrency) * icl.valor_minimo end as valorMinimo, icl.base_fob as baseFob, ccl.campo_acumula campoAcumula, d.consecutivo_documento as consecutivoDocumento, ccl.orden, ccl.id as categoriaId, icl.id as itemId "+
 					"from documentos d inner join documento_x_negociacion dn on d.id=dn.id_documento inner join item_costo_logistico icl on 1=1 inner join categorias_costos_logisticos ccl on icl.id_categoria=ccl.id "+
 					"where icl.tipo=10 and id_cliente=:idCliente and d.id in ("+documento+") and icl.aplica_"+terminoIncoterm+" and (icl.nombre_puerto_nal IS NULL "+(puerto!=null?" or icl.nombre_puerto_nal= :puertoNal":"")+") and (icl.id_pais_destino IS NULL "+(pais!=null?"or icl.id_pais_destino= :pais":"")+") and (icl.nombre_puertos_nal_internal IS NULL "+(puertos!=null?" or icl.nombre_puertos_nal_internal= :puertoInternal":"")+") ";
 		}		
@@ -170,6 +170,7 @@ public class ItemCostoLogisticoDAO extends GenericDAO<ItemCostoLogistico> implem
 			if (tipoContenedor2.equals(3)){
 				q=q.setParameter("cantidad", cantidad2);
 			}
+			q=q.setParameter("valorTotal", valorTotal);
 		}
 		System.out.println(query2);
 		return q.getResultList();

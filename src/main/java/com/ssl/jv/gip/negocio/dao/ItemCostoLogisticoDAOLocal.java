@@ -11,7 +11,7 @@ import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 @Local
 public interface ItemCostoLogisticoDAOLocal extends IGenericDAO<ItemCostoLogistico>{
 
-	public List<CostoLogisticoDTO> getCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2);
+	public List<CostoLogisticoDTO> getCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal);
 	
 	public List<String> getPuertosNacionales();
 

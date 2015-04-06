@@ -303,7 +303,7 @@ public interface ComercioExteriorEJBLocal {
 
   public void generarListaEmpaque(Documento documento, DocumentoXNegociacion documentoXNegociacion, List<ProductoDTO> productoDTOs);
 
-  public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2);
+  public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal);
 
   public List<Documento> consultarListaEmpaquesParaAsignarDatosTL(String consecutivo);
 
