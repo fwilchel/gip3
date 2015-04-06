@@ -1,6 +1,8 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 
 
@@ -21,6 +23,8 @@ public class LiquidacionDocumento implements Serializable {
 
 	@Column(name="consecutivo_documento")
 	private String consecutivoDocumento;
+	
+	private BigDecimal etiquetas;
 
 	//bi-directional many-to-one association to LiquidacionCostoLogistico
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -52,6 +56,14 @@ public class LiquidacionDocumento implements Serializable {
 
 	public void setLiquidacionCostoLogistico(LiquidacionCostoLogistico liquidacionCostoLogistico) {
 		this.liquidacionCostoLogistico = liquidacionCostoLogistico;
+	}
+
+	public BigDecimal getEtiquetas() {
+		return etiquetas;
+	}
+
+	public void setEtiquetas(BigDecimal etiquetas) {
+		this.etiquetas = etiquetas;
 	}
 
 }

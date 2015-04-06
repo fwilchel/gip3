@@ -103,8 +103,14 @@
 							</h:outputText>
 						</p:column>
 						
-						<p:column headerText="#{msg.costosLogisticosValorTotal}">
-							<h:outputText value="#{dato.valorTotalDocumento}" />
+						<p:column headerText="#{msg.costosLogisticosValorEtiquetas}" styleClass="derecha">
+							<p:inputText value="#{dato.etiquetas}" />
+						</p:column>
+						
+						<p:column headerText="#{msg.costosLogisticosValorTotal}" styleClass="derecha">
+							<h:outputText value="#{dato.valorTotalDocumento}" >
+								<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" pattern="#,##0.00"/>
+							</h:outputText>
 						</p:column>
 
 					</p:dataTable>
@@ -170,7 +176,7 @@
 									</p:column>
 		        					<p:column headerText="Cantidad" styleClass="derecha">
 		            					<h:outputText value="#{costo.id.cantidad}" >
-		            						<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" pattern="#,##0.00"/>
+		            						<f:convertNumber type="number" groupingUsed="true" minFractionDigits="3" maxFractionDigits="3" pattern="#,##0.00"/>
 		            					</h:outputText>
 		        					</p:column>
 		        					<p:column headerText="Valor Mínimo" styleClass="derecha">

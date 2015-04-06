@@ -115,6 +115,9 @@ public class DocumentoCostosLogisticosDTO implements Serializable{
 	@Transient
 	private Boolean seleccionada;
 	
+	@Transient
+	private BigDecimal etiquetas;
+	
 	/**
 	 * Gets the id documento.
 	 *
@@ -635,6 +638,14 @@ public class DocumentoCostosLogisticosDTO implements Serializable{
 	 */
 	public void setSolicitudCafe(Boolean solicitudCafe) {
 		this.solicitudCafe = solicitudCafe;
+	}
+
+	public BigDecimal getEtiquetas() {
+		return etiquetas;
+	}
+
+	public void setEtiquetas(BigDecimal etiquetas) {
+		this.etiquetas = etiquetas;
 	}
 
 	/**
