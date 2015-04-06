@@ -50,16 +50,20 @@ import com.ssl.jv.gip.web.util.Utilidad;
 
 /**
  * <p>
- * Title: GIP</p>
+ * Title: GIP
+ * </p>
  *
  * <p>
- * Description: GIP</p>
+ * Description: GIP
+ * </p>
  *
  * <p>
- * Copyright: Copyright (c) 2014</p>
+ * Copyright: Copyright (c) 2014
+ * </p>
  *
  * <p>
- * Company: Soft Studio Ltda.</p>
+ * Company: Soft Studio Ltda.
+ * </p>
  *
  * @author Fredy Giovanny Wilches López
  * @email fredy.wilches@gmail.com
@@ -99,319 +103,331 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
   }
 
   public AplicacionMB getAppMB() {
-    return appMB;
+	return appMB;
   }
 
   public void setAppMB(AplicacionMB appMB) {
-    this.appMB = appMB;
+	this.appMB = appMB;
   }
 
   public Long getIdCliente() {
-    return idCliente;
+	return idCliente;
   }
 
   public void setIdCliente(Long idCliente) {
-    this.idCliente = idCliente;
+	this.idCliente = idCliente;
   }
 
   public MenuMB getMenu() {
-    return menu;
+	return menu;
   }
 
   public void setMenu(MenuMB menu) {
-    this.menu = menu;
+	this.menu = menu;
   }
 
   public Long getIdTerminoIncoterm() {
-    return idTerminoIncoterm;
+	return idTerminoIncoterm;
   }
 
   public void setIdTerminoIncoterm(Long idTerminoIncoterm) {
-    this.idTerminoIncoterm = idTerminoIncoterm;
+	this.idTerminoIncoterm = idTerminoIncoterm;
   }
 
   public List<SelectItem> getClientes() {
-    return clientes;
+	return clientes;
   }
 
   public void setClientes(List<SelectItem> clientes) {
-    this.clientes = clientes;
+	this.clientes = clientes;
   }
 
   public List<SelectItem> getTerminosIncoterm() {
-    return terminosIncoterm;
+	return terminosIncoterm;
   }
 
   public void setTerminosIncoterm(List<SelectItem> terminosIncoterm) {
-    this.terminosIncoterm = terminosIncoterm;
+	this.terminosIncoterm = terminosIncoterm;
   }
 
   public Boolean getSolicitudCafe() {
-    return solicitudCafe;
+	return solicitudCafe;
   }
 
   public void setSolicitudCafe(Boolean solicitudCafe) {
-    this.solicitudCafe = solicitudCafe;
+	this.solicitudCafe = solicitudCafe;
   }
 
   public String getNombreArchivo() {
-    return nombreArchivo;
+	return nombreArchivo;
   }
 
   public void setNombreArchivo(String nombreArchivo) {
-    this.nombreArchivo = nombreArchivo;
+	this.nombreArchivo = nombreArchivo;
   }
 
   public List<ProductoSolicitudPedidoDTO> getProductos() {
-    return productos;
+	return productos;
   }
 
   public void setProductos(List<ProductoSolicitudPedidoDTO> productos) {
-    this.productos = productos;
+	this.productos = productos;
   }
 
   public boolean isDeshabilitado() {
-    return deshabilitado;
+	return deshabilitado;
   }
 
   public void setDeshabilitado(boolean deshabilitado) {
-    this.deshabilitado = deshabilitado;
+	this.deshabilitado = deshabilitado;
   }
 
   @PostConstruct
   public void init() {
 
-    List<Cliente> listaClientes = this.maestrosEjb.consultarClientes();
-    Collections.sort(listaClientes);
-    this.clientes = new ArrayList<>();
-    for (Cliente c : listaClientes) {
-      this.clientes.add(new SelectItem(c.getId(), c.getNombre().toUpperCase()));
-    }
+	List<Cliente> listaClientes = this.maestrosEjb.consultarClientes();
+	Collections.sort(listaClientes);
+	this.clientes = new ArrayList<>();
+	for (Cliente c : listaClientes) {
+	  this.clientes.add(new SelectItem(c.getId(), c.getNombre().toUpperCase()));
+	}
 
-    this.terminosIncoterm = new ArrayList<>();
+	this.terminosIncoterm = new ArrayList<>();
 
   }
 
   public void cargarTerminos() {
-    this.terminosIncoterm = new ArrayList<>();
-    List<TerminoIncoterm> tis = this.comercioEjb.consultarListaIncontermPorCliente(this.idCliente);
-    for (TerminoIncoterm ti : tis) {
-      this.terminosIncoterm.add(new SelectItem(ti.getId(), ti.getDescripcion()));
-    }
-    if (this.terminosIncoterm.size() > 0) {
-      this.idTerminoIncoterm = tis.get(0).getId();
-    } else {
-      this.idTerminoIncoterm = 0L;
-    }
+	this.terminosIncoterm = new ArrayList<>();
+	List<TerminoIncoterm> tis = this.comercioEjb.consultarListaIncontermPorCliente(this.idCliente);
+	for (TerminoIncoterm ti : tis) {
+	  this.terminosIncoterm.add(new SelectItem(ti.getId(), ti.getDescripcion()));
+	}
+	if (this.terminosIncoterm.size() > 0) {
+	  this.idTerminoIncoterm = tis.get(0).getId();
+	} else {
+	  this.idTerminoIncoterm = 0L;
+	}
   }
 
   public void handleFileUpload(FileUploadEvent event) {
 
-    if (this.idCliente == null || this.idCliente == 0) {
-      this.addMensajeError("Debe seleccionar Cliente y Término Incoterm");
-      return;
-    }
+	if (this.idCliente == null || this.idCliente == 0) {
+	  this.addMensajeError("Debe seleccionar Cliente y Término Incoterm");
+	  return;
+	}
 
-    this.nombreArchivo = event.getFile().getFileName();
+	this.nombreArchivo = event.getFile().getFileName();
 
-    Hashtable<Long, BigDecimal> saldos = this.comercioEjb.consultarUltimosSaldos();
-    Hashtable<String, BigDecimal> datos = new Hashtable<>();
-    this.productos = new ArrayList<>();
-    try {
-      BufferedReader di = new BufferedReader(new InputStreamReader(event.getFile().getInputstream()));
-      String linea;
-      do {
-        linea = di.readLine();
-        if (linea == null) {
-          break;
-        }
-        StringTokenizer st = new StringTokenizer(linea, "|");
-        String sku = st.nextToken().trim();
-        BigDecimal cantidad = new BigDecimal(st.nextToken().trim());
-        datos.put(sku, cantidad);
+	Hashtable<Long, BigDecimal> saldos = this.comercioEjb.consultarUltimosSaldos();
+	Hashtable<String, BigDecimal> datos = new Hashtable<>();
+	this.productos = new ArrayList<>();
+	try {
+	  boolean habilitarBoton = true;
+	  BufferedReader di = new BufferedReader(new InputStreamReader(event.getFile().getInputstream()));
+	  String linea;
+	  do {
+		linea = di.readLine();
+		if (linea == null) {
+		  habilitarBoton = false;
+		  break;
+		}
+		StringTokenizer st = new StringTokenizer(linea, "|");
+		String sku = st.nextToken().trim();
+		BigDecimal cantidad = new BigDecimal(st.nextToken().trim());
+		datos.put(sku, cantidad);
 
-        ProductoSolicitudPedidoDTO dto = new ProductoSolicitudPedidoDTO();
-        dto.setObservaciones("OK");
-        dto.setSku(sku);
-        ProductosInventario pi = this.maestrosEjb.consultarPorSku(sku);
-        if (pi == null) {
-          dto.setSeleccionado(false);
-          dto.setDesactivado(true);
-          dto.setEstilo("rojoNegrita");
-          dto.setNombre("PRODUCTO NO EXISTE");
-          dto.setControlStock(false);
-          this.addMensajeError("SKUs inexistentes en el maestro productoxcliente");
-        } else {
-          dto.setSeleccionado(true);
-          dto.setDesactivado(false);
-          if (!pi.getDesactivado()) {
-            dto.setEstilo("naranjaNegrita");
-            dto.setSeleccionado(false);
-            dto.setDesactivado(true);
-          } else {
-            dto.setEstilo("verdeNegrita");
-          }
-          //dto.setCategoria
-          dto.setCantidad(cantidad);
-          dto.setNombre(pi.getNombre());
-          dto.setId(pi.getId());
-          dto.setControlStock(pi.getProductosInventarioComext().getControlStock());
-          dto.setIdUnidad(pi.getUnidadVenta().getId());
-          //dto.setUnidad(unidad);
-          //dto.setPais();
-          dto.setProductoInventarioComext(pi.getProductosInventarioComext());
-          ProductosXClienteComext pcce = this.comercioEjb.consultarPorClienteSku(this.idCliente, sku);
-          if (pcce == null) {
-            dto.setObservaciones("N/A");
-          }
-        }
-        this.deshabilitado = false;
+		ProductoSolicitudPedidoDTO dto = new ProductoSolicitudPedidoDTO();
+		dto.setObservaciones("OK");
+		dto.setSku(sku);
+		ProductosInventario pi = this.maestrosEjb.consultarPorSku(sku);
+		if (pi == null) {
+		  dto.setSeleccionado(false);
+		  dto.setDesactivado(true);
+		  dto.setEstilo("rojoNegrita");
+		  dto.setNombre("PRODUCTO NO EXISTE");
+		  dto.setControlStock(false);
+		  this.addMensajeError("SKUs inexistentes en el maestro productoxcliente");
+		} else {
+		  dto.setSeleccionado(true);
+		  dto.setDesactivado(false);
+		  if (!pi.getDesactivado()) {
+			dto.setEstilo("naranjaNegrita");
+			dto.setSeleccionado(false);
+			dto.setDesactivado(true);
+		  } else {
+			dto.setEstilo("verdeNegrita");
+		  }
+		  // dto.setCategoria
+		  dto.setCantidad(cantidad);
+		  dto.setNombre(pi.getNombre());
+		  dto.setId(pi.getId());
+		  dto.setControlStock(pi.getProductosInventarioComext().getControlStock());
+		  dto.setIdUnidad(pi.getUnidadVenta().getId());
+		  // dto.setUnidad(unidad);
+		  // dto.setPais();
+		  dto.setProductoInventarioComext(pi.getProductosInventarioComext());
+		  ProductosXClienteComext pcce = this.comercioEjb.consultarPorClienteSku(this.idCliente, sku);
+		  if (pcce == null) {
+			dto.setObservaciones("N/A");
+		  }
+		}
+		this.deshabilitado = false;
 
-        if (pi != null && pi.getProductosInventarioComext() != null && pi.getProductosInventarioComext().getTipoLoteoic() != null) {
-          if (this.solicitudCafe && pi.getProductosInventarioComext().getTipoLoteoic().getId().equals(5L)) {
-            this.addMensajeError("Tipo Lote de los productos no corresponde con el Tipo de Solicitud");
-            this.deshabilitado = true;
-          } else if (!this.solicitudCafe && !pi.getProductosInventarioComext().getTipoLoteoic().getId().equals(5L)) {
-            this.addMensajeError("Tipo Lote de los productos no corresponde con el Tipo de Solicitud");
-            this.deshabilitado = true;
-          }
-        }
+		if (pi != null && pi.getProductosInventarioComext() != null && pi.getProductosInventarioComext().getTipoLoteoic() != null) {
+		  if (this.solicitudCafe && pi.getProductosInventarioComext().getTipoLoteoic().getId().equals(5L)) {
+			this.addMensajeError("Tipo Lote de los productos no corresponde con el Tipo de Solicitud");
+			habilitarBoton = false;
+			this.deshabilitado = true;
+		  } else if (!this.solicitudCafe && !pi.getProductosInventarioComext().getTipoLoteoic().getId().equals(5L)) {
+			this.addMensajeError("Tipo Lote de los productos no corresponde con el Tipo de Solicitud");
+			habilitarBoton = false;
+			this.deshabilitado = true;
+		  }
+		}
 
-        this.productos.add(dto);
-        //Consultar saldos
-        if (dto.getControlStock() != null && dto.getControlStock()) {
-          BigDecimal saldo = saldos.get(dto.getId());
-          dto.setSaldoAnterior(saldo);
-          if (saldo == null) {
-            dto.setEstilo("rojoNegrita");
-            dto.setSeleccionado(false);
-            dto.setDesactivado(true);
-          } else {
-            dto.setSaldo(saldo.subtract(dto.getCantidad()));
-            if (dto.getSaldo().doubleValue() < 0) {
-              dto.setEstilo("rojoNegrita");
-            }
-          }
-        }
-      } while (true);
+		this.productos.add(dto);
+		// Consultar saldos
+		if (dto.getControlStock() != null && dto.getControlStock()) {
+		  BigDecimal saldo = saldos.get(dto.getId());
+		  dto.setSaldoAnterior(saldo);
+		  if (saldo == null) {
+			dto.setEstilo("rojoNegrita");
+			dto.setSeleccionado(false);
+			dto.setDesactivado(true);
+			habilitarBoton = false;
+		  } else {
+			dto.setSaldo(saldo.subtract(dto.getCantidad()));
+			if (dto.getSaldo().doubleValue() < 0) {
+			  dto.setEstilo("rojoNegrita");
+			  habilitarBoton = false;
+			}
+		  }
+		}
+	  } while (true);
+	  
+	  if (habilitarBoton){
+		this.deshabilitado = false;
+	  } else {
+		this.deshabilitado = true;
+	  }
 
-    } catch (IOException e) {
-      this.addMensajeError(e);
-    }
+	} catch (IOException e) {
+	  this.addMensajeError(e);
+	}
 
   }
 
   public String generarSolicitudPedido() {
 
-    Documento documento = new Documento();
-    Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
-    EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
-    estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.ACTIVO);
-    estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
-    estadosxdocumento.setId(estadosxdocumentoPK);
-    documento.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
-    documento.setEstadosxdocumento(estadosxdocumento);
-    documento.setObservacionDocumento(null);
-    documento.setValorTotal(new BigDecimal(0));
-    documento.setCliente(new Cliente());
-    documento.getCliente().setId(this.idCliente);
-    documento.setDocumentoCliente("Cargue Manual");
-    documento.setNumeroFactura("0");
+	Documento documento = new Documento();
+	Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
+	EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
+	estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.ACTIVO);
+	estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
+	estadosxdocumento.setId(estadosxdocumentoPK);
+	documento.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
+	documento.setEstadosxdocumento(estadosxdocumento);
+	documento.setObservacionDocumento(null);
+	documento.setValorTotal(new BigDecimal(0));
+	documento.setCliente(new Cliente());
+	documento.getCliente().setId(this.idCliente);
+	documento.setDocumentoCliente("Cargue Manual");
+	documento.setNumeroFactura("0");
 
-    LogAuditoria auditoria = new LogAuditoria();
-    auditoria.setIdUsuario(menu.getUsuario().getId());
-    auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
-    auditoria.setTabla(Documento.class.getName());
-    auditoria.setAccion("CRE");
-    auditoria.setCampo(null);
-    auditoria.setValorAnterior(null);
-    auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+	LogAuditoria auditoria = new LogAuditoria();
+	auditoria.setIdUsuario(menu.getUsuario().getId());
+	auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
+	auditoria.setTabla(Documento.class.getName());
+	auditoria.setAccion("CRE");
+	auditoria.setCampo(null);
+	auditoria.setValorAnterior(null);
+	auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
 
-    DocumentoXNegociacion dxn = new DocumentoXNegociacion();
-    dxn.setPk(new DocumentoXNegociacionPK());
-    dxn.getPk().setIdTerminoIncoterm(this.idTerminoIncoterm);
+	DocumentoXNegociacion dxn = new DocumentoXNegociacion();
+	dxn.setPk(new DocumentoXNegociacionPK());
+	dxn.getPk().setIdTerminoIncoterm(this.idTerminoIncoterm);
 
-    dxn.setCostoEntrega(new BigDecimal(0));
-    dxn.setCostoSeguro(new BigDecimal(0));
-    dxn.setCostoFlete(new BigDecimal(0));
-    dxn.setOtrosGastos(new BigDecimal(0));
-    dxn.setObservacionesMarcacion2(null);
-    dxn.setTotalPesoNeto(new BigDecimal(0));
-    dxn.setTotalPesoBruto(new BigDecimal(0));
-    dxn.setTotalTendidos(new BigDecimal(0));
-    dxn.setTotalPallets(new BigDecimal(0));
-    dxn.setCantidadDiasVigencia(0);
-    dxn.setSolicitudCafe(this.solicitudCafe);
-    dxn.setCantidadContenedoresDe20(new BigDecimal(0));
-    dxn.setCantidadContenedoresDe40(new BigDecimal(0));
-    dxn.setLugarIncoterm(null);
-    dxn.setCantidadEstibas(0);
-    dxn.setPesoBrutoEstibas(0);
+	dxn.setCostoEntrega(new BigDecimal(0));
+	dxn.setCostoSeguro(new BigDecimal(0));
+	dxn.setCostoFlete(new BigDecimal(0));
+	dxn.setOtrosGastos(new BigDecimal(0));
+	dxn.setObservacionesMarcacion2(null);
+	dxn.setTotalPesoNeto(new BigDecimal(0));
+	dxn.setTotalPesoBruto(new BigDecimal(0));
+	dxn.setTotalTendidos(new BigDecimal(0));
+	dxn.setTotalPallets(new BigDecimal(0));
+	dxn.setCantidadDiasVigencia(0);
+	dxn.setSolicitudCafe(this.solicitudCafe);
+	dxn.setCantidadContenedoresDe20(new BigDecimal(0));
+	dxn.setCantidadContenedoresDe40(new BigDecimal(0));
+	dxn.setLugarIncoterm(null);
+	dxn.setCantidadEstibas(0);
+	dxn.setPesoBrutoEstibas(0);
 
-    List<ProductosXDocumento> productos = new ArrayList<>();
-    List<MovimientosInventarioComext> mice = new ArrayList<>();
-    for (ProductoSolicitudPedidoDTO pxc : this.productos) {
-      if (pxc.isSeleccionado()) {
-        ProductosXDocumento productoDocumento = new ProductosXDocumento();
-        productoDocumento.setInformacion(false);
-        productoDocumento.setCalidad(false);
-        productoDocumento.setFechaEstimadaEntrega(documento.getFechaGeneracion());
-        productoDocumento.setFechaEntrega(documento.getFechaGeneracion());
-        productoDocumento.setId(new ProductosXDocumentoPK());
-        productoDocumento.getId().setIdProducto(pxc.getId());
-        productoDocumento.setCantidad1(pxc.getCantidad());
+	List<ProductosXDocumento> productos = new ArrayList<>();
+	List<MovimientosInventarioComext> mice = new ArrayList<>();
+	for (ProductoSolicitudPedidoDTO pxc : this.productos) {
+	  if (pxc.isSeleccionado()) {
+		ProductosXDocumento productoDocumento = new ProductosXDocumento();
+		productoDocumento.setInformacion(false);
+		productoDocumento.setCalidad(false);
+		productoDocumento.setFechaEstimadaEntrega(documento.getFechaGeneracion());
+		productoDocumento.setFechaEntrega(documento.getFechaGeneracion());
+		productoDocumento.setId(new ProductosXDocumentoPK());
+		productoDocumento.getId().setIdProducto(pxc.getId());
+		productoDocumento.setCantidad1(pxc.getCantidad());
 
-        Unidad u = new Unidad();
-        u.setId(pxc.getIdUnidad());
-        productoDocumento.setUnidade(u); // unidad de venta
+		Unidad u = new Unidad();
+		u.setId(pxc.getIdUnidad());
+		productoDocumento.setUnidade(u); // unidad de venta
 
-        Moneda moneda = new Moneda();
-        moneda.setId("USD");
+		Moneda moneda = new Moneda();
+		moneda.setId("USD");
 
-        productoDocumento.setMoneda(moneda);
-        productoDocumento.setCantidad2(new BigDecimal(0));
-        productoDocumento.setValorUnitatrioMl(new BigDecimal(0));
-        productoDocumento.setValorUnitarioUsd(new BigDecimal(0));
-        productoDocumento.setValorTotal(new BigDecimal(0));
-        productoDocumento.setTotalPesoNetoItem(new BigDecimal(0));
+		productoDocumento.setMoneda(moneda);
+		productoDocumento.setCantidad2(new BigDecimal(0));
+		productoDocumento.setValorUnitatrioMl(new BigDecimal(0));
+		productoDocumento.setValorUnitarioUsd(new BigDecimal(0));
+		productoDocumento.setValorTotal(new BigDecimal(0));
+		productoDocumento.setTotalPesoNetoItem(new BigDecimal(0));
 
-        productoDocumento.setTotalPesoBrutoItem(new BigDecimal(0));
+		productoDocumento.setTotalPesoBrutoItem(new BigDecimal(0));
 
-        productoDocumento.setCantidadCajasItem(new BigDecimal(0));
-        productoDocumento.setCantidadPalletsItem(new BigDecimal(0));
-        productoDocumento.setCantidadXEmbalaje(new BigDecimal(0));
+		productoDocumento.setCantidadCajasItem(new BigDecimal(0));
+		productoDocumento.setCantidadPalletsItem(new BigDecimal(0));
+		productoDocumento.setCantidadXEmbalaje(new BigDecimal(0));
 
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 2);
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.DATE, 2);
 
-        productoDocumento.setFechaEstimadaEntrega(new Timestamp(c.getTimeInMillis()));
-        productoDocumento.setFechaEntrega(new Timestamp(c.getTimeInMillis()));
+		productoDocumento.setFechaEstimadaEntrega(new Timestamp(c.getTimeInMillis()));
+		productoDocumento.setFechaEntrega(new Timestamp(c.getTimeInMillis()));
 
-        productos.add(productoDocumento);
-        if (pxc.getProductoInventarioComext().getControlStock() != null && pxc.getProductoInventarioComext().getControlStock()) {
-          MovimientosInventarioComext mi = new MovimientosInventarioComext();
-          mi.setCantidad(pxc.getCantidad());
-          mi.setConsecutivoDocumento(documento.getConsecutivoDocumento());
-          mi.setFecha(new Timestamp(System.currentTimeMillis()));
-          mi.setId(null); // Para que tome por BD secuencia
-          mi.setProductosInventarioComext(pxc.getProductoInventarioComext());
-          mi.setSaldo(pxc.getSaldo());
-          mi.setTipoMovimiento(new TipoMovimiento());
-          mi.getTipoMovimiento().setId(1L);
-          mice.add(mi);
-        }
-      }
-    }
-    documento = this.comercioEjb.crearSolicitudPedido(documento, auditoria, dxn, productos, mice);
-    String mensaje = AplicacionMB.getMessage("VentasSPExito_Crear", language);
-    String parametros[] = new String[2];
-    parametros[0] = "" + documento.getId();
-    parametros[1] = documento.getConsecutivoDocumento();
-    mensaje = Utilidad.stringFormat(mensaje, parametros);
+		productos.add(productoDocumento);
+		if (pxc.getProductoInventarioComext().getControlStock() != null && pxc.getProductoInventarioComext().getControlStock()) {
+		  MovimientosInventarioComext mi = new MovimientosInventarioComext();
+		  mi.setCantidad(pxc.getCantidad());
+		  mi.setConsecutivoDocumento(documento.getConsecutivoDocumento());
+		  mi.setFecha(new Timestamp(System.currentTimeMillis()));
+		  mi.setId(null); // Para que tome por BD secuencia
+		  mi.setProductosInventarioComext(pxc.getProductoInventarioComext());
+		  mi.setSaldo(pxc.getSaldo());
+		  mi.setTipoMovimiento(new TipoMovimiento());
+		  mi.getTipoMovimiento().setId(1L);
+		  mice.add(mi);
+		}
+	  }
+	}
+	documento = this.comercioEjb.crearSolicitudPedido(documento, auditoria, dxn, productos, mice);
+	String mensaje = AplicacionMB.getMessage("VentasSPExito_Crear", language);
+	String parametros[] = new String[2];
+	parametros[0] = "" + documento.getId();
+	parametros[1] = documento.getConsecutivoDocumento();
+	mensaje = Utilidad.stringFormat(mensaje, parametros);
 
-    this.addMensajeInfo(mensaje);
-    this.deshabilitado = true;
-    return null;
+	this.addMensajeInfo(mensaje);
+	this.deshabilitado = true;
+	return null;
 
   }
 }

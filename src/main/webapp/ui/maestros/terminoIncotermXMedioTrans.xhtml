@@ -14,9 +14,7 @@
 		<h:form prependId="false" id="forma">
 
 			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
-
-
+				globalOnly="false" showIcon="true"/>
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.maestroTerminoIncotermMedioTransTituloFrame}">
@@ -32,8 +30,7 @@
 								<p:outputPanel>
 
 									<p:commandButton action="#{terminoIncotermXMedioTransMB.nuevo}"
-										update=":datoDlg"
-										oncomplete="PF('datoDialog').show()"
+										update=":datoDlg" oncomplete="PF('datoDialog').show()"
 										title="#{msg.generalAdicionarRegistro}"
 										icon="ui-icon-document"
 										value="#{msg.generalAdicionarRegistro}" />
@@ -64,25 +61,30 @@
 
 						<p:column filterBy="#{dato.terminoIncoterm.descripcion}"
 							headerText="#{msg.maestroTerminoIncotermMedioTransIncoterm}"
-							filterMatchMode="contains" sortBy="#{dato.terminoIncoterm.descripcion}">
+							filterMatchMode="contains"
+							sortBy="#{dato.terminoIncoterm.descripcion}">
 							<h:outputText value="#{dato.terminoIncoterm.descripcion}" />
 						</p:column>
-						
+
 						<p:column filterBy="#{dato.medioTransporte.descripcion}"
 							headerText="#{msg.maestroTerminoIncotermMedioTransMedioTra}"
-							filterMatchMode="contains" sortBy="#{dato.medioTransporte.descripcion}">
+							filterMatchMode="contains"
+							sortBy="#{dato.medioTransporte.descripcion}">
 							<h:outputText value="#{dato.medioTransporte.descripcion}" />
 						</p:column>
 
-						<p:column filterBy="#{dato.activo?'Si':'No'}" headerText="#{msg.maestroTerminoIncotermMedioTransActivo}"
+						<p:column filterBy="#{dato.activo?'Si':'No'}"
+							headerText="#{msg.maestroTerminoIncotermMedioTransActivo}"
 							filterMatchMode="exact" sortBy="#{dato.activo}">
 							<f:facet name="filter">
-				                <p:selectOneMenu onchange="PF('datoTabla').filter()" style="width:120px" >
-				                    <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}" noSelectionOption="true" />
-				                    <f:selectItem itemLabel="Si" itemValue="Si" />
-				                    <f:selectItem itemLabel="No" itemValue="No" />
-				                </p:selectOneMenu>
-				            </f:facet>
+								<p:selectOneMenu onchange="PF('datoTabla').filter()"
+									style="width:120px">
+									<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItem itemLabel="Si" itemValue="Si" />
+									<f:selectItem itemLabel="No" itemValue="No" />
+								</p:selectOneMenu>
+							</f:facet>
 							<h:outputText value="#{dato.activo?'Si':'No'}" />
 						</p:column>
 
@@ -103,20 +105,37 @@
 						rendered="#{not empty terminoIncotermXMedioTransMB.seleccionado}"
 						columnClasses="label,value">
 
-						<p:outputLabel value="#{msg.maestroTerminoIncotermMedioTransIncoterm}" for="incotermEd" styleClass="negrita" />
-						<p:selectOneMenu id="incotermEd" value="#{terminoIncotermXMedioTransMB.seleccionado.terminoIncoterm.id}" label="#{msg.maestroTerminoIncotermMedioTransIncoterm}">
-							<f:selectItems value="#{terminoIncotermXMedioTransMB.listaTerminoIncoterm}" var="inco" itemValue="#{inco.id}" itemLabel="#{inco.descripcion}" />
+						<p:outputLabel
+							value="#{msg.maestroTerminoIncotermMedioTransIncoterm}"
+							for="incotermEd" styleClass="negrita" />
+						<p:selectOneMenu id="incotermEd"
+							value="#{terminoIncotermXMedioTransMB.seleccionado.terminoIncoterm.id}"
+							label="#{msg.maestroTerminoIncotermMedioTransIncoterm}">
+							<f:selectItems
+								value="#{terminoIncotermXMedioTransMB.listaTerminoIncoterm}"
+								var="inco" itemValue="#{inco.id}"
+								itemLabel="#{inco.descripcion}" />
 						</p:selectOneMenu>
 						<p:message for="incotermEd"></p:message>
-						
-						<p:outputLabel value="#{msg.maestroTerminoIncotermMedioTransMedioTra}" for="medioEd" styleClass="negrita" />
-						<p:selectOneMenu id="medioEd" value="#{terminoIncotermXMedioTransMB.seleccionado.medioTransporte.id}" label="#{msg.maestroTerminoIncotermMedioTransMedioTra}">
-							<f:selectItems value="#{terminoIncotermXMedioTransMB.listaMedioTransporte}" var="med" itemValue="#{med.id}" itemLabel="#{med.descripcion}" />
+
+						<p:outputLabel
+							value="#{msg.maestroTerminoIncotermMedioTransMedioTra}"
+							for="medioEd" styleClass="negrita" />
+						<p:selectOneMenu id="medioEd"
+							value="#{terminoIncotermXMedioTransMB.seleccionado.medioTransporte.id}"
+							label="#{msg.maestroTerminoIncotermMedioTransMedioTra}">
+							<f:selectItems
+								value="#{terminoIncotermXMedioTransMB.listaMedioTransporte}"
+								var="med" itemValue="#{med.id}" itemLabel="#{med.descripcion}" />
 						</p:selectOneMenu>
 						<p:message for="medioEd"></p:message>
 
-						<p:outputLabel value="#{msg.maestroTerminoIncotermMedioTransActivo}" for="activo" styleClass="negrita" />
-						<p:selectBooleanCheckbox value="#{terminoIncotermXMedioTransMB.seleccionado.activo}" id="activo" label="#{msg.maestroTerminoIncotermMedioTransActivo}"/>
+						<p:outputLabel
+							value="#{msg.maestroTerminoIncotermMedioTransActivo}"
+							for="activo" styleClass="negrita" />
+						<p:selectBooleanCheckbox
+							value="#{terminoIncotermXMedioTransMB.seleccionado.activo}"
+							id="activo" label="#{msg.maestroTerminoIncotermMedioTransActivo}" />
 						<p:message for="activo"></p:message>
 
 					</p:panelGrid>
