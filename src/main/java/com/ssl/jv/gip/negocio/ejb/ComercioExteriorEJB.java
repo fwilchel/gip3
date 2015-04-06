@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1549,7 +1550,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	this.liquidacionCostoLogisticoDAO.add(lcl);
 	int cuantos = 0;
 	for (DocumentoCostosLogisticosDTO d : documentos) {
-	  cuantos += this.documentoDAO.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal).multiply(fob), d.getValorTotalDocumento().divide(valorTotal).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal).multiply(seguros));
+	  cuantos += this.documentoDAO.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(fob), d.getValorTotalDocumento().divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(seguros));
 	}
 	return cuantos;
   }

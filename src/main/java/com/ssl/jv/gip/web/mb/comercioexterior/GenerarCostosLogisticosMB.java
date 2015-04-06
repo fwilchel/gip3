@@ -417,7 +417,8 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 			this.addMensajeInfo(AplicacionMB.getMessage("costosLogisticosActualizacionExitosa", language));
 		}catch(Exception e){
 			this.addMensajeError(AplicacionMB.getMessage("costosLogisticosSolicitudYaGuardada", language));
-			this.addMensajeInfo(e.getCause().getCause().getMessage());
+			if (e.getCause()!=null && e.getCause().getCause()!=null)
+				this.addMensajeInfo(e.getCause().getCause().getMessage());
 		}
 	}
 	
