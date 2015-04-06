@@ -262,6 +262,7 @@ public interface MaestrosEJBLocal {
 	 * @return the list
 	 */
 	public List<Cliente> consultarClientes();
+	public List<Cliente> consultarClientesInternacionales();
 
 	/**
 	 * Crear clientes
