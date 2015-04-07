@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-02-05T20:36:41 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_ITL" pageWidth="1900" pageHeight="800" columnWidth="1900" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="79b35ade-af18-45ea-92a5-4eded6cff05f">
+<!-- 2015-04-07T15:29:43 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_ITL" pageWidth="1008" pageHeight="612" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1008" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenResourceMissingType="Empty" isIgnorePagination="true" uuid="79b35ade-af18-45ea-92a5-4eded6cff05f">
 	<property name="ireport.zoom" value="1.0245201830476196"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="false,true,0.75,0,0,0,0,0,0"/>
+	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -638,56 +641,56 @@
 	</columnHeader>
 	<detail>
 		<band height="13">
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement style="table" x="0" y="0" width="171" height="13" uuid="9e0938d1-e9aa-4800-b1ca-a1bf428632ca"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tipoLoteOICDesc}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement style="table" x="171" y="0" width="77" height="13" uuid="fa372718-a6a4-4f3b-a478-65b47721e4d4"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{docXLotesOICConsec}]]></textFieldExpression>
 			</textField>
-			<textField pattern="">
+			<textField pattern="" isBlankWhenNull="true">
 				<reportElement style="table" x="248" y="0" width="92" height="13" uuid="18245125-1c88-4385-bfee-45bb977f2f92"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalPesoNetoItem}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement style="table" x="340" y="0" width="92" height="13" uuid="5eb1e330-1e25-4b8a-8711-16a754c911c2"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalPesoBrutoItem}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement style="table" x="432" y="0" width="92" height="13" uuid="f927acad-fec8-46fd-9ac5-f15a9721d66a"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totaCajasItem}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement style="table" x="524" y="0" width="100" height="13" uuid="115d713d-91e4-4d24-a412-96aff70e1ea8"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{docXLotesOICAviso}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement style="table" x="624" y="0" width="100" height="13" uuid="d920b569-be15-4643-8d9f-74518c6354d8"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{docXLotesOICAsignacion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement style="table" x="724" y="0" width="100" height="13" uuid="0c6d689f-477f-4dba-a533-ce21e4c5e8d1"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
@@ -700,9 +703,9 @@
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="31"/>
+		<band height="25"/>
 	</pageFooter>
 	<summary>
-		<band height="78" splitType="Immediate"/>
+		<band height="27" splitType="Immediate"/>
 	</summary>
 </jasperReport>
