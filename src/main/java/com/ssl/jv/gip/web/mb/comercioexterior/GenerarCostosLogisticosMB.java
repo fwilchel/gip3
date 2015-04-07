@@ -353,7 +353,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 		BigDecimal valorTotal = new BigDecimal(0);
 		for (DocumentoCostosLogisticosDTO d:this.solicitudes){
 			if (d.getSeleccionada()){
-				valorTotal=valorTotal.add(d.getValorTotalDocumento());
+				valorTotal=valorTotal.add(d.getValorTotalDocumento()).add(d.getEtiquetas());
 			}
 		}
 		return valorTotal;
@@ -404,6 +404,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 				doctos.add(d);
 				LiquidacionDocumento ld=new LiquidacionDocumento();
 				ld.setConsecutivoDocumento(d.getConsecutivoDocumento());
+				ld.setEtiquetas(d.getEtiquetas());
 				ld.setLiquidacionCostoLogistico(lcl);
 				lcl.getLiquidacionDocumentos().add(ld);
 				
@@ -416,7 +417,8 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 			this.addMensajeInfo(AplicacionMB.getMessage("costosLogisticosActualizacionExitosa", language));
 		}catch(Exception e){
 			this.addMensajeError(AplicacionMB.getMessage("costosLogisticosSolicitudYaGuardada", language));
-			this.addMensajeInfo(e.getCause().getCause().getMessage());
+			if (e.getCause()!=null && e.getCause().getCause()!=null)
+				this.addMensajeInfo(e.getCause().getCause().getMessage());
 		}
 	}
 	
