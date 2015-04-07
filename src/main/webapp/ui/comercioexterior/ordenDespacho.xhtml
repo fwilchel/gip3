@@ -138,27 +138,12 @@
 							id="clienteTelefono" label="#{msg.maestroTelefonoCliente}"
 							disabled="true" />
 
-						<p:outputLabel value="#{msg.observacionDocumento}"
-							for="observacionDelDocumento" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.observacionDocumento}"
-							id="observacionDelDocumento" label="#{msg.observacionDocumento}"
-							disabled="true" />
-
 						<p:outputLabel value="#{msg.maestroContactoAgente}"
 							for="clienteContacto" styleClass="negrita" />
 						<h:inputText
 							value="#{ordenesDespachoMB.seleccionado.cliente.contacto}"
 							id="clienteContacto" label="#{msg.maestroContactoAgente}"
 							disabled="true" />
-
-						<p:outputLabel value="#{msg.FechaDespacho}" for="fechaDespacho"
-							styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.fechaEsperadaEntrega}"
-							id="fechaDespacho" label="#{msg.FechaDespacho}" disabled="true">
-							<f:convertDateTime pattern="dd-MMM-yyyy" />
-						</h:inputText>
 
 						<p:outputLabel value="#{msg.TerminoIncotermSP}"
 							for="terminoIncoterm" styleClass="negrita" />
@@ -172,20 +157,49 @@
 						<p:inputText
 							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
 							id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true" />
-							
+
+						<p:outputLabel value="#{msg.cegodLblContenedor20}"
+							for="contenedores20" styleClass="negrita" />
+						<p:inputText
+							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe20}"
+							id="contenedores20" label="#{msg.cegodLblContenedor20}"
+							disabled="true" />
+
+						<p:outputLabel value="#{msg.cegodLblContenedor40}"
+							for="contenedores40" styleClass="negrita" />
+						<p:inputText
+							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe40}"
+							id="contenedores40" label="#{msg.cegodLblContenedor40}"
+							disabled="true" />
+
+						<p:outputLabel value="#{msg.observacionDocumento}"
+							for="observacionDelDocumento" styleClass="negrita" />
+						<h:inputText
+							value="#{ordenesDespachoMB.seleccionado.observacion2}"
+							id="observacionDelDocumento" label="#{msg.observacionDocumento}"
+							disabled="true" />
+
+						<p:outputLabel value="#{msg.cegodLblCObservacionMarcacion}"
+							for="observacionMarcacion" styleClass="negrita" />
+						<h:inputText
+							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).observacionesMarcacion2}"
+							id="observacionMarcacion" label="#{msg.cegodLblCObservacionMarcacion}"
+							disabled="true">
+						</h:inputText>
+
 						<p:outputLabel value="#{msg.Despacho}" for="despachadoEn"
 							styleClass="negrita" />
 						<p:inputText
 							value="#{ordenesDespachoMB.seleccionado.sitioEntrega}"
 							id="despachadoEn" label="#{msg.LugarIncoterm}" disabled="true" />
-							
+
 						<p:outputLabel value="#{msg.FechaCargue}" for="fechaCargue"
 							styleClass="negrita" />
-						<p:inputText
+						<p:calendar
 							value="#{ordenesDespachoMB.seleccionado.fechaEntrega}"
-							id="fechaCargue" label="#{msg.LugarIncoterm}" disabled="false" >
-							<f:convertDateTime pattern="dd-MMM-yyyy" />	
-						</p:inputText>
+							id="fechaCargue" label="#{msg.FechaCargue}" showOn="button" readonlyInput="true"
+							required="true" pattern="dd-MMM-yyyy">
+						</p:calendar>
 
 					</p:panelGrid>
 
@@ -206,31 +220,34 @@
 						<p:column styleClass="derecha"
 							headerText="#{msg.comprasCantidadSola}">
 							<h:outputText value="#{producto.cantidad}">
-								<f:convertNumber maxFractionDigits="2" />
+								<f:convertNumber pattern="$#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha" headerText="#{msg.unidadxembalaje}">
 							<h:outputText value="#{producto.cantidadPorEmbalaje}">
-								<f:convertNumber maxFractionDigits="2" />
+								<f:convertNumber pattern="$#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
 						<p:column styleClass="derecha" headerText="#{msg.SPcantidadCajas}">
-							<h:outputText value="#{producto.cantidad/producto.cantidadPorEmbalaje}">
-								<f:convertNumber maxFractionDigits="2" />
+							<h:outputText
+								value="#{producto.cantidad/producto.cantidadPorEmbalaje}">
+								<f:convertNumber pattern="$#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
-						
-						<p:column styleClass="derecha" headerText="#{msg.MuestrasCalidades}">
+
+						<p:column styleClass="derecha"
+							headerText="#{msg.MuestrasCalidades}">
 							<h:outputText value="#{producto.muestrasCalidades}">
-								<f:convertNumber maxFractionDigits="2" />
+								<f:convertNumber pattern="$#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
-						
-						<p:column styleClass="derecha" headerText="#{msg.MuestrasFitoAntico}">
+
+						<p:column styleClass="derecha"
+							headerText="#{msg.MuestrasFitoAntico}">
 							<h:outputText value="#{producto.muestrasFITOYANTICO}">
-								<f:convertNumber maxFractionDigits="2" />
+								<f:convertNumber pattern="$#####,###,###,##0.00" />
 							</h:outputText>
 						</p:column>
 
@@ -241,29 +258,29 @@
 
 							<p:column styleClass="derecha">
 								<h:outputText value="#{ordenesDespachoMB.totalCantidad}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="$#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 
 							<p:column styleClass="derecha">
 								<h:outputText
 									value="#{ordenesDespachoMB.totalCantidadPorEmbalaje}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="$#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 							<p:column styleClass="derecha">
 								<h:outputText value="#{ordenesDespachoMB.totalCantidadCajas}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="$#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 							<p:column styleClass="derecha">
 								<h:outputText value="#{ordenesDespachoMB.muestrasCalidades}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="$#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 							<p:column styleClass="derecha">
 								<h:outputText value="#{ordenesDespachoMB.muestrasFITOANTICO}">
-									<f:convertNumber maxFractionDigits="2" />
+									<f:convertNumber pattern="$#####,###,###,##0.00" />
 								</h:outputText>
 							</p:column>
 
@@ -275,17 +292,13 @@
 							<h:outputText value="#{msg.MenuReportes}" />
 						</p:column>
 						<p:column styleClass="derecha">
-							<p:commandButton value="#{msg.ReportePdf}" 
-								icon="ui-icon-script"
-								ajax="false"
-								id="btnGenerarPdf">
-								<p:fileDownload value="#{ordenesDespachoMB.reportePDF}" />	
+							<p:commandButton value="#{msg.ReportePdf}" icon="ui-icon-script"
+								ajax="false" id="btnGenerarPdf">
+								<p:fileDownload value="#{ordenesDespachoMB.reportePDF}" />
 							</p:commandButton>
-							<p:commandButton value="#{msg.ReporteExcel}" 
-								icon="ui-icon-script"
-								ajax="false"
-								id="btnGenerarExcel">
-								<p:fileDownload value="#{ordenesDespachoMB.reporteExcel}" />	
+							<p:commandButton value="#{msg.ReporteExcel}"
+								icon="ui-icon-script" ajax="false" id="btnGenerarExcel">
+								<p:fileDownload value="#{ordenesDespachoMB.reporteExcel}" />
 							</p:commandButton>
 						</p:column>
 					</p:panelGrid>
