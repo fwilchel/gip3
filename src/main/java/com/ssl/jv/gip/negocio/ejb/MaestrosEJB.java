@@ -577,7 +577,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
   @Override
   public Cliente crearCliente(Cliente pEntidad, LogAuditoria auditoria) {
 	try {
-	  clienteDao.guardarCliente(pEntidad);
+	  pEntidad = clienteDao.add(pEntidad);
 	  LOGGER.debug("Crear log de auditoria");
 	  auditoria.setTabla(Cliente.class.getName());
 	  auditoria.setAccion("CRE");
@@ -588,7 +588,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	  return pEntidad;
 	} catch (Exception e) {
 	  LOGGER.error(e + " Error creando clientes");
-	  return null;
+	  throw e;
 	}
   }
 
@@ -606,7 +606,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	  return pEntidad;
 	} catch (Exception e) {
 	  LOGGER.error(e + " Error creando clientes");
-	  return null;
+	  throw e;
 	}
   }
 

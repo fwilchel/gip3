@@ -1,4 +1,4 @@
-package com.ssl.jv.gip.web.mb.maestros;
+	package com.ssl.jv.gip.web.mb.maestros;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,6 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.MetodoPago;
-import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TipoCanal;
 import com.ssl.jv.gip.jpa.pojo.TipoPrecio;
@@ -31,7 +30,6 @@ import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.administracion.UsuariosMB;
-import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Modo;
 
 @ManagedBean(name = "clienteMB")
@@ -65,15 +63,9 @@ public class ClienteMB extends UtilMB {
   private List<MetodoPago> listaMetodosPago;
   private List<CuentaContable> listaCuentaContable;
   private List<TipoPrecio> listaTiposPrecio;
-
   private List<TerminoIncoterm> listaTerminosIncoterm;
   private List<TerminoIncoterm> listaTerminosIncotermSeleccionados = new ArrayList<TerminoIncoterm>();
-
   private boolean isEditar;
-
-  public ClienteMB() {
-
-  }
 
   @PostConstruct
   public void init() {
@@ -171,7 +163,10 @@ public class ClienteMB extends UtilMB {
 
 	} catch (EJBTransactionRolledbackException e) {
 	  if (this.isException(e, "dist_termino_incoterm_x_medio_transporte_key")) {
-		this.addMensajeError(AplicacionMB.getMessage("maestroTerminoIncotermMedioTransUnique", language));
+		this.addMensajeError(AplicacionMB.getMessage("maestroClienteMsgValidationID", language));
+	  }
+	  if (this.isException(e, "uk_registro_nit")) {
+		this.addMensajeError(AplicacionMB.getMessage("maestroClienteMsgValidationNit", language));
 	  }
 	  LOGGER.error(e);
 	} catch (Exception e) {
