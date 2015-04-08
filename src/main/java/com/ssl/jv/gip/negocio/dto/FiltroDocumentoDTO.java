@@ -21,8 +21,10 @@ public class FiltroDocumentoDTO implements Serializable {
   private Date fechaInicio;
   @Deprecated
   private Date fechaFin;
-  @Deprecated
-  private boolean solicitudCafe;
+  /**
+   * filtra por e solicitud cafe. =
+   */
+  private Boolean solicitudCafe;
   /**
    * filtra por e consecutivo de documento. LIKE
    */
@@ -79,6 +81,7 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @return the idTipoDocumento
    */
+  @Deprecated
   public Long getIdTipoDocumento() {
     return idTipoDocumento;
   }
@@ -86,6 +89,7 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @param idTipoDocumento the idTipoDocumento to set
    */
+  @Deprecated
   public void setIdTipoDocumento(Long idTipoDocumento) {
     this.idTipoDocumento = idTipoDocumento;
   }
@@ -93,6 +97,7 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @return the idEstado
    */
+  @Deprecated
   public Long getIdEstado() {
     return idEstado;
   }
@@ -100,6 +105,7 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @param idEstado the idEstado to set
    */
+  @Deprecated
   public void setIdEstado(Long idEstado) {
     this.idEstado = idEstado;
   }
@@ -107,6 +113,7 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @return the idEstado2
    */
+  @Deprecated
   public Long getIdEstado2() {
     return idEstado2;
   }
@@ -114,6 +121,7 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @param idEstado2 the idEstado2 to set
    */
+  @Deprecated
   public void setIdEstado2(Long idEstado2) {
     this.idEstado2 = idEstado2;
   }
@@ -121,6 +129,7 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @return the fechaInicio
    */
+  @Deprecated
   public Date getFechaInicio() {
     return fechaInicio;
   }
@@ -128,6 +137,7 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @param fechaInicio the fechaInicio to set
    */
+  @Deprecated
   public void setFechaInicio(Date fechaInicio) {
     this.fechaInicio = fechaInicio;
   }
@@ -135,6 +145,7 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @return the fechaFin
    */
+  @Deprecated
   public Date getFechaFin() {
     return fechaFin;
   }
@@ -142,6 +153,7 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @param fechaFin the fechaFin to set
    */
+  @Deprecated
   public void setFechaFin(Date fechaFin) {
     this.fechaFin = fechaFin;
   }
@@ -163,14 +175,14 @@ public class FiltroDocumentoDTO implements Serializable {
   /**
    * @return the solicitudCafe
    */
-  public boolean isSolicitudCafe() {
+  public Boolean isSolicitudCafe() {
     return solicitudCafe;
   }
 
   /**
    * @param solicitudCafe the solicitudCafe to set
    */
-  public void setSolicitudCafe(boolean solicitudCafe) {
+  public void setSolicitudCafe(Boolean solicitudCafe) {
     this.solicitudCafe = solicitudCafe;
   }
 

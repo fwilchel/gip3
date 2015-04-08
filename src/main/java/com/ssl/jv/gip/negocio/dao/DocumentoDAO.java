@@ -2882,6 +2882,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     from.append("FROM Documento d ");
     from.append("JOIN d.ubicacionOrigen origen ");
     from.append("JOIN d.cliente cliente ");
+    from.append("JOIN d.documentoXNegociacions dxn ");
     StringBuilder where = buildWhereStatement(filtro);
     StringBuilder orderBy = new StringBuilder();
     if (filtro != null && filtro.getOrdenCampo() != null && !filtro.getOrdenCampo().isEmpty()) {
@@ -2919,6 +2920,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     } else {
       from.append("JOIN d.ubicacionOrigen origen ");
       from.append("JOIN d.cliente cliente ");
+      from.append("JOIN FETCH d.documentoXNegociacions dxn ");
     }
     StringBuilder where = buildWhereStatement(filtro);
     StringBuilder orderBy = new StringBuilder();
@@ -3005,6 +3007,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
       if (filtro.getUbicacionDestino() != null) {
         where.append("AND d.ubicacionDestino.id IN (:ubicacionDestino) ");
       }
+      if (filtro.isSolicitudCafe() != null) {
+        where.append("AND dxn.solicitudCafe = :solicitudCafe ");
+      }
     }
     return where;
   }
@@ -3048,6 +3053,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     }
     if (filtro.getUbicacionDestino() != null) {
       query.setParameter("ubicacionDestino", filtro.getUbicacionDestino());
+    }
+    if (filtro.isSolicitudCafe() != null) {
+      query.setParameter("solicitudCafe", filtro.isSolicitudCafe());
     }
   }
 }

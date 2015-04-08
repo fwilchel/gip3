@@ -40,9 +40,12 @@
               <p:calendar 
                 id="filtroFechaInicial" 
                 value="#{generarReporteCintaTestigoMagneticaMB.filtroFechaInicial}"
-                required="true"
+                required="true" 
                 label="#{msg.grctmFltLblFechaInicial}"
-                pattern="yyyy-MM-dd"/>
+                pattern="yyyy-MM-dd" >
+                <p:ajax event="dateSelect" update="filtroFechaFinal"/>
+                <p:ajax event="blur" update="filtroFechaFinal"/>
+              </p:calendar>
               <p:message
                 for="filtroFechaInicial"/>
               <h:outputLabel 
@@ -52,9 +55,14 @@
               <p:calendar 
                 id="filtroFechaFinal" 
                 value="#{generarReporteCintaTestigoMagneticaMB.filtroFechaFinal}"
-                required="true"
+                required="true" 
                 label="#{msg.grctmFltLblFechaFinal}"
-                pattern="yyyy-MM-dd"/>
+                pattern="yyyy-MM-dd"
+                mindate="#{generarReporteCintaTestigoMagneticaMB.filtroFechaInicial}" 
+                validator="FechaFinalValidador"
+                validatorMessage="#{msg.generalMsgValidacionFechaFinal}">
+                <f:attribute name="fechaInicial" value="#{generarReporteCintaTestigoMagneticaMB.filtroFechaInicial}"/>
+              </p:calendar>
               <p:message
                 for="filtroFechaFinal"/>
             </p:panelGrid>
