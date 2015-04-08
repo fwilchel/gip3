@@ -20,20 +20,20 @@
 
 			<p:tabView id="tabPanel">
 				<p:tab title="#{msg.tituloComprobanteInfDiarioFX}">
-					
+
 					<p:panelGrid columns="3" id="panelFiltro"
 						columnClasses="label,value,">
 
-					
 
-						<p:outputLabel value="#{msg.FechaBusqueda}" for="filtrofechaInicial"
-							styleClass="negrita" />
+
+						<p:outputLabel value="#{msg.FechaBusqueda}"
+							for="filtrofechaInicial" styleClass="negrita" />
 						<p:calendar id="filtrofechaInicial" required="true"
 							value="#{comprobanteInformeDiarioFXMB.fechaInicial}"
 							pattern="yyyy-MM-dd">
 						</p:calendar>
 						<p:message for="filtrofechaInicial"></p:message>
-						
+
 						<p:outputLabel value="#{msg.FechaBusqueda}" for="filtrofechaFinal"
 							styleClass="negrita" />
 						<p:calendar id="filtrofechaFinal" required="true"
@@ -41,24 +41,25 @@
 							pattern="yyyy-MM-dd">
 						</p:calendar>
 						<p:message for="filtrofechaFinal"></p:message>
-						
-						
+
+
 
 					</p:panelGrid>
-					
+
 					<p:panelGrid columns="1">
 						<p:commandButton value="Reporte PDF" ajax="false"
 							icon="ui-icon-document">
-							<p:fileDownload value="#{comprobanteInformeDiarioFXMB.reportePDF}" />
+							<p:fileDownload
+								value="#{comprobanteInformeDiarioFXMB.reportePDF}" />
 						</p:commandButton>
 					</p:panelGrid>
-					
-					
+
+
 				</p:tab>
 			</p:tabView>
 		</h:form>
 
-		
+
 
 	</ui:define>
 

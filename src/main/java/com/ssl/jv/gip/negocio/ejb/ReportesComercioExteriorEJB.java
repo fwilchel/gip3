@@ -29,6 +29,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
+import com.ssl.jv.gip.negocio.dto.ReporteProduccionDTO;
 
 /**
  * Session Bean implementation class ReportesComercioExteriorEJB
@@ -126,8 +127,6 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   @Override
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(FiltroDocumentoDTO filtro) {
 	return documentoDAO.consultarDocumentos(filtro);
-	// return
-	// documentoDAO.consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(filtro);
   }
 
   @Override
@@ -144,6 +143,11 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   @Override
   public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(String consecutivoDocumento) {
 	return documentoLotesOICDAO.consultarPorConsecutivoDocumento(consecutivoDocumento);
+  }
+
+  @Override
+  public List<ReporteProduccionDTO> consultarProductosReporteProduccion(Map<String, Object> parametros) {
+	return productosXDocumentoDAO.buscarPorConsultaNativa(ReporteProduccionDTO.BUSCAR_PRODUCTOS_REPORTE_PRODUCCION, ReporteProduccionDTO.class, parametros);
   }
 
 }

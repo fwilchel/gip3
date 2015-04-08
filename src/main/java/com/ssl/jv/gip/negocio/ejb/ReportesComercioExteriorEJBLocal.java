@@ -17,6 +17,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
+import com.ssl.jv.gip.negocio.dto.ReporteProduccionDTO;
 
 import java.util.Map;
 
@@ -105,5 +106,16 @@ public interface ReportesComercioExteriorEJBLocal {
 
   public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(
 		String consecutivoDocumento);
+
+  /**
+   * Metodo que consulta los productos del reporte de produccion
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param parametros
+   * @return
+   */
+  public List<ReporteProduccionDTO> consultarProductosReporteProduccion(Map<String, Object> parametros);
 
 }
