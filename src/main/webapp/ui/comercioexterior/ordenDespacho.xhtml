@@ -191,14 +191,14 @@
 							styleClass="negrita" />
 						<p:inputText
 							value="#{ordenesDespachoMB.seleccionado.sitioEntrega}"
-							id="despachadoEn" label="#{msg.LugarIncoterm}" disabled="true" />
+							id="despachadoEn" label="#{msg.LugarIncoterm}" required="true" />
 
 						<p:outputLabel value="#{msg.FechaCargue}" for="fechaCargue"
 							styleClass="negrita" />
 						<p:calendar
 							value="#{ordenesDespachoMB.seleccionado.fechaEntrega}"
 							id="fechaCargue" label="#{msg.FechaCargue}" showOn="button" readonlyInput="true"
-							required="true" pattern="dd-MMM-yyyy">
+							required="true" pattern="yyyy-MM-dd">
 						</p:calendar>
 
 					</p:panelGrid>

@@ -123,7 +123,7 @@ public class OrdenesDespachoMB extends UtilMB {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public JasperPrint reportBuilder() throws JRException {
 	SimpleDateFormat formatoFecha;
-	formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+	formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 	Map parametros = new HashMap();
 	parametros.put("cliente", seleccionado.getCliente().getNombre());
 	parametros.put("nit", seleccionado.getCliente().getNit());
