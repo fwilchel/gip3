@@ -105,7 +105,7 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 		this.tipoContenedores.add(new SelectItem(new Integer(0), "No aplica"));
 		this.tipoContenedores.add(new SelectItem(new Integer(1), "Contenedor de 20"));
 		this.tipoContenedores.add(new SelectItem(new Integer(2), "Contenedor de 40"));
-		this.tipoContenedores.add(new SelectItem(new Integer(3), "Contenedor"));
+		//this.tipoContenedores.add(new SelectItem(new Integer(3), "Contenedor"));
 	}
 	
 	public AplicacionMB getAppMB() {
@@ -181,6 +181,10 @@ public class GenerarCostosLogisticosMB extends UtilMB{
 	}
 	
 	public void generarCostosLogisticos(){
+		if (tipoContenedor1>0 && tipoContenedor1.equals(tipoContenedor2)){
+			this.addMensajeError(AplicacionMB.getMessage("costosLogisticosTipoContenedorRepetido", language));
+			return;
+		}
 		BigDecimal valorTotal = this.getValorDocumentos();
 		List<Long> documentos = new ArrayList<Long>();
 		for (DocumentoCostosLogisticosDTO r:this.solicitudes){
