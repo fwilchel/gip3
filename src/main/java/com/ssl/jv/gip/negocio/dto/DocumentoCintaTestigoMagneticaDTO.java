@@ -26,6 +26,11 @@ import javax.persistence.Id;
 @Entity
 public class DocumentoCintaTestigoMagneticaDTO implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public static final String REPORTE_CINTA_TESTIGO_MAGNETICA = "SELECT doc.id AS id, doc.fecha_generacion AS fechaGeneracion, doc.consecutivo_documento AS consecutivo, CASE WHEN doc.id_estado=11 THEN 'ANULADA' ELSE cli.nombre END AS clienteNombre, CASE WHEN doc.id_estado=11 OR doc.subtotal IS NULL THEN 0 ELSE doc.subtotal END AS subtotal, CASE WHEN doc.id_estado=11 OR doc.descuento IS NULL THEN 0 ELSE doc.descuento END AS descuento, CASE WHEN doc.id_estado=11 OR (doc.valor_iva5 IS NULL AND doc.valor_iva16 IS NULL) THEN 0 ELSE doc.valor_iva5 + doc.valor_iva16 END AS valorImpuestos, CASE WHEN doc.id_estado=11 OR doc.valor_total IS NULL THEN 0 ELSE doc.valor_total END AS valorTotal, CASE WHEN doc.id_estado=11 OR doc.valor_iva5 IS NULL THEN 0 ELSE doc.valor_iva5 END AS valorIVA10, CASE WHEN doc.id_estado=11 OR doc.valor_iva16 IS NULL THEN 0 ELSE doc.valor_iva16 END AS valorIVA16 "
           + "FROM documentos AS doc INNER JOIN clientes AS cli ON doc.id_cliente = cli.id "
           + "WHERE doc.fecha_generacion BETWEEN :fechaInicial AND :fechaFinal AND doc.id_tipo_documento = :tipoDocumento "

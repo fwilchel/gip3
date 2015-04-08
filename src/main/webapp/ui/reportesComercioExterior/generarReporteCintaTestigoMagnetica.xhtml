@@ -41,7 +41,8 @@
                 id="filtroFechaInicial" 
                 value="#{generarReporteCintaTestigoMagneticaMB.filtroFechaInicial}"
                 required="true"
-                label="#{msg.grctmFltLblFechaInicial}"/>
+                label="#{msg.grctmFltLblFechaInicial}"
+                pattern="yyyy-MM-dd"/>
               <p:message
                 for="filtroFechaInicial"/>
               <h:outputLabel 
@@ -52,7 +53,8 @@
                 id="filtroFechaFinal" 
                 value="#{generarReporteCintaTestigoMagneticaMB.filtroFechaFinal}"
                 required="true"
-                label="#{msg.grctmFltLblFechaFinal}"/>
+                label="#{msg.grctmFltLblFechaFinal}"
+                pattern="yyyy-MM-dd"/>
               <p:message
                 for="filtroFechaFinal"/>
             </p:panelGrid>
