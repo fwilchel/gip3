@@ -210,32 +210,30 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
   }
 
   public void handleFileUpload(FileUploadEvent event) {
-
 	if (this.idCliente == null || this.idCliente == 0) {
 	  this.addMensajeError("Debe seleccionar Cliente y Término Incoterm");
 	  return;
 	}
-
 	this.nombreArchivo = event.getFile().getFileName();
-
 	Hashtable<Long, BigDecimal> saldos = this.comercioEjb.consultarUltimosSaldos();
 	Hashtable<String, BigDecimal> datos = new Hashtable<>();
 	this.productos = new ArrayList<>();
 	try {
-	  boolean habilitarBoton = true;
+	  boolean errorValidacion = false;
 	  BufferedReader di = new BufferedReader(new InputStreamReader(event.getFile().getInputstream()));
 	  String linea;
-	  do {
+	  for (int numeroRegistros = 0;; numeroRegistros++) {
 		linea = di.readLine();
 		if (linea == null) {
-		  habilitarBoton = false;
+		  if (numeroRegistros == 0) {
+			errorValidacion = true;
+		  }
 		  break;
 		}
 		StringTokenizer st = new StringTokenizer(linea, "|");
 		String sku = st.nextToken().trim();
 		BigDecimal cantidad = new BigDecimal(st.nextToken().trim());
 		datos.put(sku, cantidad);
-
 		ProductoSolicitudPedidoDTO dto = new ProductoSolicitudPedidoDTO();
 		dto.setObservaciones("OK");
 		dto.setSku(sku);
@@ -271,20 +269,15 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 			dto.setObservaciones("N/A");
 		  }
 		}
-		this.deshabilitado = false;
-
 		if (pi != null && pi.getProductosInventarioComext() != null && pi.getProductosInventarioComext().getTipoLoteoic() != null) {
 		  if (this.solicitudCafe && pi.getProductosInventarioComext().getTipoLoteoic().getId().equals(5L)) {
 			this.addMensajeError("Tipo Lote de los productos no corresponde con el Tipo de Solicitud");
-			habilitarBoton = false;
-			this.deshabilitado = true;
+			errorValidacion = true;
 		  } else if (!this.solicitudCafe && !pi.getProductosInventarioComext().getTipoLoteoic().getId().equals(5L)) {
 			this.addMensajeError("Tipo Lote de los productos no corresponde con el Tipo de Solicitud");
-			habilitarBoton = false;
-			this.deshabilitado = true;
+			errorValidacion = true;
 		  }
 		}
-
 		this.productos.add(dto);
 		// Consultar saldos
 		if (dto.getControlStock() != null && dto.getControlStock()) {
@@ -294,27 +287,24 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 			dto.setEstilo("rojoNegrita");
 			dto.setSeleccionado(false);
 			dto.setDesactivado(true);
-			habilitarBoton = false;
+			errorValidacion = true;
 		  } else {
 			dto.setSaldo(saldo.subtract(dto.getCantidad()));
 			if (dto.getSaldo().doubleValue() < 0) {
 			  dto.setEstilo("rojoNegrita");
-			  habilitarBoton = false;
+			  errorValidacion = true;
 			}
 		  }
 		}
-	  } while (true);
-	  
-	  if (habilitarBoton){
-		this.deshabilitado = false;
-	  } else {
-		this.deshabilitado = true;
 	  }
-
+	  if (errorValidacion) {
+		this.deshabilitado = true;
+	  } else {
+		this.deshabilitado = false;
+	  }
 	} catch (IOException e) {
 	  this.addMensajeError(e);
 	}
-
   }
 
   public String generarSolicitudPedido() {

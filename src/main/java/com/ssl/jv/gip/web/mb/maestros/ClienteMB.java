@@ -22,7 +22,6 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.CuentaContable;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.MetodoPago;
-import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TipoCanal;
 import com.ssl.jv.gip.jpa.pojo.TipoPrecio;
@@ -31,7 +30,6 @@ import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.administracion.UsuariosMB;
-import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Modo;
 
 @ManagedBean(name = "clienteMB")
@@ -65,120 +63,118 @@ public class ClienteMB extends UtilMB {
   private List<MetodoPago> listaMetodosPago;
   private List<CuentaContable> listaCuentaContable;
   private List<TipoPrecio> listaTiposPrecio;
-
   private List<TerminoIncoterm> listaTerminosIncoterm;
   private List<TerminoIncoterm> listaTerminosIncotermSeleccionados = new ArrayList<TerminoIncoterm>();
-
   private boolean isEditar;
-
-  public ClienteMB() {
-
-  }
 
   @PostConstruct
   public void init() {
-	clientes = servicio.consultarClientes();
-	listaTerminosIncoterm = servicio.consultarTerminoIncotermActivo();
 	// por defecto el pais seleccionado es colombia
 	idPais = "CO";
+	cargarListaClientes();
   }
 
-  public void nuevo() {
+  private void cargarListaClientes() {
+	clientes = servicio.consultarClientes();
+  }
+
+  public void onAddEvent() {
+	this.modo = Modo.CREACION;
+	seleccionado = new Cliente();
+	listaTerminosIncotermSeleccionados = new ArrayList<>();
+	this.isEditar = false;
+	initEdit();
+  }
+
+  public void onEditEvent() {
+	this.modo = Modo.EDICION;
+	this.isEditar = true;
+	this.idPais = this.seleccionado.getCiudad().getIdPais();
+	this.listaTerminosIncotermSeleccionados = this.seleccionado.getTerminoIncoterms();
+	initEdit();
+  }
+
+  private void initEdit() {
 	cargarListaPaises();
 	cargarListaCiudades();
-	seleccionado = new Cliente();
-	seleccionado.setAgenteAduana(new AgenteAduana());
-	seleccionado.setCuentaContable(new CuentaContable());
-	seleccionado.setMetodoPago(new MetodoPago());
-	seleccionado.setTerminoIncoterms(new ArrayList<TerminoIncoterm>());
-	seleccionado.setTipoCanal(new TipoCanal());
-	seleccionado.setTipoPrecio(new TipoPrecio());
-	seleccionado.setCiudad(new Ciudad());
-	this.modo = Modo.CREACION;
-	this.isEditar = false;
-  }
-
-  private void cargarListaPaises() {
-	if (listaPaises == null) {
-	  listaPaises = new ArrayList<>();
-	}
-	listaPaises.add(new SelectItem("CO", "Colombia"));
+	cargarListaTerminosIncoterm();
+	preLoad();
   }
 
   public void guardar() {
 	try {
 	  this.seleccionado.setTerminoIncoterms(listaTerminosIncotermSeleccionados);
-
-	  if (this.seleccionado.getAgenteAduana() != null && this.seleccionado.getAgenteAduana().getId().equals(0l)) {
-		this.seleccionado.setAgenteAduana(null);
-	  }
-
-	  if (this.seleccionado.getMetodoPago() != null && this.seleccionado.getMetodoPago().getId().equals(0l)) {
-		this.seleccionado.setMetodoPago(null);
-	  }
-
-	  if (this.seleccionado.getCuentaContable() != null && this.seleccionado.getCuentaContable().getId().equals(0l)) {
-		this.seleccionado.setCuentaContable(null);
-	  }
-
-	  if (this.seleccionado.getTipoPrecio() != null && this.seleccionado.getTipoPrecio().getId().equals(0l)) {
-		this.seleccionado.setTipoPrecio(null);
-	  }
-
+	  preSave();
 	  // auditoria
 	  LogAuditoria auditoria = new LogAuditoria();
 	  auditoria.setIdUsuario(menu.getUsuario().getId());
 	  auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
-
 	  if (this.modo.equals(Modo.CREACION)) {
 		this.seleccionado = this.servicio.crearCliente(this.seleccionado, auditoria);
-		if (this.clientes == null) {
-		  this.clientes = new ArrayList<Cliente>();
-		}
-		clientes = servicio.consultarClientes();
-		this.nuevo();
+		onAddEvent();
+		this.addMensajeInfo("Cliente adicionado exitosamente");
 	  } else {
 		this.servicio.actualizarCliente(this.seleccionado, auditoria);
-		clientes = servicio.consultarClientes();
+		this.addMensajeInfo("Cliente actualizado exitosamente");
 	  }
-	  listaTerminosIncotermSeleccionados = new ArrayList<TerminoIncoterm>();
-	  this.seleccionado = new Cliente();
-	  if (this.seleccionado.getAgenteAduana() == null) {
-		this.seleccionado.setAgenteAduana(new AgenteAduana());
-	  }
-
-	  if (this.seleccionado.getMetodoPago() == null) {
-		this.seleccionado.setMetodoPago(new MetodoPago());
-	  }
-
-	  if (this.seleccionado.getCuentaContable() == null) {
-		this.seleccionado.setCuentaContable(new CuentaContable());
-	  }
-
-	  if (this.seleccionado.getTipoPrecio() == null) {
-		this.seleccionado.setTipoPrecio(new TipoPrecio());
-	  }
-
-	  if (this.seleccionado.getCiudad() == null) {
-		seleccionado.setCiudad(new Ciudad());
-	  }
-
-	  if (this.seleccionado.getTipoCanal() == null) {
-		seleccionado.setTipoCanal(new TipoCanal());
-	  }
-
-	  this.addMensajeInfo("Cliente almacenado exitosamente");
-
+	  cargarListaClientes();
 	} catch (EJBTransactionRolledbackException e) {
 	  if (this.isException(e, "dist_termino_incoterm_x_medio_transporte_key")) {
-		this.addMensajeError(AplicacionMB.getMessage("maestroTerminoIncotermMedioTransUnique", language));
-	  }
+		this.addMensajeError(AplicacionMB.getMessage("maestroClienteMsgValidationID", language));
+	  } else if (this.isException(e, "uk_registro_nit")) {
+		this.addMensajeError(AplicacionMB.getMessage("maestroClienteMsgValidationNit", language));
+	  } else {
+		this.addMensajeError("Error");
+	  }	  
 	  LOGGER.error(e);
 	} catch (Exception e) {
 	  this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
 	  LOGGER.error(e);
+	} finally {
+	  preLoad();
 	}
+  }
 
+  private void preLoad() {
+	if (seleccionado.getAgenteAduana() == null) {
+	  seleccionado.setAgenteAduana(new AgenteAduana());
+	}
+	if (seleccionado.getMetodoPago() == null) {
+	  seleccionado.setMetodoPago(new MetodoPago());
+	}
+	if (seleccionado.getCuentaContable() == null) {
+	  seleccionado.setCuentaContable(new CuentaContable());
+	}
+	if (seleccionado.getTipoCanal() == null) {
+	  seleccionado.setTipoCanal(new TipoCanal());
+	}
+	if (seleccionado.getTipoPrecio() == null) {
+	  seleccionado.setTipoPrecio(new TipoPrecio());
+	}
+	if (seleccionado.getCiudad() == null) {
+	  seleccionado.setCiudad(new Ciudad());
+	}
+	if (seleccionado.getTerminoIncoterms() == null) {
+	  seleccionado.setTerminoIncoterms(new ArrayList<TerminoIncoterm>());
+	}
+  }
+
+  /**
+   * 
+   */
+  private void preSave() {
+	if (this.seleccionado.getAgenteAduana() != null && this.seleccionado.getAgenteAduana().getId().equals(0l)) {
+	  this.seleccionado.setAgenteAduana(null);
+	}
+	if (this.seleccionado.getMetodoPago() != null && this.seleccionado.getMetodoPago().getId().equals(0l)) {
+	  this.seleccionado.setMetodoPago(null);
+	}
+	if (this.seleccionado.getCuentaContable() != null && this.seleccionado.getCuentaContable().getId().equals(0l)) {
+	  this.seleccionado.setCuentaContable(null);
+	}
+	if (this.seleccionado.getTipoPrecio() != null && this.seleccionado.getTipoPrecio().getId().equals(0l)) {
+	  this.seleccionado.setTipoPrecio(null);
+	}
   }
 
   public boolean isCreacion() {
@@ -194,6 +190,13 @@ public class ClienteMB extends UtilMB {
 	cargarListaCiudades();
   }
 
+  private void cargarListaPaises() {
+	if (listaPaises == null) {
+	  listaPaises = new ArrayList<>();
+	}
+	listaPaises.add(new SelectItem("CO", "Colombia"));
+  }
+
   private void cargarListaCiudades() {
 	if (idPais != null && !idPais.isEmpty()) {
 	  listaCiudades = servicio.consultarCiudadesPorPais(idPais);
@@ -204,6 +207,10 @@ public class ClienteMB extends UtilMB {
 		}
 	  });
 	}
+  }
+
+  private void cargarListaTerminosIncoterm() {
+	listaTerminosIncoterm = servicio.consultarTerminoIncotermActivo();
   }
 
   public Modo getModo() {
@@ -226,42 +233,8 @@ public class ClienteMB extends UtilMB {
 	return seleccionado;
   }
 
-  private void initEdit() {
-
-  }
-
   public void setSeleccionado(Cliente seleccionado) {
 	this.seleccionado = seleccionado;
-	this.modo = Modo.EDICION;
-	this.isEditar = true;
-	this.idPais = this.seleccionado.getCiudad().getIdPais();
-	this.listaTerminosIncotermSeleccionados = this.seleccionado.getTerminoIncoterms();
-	cargarListaPaises();
-	cargarListaCiudades();
-	if (this.seleccionado.getAgenteAduana() == null) {
-	  this.seleccionado.setAgenteAduana(new AgenteAduana());
-	}
-
-	if (this.seleccionado.getMetodoPago() == null) {
-	  this.seleccionado.setMetodoPago(new MetodoPago());
-	}
-
-	if (this.seleccionado.getCuentaContable() == null) {
-	  this.seleccionado.setCuentaContable(new CuentaContable());
-	}
-
-	if (this.seleccionado.getTipoPrecio() == null) {
-	  this.seleccionado.setTipoPrecio(new TipoPrecio());
-	}
-
-	if (this.seleccionado.getCiudad() == null) {
-	  this.seleccionado.setCiudad(new Ciudad());
-	}
-
-	if (this.seleccionado.getTipoCanal() == null) {
-	  this.seleccionado.setTipoCanal(new TipoCanal());
-	}
-
   }
 
   public List<SelectItem> getListaPaises() {

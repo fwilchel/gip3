@@ -32,7 +32,7 @@
 							<div align="right">
 								<p:outputPanel>
 
-									<p:commandButton action="#{clienteMB.nuevo}"
+									<p:commandButton action="#{clienteMB.onAddEvent}"
 										update=":clienteDlg" oncomplete="PF('clienteDialog').show()"
 										title="#{msg.generalAdicionarRegistro}"
 										icon="ui-icon-document"
@@ -53,9 +53,9 @@
 						</f:facet>
 
 						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete="PF('clienteDialog').show()"
-								icon="ui-icon-pencil" title="#{msg.generalEditar}"
-								update=":clienteDlg">
+							<p:commandButton action="#{clienteMB.onEditEvent()}"
+								oncomplete="PF('clienteDialog').show()" icon="ui-icon-pencil"
+								title="#{msg.generalEditar}" update=":clienteDlg">
 								<f:setPropertyActionListener value="#{cliente}"
 									target="#{clienteMB.seleccionado}" />
 							</p:commandButton>
@@ -261,27 +261,16 @@
 							label="#{msg.maestroCreModTelefonoCliente}" />
 						<p:message for="telefono"></p:message>
 
-						<p:outputLabel 
-							value="#{msg.maestroCreModPaisCliente}" 
-							for="pais"
+						<p:outputLabel value="#{msg.maestroCreModPaisCliente}" for="pais"
 							styleClass="negrita" />
-						<p:selectOneMenu 
-							id="pais" 
-							value="#{clienteMB.idPais}"
-							valueChangeListener="#{clienteMB.cambioPais}" 
-							immediate="true"
+						<p:selectOneMenu id="pais" value="#{clienteMB.idPais}"
+							valueChangeListener="#{clienteMB.cambioPais}" immediate="true"
 							label="#{msg.maestroCreModPaisCliente}">
-							<f:selectItems 
-								value="#{aplicacionMB.paises}" 
-								var="pais"
-								itemValue="#{pais.id}" 
-								itemLabel="#{pais.nombre}" />
-							<p:ajax 
-								event="change" 
-								update="ciudad" />
+							<f:selectItems value="#{aplicacionMB.paises}" var="pais"
+								itemValue="#{pais.id}" itemLabel="#{pais.nombre}" />
+							<p:ajax event="change" update="ciudad" />
 						</p:selectOneMenu>
-						<p:message 
-							for="pais"/>
+						<p:message for="pais" />
 
 						<p:outputLabel value="#{msg.maestroCreModCiudadCliente}"
 							for="ciudad" styleClass="negrita" />

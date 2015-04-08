@@ -494,7 +494,8 @@
             <!-- Imprimir factura -->
             <p:commandButton 
               value="#{msg.gfBtnImprimirFactura}" 
-              ajax="false" 
+              onclick="PF('dlgDetalle').hide()"
+              ajax="false"
               icon="ui-icon-document"
               rendered="#{generarFacturaMB.modoMensage}">
               <p:fileDownload 

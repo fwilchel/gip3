@@ -491,6 +491,8 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     parametros.put("id", (long) remisionRelacionada.getId());
     documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
     LOGGER.debug("Remision actualizada exitosamente");
+    factura.getCliente().getCiudad();
+    factura.getPuntoVenta();
     return factura;
   }
 

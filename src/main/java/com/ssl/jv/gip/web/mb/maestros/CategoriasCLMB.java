@@ -120,6 +120,9 @@ public class CategoriasCLMB extends UtilMB {
 
   public void guardar() {
 	try {
+	  if (this.seleccionado.getOrden() == 0){
+		this.seleccionado.setOrden(null);
+	  }
 	  if (this.modo.equals(Modo.CREACION)) {
 		this.seleccionado = this.maestrosEjb.crearCategoriaCostoLogistico(this.seleccionado);
 		this.categorias.add(this.seleccionado);
