@@ -25,135 +25,125 @@ public class ReporteProduccionDTO implements Serializable {
    * @return the id
    */
   public String getId() {
-	return id;
+    return id;
   }
 
   /**
-   * @param id
-   *          the id to set
+   * @param id the id to set
    */
   public void setId(String id) {
-	this.id = id;
+    this.id = id;
   }
 
   /**
    * @return the cantidad
    */
   public Double getCantidad() {
-	return cantidad;
+    return cantidad;
   }
 
   /**
-   * @param cantidad
-   *          the cantidad to set
+   * @param cantidad the cantidad to set
    */
   public void setCantidad(Double cantidad) {
-	this.cantidad = cantidad;
+    this.cantidad = cantidad;
   }
 
   /**
    * @return the sku
    */
   public String getSku() {
-	return sku;
+    return sku;
   }
 
   /**
-   * @param sku
-   *          the sku to set
+   * @param sku the sku to set
    */
   public void setSku(String sku) {
-	this.sku = sku;
+    this.sku = sku;
   }
 
   /**
    * @return the productoNombre
    */
   public String getProductoNombre() {
-	return productoNombre;
+    return productoNombre;
   }
 
   /**
-   * @param productoNombre
-   *          the productoNombre to set
+   * @param productoNombre the productoNombre to set
    */
   public void setProductoNombre(String productoNombre) {
-	this.productoNombre = productoNombre;
+    this.productoNombre = productoNombre;
   }
 
   /**
    * @return the paisNombre
    */
   public String getPaisNombre() {
-	return paisNombre;
+    return paisNombre;
   }
 
   /**
-   * @param paisNombre
-   *          the paisNombre to set
+   * @param paisNombre the paisNombre to set
    */
   public void setPaisNombre(String paisNombre) {
-	this.paisNombre = paisNombre;
+    this.paisNombre = paisNombre;
   }
 
   /**
    * @return the tipoCanal
    */
   public String getTipoCanal() {
-	return tipoCanal;
+    return tipoCanal;
   }
 
   /**
-   * @param tipoCanal
-   *          the tipoCanal to set
+   * @param tipoCanal the tipoCanal to set
    */
   public void setTipoCanal(String tipoCanal) {
-	this.tipoCanal = tipoCanal;
+    this.tipoCanal = tipoCanal;
   }
 
   /**
    * @return the canal
    */
   public String getCanal() {
-	return canal;
+    return canal;
   }
 
   /**
-   * @param canal
-   *          the canal to set
+   * @param canal the canal to set
    */
   public void setCanal(String canal) {
-	this.canal = canal;
+    this.canal = canal;
   }
 
   /**
    * @return the clienteNombre
    */
   public String getClienteNombre() {
-	return clienteNombre;
+    return clienteNombre;
   }
 
   /**
-   * @param clienteNombre
-   *          the clienteNombre to set
+   * @param clienteNombre the clienteNombre to set
    */
   public void setClienteNombre(String clienteNombre) {
-	this.clienteNombre = clienteNombre;
+    this.clienteNombre = clienteNombre;
   }
 
   /**
    * @return the consecutivoDocumento
    */
   public String getConsecutivoDocumento() {
-	return consecutivoDocumento;
+    return consecutivoDocumento;
   }
 
   /**
-   * @param consecutivoDocumento
-   *          the consecutivoDocumento to set
+   * @param consecutivoDocumento the consecutivoDocumento to set
    */
   public void setConsecutivoDocumento(String consecutivoDocumento) {
-	this.consecutivoDocumento = consecutivoDocumento;
+    this.consecutivoDocumento = consecutivoDocumento;
   }
-
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-04-08T16:37:24 -->
+<!-- 2015-04-08T18:34:58 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_PCE" pageWidth="1300" pageHeight="800" whenNoDataType="AllSectionsNoDetail" columnWidth="1300" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="023e99cc-5177-4b13-b4d8-ce6d158035fc">
 	<property name="ireport.zoom" value="1.3636363636363844"/>
 	<property name="ireport.x" value="822"/>
@@ -556,6 +556,9 @@
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
+	<field name="id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="cantidad" class="java.lang.Double">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
