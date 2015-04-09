@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-04-08T18:34:58 -->
+<!-- 2015-04-08T22:06:27 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_PCE" pageWidth="1300" pageHeight="800" whenNoDataType="AllSectionsNoDetail" columnWidth="1300" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="023e99cc-5177-4b13-b4d8-ce6d158035fc">
 	<property name="ireport.zoom" value="1.3636363636363844"/>
 	<property name="ireport.x" value="822"/>
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="false,true,0.75,0,0,0,0,0,0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -721,7 +722,6 @@
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{consecutivoDocumento}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement style="table" x="918" y="0" width="154" height="14" uuid="c5d8660b-b31e-4385-9411-93015934c0ec"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-04-06T07:37:56 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_IE" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1acdc751-c6a0-4542-b77e-ebaacf0eaf61">
+<!-- 2015-04-09T13:19:24 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_IE" pageWidth="609" pageHeight="800" whenNoDataType="AllSectionsNoDetail" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1acdc751-c6a0-4542-b77e-ebaacf0eaf61">
 	<property name="ireport.zoom" value="1.100000000000075"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -43,13 +43,17 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="factura" class="java.lang.String"/>
-	<field name="lote" class="java.lang.String"/>
+	<field name="consecutivoDocumento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="consecutivoLote" class="java.lang.String"/>
 	<field name="descripcion" class="java.lang.String"/>
-	<field name="cantCajas" class="java.math.BigDecimal"/>
-	<field name="pedidoNum" class="java.lang.String"/>
-	<field name="asignacionNum" class="java.lang.String"/>
-	<field name="avisoNum" class="java.lang.String"/>
+	<field name="totalCajas" class="java.math.BigDecimal"/>
+	<field name="pedido" class="java.lang.String"/>
+	<field name="asignacion" class="java.lang.String"/>
+	<field name="aviso" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<background>
 		<band height="700" splitType="Stretch">
 			<image>
@@ -63,6 +67,12 @@
 	</title>
 	<pageHeader>
 		<band height="236" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Transparent" x="255" y="147" width="153" height="45" uuid="477736d8-5819-450d-b87c-47b7998578a9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="481" y="68" width="105" height="40" uuid="5cf0fd9d-faf2-42e2-a494-70206eeed1a5"/>
+			</rectangle>
 			<rectangle>
 				<reportElement mode="Transparent" x="22" y="210" width="565" height="26" backcolor="#FFFFFF" uuid="1275f97d-d7e7-497b-afbb-b55c837564ed"/>
 			</rectangle>
@@ -190,9 +200,6 @@ Bogotá - Colombia]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{puertoEmbarque}]]></textFieldExpression>
 			</textField>
-			<rectangle>
-				<reportElement mode="Transparent" x="481" y="68" width="105" height="40" uuid="5cf0fd9d-faf2-42e2-a494-70206eeed1a5"/>
-			</rectangle>
 			<line>
 				<reportElement x="481" y="83" width="105" height="1" uuid="0481418b-124b-4541-a3e2-247ad988d6a8"/>
 			</line>
@@ -230,9 +237,6 @@ Bogotá - Colombia]]></text>
 				<reportElement mode="Transparent" x="22" y="147" width="233" height="45" uuid="8f1846c4-c436-4b4f-bc55-6a4041b9e6f0"/>
 			</rectangle>
 			<rectangle>
-				<reportElement mode="Transparent" x="256" y="147" width="153" height="45" uuid="477736d8-5819-450d-b87c-47b7998578a9"/>
-			</rectangle>
-			<rectangle>
 				<reportElement mode="Transparent" x="409" y="161" width="177" height="31" uuid="f0e3a91b-c842-4b1d-805a-91d15bb11d8e"/>
 			</rectangle>
 			<staticText>
@@ -257,7 +261,7 @@ Bogotá - Colombia]]></text>
 				<text><![CDATA[FECHA:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="409" y="161" width="177" height="31" uuid="bc54f159-5eda-4444-be7b-962273a40735"/>
+				<reportElement x="408" y="161" width="177" height="31" uuid="bc54f159-5eda-4444-be7b-962273a40735"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -299,7 +303,7 @@ Bogotá - Colombia]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{consecutivoLote}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="72" y="1" width="29" height="29" uuid="ee742ead-f409-49ee-bd56-66e05d0c06f9"/>
@@ -313,14 +317,14 @@ Bogotá - Colombia]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{factura}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{consecutivoDocumento}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="158" y="1" width="96" height="29" uuid="3aede7b0-3692-4f88-8062-6697566f0a1c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cantCajas}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{totalCajas}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="259" y="1" width="61" height="10" uuid="ff0d8a0a-a4df-4783-82f3-17f0685c44eb"/>
@@ -369,21 +373,21 @@ Bogotá - Colombia]]></text>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{pedidoNum}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{pedido}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="355" y="11" width="54" height="9" uuid="de33ba55-9594-414a-8dd5-1ac954069fdc"/>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{asignacionNum}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{asignacion}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="355" y="20" width="54" height="9" uuid="c3a4d0c4-ff9f-4118-bb47-9f9f971f34f6"/>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{avisoNum}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{aviso}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="22" y="29" width="565" height="1" uuid="3abca52e-515c-4f70-854b-ad7871621637"/>

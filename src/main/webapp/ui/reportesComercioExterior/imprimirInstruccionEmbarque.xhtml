@@ -156,7 +156,8 @@
                 id="nombreCliente"
                 value="#{imprimirInstruccionEmbarque.seleccionado.clienteNombre}" 
                 disabled="true"
-                styleClass="filas_contenido"/>
+                styleClass="filas_contenido"
+                size="50"/>
               <p:outputLabel 
                 for="direccionCliente"
                 value="#{msg.iieDtlLblDireccion}"
@@ -165,7 +166,8 @@
                 id="direccionCliente"
                 value="#{imprimirInstruccionEmbarque.seleccionado.clienteDireccion}" 
                 disabled="true"
-                styleClass="filas_contenido"/>
+                styleClass="filas_contenido"
+                size="50"/>
               <p:outputLabel 
                 for="telefonoCliente"
                 value="#{msg.iieDtlLblTelefono}"
@@ -209,56 +211,55 @@
             style="margin-bottom:20px">
             <p:dataTable 
               id="tblFacturas"
-              var="factura" 
-              value="#{imprimirInstruccionEmbarque.seleccionado.listaFacturas}" 
+              var="registro" 
+              value="#{imprimirInstruccionEmbarque.seleccionado.listaLotes}" 
               emptyMessage="#{msg.generalNoDatos}" 
               paginator="false">
               <!-- Factura -->
               <p:column   
                 headerText="#{msg.iieDtlTblClmFactura}">
                 <h:outputText 
-                  value="#{factura.factura}" />
+                  value="#{registro.consecutivoDocumento}" />
               </p:column>
               <!-- Lote -->
               <p:column   
                 headerText="#{msg.iieDtlTblClmLote}">
                 <h:outputText 
-                  value="#{factura.lote}" />
+                  value="#{registro.consecutivoLote}" />
               </p:column>
               <!-- Descripci�n -->
               <p:column   
                 headerText="#{msg.iieDtlTblClmDescripcion}">
                 <h:outputText 
-                  value="#{factura.descripcion}" />
+                  value="#{registro.descripcion}" />
               </p:column>
               <!-- Cantidad Cajas -->
               <p:column   
                 headerText="#{msg.iieDtlTblClmCantidadCajas}"
                 styleClass="derecha">
                 <h:outputText 
-                  value="#{factura.cantCajas}" >
+                  value="#{registro.totalCajas}" >
                   <f:convertNumber 
-                    maxFractionDigits="2" 
-                    minFractionDigits="2"/>
+                      pattern="$#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
               <!-- Pedido No. -->
               <p:column   
                 headerText="#{msg.iieDtlTblClmPedidoNo}">
                 <h:outputText 
-                  value="#{factura.pedidoNum}" />
+                  value="#{registro.pedido}" />
               </p:column>
               <!-- Asignaci�n No. -->
               <p:column   
                 headerText="#{msg.iieDtlTblClmAsignacionNo}">
                 <h:outputText 
-                  value="#{factura.asignacionNum}" />
+                  value="#{registro.asignacion}" />
               </p:column>
               <!-- Aviso No. -->
               <p:column   
                 headerText="#{msg.iieDtlTblClmAvisoNo}">
                 <h:outputText 
-                  value="#{factura.avisoNum}" />
+                  value="#{registro.aviso}" />
               </p:column>
             </p:dataTable>
           </p:outputPanel>
@@ -277,7 +278,8 @@
                 id="sociedadIntermediacionAduanera1"
                 value="#{imprimirInstruccionEmbarque.seleccionado.agenteAduana1Nombre}" 
                 disabled="true"
-                styleClass="filas_contenido"/>
+                styleClass="filas_contenido"
+                size="50"/>
               <!-- Sociedad de Intermediaci�n Aduanera No.2 -->
               <p:outputLabel 
                 for="sociedadIntermediacionAduanera2"
@@ -287,7 +289,8 @@
                 id="sociedadIntermediacionAduanera2"
                 value="#{imprimirInstruccionEmbarque.seleccionado.agenteAduana2Nombre}" 
                 disabled="true"
-                styleClass="filas_contenido"/>
+                styleClass="filas_contenido"
+                size="50"/>
               <!-- Mes de Embarque -->
               <p:outputLabel 
                 for="mesEmbarque"
@@ -319,7 +322,7 @@
                 disabled="true"
                 styleClass="filas_contenido">
                 <f:convertDateTime 
-                  pattern="dd-MMM-yyyy"/>
+                  pattern="yyyy-MMM-dd"/>
               </h:inputText>
               <!-- Naviera -->
               <p:outputLabel 
@@ -462,7 +465,7 @@
                 disabled="true"
                 styleClass="filas_contenido">
                 <f:convertDateTime 
-                  pattern="dd-MMM-yyyy"/>
+                  pattern="yyyy-MMM-dd"/>
               </h:inputText>
               <!-- Numero de Booking -->
               <p:outputLabel 

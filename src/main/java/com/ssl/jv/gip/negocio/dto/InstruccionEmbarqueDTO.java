@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -88,7 +89,11 @@ public class InstruccionEmbarqueDTO implements Serializable {
   @Transient
   private Date fechaETA;
   @Transient
-  private List<DocTerminosTransporteDTO> listaFacturas;
+  private BigDecimal sumaSolicitudCafe;
+  @Transient
+  private BigDecimal sumaMercadeo;
+  @Transient
+  private List<LoteTerminoTransporteDTO> listaLotes;
 
   /**
    * @return the id
@@ -693,17 +698,45 @@ public class InstruccionEmbarqueDTO implements Serializable {
   }
 
   /**
-   * @return the listaFacturas
+   * @return the sumaSolicitudCafe
    */
-  public List<DocTerminosTransporteDTO> getListaFacturas() {
-    return listaFacturas;
+  public BigDecimal getSumaSolicitudCafe() {
+    return sumaSolicitudCafe;
   }
 
   /**
-   * @param listaFacturas the listaFacturas to set
+   * @param sumaSolicitudCafe the sumaSolicitudCafe to set
    */
-  public void setListaFacturas(List<DocTerminosTransporteDTO> listaFacturas) {
-    this.listaFacturas = listaFacturas;
+  public void setSumaSolicitudCafe(BigDecimal sumaSolicitudCafe) {
+    this.sumaSolicitudCafe = sumaSolicitudCafe;
+  }
+
+  /**
+   * @return the sumaMercadeo
+   */
+  public BigDecimal getSumaMercadeo() {
+    return sumaMercadeo;
+  }
+
+  /**
+   * @param sumaMercadeo the sumaMercadeo to set
+   */
+  public void setSumaMercadeo(BigDecimal sumaMercadeo) {
+    this.sumaMercadeo = sumaMercadeo;
+  }
+
+  /**
+   * @return the listaLotes
+   */
+  public List<LoteTerminoTransporteDTO> getListaLotes() {
+    return listaLotes;
+  }
+
+  /**
+   * @param listaLotes the listaLotes to set
+   */
+  public void setListaLotes(List<LoteTerminoTransporteDTO> listaLotes) {
+    this.listaLotes = listaLotes;
   }
 
 }

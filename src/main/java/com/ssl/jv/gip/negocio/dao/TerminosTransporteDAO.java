@@ -377,11 +377,6 @@ public class TerminosTransporteDAO extends GenericDAO<TerminosTransporte> implem
     Query query = em.createNativeQuery(InstruccionEmbarqueDTO.DETALLE_INSTRUCCION_EMBARQUE, InstruccionEmbarqueDTO.class);
     query.setParameter("id", id);
     dto = (InstruccionEmbarqueDTO) query.getSingleResult();
-    // TODO: consecutivos, 
-    // TODO: fecha ETA 
-    // TODO: lista de documentos asociados.
-    String idTmp = String.valueOf(id);
-    dto.setListaFacturas(getDocumentosTerminosTranporteById(idTmp));
     return dto;
   }
 }

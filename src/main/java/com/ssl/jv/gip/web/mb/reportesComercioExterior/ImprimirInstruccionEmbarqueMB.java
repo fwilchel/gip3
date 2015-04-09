@@ -1,6 +1,5 @@
 package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
-import com.ssl.jv.gip.negocio.dto.DocTerminosTransporteDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import javax.annotation.PostConstruct;
@@ -15,7 +14,6 @@ import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -134,31 +132,16 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
     parametrosReporte.put("numeroContenedor", seleccionado.getNumeroContenedor());
     parametrosReporte.put("sellosSeg", seleccionado.getSelloSeguridad());
     parametrosReporte.put("precintos", seleccionado.getPrecintos());
-    BigDecimal sumMercadeo = new BigDecimal(0);
-    BigDecimal sumCafe = new BigDecimal(0);
-    if (seleccionado.getListaFacturas() != null) {
-      for (DocTerminosTransporteDTO factura : seleccionado.getListaFacturas()) {
-        if (factura.getLote().equals("MERCADEO")) {
-          if (factura.getCantCajas() != null) {
-            sumMercadeo = sumMercadeo.add(factura.getCantCajas());
-          }
-        } else {
-          if (factura.getCantCajas() != null) {
-            sumCafe = sumCafe.add(factura.getCantCajas());
-          }
-        }
-      }
-    }
-    parametrosReporte.put("sumaCafe", sumCafe);
+    parametrosReporte.put("sumaCafe", seleccionado.getSumaSolicitudCafe());
     parametrosReporte.put("consecutivosLEs", seleccionado.getConsecutivoLEs());
-    parametrosReporte.put("sumaMercadeo", sumMercadeo);
+    parametrosReporte.put("sumaMercadeo", seleccionado.getSumaMercadeo());
     parametrosReporte.put("consecutivos", seleccionado.getConsecutivo());
     parametrosReporte.put("modalidadEmbarque", seleccionado.getModalidadEmbarqueDescripcion());
     parametrosReporte.put("booking", seleccionado.getNumeroBooking());
     parametrosReporte.put("incotermDespacho", seleccionado.getIncotermDespachoDecripcion());
     parametrosReporte.put("observacion2", seleccionado.getObservacion2());
-    if (seleccionado.getListaFacturas() != null) {
-      ds = new JRBeanCollectionDataSource(seleccionado.getListaFacturas());
+    if (seleccionado.getListaLotes() != null) {
+      ds = new JRBeanCollectionDataSource(seleccionado.getListaLotes());
     }
     try {
       Hashtable<String, String> parametrosConfiguracionReporte;

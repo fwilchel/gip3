@@ -3,6 +3,7 @@ package com.ssl.jv.gip.negocio.ejb;
 import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,11 @@ import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
+import com.ssl.jv.gip.negocio.dto.LoteTerminoTransporteDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteProduccionDTO;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Session Bean implementation class ReportesComercioExteriorEJB
@@ -66,88 +71,176 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
    * Default constructor.
    */
   public ReportesComercioExteriorEJB() {
-	// TODO Auto-generated constructor stub
+    // TODO Auto-generated constructor stub
   }
 
   @Override
   public List<Documento> consultarFacturasExportacion(FiltroDocumentoDTO filtro) {
-	return documentoDAO.consultarDocumentosPorTipoDocumentoYEstados(filtro);
+    return documentoDAO.consultarDocumentosPorTipoDocumentoYEstados(filtro);
   }
 
   @Override
   public List<ProductosXDocumento> consultarProductosPorDocumento(Long id) {
-	return productosXDocumentoDAO.consultarPorDocumentoConColecciones(id);
+    return productosXDocumentoDAO.consultarPorDocumentoConColecciones(id);
   }
 
   @Override
   public List<Muestrasxlote> consultarMuestrasPorCantidad(BigDecimal cantidad) {
-	return muestrasXLoteDAOLocal.consultarMuestrasPorCantidad(cantidad);
+    return muestrasXLoteDAOLocal.consultarMuestrasPorCantidad(cantidad);
   }
 
   @Override
   public List<Documento> consultarFacturasExportacionFechaTipo(FiltroDocumentoDTO filtro) {
-	return documentoDAO.consultarDocumentosPorTipoDocumentoYFechas(filtro);
+    return documentoDAO.consultarDocumentosPorTipoDocumentoYFechas(filtro);
   }
 
   @Override
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(FiltroDocumentoDTO filtro) {
-	return documentoDAO.consultarDocumentosPorTipoDocumentoEstadoTipoCafe(filtro);
+    return documentoDAO.consultarDocumentosPorTipoDocumentoEstadoTipoCafe(filtro);
   }
 
   @Override
   public List<InstruccionEmbarqueDTO> consultarListadoInstruccionesEmbarque() {
-	LOGGER.debug("Metodo: <<consultarListadoInstruccionesEmbarque>>");
-	return terminosTransporteDAO.obtenerListadoInstruccionesEmbarque();
+    LOGGER.debug("Metodo: <<consultarListadoInstruccionesEmbarque>>");
+    return terminosTransporteDAO.obtenerListadoInstruccionesEmbarque();
   }
 
   @Override
   public InstruccionEmbarqueDTO consultarDetalleInstruccionEmbarque(Long id) {
-	LOGGER.debug("Metodo: <<consultarDetalleInstruccionEmbarque>>");
-	return terminosTransporteDAO.obtenerDetalleInstruccionEmbarque(id);
+    LOGGER.debug("Metodo: <<consultarDetalleInstruccionEmbarque>>");
+    InstruccionEmbarqueDTO documento = terminosTransporteDAO.obtenerDetalleInstruccionEmbarque(id);
+    Map<String, Object> parametros;
+    List<LoteTerminoTransporteDTO> listaLotes;
+    List<Long> tipoSolicitudCafe = null;
+    List<Long> tipoMercadeo = null;
+    {
+      String DOCUMENTOS_POR_TERMINO_TRASPORTE = "SELECT documento_x_negociacion.id_documento, documento_x_negociacion.solicitud_cafe FROM terminos_transporte_x_documento inner join documento_x_negociacion on terminos_transporte_x_documento.id_documento = documento_x_negociacion.id_documento WHERE terminos_transporte_x_documento.id_terminos_transporte = :idTermino";
+      parametros = new HashMap<>();
+      parametros.put("idTermino", id);
+      List<Object[]> listaIds = terminosTransporteDAO.buscarPorConsultaNativa(DOCUMENTOS_POR_TERMINO_TRASPORTE, parametros);
+      if (listaIds != null) {
+        for (Object[] obj : listaIds) {
+          if (obj[1].equals(true)) {
+            if (tipoSolicitudCafe == null) {
+              tipoSolicitudCafe = new ArrayList<>();
+            }
+            tipoSolicitudCafe.add(((BigInteger) obj[0]).longValue());
+          } else {
+            if (tipoMercadeo == null) {
+              tipoMercadeo = new ArrayList<>();
+            }
+            tipoMercadeo.add(((BigInteger) obj[0]).longValue());
+          }
+        }
+      }
+    }
+    {
+      parametros = new HashMap<>();
+      StringBuilder query = new StringBuilder();
+      if (tipoSolicitudCafe != null) {
+        query.append(LoteTerminoTransporteDTO.LISTADO_LOTES_TERMINO_TRASPORTE_TIPO_SOLICITUD_CAFE);
+        parametros.put("documento", tipoSolicitudCafe);
+      }
+      if (tipoSolicitudCafe != null && tipoMercadeo != null) {
+        query.append(LoteTerminoTransporteDTO.UNION_ALL);
+      }
+      if (tipoMercadeo != null) {
+        query.append(LoteTerminoTransporteDTO.LISTADO_LOTES_TERMINO_TRASPORTE_DOCUMENTO_TIPO_MERCADEO);
+        parametros.put("documentosMercadeo", tipoMercadeo);
+      }
+      if (tipoSolicitudCafe != null || tipoMercadeo != null) {
+        query.append(LoteTerminoTransporteDTO.ORDER_BY);
+        LOGGER.debug("query: " + query.toString());
+        listaLotes = terminosTransporteDAO.buscarPorConsultaNativa(query.toString(), LoteTerminoTransporteDTO.class, parametros);
+        StringBuilder consecutivoSPs = new StringBuilder();
+        StringBuilder consecutivo = new StringBuilder();
+        StringBuilder consecutivoLEs = new StringBuilder();
+        BigDecimal sumMercadeo = new BigDecimal(0);
+        BigDecimal sumCafe = new BigDecimal(0);
+        for (int i = 0; i < listaLotes.size(); i++) {
+          LoteTerminoTransporteDTO lote = listaLotes.get(i);
+          if (i > 0) {
+            if (i > 0) {
+              consecutivoSPs.append(" / ");
+              consecutivo.append(" / ");
+              consecutivoLEs.append(" / ");
+            }
+            consecutivoSPs.append(lote.getSitioEntrega());
+            consecutivo.append(lote.getConsecutivoDocumento());
+            consecutivoLEs.append(lote.getObservacionDocumento());
+            documento.setFechaETA(lote.getFechaEta());
+          }
+          if (lote.getConsecutivoLote().equals("MERCADEO")) {
+            if (lote.getTotalCajas() != null) {
+              sumMercadeo = sumMercadeo.add(lote.getTotalCajas());
+            }
+          } else {
+            if (lote.getTotalCajas() != null) {
+              sumCafe = sumCafe.add(lote.getTotalCajas());
+            }
+          }
+        }
+        documento.setConsecutivoSPs(consecutivoSPs.toString());
+        documento.setConsecutivo(consecutivo.toString());
+        documento.setConsecutivoLEs(consecutivoLEs.toString());
+        documento.setSumaSolicitudCafe(sumCafe);
+        documento.setSumaMercadeo(sumMercadeo);
+        documento.setListaLotes(listaLotes);
+      }
+    }
+    return documento;
   }
 
   @Override
-  public List<Cliente> consultarListadoClientesReporteVentasCE(Map<String, Object> parametros) {
-	LOGGER.debug("Metodo: <<consultarListadoClientesReporteVentasCE>>");
-	return clienteDAO.consultarListadoClientesReporteVentasCE(parametros);
+  public List<Cliente> consultarListadoClientesReporteVentasCE(Map<String, Object> parametros
+  ) {
+    LOGGER.debug("Metodo: <<consultarListadoClientesReporteVentasCE>>");
+    return clienteDAO.consultarListadoClientesReporteVentasCE(parametros);
   }
 
   @Override
-  public List<ProductosInventario> consultarListadoProductosReporteVentasCE(Map<String, Object> parametros) {
-	LOGGER.debug("Metodo: <<consultarListadoProductosReporteVentasCE>>");
-	return productoInventarioDAO.consultarListadoProductosReporteVentasCE(parametros);
+  public List<ProductosInventario> consultarListadoProductosReporteVentasCE(Map<String, Object> parametros
+  ) {
+    LOGGER.debug("Metodo: <<consultarListadoProductosReporteVentasCE>>");
+    return productoInventarioDAO.consultarListadoProductosReporteVentasCE(parametros);
   }
 
   @Override
-  public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros) {
-	LOGGER.debug("Metodo: <<consultarProductosReporteVentasCE>>");
-	return documentoDAO.consultarDocumentosReporteVentasCE(parametros);
+  public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros
+  ) {
+    LOGGER.debug("Metodo: <<consultarProductosReporteVentasCE>>");
+    return documentoDAO.consultarDocumentosReporteVentasCE(parametros);
   }
 
   @Override
-  public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(FiltroDocumentoDTO filtro) {
-	return documentoDAO.consultarDocumentos(filtro);
+  public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(FiltroDocumentoDTO filtro
+  ) {
+    return documentoDAO.consultarDocumentos(filtro);
   }
 
   @Override
-  public List<DocumentoXNegociacion> consultarDocumentoXNegociacionxDocumento(Long idDocumento) {
-	return documentoXNegociacionDAO.consultarDocumentoXNegociacionPorIdDocumento(idDocumento);
+  public List<DocumentoXNegociacion> consultarDocumentoXNegociacionxDocumento(Long idDocumento
+  ) {
+    return documentoXNegociacionDAO.consultarDocumentoXNegociacionPorIdDocumento(idDocumento);
   }
 
   @Override
-  public List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros) {
-	LOGGER.debug("Metodo: <<consultarDocumentosReporteCintaTestigoMagnetica>>");
-	return documentoDAO.consultarDocumentosReporteCintaTestigoMagnetica(parametros);
+  public List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros
+  ) {
+    LOGGER.debug("Metodo: <<consultarDocumentosReporteCintaTestigoMagnetica>>");
+    return documentoDAO.consultarDocumentosReporteCintaTestigoMagnetica(parametros);
   }
 
   @Override
-  public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(String consecutivoDocumento) {
-	return documentoLotesOICDAO.consultarPorConsecutivoDocumento(consecutivoDocumento);
+  public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(String consecutivoDocumento
+  ) {
+    return documentoLotesOICDAO.consultarPorConsecutivoDocumento(consecutivoDocumento);
   }
 
   @Override
-  public List<ReporteProduccionDTO> consultarProductosReporteProduccion(Map<String, Object> parametros) {
-	return productosXDocumentoDAO.buscarPorConsultaNativa(ReporteProduccionDTO.BUSCAR_PRODUCTOS_REPORTE_PRODUCCION, ReporteProduccionDTO.class, parametros);
+  public List<ReporteProduccionDTO> consultarProductosReporteProduccion(Map<String, Object> parametros
+  ) {
+    return productosXDocumentoDAO.buscarPorConsultaNativa(ReporteProduccionDTO.BUSCAR_PRODUCTOS_REPORTE_PRODUCCION, ReporteProduccionDTO.class, parametros);
   }
 
 }
