@@ -1523,6 +1523,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	  if (aux.getMuestrasFITOYANTICO() == null) {
 		aux.setMuestrasFITOYANTICO(new BigDecimal(0));
 	  }
+	  aux.setDescripcion(p.getDescripcion());
 	  lista2.add(aux);
 	}
 	return lista2;

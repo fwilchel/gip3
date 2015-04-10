@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-04-06T21:50:55 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_OD" pageWidth="720" pageHeight="800" columnWidth="720" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f1bc1c0a-4d0e-4562-9858-8ee627b5db15">
+<!-- 2015-04-10T08:49:11 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_OD" pageWidth="720" pageHeight="800" whenNoDataType="AllSectionsNoDetail" columnWidth="720" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f1bc1c0a-4d0e-4562-9858-8ee627b5db15">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="162"/>
@@ -599,6 +599,7 @@
 	<field name="idCliente" class="java.math.BigInteger"/>
 	<field name="muestrasFITOYANTICO" class="java.math.BigDecimal"/>
 	<field name="muestrasCalidades" class="java.math.BigDecimal"/>
+	<field name="descripcion" class="java.lang.String"/>
 	<variable name="objProductoxDocumento.dblCantidad1_1" class="java.math.BigDecimal" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
 		<variableExpression><![CDATA[$F{cantidad}]]></variableExpression>
 	</variable>
@@ -644,7 +645,7 @@
 					<textElement>
 						<font size="7" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{idCliente}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="8" y="21" width="52" height="15" uuid="814e7d90-9a72-47f5-920f-9e5a591ad7de"/>
@@ -699,7 +700,7 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="32">
-				<textField pattern="#,##0.00">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
 					<reportElement x="228" y="6" width="47" height="16" uuid="8ddaf50f-1ed7-4029-a62a-0d05e666629e"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
@@ -713,7 +714,7 @@
 					</textElement>
 					<text><![CDATA[SubTotales:]]></text>
 				</staticText>
-				<textField pattern="#,##0.00">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
 					<reportElement x="275" y="6" width="90" height="15" uuid="50ac4b42-20e2-4a5b-894c-fdc447d9f612"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
@@ -727,14 +728,14 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{totalCantidadCajas}]]></textFieldExpression>
 				</textField>
-				<textField pattern="#,##0.00">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
 					<reportElement x="518" y="6" width="100" height="15" uuid="32f87362-6a71-4017-b1b1-ac2b16b0e969"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{totalMuestrasFito}]]></textFieldExpression>
 				</textField>
-				<textField pattern="#,##0.00">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
 					<reportElement x="620" y="6" width="98" height="15" uuid="b9f8be4a-9de7-411e-bb29-eaa6acbbb87d"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
@@ -847,42 +848,42 @@
 				</textElement>
 				<text><![CDATA[Fecha Cargue:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="65" y="164" width="123" height="14" uuid="84d0f914-60d3-4711-8e8f-6922b21cbc03"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{nit}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="65" y="147" width="123" height="14" uuid="4d0f52a6-811b-46b7-bfbc-6ec995db5606"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="65" y="182" width="123" height="14" uuid="1a803b79-283d-4ff1-9902-498d9d7bb960"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="65" y="201" width="123" height="13" uuid="f2872f33-afae-40d8-9ec2-e879c4957cc2"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ciudad}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="65" y="223" width="123" height="14" uuid="339b7013-efc6-4660-bd64-3d1439793f91"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{telefono}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="498" y="59" width="118" height="21" uuid="57a1bcdb-e453-4dd7-b02e-300f6032cbe7"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
@@ -917,7 +918,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fechaCargue}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="65" y="241" width="123" height="14" uuid="ad5ebc51-860c-4226-af4a-5a3181253a82"/>
 				<textElement>
 					<font size="8"/>
@@ -998,49 +999,49 @@
 	</columnHeader>
 	<detail>
 		<band height="15">
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="8" y="0" width="52" height="15" uuid="2919bcc4-42ca-4000-8385-345aea906c52"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sku}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="65" y="0" width="161" height="15" uuid="4b16ff79-24c3-4073-8c21-1b81d1af773a"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="226" y="0" width="49" height="15" uuid="725f8d79-7286-4c53-b73f-4d29f0a99b09"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="275" y="0" width="90" height="15" uuid="5824cb0a-0f8a-49d6-a0d6-f97d46ffca6a"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidadPorEmbalaje}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="365" y="0" width="133" height="15" uuid="200bf56f-64da-4014-bd90-21911d4af6c5"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidadCajas}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="498" y="0" width="118" height="15" uuid="78a42193-8c00-4b2d-b841-1a529e374de6"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{muestrasFITOYANTICO}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="618" y="0" width="100" height="15" uuid="1011abef-7ec4-4203-863d-871e27a22dae"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
@@ -1064,35 +1065,35 @@
 				</textElement>
 				<text><![CDATA[TOTALES:]]></text>
 			</staticText>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="228" y="15" width="47" height="15" uuid="3c303639-4c63-43e0-a61b-6a6b09a43baa"/>
 				<textElement textAlignment="Right">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalCantidad}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="275" y="15" width="90" height="15" uuid="abac97e8-87ec-44f7-bbe7-786f9273d1c4"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalUnidadXEmbalaje}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="365" y="15" width="133" height="15" uuid="28a55c90-4a32-4c59-ad05-9e9730f835d8"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalCantidadCajas}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="516" y="15" width="100" height="15" uuid="25b22d50-6a86-4441-b357-e7d0048a2727"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalMuestrasFito}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="620" y="15" width="100" height="15" uuid="b4503370-77b8-4856-a7ea-6908dc832821"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
