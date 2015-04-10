@@ -1,12 +1,12 @@
 package com.ssl.jv.gip.negocio.ejb;
 
-import com.ssl.jv.gip.jpa.pojo.Cliente;
-
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -14,12 +14,11 @@ import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
-import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
+import com.ssl.jv.gip.negocio.dto.ProductosInformeTiendaLineaDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteProduccionDTO;
-
-import java.util.Map;
 
 @Local
 public interface ReportesComercioExteriorEJBLocal {
@@ -53,7 +52,7 @@ public interface ReportesComercioExteriorEJBLocal {
    * @param id
    * @return
    */
-  public InstruccionEmbarqueDTO consultarDetalleInstruccionEmbarque(Long id);
+  InstruccionEmbarqueDTO consultarDetalleInstruccionEmbarque(Long id);
 
   /**
    * Metodo que consulta la lista de clientes para el reporte de ventas de CE
@@ -64,7 +63,7 @@ public interface ReportesComercioExteriorEJBLocal {
    * @param parametros
    * @return
    */
-  public List<Cliente> consultarListadoClientesReporteVentasCE(Map<String, Object> parametros);
+  List<Cliente> consultarListadoClientesReporteVentasCE(Map<String, Object> parametros);
 
   /**
    * Metodo que consulta la lista de productos para el reporte de ventas de CE
@@ -75,7 +74,7 @@ public interface ReportesComercioExteriorEJBLocal {
    * @param parametros
    * @return
    */
-  public List<ProductosInventario> consultarListadoProductosReporteVentasCE(Map<String, Object> parametros);
+  List<ProductosInventario> consultarListadoProductosReporteVentasCE(Map<String, Object> parametros);
 
   /**
    * Metodo que consulta los documentos del reporte de ventas de CE
@@ -116,6 +115,16 @@ public interface ReportesComercioExteriorEJBLocal {
    * @param parametros
    * @return
    */
-  public List<ReporteProduccionDTO> consultarProductosReporteProduccion(Map<String, Object> parametros);
+  List<ReporteProduccionDTO> consultarProductosReporteProduccion(Map<String, Object> parametros);
 
+  /**
+   * Metodo que consulta los productos del reporte de tienda en linea fx
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param idDocumento
+   * @return
+   */
+  List<ProductosInformeTiendaLineaDTO> consultarProductosPorListaEmpaque(Long idDocumento);
 }

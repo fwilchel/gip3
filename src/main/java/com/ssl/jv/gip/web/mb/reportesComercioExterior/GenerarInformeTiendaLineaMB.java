@@ -2,7 +2,6 @@ package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -21,9 +20,8 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
-import com.ssl.jv.gip.negocio.dto.ReporteInformeTiendaLineaDTO;
+import com.ssl.jv.gip.negocio.dto.ProductosInformeTiendaLineaDTO;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.util.Estado;
 import com.ssl.jv.gip.web.mb.UtilMB;
@@ -66,8 +64,9 @@ public class GenerarInformeTiendaLineaMB extends UtilMB {
 
   private void consultarFacturasExportacion() {
 	try {
-	  filtroDocumentoDTO.setIdTipoDocumento((long) ConstantesTipoDocumento.LISTA_EMPAQUE);
-	  filtroDocumentoDTO.setIdEstado(Estado.ASIGNADA.getCodigo());
+	  filtroDocumentoDTO.setTipoDocumento((long) ConstantesTipoDocumento.LISTA_EMPAQUE);
+	  filtroDocumentoDTO.setEstado(Estado.ASIGNADA.getCodigo());
+	  filtroDocumentoDTO.setSolicitudCafe(true);
 	  this.listaFacturasExportacion = this.reportesComercioExteriorEJBLocal.consultarDocumentosPorTipoDocumentoEstadoTipoCafe(filtroDocumentoDTO);
 	} catch (Exception e) {
 	  LOGGER.error(e);
@@ -101,35 +100,14 @@ public class GenerarInformeTiendaLineaMB extends UtilMB {
 
   public StreamedContent getReporteExcel() {
 	Map<String, Object> parametros = new HashMap<String, Object>();
-
-	List<ProductosXDocumento> listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumento(seleccionado.getId());
-	List<ReporteInformeTiendaLineaDTO> registros = new ArrayList<ReporteInformeTiendaLineaDTO>();
-
-	for (ProductosXDocumento prod : listaProductosDocumento) {
-	  ReporteInformeTiendaLineaDTO registro = new ReporteInformeTiendaLineaDTO();
-
-	  if (this.seleccionado.getDocumentoXLotesoics() != null && !this.seleccionado.getDocumentoXLotesoics().isEmpty()) {
-		registro.setDocXLotesOICAsignacion(this.seleccionado.getDocumentoXLotesoics().get(0).getAsignacion());
-		registro.setDocXLotesOICAviso(this.seleccionado.getDocumentoXLotesoics().get(0).getAviso());
-		registro.setDocXLotesOICConsec(this.seleccionado.getDocumentoXLotesoics().get(0).getConsecutivo());
-		registro.setDocXLotesOICPedido(this.seleccionado.getDocumentoXLotesoics().get(0).getPedido());
-		registro.setTipoLoteOICDesc(this.seleccionado.getDocumentoXLotesoics().get(0).getTipoLoteoic().getDescripcion());
-	  }
-	  registro.setTotaCajasItem(prod.getCantidadCajasItem().doubleValue());
-	  registro.setTotalPesoBrutoItem(prod.getTotalPesoBrutoItem().doubleValue());
-	  registro.setTotalPesoNetoItem(prod.getTotalPesoNetoItem().doubleValue());
-	  registros.add(registro);
-	}
-
+	List<ProductosInformeTiendaLineaDTO> registros = reportesComercioExteriorEJBLocal.consultarProductosPorListaEmpaque(seleccionado.getId());
 	JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(registros);
 	try {
-
 	  Hashtable<String, String> parametrosR = new Hashtable<String, String>();
 	  parametrosR.put("tipo", "xls");
 	  String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_ITL.jasper");
 	  ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
 	  reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "ReporteTiendaLinea" + seleccionado.getConsecutivoDocumento() + ".xls");
-
 	} catch (Exception e) {
 	  this.addMensajeError(e);
 	}
