@@ -14,6 +14,7 @@ import java.util.StringTokenizer;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -237,13 +238,22 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 		ProductoSolicitudPedidoDTO dto = new ProductoSolicitudPedidoDTO();
 		dto.setObservaciones("OK");
 		dto.setSku(sku);
-		ProductosInventario pi = this.maestrosEjb.consultarPorSku(sku);
+		ProductosInventario pi = null;
+		try {
+		  pi = this.maestrosEjb.consultarPorSku(sku);
+		} catch (EJBTransactionRolledbackException ex) {
+		  errorValidacion = true;
+		  if (this.isException(ex, "No entity found for query")) {
+			LOGGER.error("Producto identificado con sku: " + sku + " , no existe en producto o productos por cliente", ex);
+		  }
+		}
 		if (pi == null) {
 		  dto.setSeleccionado(false);
 		  dto.setDesactivado(true);
 		  dto.setEstilo("rojoNegrita");
 		  dto.setNombre("PRODUCTO NO EXISTE");
 		  dto.setControlStock(false);
+		  dto.setObservaciones("N/A");
 		  this.addMensajeError("SKUs inexistentes en el maestro productoxcliente");
 		} else {
 		  dto.setSeleccionado(true);

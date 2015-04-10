@@ -1,190 +1,174 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:misc="http://java.sun.com/jsf/composite/misc"
+                template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.solicitudPedidoInicio}::.</ui:define>
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.solicitudPedidoInicio}::.</ui:define>
 
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form id="forma">
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
+      <p:messages id="msgs" showDetail="false" showSummary="true"
+                  globalOnly="false" showIcon="true"></p:messages>
+      <p:tabView id="tabPanel">
+        <p:tab title="#{msg.solicitudPedidoInicio}">
+          <p:panelGrid columns="6">
 
+            <p:outputLabel value="#{msg.maestroCreModNomCliProductoXCliente}"
+                           for="cliente" styleClass="negrita" />
+            <p:selectOneMenu id="cliente"
+                             value="#{ingresarSolicitudPedidoMB.idCliente}"
+                             label="#{msg.maestroCreModNomCliProductoXCliente}">
+              <f:selectItem itemLabel="" itemValue="" />
+              <f:selectItems value="#{ingresarSolicitudPedidoMB.clientes}" />
+              <p:ajax event="change" update="terminos" process="cliente"
+                      listener="#{ingresarSolicitudPedidoMB.cargarTerminos}"></p:ajax>
+            </p:selectOneMenu>
+            <p:message for="cliente"></p:message>
 
+            <p:outputLabel value="#{msg.TerminoIncotermSP}" for="terminos"
+                           styleClass="negrita" />
+            <p:selectOneMenu id="terminos"
+                             value="#{ingresarSolicitudPedidoMB.idTerminoIncoterm}"
+                             label="#{msg.TerminoIncotermSP}">
+              <f:selectItems
+                value="#{ingresarSolicitudPedidoMB.terminosIncoterm}" />
+              <p:ajax event="change" process="terminos"></p:ajax>
+            </p:selectOneMenu>
+            <p:message for="terminos"></p:message>
 
-			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.solicitudPedidoInicio}">
-					<p:panelGrid columns="6">
+            <p:outputLabel value="#{msg.generarActivo4}" for="activo"
+                           styleClass="negrita" />
+            <p:selectBooleanCheckbox
+              value="#{ingresarSolicitudPedidoMB.solicitudCafe}" id="activo"
+              label="#{msg.generarActivo4}">
+              <p:ajax event="change" process="activo"></p:ajax>
+            </p:selectBooleanCheckbox>
+            <p:message for="activo"></p:message>
 
-						<p:outputLabel value="#{msg.maestroCreModNomCliProductoXCliente}"
-							for="cliente" styleClass="negrita" />
-						<p:selectOneMenu id="cliente"
-							value="#{ingresarSolicitudPedidoMB.idCliente}"
-							label="#{msg.maestroCreModNomCliProductoXCliente}">
-							<f:selectItem itemLabel="" itemValue="" />
-							<f:selectItems value="#{ingresarSolicitudPedidoMB.clientes}" />
-							<p:ajax event="change" update="terminos" process="cliente"
-								listener="#{ingresarSolicitudPedidoMB.cargarTerminos}"></p:ajax>
-						</p:selectOneMenu>
-						<p:message for="cliente"></p:message>
+            <p:outputLabel value="#{msg['fileupload_upfile']}" for="archivo"
+                           styleClass="negrita" />
+            <p:inputText value="#{ingresarSolicitudPedidoMB.nombreArchivo}"
+                         disabled="true" id="archivo"></p:inputText>
+            <p:commandButton onclick="PF('cargarDialog').show()"
+                             icon="ui-icon-document" value="#{msg.fileupload_button}" />
+          </p:panelGrid>
 
-						<p:outputLabel value="#{msg.TerminoIncotermSP}" for="terminos"
-							styleClass="negrita" />
-						<p:selectOneMenu id="terminos"
-							value="#{ingresarSolicitudPedidoMB.idTerminoIncoterm}"
-							label="#{msg.TerminoIncotermSP}">
-							<f:selectItems
-								value="#{ingresarSolicitudPedidoMB.terminosIncoterm}" />
-							<p:ajax event="change" process="terminos"></p:ajax>
-						</p:selectOneMenu>
-						<p:message for="terminos"></p:message>
+          <p:dataTable var="registro" widgetVar="registrosTabla"
+                       sortField="nombre" id="tablaRegistros"
+                       value="#{ingresarSolicitudPedidoMB.productos}" rows="15"
+                       emptyMessage="#{msg.MaestroInventarioNoEncontrados}"
+                       sortMode="single" paginator="true" paginatorPosition="bottom"
+                       lazy="true"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
 
-						<p:outputLabel value="#{msg.generarActivo4}" for="activo"
-							styleClass="negrita" />
-						<p:selectBooleanCheckbox
-							value="#{ingresarSolicitudPedidoMB.solicitudCafe}" id="activo"
-							label="#{msg.generarActivo4}">
-							<p:ajax event="change" process="activo"></p:ajax>
-						</p:selectBooleanCheckbox>
-						<p:message for="activo"></p:message>
+            <f:facet name="header">
+              <div align="right">
+                <p:outputPanel>
+                  <p:commandButton value="#{msg.TituloGenerarSolicitudPedido}"
+                                   action="#{ingresarSolicitudPedidoMB.generarSolicitudPedido}"
+                                   disabled="#{ingresarSolicitudPedidoMB.deshabilitado}"
+                                   update=":forma:msgs" />
 
-						<p:outputLabel value="#{msg['fileupload_upfile']}" for="archivo"
-							styleClass="negrita" />
-						<p:inputText value="#{ingresarSolicitudPedidoMB.nombreArchivo}"
-							disabled="true" id="archivo"></p:inputText>
-						<p:commandButton onclick="PF('cargarDialog').show()"
-							icon="ui-icon-document" value="#{msg.fileupload_button}" />
-
-					</p:panelGrid>
-
-
-
-					<p:dataTable var="registro" widgetVar="registrosTabla"
-						sortField="nombre" id="tablaRegistros"
-						value="#{ingresarSolicitudPedidoMB.productos}" rows="15"
-						emptyMessage="#{msg.MaestroInventarioNoEncontrados}"
-						sortMode="single" paginator="true" paginatorPosition="bottom"
-						lazy="true"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
-
-						<f:facet name="header">
-							<div align="right">
-								<p:outputPanel>
-
-
-									<p:commandButton value="#{msg.TituloGenerarSolicitudPedido}"
-										action="#{ingresarSolicitudPedidoMB.generarSolicitudPedido}"
-										disabled="#{ingresarSolicitudPedidoMB.deshabilitado}"
-										update=":forma:msgs" />
-
-									<p:commandButton action="introduccion"
-										title="#{msg.generalCancelar}" ajax="false"
-										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+                  <p:commandButton action="introduccion"
+                                   title="#{msg.generalCancelar}" ajax="false"
+                                   icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+                </p:outputPanel>
+              </div>
+            </f:facet>
 
 
-								</p:outputPanel>
-							</div>
-						</f:facet>
+            <p:column headerText="#{msg.buscadorCodigoProducto}"
+                      sortBy="#{registro.sku}">
+              <h:outputText value="#{registro.sku}" />
+            </p:column>
 
+            <p:column headerText="#{msg.ReporteProductoNombre}"
+                      sortBy="#{registro.nombre}">
+              <h:outputText value="#{registro.nombre}"
+                            styleClass="#{registro.estilo}" />
+            </p:column>
 
-						<p:column headerText="#{msg.buscadorCodigoProducto}"
-							sortBy="#{registro.sku}">
-							<h:outputText value="#{registro.sku}" />
-						</p:column>
+            <p:column headerText="#{msg.comprasCantidadSola}"
+                      sortBy="#{registro.cantidad}">
+              <h:outputText value="#{registro.cantidad}" />
+            </p:column>
 
-						<p:column headerText="#{msg.ReporteProductoNombre}"
-							sortBy="#{registro.nombre}">
-							<h:outputText value="#{registro.nombre}"
-								styleClass="#{registro.estilo}" />
-						</p:column>
+            <p:column headerText="#{msg.ajusteSaldo}" field="nombre"
+                      sortBy="#{registro.saldoAnterior}">
+              <h:outputText value="#{registro.saldoAnterior}" />
+            </p:column>
 
-						<p:column headerText="#{msg.comprasCantidadSola}"
-							sortBy="#{registro.cantidad}">
-							<h:outputText value="#{registro.cantidad}" />
-						</p:column>
+            <p:column headerText="#{msg.ajusteNuevoSaldo}"
+                      sortBy="#{registro.saldo}">
+              <h:outputText value="#{registro.saldo}"
+                            styleClass="#{registro.estilo}" />
+            </p:column>
 
-						<p:column headerText="#{msg.ajusteSaldo}" field="nombre"
-							sortBy="#{registro.saldoAnterior}">
-							<h:outputText value="#{registro.saldoAnterior}" />
-						</p:column>
+            <p:column headerText="#{msg.productoXCliente}"
+                      sortBy="#{registro.observaciones}">
+              <h:outputText value="#{registro.observaciones}" />
+            </p:column>
 
-						<p:column headerText="#{msg.ajusteNuevoSaldo}"
-							sortBy="#{registro.saldo}">
-							<h:outputText value="#{registro.saldo}"
-								styleClass="#{registro.estilo}" />
-						</p:column>
+            <p:column headerText="#{msg.maestroTipoLoteoic}"
+                      sortBy="#{registro.productoInventarioComext.tipoLoteoic.descripcion}">
+              <h:outputText
+                value="#{registro.productoInventarioComext.tipoLoteoic.descripcion}" />
+            </p:column>
 
-						<p:column headerText="#{msg.productoXCliente}"
-							sortBy="#{registro.observaciones}">
-							<h:outputText value="#{registro.observaciones}" />
-						</p:column>
+            <p:column headerText="#{msg.buscadorIncluirProducto}"
+                      sortBy="#{registro.seleccionado}">
+              <p:selectBooleanCheckbox value="#{registro.seleccionado}"
+                                       disabled="#{registro.desactivado}" />
+            </p:column>
 
-						<p:column headerText="#{msg.maestroTipoLoteoic}"
-							sortBy="#{registro.productoInventarioComext.tipoLoteoic.descripcion}">
-							<h:outputText
-								value="#{registro.productoInventarioComext.tipoLoteoic.descripcion}" />
-						</p:column>
+            <p:column headerText="#{msg.maestroManejaInventario}"
+                      sortBy="#{registro.controlStock}">
+              <p:selectBooleanCheckbox value="#{registro.controlStock}"
+                                       disabled="true" />
+            </p:column>
 
-						<p:column headerText="#{msg.buscadorIncluirProducto}"
-							sortBy="#{registro.seleccionado}">
-							<p:selectBooleanCheckbox value="#{registro.seleccionado}"
-								disabled="#{registro.desactivado}" />
-						</p:column>
+          </p:dataTable>
+        </p:tab>
+      </p:tabView>
+    </h:form>
+    <p:dialog header="#{msg.fileupload_button}" widgetVar="cargarDialog"
+              modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+              dynamic="true" id="cargarDlg">
+      <h:form id="formaDlg2" enctype="multipart/form-data">
+        <p:messages id="msgs2" showDetail="false" showSummary="true"
+                    globalOnly="true" showIcon="true"></p:messages>
 
-						<p:column headerText="#{msg.maestroManejaInventario}"
-							sortBy="#{registro.controlStock}">
-							<p:selectBooleanCheckbox value="#{registro.controlStock}"
-								disabled="true" />
-						</p:column>
+        <p:outputPanel>
 
-					</p:dataTable>
-				</p:tab>
-			</p:tabView>
-		</h:form>
-		<p:dialog header="#{msg.fileupload_button}" widgetVar="cargarDialog"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false"
-			dynamic="true" id="cargarDlg">
-			<h:form id="formaDlg2" enctype="multipart/form-data">
-				<p:messages id="msgs2" showDetail="false" showSummary="true"
-					globalOnly="true" showIcon="true"></p:messages>
+          <p:outputLabel value="#{msg['fileupload_upfile']}" for="fileUpload"
+                         styleClass="negrita" />
 
-				<p:outputPanel>
+          <p:fileUpload id="fileUpload"
+                        fileUploadListener="#{ingresarSolicitudPedidoMB.handleFileUpload}"
+                        mode="advanced" dragDropSupport="false" update=":forma"
+                        sizeLimit="200000" allowTypes="/(\.|\/)(txt)$/"
+                        oncomplete="PF('cargarDialog').hide();"
+                        uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}"
+                        cancelLabel="#{msg.generalCancelar}"
+                        invalidFileMessage="#{msg.maestroProductosXClienteArchivoNoValido}" />
+        </p:outputPanel>
 
-					<p:outputLabel value="#{msg['fileupload_upfile']}" for="fileUpload"
-						styleClass="negrita" />
+        <p:commandButton value="#{msg.generalCancelar}" process="@this"
+                         update=":forma:tabPanel:archivo"
+                         oncomplete="PF('cargarDialog').hide();" icon="ui-icon-cancel">
+        </p:commandButton>
 
-					<p:fileUpload id="fileUpload"
-						fileUploadListener="#{ingresarSolicitudPedidoMB.handleFileUpload}"
-						mode="advanced" dragDropSupport="false" update=":forma"
-						sizeLimit="200000" allowTypes="/(\.|\/)(txt)$/"
-						oncomplete="PF('cargarDialog').hide();"
-						uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}"
-						cancelLabel="#{msg.generalCancelar}"
-						invalidFileMessage="#{msg.maestroProductosXClienteArchivoNoValido}" />
+      </h:form>
+    </p:dialog>
 
-
-				</p:outputPanel>
-
-				<p:commandButton value="#{msg.generalCancelar}" process="@this"
-					update=":forma:tabPanel:archivo"
-					oncomplete="PF('cargarDialog').hide();" icon="ui-icon-cancel">
-				</p:commandButton>
-
-			</h:form>
-		</p:dialog>
-
-
-
-
-
-	</ui:define>
+  </ui:define>
 
 </ui:composition>
 
