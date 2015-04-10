@@ -117,20 +117,10 @@ public class GenericDAO<T> {
     this.em = em;
   }
 
-  /**
-   * Ejecuta la consulta nombrada que se recibe como parametro junto con un mapa en donde la llave seria el nombre del parametro en la consulta :PARAMETRO1 y el valor asociado a la llave seria el dato
-   * enviado a la consulta.
-   *
-   * @param nombreConsulta Nombre de la consulta nombrada a ser ejecutada en el contexto de persistencia
-   * @param parametros Mapa de parámetros utilizado para realizar la búsqueda en el contexto de persistencia
-   * @param <T> generico
-   * @return listado de entidades resultado de la consulta en el contexto de persistencia
-   * @throws PersistenceException
-   */
-  public <T> List<T> buscarPorConsultaNombrada(String nombreConsulta, Map<String, Object> parametros) {
-    LOGGER.info("Entro a: <<buscarPorConsultaNombrada>> nombreConsulta ->> {" + nombreConsulta + "}");
+  public <T> List<T> buscarPorConsultaNombrada(String consultaNombrada, Map<String, Object> parametros) {
+    LOGGER.info("Entro a: <<buscarPorConsultaNombrada>> consultaNombrada ->> {" + consultaNombrada + "}");
     try {
-      Query consulta = em.createNamedQuery(nombreConsulta);
+      Query consulta = em.createNamedQuery(consultaNombrada);
       for (String key : parametros.keySet()) {
         consulta.setParameter(key, parametros.get(key));
       }
@@ -143,16 +133,22 @@ public class GenericDAO<T> {
     }
   }
 
-  /**
-   * Ejecuta la consulta nombrada que se recibe como parametro junto con un mapa en donde la llave seria el nombre del parametro en la consulta :PARAMETRO1 y el valor asociado a la llave seria el dato
-   * enviado a la consulta.
-   *
-   * @param consultaJPQL Cadena de consulta JPQL a ser ejecutada en el contexto de persistencia
-   * @param parametros mapa de parámetros utilizado para realizar la búsqueda en el contexto de persistencia
-   * @param <T> generico
-   * @return listado de entidades resultado de la consulta en el contexto de persistencia
-   * @throws PersistenceException
-   */
+  public <T> T buscarRegistroPorConsultaNombrada(String consultaNombrada, Map<String, Object> parametros) {
+    LOGGER.info("Entro a: <<buscarRegistroPorConsultaNombrada>> consultaNombrada ->> {" + consultaNombrada + "}");
+    try {
+      Query consulta = em.createNamedQuery(consultaNombrada);
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+      T o = (T) consulta.getSingleResult();
+      LOGGER.info("Sale de <<buscarRegistroPorConsultaNombrada>> con resultado ->> {" + o + "}");
+      return o;
+    } catch (Exception ebd) {
+      LOGGER.error("Error en <<buscarRegistroPorConsultaNombrada>>", ebd.getCause());
+      throw new PersistenceException(ebd);
+    }
+  }
+
   public <T> List<T> buscarPorConsultaJPQL(String consultaJPQL, Map<String, Object> parametros) {
     LOGGER.info("Entro a: <<buscarPorConsultaJPQL>> consultaJPQL ->> {" + consultaJPQL + "}");
     try {
@@ -169,14 +165,22 @@ public class GenericDAO<T> {
     }
   }
 
-  /**
-   *
-   * @param <T>
-   * @param consultaNativa
-   * @param parametros
-   * @return
-   * @throws PersistenceException
-   */
+  public <T> T buscarRegistroPorConsultaJPQL(String consultaJPQL, Map<String, Object> parametros) {
+    LOGGER.info("Entro a: <<buscarRegistroPorConsultaJPQL>> consultaNombrada ->> {" + consultaJPQL + "}");
+    try {
+      Query consulta = em.createQuery(consultaJPQL);
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+      T o = (T) consulta.getSingleResult();
+      LOGGER.info("Sale de <<buscarRegistroPorConsultaJPQL>> con resultado ->> {" + o + "}");
+      return o;
+    } catch (Exception ebd) {
+      LOGGER.error("Error en <<buscarRegistroPorConsultaJPQL>>", ebd.getCause());
+      throw new PersistenceException(ebd);
+    }
+  }
+
   public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Map<String, Object> parametros) {
     LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
     try {
@@ -193,14 +197,22 @@ public class GenericDAO<T> {
     }
   }
 
-  /**
-   * 
-   * @param <T>
-   * @param consultaNativa
-   * @param tipo
-   * @param parametros
-   * @return 
-   */
+  public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Map<String, Object> parametros) {
+    LOGGER.info("Entro a: <<buscarRegistroPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
+    try {
+      Query consulta = em.createNativeQuery(consultaNativa);
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+      T o = (T) consulta.getSingleResult();
+      LOGGER.info("Sale de <<buscarRegistroPorConsultaNativa>> con resultado ->> {" + o + "}");
+      return o;
+    } catch (Exception ebd) {
+      LOGGER.error("Error en <<buscarRegistroPorConsultaNativa>>", ebd.getCause());
+      throw new PersistenceException(ebd);
+    }
+  }
+
   public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Class<T> tipo, Map<String, Object> parametros) {
     LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
     try {
@@ -213,6 +225,22 @@ public class GenericDAO<T> {
       return o;
     } catch (Exception ebd) {
       LOGGER.error("Error en <<buscarPorConsultaNativa>>", ebd.getCause());
+      throw new PersistenceException(ebd);
+    }
+  }
+
+  public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Class<T> tipo, Map<String, Object> parametros) {
+    LOGGER.info("Entro a: <<buscarRegistroPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
+    try {
+      Query consulta = em.createNativeQuery(consultaNativa, tipo);
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+      T o = (T) consulta.getSingleResult();
+      LOGGER.info("Sale de <<buscarRegistroPorConsultaNativa>> con resultado ->> {" + o + "}");
+      return o;
+    } catch (Exception ebd) {
+      LOGGER.error("Error en <<buscarRegistroPorConsultaNativa>>", ebd.getCause());
       throw new PersistenceException(ebd);
     }
   }

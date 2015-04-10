@@ -1,7 +1,5 @@
 package com.ssl.jv.gip.negocio.ejb;
 
-import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -13,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.SortOrder;
 
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
@@ -109,8 +109,6 @@ import com.ssl.jv.gip.util.Moneda;
 import com.ssl.jv.gip.util.TipoMovimiento;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-
-import org.primefaces.model.SortOrder;
 
 /**
  * Session Bean implementation class ComercioExterior.
@@ -259,12 +257,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @Override
   public Cliente consultarClientePorId(Long idCliente) {
-	try {
-	  return (Cliente) clienteDao.findByPK(idCliente);
-	} catch (Exception e) {
-	  LOGGER.error(e + " Error consultando cliente");
-	  return null;
-	}
+	Map<String, Object> parametros = new HashMap<>();
+	parametros.put("id", idCliente);
+	return clienteDao.buscarRegistroPorConsultaNombrada(Cliente.CLIENTE_FIND_BY_ID, parametros);
   }
 
   /*
@@ -666,26 +661,16 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   public Documento crearFacturaExportacion(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, Documento original) {
 	documento.setConsecutivoDocumento("FX1-" + this.documentoDAO.consultarProximoValorSecuencia("fx1_seq"));
 	documento = (Documento) this.documentoDAO.add(documento);
-	// auditoria.setIdRegTabla(documento.getId());
-	// auditoria.setValorNuevo(documento.getConsecutivoDocumento());
-	// this.logAuditoriaDAO.add(auditoria);
 	documentoPorNegociacion.getPk().setIdDocumento(documento.getId());
 	documentoXNegociacionDAO.add(documentoPorNegociacion);
 	for (ProductosXDocumento pxd : productos) {
 	  pxd.getId().setIdDocumento(documento.getId());
 	  this.productoXDocumentoDAO.add(pxd);
 	}
-	original.getEstadosxdocumento().getId().setIdEstado((long) ConstantesDocumento.CERRADO);
-	this.documentoDAO.update(original);
-
+	actualizarEstadoDocumento(original.getId(), new Long(ConstantesDocumento.CERRADO));
 	for (ProductosXDocumento pxd : productos) {
 	  crearMovimientos(documento, pxd);
 	}
-
-	// documento = documentoDAO.findByPK(documento.getId());
-	// documento.getEstadosxdocumento().getId()
-	// .setIdEstado((long) ConstantesDocumento.RECIBIDO);
-	// this.documentoDAO.update(documento);
 	return documento;
   }
 
@@ -1593,5 +1578,34 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	}
 	os.flush();
 	return os;
+  }
+
+  @Override
+  public void actualizarEstadoDocumento(Long id, Long estado) {
+	LOGGER.trace("Metodo: <<actualizarEstadoDocumento>> parametros -->> id = " + id + " estado = " + estado);
+	Map<String, Object> parametros = new HashMap<>();
+	parametros.put("id", id);
+	parametros.put("id_estado", estado);
+	documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
+	LOGGER.debug("Factura FX actualizada a estado impresa");
+  }
+
+  @Override
+  public List<String> obtenerListaConsecutivosPorTipoLoteIOC(Long idTipoLoteIOC) {
+	LOGGER.trace("Metodo: <<obtenerListaConsecutivosPorTipoLoteIOC>> parametros -->> idTipoLoteIOC = " + idTipoLoteIOC);
+	String CONSECUTIVOS_DOCUMENTO_POR_LOTE_IOC = "select consecutivo from documento_x_lotesoic where id_tipo_lote = :tipoLote";
+	List<String> consecutivos = null;
+	Map<String, Object> parametros = new HashMap<>();
+	parametros.put("tipoLote", idTipoLoteIOC);
+	List<Object[]> listaConsecutivos = documentoDAO.buscarPorConsultaNativa(CONSECUTIVOS_DOCUMENTO_POR_LOTE_IOC, parametros);
+	if (listaConsecutivos != null) {
+	  for (Object[] obj : listaConsecutivos) {
+		if (consecutivos == null) {
+		  consecutivos = new ArrayList<>();
+		}
+		consecutivos.add((obj[0]).toString());
+	  }
+	}
+	return consecutivos;
   }
 }

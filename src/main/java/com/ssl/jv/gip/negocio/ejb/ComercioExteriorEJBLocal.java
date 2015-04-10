@@ -344,4 +344,7 @@ public interface ComercioExteriorEJBLocal {
 
   public OutputStream generar(JasperPrint jasperPrint, String nombre, String tipo) throws JRException, IOException;
 
+  void actualizarEstadoDocumento(Long id, Long estado);
+  
+  List<String> obtenerListaConsecutivosPorTipoLoteIOC(Long idTipoLoteIOC);
 }

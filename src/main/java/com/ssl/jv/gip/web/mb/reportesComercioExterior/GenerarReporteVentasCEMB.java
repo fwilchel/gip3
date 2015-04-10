@@ -154,16 +154,12 @@ public class GenerarReporteVentasCEMB extends UtilMB {
     setListaProductosLazyModel(new LazyProductsDataModel());
     filtro = new ProductosInventario();
     filtro.setDesactivado(true);
-//    Map<String, Object> parametros = new HashMap();
     if (filtroSKUProducto != null && !filtroSKUProducto.isEmpty()) {
-//      parametros.put("sku", filtroSKUProducto);
       filtro.setSku(filtroSKUProducto);
     }
     if (filtroNombreProducto != null && !filtroNombreProducto.isEmpty()) {
-//      parametros.put("nombre", filtroNombreProducto);
       filtro.setNombre(filtroNombreProducto);
     }
-//    setListaProductos(reportesComercioExteriorEJB.consultarListadoProductosReporteVentasCE(parametros));
   }
 
   /**
