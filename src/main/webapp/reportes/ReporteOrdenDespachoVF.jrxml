@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-03-05T09:17:19 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteOrdenDespachoVF" pageWidth="612" pageHeight="792" whenNoDataType="NoDataSection" columnWidth="556" leftMargin="28" rightMargin="28" topMargin="85" bottomMargin="28" whenResourceMissingType="Empty" isIgnorePagination="true" uuid="17f40ffc-edc1-4597-91e4-5a99f9567b63">
+<!-- 2015-04-13T17:25:43 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteOrdenDespachoVF" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="556" leftMargin="28" rightMargin="28" topMargin="85" bottomMargin="28" whenResourceMissingType="Empty" isIgnorePagination="true" uuid="17f40ffc-edc1-4597-91e4-5a99f9567b63">
 	<property name="ireport.zoom" value="1.815000000000028"/>
 	<property name="ireport.x" value="4498"/>
 	<property name="ireport.y" value="19"/>
@@ -568,6 +568,7 @@
 	<parameter name="ordenCompraCliente" class="java.lang.String"/>
 	<parameter name="fechaGeneracion" class="java.lang.String"/>
 	<parameter name="ciudad" class="java.lang.String"/>
+	<parameter name="consecutivo" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -743,14 +744,14 @@
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement positionType="FixRelativeToBottom" x="60" y="40" width="120" height="20" uuid="8ee8707e-7fa4-485d-8780-2144075a74b5"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{consecutivo}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement positionType="FixRelativeToBottom" x="240" y="40" width="140" height="20" uuid="6919e2d0-80f1-4259-8499-9ac3a1b208f7"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="12"/>
