@@ -3,7 +3,6 @@ package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -22,172 +21,169 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
-import com.ssl.jv.gip.negocio.dto.ReporteComprobanteInformeDiarioDTO;
+import com.ssl.jv.gip.negocio.dto.CuentaContableComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import java.math.BigDecimal;
 
-@ManagedBean(name = "comprobanteInformeDiarioFXMB")
+import java.text.SimpleDateFormat;
+
 @ViewScoped
+@ManagedBean(name = "comprobanteInformeDiarioFXMB")
 public class ComprobanteInformeDiarioFXMB extends UtilMB {
 
-  /**
-	 * 
-	 */
   private static final long serialVersionUID = 226509556071121665L;
-
-  private Date fechaInicial;
-
-  private Date fechaFinal;
-
-  private StreamedContent reportePDF;
-
-  private List<Documento> listaFacturasExportacion;
-
-  private List<ProductosXDocumento> listaProductosxDocumento;
-
-  private FiltroDocumentoDTO filtroDocumentoDTO;
+  private static final Logger LOGGER = Logger.getLogger(ComprobanteInformeDiarioFXMB.class);
+  private FiltroDocumentoDTO filtro;
 
   @EJB
   private ReportesComercioExteriorEJBLocal reportesComercioExteriorEJBLocal;
 
-  private static final Logger LOGGER = Logger.getLogger(ReImprimirFacturaExpoMB.class);
-
   @PostConstruct
   public void init() {
-
+    setFiltro(new FiltroDocumentoDTO());
   }
 
-  public StreamedContent getReportePDF() {
-
-	Map<String, Object> parametros = new HashMap<String, Object>();
-
-	try {
-	  filtroDocumentoDTO = new FiltroDocumentoDTO();
-	  filtroDocumentoDTO.setIdTipoDocumento((long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
-	  filtroDocumentoDTO.setFechaInicio(fechaInicial);
-	  filtroDocumentoDTO.setFechaFin(fechaFinal);
-	  this.listaFacturasExportacion = this.reportesComercioExteriorEJBLocal.consultarFacturasExportacionFechaTipo(filtroDocumentoDTO);
-	  this.listaProductosxDocumento = new ArrayList<ProductosXDocumento>();
-	  for (Documento doc : listaFacturasExportacion) {
-		this.listaProductosxDocumento.addAll(this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumento(doc.getId()));
-
-	  }
-
-	  int idDoc = 0;
-	  double totalCuentaPrd = 0;
-	  Long idCuenta = 0L;
-	  Long idCuenta1 = 0L;
-	  Long idCuenta2 = 0L;
-	  double totalFinal = 0;
-
-	  String consecIni = "";
-	  String consecFin = "";
-
-	  if (listaFacturasExportacion != null && !listaFacturasExportacion.isEmpty()) {
-		consecIni = listaFacturasExportacion.get(0).getConsecutivoDocumento();
-		consecFin = listaFacturasExportacion.get(listaFacturasExportacion.size() - 1).getConsecutivoDocumento();
-	  }
-
-	  parametros.put("size", listaFacturasExportacion.size());
-	  parametros.put("cIni", consecIni);
-	  parametros.put("cFin", consecFin);
-	  parametros.put("fechaIni", this.fechaInicial.toString());
-	  parametros.put("fechaFin", this.fechaFinal.toString());
-	  parametros.put("ubicacion", "Oficina Central - Comercio Exterior");
-
-	  Double resSuma1 = 0.0;
-	  Double resSuma2 = 0.0;
-	  Double resSuma3 = 0.0;
-	  Double resSuma4 = 0.0;
-	  Double resSuma5 = 0.0;
-	  Double resSuma6 = 0.0;
-	  Double resSuma7 = 0.0;
-
-	  for (ProductosXDocumento prod : listaProductosxDocumento) {
-		resSuma1 = resSuma1 + prod.getValorTotal().doubleValue();
-
-	  }
-
-	  for (Documento doc : listaFacturasExportacion) {
-		if (doc.getDescuento() != null) {
-		  resSuma2 = resSuma2 + doc.getDescuento().doubleValue();
-		}
-		if (doc.getValorIva16() != null) {
-		  resSuma3 = resSuma3 + doc.getValorIva16().doubleValue();
-		}
-		if (doc.getValorIva10() != null) {
-		  resSuma4 = resSuma4 + doc.getValorIva10().doubleValue();
-		}
-
-	  }
-
-	  resSuma5 = resSuma1 - resSuma2;
-	  resSuma6 = resSuma3 + resSuma4;
-	  resSuma7 = resSuma5 + resSuma6;
-
-	  parametros.put("suma1", resSuma1);
-	  parametros.put("suma2", resSuma2);
-	  parametros.put("suma3", resSuma3);
-	  parametros.put("suma4", resSuma4);
-	  parametros.put("suma5", resSuma5);
-	  parametros.put("suma6", resSuma6);
-	  parametros.put("suma7", resSuma7);
-
-	} catch (Exception e) {
-	  LOGGER.error(e);
-	  this.addMensajeError(e);
-	}
-
-	List<ReporteComprobanteInformeDiarioDTO> registros = new ArrayList<ReporteComprobanteInformeDiarioDTO>();
-
-	for (ProductosXDocumento prod : listaProductosxDocumento) {
-	  ReporteComprobanteInformeDiarioDTO registro = new ReporteComprobanteInformeDiarioDTO();
-	  String desc = "";
-	  if (prod.getProductosInventario() != null && prod.getProductosInventario().getProductosInventarioComext() != null && prod.getProductosInventario().getProductosInventarioComext().getCuentaContable() != null) {
-		desc = prod.getProductosInventario().getProductosInventarioComext().getCuentaContable().getDescripcion();
-	  }
-
-	  registro.setDescripcion(desc);
-
-	  registro.setTotal(prod.getValorTotal().doubleValue());
-
-	  registros.add(registro);
-
-	}
-
-	JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(registros);
-
-	try {
-	  Hashtable<String, String> parametrosR = new Hashtable<String, String>();
-	  parametrosR.put("tipo", "pdf");
-	  String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report_ComprobanteInfDiarioCE.jasper");
-	  ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-	  reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "report_ComprobanteInfDiarioCE.pdf");
-
-	} catch (Exception e) {
-	  this.addMensajeError(e);
-	}
-	return reportePDF;
-
+  public StreamedContent generarReportePDF() {
+    StreamedContent reportePDF = null;
+    Map<String, Object> parametrosReporte = new HashMap<>();
+    SimpleDateFormat sdf;
+    try {
+      // consulta de facturas de exportacion
+      getFiltro().setTipoDocumento((long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
+      getFiltro().setOrdenCampo("fechaGeneracion");
+      List<Documento> listaFacturasExportacion = this.reportesComercioExteriorEJBLocal.consultarFacturasExportacionFechaTipo(getFiltro());
+      // consulta de cuentas contables
+      Map<String, Object> parametrosConsulta = new HashMap<>();
+	  // sdf = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+      // parametrosConsulta.put("fechaInicial",
+      // sdf.format(getFiltro().getFechaGeneracionInicio()));
+      // sdf = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+      // parametrosConsulta.put("fechaFinal",
+      // sdf.format(getFiltro().getFechaGeneracionFin()));
+      // parametrosConsulta.put("tipoDocumento", (long)
+      // ConstantesTipoDocumento.FACTURA_EXPORTACION);
+      // parametrosConsulta.put("estadoGenerado",(long)
+      // ConstantesDocumento.GENERADO);
+      // parametrosConsulta.put("estadoImpreso", (long)
+      // ConstantesDocumento.IMPRESO);
+      List<CuentaContableComprobanteInformeDiarioDTO> listaCuentaContable = reportesComercioExteriorEJBLocal.consultarCuentaContableComprobanteInformeDiarioFX(parametrosReporte);
+      Long idDoc = 0L;
+      BigDecimal totalCuentaPrd;
+      Long idCuenta = 0L;
+      Long idCuenta1 = 0L;
+      Long idCuenta2 = 0L;
+      BigDecimal totalFinal;
+      for (int i = 0; i < listaCuentaContable.size(); i++) {
+        if ((idDoc != ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i)).getIdCuentaContable()) && (i > 0)) {
+          totalCuentaPrd = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i - 1)).getValorTotalConCostos();
+          ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i - 1)).setValorTotal(totalCuentaPrd);
+        }
+        if (i == listaCuentaContable.size() - 1) {
+          totalCuentaPrd = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i)).getValorTotalConCostos();
+          ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i)).setValorTotal(totalCuentaPrd);
+        }
+        idDoc = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i)).getIdCuentaContable();
+      }
+      List<CuentaContableComprobanteInformeDiarioDTO> listaCuentas = new ArrayList<>();
+      for (int n = 0; n < listaCuentaContable.size(); n++) {
+        if (!idCuenta.equals(((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(n)).getId())) {
+          CuentaContableComprobanteInformeDiarioDTO cc = new CuentaContableComprobanteInformeDiarioDTO();
+          cc.setId(((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(n)).getId());
+          cc.setDescripcionCuentaContable(((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(n)).getDescripcionCuentaContable());
+          cc.setValorTotal(new BigDecimal(0.0));
+          listaCuentas.add(cc);
+        }
+        idCuenta = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(n)).getId();
+      }
+      for (int x = 0; x < listaCuentas.size(); x++) {
+        idCuenta1 = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentas.get(x)).getId();
+        totalFinal = new BigDecimal(0);
+        for (int z = 0; z < listaCuentaContable.size(); z++) {
+          idCuenta2 = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(z)).getId();
+          if (idCuenta1.equals(idCuenta2)) {
+            totalFinal = totalFinal.add(((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(z)).getValorTotal());
+          }
+        }
+        ((CuentaContableComprobanteInformeDiarioDTO) listaCuentas.get(x)).setValorTotal(totalFinal);
+      }
+      String consecIni = "";
+      String consecFin = "";
+      int numeroRegistros = 0;
+      if (listaFacturasExportacion != null && !listaFacturasExportacion.isEmpty()) {
+        numeroRegistros = listaFacturasExportacion.size();
+        consecIni = listaFacturasExportacion.get(0).getConsecutivoDocumento();
+        consecFin = listaFacturasExportacion.get(listaFacturasExportacion.size() - 1).getConsecutivoDocumento();
+      }
+      sdf = new SimpleDateFormat("yyyy-MM-dd");
+      parametrosReporte.put("size", numeroRegistros);
+      parametrosReporte.put("cIni", consecIni);
+      parametrosReporte.put("cFin", consecFin);
+      parametrosReporte.put("fechaIni", sdf.format(getFiltro().getFechaGeneracionInicio()));
+      parametrosReporte.put("fechaFin", sdf.format(getFiltro().getFechaGeneracionFin()));
+      parametrosReporte.put("ubicacion", "Oficina Central - Comercio Exterior");
+      BigDecimal resSuma1 = new BigDecimal(0);
+      BigDecimal resSuma2 = new BigDecimal(0);
+      BigDecimal resSuma3 = new BigDecimal(0);
+      BigDecimal resSuma4 = new BigDecimal(0);
+      BigDecimal resSuma5;
+      BigDecimal resSuma6;
+      BigDecimal resSuma7;
+      for (CuentaContableComprobanteInformeDiarioDTO cuenta : listaCuentas) {
+        resSuma1 = resSuma1.add(cuenta.getValorTotal());
+      }
+      for (Documento doc : listaFacturasExportacion) {
+        if (doc.getDescuento() != null) {
+          resSuma2 = resSuma2.add(doc.getDescuento());
+        }
+        if (doc.getValorIva16() != null) {
+          resSuma3 = resSuma3.add(doc.getValorIva16());
+        }
+        if (doc.getValorIva10() != null) {
+          resSuma4 = resSuma4.add(doc.getValorIva10());
+        }
+      }
+      resSuma5 = resSuma1.subtract(resSuma2);
+      resSuma6 = resSuma3.add(resSuma4);
+      resSuma7 = resSuma5.add(resSuma6);
+      parametrosReporte.put("suma1", resSuma1);
+      parametrosReporte.put("suma2", resSuma2);
+      parametrosReporte.put("suma3", resSuma3);
+      parametrosReporte.put("suma4", resSuma4);
+      parametrosReporte.put("suma5", resSuma5);
+      parametrosReporte.put("suma6", resSuma6);
+      parametrosReporte.put("suma7", resSuma7);
+      JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaCuentas);
+      try {
+        Hashtable<String, String> parametrosConfigReporte = new Hashtable<>();
+        parametrosConfigReporte.put("tipo", "pdf");
+        String nombreReporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report_ComprobanteInfDiarioCE.jasper");
+        ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfigReporte, nombreReporte, null, null, null, parametrosReporte, ds);
+        reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "report_ComprobanteInfDiarioCE.pdf");
+      } catch (Exception e) {
+        this.addMensajeError(e);
+      }
+      return reportePDF;
+    } catch (Exception e) {
+      LOGGER.error(e);
+      this.addMensajeError(e);
+      return null;
+    }
   }
 
-  public Date getFechaInicial() {
-	return fechaInicial;
+  /**
+   * @return the filtro
+   */
+  public FiltroDocumentoDTO getFiltro() {
+    return filtro;
   }
 
-  public void setFechaInicial(Date fechaInicial) {
-	this.fechaInicial = fechaInicial;
+  /**
+   * @param filtro the filtro to set
+   */
+  public void setFiltro(FiltroDocumentoDTO filtro) {
+    this.filtro = filtro;
   }
-
-  public Date getFechaFinal() {
-	return fechaFinal;
-  }
-
-  public void setFechaFinal(Date fechaFinal) {
-	this.fechaFinal = fechaFinal;
-  }
-
 }

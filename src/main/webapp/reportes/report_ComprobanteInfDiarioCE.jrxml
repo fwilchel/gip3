@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
-<!-- 2015-04-08T14:05:28 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_ComprobanteInfDiarioCE" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="706ef0ef-94fa-432e-9271-f2674d7e0bf1">
+<!-- 2015-04-10T15:52:39 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_ComprobanteInfDiarioCE" pageWidth="609" pageHeight="800" whenNoDataType="AllSectionsNoDetail" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="706ef0ef-94fa-432e-9271-f2674d7e0bf1">
 	<property name="ireport.zoom" value="1.6105100000000032"/>
 	<property name="ireport.x" value="176"/>
 	<property name="ireport.y" value="0"/>
@@ -33,19 +33,19 @@
 	<parameter name="cFin" class="java.lang.String"/>
 	<parameter name="fechaIni" class="java.lang.String"/>
 	<parameter name="fechaFin" class="java.lang.String"/>
-	<parameter name="suma1" class="java.lang.Double"/>
-	<parameter name="suma2" class="java.lang.Double"/>
-	<parameter name="suma3" class="java.lang.Double"/>
-	<parameter name="suma4" class="java.lang.Double"/>
-	<parameter name="suma5" class="java.lang.Double"/>
-	<parameter name="suma6" class="java.lang.Double"/>
-	<parameter name="suma7" class="java.lang.Double"/>
+	<parameter name="suma1" class="java.math.BigDecimal"/>
+	<parameter name="suma2" class="java.math.BigDecimal"/>
+	<parameter name="suma3" class="java.math.BigDecimal"/>
+	<parameter name="suma4" class="java.math.BigDecimal"/>
+	<parameter name="suma5" class="java.math.BigDecimal"/>
+	<parameter name="suma6" class="java.math.BigDecimal"/>
+	<parameter name="suma7" class="java.math.BigDecimal"/>
 	<parameter name="ubicacion" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
-	<field name="descripcion" class="java.lang.String"/>
-	<field name="total" class="java.lang.Double"/>
+	<field name="descripcionCuentaContable" class="java.lang.String"/>
+	<field name="valorTotal" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -83,35 +83,35 @@ Número Inicial
 Número Final
 Cantidad de Facturas]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="332" y="159" width="100" height="12" uuid="6331fd44-a683-490a-a77f-eb0fb23bdefd"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{size}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="332" y="136" width="100" height="12" uuid="2d08a269-48aa-4bd2-8039-b91f625cc6ec"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{cIni}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="332" y="147" width="100" height="12" uuid="affbe8bb-ab72-4f23-9bc7-c5cb568e56b3"/>
 				<textElement>
 					<font size="9" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{cFin}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="332" y="113" width="100" height="12" uuid="bec14c86-fc77-4561-92ce-5c8740b005cf"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fechaIni}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="332" y="124" width="100" height="12" uuid="ced9f576-9f31-46d5-a590-c0f9ee3bfe06"/>
 				<textElement>
 					<font size="9"/>
@@ -137,19 +137,19 @@ Cantidad de Facturas]]></text>
 	</columnHeader>
 	<detail>
 		<band height="12" splitType="Prevent">
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="169" y="0" width="100" height="12" uuid="922c8a61-4538-404d-b5ad-d778738786c8"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{descripcionCuentaContable}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="355" y="0" width="82" height="12" uuid="74eda445-e0e4-42d5-ad8e-a705e66b7744"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -190,49 +190,49 @@ Cantidad de Facturas]]></text>
 	</pageFooter>
 	<summary>
 		<band height="300" splitType="Immediate">
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="355" y="14" width="82" height="12" uuid="f6397430-09ad-4d4f-aa96-a74ef3e589a8"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{suma1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="355" y="48" width="82" height="12" uuid="f327da37-66a5-4910-80fe-9d67ccf4ec10"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{suma2}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="355" y="145" width="82" height="12" uuid="f1f26779-7d2e-42c4-98be-3b99e9861765"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{suma3}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="355" y="157" width="82" height="12" uuid="e2eb6f2d-6d0c-4472-988d-420bc8bd0386"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{suma4}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="355" y="83" width="82" height="12" uuid="a714cc15-a8e3-4726-82a5-908ef19fa392"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{suma5}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="355" y="186" width="82" height="12" uuid="7162a50b-f3e3-4857-99fe-c8c01c8622c5"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{suma6}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="355" y="216" width="82" height="12" uuid="0ae96ff2-73b1-4499-ab00-9a1442945f3e"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
@@ -269,7 +269,7 @@ Cantidad de Facturas]]></text>
 			<line>
 				<reportElement x="375" y="104" width="82" height="1" uuid="b6ccbbc2-d159-4736-b7c1-2a72792b8c3f"/>
 			</line>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="355" y="113" width="82" height="12" uuid="def6bed9-3b78-45af-926d-f29c2c0f48e2"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
@@ -306,7 +306,7 @@ Cantidad de Facturas]]></text>
 			<line>
 				<reportElement x="169" y="236" width="289" height="1" uuid="240b4167-b1ad-48d8-a84e-4bd4099ae7bb"/>
 			</line>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="355" y="245" width="82" height="12" uuid="8f0eb53a-75ef-4dd2-8df9-194c0e4a5a04"/>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
