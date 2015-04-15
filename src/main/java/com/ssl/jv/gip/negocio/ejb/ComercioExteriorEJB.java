@@ -1598,13 +1598,13 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	List<String> consecutivos = null;
 	Map<String, Object> parametros = new HashMap<>();
 	parametros.put("tipoLote", idTipoLoteIOC);
-	List<Object[]> listaConsecutivos = documentoDAO.buscarPorConsultaNativa(CONSECUTIVOS_DOCUMENTO_POR_LOTE_IOC, parametros);
+	List<String> listaConsecutivos = documentoDAO.buscarPorConsultaNativa(CONSECUTIVOS_DOCUMENTO_POR_LOTE_IOC, parametros);
 	if (listaConsecutivos != null) {
-	  for (Object[] obj : listaConsecutivos) {
+	  for (String obj : listaConsecutivos) {
 		if (consecutivos == null) {
 		  consecutivos = new ArrayList<>();
 		}
-		consecutivos.add((obj[0]).toString());
+		consecutivos.add((obj));
 	  }
 	}
 	return consecutivos;
