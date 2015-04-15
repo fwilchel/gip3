@@ -1,6 +1,11 @@
 package com.ssl.jv.gip.web.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -11,6 +16,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,9 +28,12 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.servlet.http.HttpServletResponse;
-
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+
 
 /**
  * <p>
@@ -160,7 +170,7 @@ public class Utilidad {
     Timestamp timestampGeneracion = null;
     try {
       SimpleDateFormat sdf = new SimpleDateFormat(
-              "yyyy-MM-dd hh:mm:ss aaa");
+          "yyyy-MM-dd hh:mm:ss aaa");
       sdf.applyPattern("yyyy-MM-dd hh:mm:ss aaa");
       String mientras = sdf.format(fechaActual);
       Date dateGeneracion = sdf.parse(mientras);
@@ -176,32 +186,30 @@ public class Utilidad {
    * metodo que configura el tipo de respuesta del servlet cuando se genera el
    * pdf
    */
-  public static HttpServletResponse configureResponse(
-          HttpServletResponse response, String fileName) {
+  public static HttpServletResponse configureResponse(      HttpServletResponse response, String fileName) {
 
     response.setHeader("Expires", "0");
     response.setHeader("Cache-Control",
-            "must-revalidate, post-check=0, pre-check=0");
+        "must-revalidate, post-check=0, pre-check=0");
     response.setHeader("Pragma", "public");
     response.setContentType("application/pdf");
     response.addHeader("Content-disposition", "attachment; filename=\""
-            // + fileName + ".pdf\"");
-            + fileName);
+        // + fileName + ".pdf\"");
+        + fileName);
 
     // response.getWriter()
     return response;
   }
 
-  public static HttpServletResponse configureResponse2(
-          HttpServletResponse response, String fileName) {
+  public static HttpServletResponse configureResponse2(      HttpServletResponse response, String fileName) {
 
     response.setHeader("Expires", "0");
     response.setHeader("Cache-Control",
-            "must-revalidate, post-check=0, pre-check=0");
+        "must-revalidate, post-check=0, pre-check=0");
     response.setHeader("Pragma", "public");
     response.setContentType("application/txt");
     response.addHeader("Content-disposition", "attachment; filename=\""
-            + fileName + ".txt\"");
+        + fileName + ".txt\"");
 
     // response.getWriter()
     return response;
@@ -211,16 +219,15 @@ public class Utilidad {
    * metodo que configura el tipo de respuesta del servlet cuando se genera el
    * pdf
    */
-  public static HttpServletResponse configureResponse3(
-          HttpServletResponse response, String fileName) {
+  public static HttpServletResponse configureResponse3(      HttpServletResponse response, String fileName) {
 
     response.setHeader("Expires", "0");
     response.setHeader("Cache-Control",
-            "must-revalidate, post-check=0, pre-check=0");
+        "must-revalidate, post-check=0, pre-check=0");
     response.setHeader("Pragma", "public");
     response.setContentType("application/pdf");
     response.addHeader("Content-disposition", "attachment; filename=\""
-            + fileName + ".pdf\"");
+        + fileName + ".pdf\"");
 		// + fileName);
 
     // response.getWriter()
@@ -390,6 +397,7 @@ public class Utilidad {
 
       BASE64Encoder base64encoder = new BASE64Encoder();
       cipherTextB64 = base64encoder.encode(cipherText);
+//      cipherTextB64 = Base64.encodeBase64String(cipherText);
     } catch (NoSuchAlgorithmException nsae) {
       nsae.printStackTrace();
     } catch (InvalidKeyException ike) {
@@ -439,6 +447,7 @@ public class Utilidad {
 
       BASE64Decoder base64decoder = new BASE64Decoder();
       byte encriptada[] = base64decoder.decodeBuffer(textIni);
+//      byte encriptada[] = Base64.decodeBase64(textIni);
 
       Key key = null;
       SecretKeyFactory skf = SecretKeyFactory.getInstance("DESede");
@@ -450,6 +459,7 @@ public class Utilidad {
       cipher.init(Cipher.DECRYPT_MODE, key);
 
       byte cipherText[] = cipher.doFinal(encriptada);
+
       // Codificamos el texto cifrado en base 64
       cipherTextB64 = new String(cipherText);
 
@@ -463,10 +473,10 @@ public class Utilidad {
       bpe.printStackTrace();
     } catch (NoSuchPaddingException nspe) {
       nspe.printStackTrace();
-    } catch (IOException ibse) {
-      ibse.printStackTrace();
     } catch (InvalidKeySpecException e) { // TODO Auto-generated catch block
       e.printStackTrace();
+    } catch (IOException ex) {
+      Logger.getLogger(Utilidad.class.getName()).log(Level.SEVERE, null, ex);
     }
 
     // Retornamos el texto cifrado en BASE64
@@ -650,7 +660,7 @@ public class Utilidad {
 
     try {
       SimpleDateFormat sdf = new SimpleDateFormat(
-              "EEE, d MMM yyyy hh:mm:ss aaa");
+          "EEE, d MMM yyyy hh:mm:ss aaa");
       sdf.applyPattern("EEE, d MMM yyyy hh:mm:ss aaa");
       strFechaGeneracion = sdf.format(ts);
 
@@ -763,7 +773,7 @@ public class Utilidad {
         break;
       default:
         tradHundredThousands = convertLessThanOneThousand(hundredThousands)
-                + " thousand ";
+            + " thousand ";
     }
     result = result + tradHundredThousands;
 
@@ -786,15 +796,15 @@ public class Utilidad {
 
     // remove extra spaces!
     return result.replaceAll("^\\s+", "").replaceAll("\\b\\s{2,}\\b", " ")
-            .toUpperCase()
-            + " " + parte_decimal;
+        .toUpperCase()
+        + " " + parte_decimal;
   }
 
   public static void main(String args[]) {
 
     String c = Utilidad.cifrar("Fwilches750930"); // vA8JBDmgfXLHPPumFEqPAA==
     System.out.println("1 " + c);
-    c="uALODFtunHXKFwcG+t021A==";
+    c = "uALODFtunHXKFwcG+t021A==";
     String d = Utilidad.descifrar(c);
     System.out.println("2 " + d);
   }
@@ -820,13 +830,108 @@ public class Utilidad {
   }
 
   /**
-   * 
+   *
    * @param fecha
    * @param formato
-   * @return 
+   * @return
    */
   public static String formatearFecha(Date fecha, String formato) {
     SimpleDateFormat formatoFecha = new SimpleDateFormat(formato);
     return formatoFecha.format(fecha);
+  }
+
+  /**
+   *
+   * @author: Alejandro Poveda.
+   * @param is
+   * @return
+   * @throws java.io.IOException
+   */
+  public static File inputStreamToFile(InputStream is) throws IOException {
+    try {
+      byte[] data = IOUtils.toByteArray(is);
+      File tmp = File.createTempFile("arch", null);
+      FileUtils.writeByteArrayToFile(tmp, data);
+      return tmp;
+    } catch (IOException ex) {
+      throw ex;
+    }
+  }
+
+  /**
+   *
+   * @author: Alejandro Poveda.
+   * @param is
+   * @param path
+   * @return
+   * @throws java.io.IOException
+   */
+  public static File inputStreamToFile(InputStream is, String path) throws IOException {
+    try {
+      byte[] data = IOUtils.toByteArray(is);
+      File tmp = new File(path);
+      FileUtils.writeByteArrayToFile(tmp, data);
+      return tmp;
+    } catch (IOException ex) {
+      throw ex;
+    }
+  }
+
+  /**
+   *
+   * @author: Alejandro Poveda.
+   * @param path
+   * @param name
+   * @param content
+   * @throws FileNotFoundException
+   */
+  public static void createFileFromString(String path, String name, String content) throws FileNotFoundException {
+    try (PrintWriter out = new PrintWriter(name)) {
+      out.println(content);
+    } catch (FileNotFoundException ex) {
+      throw ex;
+    }
+  }
+
+  /**
+   * @author Alejandro Poveda
+   * @param inputStream
+   * @return
+   * @throws IOException
+   */
+  public static String inputStreamToBase64(InputStream inputStream) throws IOException {
+    if (inputStream == null) {
+      return null;
+    }
+    String base64 = new String(Base64.encodeBase64(IOUtils.toByteArray(inputStream)));
+    return base64;
+  }
+
+  /**
+   * @author Alejandro Poveda
+   * @param base64
+   * @return
+   * @throws IOException
+   */
+  public static InputStream base64ToInputStream(String base64) throws IOException {
+    if (base64 == null) {
+      return null;
+    }
+    InputStream is = new ByteArrayInputStream(Base64.decodeBase64(base64.getBytes()));
+    return is;
+  }
+
+  /**
+   * @author: Alejandro Poveda.
+   * @param archivo
+   * @return
+   * @throws IOException
+   */
+  public static InputStream base64ToInputStream(byte[] archivo) throws IOException {
+    if (archivo.length == 0) {
+      return null;
+    }
+    InputStream is = new ByteArrayInputStream(Base64.decodeBase64(archivo));
+    return is;
   }
 }

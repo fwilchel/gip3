@@ -41,7 +41,7 @@ import com.ssl.jv.gip.web.mb.UtilMB;
  *
  * <p>Company: Soft Studio Ltda.</p>
  *
- * @author Fredy Giovanny Wilches López
+ * @author Fredy Giovanny Wilches Lopez
  * @email fredy.wilches@gmail.com
  * @phone 300 2146240
  * @version 1.0
