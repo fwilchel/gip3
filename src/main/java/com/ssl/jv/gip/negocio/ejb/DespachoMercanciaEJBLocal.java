@@ -10,22 +10,23 @@ import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.ProductoDespacharMercanciaDTO;
 
-/**Interfaz para ordenes de despacho
- * 
+/**
+ * Interfaz para ordenes de despacho
+ *
  * @author Daniel Cortes
  *
  */
 @Local
 public interface DespachoMercanciaEJBLocal {
-	
-	public List<Documento> consultarVentasDirectas();
 
-	public List<ProductoDespacharMercanciaDTO> consultarProductoPorDocumento(String idDocumento,String idCliente);
+  public List<Documento> consultarVentasDirectas();
 
-	public List<Documento> consultarVentasDirectas(String filtro);
+  public List<ProductoDespacharMercanciaDTO> consultarProductoPorDocumento(String idDocumento, String idCliente);
 
-	public MovimientosInventario crearMovimientoInventario(MovimientosInventario movimiento);
+  public List<Documento> consultarVentasDirectas(String filtro);
 
-	public Unidad consultarUnidad(String unidadVenta);
+  public MovimientosInventario crearMovimientoInventario(MovimientosInventario movimiento);
+
+  public Unidad consultarUnidad(String unidadVenta);
 
 }

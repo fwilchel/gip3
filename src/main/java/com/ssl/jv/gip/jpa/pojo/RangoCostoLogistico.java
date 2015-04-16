@@ -6,109 +6,109 @@ import javax.persistence.*;
 
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the rango_costo_logistico database table.
- * 
+ *
  */
 @Entity
-@Table(name="rango_costo_logistico")
+@Table(name = "rango_costo_logistico")
 @NamedQueries({
-	@NamedQuery(name="RangoCostoLogistico.findAll", query="SELECT r FROM RangoCostoLogistico r"),
-	@NamedQuery(name="RangoCostoLogistico.findByItem", query="SELECT r FROM RangoCostoLogistico r WHERE r.itemCostoLogistico= :itemCostoLogistico")
+  @NamedQuery(name = "RangoCostoLogistico.findAll", query = "SELECT r FROM RangoCostoLogistico r"),
+  @NamedQuery(name = "RangoCostoLogistico.findByItem", query = "SELECT r FROM RangoCostoLogistico r WHERE r.itemCostoLogistico= :itemCostoLogistico")
 })
 
 public class RangoCostoLogistico implements Serializable, Comparable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@SequenceGenerator(name="RANGO_COSTO_LOGISTICO_ID_GENERATOR", sequenceName="RANGOS_COSTOS_LOGISTICOS_ID_SEQ", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RANGO_COSTO_LOGISTICO_ID_GENERATOR")
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private BigDecimal desde;
+  @Id
+  @SequenceGenerator(name = "RANGO_COSTO_LOGISTICO_ID_GENERATOR", sequenceName = "RANGOS_COSTOS_LOGISTICOS_ID_SEQ", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RANGO_COSTO_LOGISTICO_ID_GENERATOR")
+  private Long id;
 
-	private BigDecimal hasta;
+  private BigDecimal desde;
 
-	@ManyToOne
-	@JoinColumn(name="id_unidad")
-	private Unidad unidad;
-	
-	@ManyToOne
-	@JoinColumn(name="id_moneda")
-	private Moneda moneda;
+  private BigDecimal hasta;
 
-	@Column(name="valor")
-	private BigDecimal valor;
+  @ManyToOne
+  @JoinColumn(name = "id_unidad")
+  private Unidad unidad;
 
-	//bi-directional many-to-one association to ItemCostoLogistico
-	@ManyToOne
-	@JoinColumn(name="id_item_costo_logistico")
-	private ItemCostoLogistico itemCostoLogistico;
+  @ManyToOne
+  @JoinColumn(name = "id_moneda")
+  private Moneda moneda;
 
-	public RangoCostoLogistico() {
-	}
+  @Column(name = "valor")
+  private BigDecimal valor;
 
-	public Long getId() {
-		return this.id;
-	}
+  //bi-directional many-to-one association to ItemCostoLogistico
+  @ManyToOne
+  @JoinColumn(name = "id_item_costo_logistico")
+  private ItemCostoLogistico itemCostoLogistico;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public RangoCostoLogistico() {
+  }
 
-	public BigDecimal getDesde() {
-		return this.desde;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public void setDesde(BigDecimal desde) {
-		this.desde = desde;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public BigDecimal getHasta() {
-		return this.hasta;
-	}
+  public BigDecimal getDesde() {
+    return this.desde;
+  }
 
-	public void setHasta(BigDecimal hasta) {
-		this.hasta = hasta;
-	}
+  public void setDesde(BigDecimal desde) {
+    this.desde = desde;
+  }
 
-	public BigDecimal getValor() {
-		return this.valor;
-	}
+  public BigDecimal getHasta() {
+    return this.hasta;
+  }
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
+  public void setHasta(BigDecimal hasta) {
+    this.hasta = hasta;
+  }
 
-	public ItemCostoLogistico getItemCostoLogistico() {
-		return this.itemCostoLogistico;
-	}
+  public BigDecimal getValor() {
+    return this.valor;
+  }
 
-	public void setItemCostoLogistico(ItemCostoLogistico itemCostoLogistico) {
-		this.itemCostoLogistico = itemCostoLogistico;
-	}
+  public void setValor(BigDecimal valor) {
+    this.valor = valor;
+  }
 
-	public Unidad getUnidad() {
-		return unidad;
-	}
+  public ItemCostoLogistico getItemCostoLogistico() {
+    return this.itemCostoLogistico;
+  }
 
-	public void setUnidad(Unidad unidad) {
-		this.unidad = unidad;
-	}
+  public void setItemCostoLogistico(ItemCostoLogistico itemCostoLogistico) {
+    this.itemCostoLogistico = itemCostoLogistico;
+  }
 
-	public Moneda getMoneda() {
-		return moneda;
-	}
+  public Unidad getUnidad() {
+    return unidad;
+  }
 
-	public void setMoneda(Moneda moneda) {
-		this.moneda = moneda;
-	}
+  public void setUnidad(Unidad unidad) {
+    this.unidad = unidad;
+  }
 
-	@Override
-	public int compareTo(Object arg0) {
-		RangoCostoLogistico rcl=(RangoCostoLogistico)arg0;
-		return desde.compareTo(rcl.getDesde());
-	}
+  public Moneda getMoneda() {
+    return moneda;
+  }
+
+  public void setMoneda(Moneda moneda) {
+    this.moneda = moneda;
+  }
+
+  @Override
+  public int compareTo(Object arg0) {
+    RangoCostoLogistico rcl = (RangoCostoLogistico) arg0;
+    return desde.compareTo(rcl.getDesde());
+  }
 
 }

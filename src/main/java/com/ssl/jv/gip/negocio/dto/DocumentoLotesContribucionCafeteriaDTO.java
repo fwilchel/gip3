@@ -3,71 +3,71 @@ package com.ssl.jv.gip.negocio.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class DocumentoLotesContribucionCafeteriaDTO implements Serializable{
+public class DocumentoLotesContribucionCafeteriaDTO implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6826470281110432159L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = 6826470281110432159L;
 
-	private Long idDocumento;
-	
-	private String descripcion;
-	
-	private String consecutivo;
-	
-	private BigDecimal contribucion;
-	
-	private BigDecimal dex;
+  private Long idDocumento;
 
-	private Long tipoLoteId;
+  private String descripcion;
 
-	public Long getIdDocumento() {
-		return idDocumento;
-	}
+  private String consecutivo;
 
-	public void setIdDocumento(Long idDocumento) {
-		this.idDocumento = idDocumento;
-	}
+  private BigDecimal contribucion;
 
-	public String getConsecutivo() {
-		return consecutivo;
-	}
+  private BigDecimal dex;
 
-	public void setConsecutivo(String consecutivo) {
-		this.consecutivo = consecutivo;
-	}
+  private Long tipoLoteId;
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+  public Long getIdDocumento() {
+    return idDocumento;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public void setIdDocumento(Long idDocumento) {
+    this.idDocumento = idDocumento;
+  }
 
-	public BigDecimal getContribucion() {
-		return contribucion;
-	}
+  public String getConsecutivo() {
+    return consecutivo;
+  }
 
-	public void setContribucion(BigDecimal contribucion) {
-		this.contribucion = contribucion;
-	}
+  public void setConsecutivo(String consecutivo) {
+    this.consecutivo = consecutivo;
+  }
 
-	public BigDecimal getDex() {
-		return dex;
-	}
+  public String getDescripcion() {
+    return descripcion;
+  }
 
-	public void setDex(BigDecimal dex) {
-		this.dex = dex;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public Long getTipoLoteId() {
-		return tipoLoteId;
-	}
+  public BigDecimal getContribucion() {
+    return contribucion;
+  }
 
-	public void setTipoLoteId(Long tipoLoteId) {
-		this.tipoLoteId = tipoLoteId;
-	}
+  public void setContribucion(BigDecimal contribucion) {
+    this.contribucion = contribucion;
+  }
+
+  public BigDecimal getDex() {
+    return dex;
+  }
+
+  public void setDex(BigDecimal dex) {
+    this.dex = dex;
+  }
+
+  public Long getTipoLoteId() {
+    return tipoLoteId;
+  }
+
+  public void setTipoLoteId(Long tipoLoteId) {
+    this.tipoLoteId = tipoLoteId;
+  }
 
 }

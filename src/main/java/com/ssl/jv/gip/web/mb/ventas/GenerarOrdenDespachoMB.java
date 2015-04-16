@@ -114,7 +114,7 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   public void seleccionarVentaDirecta(Documento documento) {
     LOGGER.debug("Metodo: <<seleccionarVentaDirecta>>");
     ventaDirectaSeleccionada = documento;
-	// TODO: concatenar valores del punto de venta para sobreescribir sitio de
+    // TODO: concatenar valores del punto de venta para sobreescribir sitio de
     // entrega.
     if (ventaDirectaSeleccionada.getPuntoVenta() != null) {
       StringBuilder sb = new StringBuilder();

@@ -13,16 +13,16 @@ import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 @Stateless
 @LocalBean
 public class TipoDocumentoDAO extends GenericDAO<TipoDocumento> implements
-		TipoDocumentoDAOLocal {
+    TipoDocumentoDAOLocal {
 
-	private static final Logger LOGGER = Logger
-			.getLogger(TipoDocumentoDAO.class);
+  private static final Logger LOGGER = Logger
+      .getLogger(TipoDocumentoDAO.class);
 
-	/**
-	 * @see GenericDAO#GenericDAO()
-	 */
-	public TipoDocumentoDAO() {
-		this.persistentClass = TipoDocumento.class;
-	}
+  /**
+   * @see GenericDAO#GenericDAO()
+   */
+  public TipoDocumentoDAO() {
+    this.persistentClass = TipoDocumento.class;
+  }
 
 }

@@ -4,99 +4,99 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the comext_itemc database table.
- * 
+ *
  */
 @Entity
-@Table(name="comext_itemc")
-@NamedQuery(name="ComextItemc.findAll", query="SELECT c FROM ComextItemc c")
+@Table(name = "comext_itemc")
+@NamedQuery(name = "ComextItemc.findAll", query = "SELECT c FROM ComextItemc c")
 public class ComextItemc implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private Integer quantity;
+  @Id
+  private Long id;
 
-	private BigDecimal total;
+  private Integer quantity;
 
-	@Column(name="unit_price")
-	private BigDecimal unitPrice;
+  private BigDecimal total;
 
-	//bi-directional many-to-one association to ComextC
-	@ManyToOne
-	@JoinColumn(name="cart_id")
-	private ComextC comextC;
+  @Column(name = "unit_price")
+  private BigDecimal unitPrice;
 
-	//bi-directional many-to-one association to ProductosInventario
-	@ManyToOne
-	@JoinColumn(name="id_producto")
-	private ProductosInventario productosInventario;
+  //bi-directional many-to-one association to ComextC
+  @ManyToOne
+  @JoinColumn(name = "cart_id")
+  private ComextC comextC;
 
-	//bi-directional many-to-one association to ProductosInventarioComext
-	@ManyToOne
-	@JoinColumn(name="id_prodcomext")
-	private ProductosInventarioComext productosInventarioComext;
+  //bi-directional many-to-one association to ProductosInventario
+  @ManyToOne
+  @JoinColumn(name = "id_producto")
+  private ProductosInventario productosInventario;
 
-	public ComextItemc() {
-	}
+  //bi-directional many-to-one association to ProductosInventarioComext
+  @ManyToOne
+  @JoinColumn(name = "id_prodcomext")
+  private ProductosInventarioComext productosInventarioComext;
 
-	public Long getId() {
-		return this.id;
-	}
+  public ComextItemc() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public Integer getQuantity() {
-		return this.quantity;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
+  public Integer getQuantity() {
+    return this.quantity;
+  }
 
-	public BigDecimal getTotal() {
-		return this.total;
-	}
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
+  }
 
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
+  public BigDecimal getTotal() {
+    return this.total;
+  }
 
-	public BigDecimal getUnitPrice() {
-		return this.unitPrice;
-	}
+  public void setTotal(BigDecimal total) {
+    this.total = total;
+  }
 
-	public void setUnitPrice(BigDecimal unitPrice) {
-		this.unitPrice = unitPrice;
-	}
+  public BigDecimal getUnitPrice() {
+    return this.unitPrice;
+  }
 
-	public ComextC getComextC() {
-		return this.comextC;
-	}
+  public void setUnitPrice(BigDecimal unitPrice) {
+    this.unitPrice = unitPrice;
+  }
 
-	public void setComextC(ComextC comextC) {
-		this.comextC = comextC;
-	}
+  public ComextC getComextC() {
+    return this.comextC;
+  }
 
-	public ProductosInventario getProductosInventario() {
-		return this.productosInventario;
-	}
+  public void setComextC(ComextC comextC) {
+    this.comextC = comextC;
+  }
 
-	public void setProductosInventario(ProductosInventario productosInventario) {
-		this.productosInventario = productosInventario;
-	}
+  public ProductosInventario getProductosInventario() {
+    return this.productosInventario;
+  }
 
-	public ProductosInventarioComext getProductosInventarioComext() {
-		return this.productosInventarioComext;
-	}
+  public void setProductosInventario(ProductosInventario productosInventario) {
+    this.productosInventario = productosInventario;
+  }
 
-	public void setProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
-		this.productosInventarioComext = productosInventarioComext;
-	}
+  public ProductosInventarioComext getProductosInventarioComext() {
+    return this.productosInventarioComext;
+  }
+
+  public void setProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
+    this.productosInventarioComext = productosInventarioComext;
+  }
 
 }

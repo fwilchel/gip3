@@ -7,61 +7,62 @@ import javax.persistence.Embeddable;
 
 /**
  * The primary key class for the productos_x_cliente_comext database table.
- * 
+ *
  */
 @Embeddable
 public class ProductosXClienteComextPK implements Serializable {
-	// default serial version id, required for serializable classes.
-	private static final long serialVersionUID = 1L;
 
-	@Column(name = "id_producto")
-	private Long idProducto;
+  // default serial version id, required for serializable classes.
+  private static final long serialVersionUID = 1L;
 
-	@Column(name = "id_cliente")
-	private Long idCliente;
+  @Column(name = "id_producto")
+  private Long idProducto;
 
-	public ProductosXClienteComextPK() {
-	}
+  @Column(name = "id_cliente")
+  private Long idCliente;
 
-	public ProductosXClienteComextPK(Long idProducto, Long idCliente) {
-		this.idProducto = idProducto;
-		this.idCliente = idCliente;
-	}
+  public ProductosXClienteComextPK() {
+  }
 
-	public Long getIdProducto() {
-		return this.idProducto;
-	}
+  public ProductosXClienteComextPK(Long idProducto, Long idCliente) {
+    this.idProducto = idProducto;
+    this.idCliente = idCliente;
+  }
 
-	public void setIdProducto(Long idProducto) {
-		this.idProducto = idProducto;
-	}
+  public Long getIdProducto() {
+    return this.idProducto;
+  }
 
-	public Long getIdCliente() {
-		return this.idCliente;
-	}
+  public void setIdProducto(Long idProducto) {
+    this.idProducto = idProducto;
+  }
 
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
-	}
+  public Long getIdCliente() {
+    return this.idCliente;
+  }
 
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof ProductosXClienteComextPK)) {
-			return false;
-		}
-		ProductosXClienteComextPK castOther = (ProductosXClienteComextPK) other;
-		return this.idProducto.equals(castOther.idProducto)
-				&& this.idCliente.equals(castOther.idCliente);
-	}
+  public void setIdCliente(Long idCliente) {
+    this.idCliente = idCliente;
+  }
 
-	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + this.idProducto.hashCode();
-		hash = hash * prime + this.idCliente.hashCode();
+  public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (!(other instanceof ProductosXClienteComextPK)) {
+      return false;
+    }
+    ProductosXClienteComextPK castOther = (ProductosXClienteComextPK) other;
+    return this.idProducto.equals(castOther.idProducto)
+        && this.idCliente.equals(castOther.idCliente);
+  }
 
-		return hash;
-	}
+  public int hashCode() {
+    final int prime = 31;
+    int hash = 17;
+    hash = hash * prime + this.idProducto.hashCode();
+    hash = hash * prime + this.idCliente.hashCode();
+
+    return hash;
+  }
 }

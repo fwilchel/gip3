@@ -10,21 +10,21 @@ import com.ssl.jv.gip.jpa.pojo.Usuario;
 
 @Stateless
 @LocalBean
-public class UsuarioDAO extends GenericDAO<Usuario> implements UsuarioDAOLocal{
-	
-	private static final Logger LOGGER = Logger.getLogger(UsuarioDAO.class);
-	
-	public UsuarioDAO(){
-		this.persistentClass = Usuario.class;
-	}	
-	
-	public Usuario findByEmail(String email){
-		try{
-			return (Usuario)this.em.createNamedQuery("Usuario.findByEmail").setParameter("email", email).getSingleResult();
-    	}catch(NoResultException e){
-    		LOGGER.warn(e + "**** Email "+email);
-    		return null;
-    	}
-	}
-	
+public class UsuarioDAO extends GenericDAO<Usuario> implements UsuarioDAOLocal {
+
+  private static final Logger LOGGER = Logger.getLogger(UsuarioDAO.class);
+
+  public UsuarioDAO() {
+    this.persistentClass = Usuario.class;
+  }
+
+  public Usuario findByEmail(String email) {
+    try {
+      return (Usuario) this.em.createNamedQuery("Usuario.findByEmail").setParameter("email", email).getSingleResult();
+    } catch (NoResultException e) {
+      LOGGER.warn(e + "**** Email " + email);
+      return null;
+    }
+  }
+
 }

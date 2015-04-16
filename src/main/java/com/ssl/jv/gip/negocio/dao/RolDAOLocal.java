@@ -5,7 +5,6 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Rol;
 
 @Local
-public interface RolDAOLocal extends IGenericDAO<Rol>{
-	
-	
+public interface RolDAOLocal extends IGenericDAO<Rol> {
+
 }

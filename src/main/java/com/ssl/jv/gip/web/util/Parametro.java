@@ -1,24 +1,25 @@
 package com.ssl.jv.gip.web.util;
 
 public enum Parametro {
-	CONTRASENA_DEFECTO(1L, "Contraseña defecto"), DEBUG(2L, "DEBUG"), AMBIENTE(
-			3L, "Ambiente"), VERSION(4L, "Versión"), PATH_SERVIDOR(5L,
-			"pathServidor"), PATH_FOTOS(6L, "pathFotos");
 
-	private Long id;
-	private String nombre;
+  CONTRASENA_DEFECTO(1L, "Contraseña defecto"), DEBUG(2L, "DEBUG"), AMBIENTE(
+      3L, "Ambiente"), VERSION(4L, "Versión"), PATH_SERVIDOR(5L,
+          "pathServidor"), PATH_FOTOS(6L, "pathFotos");
 
-	private Parametro(Long id, String nombre) {
-		this.id = id;
-		this.nombre = nombre;
-	}
+  private Long id;
+  private String nombre;
 
-	public Long getId() {
-		return id;
-	}
+  private Parametro(Long id, String nombre) {
+    this.id = id;
+    this.nombre = nombre;
+  }
 
-	public String getNombre() {
-		return nombre;
-	}
+  public Long getId() {
+    return id;
+  }
+
+  public String getNombre() {
+    return nombre;
+  }
 
 }

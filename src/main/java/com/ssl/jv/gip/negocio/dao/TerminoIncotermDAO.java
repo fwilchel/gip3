@@ -10,53 +10,52 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 
-
 @Stateless
 @LocalBean
-public class TerminoIncotermDAO extends GenericDAO<TerminoIncoterm> implements TerminoIncotermDAOLocal{
-	
-	private static final Logger LOGGER = Logger.getLogger(TerminoIncotermDAO.class);
-	
-	public TerminoIncotermDAO(){
-		this.persistentClass = TerminoIncoterm.class;
-	}
-	
-	public List<TerminoIncoterm> consultarListaIncontermPorCliente(Long idCliente){
-		return em.createNamedQuery("TerminoIncoterm.findByCliente").setParameter("idCliente", idCliente).getResultList();
-		/*List<TerminoIncoterm> lista = new ArrayList<TerminoIncoterm>();
+public class TerminoIncotermDAO extends GenericDAO<TerminoIncoterm> implements TerminoIncotermDAOLocal {
 
-		String sql= "SELECT  incoterm_x_cliente.id_incoterm,termino_incoterm.descripcion AS NOMBRE_INCOTERM "
-		          + "FROM incoterm_x_cliente " 
-		          + "INNER JOIN termino_incoterm ON incoterm_x_cliente.id_incoterm = termino_incoterm.id "
-		          + "AND incoterm_x_cliente.id_cliente = " + idCliente
-		          + " ORDER BY UPPER (termino_incoterm.descripcion) ASC ";
-		
-		List<Object[]> listado = em.createNativeQuery(sql).getResultList();
-		
-		if(listado != null){
-			for(Object[] objs : listado){
-				TerminoIncoterm dto = new TerminoIncoterm();
-				
-				dto.setId(objs[0] != null ? Long.parseLong(objs[0].toString()) : null);
-				dto.setDescripcion(objs[1] != null ? objs[1].toString() : null);
-				
-				lista.add(dto);
-			}
-		}
-		
-		return lista;
-		 */
-	}
+  private static final Logger LOGGER = Logger.getLogger(TerminoIncotermDAO.class);
 
-	/**
-	 * @see com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal#getAll()
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public List<TerminoIncoterm> getAll() {
-		return (List<TerminoIncoterm>) this.findAll();
-	}
-	
+  public TerminoIncotermDAO() {
+    this.persistentClass = TerminoIncoterm.class;
+  }
+
+  public List<TerminoIncoterm> consultarListaIncontermPorCliente(Long idCliente) {
+    return em.createNamedQuery("TerminoIncoterm.findByCliente").setParameter("idCliente", idCliente).getResultList();
+    /*List<TerminoIncoterm> lista = new ArrayList<TerminoIncoterm>();
+
+     String sql= "SELECT  incoterm_x_cliente.id_incoterm,termino_incoterm.descripcion AS NOMBRE_INCOTERM "
+     + "FROM incoterm_x_cliente " 
+     + "INNER JOIN termino_incoterm ON incoterm_x_cliente.id_incoterm = termino_incoterm.id "
+     + "AND incoterm_x_cliente.id_cliente = " + idCliente
+     + " ORDER BY UPPER (termino_incoterm.descripcion) ASC ";
+		
+     List<Object[]> listado = em.createNativeQuery(sql).getResultList();
+		
+     if(listado != null){
+     for(Object[] objs : listado){
+     TerminoIncoterm dto = new TerminoIncoterm();
+				
+     dto.setId(objs[0] != null ? Long.parseLong(objs[0].toString()) : null);
+     dto.setDescripcion(objs[1] != null ? objs[1].toString() : null);
+				
+     lista.add(dto);
+     }
+     }
+		
+     return lista;
+     */
+  }
+
+  /**
+   * @see com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal#getAll()
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public List<TerminoIncoterm> getAll() {
+    return (List<TerminoIncoterm>) this.findAll();
+  }
+
 }

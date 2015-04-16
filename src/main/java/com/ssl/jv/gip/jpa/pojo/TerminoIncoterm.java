@@ -13,109 +13,102 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
 /**
  * The persistent class for the termino_incoterm database table.
- * 
+ *
  */
 @Entity
-@Table(name="termino_incoterm")
-@NamedQueries(value={
-@NamedQuery(name="TerminoIncoterm.findAll", query="SELECT t FROM TerminoIncoterm t"),
-@NamedQuery(name="TerminoIncoterm.findByMedioTrans", query="SELECT t FROM TerminoIncoterm t join t.terminosTransportes r "),
-@NamedQuery(name="TerminoIncoterm.findByCliente", query="SELECT DISTINCT t FROM TerminoIncoterm t JOIN t.clientes c WHERE c.id= :idCliente ORDER BY t.descripcion"),
-})
+@Table(name = "termino_incoterm")
+@NamedQueries(value = {
+  @NamedQuery(name = "TerminoIncoterm.findAll", query = "SELECT t FROM TerminoIncoterm t"),
+  @NamedQuery(name = "TerminoIncoterm.findByMedioTrans", query = "SELECT t FROM TerminoIncoterm t join t.terminosTransportes r "),
+  @NamedQuery(name = "TerminoIncoterm.findByCliente", query = "SELECT DISTINCT t FROM TerminoIncoterm t JOIN t.clientes c WHERE c.id= :idCliente ORDER BY t.descripcion"),})
 public class TerminoIncoterm implements Serializable, Comparable<TerminoIncoterm> {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String descripcion;
+  @Id
+  private Long id;
 
-	//bi-directional many-to-many association to Cliente
-	@ManyToMany(mappedBy = "terminoIncoterms", fetch=FetchType.LAZY)
-	private List<Cliente> clientes;
+  private String descripcion;
 
-	//bi-directional many-to-one association to TerminosTransporte
-	@OneToMany(mappedBy="terminoIncoterm", fetch=FetchType.LAZY)
-	private List<TerminosTransporte> terminosTransportes;
-	
-	@Transient
-	private boolean seleccionado;
+  //bi-directional many-to-many association to Cliente
+  @ManyToMany(mappedBy = "terminoIncoterms", fetch = FetchType.LAZY)
+  private List<Cliente> clientes;
 
-	
+  //bi-directional many-to-one association to TerminosTransporte
+  @OneToMany(mappedBy = "terminoIncoterm", fetch = FetchType.LAZY)
+  private List<TerminosTransporte> terminosTransportes;
 
-	public TerminoIncoterm() {
-	}
+  @Transient
+  private boolean seleccionado;
 
-	public Long getId() {
-		return this.id;
-	}
+  public TerminoIncoterm() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public String getDescripcion() {
+    return this.descripcion;
+  }
 
-	public List<Cliente> getClientes() {
-		return this.clientes;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
+  public List<Cliente> getClientes() {
+    return this.clientes;
+  }
 
-	public List<TerminosTransporte> getTerminosTransportes() {
-		return this.terminosTransportes;
-	}
+  public void setClientes(List<Cliente> clientes) {
+    this.clientes = clientes;
+  }
 
-	public void setTerminosTransportes(List<TerminosTransporte> terminosTransportes) {
-		this.terminosTransportes = terminosTransportes;
-	}
+  public List<TerminosTransporte> getTerminosTransportes() {
+    return this.terminosTransportes;
+  }
 
-	public TerminosTransporte addTerminosTransporte(TerminosTransporte terminosTransporte) {
-		getTerminosTransportes().add(terminosTransporte);
-		terminosTransporte.setTerminoIncoterm(this);
+  public void setTerminosTransportes(List<TerminosTransporte> terminosTransportes) {
+    this.terminosTransportes = terminosTransportes;
+  }
 
-		return terminosTransporte;
-	}
+  public TerminosTransporte addTerminosTransporte(TerminosTransporte terminosTransporte) {
+    getTerminosTransportes().add(terminosTransporte);
+    terminosTransporte.setTerminoIncoterm(this);
 
-	public TerminosTransporte removeTerminosTransporte(TerminosTransporte terminosTransporte) {
-		getTerminosTransportes().remove(terminosTransporte);
-		terminosTransporte.setTerminoIncoterm(null);
+    return terminosTransporte;
+  }
 
-		return terminosTransporte;
-	}
+  public TerminosTransporte removeTerminosTransporte(TerminosTransporte terminosTransporte) {
+    getTerminosTransportes().remove(terminosTransporte);
+    terminosTransporte.setTerminoIncoterm(null);
 
-	public boolean isSeleccionado() {
-		return seleccionado;
-	}
+    return terminosTransporte;
+  }
 
-	public void setSeleccionado(boolean seleccionado) {
-		this.seleccionado = seleccionado;
-	}
+  public boolean isSeleccionado() {
+    return seleccionado;
+  }
 
-	/**
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public int compareTo(TerminoIncoterm o) {
-		return descripcion.compareTo(o.descripcion);
-	}
+  public void setSeleccionado(boolean seleccionado) {
+    this.seleccionado = seleccionado;
+  }
 
-	
-
-
+  /**
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public int compareTo(TerminoIncoterm o) {
+    return descripcion.compareTo(o.descripcion);
+  }
 
 }

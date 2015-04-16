@@ -3,39 +3,39 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the pga_images database table.
- * 
+ *
  */
 @Entity
-@Table(name="pga_images")
-@NamedQuery(name="PgaImage.findAll", query="SELECT p FROM PgaImage p")
+@Table(name = "pga_images")
+@NamedQuery(name = "PgaImage.findAll", query = "SELECT p FROM PgaImage p")
 public class PgaImage implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private String imagename;
+  private static final long serialVersionUID = 1L;
 
-	private String imagesource;
+  @Id
+  private String imagename;
 
-	public PgaImage() {
-	}
+  private String imagesource;
 
-	public String getImagename() {
-		return this.imagename;
-	}
+  public PgaImage() {
+  }
 
-	public void setImagename(String imagename) {
-		this.imagename = imagename;
-	}
+  public String getImagename() {
+    return this.imagename;
+  }
 
-	public String getImagesource() {
-		return this.imagesource;
-	}
+  public void setImagename(String imagename) {
+    this.imagename = imagename;
+  }
 
-	public void setImagesource(String imagesource) {
-		this.imagesource = imagesource;
-	}
+  public String getImagesource() {
+    return this.imagesource;
+  }
+
+  public void setImagesource(String imagesource) {
+    this.imagesource = imagesource;
+  }
 
 }

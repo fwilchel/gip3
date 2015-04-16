@@ -13,20 +13,19 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 
 @Stateless
 @LocalBean
-public class DocumentoXNegociacionDAO extends GenericDAO<DocumentoXNegociacion> implements DocumentoXNegociacionDAOLocal{
+public class DocumentoXNegociacionDAO extends GenericDAO<DocumentoXNegociacion> implements DocumentoXNegociacionDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(DocumentoXNegociacionDAO.class);
-	
-	public DocumentoXNegociacionDAO(){
-		this.persistentClass = DocumentoXNegociacion.class;
-	}	
-	
-	public List<DocumentoXNegociacion> consultarDocumentoXNegociacionPorIdDocumento(Long idDocumento){
-		Query query = em
-				.createNamedQuery("DocumentoXNegociacion.findByIdDocumento");
-		query.setParameter("idDocumento", idDocumento);
-		return query.getResultList();
-	}
-	
+  private static final Logger LOGGER = Logger.getLogger(DocumentoXNegociacionDAO.class);
+
+  public DocumentoXNegociacionDAO() {
+    this.persistentClass = DocumentoXNegociacion.class;
+  }
+
+  public List<DocumentoXNegociacion> consultarDocumentoXNegociacionPorIdDocumento(Long idDocumento) {
+    Query query = em
+        .createNamedQuery("DocumentoXNegociacion.findByIdDocumento");
+    query.setParameter("idDocumento", idDocumento);
+    return query.getResultList();
+  }
 
 }

@@ -4,96 +4,96 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the nivel_inventarioxubicacion database table.
- * 
+ *
  */
 @Entity
-@Table(name="nivel_inventarioxubicacion")
-@NamedQuery(name="NivelInventarioxubicacion.findAll", query="SELECT n FROM NivelInventarioxubicacion n")
+@Table(name = "nivel_inventarioxubicacion")
+@NamedQuery(name = "NivelInventarioxubicacion.findAll", query = "SELECT n FROM NivelInventarioxubicacion n")
 public class NivelInventarioxubicacion implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private NivelInventarioxubicacionPK id;
+  private static final long serialVersionUID = 1L;
 
-	private BigDecimal cantidad;
+  @EmbeddedId
+  private NivelInventarioxubicacionPK id;
 
-	private BigDecimal saldo;
+  private BigDecimal cantidad;
 
-	private BigDecimal transito;
+  private BigDecimal saldo;
 
-	@Column(name="unidad_minima_despacho")
-	private Long unidadMinimaDespacho;
+  private BigDecimal transito;
 
-	//bi-directional many-to-one association to ProductosInventario
-	@ManyToOne(optional=false, fetch=FetchType.LAZY)
-	@JoinColumn(name="id_producto", referencedColumnName="id", insertable=false, updatable=false)
-	private ProductosInventario productosInventario;
+  @Column(name = "unidad_minima_despacho")
+  private Long unidadMinimaDespacho;
 
-	//bi-directional many-to-one association to Ubicacion
-	@ManyToOne(optional=false, fetch=FetchType.LAZY)
-	@JoinColumn(name="id_ubicacion", referencedColumnName="id", insertable=false, updatable=false)
-	private Ubicacion ubicacione;
+  //bi-directional many-to-one association to ProductosInventario
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_producto", referencedColumnName = "id", insertable = false, updatable = false)
+  private ProductosInventario productosInventario;
 
-	public NivelInventarioxubicacion() {
-	}
+  //bi-directional many-to-one association to Ubicacion
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_ubicacion", referencedColumnName = "id", insertable = false, updatable = false)
+  private Ubicacion ubicacione;
 
-	public NivelInventarioxubicacionPK getId() {
-		return this.id;
-	}
+  public NivelInventarioxubicacion() {
+  }
 
-	public void setId(NivelInventarioxubicacionPK id) {
-		this.id = id;
-	}
+  public NivelInventarioxubicacionPK getId() {
+    return this.id;
+  }
 
-	public BigDecimal getCantidad() {
-		return this.cantidad;
-	}
+  public void setId(NivelInventarioxubicacionPK id) {
+    this.id = id;
+  }
 
-	public void setCantidad(BigDecimal cantidad) {
-		this.cantidad = cantidad;
-	}
+  public BigDecimal getCantidad() {
+    return this.cantidad;
+  }
 
-	public BigDecimal getSaldo() {
-		return this.saldo;
-	}
+  public void setCantidad(BigDecimal cantidad) {
+    this.cantidad = cantidad;
+  }
 
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
-	}
+  public BigDecimal getSaldo() {
+    return this.saldo;
+  }
 
-	public BigDecimal getTransito() {
-		return this.transito;
-	}
+  public void setSaldo(BigDecimal saldo) {
+    this.saldo = saldo;
+  }
 
-	public void setTransito(BigDecimal transito) {
-		this.transito = transito;
-	}
+  public BigDecimal getTransito() {
+    return this.transito;
+  }
 
-	public Long getUnidadMinimaDespacho() {
-		return this.unidadMinimaDespacho;
-	}
+  public void setTransito(BigDecimal transito) {
+    this.transito = transito;
+  }
 
-	public void setUnidadMinimaDespacho(Long unidadMinimaDespacho) {
-		this.unidadMinimaDespacho = unidadMinimaDespacho;
-	}
+  public Long getUnidadMinimaDespacho() {
+    return this.unidadMinimaDespacho;
+  }
 
-	public ProductosInventario getProductosInventario() {
-		return this.productosInventario;
-	}
+  public void setUnidadMinimaDespacho(Long unidadMinimaDespacho) {
+    this.unidadMinimaDespacho = unidadMinimaDespacho;
+  }
 
-	public void setProductosInventario(ProductosInventario productosInventario) {
-		this.productosInventario = productosInventario;
-	}
+  public ProductosInventario getProductosInventario() {
+    return this.productosInventario;
+  }
 
-	public Ubicacion getUbicacione() {
-		return this.ubicacione;
-	}
+  public void setProductosInventario(ProductosInventario productosInventario) {
+    this.productosInventario = productosInventario;
+  }
 
-	public void setUbicacione(Ubicacion ubicacione) {
-		this.ubicacione = ubicacione;
-	}
+  public Ubicacion getUbicacione() {
+    return this.ubicacione;
+  }
+
+  public void setUbicacione(Ubicacion ubicacione) {
+    this.ubicacione = ubicacione;
+  }
 
 }

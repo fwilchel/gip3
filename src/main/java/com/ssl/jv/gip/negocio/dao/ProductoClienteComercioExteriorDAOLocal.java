@@ -16,48 +16,47 @@ import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 
-
 @Local
-public interface ProductoClienteComercioExteriorDAOLocal extends IGenericDAO<ProductosXClienteComext>{
-	
-	public void crearFacturaProforma(DocumentoIncontermDTO documento,ProductoPorClienteComExtDTO producto);
-	
-	public void modificarFacturaProforma(DocumentoIncontermDTO documento,ProductoPorClienteComExtDTO producto);
-	
-	public void eliminarFacturaProforma(DocumentoIncontermDTO documento,ProductoPorClienteComExtDTO producto);
-	
-	public BigDecimal consultarUltimoSaldoProducto(Long idProducto);
+public interface ProductoClienteComercioExteriorDAOLocal extends IGenericDAO<ProductosXClienteComext> {
 
-	public Boolean consultarProductoCliente(Long idDocumento, Long idProducto);
-	
-	public void crearSaldo(DocumentoIncontermDTO documento,ProductoPorClienteComExtDTO producto);
-	
-	public List<ProductoPorClienteComExtDTO> consultarListaSolicitudesPedido(Long idDocumento, Long idCliente);
-	
-	public List<ProductoPorClienteComExtDTO> consultarListaProductosPorClienteCE(Long idCliente, String idsProductos, Boolean solicitudCafe);
-	
-	public List<ProductosXClienteComext> consultarPorFiltro(
-			ProductosXClienteComExtFiltroVO filtroVO);
+  public void crearFacturaProforma(DocumentoIncontermDTO documento, ProductoPorClienteComExtDTO producto);
 
-	public List<ProductosXClienteComext> consultarTodos();
+  public void modificarFacturaProforma(DocumentoIncontermDTO documento, ProductoPorClienteComExtDTO producto);
 
-	List<ProductoDTO> consultarProductoPorDocumento(ListaEmpaqueDTO listaEmpaqueDTO);
+  public void eliminarFacturaProforma(DocumentoIncontermDTO documento, ProductoPorClienteComExtDTO producto);
 
-	void generarListaEmpaque(ProductoDTO productoDTO);
+  public BigDecimal consultarUltimoSaldoProducto(Long idProducto);
 
-	public ProductosXClienteComext consultarPorPK(ProductosXClienteComextPK pk);
-	
-	public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento,
-			Long idCliente);
-	
-	public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento,
-			Long idCliente);
+  public Boolean consultarProductoCliente(Long idDocumento, Long idProducto);
 
-	public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento,
-			Long idCliente);
-	
-	public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku);
-	
-	public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(
-			Long idDocumento, Long idCliente);
+  public void crearSaldo(DocumentoIncontermDTO documento, ProductoPorClienteComExtDTO producto);
+
+  public List<ProductoPorClienteComExtDTO> consultarListaSolicitudesPedido(Long idDocumento, Long idCliente);
+
+  public List<ProductoPorClienteComExtDTO> consultarListaProductosPorClienteCE(Long idCliente, String idsProductos, Boolean solicitudCafe);
+
+  public List<ProductosXClienteComext> consultarPorFiltro(
+      ProductosXClienteComExtFiltroVO filtroVO);
+
+  public List<ProductosXClienteComext> consultarTodos();
+
+  List<ProductoDTO> consultarProductoPorDocumento(ListaEmpaqueDTO listaEmpaqueDTO);
+
+  void generarListaEmpaque(ProductoDTO productoDTO);
+
+  public ProductosXClienteComext consultarPorPK(ProductosXClienteComextPK pk);
+
+  public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento,
+      Long idCliente);
+
+  public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento,
+      Long idCliente);
+
+  public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento,
+      Long idCliente);
+
+  public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku);
+
+  public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(
+      Long idDocumento, Long idCliente);
 }

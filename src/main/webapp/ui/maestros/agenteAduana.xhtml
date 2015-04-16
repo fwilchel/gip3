@@ -1,224 +1,224 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:misc="http://java.sun.com/jsf/composite/misc"
+                template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroUbicacionesTituloFrame}::.</ui:define>
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroUbicacionesTituloFrame}::.</ui:define>
 
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form prependId="false" id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
-
-
-			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.MaestroAgentesTitulo}">
-					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-						value="#{agenteAduanaMB.agentes}" rows="10"
-						emptyMessage="#{msg.generalNoDatos}" paginator="true"
-						paginatorPosition="bottom"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
-
-						<f:facet name="header">
-							<div align="right">
-								<p:outputPanel>
-
-									<p:commandButton action="#{agenteAduanaMB.nuevo}"
-										update=":forma:datoDetalle, :forma:datoDlg"
-										oncomplete="PF('datoDialog').show()"
-										title="#{msg.generalAdicionarRegistro}"
-										icon="ui-icon-document"
-										value="#{msg.generalAdicionarRegistro}" />
-									<p:spacer width="30"></p:spacer>
-									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
-									<p:inputText id="globalFilter"
-										onkeyup="PF('datoTabla').filter()" style="width:150px"
-										placeholder="#{msg.generalPalabrasBuscar}" />
-									<p:spacer width="30"></p:spacer>
-									<p:commandButton action="introduccion"
-										title="#{msg.generalCancelar}" ajax="false"
-										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+      <p:messages id="msgs" showDetail="false" showSummary="true"
+                  globalOnly="false" showIcon="true"></p:messages>
 
 
-								</p:outputPanel>
-							</div>
-						</f:facet>
+      <p:tabView id="tabPanel">
+        <p:tab title="#{msg.MaestroAgentesTitulo}">
+          <p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+                       value="#{agenteAduanaMB.agentes}" rows="10"
+                       emptyMessage="#{msg.generalNoDatos}" paginator="true"
+                       paginatorPosition="bottom"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
 
-						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete="PF('datoDialog').show()"
-								icon="ui-icon-pencil" title="#{msg.generalEditar}"
-								update=":forma:datoDetalle,:forma:datoDlg">
-								<f:setPropertyActionListener value="#{dato}"
-									target="#{agenteAduanaMB.seleccionado}" />
-							</p:commandButton>
-						</p:column>
+            <f:facet name="header">
+              <div align="right">
+                <p:outputPanel>
 
-
-						<p:column filterBy="#{dato.id}"
-							headerText="#{msg.maestroIdAgente}" filterMatchMode="contains"
-							sortBy="#{dato.id}">
-							<h:outputText value="#{dato.id}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.nombre}"
-							headerText="#{msg.maestroNombreAgente}"
-							filterMatchMode="contains" sortBy="#{dato.nombre}">
-							<h:outputText value="#{dato.nombre}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.direccion}"
-							headerText="#{msg.maestroDireccionAgente}"
-							filterMatchMode="contains" sortBy="#{dato.direccion}">
-							<h:outputText value="#{dato.direccion}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.telefono}"
-							headerText="#{msg.maestroTelefonoAgente}"
-							filterMatchMode="contains" sortBy="#{dato.telefono}">
-							<h:outputText value="#{dato.telefono}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.contacto}"
-							headerText="#{msg.maestroContactoAgente}"
-							filterMatchMode="contains" sortBy="#{dato.contacto}">
-							<h:outputText value="#{dato.contacto}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.email}"
-							headerText="#{msg.maestroEmailAgente}"
-							filterMatchMode="contains" sortBy="#{dato.email}">
-							<h:outputText value="#{dato.email}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.celular}"
-							headerText="#{msg.maestroCelularAgente}"
-							filterMatchMode="contains" sortBy="#{dato.celular}">
-							<h:outputText value="#{dato.celular}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.lugarEntrega}"
-							headerText="#{msg.maestroLugarEntregaAgente}"
-							filterMatchMode="contains" sortBy="#{dato.lugarEntrega}">
-							<h:outputText value="#{dato.lugarEntrega}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.activo?'Si':'No'}"
-							headerText="#{msg.generalActivo}" filterMatchMode="exact"
-							sortBy="#{dato.activo}">
-							<f:facet name="filter">
-								<p:selectOneMenu onchange="PF('datoTabla').filter()"
-									style="width:120px">
-									<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"
-										noSelectionOption="true" />
-									<f:selectItem itemLabel="Si" itemValue="Si" />
-									<f:selectItem itemLabel="No" itemValue="No" />
-								</p:selectOneMenu>
-							</f:facet>
-							<h:outputText value="#{dato.activo?'Si':'No'}" />
-						</p:column>
+                  <p:commandButton action="#{agenteAduanaMB.nuevo}"
+                                   update=":forma:datoDetalle, :forma:datoDlg"
+                                   oncomplete="PF('datoDialog').show()"
+                                   title="#{msg.generalAdicionarRegistro}"
+                                   icon="ui-icon-document"
+                                   value="#{msg.generalAdicionarRegistro}" />
+                  <p:spacer width="30"></p:spacer>
+                  <h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText id="globalFilter"
+                               onkeyup="PF('datoTabla').filter()" style="width:150px"
+                               placeholder="#{msg.generalPalabrasBuscar}" />
+                  <p:spacer width="30"></p:spacer>
+                  <p:commandButton action="introduccion"
+                                   title="#{msg.generalCancelar}" ajax="false"
+                                   icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
 
 
-					</p:dataTable>
-				</p:tab>
-			</p:tabView>
+                </p:outputPanel>
+              </div>
+            </f:facet>
 
-			<p:dialog
-				header="#{agenteAduanaMB.creacion?msg.maestrosCrearAgente:msg.maestroModificarAgente}"
-				widgetVar="datoDialog" modal="true" showEffect="fade"
-				hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
-				<p:outputPanel id="datoDetalle" style="text-align:center;">
-					<p:messages id="msgs2" showDetail="false" showSummary="true"
-						globalOnly="true" showIcon="true"></p:messages>
-					<p:panelGrid columns="3"
-						rendered="#{not empty agenteAduanaMB.seleccionado}"
-						columnClasses="label,value">
+            <p:column style="width:32px;text-align: center">
+              <p:commandButton oncomplete="PF('datoDialog').show()"
+                               icon="ui-icon-pencil" title="#{msg.generalEditar}"
+                               update=":forma:datoDetalle,:forma:datoDlg">
+                <f:setPropertyActionListener value="#{dato}"
+                                             target="#{agenteAduanaMB.seleccionado}" />
+              </p:commandButton>
+            </p:column>
 
 
-						<h:outputLabel value="#{msg.maestroCreModNombreAgente}"
-							for="nombres" styleClass="negrita" />
-						<h:inputText value="#{agenteAduanaMB.seleccionado.nombre}"
-							id="nombres" required="true" maxlength="60"
-							label="#{msg.maestroCreModNombreAgente}" />
-						<p:message for="nombres"></p:message>
+            <p:column filterBy="#{dato.id}"
+                      headerText="#{msg.maestroIdAgente}" filterMatchMode="contains"
+                      sortBy="#{dato.id}">
+              <h:outputText value="#{dato.id}" />
+            </p:column>
 
-						<h:outputLabel value="#{msg.maestroCreModDireccionAgente}"
-							for="direccion" styleClass="negrita" />
-						<h:inputText value="#{agenteAduanaMB.seleccionado.direccion}"
-							id="direccion" required="true" maxlength="60"
-							label="#{msg.maestroCreModDireccionAgente}" />
-						<p:message for="direccion"></p:message>
+            <p:column filterBy="#{dato.nombre}"
+                      headerText="#{msg.maestroNombreAgente}"
+                      filterMatchMode="contains" sortBy="#{dato.nombre}">
+              <h:outputText value="#{dato.nombre}" />
+            </p:column>
 
-						<h:outputLabel value="#{msg.maestroCreModTelefonoAgente}"
-							for="telefono" styleClass="negrita" />
-						<h:inputText value="#{agenteAduanaMB.seleccionado.telefono}"
-							id="telefono" required="true" maxlength="60"
-							label="#{msg.maestroCreModTelefonoAgente}" />
-						<p:message for="telefono"></p:message>
+            <p:column filterBy="#{dato.direccion}"
+                      headerText="#{msg.maestroDireccionAgente}"
+                      filterMatchMode="contains" sortBy="#{dato.direccion}">
+              <h:outputText value="#{dato.direccion}" />
+            </p:column>
 
-						<h:outputLabel value="#{msg.maestroCelularAgente}" for="celular"
-							styleClass="negrita" />
-						<h:inputText value="#{agenteAduanaMB.seleccionado.celular}"
-							id="celular" required="false" maxlength="60"
-							label="#{msg.maestroCelularAgente}" />
-						<p:message for="celular"></p:message>
+            <p:column filterBy="#{dato.telefono}"
+                      headerText="#{msg.maestroTelefonoAgente}"
+                      filterMatchMode="contains" sortBy="#{dato.telefono}">
+              <h:outputText value="#{dato.telefono}" />
+            </p:column>
 
-						<h:outputLabel value="#{msg.maestroContactoAgente}"
-							for="contacto" styleClass="negrita" />
-						<h:inputText value="#{agenteAduanaMB.seleccionado.contacto}"
-							id="contacto" required="false" maxlength="60"
-							label="#{msg.maestroContactoAgente}" />
-						<p:message for="contacto"></p:message>
+            <p:column filterBy="#{dato.contacto}"
+                      headerText="#{msg.maestroContactoAgente}"
+                      filterMatchMode="contains" sortBy="#{dato.contacto}">
+              <h:outputText value="#{dato.contacto}" />
+            </p:column>
 
-						<h:outputLabel value="#{msg.maestroEmailAgente}" for="email"
-							styleClass="negrita" />
-						<h:inputText value="#{agenteAduanaMB.seleccionado.email}"
-							id="email" required="false" maxlength="100"
-							label="#{msg.maestroEmailAgente}"
-							validatorMessage="#{msg.generalCorreoInvalido}">
-							<f:validateRegex
-								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"
-								for="email" />
-						</h:inputText>
-						<p:message for="email"></p:message>
+            <p:column filterBy="#{dato.email}"
+                      headerText="#{msg.maestroEmailAgente}"
+                      filterMatchMode="contains" sortBy="#{dato.email}">
+              <h:outputText value="#{dato.email}" />
+            </p:column>
 
-						<h:outputLabel value="#{msg.maestroCreModLugarEntregaAgente}"
-							for="lugar" styleClass="negrita" />
-						<h:inputText value="#{agenteAduanaMB.seleccionado.lugarEntrega}"
-							id="lugar" required="true" maxlength="60"
-							label="#{msg.maestroCreModLugarEntregaAgente}" />
-						<p:message for="lugar"></p:message>
+            <p:column filterBy="#{dato.celular}"
+                      headerText="#{msg.maestroCelularAgente}"
+                      filterMatchMode="contains" sortBy="#{dato.celular}">
+              <h:outputText value="#{dato.celular}" />
+            </p:column>
 
-						<h:outputLabel value="#{msg.generalActivo}" for="activo"
-							styleClass="negrita" />
-						<p:selectBooleanCheckbox
-							value="#{agenteAduanaMB.seleccionado.activo}" id="activo"
-							label="#{msg.generalActivo}" />
-						<p:message for="activo"></p:message>
+            <p:column filterBy="#{dato.lugarEntrega}"
+                      headerText="#{msg.maestroLugarEntregaAgente}"
+                      filterMatchMode="contains" sortBy="#{dato.lugarEntrega}">
+              <h:outputText value="#{dato.lugarEntrega}" />
+            </p:column>
 
-						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
-							action="#{agenteAduanaMB.guardar}"
-							update="datoDetalle, tabPanel:tablaDatos"></p:commandButton>
-						<p:commandButton value="#{msg.generalCancelar}"
-							onclick="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
-
-					</p:panelGrid>
+            <p:column filterBy="#{dato.activo?'Si':'No'}"
+                      headerText="#{msg.generalActivo}" filterMatchMode="exact"
+                      sortBy="#{dato.activo}">
+              <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('datoTabla').filter()"
+                                 style="width:120px">
+                  <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"
+                                noSelectionOption="true" />
+                  <f:selectItem itemLabel="Si" itemValue="Si" />
+                  <f:selectItem itemLabel="No" itemValue="No" />
+                </p:selectOneMenu>
+              </f:facet>
+              <h:outputText value="#{dato.activo?'Si':'No'}" />
+            </p:column>
 
 
-				</p:outputPanel>
-			</p:dialog>
+          </p:dataTable>
+        </p:tab>
+      </p:tabView>
+
+      <p:dialog
+        header="#{agenteAduanaMB.creacion?msg.maestrosCrearAgente:msg.maestroModificarAgente}"
+        widgetVar="datoDialog" modal="true" showEffect="fade"
+        hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+        <p:outputPanel id="datoDetalle" style="text-align:center;">
+          <p:messages id="msgs2" showDetail="false" showSummary="true"
+                      globalOnly="true" showIcon="true"></p:messages>
+          <p:panelGrid columns="3"
+                       rendered="#{not empty agenteAduanaMB.seleccionado}"
+                       columnClasses="label,value">
+
+
+            <h:outputLabel value="#{msg.maestroCreModNombreAgente}"
+                           for="nombres" styleClass="negrita" />
+            <h:inputText value="#{agenteAduanaMB.seleccionado.nombre}"
+                         id="nombres" required="true" maxlength="60"
+                         label="#{msg.maestroCreModNombreAgente}" />
+            <p:message for="nombres"></p:message>
+
+            <h:outputLabel value="#{msg.maestroCreModDireccionAgente}"
+                           for="direccion" styleClass="negrita" />
+            <h:inputText value="#{agenteAduanaMB.seleccionado.direccion}"
+                         id="direccion" required="true" maxlength="60"
+                         label="#{msg.maestroCreModDireccionAgente}" />
+            <p:message for="direccion"></p:message>
+
+            <h:outputLabel value="#{msg.maestroCreModTelefonoAgente}"
+                           for="telefono" styleClass="negrita" />
+            <h:inputText value="#{agenteAduanaMB.seleccionado.telefono}"
+                         id="telefono" required="true" maxlength="60"
+                         label="#{msg.maestroCreModTelefonoAgente}" />
+            <p:message for="telefono"></p:message>
+
+            <h:outputLabel value="#{msg.maestroCelularAgente}" for="celular"
+                           styleClass="negrita" />
+            <h:inputText value="#{agenteAduanaMB.seleccionado.celular}"
+                         id="celular" required="false" maxlength="60"
+                         label="#{msg.maestroCelularAgente}" />
+            <p:message for="celular"></p:message>
+
+            <h:outputLabel value="#{msg.maestroContactoAgente}"
+                           for="contacto" styleClass="negrita" />
+            <h:inputText value="#{agenteAduanaMB.seleccionado.contacto}"
+                         id="contacto" required="false" maxlength="60"
+                         label="#{msg.maestroContactoAgente}" />
+            <p:message for="contacto"></p:message>
+
+            <h:outputLabel value="#{msg.maestroEmailAgente}" for="email"
+                           styleClass="negrita" />
+            <h:inputText value="#{agenteAduanaMB.seleccionado.email}"
+                         id="email" required="false" maxlength="100"
+                         label="#{msg.maestroEmailAgente}"
+                         validatorMessage="#{msg.generalCorreoInvalido}">
+              <f:validateRegex
+                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"
+                for="email" />
+            </h:inputText>
+            <p:message for="email"></p:message>
+
+            <h:outputLabel value="#{msg.maestroCreModLugarEntregaAgente}"
+                           for="lugar" styleClass="negrita" />
+            <h:inputText value="#{agenteAduanaMB.seleccionado.lugarEntrega}"
+                         id="lugar" required="true" maxlength="60"
+                         label="#{msg.maestroCreModLugarEntregaAgente}" />
+            <p:message for="lugar"></p:message>
+
+            <h:outputLabel value="#{msg.generalActivo}" for="activo"
+                           styleClass="negrita" />
+            <p:selectBooleanCheckbox
+              value="#{agenteAduanaMB.seleccionado.activo}" id="activo"
+              label="#{msg.generalActivo}" />
+            <p:message for="activo"></p:message>
+
+            <p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+                             action="#{agenteAduanaMB.guardar}"
+                             update="datoDetalle, tabPanel:tablaDatos"></p:commandButton>
+            <p:commandButton value="#{msg.generalCancelar}"
+                             onclick="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+
+          </p:panelGrid>
+
+
+        </p:outputPanel>
+      </p:dialog>
 
 
 
-		</h:form>
+    </h:form>
 
-	</ui:define>
+  </ui:define>
 
 </ui:composition>
 

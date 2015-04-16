@@ -23,84 +23,84 @@ import com.ssl.jv.gip.negocio.ejb.MaestrosEJB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
 
-@ManagedBean(name="ubicacionMB")
+@ManagedBean(name = "ubicacionMB")
 @SessionScoped
-public class UbicacionMB extends UtilMB{
-	
-	private List<Ubicacion> ubicacion;
-	private Ubicacion seleccionado;
-	
-	private List<Pais> paises;
-	
-	private List<Region> regiones;
-	
-	private List<Ubicacion> bodegas;
-	
-	private List<Empresa> empresas;
-	
-	private Modo modo;
-	
-	@EJB
-	private MaestrosEJB maestroEjb;	
-	
-	@EJB
-	private ComunEJB comunEJB;
-	
-	private Region region;
-	
-	private Pais pais;
-		
-	public UbicacionMB(){
-		
-	}
-	
-	@PostConstruct
-	public void init(){
-		ubicacion = maestroEjb.consultarUbicaciones();
-		paises = comunEJB.consultarPaises();
-		bodegas = comunEJB.consultarBodegasAbastecedoras();
-		empresas = comunEJB.consultarEmpresas();
-	}
-	
-	public String modificar(){
-		regiones = comunEJB.consultarRegiones(seleccionado.getRegione().getPais().getId());
-		
-		pais = seleccionado.getRegione() != null ? seleccionado.getRegione().getPais() : new Pais();
-		
-		region = seleccionado.getRegione();
-		
-		return "";
-	}
+public class UbicacionMB extends UtilMB {
 
-	public Modo getModo() {
-		return modo;
-	}
+  private List<Ubicacion> ubicacion;
+  private Ubicacion seleccionado;
 
-	public void setModo(Modo modo) {
-		this.modo = modo;
-	}
+  private List<Pais> paises;
 
-	public Ubicacion getSeleccionado() {
-		return seleccionado;
-	}
+  private List<Region> regiones;
 
-	public void setSeleccionado(Ubicacion seleccionado) {
-		this.seleccionado = seleccionado;
-		this.modo=Modo.EDICION;
-	}
-	
-	public void nuevo(){
-		region=new Region();
-		pais = new Pais();
-		seleccionado=new Ubicacion();
-		seleccionado.setUbicacione(new Ubicacion());
-		seleccionado.setEmpresa(new Empresa());
-		regiones = comunEJB.consultarRegiones(paises.get(0).getId());
-		this.modo=Modo.CREACION;
-	}
-	
-	public void guardar(){
-		
+  private List<Ubicacion> bodegas;
+
+  private List<Empresa> empresas;
+
+  private Modo modo;
+
+  @EJB
+  private MaestrosEJB maestroEjb;
+
+  @EJB
+  private ComunEJB comunEJB;
+
+  private Region region;
+
+  private Pais pais;
+
+  public UbicacionMB() {
+
+  }
+
+  @PostConstruct
+  public void init() {
+    ubicacion = maestroEjb.consultarUbicaciones();
+    paises = comunEJB.consultarPaises();
+    bodegas = comunEJB.consultarBodegasAbastecedoras();
+    empresas = comunEJB.consultarEmpresas();
+  }
+
+  public String modificar() {
+    regiones = comunEJB.consultarRegiones(seleccionado.getRegione().getPais().getId());
+
+    pais = seleccionado.getRegione() != null ? seleccionado.getRegione().getPais() : new Pais();
+
+    region = seleccionado.getRegione();
+
+    return "";
+  }
+
+  public Modo getModo() {
+    return modo;
+  }
+
+  public void setModo(Modo modo) {
+    this.modo = modo;
+  }
+
+  public Ubicacion getSeleccionado() {
+    return seleccionado;
+  }
+
+  public void setSeleccionado(Ubicacion seleccionado) {
+    this.seleccionado = seleccionado;
+    this.modo = Modo.EDICION;
+  }
+
+  public void nuevo() {
+    region = new Region();
+    pais = new Pais();
+    seleccionado = new Ubicacion();
+    seleccionado.setUbicacione(new Ubicacion());
+    seleccionado.setEmpresa(new Empresa());
+    regiones = comunEJB.consultarRegiones(paises.get(0).getId());
+    this.modo = Modo.CREACION;
+  }
+
+  public void guardar() {
+
 //		Region reg = new Region();
 //		
 //		if(this.getRegiones() != null){
@@ -140,87 +140,86 @@ public class UbicacionMB extends UtilMB{
 //				}
 //			}
 //		}
-		
-		if (this.modo.equals(Modo.CREACION)){
-			seleccionado.setRegione(region);
-			this.seleccionado = this.maestroEjb.crearUbicacion(this.seleccionado);		
-			//this.ubicacion.add(0,this.seleccionado);
-		}else{
-			seleccionado.setRegione(region);
-			this.maestroEjb.actualizarUbicacion(this.seleccionado);
-		}
-		
-		ubicacion = maestroEjb.consultarUbicaciones();
-		
-		this.addMensajeInfo("Ubicacion almacenado exitosamente");
-	}
-	
-	public void cambioPais(){
-		regiones = comunEJB.consultarRegiones(pais.getId());
-	}
-	
-	public boolean isCreacion(){
-		if (this.modo!=null && this.modo.equals(Modo.CREACION)){
-			return true;
-		}else{
-			return false;
-		}
-	}
+    if (this.modo.equals(Modo.CREACION)) {
+      seleccionado.setRegione(region);
+      this.seleccionado = this.maestroEjb.crearUbicacion(this.seleccionado);
+      //this.ubicacion.add(0,this.seleccionado);
+    } else {
+      seleccionado.setRegione(region);
+      this.maestroEjb.actualizarUbicacion(this.seleccionado);
+    }
 
-	public List<Ubicacion> getUbicacion() {
-		return ubicacion;
-	}
+    ubicacion = maestroEjb.consultarUbicaciones();
 
-	public void setUbicacion(List<Ubicacion> ubicacion) {
-		this.ubicacion = ubicacion;
-	}
+    this.addMensajeInfo("Ubicacion almacenado exitosamente");
+  }
 
-	public List<Pais> getPaises() {
-		return paises;
-	}
+  public void cambioPais() {
+    regiones = comunEJB.consultarRegiones(pais.getId());
+  }
 
-	public void setPaises(List<Pais> paises) {
-		this.paises = paises;
-	}
+  public boolean isCreacion() {
+    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-	public List<Region> getRegiones() {
-		return regiones;
-	}
+  public List<Ubicacion> getUbicacion() {
+    return ubicacion;
+  }
 
-	public void setRegiones(List<Region> regiones) {
-		this.regiones = regiones;
-	}
+  public void setUbicacion(List<Ubicacion> ubicacion) {
+    this.ubicacion = ubicacion;
+  }
 
-	public List<Ubicacion> getBodegas() {
-		return bodegas;
-	}
+  public List<Pais> getPaises() {
+    return paises;
+  }
 
-	public void setBodegas(List<Ubicacion> bodegas) {
-		this.bodegas = bodegas;
-	}
+  public void setPaises(List<Pais> paises) {
+    this.paises = paises;
+  }
 
-	public List<Empresa> getEmpresas() {
-		return empresas;
-	}
+  public List<Region> getRegiones() {
+    return regiones;
+  }
 
-	public void setEmpresas(List<Empresa> empresas) {
-		this.empresas = empresas;
-	}
+  public void setRegiones(List<Region> regiones) {
+    this.regiones = regiones;
+  }
 
-	public Region getRegion() {
-		return region;
-	}
+  public List<Ubicacion> getBodegas() {
+    return bodegas;
+  }
 
-	public void setRegion(Region region) {
-		this.region = region;
-	}
+  public void setBodegas(List<Ubicacion> bodegas) {
+    this.bodegas = bodegas;
+  }
 
-	public Pais getPais() {
-		return pais;
-	}
+  public List<Empresa> getEmpresas() {
+    return empresas;
+  }
 
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
+  public void setEmpresas(List<Empresa> empresas) {
+    this.empresas = empresas;
+  }
+
+  public Region getRegion() {
+    return region;
+  }
+
+  public void setRegion(Region region) {
+    this.region = region;
+  }
+
+  public Pais getPais() {
+    return pais;
+  }
+
+  public void setPais(Pais pais) {
+    this.pais = pais;
+  }
 
 }

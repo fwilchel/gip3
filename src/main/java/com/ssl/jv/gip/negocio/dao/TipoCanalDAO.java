@@ -7,16 +7,14 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.TipoCanal;
 
-
 @Stateless
 @LocalBean
-public class TipoCanalDAO extends GenericDAO<TipoCanal> implements TipoCanalDAOLocal{
-	
-	private static final Logger LOGGER = Logger.getLogger(CiudadDAO.class);
-	
-	public TipoCanalDAO(){
-		this.persistentClass = TipoCanal.class;
-	}
-	
+public class TipoCanalDAO extends GenericDAO<TipoCanal> implements TipoCanalDAOLocal {
+
+  private static final Logger LOGGER = Logger.getLogger(CiudadDAO.class);
+
+  public TipoCanalDAO() {
+    this.persistentClass = TipoCanal.class;
+  }
 
 }

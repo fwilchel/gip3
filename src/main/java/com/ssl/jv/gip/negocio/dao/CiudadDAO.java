@@ -12,20 +12,20 @@ import com.ssl.jv.gip.jpa.pojo.Ciudad;
 
 @Stateless
 @LocalBean
-public class CiudadDAO extends GenericDAO<Ciudad> implements CiudadDAOLocal{
-	
-	private static final Logger LOGGER = Logger.getLogger(CiudadDAO.class);
-	
-	public CiudadDAO(){
-		this.persistentClass = Ciudad.class;
-		
-	}
+public class CiudadDAO extends GenericDAO<Ciudad> implements CiudadDAOLocal {
 
-	@Override
-	public List<Ciudad> findByPais(String idPais) {
-		TypedQuery<Ciudad> query = em.createNamedQuery("Ciudad.findByPais", Ciudad.class);
-		query.setParameter("idPais", idPais);
-		return query.getResultList();
-	}
+  private static final Logger LOGGER = Logger.getLogger(CiudadDAO.class);
+
+  public CiudadDAO() {
+    this.persistentClass = Ciudad.class;
+
+  }
+
+  @Override
+  public List<Ciudad> findByPais(String idPais) {
+    TypedQuery<Ciudad> query = em.createNamedQuery("Ciudad.findByPais", Ciudad.class);
+    query.setParameter("idPais", idPais);
+    return query.getResultList();
+  }
 
 }

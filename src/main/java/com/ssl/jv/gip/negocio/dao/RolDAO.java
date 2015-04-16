@@ -9,13 +9,12 @@ import com.ssl.jv.gip.jpa.pojo.Rol;
 
 @Stateless
 @LocalBean
-public class RolDAO extends GenericDAO<Rol> implements RolDAOLocal{
-	
-	private static final Logger LOGGER = Logger.getLogger(RolDAO.class);
-	
-	public RolDAO(){
-		this.persistentClass = Rol.class;
-	}
-	
-	
+public class RolDAO extends GenericDAO<Rol> implements RolDAOLocal {
+
+  private static final Logger LOGGER = Logger.getLogger(RolDAO.class);
+
+  public RolDAO() {
+    this.persistentClass = Rol.class;
+  }
+
 }

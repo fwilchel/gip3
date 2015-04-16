@@ -3,51 +3,51 @@ package com.ssl.jv.gip.negocio.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-public class DatoContribucionCafeteraDTO implements Serializable{
+public class DatoContribucionCafeteraDTO implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6086879143813479457L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = 6086879143813479457L;
 
-	private Long idDocumento;
-	
-	private Long idDocumentoFX;
-	
-	private String consecutivo;
-	
-	private Date fechaGeneracion;
+  private Long idDocumento;
 
-	public Long getIdDocumento() {
-		return idDocumento;
-	}
+  private Long idDocumentoFX;
 
-	public void setIdDocumento(Long idDocumento) {
-		this.idDocumento = idDocumento;
-	}
+  private String consecutivo;
 
-	public Long getIdDocumentoFX() {
-		return idDocumentoFX;
-	}
+  private Date fechaGeneracion;
 
-	public void setIdDocumentoFX(Long idDocumentoFX) {
-		this.idDocumentoFX = idDocumentoFX;
-	}
+  public Long getIdDocumento() {
+    return idDocumento;
+  }
 
-	public String getConsecutivo() {
-		return consecutivo;
-	}
+  public void setIdDocumento(Long idDocumento) {
+    this.idDocumento = idDocumento;
+  }
 
-	public void setConsecutivo(String consecutivo) {
-		this.consecutivo = consecutivo;
-	}
+  public Long getIdDocumentoFX() {
+    return idDocumentoFX;
+  }
 
-	public Date getFechaGeneracion() {
-		return fechaGeneracion;
-	}
+  public void setIdDocumentoFX(Long idDocumentoFX) {
+    this.idDocumentoFX = idDocumentoFX;
+  }
 
-	public void setFechaGeneracion(Date fechaGeneracion) {
-		this.fechaGeneracion = fechaGeneracion;
-	}
-	
+  public String getConsecutivo() {
+    return consecutivo;
+  }
+
+  public void setConsecutivo(String consecutivo) {
+    this.consecutivo = consecutivo;
+  }
+
+  public Date getFechaGeneracion() {
+    return fechaGeneracion;
+  }
+
+  public void setFechaGeneracion(Date fechaGeneracion) {
+    this.fechaGeneracion = fechaGeneracion;
+  }
+
 }

@@ -19,10 +19,10 @@ public interface VentasFacturacionEJBLocal {
 
   //List<Documento> consultarDocumento(Map<String, Object> parametros);
   List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   List<Documento> consultarDocumento(Map<String, Object> parametros,
-          Long[] idEstados);
+      Long[] idEstados);
 
   //List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(String strConsecutivoDocumento);
   /**
@@ -37,7 +37,7 @@ public interface VentasFacturacionEJBLocal {
   List<Documento> consultarRemisionesPendientesPorRecibir(String consecutivo);
 
   List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
-          Long idPuntoVenta);
+      Long idPuntoVenta);
 
   /**
    * Crear venta directa.
@@ -48,7 +48,7 @@ public interface VentasFacturacionEJBLocal {
    * @return the documento
    */
   Documento crearVentaDirecta(Documento documento, LogAuditoria auditoria,
-          List<ProductosXDocumento> productos);
+      List<ProductosXDocumento> productos);
 
   /**
    * Metodo que consulta los documentos tipo venta_directa en estado activo
@@ -75,7 +75,7 @@ public interface VentasFacturacionEJBLocal {
    * Metodo que crea la orden de despacho
    *
    * @author Diego Poveda - Soft Studio Ltda.
-   * @return 
+   * @return
    * @email dpoveda@gmail.com
    * @phone 3192594013
    * @param documento
@@ -90,21 +90,21 @@ public interface VentasFacturacionEJBLocal {
    * @return
    */
   List<Documento> consultarOrdenesDespachoPorObservacion(String observacion);
-  
+
   /**
-   * 
+   *
    * @param factura
    * @param listaProductos
    * @param remisionRelacionada
    * @param auditoria
-   * @return 
+   * @return
    */
   Documento generarFactura(Documento factura, List<ProductosXDocumento> listaProductos, Documento remisionRelacionada, LogAuditoria auditoria);
-  
+
   /**
    * Metodo que cambia e estado y e numero de factura de un documento
-   * 
-   * @param factura 
+   *
+   * @param factura
    */
   void imprimirFactura(Documento factura);
 

@@ -14,13 +14,13 @@ import com.ssl.jv.gip.jpa.pojo.Estado;
 @LocalBean
 public class EstadoDAO extends GenericDAO<Estado> implements EstadoDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(EstadoDAO.class);
+  private static final Logger LOGGER = Logger.getLogger(EstadoDAO.class);
 
-	/**
-	 * Default constructor.
-	 */
-	public EstadoDAO() {
-		this.persistentClass = Estado.class;
-	}
+  /**
+   * Default constructor.
+   */
+  public EstadoDAO() {
+    this.persistentClass = Estado.class;
+  }
 
 }

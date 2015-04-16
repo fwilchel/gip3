@@ -37,6 +37,8 @@ import org.hibernate.annotations.LazyCollectionOption;
   @NamedQuery(name = Documento.FIND_BY_OBSERVACION_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.observacionDocumento = :observacionDocumento"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado ORDER BY d.id"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS, query = "SELECT distinct d FROM Documento d JOIN FETCH d.cliente cli JOIN FETCH cli.ciudad ciu JOIN FETCH cli.metodoPago mpa JOIN FETCH cli.terminoIncoterms ti WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstado,:idEstado2) ORDER BY d.id desc"),
+  @NamedQuery(name = Documento.FIND_DOCUMENTOS_FX_REIMPRIMIR, query = "SELECT d FROM Documento d JOIN d.cliente JOIN d.estadosxdocumento JOIN d.documentoXNegociacions JOIN d.cliente.ciudad JOIN d.cliente.metodoPago WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d.estadosxdocumento.id.idEstado IN (:estado) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id desc"),
+  @NamedQuery(name = Documento.FIND_DOCUMENTO_FX_REIMPRIMIR_BY_ID, query = "SELECT d FROM Documento d JOIN FETCH d.cliente c JOIN d.cliente.terminoIncoterms JOIN FETCH d.documentoXNegociacions WHERE d.id = :id"),
   @NamedQuery(name = Documento.FIND_BY_FECHAS_TIPO_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.fechaGeneracion BETWEEN :fechaInicio AND :fechaFin ORDER BY d.fechaGeneracion"),
   @NamedQuery(name = Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn LEFT JOIN FETCH d.cliente cli LEFT JOIN FETCH cli.ciudad ciu LEFT JOIN FETCH cli.metodoPago mp WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstados) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
   @NamedQuery(name = Documento.LISTADO_ANULAR_SOLICITUD_PEDIDO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d.estadosxdocumento.id.idEstado NOT IN (:cerrado, :anulado) AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.estadosxdocumento.id.idTipoDocumento = :facturaProforma) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
@@ -71,6 +73,8 @@ public class Documento implements Serializable {
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_OBSERVACION_DOCUMENTO = "Documento.findByObservacionAndTipo";
   public static final String ACTUALIZAR_ESTADO_Y_NUMERO_FACTURA = "UPDATE documentos SET id_estado = :estado, numero_factura = :numeroFactura WHERE id = :id";
   public static final String ACTUALIZAR_ESTADO_Y_OBSERVACION = "UPDATE documentos SET id_estado = :estado, observacion_documento = :observacionDocumento WHERE id = :id";
+  public static final String FIND_DOCUMENTOS_FX_REIMPRIMIR = "Documento.findDocumentosFXImprimir";
+  public static final String FIND_DOCUMENTO_FX_REIMPRIMIR_BY_ID = "Documento.findDocumentosFXImprimirById";
 
   @Id
   @SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)
@@ -369,12 +373,12 @@ public class Documento implements Serializable {
   }
 
   public void setDocumentoXLotesoics(
-          List<DocumentoXLotesoic> documentoXLotesoics) {
+      List<DocumentoXLotesoic> documentoXLotesoics) {
     this.documentoXLotesoics = documentoXLotesoics;
   }
 
   public DocumentoXLotesoic addDocumentoXLotesoic(
-          DocumentoXLotesoic documentoXLotesoic) {
+      DocumentoXLotesoic documentoXLotesoic) {
     getDocumentoXLotesoics().add(documentoXLotesoic);
     documentoXLotesoic.setDocumento(this);
 
@@ -382,7 +386,7 @@ public class Documento implements Serializable {
   }
 
   public DocumentoXLotesoic removeDocumentoXLotesoic(
-          DocumentoXLotesoic documentoXLotesoic) {
+      DocumentoXLotesoic documentoXLotesoic) {
     getDocumentoXLotesoics().remove(documentoXLotesoic);
     documentoXLotesoic.setDocumento(null);
 
@@ -394,12 +398,12 @@ public class Documento implements Serializable {
   }
 
   public void setDocumentoXNegociacions(
-          List<DocumentoXNegociacion> documentoXNegociacions) {
+      List<DocumentoXNegociacion> documentoXNegociacions) {
     this.documentoXNegociacions = documentoXNegociacions;
   }
 
   public DocumentoXNegociacion addDocumentoXNegociacion(
-          DocumentoXNegociacion documentoXNegociacion) {
+      DocumentoXNegociacion documentoXNegociacion) {
     getDocumentoXNegociacions().add(documentoXNegociacion);
     documentoXNegociacion.setDocumento(this);
 
@@ -407,7 +411,7 @@ public class Documento implements Serializable {
   }
 
   public DocumentoXNegociacion removeDocumentoXNegociacion(
-          DocumentoXNegociacion documentoXNegociacion) {
+      DocumentoXNegociacion documentoXNegociacion) {
     getDocumentoXNegociacions().remove(documentoXNegociacion);
     documentoXNegociacion.setDocumento(null);
 
@@ -451,12 +455,12 @@ public class Documento implements Serializable {
   }
 
   public void setMovimientosInventarios(
-          List<MovimientosInventario> movimientosInventarios) {
+      List<MovimientosInventario> movimientosInventarios) {
     this.movimientosInventarios = movimientosInventarios;
   }
 
   public MovimientosInventario addMovimientosInventario(
-          MovimientosInventario movimientosInventario) {
+      MovimientosInventario movimientosInventario) {
     getMovimientosInventarios().add(movimientosInventario);
     movimientosInventario.setDocumento(this);
 
@@ -464,7 +468,7 @@ public class Documento implements Serializable {
   }
 
   public MovimientosInventario removeMovimientosInventario(
-          MovimientosInventario movimientosInventario) {
+      MovimientosInventario movimientosInventario) {
     getMovimientosInventarios().remove(movimientosInventario);
     movimientosInventario.setDocumento(null);
 
@@ -476,7 +480,7 @@ public class Documento implements Serializable {
   }
 
   public void setTerminosTransportes(
-          List<TerminosTransporte> terminosTransportes) {
+      List<TerminosTransporte> terminosTransportes) {
     this.terminosTransportes = terminosTransportes;
   }
 

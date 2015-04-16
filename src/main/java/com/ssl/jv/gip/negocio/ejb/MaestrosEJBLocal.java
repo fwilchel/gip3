@@ -47,360 +47,342 @@ import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 @Local
 public interface MaestrosEJBLocal {
 
-	/**
-	 * Consultar ubicaciones.
-	 *
-	 * @return the list
-	 */
-	public List<Ubicacion> consultarUbicaciones();
-
-	/**
-	 * Consultar ubicaciones.
-	 *
-	 * @param pFiltro
-	 *          the filtro
-	 * @return the list
-	 */
-	public List<Ubicacion> consultarUbicaciones(Ubicacion pFiltro);
-
-	/**
-	 * Consultar ubicacion.
-	 *
-	 * @param pId
-	 *          the id
-	 * @return the ubicacion
-	 */
-	public Ubicacion consultarUbicacion(Long pId);
-
-	/**
-	 * Crear ubicacion.
-	 *
-	 * @param pEntidad
-	 *          the entidad
-	 * @return the ubicacion
-	 */
-	public Ubicacion crearUbicacion(Ubicacion pEntidad);
-
-	/**
-	 * Modificar ubicacion.
-	 *
-	 * @param pEntidad
-	 *          the entidad
-	 * @return the ubicacion
-	 */
-	public Ubicacion actualizarUbicacion(Ubicacion pEntidad);
-
-	/**
-	 * Consultar agencias carga.
-	 *
-	 * @return the list
-	 */
-	public List<AgenciaCarga> consultarAgenciasCarga();
-
-	/**
-	 * Consultar agencias carga.
-	 *
-	 * @param pFiltro
-	 *          the filtro
-	 * @return the list
-	 */
-	public List<AgenciaCarga> consultarAgenciasCarga(AgenciaCarga pFiltro);
-
-	/**
-	 * Crear agencia carga.
-	 *
-	 * @param pEntidad
-	 *          the entidad
-	 * @return the agencia carga
-	 */
-	public AgenciaCarga crearAgenciaCarga(AgenciaCarga pEntidad);
-
-	/**
-	 * Actualizar agencia carga.
-	 *
-	 * @param pEntidad
-	 *          the entidad
-	 * @return the agencia carga
-	 */
-	public AgenciaCarga actualizarAgenciaCarga(AgenciaCarga pEntidad);
-
-	/**
-	 * Consultar LugarIncoterm.
-	 *
-	 * @return the list
-	 */
-	public List<LugarIncoterm> consultarLugarIncoterm();
-
-	/**
-	 * Consultar LugarIncoterm.
-	 *
-	 * @param pId
-	 *          the id
-	 * @return the LugarIncoterm
-	 */
-	public LugarIncoterm consultarLugarIncoterm(Long pId);
-
-	/**
-	 * Crear LugarIncoterm.
-	 *
-	 * @param pEntidad
-	 *          the entidad
-	 * @return the LugarIncoterm
-	 */
-	public LugarIncoterm crearLugarIncoterm(LugarIncoterm pEntidad);
-
-	/**
-	 * Modificar LugarIncoterm.
-	 *
-	 * @param pEntidad
-	 *          the entidad
-	 * @return the LugarIncoterm
-	 */
-	public LugarIncoterm actualizarLugarIncoterm(LugarIncoterm pEntidad);
-
-	/**
-	 *
-	 * @param filtroVO
-	 * @return lista de productos por cliente que cumplan las condiciones del
-	 *         filtro
-	 */
-	public List<ProductosXClienteComext> consultarProductosClienteComercioExteriorPorFiltro(ProductosXClienteComExtFiltroVO filtroVO);
-
-	/**
-	 * @return lista de productos por cliente
-	 */
-	public List<ProductosXClienteComext> consultarProductosClienteComercioExterior();
-
-	/**
-	 * Consultar IncotermxMedioTrans.
-	 *
-	 * @return the list
-	 */
-	public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte();
-
-	/**
-	 * Consultar TerminoIncotermXMedioTransporte.
-	 *
-	 * @param pId
-	 *          the id
-	 * @return the TerminoIncotermXMedioTransporte
-	 */
-	public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(Long pId);
-
-	/**
-	 * Crear TerminoIncotermXMedioTransporte.
-	 *
-	 * @param pEntidad
-	 *          the entidad
-	 * @return the TerminoIncotermXMedioTransporte
-	 */
-	public TerminoIncotermXMedioTransporte crearTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad);
-
-	/**
-	 * Modificar TerminoIncotermXMedioTransporte.
-	 *
-	 * @param pEntidad
-	 *          the entidad
-	 * @return the TerminoIncotermXMedioTransporte
-	 */
-	public TerminoIncotermXMedioTransporte actualizarTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad);
-
-	/**
-	 * Consultar TerminoIncoterm.
-	 *
-	 * @return the list
-	 */
-	public List<TerminoIncoterm> consultarTerminoIncotermActivo();
-
-	/**
-	 * Consultar TerminoIncoterm.
-	 *
-	 * @return the list
-	 */
-	public List<MedioTransporte> consultarMedioTransporteActivo();
-
-	/**
-	 * Consulta todos los agentes de aduana
-	 *
-	 * @return lista de agentes de aduana
-	 */
-	public List<AgenteAduana> consultarAgentesAduana();
-
-	/**
-	 * Crea un agente de aduana
-	 *
-	 * @param pEntidad
-	 *          nuevo agente de aduana
-	 * @return
-	 */
-	public AgenteAduana crearAgenteAduana(AgenteAduana pEntidad);
-
-	/**
-	 * Actualiza un agente de aduana
-	 *
-	 * @param pEntidad
-	 *          agente actualizado
-	 * @return
-	 */
-	public AgenteAduana actualizarAgenteAduana(AgenteAduana pEntidad);
-
-	public List<Unidad> consultarUnidades();
-
-	public List<CategoriasInventario> consultarCategoriasInventario();
-
-	public List<CuentaContable> consultarCuentasContables();
-
-	public void actualizarProductoInventario(ProductosInventario pi);
-
-	public void crearProductoInventario(ProductosInventario pi);
-
-	public Object[] consultarProductos(ProductosInventario pi, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count);
-
-	/**
-	 * Consultar clientes.
-	 *
-	 * @return the list
-	 */
-	public List<Cliente> consultarClientes();
-	public List<Cliente> consultarClientesInternacionales();
-
-	/**
-	 * Crear clientes
-	 *
-	 * @param pEntidad
-	 *          the entidad
-	 * @return the Cliente
-	 */
-	public Cliente crearCliente(Cliente pEntidad, LogAuditoria auditoria);
-
-	/**
-	 * Actualizar clientes.
-	 *
-	 * @param pEntidad
-	 *          the entidad
-	 * @return the cliente
-	 */
-	public Cliente actualizarCliente(Cliente pEntidad, LogAuditoria auditoria);
-
-	public List<TipoLoteoic> consultarTipoLotesOic();
+  /**
+   * Consultar ubicaciones.
+   *
+   * @return the list
+   */
+  public List<Ubicacion> consultarUbicaciones();
+
+  /**
+   * Consultar ubicaciones.
+   *
+   * @param pFiltro the filtro
+   * @return the list
+   */
+  public List<Ubicacion> consultarUbicaciones(Ubicacion pFiltro);
+
+  /**
+   * Consultar ubicacion.
+   *
+   * @param pId the id
+   * @return the ubicacion
+   */
+  public Ubicacion consultarUbicacion(Long pId);
+
+  /**
+   * Crear ubicacion.
+   *
+   * @param pEntidad the entidad
+   * @return the ubicacion
+   */
+  public Ubicacion crearUbicacion(Ubicacion pEntidad);
+
+  /**
+   * Modificar ubicacion.
+   *
+   * @param pEntidad the entidad
+   * @return the ubicacion
+   */
+  public Ubicacion actualizarUbicacion(Ubicacion pEntidad);
+
+  /**
+   * Consultar agencias carga.
+   *
+   * @return the list
+   */
+  public List<AgenciaCarga> consultarAgenciasCarga();
+
+  /**
+   * Consultar agencias carga.
+   *
+   * @param pFiltro the filtro
+   * @return the list
+   */
+  public List<AgenciaCarga> consultarAgenciasCarga(AgenciaCarga pFiltro);
+
+  /**
+   * Crear agencia carga.
+   *
+   * @param pEntidad the entidad
+   * @return the agencia carga
+   */
+  public AgenciaCarga crearAgenciaCarga(AgenciaCarga pEntidad);
+
+  /**
+   * Actualizar agencia carga.
+   *
+   * @param pEntidad the entidad
+   * @return the agencia carga
+   */
+  public AgenciaCarga actualizarAgenciaCarga(AgenciaCarga pEntidad);
+
+  /**
+   * Consultar LugarIncoterm.
+   *
+   * @return the list
+   */
+  public List<LugarIncoterm> consultarLugarIncoterm();
+
+  /**
+   * Consultar LugarIncoterm.
+   *
+   * @param pId the id
+   * @return the LugarIncoterm
+   */
+  public LugarIncoterm consultarLugarIncoterm(Long pId);
+
+  /**
+   * Crear LugarIncoterm.
+   *
+   * @param pEntidad the entidad
+   * @return the LugarIncoterm
+   */
+  public LugarIncoterm crearLugarIncoterm(LugarIncoterm pEntidad);
+
+  /**
+   * Modificar LugarIncoterm.
+   *
+   * @param pEntidad the entidad
+   * @return the LugarIncoterm
+   */
+  public LugarIncoterm actualizarLugarIncoterm(LugarIncoterm pEntidad);
+
+  /**
+   *
+   * @param filtroVO
+   * @return lista de productos por cliente que cumplan las condiciones del filtro
+   */
+  public List<ProductosXClienteComext> consultarProductosClienteComercioExteriorPorFiltro(ProductosXClienteComExtFiltroVO filtroVO);
+
+  /**
+   * @return lista de productos por cliente
+   */
+  public List<ProductosXClienteComext> consultarProductosClienteComercioExterior();
+
+  /**
+   * Consultar IncotermxMedioTrans.
+   *
+   * @return the list
+   */
+  public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte();
+
+  /**
+   * Consultar TerminoIncotermXMedioTransporte.
+   *
+   * @param pId the id
+   * @return the TerminoIncotermXMedioTransporte
+   */
+  public TerminoIncotermXMedioTransporte consultarTerminoIncotermXMedioTransporte(Long pId);
+
+  /**
+   * Crear TerminoIncotermXMedioTransporte.
+   *
+   * @param pEntidad the entidad
+   * @return the TerminoIncotermXMedioTransporte
+   */
+  public TerminoIncotermXMedioTransporte crearTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad);
+
+  /**
+   * Modificar TerminoIncotermXMedioTransporte.
+   *
+   * @param pEntidad the entidad
+   * @return the TerminoIncotermXMedioTransporte
+   */
+  public TerminoIncotermXMedioTransporte actualizarTerminoIncotermXMedioTransporte(TerminoIncotermXMedioTransporte pEntidad);
+
+  /**
+   * Consultar TerminoIncoterm.
+   *
+   * @return the list
+   */
+  public List<TerminoIncoterm> consultarTerminoIncotermActivo();
+
+  /**
+   * Consultar TerminoIncoterm.
+   *
+   * @return the list
+   */
+  public List<MedioTransporte> consultarMedioTransporteActivo();
+
+  /**
+   * Consulta todos los agentes de aduana
+   *
+   * @return lista de agentes de aduana
+   */
+  public List<AgenteAduana> consultarAgentesAduana();
+
+  /**
+   * Crea un agente de aduana
+   *
+   * @param pEntidad nuevo agente de aduana
+   * @return
+   */
+  public AgenteAduana crearAgenteAduana(AgenteAduana pEntidad);
+
+  /**
+   * Actualiza un agente de aduana
+   *
+   * @param pEntidad agente actualizado
+   * @return
+   */
+  public AgenteAduana actualizarAgenteAduana(AgenteAduana pEntidad);
+
+  public List<Unidad> consultarUnidades();
+
+  public List<CategoriasInventario> consultarCategoriasInventario();
+
+  public List<CuentaContable> consultarCuentasContables();
+
+  public void actualizarProductoInventario(ProductosInventario pi);
+
+  public void crearProductoInventario(ProductosInventario pi);
+
+  public Object[] consultarProductos(ProductosInventario pi, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count);
+
+  /**
+   * Consultar clientes.
+   *
+   * @return the list
+   */
+  public List<Cliente> consultarClientes();
+
+  public List<Cliente> consultarClientesInternacionales();
+
+  /**
+   * Crear clientes
+   *
+   * @param pEntidad the entidad
+   * @return the Cliente
+   */
+  public Cliente crearCliente(Cliente pEntidad, LogAuditoria auditoria);
 
-	public ProductosInventarioComext consultarProductoInventarioComext(String sku);
+  /**
+   * Actualizar clientes.
+   *
+   * @param pEntidad the entidad
+   * @return the cliente
+   */
+  public Cliente actualizarCliente(Cliente pEntidad, LogAuditoria auditoria);
 
-	public void crearProductoInventarioComext(ProductosInventarioComext pic);
+  public List<TipoLoteoic> consultarTipoLotesOic();
 
-	public void actualizarProductoInventarioComext(ProductosInventarioComext pic);
+  public ProductosInventarioComext consultarProductoInventarioComext(String sku);
 
-	public List<Cliente> consultarClientesActivosPorUsuario(String idUsuario);
+  public void crearProductoInventarioComext(ProductosInventarioComext pic);
 
-	public List<Moneda> consultarMonedas();
+  public void actualizarProductoInventarioComext(ProductosInventarioComext pic);
 
-	public List<CategoriasInventario> consultarCategoriasInventarios();
+  public List<Cliente> consultarClientesActivosPorUsuario(String idUsuario);
 
-	public List<ProductosInventario> consultarProductosInventarios();
+  public List<Moneda> consultarMonedas();
 
-	public List<ProductosInventario> consultarProductosInventariosActivos();
+  public List<CategoriasInventario> consultarCategoriasInventarios();
 
-	public List<ProductosInventario> consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(ProductosInventarioFiltroDTO filtroDTO);
-
-	public void guardarRelacionProductosClienteComercioExterior(String idUsuario, List<ProductosXClienteComext> productosXClienteComexts);
+  public List<ProductosInventario> consultarProductosInventarios();
 
-	public void cargarProductosPorClienteComExtDesdeArchivo(List<String[]> lines);
+  public List<ProductosInventario> consultarProductosInventariosActivos();
 
-	/**
-	 * Consultar paises.
-	 *
-	 * @return the list
-	 */
-	public List<Pais> consultarPaises();
+  public List<ProductosInventario> consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(ProductosInventarioFiltroDTO filtroDTO);
 
-	/**
-	 * Consultar ciudades por pais.
-	 *
-	 * @param idPais
-	 *          the id pais
-	 * @return the list
-	 */
-	public List<Ciudad> consultarCiudadesPorPais(String idPais);
+  public void guardarRelacionProductosClienteComercioExterior(String idUsuario, List<ProductosXClienteComext> productosXClienteComexts);
 
-	/**
-	 * Consultar tipos canal.
-	 *
-	 * @return the list
-	 */
-	public List<TipoCanal> consultarTiposCanal();
+  public void cargarProductosPorClienteComExtDesdeArchivo(List<String[]> lines);
 
-	/**
-	 * Consultar metodos pago.
-	 *
-	 * @return the list
-	 */
-	public List<MetodoPago> consultarMetodosPago();
+  /**
+   * Consultar paises.
+   *
+   * @return the list
+   */
+  public List<Pais> consultarPaises();
 
-	/**
-	 * Consultar tipos precio.
-	 *
-	 * @return the list
-	 */
-	public List<TipoPrecio> consultarTiposPrecio();
+  /**
+   * Consultar ciudades por pais.
+   *
+   * @param idPais the id pais
+   * @return the list
+   */
+  public List<Ciudad> consultarCiudadesPorPais(String idPais);
 
-	public ProductosInventario consultarPorSku(String sku);
+  /**
+   * Consultar tipos canal.
+   *
+   * @return the list
+   */
+  public List<TipoCanal> consultarTiposCanal();
 
-	public List<CategoriaCostoLogistico> consultarCategoriasCostosLogisticos();
+  /**
+   * Consultar metodos pago.
+   *
+   * @return the list
+   */
+  public List<MetodoPago> consultarMetodosPago();
 
-	public CategoriaCostoLogistico consultarCategoriaCostoLogistico(Long id);
+  /**
+   * Consultar tipos precio.
+   *
+   * @return the list
+   */
+  public List<TipoPrecio> consultarTiposPrecio();
 
-	public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(CategoriaCostoLogistico ccl);
+  public ProductosInventario consultarPorSku(String sku);
 
-	public CategoriaCostoLogistico crearCategoriaCostoLogistico(CategoriaCostoLogistico ccl);
+  public List<CategoriaCostoLogistico> consultarCategoriasCostosLogisticos();
 
-	public List<ItemCostoLogistico> consultarItemsCostosLogisticos();
+  public CategoriaCostoLogistico consultarCategoriaCostoLogistico(Long id);
 
-	public ItemCostoLogistico consultarItemCostoLogistico(Long id);
+  public CategoriaCostoLogistico actualizarCategoriaCostoLogistico(CategoriaCostoLogistico ccl);
 
-	public ItemCostoLogistico actualizarItemCostoLogistico(ItemCostoLogistico icl);
+  public CategoriaCostoLogistico crearCategoriaCostoLogistico(CategoriaCostoLogistico ccl);
 
-	public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl);
+  public List<ItemCostoLogistico> consultarItemsCostosLogisticos();
 
-	public List<RangoCostoLogistico> consultarRangossCostosLogisticos(ItemCostoLogistico icl);
+  public ItemCostoLogistico consultarItemCostoLogistico(Long id);
 
-	public RangoCostoLogistico consultarRangoCostoLogistico(Long id);
+  public ItemCostoLogistico actualizarItemCostoLogistico(ItemCostoLogistico icl);
 
-	public RangoCostoLogistico actualizarRangoCostoLogistico(RangoCostoLogistico icl);
+  public ItemCostoLogistico crearItemCostoLogistico(ItemCostoLogistico icl);
 
-	public RangoCostoLogistico crearRangoCostoLogistico(RangoCostoLogistico icl);
+  public List<RangoCostoLogistico> consultarRangossCostosLogisticos(ItemCostoLogistico icl);
 
-	public void eliminarRangoCostoLogistico(RangoCostoLogistico icl);
+  public RangoCostoLogistico consultarRangoCostoLogistico(Long id);
 
-	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(String sku);
+  public RangoCostoLogistico actualizarRangoCostoLogistico(RangoCostoLogistico icl);
 
-	public FactsCurrencyConversion getTRMDian(Date fecha);
+  public RangoCostoLogistico crearRangoCostoLogistico(RangoCostoLogistico icl);
 
-	public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(ProductosInventarioFiltroDTO filtroDTO);
+  public void eliminarRangoCostoLogistico(RangoCostoLogistico icl);
 
-	public void guardarMovimientosInventarioComercioExterior(List<MovimientosInventarioComext> movimientosInventarioComexts);
+  public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSku(String sku);
 
-	public List<PuntoVenta> consultarPuntoEntrega();
+  public FactsCurrencyConversion getTRMDian(Date fecha);
 
-	public List<PuntoVenta> consultarPuntoEntregaPorCliente(Long idCliente);
+  public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(ProductosInventarioFiltroDTO filtroDTO);
 
-	public PuntoVenta crearPuntoVenta(PuntoVenta pEntidad);
+  public void guardarMovimientosInventarioComercioExterior(List<MovimientosInventarioComext> movimientosInventarioComexts);
 
-	public PuntoVenta actualizarPuntoVenta(PuntoVenta pEntidad);
+  public List<PuntoVenta> consultarPuntoEntrega();
 
-	public List<Ciudad> consultarCiudades();
+  public List<PuntoVenta> consultarPuntoEntregaPorCliente(Long idCliente);
 
-	public List<ProductosInventarioComext> consultarProductosInventarioComextsParaInventarioComercioFotos(ProductosInventarioComextFiltroVO filtroVO);
+  public PuntoVenta crearPuntoVenta(PuntoVenta pEntidad);
 
-	/**
-	 * Metodo que consulta un documento por consecutivo
-	 *
-	 * @author Diego Poveda - Soft Studio Ltda.
-	 * @email dpoveda@gmail.com
-	 * @phone 3192594013
-	 * @param consecutivo
-	 * @return
-	 */
-	Documento consultarDocumentoPorConsecutivo(String consecutivo);
+  public PuntoVenta actualizarPuntoVenta(PuntoVenta pEntidad);
 
-	public void cargarPuntoEntregaDesdeArchivo(List<String[]> lines);
+  public List<Ciudad> consultarCiudades();
+
+  public List<ProductosInventarioComext> consultarProductosInventarioComextsParaInventarioComercioFotos(ProductosInventarioComextFiltroVO filtroVO);
+
+  /**
+   * Metodo que consulta un documento por consecutivo
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param consecutivo
+   * @return
+   */
+  Documento consultarDocumentoPorConsecutivo(String consecutivo);
+
+  public void cargarPuntoEntregaDesdeArchivo(List<String[]> lines);
 }

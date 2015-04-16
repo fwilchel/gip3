@@ -4,186 +4,186 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the comext_formato_novedades database table.
- * 
+ *
  */
 @Entity
-@Table(name="comext_formato_novedades")
-@NamedQuery(name="ComextFormatoNovedade.findAll", query="SELECT c FROM ComextFormatoNovedade c")
+@Table(name = "comext_formato_novedades")
+@NamedQuery(name = "ComextFormatoNovedade.findAll", query = "SELECT c FROM ComextFormatoNovedade c")
 public class ComextFormatoNovedade implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Column(name="consecutivo_documento")
-	private Long consecutivoDocumento;
+  private static final long serialVersionUID = 1L;
 
-	@Column(name="distribucion_optima")
-	private Boolean distribucionOptima;
+  @Column(name = "consecutivo_documento")
+  private Long consecutivoDocumento;
 
-	@Column(name="documentos_solicitados")
-	private Boolean documentosSolicitados;
+  @Column(name = "distribucion_optima")
+  private Boolean distribucionOptima;
 
-	private Timestamp fechacreacion;
+  @Column(name = "documentos_solicitados")
+  private Boolean documentosSolicitados;
 
-	private Timestamp fechadiligencia;
+  private Timestamp fechacreacion;
 
-	private Boolean formatodiligenciado;
+  private Timestamp fechadiligencia;
 
-	@Id
-	private Long id;
+  private Boolean formatodiligenciado;
 
-	private String obsdistoptima;
+  @Id
+  private Long id;
 
-	private String obsdocsolicitados;
+  private String obsdistoptima;
 
-	private String obsprodbuenestado;
+  private String obsdocsolicitados;
 
-	private String obsprodcompleto;
+  private String obsprodbuenestado;
 
-	private String obsprodtiempo;
+  private String obsprodcompleto;
 
-	@Column(name="producto_completo")
-	private Boolean productoCompleto;
+  private String obsprodtiempo;
 
-	@Column(name="productos_buen_estado")
-	private Boolean productosBuenEstado;
+  @Column(name = "producto_completo")
+  private Boolean productoCompleto;
 
-	@Column(name="productos_tiempo")
-	private Boolean productosTiempo;
+  @Column(name = "productos_buen_estado")
+  private Boolean productosBuenEstado;
 
-	@Column(name="user_id")
-	private Long userId;
+  @Column(name = "productos_tiempo")
+  private Boolean productosTiempo;
 
-	public ComextFormatoNovedade() {
-	}
+  @Column(name = "user_id")
+  private Long userId;
 
-	public Long getConsecutivoDocumento() {
-		return this.consecutivoDocumento;
-	}
+  public ComextFormatoNovedade() {
+  }
 
-	public void setConsecutivoDocumento(Long consecutivoDocumento) {
-		this.consecutivoDocumento = consecutivoDocumento;
-	}
+  public Long getConsecutivoDocumento() {
+    return this.consecutivoDocumento;
+  }
 
-	public Boolean getDistribucionOptima() {
-		return this.distribucionOptima;
-	}
+  public void setConsecutivoDocumento(Long consecutivoDocumento) {
+    this.consecutivoDocumento = consecutivoDocumento;
+  }
 
-	public void setDistribucionOptima(Boolean distribucionOptima) {
-		this.distribucionOptima = distribucionOptima;
-	}
+  public Boolean getDistribucionOptima() {
+    return this.distribucionOptima;
+  }
 
-	public Boolean getDocumentosSolicitados() {
-		return this.documentosSolicitados;
-	}
+  public void setDistribucionOptima(Boolean distribucionOptima) {
+    this.distribucionOptima = distribucionOptima;
+  }
 
-	public void setDocumentosSolicitados(Boolean documentosSolicitados) {
-		this.documentosSolicitados = documentosSolicitados;
-	}
+  public Boolean getDocumentosSolicitados() {
+    return this.documentosSolicitados;
+  }
 
-	public Timestamp getFechacreacion() {
-		return this.fechacreacion;
-	}
+  public void setDocumentosSolicitados(Boolean documentosSolicitados) {
+    this.documentosSolicitados = documentosSolicitados;
+  }
 
-	public void setFechacreacion(Timestamp fechacreacion) {
-		this.fechacreacion = fechacreacion;
-	}
+  public Timestamp getFechacreacion() {
+    return this.fechacreacion;
+  }
 
-	public Timestamp getFechadiligencia() {
-		return this.fechadiligencia;
-	}
+  public void setFechacreacion(Timestamp fechacreacion) {
+    this.fechacreacion = fechacreacion;
+  }
 
-	public void setFechadiligencia(Timestamp fechadiligencia) {
-		this.fechadiligencia = fechadiligencia;
-	}
+  public Timestamp getFechadiligencia() {
+    return this.fechadiligencia;
+  }
 
-	public Boolean getFormatodiligenciado() {
-		return this.formatodiligenciado;
-	}
+  public void setFechadiligencia(Timestamp fechadiligencia) {
+    this.fechadiligencia = fechadiligencia;
+  }
 
-	public void setFormatodiligenciado(Boolean formatodiligenciado) {
-		this.formatodiligenciado = formatodiligenciado;
-	}
+  public Boolean getFormatodiligenciado() {
+    return this.formatodiligenciado;
+  }
 
-	public Long getId() {
-		return this.id;
-	}
+  public void setFormatodiligenciado(Boolean formatodiligenciado) {
+    this.formatodiligenciado = formatodiligenciado;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getObsdistoptima() {
-		return this.obsdistoptima;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setObsdistoptima(String obsdistoptima) {
-		this.obsdistoptima = obsdistoptima;
-	}
+  public String getObsdistoptima() {
+    return this.obsdistoptima;
+  }
 
-	public String getObsdocsolicitados() {
-		return this.obsdocsolicitados;
-	}
+  public void setObsdistoptima(String obsdistoptima) {
+    this.obsdistoptima = obsdistoptima;
+  }
 
-	public void setObsdocsolicitados(String obsdocsolicitados) {
-		this.obsdocsolicitados = obsdocsolicitados;
-	}
+  public String getObsdocsolicitados() {
+    return this.obsdocsolicitados;
+  }
 
-	public String getObsprodbuenestado() {
-		return this.obsprodbuenestado;
-	}
+  public void setObsdocsolicitados(String obsdocsolicitados) {
+    this.obsdocsolicitados = obsdocsolicitados;
+  }
 
-	public void setObsprodbuenestado(String obsprodbuenestado) {
-		this.obsprodbuenestado = obsprodbuenestado;
-	}
+  public String getObsprodbuenestado() {
+    return this.obsprodbuenestado;
+  }
 
-	public String getObsprodcompleto() {
-		return this.obsprodcompleto;
-	}
+  public void setObsprodbuenestado(String obsprodbuenestado) {
+    this.obsprodbuenestado = obsprodbuenestado;
+  }
 
-	public void setObsprodcompleto(String obsprodcompleto) {
-		this.obsprodcompleto = obsprodcompleto;
-	}
+  public String getObsprodcompleto() {
+    return this.obsprodcompleto;
+  }
 
-	public String getObsprodtiempo() {
-		return this.obsprodtiempo;
-	}
+  public void setObsprodcompleto(String obsprodcompleto) {
+    this.obsprodcompleto = obsprodcompleto;
+  }
 
-	public void setObsprodtiempo(String obsprodtiempo) {
-		this.obsprodtiempo = obsprodtiempo;
-	}
+  public String getObsprodtiempo() {
+    return this.obsprodtiempo;
+  }
 
-	public Boolean getProductoCompleto() {
-		return this.productoCompleto;
-	}
+  public void setObsprodtiempo(String obsprodtiempo) {
+    this.obsprodtiempo = obsprodtiempo;
+  }
 
-	public void setProductoCompleto(Boolean productoCompleto) {
-		this.productoCompleto = productoCompleto;
-	}
+  public Boolean getProductoCompleto() {
+    return this.productoCompleto;
+  }
 
-	public Boolean getProductosBuenEstado() {
-		return this.productosBuenEstado;
-	}
+  public void setProductoCompleto(Boolean productoCompleto) {
+    this.productoCompleto = productoCompleto;
+  }
 
-	public void setProductosBuenEstado(Boolean productosBuenEstado) {
-		this.productosBuenEstado = productosBuenEstado;
-	}
+  public Boolean getProductosBuenEstado() {
+    return this.productosBuenEstado;
+  }
 
-	public Boolean getProductosTiempo() {
-		return this.productosTiempo;
-	}
+  public void setProductosBuenEstado(Boolean productosBuenEstado) {
+    this.productosBuenEstado = productosBuenEstado;
+  }
 
-	public void setProductosTiempo(Boolean productosTiempo) {
-		this.productosTiempo = productosTiempo;
-	}
+  public Boolean getProductosTiempo() {
+    return this.productosTiempo;
+  }
 
-	public Long getUserId() {
-		return this.userId;
-	}
+  public void setProductosTiempo(Boolean productosTiempo) {
+    this.productosTiempo = productosTiempo;
+  }
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+  public Long getUserId() {
+    return this.userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
 }

@@ -7,6 +7,6 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 
 @Local
-public interface MonedaDAOLocal extends IGenericDAO<Moneda>{
+public interface MonedaDAOLocal extends IGenericDAO<Moneda> {
 
 }

@@ -12,47 +12,47 @@ import org.junit.BeforeClass;
 
 public abstract class TestBase {
 
-	static private EntityManagerFactory emFactory;
-	protected EntityManager em;
+  static private EntityManagerFactory emFactory;
+  protected EntityManager em;
 
-	@BeforeClass
-	final public static void beforeClass() {
-		try {
-			emFactory = Persistence.createEntityManagerFactory("primary-test");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+  @BeforeClass
+  final public static void beforeClass() {
+    try {
+      emFactory = Persistence.createEntityManagerFactory("primary-test");
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 
-	@Before
-	final public void beforeTest() {
-		em = emFactory.createEntityManager();
-		em.getTransaction().begin();
-	}
+  @Before
+  final public void beforeTest() {
+    em = emFactory.createEntityManager();
+    em.getTransaction().begin();
+  }
 
-	@After
-	final public void afterTest() {
-		EntityTransaction transaction = em.getTransaction();
-		if (transaction.isActive()) {
-			transaction.rollback();
-			// transaction.commit();
-		}
+  @After
+  final public void afterTest() {
+    EntityTransaction transaction = em.getTransaction();
+    if (transaction.isActive()) {
+      transaction.rollback();
+      // transaction.commit();
+    }
 
-		em.clear();
-		em.close();
-	}
+    em.clear();
+    em.close();
+  }
 
-	@AfterClass
-	final public static void afterClass() {
-		try {
-			emFactory.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+  @AfterClass
+  final public static void afterClass() {
+    try {
+      emFactory.close();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 
-	public abstract void beforeEachTest();
+  public abstract void beforeEachTest();
 
 }

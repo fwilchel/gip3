@@ -24,42 +24,42 @@ import com.ssl.jv.gip.negocio.dto.ComextFormatoNovedadesDTO;
 import com.ssl.jv.gip.negocio.ejb.ReportesEJB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 
-@ManagedBean(name="formatoNovedadesMB")
+@ManagedBean(name = "formatoNovedadesMB")
 @SessionScoped
-public class FormatoNovedadesMB extends UtilMB{
-	
-	private List<ComextFormatoNovedadesDTO> listado;
-		
-	@EJB
-	private ReportesEJB reportesEJB;
-	
-	private StreamedContent reportePDF;
-		
-	public FormatoNovedadesMB(){
-		
-	}
-	
-	@PostConstruct
-	public void init(){
-		listado = reportesEJB.consultarComextFormatoNovedades();
-	}
-	
-	public void previsualizarFN(ActionEvent ae){
-		
-	}
+public class FormatoNovedadesMB extends UtilMB {
 
-	public List<ComextFormatoNovedadesDTO> getListado() {
-		return listado;
-	}
+  private List<ComextFormatoNovedadesDTO> listado;
 
-	public void setListado(List<ComextFormatoNovedadesDTO> listado) {
-		this.listado = listado;
-	}
-	
-	public StreamedContent getReportePDF() {
-		Map<String, Object> parametros = new HashMap<String, Object>();
+  @EJB
+  private ReportesEJB reportesEJB;
+
+  private StreamedContent reportePDF;
+
+  public FormatoNovedadesMB() {
+
+  }
+
+  @PostConstruct
+  public void init() {
+    listado = reportesEJB.consultarComextFormatoNovedades();
+  }
+
+  public void previsualizarFN(ActionEvent ae) {
+
+  }
+
+  public List<ComextFormatoNovedadesDTO> getListado() {
+    return listado;
+  }
+
+  public void setListado(List<ComextFormatoNovedadesDTO> listado) {
+    this.listado = listado;
+  }
+
+  public StreamedContent getReportePDF() {
+    Map<String, Object> parametros = new HashMap<String, Object>();
 //		Cliente c=seleccionado.getCliente();
-		
+
 //		parametros.put("cliente",c.getNombre());		 
 //		parametros.put("nit", c.getNit());
 //		parametros.put("ciudad",c.getCiudad().getNombre());		 
@@ -73,7 +73,6 @@ public class FormatoNovedadesMB extends UtilMB{
 //		parametros.put("PesoBrutoEstibas", 0.0 ); //dblPesoBrutoEstibas 
 //		
 //		parametros.put("observacion", ""); // seleccionado2.getDocumentoXNegociacions().get(0).getDescripcion()
-		
 //		if (this.blnActivo ) {
 //			 parametros.put("titulo","PACKING LIST No. "+seleccionado.getConsecutivoDocumento());
 //			 parametros.put("t1","SHIPPER");
@@ -114,19 +113,19 @@ public class FormatoNovedadesMB extends UtilMB{
 //				 
 //				 
 //		}
-		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listado);
-		try {
-			
-			Hashtable<String, String> parametrosR=new Hashtable<String, String>();
-			parametrosR.put("tipo", "xls");
-			String reporte=FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_FN.jasper");
-			ByteArrayOutputStream os=(ByteArrayOutputStream)com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-			reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/vnd.ms-excel ", "Reporte_FN.xls");
-			
-		} catch (Exception e) {
-			this.addMensajeError(e);
-		}
-		return reportePDF;
-	}
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listado);
+    try {
+
+      Hashtable<String, String> parametrosR = new Hashtable<String, String>();
+      parametrosR.put("tipo", "xls");
+      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_FN.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
+      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/vnd.ms-excel ", "Reporte_FN.xls");
+
+    } catch (Exception e) {
+      this.addMensajeError(e);
+    }
+    return reportePDF;
+  }
 
 }

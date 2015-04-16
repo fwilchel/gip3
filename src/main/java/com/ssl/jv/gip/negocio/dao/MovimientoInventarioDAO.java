@@ -11,13 +11,13 @@ import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
 @Stateless
 @LocalBean
 public class MovimientoInventarioDAO extends GenericDAO<MovimientosInventario>
-		implements MovimientoInventarioDAOLocal {
+    implements MovimientoInventarioDAOLocal {
 
-	/**
-	 * Default constructor.
-	 */
-	public MovimientoInventarioDAO() {
-		this.persistentClass = MovimientosInventario.class;
-	}
+  /**
+   * Default constructor.
+   */
+  public MovimientoInventarioDAO() {
+    this.persistentClass = MovimientosInventario.class;
+  }
 
 }

@@ -11,43 +11,43 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 
 public class ProductoClienteComercioExteriorDAOTest extends TestBase {
 
-	private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
+  private ProductoClienteComercioExteriorDAO productoClienteComercioExteriorDAO;
 
-	@Override
-	@Before
-	public void beforeEachTest() {
-		productoClienteComercioExteriorDAO = new ProductoClienteComercioExteriorDAO();
-		productoClienteComercioExteriorDAO.setEm(this.em);
-	}
+  @Override
+  @Before
+  public void beforeEachTest() {
+    productoClienteComercioExteriorDAO = new ProductoClienteComercioExteriorDAO();
+    productoClienteComercioExteriorDAO.setEm(this.em);
+  }
 
-	@Test
-	public void consultarPorIdNombreYEstadoClienteDeberiaRetornarListaVaciaOConClientesActivos() {
-		ProductosXClienteComExtFiltroVO filtroVO = new ProductosXClienteComExtFiltroVO();
-		filtroVO.setActivo(true);
-		List<ProductosXClienteComext> list = productoClienteComercioExteriorDAO
-				.consultarPorFiltro(filtroVO);
-		Assert.assertTrue(list != null);
-		for (ProductosXClienteComext productosXClienteComext : list) {
-			Assert.assertTrue(productosXClienteComext.getCliente().getActivo());
-		}
-	}
+  @Test
+  public void consultarPorIdNombreYEstadoClienteDeberiaRetornarListaVaciaOConClientesActivos() {
+    ProductosXClienteComExtFiltroVO filtroVO = new ProductosXClienteComExtFiltroVO();
+    filtroVO.setActivo(true);
+    List<ProductosXClienteComext> list = productoClienteComercioExteriorDAO
+        .consultarPorFiltro(filtroVO);
+    Assert.assertTrue(list != null);
+    for (ProductosXClienteComext productosXClienteComext : list) {
+      Assert.assertTrue(productosXClienteComext.getCliente().getActivo());
+    }
+  }
 
-	@Test
-	public void consultarPorIdNombreYEstadoClienteDeberiaRetornarUnClienteActivoOUnaListaVacia() {
-		ProductosXClienteComExtFiltroVO filtroVO = new ProductosXClienteComExtFiltroVO();
-		filtroVO.setActivo(true);
-		String skuProducto = "faA";
-		filtroVO.setSkuProducto(skuProducto);
-		List<ProductosXClienteComext> list = productoClienteComercioExteriorDAO
-				.consultarPorFiltro(filtroVO);
-		Assert.assertTrue(list != null);
-	}
+  @Test
+  public void consultarPorIdNombreYEstadoClienteDeberiaRetornarUnClienteActivoOUnaListaVacia() {
+    ProductosXClienteComExtFiltroVO filtroVO = new ProductosXClienteComExtFiltroVO();
+    filtroVO.setActivo(true);
+    String skuProducto = "faA";
+    filtroVO.setSkuProducto(skuProducto);
+    List<ProductosXClienteComext> list = productoClienteComercioExteriorDAO
+        .consultarPorFiltro(filtroVO);
+    Assert.assertTrue(list != null);
+  }
 
-	@Test
-	public void consultarTodosDeberiaRetornarListaNoNula() {
-		List<ProductosXClienteComext> list = productoClienteComercioExteriorDAO
-				.consultarTodos();
-		Assert.assertTrue(list != null);
-	}
+  @Test
+  public void consultarTodosDeberiaRetornarListaNoNula() {
+    List<ProductosXClienteComext> list = productoClienteComercioExteriorDAO
+        .consultarTodos();
+    Assert.assertTrue(list != null);
+  }
 
 }

@@ -7,42 +7,42 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:misc="http://java.sun.com/jsf/composite/misc"
                 template="/ui/templates/loginTemplate.xhtml">
-                
-	<ui:define name="title">
-        .:: SOC ::. .::Recordar contraseña::.
-    </ui:define>
 
-    <ui:define name="contenido">
-   		 
-		<tr>
-			<td>
-				<div align="center">
-					<p:outputLabel value="#{msg.recordarMensajeUno}"></p:outputLabel>
-					<table>
-						<tr>
-							<td class="textoCafe"> <p:outputLabel for="emailTxt" value="#{msg.loginIdentificacion}"></p:outputLabel></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><p:inputText value="#{loginMB.email}" required="true" id="emailTxt" validatorMessage="#{msg.generalCorreoInvalido}" size="40">
-								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="emailTxt" />
- 							</p:inputText></td>
-							<td></td>
-						</tr>
-					</table>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<div align="center">
-					<p:commandButton value="#{msg.recordarMensajeEnviar}" styleClass="textoCafe" action="#{loginMB.recordarContrasena}" ajax="false" update=":growl"></p:commandButton>
-					<p:commandButton value="#{msg.recordarMensajeCancelar}" styleClass="textoCafe" immediate="true" process="@this" action="salir" ajax="false" ></p:commandButton>
-				</div>
-			</td>
-		</tr>
-    	
-    </ui:define>
-                
+  <ui:define name="title">
+    .:: SOC ::. .::Recordar contraseï¿½a::.
+  </ui:define>
+
+  <ui:define name="contenido">
+
+    <tr>
+      <td>
+        <div align="center">
+          <p:outputLabel value="#{msg.recordarMensajeUno}"></p:outputLabel>
+          <table>
+            <tr>
+              <td class="textoCafe"> <p:outputLabel for="emailTxt" value="#{msg.loginIdentificacion}"></p:outputLabel></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><p:inputText value="#{loginMB.email}" required="true" id="emailTxt" validatorMessage="#{msg.generalCorreoInvalido}" size="40">
+                  <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="emailTxt" />
+                </p:inputText></td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">
+          <p:commandButton value="#{msg.recordarMensajeEnviar}" styleClass="textoCafe" action="#{loginMB.recordarContrasena}" ajax="false" update=":growl"></p:commandButton>
+          <p:commandButton value="#{msg.recordarMensajeCancelar}" styleClass="textoCafe" immediate="true" process="@this" action="salir" ajax="false" ></p:commandButton>
+        </div>
+      </td>
+    </tr>
+
+  </ui:define>
+
 </ui:composition>
 

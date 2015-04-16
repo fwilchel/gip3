@@ -26,75 +26,75 @@ import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 @LocalBean
 public class ReportesEJB implements ReportesEJBLocal {
 
-	@EJB
-	private ComextFormatoNovedadesDAO comextFormatoNovedadesDAO;
+  @EJB
+  private ComextFormatoNovedadesDAO comextFormatoNovedadesDAO;
 
-	@EJB
-	private DocumentoDAOLocal documentoDAO;
+  @EJB
+  private DocumentoDAOLocal documentoDAO;
 
-	@EJB
-	private ProductosXDocumentoDAOLocal productosXDocumentoDAOLocal;
+  @EJB
+  private ProductosXDocumentoDAOLocal productosXDocumentoDAOLocal;
 
-	@EJB
-	private CuentaContableDAOLocal cuentaContableDAOLocal;
+  @EJB
+  private CuentaContableDAOLocal cuentaContableDAOLocal;
 
-	@EJB
-	private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAOLocal;
+  @EJB
+  private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAOLocal;
 
-	/**
-	 * Default constructor.
-	 */
-	public ReportesEJB() {
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Default constructor.
+   */
+  public ReportesEJB() {
+    // TODO Auto-generated constructor stub
+  }
 
-	public List<ComextFormatoNovedadesDTO> consultarComextFormatoNovedades() {
-		return comextFormatoNovedadesDAO.consultarComextFormatoNovedades();
-	}
+  public List<ComextFormatoNovedadesDTO> consultarComextFormatoNovedades() {
+    return comextFormatoNovedadesDAO.consultarComextFormatoNovedades();
+  }
 
-	@Override
-	public List<Documento> consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(
-			String consecutivo) {
-		return documentoDAO
-				.consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
-						(long) ConstantesTipoDocumento.FACTURA_PROFORMA,
-						consecutivo, Estado.ACTIVO.getCodigo(),
-						Estado.APROBADA.getCodigo(),
-						Estado.ASIGNADA.getCodigo());
-	}
+  @Override
+  public List<Documento> consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(
+      String consecutivo) {
+    return documentoDAO
+        .consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
+            (long) ConstantesTipoDocumento.FACTURA_PROFORMA,
+            consecutivo, Estado.ACTIVO.getCodigo(),
+            Estado.APROBADA.getCodigo(),
+            Estado.ASIGNADA.getCodigo());
+  }
 
-	@Override
-	public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
-			String consecutivoDocumento) {
-		return documentoDAO
-				.consultarDocumentosParaGenerarFacturaExportacion(consecutivoDocumento);
-	}
+  @Override
+  public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
+      String consecutivoDocumento) {
+    return documentoDAO
+        .consultarDocumentosParaGenerarFacturaExportacion(consecutivoDocumento);
+  }
 
-	@Override
-	public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
-			Long idDocumento, Long idCliente) {
-		return productosXDocumentoDAOLocal.consultarPorDocumentoYCliente(
-				idDocumento, idCliente);
-	}
+  @Override
+  public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
+      Long idDocumento, Long idCliente) {
+    return productosXDocumentoDAOLocal.consultarPorDocumentoYCliente(
+        idDocumento, idCliente);
+  }
 
-	@Override
-	public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc,
-			String fechaIni, String fechaFin) {
-		return cuentaContableDAOLocal.consultarReporteFacturasFX(consecDoc,
-				fechaIni, fechaFin);
-	}
+  @Override
+  public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc,
+      String fechaIni, String fechaFin) {
+    return cuentaContableDAOLocal.consultarReporteFacturasFX(consecDoc,
+        fechaIni, fechaFin);
+  }
 
-	@Override
-	public List<CuentaContableDTO> consultarReporteFacturasFD(String consecDoc,
-			String fechaIni, String fechaFin) {
-		return cuentaContableDAOLocal.consultarReporteFacturasFD(consecDoc,
-				fechaIni, fechaFin);
-	}
+  @Override
+  public List<CuentaContableDTO> consultarReporteFacturasFD(String consecDoc,
+      String fechaIni, String fechaFin) {
+    return cuentaContableDAOLocal.consultarReporteFacturasFD(consecDoc,
+        fechaIni, fechaFin);
+  }
 
-	@Override
-	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSKU(
-			String sku, boolean ultimoSaldo) {
-		return movimientosInventarioComextDAOLocal.consultarPorSKU(sku,
-				ultimoSaldo);
-	}
+  @Override
+  public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSKU(
+      String sku, boolean ultimoSaldo) {
+    return movimientosInventarioComextDAOLocal.consultarPorSKU(sku,
+        ultimoSaldo);
+  }
 }

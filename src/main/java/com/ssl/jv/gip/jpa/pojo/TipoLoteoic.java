@@ -9,102 +9,102 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the tipo_loteoic database table.
- * 
+ *
  */
 @Entity
-@Table(name="tipo_loteoic")
-@NamedQuery(name="TipoLoteoic.findAll", query="SELECT t FROM TipoLoteoic t")
+@Table(name = "tipo_loteoic")
+@NamedQuery(name = "TipoLoteoic.findAll", query = "SELECT t FROM TipoLoteoic t")
 public class TipoLoteoic implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String descripcion;
+  @Id
+  private Long id;
 
-	@Column(name="descripcion_ingles")
-	private String descripcionIngles;
+  private String descripcion;
 
-	//bi-directional many-to-one association to DocumentoXLotesoic
-	@OneToMany(mappedBy="tipoLoteoic",fetch=FetchType.LAZY)
-	private List<DocumentoXLotesoic> documentoXLotesoics;
+  @Column(name = "descripcion_ingles")
+  private String descripcionIngles;
 
-	//bi-directional many-to-one association to ProductosInventarioComext
-	@OneToMany(mappedBy="tipoLoteoic",fetch=FetchType.LAZY)
-	private List<ProductosInventarioComext> productosInventarioComexts;
+  //bi-directional many-to-one association to DocumentoXLotesoic
+  @OneToMany(mappedBy = "tipoLoteoic", fetch = FetchType.LAZY)
+  private List<DocumentoXLotesoic> documentoXLotesoics;
 
-	public TipoLoteoic() {
-	}
+  //bi-directional many-to-one association to ProductosInventarioComext
+  @OneToMany(mappedBy = "tipoLoteoic", fetch = FetchType.LAZY)
+  private List<ProductosInventarioComext> productosInventarioComexts;
 
-	public Long getId() {
-		return this.id;
-	}
+  public TipoLoteoic() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public String getDescripcion() {
+    return this.descripcion;
+  }
 
-	public String getDescripcionIngles() {
-		return this.descripcionIngles;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public void setDescripcionIngles(String descripcionIngles) {
-		this.descripcionIngles = descripcionIngles;
-	}
+  public String getDescripcionIngles() {
+    return this.descripcionIngles;
+  }
 
-	public List<DocumentoXLotesoic> getDocumentoXLotesoics() {
-		return this.documentoXLotesoics;
-	}
+  public void setDescripcionIngles(String descripcionIngles) {
+    this.descripcionIngles = descripcionIngles;
+  }
 
-	public void setDocumentoXLotesoics(List<DocumentoXLotesoic> documentoXLotesoics) {
-		this.documentoXLotesoics = documentoXLotesoics;
-	}
+  public List<DocumentoXLotesoic> getDocumentoXLotesoics() {
+    return this.documentoXLotesoics;
+  }
 
-	public DocumentoXLotesoic addDocumentoXLotesoic(DocumentoXLotesoic documentoXLotesoic) {
-		getDocumentoXLotesoics().add(documentoXLotesoic);
-		documentoXLotesoic.setTipoLoteoic(this);
+  public void setDocumentoXLotesoics(List<DocumentoXLotesoic> documentoXLotesoics) {
+    this.documentoXLotesoics = documentoXLotesoics;
+  }
 
-		return documentoXLotesoic;
-	}
+  public DocumentoXLotesoic addDocumentoXLotesoic(DocumentoXLotesoic documentoXLotesoic) {
+    getDocumentoXLotesoics().add(documentoXLotesoic);
+    documentoXLotesoic.setTipoLoteoic(this);
 
-	public DocumentoXLotesoic removeDocumentoXLotesoic(DocumentoXLotesoic documentoXLotesoic) {
-		getDocumentoXLotesoics().remove(documentoXLotesoic);
-		documentoXLotesoic.setTipoLoteoic(null);
+    return documentoXLotesoic;
+  }
 
-		return documentoXLotesoic;
-	}
+  public DocumentoXLotesoic removeDocumentoXLotesoic(DocumentoXLotesoic documentoXLotesoic) {
+    getDocumentoXLotesoics().remove(documentoXLotesoic);
+    documentoXLotesoic.setTipoLoteoic(null);
 
-	public List<ProductosInventarioComext> getProductosInventarioComexts() {
-		return this.productosInventarioComexts;
-	}
+    return documentoXLotesoic;
+  }
 
-	public void setProductosInventarioComexts(List<ProductosInventarioComext> productosInventarioComexts) {
-		this.productosInventarioComexts = productosInventarioComexts;
-	}
+  public List<ProductosInventarioComext> getProductosInventarioComexts() {
+    return this.productosInventarioComexts;
+  }
 
-	public ProductosInventarioComext addProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
-		getProductosInventarioComexts().add(productosInventarioComext);
-		productosInventarioComext.setTipoLoteoic(this);
+  public void setProductosInventarioComexts(List<ProductosInventarioComext> productosInventarioComexts) {
+    this.productosInventarioComexts = productosInventarioComexts;
+  }
 
-		return productosInventarioComext;
-	}
+  public ProductosInventarioComext addProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
+    getProductosInventarioComexts().add(productosInventarioComext);
+    productosInventarioComext.setTipoLoteoic(this);
 
-	public ProductosInventarioComext removeProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
-		getProductosInventarioComexts().remove(productosInventarioComext);
-		productosInventarioComext.setTipoLoteoic(null);
+    return productosInventarioComext;
+  }
 
-		return productosInventarioComext;
-	}
+  public ProductosInventarioComext removeProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
+    getProductosInventarioComexts().remove(productosInventarioComext);
+    productosInventarioComext.setTipoLoteoic(null);
+
+    return productosInventarioComext;
+  }
 
 }

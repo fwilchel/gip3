@@ -6,6 +6,6 @@ import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
 
 @Local
 public interface MovimientoInventarioDAOLocal extends
-		IGenericDAO<MovimientosInventario> {
+    IGenericDAO<MovimientosInventario> {
 
 }

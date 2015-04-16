@@ -3,59 +3,59 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the aprobaciones database table.
- * 
+ *
  */
 @Entity
-@Table(name="aprobaciones")
-@NamedQuery(name="Aprobacion.findAll", query="SELECT a FROM Aprobacion a")
+@Table(name = "aprobaciones")
+@NamedQuery(name = "Aprobacion.findAll", query = "SELECT a FROM Aprobacion a")
 public class Aprobacion implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String cargo;
+  @Id
+  private Long id;
 
-	private String nombre;
+  private String cargo;
 
-	private Boolean vigente;
+  private String nombre;
 
-	public Aprobacion() {
-	}
+  private Boolean vigente;
 
-	public Long getId() {
-		return this.id;
-	}
+  public Aprobacion() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getCargo() {
-		return this.cargo;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setCargo(String cargo) {
-		this.cargo = cargo;
-	}
+  public String getCargo() {
+    return this.cargo;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setCargo(String cargo) {
+    this.cargo = cargo;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public Boolean getVigente() {
-		return this.vigente;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setVigente(Boolean vigente) {
-		this.vigente = vigente;
-	}
+  public Boolean getVigente() {
+    return this.vigente;
+  }
+
+  public void setVigente(Boolean vigente) {
+    this.vigente = vigente;
+  }
 
 }

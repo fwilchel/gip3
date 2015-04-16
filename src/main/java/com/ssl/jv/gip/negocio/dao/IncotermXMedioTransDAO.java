@@ -7,20 +7,19 @@ import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 
-
 @Stateless
 @LocalBean
-public class IncotermXMedioTransDAO extends GenericDAO<TerminoIncotermXMedioTransporte> implements IncotermXMedioTransDAOLocal  {
-	
-	public IncotermXMedioTransDAO(){
-		this.persistentClass = TerminoIncotermXMedioTransporte.class;
-	}
+public class IncotermXMedioTransDAO extends GenericDAO<TerminoIncotermXMedioTransporte> implements IncotermXMedioTransDAOLocal {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte() {
-		return (List<TerminoIncotermXMedioTransporte>)em
-		.createNamedQuery("TerminoIncotermXMedioTransporte.findAll").getResultList();
-	}
+  public IncotermXMedioTransDAO() {
+    this.persistentClass = TerminoIncotermXMedioTransporte.class;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<TerminoIncotermXMedioTransporte> consultarTerminoIncotermXMedioTransporte() {
+    return (List<TerminoIncotermXMedioTransporte>) em
+        .createNamedQuery("TerminoIncotermXMedioTransporte.findAll").getResultList();
+  }
 
 }

@@ -76,8 +76,8 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   }
 
   @Override
-  public List<Documento> consultarFacturasExportacion(FiltroDocumentoDTO filtro) {
-    return documentoDAO.consultarDocumentosPorTipoDocumentoYEstados(filtro);
+  public List<Documento> consultarFacturasExportacionReimprimir(Map<String, Object> parametros) {
+    return documentoDAO.buscarPorConsultaNombrada(Documento.FIND_DOCUMENTOS_FX_REIMPRIMIR, parametros);
   }
 
   @Override
@@ -248,6 +248,14 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   public List<CuentaContableComprobanteInformeDiarioDTO> consultarCuentaContableComprobanteInformeDiarioFX(Map<String, Object> parametros) {
     LOGGER.debug("Metodo: <<CuentaContableComprobanteInformeDiarioDTO>>");
     return documentoDAO.buscarPorConsultaNativa(CuentaContableComprobanteInformeDiarioDTO.CUENTA_CONTABLE_COMPROBANTE_INFORME_DIARIO, CuentaContableComprobanteInformeDiarioDTO.class, parametros);
+  }
+
+  @Override
+  public Documento consultarFacturaFXReimprimir(Long id) {
+    LOGGER.debug("Metodo: <<consultarFacturaFXReimprimir>>");
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("id", id);
+    return documentoDAO.buscarRegistroPorConsultaNombrada(Documento.FIND_DOCUMENTO_FX_REIMPRIMIR_BY_ID, parametros);
   }
 
 }

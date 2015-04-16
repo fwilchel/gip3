@@ -11,23 +11,23 @@ import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
 
 public class ProductoInventarioDAOTest extends TestBase {
 
-	private ProductoInventarioDAO productoInventarioDao;
+  private ProductoInventarioDAO productoInventarioDao;
 
-	@Test
-	public void testConsultarPorCategoriaAndSKUAndNombreAndEstado() {
-		ProductosInventarioFiltroDTO filtro = new ProductosInventarioFiltroDTO();
-		filtro.setEstado(false);
-		filtro.setNombre("Arequipe");
-		List<ProductosInventario> list = productoInventarioDao
-				.consultarPorUsuarioCategoriaSKUNombreAndEstado(filtro);
-		Assert.assertFalse(list.isEmpty());
-	}
+  @Test
+  public void testConsultarPorCategoriaAndSKUAndNombreAndEstado() {
+    ProductosInventarioFiltroDTO filtro = new ProductosInventarioFiltroDTO();
+    filtro.setEstado(false);
+    filtro.setNombre("Arequipe");
+    List<ProductosInventario> list = productoInventarioDao
+        .consultarPorUsuarioCategoriaSKUNombreAndEstado(filtro);
+    Assert.assertFalse(list.isEmpty());
+  }
 
-	@Override
-	@Before
-	public void beforeEachTest() {
-		productoInventarioDao = new ProductoInventarioDAO();
-		productoInventarioDao.setEm(this.em);
-	}
+  @Override
+  @Before
+  public void beforeEachTest() {
+    productoInventarioDao = new ProductoInventarioDAO();
+    productoInventarioDao.setEm(this.em);
+  }
 
 }

@@ -11,14 +11,13 @@ import com.ssl.jv.gip.jpa.pojo.Moneda;
 @LocalBean
 public class MonedaDAO extends GenericDAO<Moneda> implements MonedaDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(MonedaDAO.class);
+  private static final Logger LOGGER = Logger.getLogger(MonedaDAO.class);
 
-	/**
-	 * @see GenericDAO#GenericDAO()
-	 */
-	public MonedaDAO() {
-		this.persistentClass = Moneda.class;
-	}
-
+  /**
+   * @see GenericDAO#GenericDAO()
+   */
+  public MonedaDAO() {
+    this.persistentClass = Moneda.class;
+  }
 
 }

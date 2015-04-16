@@ -6,127 +6,127 @@ import javax.persistence.*;
 
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the log_auditoria database table.
- * 
+ *
  */
 @Entity
-@Table(name="log_auditoria")
-@NamedQuery(name="LogAuditoria.findAll", query="SELECT l FROM LogAuditoria l")
+@Table(name = "log_auditoria")
+@NamedQuery(name = "LogAuditoria.findAll", query = "SELECT l FROM LogAuditoria l")
 public class LogAuditoria implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="id_log")
-	@SequenceGenerator(name="logAuditoriaSeq",sequenceName="log_auditoria_id_seq",allocationSize=1)
-	@GeneratedValue(generator="logAuditoriaSeq",strategy=GenerationType.SEQUENCE)
-	private Long idLog;
+  private static final long serialVersionUID = 1L;
 
-	private String accion;
+  @Id
+  @Column(name = "id_log")
+  @SequenceGenerator(name = "logAuditoriaSeq", sequenceName = "log_auditoria_id_seq", allocationSize = 1)
+  @GeneratedValue(generator = "logAuditoriaSeq", strategy = GenerationType.SEQUENCE)
+  private Long idLog;
 
-	private String campo;
+  private String accion;
 
-	private Timestamp fecha;
+  private String campo;
 
-	@Column(name="id_funcionalidad")
-	private Long idFuncionalidad;
+  private Timestamp fecha;
 
-	@Column(name="id_reg_tabla")
-	private Long idRegTabla;
+  @Column(name = "id_funcionalidad")
+  private Long idFuncionalidad;
 
-	@Column(name="id_usuario")
-	private String idUsuario;
+  @Column(name = "id_reg_tabla")
+  private Long idRegTabla;
 
-	private String tabla;
+  @Column(name = "id_usuario")
+  private String idUsuario;
 
-	@Column(name="valor_anterior")
-	private String valorAnterior;
+  private String tabla;
 
-	@Column(name="valor_nuevo")
-	private String valorNuevo;
+  @Column(name = "valor_anterior")
+  private String valorAnterior;
 
-	public LogAuditoria() {
-	}
+  @Column(name = "valor_nuevo")
+  private String valorNuevo;
 
-	public Long getIdLog() {
-		return this.idLog;
-	}
+  public LogAuditoria() {
+  }
 
-	public void setIdLog(Long idLog) {
-		this.idLog = idLog;
-	}
+  public Long getIdLog() {
+    return this.idLog;
+  }
 
-	public String getAccion() {
-		return this.accion;
-	}
+  public void setIdLog(Long idLog) {
+    this.idLog = idLog;
+  }
 
-	public void setAccion(String accion) {
-		this.accion = accion;
-	}
+  public String getAccion() {
+    return this.accion;
+  }
 
-	public String getCampo() {
-		return this.campo;
-	}
+  public void setAccion(String accion) {
+    this.accion = accion;
+  }
 
-	public void setCampo(String campo) {
-		this.campo = campo;
-	}
+  public String getCampo() {
+    return this.campo;
+  }
 
-	public Timestamp getFecha() {
-		return this.fecha;
-	}
+  public void setCampo(String campo) {
+    this.campo = campo;
+  }
 
-	public void setFecha(Timestamp fecha) {
-		this.fecha = fecha;
-	}
+  public Timestamp getFecha() {
+    return this.fecha;
+  }
 
-	public Long getIdFuncionalidad() {
-		return this.idFuncionalidad;
-	}
+  public void setFecha(Timestamp fecha) {
+    this.fecha = fecha;
+  }
 
-	public void setIdFuncionalidad(Long idFuncionalidad) {
-		this.idFuncionalidad = idFuncionalidad;
-	}
+  public Long getIdFuncionalidad() {
+    return this.idFuncionalidad;
+  }
 
-	public Long getIdRegTabla() {
-		return this.idRegTabla;
-	}
+  public void setIdFuncionalidad(Long idFuncionalidad) {
+    this.idFuncionalidad = idFuncionalidad;
+  }
 
-	public void setIdRegTabla(Long idRegTabla) {
-		this.idRegTabla = idRegTabla;
-	}
+  public Long getIdRegTabla() {
+    return this.idRegTabla;
+  }
 
-	public String getIdUsuario() {
-		return this.idUsuario;
-	}
+  public void setIdRegTabla(Long idRegTabla) {
+    this.idRegTabla = idRegTabla;
+  }
 
-	public void setIdUsuario(String idUsuario) {
-		this.idUsuario = idUsuario;
-	}
+  public String getIdUsuario() {
+    return this.idUsuario;
+  }
 
-	public String getTabla() {
-		return this.tabla;
-	}
+  public void setIdUsuario(String idUsuario) {
+    this.idUsuario = idUsuario;
+  }
 
-	public void setTabla(String tabla) {
-		this.tabla = tabla;
-	}
+  public String getTabla() {
+    return this.tabla;
+  }
 
-	public String getValorAnterior() {
-		return this.valorAnterior;
-	}
+  public void setTabla(String tabla) {
+    this.tabla = tabla;
+  }
 
-	public void setValorAnterior(String valorAnterior) {
-		this.valorAnterior = valorAnterior;
-	}
+  public String getValorAnterior() {
+    return this.valorAnterior;
+  }
 
-	public String getValorNuevo() {
-		return this.valorNuevo;
-	}
+  public void setValorAnterior(String valorAnterior) {
+    this.valorAnterior = valorAnterior;
+  }
 
-	public void setValorNuevo(String valorNuevo) {
-		this.valorNuevo = valorNuevo;
-	}
+  public String getValorNuevo() {
+    return this.valorNuevo;
+  }
+
+  public void setValorNuevo(String valorNuevo) {
+    this.valorNuevo = valorNuevo;
+  }
 
 }

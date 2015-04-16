@@ -10,11 +10,11 @@ import javax.ejb.Stateless;
 @LocalBean
 public class InventarioEJB implements InventarioEJBLocal {
 
-    /**
-     * Default constructor. 
-     */
-    public InventarioEJB() {
-        // TODO Auto-generated constructor stub
-    }
+  /**
+   * Default constructor.
+   */
+  public InventarioEJB() {
+    // TODO Auto-generated constructor stub
+  }
 
 }

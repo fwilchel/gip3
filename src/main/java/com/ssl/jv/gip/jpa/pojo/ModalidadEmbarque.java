@@ -8,86 +8,86 @@ import org.hibernate.metamodel.source.annotations.xml.mocker.MockHelper;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the modalidad_embarque database table.
- * 
+ *
  */
 @Entity
-@Table(name="modalidad_embarque")
-@NamedQuery(name="ModalidadEmbarque.findAll", query="SELECT m FROM ModalidadEmbarque m")
+@Table(name = "modalidad_embarque")
+@NamedQuery(name = "ModalidadEmbarque.findAll", query = "SELECT m FROM ModalidadEmbarque m")
 public class ModalidadEmbarque implements Serializable, Comparable<ModalidadEmbarque> {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String descripcion;
+  @Id
+  private Long id;
 
-	//bi-directional many-to-one association to TerminosTransporte
-	@OneToMany(mappedBy="modalidadEmbarque")
-	private List<TerminosTransporte> terminosTransportes;
+  private String descripcion;
 
-	public ModalidadEmbarque() {
-	}
+  //bi-directional many-to-one association to TerminosTransporte
+  @OneToMany(mappedBy = "modalidadEmbarque")
+  private List<TerminosTransporte> terminosTransportes;
 
-	public Long getId() {
-		return this.id;
-	}
+  public ModalidadEmbarque() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public String getDescripcion() {
+    return this.descripcion;
+  }
 
-	public List<TerminosTransporte> getTerminosTransportes() {
-		return this.terminosTransportes;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public void setTerminosTransportes(List<TerminosTransporte> terminosTransportes) {
-		this.terminosTransportes = terminosTransportes;
-	}
+  public List<TerminosTransporte> getTerminosTransportes() {
+    return this.terminosTransportes;
+  }
 
-	public TerminosTransporte addTerminosTransporte(TerminosTransporte terminosTransporte) {
-		getTerminosTransportes().add(terminosTransporte);
-		terminosTransporte.setModalidadEmbarque(this);
+  public void setTerminosTransportes(List<TerminosTransporte> terminosTransportes) {
+    this.terminosTransportes = terminosTransportes;
+  }
 
-		return terminosTransporte;
-	}
+  public TerminosTransporte addTerminosTransporte(TerminosTransporte terminosTransporte) {
+    getTerminosTransportes().add(terminosTransporte);
+    terminosTransporte.setModalidadEmbarque(this);
 
-	public TerminosTransporte removeTerminosTransporte(TerminosTransporte terminosTransporte) {
-		getTerminosTransportes().remove(terminosTransporte);
-		terminosTransporte.setModalidadEmbarque(null);
+    return terminosTransporte;
+  }
 
-		return terminosTransporte;
-	}
+  public TerminosTransporte removeTerminosTransporte(TerminosTransporte terminosTransporte) {
+    getTerminosTransportes().remove(terminosTransporte);
+    terminosTransporte.setModalidadEmbarque(null);
 
-	/**
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public int compareTo(ModalidadEmbarque o) {
-		return descripcion.compareTo(o.descripcion);
-	}
+    return terminosTransporte;
+  }
 
-	@Override
-	public boolean equals(Object o){
-		if(o instanceof TerminosTransporte){
-			TerminosTransporte tt = (TerminosTransporte) o;
-			if(tt.getId() != null){
-				return tt.getId().equals(id);
-			}
-		}
-		return false;
-	}
+  /**
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public int compareTo(ModalidadEmbarque o) {
+    return descripcion.compareTo(o.descripcion);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof TerminosTransporte) {
+      TerminosTransporte tt = (TerminosTransporte) o;
+      if (tt.getId() != null) {
+        return tt.getId().equals(id);
+      }
+    }
+    return false;
+  }
 }

@@ -10,7 +10,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "punto_venta")
-@NamedQueries({ @NamedQuery(name = "PuntoVenta.findAll", query = "SELECT p FROM PuntoVenta p"), @NamedQuery(name = "PuntoVenta.findByCliente", query = "SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente") })
+@NamedQueries({
+  @NamedQuery(name = "PuntoVenta.findAll", query = "SELECT p FROM PuntoVenta p"),
+  @NamedQuery(name = "PuntoVenta.findByCliente", query = "SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente")})
 public class PuntoVenta implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -49,79 +51,79 @@ public class PuntoVenta implements Serializable {
   }
 
   public PuntoVenta(Long id) {
-	this.id = id;
+    this.id = id;
   }
 
   public Long getId() {
-	return this.id;
+    return this.id;
   }
 
   public void setId(Long id) {
-	this.id = id;
+    this.id = id;
   }
 
   public Boolean getActivo() {
-	return this.activo;
+    return this.activo;
   }
 
   public void setActivo(Boolean activo) {
-	this.activo = activo;
+    this.activo = activo;
   }
 
   public String getCodDespachoSap() {
-	return this.codDespachoSap;
+    return this.codDespachoSap;
   }
 
   public void setCodDespachoSap(String codDespachoSap) {
-	this.codDespachoSap = codDespachoSap;
+    this.codDespachoSap = codDespachoSap;
   }
 
   public Long getCodigoBarras() {
-	return this.codigoBarras;
+    return this.codigoBarras;
   }
 
   public void setCodigoBarras(Long codigoBarras) {
-	this.codigoBarras = codigoBarras;
+    this.codigoBarras = codigoBarras;
   }
 
   public String getDireccion() {
-	return this.direccion;
+    return this.direccion;
   }
 
   public void setDireccion(String direccion) {
-	this.direccion = direccion;
+    this.direccion = direccion;
   }
 
   public String getNombre() {
-	return this.nombre;
+    return this.nombre;
   }
 
   public void setNombre(String nombre) {
-	this.nombre = nombre;
+    this.nombre = nombre;
   }
 
   public String getTelefono() {
-	return this.telefono;
+    return this.telefono;
   }
 
   public void setTelefono(String telefono) {
-	this.telefono = telefono;
+    this.telefono = telefono;
   }
 
   public Ciudad getCiudade() {
-	return this.ciudade;
+    return this.ciudade;
   }
 
   public void setCiudade(Ciudad ciudade) {
-	this.ciudade = ciudade;
+    this.ciudade = ciudade;
   }
 
   public Cliente getCliente() {
-	return this.cliente;
+    return this.cliente;
   }
 
   public void setCliente(Cliente cliente) {
-	this.cliente = cliente;
+    this.cliente = cliente;
   }
 
 }

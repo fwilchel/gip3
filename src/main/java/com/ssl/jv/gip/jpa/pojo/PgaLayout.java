@@ -3,59 +3,59 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the pga_layout database table.
- * 
+ *
  */
 @Entity
-@Table(name="pga_layout")
-@NamedQuery(name="PgaLayout.findAll", query="SELECT p FROM PgaLayout p")
+@Table(name = "pga_layout")
+@NamedQuery(name = "PgaLayout.findAll", query = "SELECT p FROM PgaLayout p")
 public class PgaLayout implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private String tablename;
+  private static final long serialVersionUID = 1L;
 
-	private String colnames;
+  @Id
+  private String tablename;
 
-	private String colwidth;
+  private String colnames;
 
-	private Integer nrcols;
+  private String colwidth;
 
-	public PgaLayout() {
-	}
+  private Integer nrcols;
 
-	public String getTablename() {
-		return this.tablename;
-	}
+  public PgaLayout() {
+  }
 
-	public void setTablename(String tablename) {
-		this.tablename = tablename;
-	}
+  public String getTablename() {
+    return this.tablename;
+  }
 
-	public String getColnames() {
-		return this.colnames;
-	}
+  public void setTablename(String tablename) {
+    this.tablename = tablename;
+  }
 
-	public void setColnames(String colnames) {
-		this.colnames = colnames;
-	}
+  public String getColnames() {
+    return this.colnames;
+  }
 
-	public String getColwidth() {
-		return this.colwidth;
-	}
+  public void setColnames(String colnames) {
+    this.colnames = colnames;
+  }
 
-	public void setColwidth(String colwidth) {
-		this.colwidth = colwidth;
-	}
+  public String getColwidth() {
+    return this.colwidth;
+  }
 
-	public Integer getNrcols() {
-		return this.nrcols;
-	}
+  public void setColwidth(String colwidth) {
+    this.colwidth = colwidth;
+  }
 
-	public void setNrcols(Integer nrcols) {
-		this.nrcols = nrcols;
-	}
+  public Integer getNrcols() {
+    return this.nrcols;
+  }
+
+  public void setNrcols(Integer nrcols) {
+    this.nrcols = nrcols;
+  }
 
 }

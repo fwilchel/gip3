@@ -6,87 +6,96 @@ import javax.persistence.*;
 
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the maxfechas database table.
- * 
+ *
  */
 @Embeddable
 public class MaxfechaPK implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	private Timestamp fecha;
+  private static final long serialVersionUID = 1L;
 
-	@Column(name="id_producto")
-	private Long idProducto;
+  private Timestamp fecha;
 
-	@Column(name="id_ubicacion")
-	private Long idUbicacion;
+  @Column(name = "id_producto")
+  private Long idProducto;
 
-	public MaxfechaPK() {
-	}
+  @Column(name = "id_ubicacion")
+  private Long idUbicacion;
 
-	public Timestamp getFecha() {
-		return this.fecha;
-	}
+  public MaxfechaPK() {
+  }
 
-	public void setFecha(Timestamp fecha) {
-		this.fecha = fecha;
-	}
+  public Timestamp getFecha() {
+    return this.fecha;
+  }
 
-	public Long getIdProducto() {
-		return this.idProducto;
-	}
+  public void setFecha(Timestamp fecha) {
+    this.fecha = fecha;
+  }
 
-	public void setIdProducto(Long idProducto) {
-		this.idProducto = idProducto;
-	}
+  public Long getIdProducto() {
+    return this.idProducto;
+  }
 
-	public Long getIdUbicacion() {
-		return this.idUbicacion;
-	}
+  public void setIdProducto(Long idProducto) {
+    this.idProducto = idProducto;
+  }
 
-	public void setIdUbicacion(Long idUbicacion) {
-		this.idUbicacion = idUbicacion;
-	}
+  public Long getIdUbicacion() {
+    return this.idUbicacion;
+  }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
-		result = prime * result
-				+ ((idProducto == null) ? 0 : idProducto.hashCode());
-		result = prime * result
-				+ ((idUbicacion == null) ? 0 : idUbicacion.hashCode());
-		return result;
-	}
+  public void setIdUbicacion(Long idUbicacion) {
+    this.idUbicacion = idUbicacion;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MaxfechaPK other = (MaxfechaPK) obj;
-		if (fecha == null) {
-			if (other.fecha != null)
-				return false;
-		} else if (!fecha.equals(other.fecha))
-			return false;
-		if (idProducto == null) {
-			if (other.idProducto != null)
-				return false;
-		} else if (!idProducto.equals(other.idProducto))
-			return false;
-		if (idUbicacion == null) {
-			if (other.idUbicacion != null)
-				return false;
-		} else if (!idUbicacion.equals(other.idUbicacion))
-			return false;
-		return true;
-	}
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
+    result = prime * result
+        + ((idProducto == null) ? 0 : idProducto.hashCode());
+    result = prime * result
+        + ((idUbicacion == null) ? 0 : idUbicacion.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    MaxfechaPK other = (MaxfechaPK) obj;
+    if (fecha == null) {
+      if (other.fecha != null) {
+        return false;
+      }
+    } else if (!fecha.equals(other.fecha)) {
+      return false;
+    }
+    if (idProducto == null) {
+      if (other.idProducto != null) {
+        return false;
+      }
+    } else if (!idProducto.equals(other.idProducto)) {
+      return false;
+    }
+    if (idUbicacion == null) {
+      if (other.idUbicacion != null) {
+        return false;
+      }
+    } else if (!idUbicacion.equals(other.idUbicacion)) {
+      return false;
+    }
+    return true;
+  }
 
 }

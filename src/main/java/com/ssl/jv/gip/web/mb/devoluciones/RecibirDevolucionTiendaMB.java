@@ -25,105 +25,105 @@ import java.util.ArrayList;
 @ViewScoped
 public class RecibirDevolucionTiendaMB extends UtilMB {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -2780795923623719268L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = -2780795923623719268L;
 
-	private static final Logger LOGGER = Logger.getLogger(RecibirDevolucionTiendaMB.class);
+  private static final Logger LOGGER = Logger.getLogger(RecibirDevolucionTiendaMB.class);
 
-	@EJB
-	private DevolucionesEJBLocal devolucionesEJB;
+  @EJB
+  private DevolucionesEJBLocal devolucionesEJB;
 
-	@EJB
-	private MaestrosEJBLocal maestrosEJB;
+  @EJB
+  private MaestrosEJBLocal maestrosEJB;
 
-	@ManagedProperty(value = "#{aplicacionMB}")
-	private AplicacionMB appMB;
+  @ManagedProperty(value = "#{aplicacionMB}")
+  private AplicacionMB appMB;
 
-	@ManagedProperty(value = "#{menuMB}")
-	private MenuMB menu;
+  @ManagedProperty(value = "#{menuMB}")
+  private MenuMB menu;
 
-	private final Integer language = AplicacionMB.SPANISH;
+  private final Integer language = AplicacionMB.SPANISH;
 
-	private List<UbicacionRecibirDevolucionDTO> listaBodegas = new ArrayList<UbicacionRecibirDevolucionDTO>();
-	
-	private List<DocumentoRecibirDevolucionDTO> listadDocumentos = new ArrayList<DocumentoRecibirDevolucionDTO>();
-	
-	private String ubicacion;
-	
-	private Long documento;
+  private List<UbicacionRecibirDevolucionDTO> listaBodegas = new ArrayList<UbicacionRecibirDevolucionDTO>();
 
-	@PostConstruct
-	public void init() {
-		LOGGER.debug("Metodo: <<init>>");
-		obtenerlistaBodegas();
-	}
+  private List<DocumentoRecibirDevolucionDTO> listadDocumentos = new ArrayList<DocumentoRecibirDevolucionDTO>();
 
-	public void obtenerlistaBodegas() {
-		listaBodegas = devolucionesEJB.consultarUbicacionesRecibirDevolucionPorUsuario(menu.getUsuario().getId());
-		listadDocumentos.clear();
-		if(listaBodegas != null && listaBodegas.size() > 0){			
-			listadDocumentos = devolucionesEJB.consultarDocumentosRecibirDevolucion(listaBodegas.get(0).getBodegaAbastecedora());
-		}
-	}
-	
-	public void obtenerListadoDocumentos(){
-		if(listadDocumentos != null){
-			listadDocumentos.clear();
-		}
-		if(ubicacion != null ){			
-			listadDocumentos = devolucionesEJB.consultarDocumentosRecibirDevolucion(ubicacion);
-		}
-	}
+  private String ubicacion;
 
-	public List<UbicacionRecibirDevolucionDTO> getListaBodegas() {
-		return listaBodegas;
-	}
+  private Long documento;
 
-	public void setListaBodegas(List<UbicacionRecibirDevolucionDTO> listaBodegas) {
-		this.listaBodegas = listaBodegas;
-	}
+  @PostConstruct
+  public void init() {
+    LOGGER.debug("Metodo: <<init>>");
+    obtenerlistaBodegas();
+  }
 
-	public List<DocumentoRecibirDevolucionDTO> getListadDocumentos() {
-		return listadDocumentos;
-	}
+  public void obtenerlistaBodegas() {
+    listaBodegas = devolucionesEJB.consultarUbicacionesRecibirDevolucionPorUsuario(menu.getUsuario().getId());
+    listadDocumentos.clear();
+    if (listaBodegas != null && listaBodegas.size() > 0) {
+      listadDocumentos = devolucionesEJB.consultarDocumentosRecibirDevolucion(listaBodegas.get(0).getBodegaAbastecedora());
+    }
+  }
 
-	public void setListadDocumentos(
-			List<DocumentoRecibirDevolucionDTO> listadDocumentos) {
-		this.listadDocumentos = listadDocumentos;
-	}
+  public void obtenerListadoDocumentos() {
+    if (listadDocumentos != null) {
+      listadDocumentos.clear();
+    }
+    if (ubicacion != null) {
+      listadDocumentos = devolucionesEJB.consultarDocumentosRecibirDevolucion(ubicacion);
+    }
+  }
 
-	public String getUbicacion() {
-		return ubicacion;
-	}
+  public List<UbicacionRecibirDevolucionDTO> getListaBodegas() {
+    return listaBodegas;
+  }
 
-	public void setUbicacion(String ubicacion) {
-		this.ubicacion = ubicacion;
-	}
+  public void setListaBodegas(List<UbicacionRecibirDevolucionDTO> listaBodegas) {
+    this.listaBodegas = listaBodegas;
+  }
 
-	public Long getDocumento() {
-		return documento;
-	}
+  public List<DocumentoRecibirDevolucionDTO> getListadDocumentos() {
+    return listadDocumentos;
+  }
 
-	public void setDocumento(Long documento) {
-		this.documento = documento;
-	}
+  public void setListadDocumentos(
+      List<DocumentoRecibirDevolucionDTO> listadDocumentos) {
+    this.listadDocumentos = listadDocumentos;
+  }
 
-	public AplicacionMB getAppMB() {
-		return appMB;
-	}
+  public String getUbicacion() {
+    return ubicacion;
+  }
 
-	public void setAppMB(AplicacionMB appMB) {
-		this.appMB = appMB;
-	}
+  public void setUbicacion(String ubicacion) {
+    this.ubicacion = ubicacion;
+  }
 
-	public MenuMB getMenu() {
-		return menu;
-	}
+  public Long getDocumento() {
+    return documento;
+  }
 
-	public void setMenu(MenuMB menu) {
-		this.menu = menu;
-	}
-	
+  public void setDocumento(Long documento) {
+    this.documento = documento;
+  }
+
+  public AplicacionMB getAppMB() {
+    return appMB;
+  }
+
+  public void setAppMB(AplicacionMB appMB) {
+    this.appMB = appMB;
+  }
+
+  public MenuMB getMenu() {
+    return menu;
+  }
+
+  public void setMenu(MenuMB menu) {
+    this.menu = menu;
+  }
+
 }

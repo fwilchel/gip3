@@ -4,74 +4,72 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the permisos database table.
- * 
+ *
  */
 @Entity
-@Table(name="permisos")
-@NamedQuery(name="Permiso.findAll", query="SELECT p FROM Permiso p")
+@Table(name = "permisos")
+@NamedQuery(name = "Permiso.findAll", query = "SELECT p FROM Permiso p")
 public class Permiso implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	@Column(name="tipo_acceso")
-	private String tipoAcceso;
+  @Id
+  private Long id;
 
-	//bi-directional many-to-one association to Funcionalidad
-	@ManyToOne
-	@JoinColumn(name="id_funcionalidad")
-	private Funcionalidad funcionalidade;
+  @Column(name = "tipo_acceso")
+  private String tipoAcceso;
 
-	//bi-directional many-to-many association to Rol
-	@ManyToMany
-	@JoinTable(
-		name="permisos_roles"
-		, joinColumns={
-			@JoinColumn(name="id_permiso")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="id_rol")
-			}
-		)
-	private List<Rol> roles;
+  //bi-directional many-to-one association to Funcionalidad
+  @ManyToOne
+  @JoinColumn(name = "id_funcionalidad")
+  private Funcionalidad funcionalidade;
 
-	public Permiso() {
-	}
+  //bi-directional many-to-many association to Rol
+  @ManyToMany
+  @JoinTable(
+      name = "permisos_roles", joinColumns = {
+        @JoinColumn(name = "id_permiso")
+      }, inverseJoinColumns = {
+        @JoinColumn(name = "id_rol")
+      }
+  )
+  private List<Rol> roles;
 
-	public Long getId() {
-		return this.id;
-	}
+  public Permiso() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getTipoAcceso() {
-		return this.tipoAcceso;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setTipoAcceso(String tipoAcceso) {
-		this.tipoAcceso = tipoAcceso;
-	}
+  public String getTipoAcceso() {
+    return this.tipoAcceso;
+  }
 
-	public Funcionalidad getFuncionalidade() {
-		return this.funcionalidade;
-	}
+  public void setTipoAcceso(String tipoAcceso) {
+    this.tipoAcceso = tipoAcceso;
+  }
 
-	public void setFuncionalidade(Funcionalidad funcionalidade) {
-		this.funcionalidade = funcionalidade;
-	}
+  public Funcionalidad getFuncionalidade() {
+    return this.funcionalidade;
+  }
 
-	public List<Rol> getRoles() {
-		return this.roles;
-	}
+  public void setFuncionalidade(Funcionalidad funcionalidade) {
+    this.funcionalidade = funcionalidade;
+  }
 
-	public void setRoles(List<Rol> roles) {
-		this.roles = roles;
-	}
+  public List<Rol> getRoles() {
+    return this.roles;
+  }
+
+  public void setRoles(List<Rol> roles) {
+    this.roles = roles;
+  }
 
 }

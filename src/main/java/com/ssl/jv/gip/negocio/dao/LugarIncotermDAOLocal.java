@@ -5,6 +5,6 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 
 @Local
-public interface LugarIncotermDAOLocal extends IGenericDAO<LugarIncoterm>{
-	
+public interface LugarIncotermDAOLocal extends IGenericDAO<LugarIncoterm> {
+
 }

@@ -4,111 +4,111 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the ventas database table.
- * 
+ *
  */
 @Entity
-@Table(name="ventas")
-@NamedQuery(name="Venta.findAll", query="SELECT v FROM Venta v")
+@Table(name = "ventas")
+@NamedQuery(name = "Venta.findAll", query = "SELECT v FROM Venta v")
 public class Venta implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private VentaPK id;
+  private static final long serialVersionUID = 1L;
 
-	private double cantidad;
+  @EmbeddedId
+  private VentaPK id;
 
-	@Column(name="fecha_venta")
-	private Boolean fechaVenta;
+  private double cantidad;
 
-	@Column(name="precio_unitario_ml")
-	private BigDecimal precioUnitarioMl;
+  @Column(name = "fecha_venta")
+  private Boolean fechaVenta;
 
-	@Column(name="precio_unitario_usd")
-	private BigDecimal precioUnitarioUsd;
+  @Column(name = "precio_unitario_ml")
+  private BigDecimal precioUnitarioMl;
 
-	//bi-directional many-to-one association to Moneda
-	@ManyToOne
-	@JoinColumn(name="id_ml")
-	private Moneda moneda;
+  @Column(name = "precio_unitario_usd")
+  private BigDecimal precioUnitarioUsd;
 
-	//bi-directional many-to-one association to Ubicacion
-	@ManyToOne(optional=false)
-	@JoinColumn(name="id_ubicacion", referencedColumnName="id", insertable=false, updatable=false)
-	private Ubicacion ubicacione;
+  //bi-directional many-to-one association to Moneda
+  @ManyToOne
+  @JoinColumn(name = "id_ml")
+  private Moneda moneda;
 
-	//bi-directional many-to-one association to Unidad
-	@ManyToOne
-	@JoinColumn(name="id_unidad")
-	private Unidad unidade;
+  //bi-directional many-to-one association to Ubicacion
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "id_ubicacion", referencedColumnName = "id", insertable = false, updatable = false)
+  private Ubicacion ubicacione;
 
-	public Venta() {
-	}
+  //bi-directional many-to-one association to Unidad
+  @ManyToOne
+  @JoinColumn(name = "id_unidad")
+  private Unidad unidade;
 
-	public VentaPK getId() {
-		return this.id;
-	}
+  public Venta() {
+  }
 
-	public void setId(VentaPK id) {
-		this.id = id;
-	}
+  public VentaPK getId() {
+    return this.id;
+  }
 
-	public double getCantidad() {
-		return this.cantidad;
-	}
+  public void setId(VentaPK id) {
+    this.id = id;
+  }
 
-	public void setCantidad(double cantidad) {
-		this.cantidad = cantidad;
-	}
+  public double getCantidad() {
+    return this.cantidad;
+  }
 
-	public Boolean getFechaVenta() {
-		return this.fechaVenta;
-	}
+  public void setCantidad(double cantidad) {
+    this.cantidad = cantidad;
+  }
 
-	public void setFechaVenta(Boolean fechaVenta) {
-		this.fechaVenta = fechaVenta;
-	}
+  public Boolean getFechaVenta() {
+    return this.fechaVenta;
+  }
 
-	public BigDecimal getPrecioUnitarioMl() {
-		return this.precioUnitarioMl;
-	}
+  public void setFechaVenta(Boolean fechaVenta) {
+    this.fechaVenta = fechaVenta;
+  }
 
-	public void setPrecioUnitarioMl(BigDecimal precioUnitarioMl) {
-		this.precioUnitarioMl = precioUnitarioMl;
-	}
+  public BigDecimal getPrecioUnitarioMl() {
+    return this.precioUnitarioMl;
+  }
 
-	public BigDecimal getPrecioUnitarioUsd() {
-		return this.precioUnitarioUsd;
-	}
+  public void setPrecioUnitarioMl(BigDecimal precioUnitarioMl) {
+    this.precioUnitarioMl = precioUnitarioMl;
+  }
 
-	public void setPrecioUnitarioUsd(BigDecimal precioUnitarioUsd) {
-		this.precioUnitarioUsd = precioUnitarioUsd;
-	}
+  public BigDecimal getPrecioUnitarioUsd() {
+    return this.precioUnitarioUsd;
+  }
 
-	public Moneda getMoneda() {
-		return this.moneda;
-	}
+  public void setPrecioUnitarioUsd(BigDecimal precioUnitarioUsd) {
+    this.precioUnitarioUsd = precioUnitarioUsd;
+  }
 
-	public void setMoneda(Moneda moneda) {
-		this.moneda = moneda;
-	}
+  public Moneda getMoneda() {
+    return this.moneda;
+  }
 
-	public Ubicacion getUbicacione() {
-		return this.ubicacione;
-	}
+  public void setMoneda(Moneda moneda) {
+    this.moneda = moneda;
+  }
 
-	public void setUbicacione(Ubicacion ubicacione) {
-		this.ubicacione = ubicacione;
-	}
+  public Ubicacion getUbicacione() {
+    return this.ubicacione;
+  }
 
-	public Unidad getUnidade() {
-		return this.unidade;
-	}
+  public void setUbicacione(Ubicacion ubicacione) {
+    this.ubicacione = ubicacione;
+  }
 
-	public void setUnidade(Unidad unidade) {
-		this.unidade = unidade;
-	}
+  public Unidad getUnidade() {
+    return this.unidade;
+  }
+
+  public void setUnidade(Unidad unidade) {
+    this.unidade = unidade;
+  }
 
 }

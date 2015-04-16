@@ -9,12 +9,12 @@ import com.ssl.jv.gip.jpa.pojo.CategoriaCostoLogistico;
 
 @Stateless
 @LocalBean
-public class CategoriaCostoLogisticoDAO extends GenericDAO<CategoriaCostoLogistico> implements CategoriaCostoLogisticoDAOLocal{
+public class CategoriaCostoLogisticoDAO extends GenericDAO<CategoriaCostoLogistico> implements CategoriaCostoLogisticoDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(CategoriaCostoLogisticoDAO.class);
-	
-	public CategoriaCostoLogisticoDAO(){
-		this.persistentClass = CategoriaCostoLogistico.class;
-	}	
+  private static final Logger LOGGER = Logger.getLogger(CategoriaCostoLogisticoDAO.class);
+
+  public CategoriaCostoLogisticoDAO() {
+    this.persistentClass = CategoriaCostoLogistico.class;
+  }
 
 }

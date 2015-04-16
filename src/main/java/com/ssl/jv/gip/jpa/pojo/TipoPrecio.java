@@ -4,65 +4,65 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the tipo_precio database table.
- * 
+ *
  */
 @Entity
-@Table(name="tipo_precio")
-@NamedQuery(name="TipoPrecio.findAll", query="SELECT t FROM TipoPrecio t")
+@Table(name = "tipo_precio")
+@NamedQuery(name = "TipoPrecio.findAll", query = "SELECT t FROM TipoPrecio t")
 public class TipoPrecio implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  private Long id;
 
-	//bi-directional many-to-one association to Cliente
-	@OneToMany(mappedBy="tipoPrecio")
-	private List<Cliente> clientes;
+  private String nombre;
 
-	public TipoPrecio() {
-	}
+  //bi-directional many-to-one association to Cliente
+  @OneToMany(mappedBy = "tipoPrecio")
+  private List<Cliente> clientes;
 
-	public Long getId() {
-		return this.id;
-	}
+  public TipoPrecio() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public List<Cliente> getClientes() {
-		return this.clientes;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
+  public List<Cliente> getClientes() {
+    return this.clientes;
+  }
 
-	public Cliente addCliente(Cliente cliente) {
-		getClientes().add(cliente);
-		cliente.setTipoPrecio(this);
+  public void setClientes(List<Cliente> clientes) {
+    this.clientes = clientes;
+  }
 
-		return cliente;
-	}
+  public Cliente addCliente(Cliente cliente) {
+    getClientes().add(cliente);
+    cliente.setTipoPrecio(this);
 
-	public Cliente removeCliente(Cliente cliente) {
-		getClientes().remove(cliente);
-		cliente.setTipoPrecio(null);
+    return cliente;
+  }
 
-		return cliente;
-	}
+  public Cliente removeCliente(Cliente cliente) {
+    getClientes().remove(cliente);
+    cliente.setTipoPrecio(null);
+
+    return cliente;
+  }
 
 }

@@ -1,111 +1,110 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.tituloImprimirRemision}::.	</ui:define>
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.tituloImprimirRemision}::.	</ui:define>
 
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
-		
-
-		
-
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
-				
-				
-		
-					
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form prependId="false" id="forma">
 
 
 
-	
 
-			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.tituloImprimirRemision}">
-				
-				
-				<p:panelGrid columns="2"  styleClass="noBorders">
+      <p:messages id="msgs" showDetail="false" showSummary="true"
+                  globalOnly="false" showIcon="true"></p:messages>
 
-						<p:outputLabel value="#{msg.ingresarNumeroRemision}" for="codigo"
-							styleClass="negrita" />
-						<h:inputText value="#{imprimirRemisionMB.strConsecutivoDocumento}" id="codigo"
-							required="false" maxlength="10" label="#{msg.buscadorSKU}" />
-						<p:message for="codigo"></p:message>
 
-						
-						
-							<p:commandButton value="#{msg.documentoEjecutarBusqueda}" icon="ui-icon-search" action="#{imprimirRemisionMB.consultarDocumento}"
-							update="tablaDatos">
-							</p:commandButton>
-							
 
-					</p:panelGrid>
-				
-				
-					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-						value="#{imprimirRemisionMB.list}" rows="10"
-						emptyMessage="#{msg.ConsultarRemisionNoEncontrados}"
-						paginator="true" paginatorPosition="bottom"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
 
-						
-						
-						
-						<p:column style="width:64px;text-align: center">
-					
-							
-								<p:commandButton  ajax="false" icon="ui-icon-document">
-								<f:setPropertyActionListener value="#{dato}"
-									target="#{imprimirRemisionMB.seleccionado}" />
-        <p:fileDownload value="#{imprimirRemisionMB.reportePDF}" />
-    </p:commandButton>
-    
 
-							
-						</p:column>
-						
-						<p:column filterBy="#{dato.id}"
-							headerText="#{msg.CodigoGipSP}"
-							filterMatchMode="contains" sortBy="#{dato.id}">
-							<h:outputText value="#{dato.id}" />
-						</p:column>
 
-						<p:column filterBy="#{dato.consecutivoDocumento}"
-							headerText="#{msg.RequisicionNombreCons}"
-							filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
-							<h:outputText value="#{dato.consecutivoDocumento}" />
-						</p:column>
-						
-						<p:column filterBy="#{dato.fechaGeneracion}"
-							headerText="#{msg.RequisicionNombreFechaGenerado}"
-							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
-							<h:outputText value="#{dato.fechaGeneracion}" />
-						</p:column>
 
-						
 
-					</p:dataTable>
-					
-					
-					
-				</p:tab>
-			</p:tabView>
-		</h:form>
-		
-		
-		
-	
-		
 
-	</ui:define>
+      <p:tabView id="tabPanel">
+        <p:tab title="#{msg.tituloImprimirRemision}">
+
+
+          <p:panelGrid columns="2"  styleClass="noBorders">
+
+            <p:outputLabel value="#{msg.ingresarNumeroRemision}" for="codigo"
+                           styleClass="negrita" />
+            <h:inputText value="#{imprimirRemisionMB.strConsecutivoDocumento}" id="codigo"
+                         required="false" maxlength="10" label="#{msg.buscadorSKU}" />
+            <p:message for="codigo"></p:message>
+
+
+
+            <p:commandButton value="#{msg.documentoEjecutarBusqueda}" icon="ui-icon-search" action="#{imprimirRemisionMB.consultarDocumento}"
+                             update="tablaDatos">
+            </p:commandButton>
+
+
+          </p:panelGrid>
+
+
+          <p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+                       value="#{imprimirRemisionMB.list}" rows="10"
+                       emptyMessage="#{msg.ConsultarRemisionNoEncontrados}"
+                       paginator="true" paginatorPosition="bottom"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
+
+
+
+
+            <p:column style="width:64px;text-align: center">
+
+
+              <p:commandButton  ajax="false" icon="ui-icon-document">
+                <f:setPropertyActionListener value="#{dato}"
+                                             target="#{imprimirRemisionMB.seleccionado}" />
+                <p:fileDownload value="#{imprimirRemisionMB.reportePDF}" />
+              </p:commandButton>
+
+
+
+            </p:column>
+
+            <p:column filterBy="#{dato.id}"
+                      headerText="#{msg.CodigoGipSP}"
+                      filterMatchMode="contains" sortBy="#{dato.id}">
+              <h:outputText value="#{dato.id}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.consecutivoDocumento}"
+                      headerText="#{msg.RequisicionNombreCons}"
+                      filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
+              <h:outputText value="#{dato.consecutivoDocumento}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.fechaGeneracion}"
+                      headerText="#{msg.RequisicionNombreFechaGenerado}"
+                      filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
+              <h:outputText value="#{dato.fechaGeneracion}" />
+            </p:column>
+
+
+
+          </p:dataTable>
+
+
+
+        </p:tab>
+      </p:tabView>
+    </h:form>
+
+
+
+
+
+
+  </ui:define>
 
 
 

@@ -6,152 +6,152 @@ import javax.persistence.*;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the agente_aduana database table.
- * 
+ *
  */
 @Entity
-@Table(name="agente_aduana")
+@Table(name = "agente_aduana")
 @NamedQueries({
-		@NamedQuery(name="AgenteAduana.findAll", query="SELECT a FROM AgenteAduana a"),
-		@NamedQuery(name="AgenteAduana.findAllActive", query="SELECT a FROM AgenteAduana a WHERE a.activo = true")
+  @NamedQuery(name = "AgenteAduana.findAll", query = "SELECT a FROM AgenteAduana a"),
+  @NamedQuery(name = "AgenteAduana.findAllActive", query = "SELECT a FROM AgenteAduana a WHERE a.activo = true")
 })
 public class AgenteAduana implements Serializable, Comparable<AgenteAduana> {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@SequenceGenerator(name = "agente_aduana_id_seq", sequenceName = "agente_aduana_id_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "agente_aduana_id_seq")
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private Boolean activo;
+  @Id
+  @SequenceGenerator(name = "agente_aduana_id_seq", sequenceName = "agente_aduana_id_seq", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "agente_aduana_id_seq")
+  private Long id;
 
-	private String celular;
+  private Boolean activo;
 
-	private String contacto;
+  private String celular;
 
-	private String direccion;
+  private String contacto;
 
-	private String email;
+  private String direccion;
 
-	@Column(name="lugar_entrega")
-	private String lugarEntrega;
+  private String email;
 
-	private String nombre;
+  @Column(name = "lugar_entrega")
+  private String lugarEntrega;
 
-	private String telefono;
+  private String nombre;
 
-	//bi-directional many-to-one association to Cliente
-	@OneToMany(mappedBy="agenteAduana")
-	private List<Cliente> clientes;
+  private String telefono;
 
-	public AgenteAduana() {
-	}
+  //bi-directional many-to-one association to Cliente
+  @OneToMany(mappedBy = "agenteAduana")
+  private List<Cliente> clientes;
 
-	public Long getId() {
-		return this.id;
-	}
+  public AgenteAduana() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public Boolean getActivo() {
-		return this.activo;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setActivo(Boolean activo) {
-		this.activo = activo;
-	}
+  public Boolean getActivo() {
+    return this.activo;
+  }
 
-	public String getCelular() {
-		return this.celular;
-	}
+  public void setActivo(Boolean activo) {
+    this.activo = activo;
+  }
 
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
+  public String getCelular() {
+    return this.celular;
+  }
 
-	public String getContacto() {
-		return this.contacto;
-	}
+  public void setCelular(String celular) {
+    this.celular = celular;
+  }
 
-	public void setContacto(String contacto) {
-		this.contacto = contacto;
-	}
+  public String getContacto() {
+    return this.contacto;
+  }
 
-	public String getDireccion() {
-		return this.direccion;
-	}
+  public void setContacto(String contacto) {
+    this.contacto = contacto;
+  }
 
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
+  public String getDireccion() {
+    return this.direccion;
+  }
 
-	public String getEmail() {
-		return this.email;
-	}
+  public void setDireccion(String direccion) {
+    this.direccion = direccion;
+  }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public String getEmail() {
+    return this.email;
+  }
 
-	public String getLugarEntrega() {
-		return this.lugarEntrega;
-	}
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-	public void setLugarEntrega(String lugarEntrega) {
-		this.lugarEntrega = lugarEntrega;
-	}
+  public String getLugarEntrega() {
+    return this.lugarEntrega;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setLugarEntrega(String lugarEntrega) {
+    this.lugarEntrega = lugarEntrega;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public String getTelefono() {
-		return this.telefono;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
+  public String getTelefono() {
+    return this.telefono;
+  }
 
-	public List<Cliente> getClientes() {
-		return this.clientes;
-	}
+  public void setTelefono(String telefono) {
+    this.telefono = telefono;
+  }
 
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
+  public List<Cliente> getClientes() {
+    return this.clientes;
+  }
 
-	public Cliente addCliente(Cliente cliente) {
-		getClientes().add(cliente);
-		cliente.setAgenteAduana(this);
+  public void setClientes(List<Cliente> clientes) {
+    this.clientes = clientes;
+  }
 
-		return cliente;
-	}
+  public Cliente addCliente(Cliente cliente) {
+    getClientes().add(cliente);
+    cliente.setAgenteAduana(this);
 
-	public Cliente removeCliente(Cliente cliente) {
-		getClientes().remove(cliente);
-		cliente.setAgenteAduana(null);
+    return cliente;
+  }
 
-		return cliente;
-	}
+  public Cliente removeCliente(Cliente cliente) {
+    getClientes().remove(cliente);
+    cliente.setAgenteAduana(null);
 
-	/**
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public int compareTo(AgenteAduana o) {
-		return nombre.compareTo(o.nombre);
-	}
+    return cliente;
+  }
+
+  /**
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public int compareTo(AgenteAduana o) {
+    return nombre.compareTo(o.nombre);
+  }
 
 }

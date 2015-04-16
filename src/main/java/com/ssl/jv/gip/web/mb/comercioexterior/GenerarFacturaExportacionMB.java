@@ -456,7 +456,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
         this.totalPesoBruto = this.totalPesoBruto.add(pr.getTotalPesoBrutoItem());
       }
 
-	  // this.listaMuestras =
+      // this.listaMuestras =
       // this.reportesComercioExteriorEJBLocal.consultarMuestrasPorCantidad(this.seleccionado.getDocumentoXLotesoics().get(0).getTotalCantidad());
       this.listaProductoTotales = comercioExteriorEJBLocal.consultarProductoPorDocumentoLoteAsignarLotesOIC(this.seleccionado.getId(), this.seleccionado.getCliente().getId());
 

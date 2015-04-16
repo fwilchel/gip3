@@ -5,6 +5,6 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.MetodoPago;
 
 @Local
-public interface MetodoPagoDAOLocal extends IGenericDAO<MetodoPago>{
+public interface MetodoPagoDAOLocal extends IGenericDAO<MetodoPago> {
 
 }

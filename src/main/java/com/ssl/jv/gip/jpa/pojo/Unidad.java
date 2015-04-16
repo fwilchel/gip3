@@ -6,430 +6,425 @@ import javax.persistence.*;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the unidades database table.
- * 
+ *
  */
 @Entity
-@Table(name="unidades")
-@NamedQuery(name="Unidad.findAll", query="SELECT u FROM Unidad u")
+@Table(name = "unidades")
+@NamedQuery(name = "Unidad.findAll", query = "SELECT u FROM Unidad u")
 public class Unidad implements Serializable, Comparable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String abreviacion;
+  @Id
+  private Long id;
 
-	private String nombre;
+  private String abreviacion;
 
-	@Column(name="nombre_ingles")
-	private String nombreIngles;
+  private String nombre;
 
-	//bi-directional many-to-one association to Conteo
-	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
-	private List<Conteo> conteos;
+  @Column(name = "nombre_ingles")
+  private String nombreIngles;
 
-	//bi-directional many-to-one association to CostoVenta
-	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
-	private List<CostoVenta> costoVentas;
+  //bi-directional many-to-one association to Conteo
+  @OneToMany(mappedBy = "unidade", fetch = FetchType.LAZY)
+  private List<Conteo> conteos;
 
-	//bi-directional many-to-one association to Costo
-	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
-	private List<Costo> costos;
+  //bi-directional many-to-one association to CostoVenta
+  @OneToMany(mappedBy = "unidade", fetch = FetchType.LAZY)
+  private List<CostoVenta> costoVentas;
 
-	//bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
-	private List<MovimientosInventario> movimientosInventarios;
+  //bi-directional many-to-one association to Costo
+  @OneToMany(mappedBy = "unidade", fetch = FetchType.LAZY)
+  private List<Costo> costos;
 
-	//bi-directional many-to-one association to ProductosInventario
-	//@OneToMany(mappedBy="unidade1")
-	//private List<ProductosInventario> productosInventarios1;
+  //bi-directional many-to-one association to MovimientosInventario
+  @OneToMany(mappedBy = "unidade", fetch = FetchType.LAZY)
+  private List<MovimientosInventario> movimientosInventarios;
 
-	//bi-directional many-to-one association to ProductosInventario
-	//@OneToMany(mappedBy="unidade2")
-	//private List<ProductosInventario> productosInventarios2;
+  //bi-directional many-to-one association to ProductosInventario
+  //@OneToMany(mappedBy="unidade1")
+  //private List<ProductosInventario> productosInventarios1;
+  //bi-directional many-to-one association to ProductosInventario
+  //@OneToMany(mappedBy="unidade2")
+  //private List<ProductosInventario> productosInventarios2;
+  //bi-directional many-to-one association to ProductosInventarioComext
+  @OneToMany(mappedBy = "unidadEmbalaje", fetch = FetchType.LAZY)
+  private List<ProductosInventarioComext> productosInventarioComexts;
 
-	//bi-directional many-to-one association to ProductosInventarioComext
-	@OneToMany(mappedBy="unidadEmbalaje", fetch=FetchType.LAZY)
-	private List<ProductosInventarioComext> productosInventarioComexts;
+  //bi-directional many-to-one association to ProductosXDocumento
+  @OneToMany(mappedBy = "unidade", fetch = FetchType.LAZY)
+  private List<ProductosXDocumento> productosxdocumentos;
 
-	//bi-directional many-to-one association to ProductosXDocumento
-	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
-	private List<ProductosXDocumento> productosxdocumentos;
+  //bi-directional many-to-one association to ProductosXProveedor
+  @OneToMany(mappedBy = "unidade", fetch = FetchType.LAZY)
+  private List<ProductosXProveedor> productosxproveedors;
 
-	//bi-directional many-to-one association to ProductosXProveedor
-	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
-	private List<ProductosXProveedor> productosxproveedors;
+  //bi-directional many-to-one association to ProductosXReceta
+  @OneToMany(mappedBy = "unidade", fetch = FetchType.LAZY)
+  private List<ProductosXReceta> productosxrecetas;
 
-	//bi-directional many-to-one association to ProductosXReceta
-	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
-	private List<ProductosXReceta> productosxrecetas;
+  //bi-directional many-to-one association to Saldo
+  @OneToMany(mappedBy = "unidade", fetch = FetchType.LAZY)
+  private List<Saldo> saldos;
 
-	//bi-directional many-to-one association to Saldo
-	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
-	private List<Saldo> saldos;
-
-	//bi-directional many-to-one association to SaldosFranquicia
-	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
-	private List<SaldosFranquicia> saldosFranquicias;
+  //bi-directional many-to-one association to SaldosFranquicia
+  @OneToMany(mappedBy = "unidade", fetch = FetchType.LAZY)
+  private List<SaldosFranquicia> saldosFranquicias;
 
 	//bi-directional many-to-one association to TempCosto
 	/*@OneToMany(mappedBy="unidade")
-	private List<TempCosto> tempCostos;*/
+   private List<TempCosto> tempCostos;*/
+  //bi-directional many-to-one association to Venta
+  @OneToMany(mappedBy = "unidade", fetch = FetchType.LAZY)
+  private List<Venta> ventas;
 
-	//bi-directional many-to-one association to Venta
-	@OneToMany(mappedBy="unidade", fetch=FetchType.LAZY)
-	private List<Venta> ventas;
+  public Unidad() {
+  }
 
-	public Unidad() {
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public Long getId() {
-		return this.id;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public String getAbreviacion() {
+    return this.abreviacion;
+  }
 
-	public String getAbreviacion() {
-		return this.abreviacion;
-	}
+  public void setAbreviacion(String abreviacion) {
+    this.abreviacion = abreviacion;
+  }
 
-	public void setAbreviacion(String abreviacion) {
-		this.abreviacion = abreviacion;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombreIngles() {
+    return this.nombreIngles;
+  }
 
-	public String getNombreIngles() {
-		return this.nombreIngles;
-	}
+  public void setNombreIngles(String nombreIngles) {
+    this.nombreIngles = nombreIngles;
+  }
 
-	public void setNombreIngles(String nombreIngles) {
-		this.nombreIngles = nombreIngles;
-	}
+  public List<Conteo> getConteos() {
+    return this.conteos;
+  }
 
-	public List<Conteo> getConteos() {
-		return this.conteos;
-	}
+  public void setConteos(List<Conteo> conteos) {
+    this.conteos = conteos;
+  }
 
-	public void setConteos(List<Conteo> conteos) {
-		this.conteos = conteos;
-	}
+  public Conteo addConteo(Conteo conteo) {
+    getConteos().add(conteo);
+    conteo.setUnidade(this);
 
-	public Conteo addConteo(Conteo conteo) {
-		getConteos().add(conteo);
-		conteo.setUnidade(this);
+    return conteo;
+  }
 
-		return conteo;
-	}
+  public Conteo removeConteo(Conteo conteo) {
+    getConteos().remove(conteo);
+    conteo.setUnidade(null);
 
-	public Conteo removeConteo(Conteo conteo) {
-		getConteos().remove(conteo);
-		conteo.setUnidade(null);
+    return conteo;
+  }
 
-		return conteo;
-	}
+  public List<CostoVenta> getCostoVentas() {
+    return this.costoVentas;
+  }
 
-	public List<CostoVenta> getCostoVentas() {
-		return this.costoVentas;
-	}
+  public void setCostoVentas(List<CostoVenta> costoVentas) {
+    this.costoVentas = costoVentas;
+  }
 
-	public void setCostoVentas(List<CostoVenta> costoVentas) {
-		this.costoVentas = costoVentas;
-	}
+  public CostoVenta addCostoVenta(CostoVenta costoVenta) {
+    getCostoVentas().add(costoVenta);
+    costoVenta.setUnidade(this);
 
-	public CostoVenta addCostoVenta(CostoVenta costoVenta) {
-		getCostoVentas().add(costoVenta);
-		costoVenta.setUnidade(this);
+    return costoVenta;
+  }
 
-		return costoVenta;
-	}
+  public CostoVenta removeCostoVenta(CostoVenta costoVenta) {
+    getCostoVentas().remove(costoVenta);
+    costoVenta.setUnidade(null);
 
-	public CostoVenta removeCostoVenta(CostoVenta costoVenta) {
-		getCostoVentas().remove(costoVenta);
-		costoVenta.setUnidade(null);
+    return costoVenta;
+  }
 
-		return costoVenta;
-	}
+  public List<Costo> getCostos() {
+    return this.costos;
+  }
 
-	public List<Costo> getCostos() {
-		return this.costos;
-	}
+  public void setCostos(List<Costo> costos) {
+    this.costos = costos;
+  }
 
-	public void setCostos(List<Costo> costos) {
-		this.costos = costos;
-	}
+  public Costo addCosto(Costo costo) {
+    getCostos().add(costo);
+    costo.setUnidade(this);
 
-	public Costo addCosto(Costo costo) {
-		getCostos().add(costo);
-		costo.setUnidade(this);
+    return costo;
+  }
 
-		return costo;
-	}
+  public Costo removeCosto(Costo costo) {
+    getCostos().remove(costo);
+    costo.setUnidade(null);
 
-	public Costo removeCosto(Costo costo) {
-		getCostos().remove(costo);
-		costo.setUnidade(null);
+    return costo;
+  }
 
-		return costo;
-	}
+  public List<MovimientosInventario> getMovimientosInventarios() {
+    return this.movimientosInventarios;
+  }
 
-	public List<MovimientosInventario> getMovimientosInventarios() {
-		return this.movimientosInventarios;
-	}
+  public void setMovimientosInventarios(List<MovimientosInventario> movimientosInventarios) {
+    this.movimientosInventarios = movimientosInventarios;
+  }
 
-	public void setMovimientosInventarios(List<MovimientosInventario> movimientosInventarios) {
-		this.movimientosInventarios = movimientosInventarios;
-	}
+  public MovimientosInventario addMovimientosInventario(MovimientosInventario movimientosInventario) {
+    getMovimientosInventarios().add(movimientosInventario);
+    movimientosInventario.setUnidade(this);
 
-	public MovimientosInventario addMovimientosInventario(MovimientosInventario movimientosInventario) {
-		getMovimientosInventarios().add(movimientosInventario);
-		movimientosInventario.setUnidade(this);
+    return movimientosInventario;
+  }
 
-		return movimientosInventario;
-	}
+  public MovimientosInventario removeMovimientosInventario(MovimientosInventario movimientosInventario) {
+    getMovimientosInventarios().remove(movimientosInventario);
+    movimientosInventario.setUnidade(null);
 
-	public MovimientosInventario removeMovimientosInventario(MovimientosInventario movimientosInventario) {
-		getMovimientosInventarios().remove(movimientosInventario);
-		movimientosInventario.setUnidade(null);
+    return movimientosInventario;
+  }
 
-		return movimientosInventario;
-	}
+  /*public List<ProductosInventario> getProductosInventarios1() {
+   return this.productosInventarios1;
+   }
 
-	/*public List<ProductosInventario> getProductosInventarios1() {
-		return this.productosInventarios1;
-	}
+   public void setProductosInventarios1(List<ProductosInventario> productosInventarios1) {
+   this.productosInventarios1 = productosInventarios1;
+   }
 
-	public void setProductosInventarios1(List<ProductosInventario> productosInventarios1) {
-		this.productosInventarios1 = productosInventarios1;
-	}
+   public ProductosInventario addProductosInventarios1(ProductosInventario productosInventarios1) {
+   getProductosInventarios1().add(productosInventarios1);
+   productosInventarios1.setUnidade1(this);
 
-	public ProductosInventario addProductosInventarios1(ProductosInventario productosInventarios1) {
-		getProductosInventarios1().add(productosInventarios1);
-		productosInventarios1.setUnidade1(this);
+   return productosInventarios1;
+   }
 
-		return productosInventarios1;
-	}
+   public ProductosInventario removeProductosInventarios1(ProductosInventario productosInventarios1) {
+   getProductosInventarios1().remove(productosInventarios1);
+   productosInventarios1.setUnidade1(null);
 
-	public ProductosInventario removeProductosInventarios1(ProductosInventario productosInventarios1) {
-		getProductosInventarios1().remove(productosInventarios1);
-		productosInventarios1.setUnidade1(null);
+   return productosInventarios1;
+   }
 
-		return productosInventarios1;
-	}
+   public List<ProductosInventario> getProductosInventarios2() {
+   return this.productosInventarios2;
+   }
 
-	public List<ProductosInventario> getProductosInventarios2() {
-		return this.productosInventarios2;
-	}
+   public void setProductosInventarios2(List<ProductosInventario> productosInventarios2) {
+   this.productosInventarios2 = productosInventarios2;
+   }
 
-	public void setProductosInventarios2(List<ProductosInventario> productosInventarios2) {
-		this.productosInventarios2 = productosInventarios2;
-	}
+   public ProductosInventario addProductosInventarios2(ProductosInventario productosInventarios2) {
+   getProductosInventarios2().add(productosInventarios2);
+   productosInventarios2.setUnidade2(this);
 
-	public ProductosInventario addProductosInventarios2(ProductosInventario productosInventarios2) {
-		getProductosInventarios2().add(productosInventarios2);
-		productosInventarios2.setUnidade2(this);
+   return productosInventarios2;
+   }
 
-		return productosInventarios2;
-	}
+   public ProductosInventario removeProductosInventarios2(ProductosInventario productosInventarios2) {
+   getProductosInventarios2().remove(productosInventarios2);
+   productosInventarios2.setUnidade2(null);
 
-	public ProductosInventario removeProductosInventarios2(ProductosInventario productosInventarios2) {
-		getProductosInventarios2().remove(productosInventarios2);
-		productosInventarios2.setUnidade2(null);
+   return productosInventarios2;
+   }*/
+  public List<ProductosInventarioComext> getProductosInventarioComexts() {
+    return this.productosInventarioComexts;
+  }
 
-		return productosInventarios2;
-	}*/
+  public void setProductosInventarioComexts(List<ProductosInventarioComext> productosInventarioComexts) {
+    this.productosInventarioComexts = productosInventarioComexts;
+  }
 
-	public List<ProductosInventarioComext> getProductosInventarioComexts() {
-		return this.productosInventarioComexts;
-	}
+  public ProductosInventarioComext addProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
+    getProductosInventarioComexts().add(productosInventarioComext);
+    productosInventarioComext.setUnidadEmbalaje(this);
 
-	public void setProductosInventarioComexts(List<ProductosInventarioComext> productosInventarioComexts) {
-		this.productosInventarioComexts = productosInventarioComexts;
-	}
+    return productosInventarioComext;
+  }
 
-	public ProductosInventarioComext addProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
-		getProductosInventarioComexts().add(productosInventarioComext);
-		productosInventarioComext.setUnidadEmbalaje(this);
+  public ProductosInventarioComext removeProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
+    getProductosInventarioComexts().remove(productosInventarioComext);
+    productosInventarioComext.setUnidadEmbalaje(null);
 
-		return productosInventarioComext;
-	}
+    return productosInventarioComext;
+  }
 
-	public ProductosInventarioComext removeProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
-		getProductosInventarioComexts().remove(productosInventarioComext);
-		productosInventarioComext.setUnidadEmbalaje(null);
+  public List<ProductosXDocumento> getProductosxdocumentos() {
+    return this.productosxdocumentos;
+  }
 
-		return productosInventarioComext;
-	}
+  public void setProductosxdocumentos(List<ProductosXDocumento> productosxdocumentos) {
+    this.productosxdocumentos = productosxdocumentos;
+  }
 
-	public List<ProductosXDocumento> getProductosxdocumentos() {
-		return this.productosxdocumentos;
-	}
+  public ProductosXDocumento addProductosxdocumento(ProductosXDocumento productosxdocumento) {
+    getProductosxdocumentos().add(productosxdocumento);
+    productosxdocumento.setUnidade(this);
 
-	public void setProductosxdocumentos(List<ProductosXDocumento> productosxdocumentos) {
-		this.productosxdocumentos = productosxdocumentos;
-	}
+    return productosxdocumento;
+  }
 
-	public ProductosXDocumento addProductosxdocumento(ProductosXDocumento productosxdocumento) {
-		getProductosxdocumentos().add(productosxdocumento);
-		productosxdocumento.setUnidade(this);
+  public ProductosXDocumento removeProductosxdocumento(ProductosXDocumento productosxdocumento) {
+    getProductosxdocumentos().remove(productosxdocumento);
+    productosxdocumento.setUnidade(null);
 
-		return productosxdocumento;
-	}
+    return productosxdocumento;
+  }
 
-	public ProductosXDocumento removeProductosxdocumento(ProductosXDocumento productosxdocumento) {
-		getProductosxdocumentos().remove(productosxdocumento);
-		productosxdocumento.setUnidade(null);
+  public List<ProductosXProveedor> getProductosxproveedors() {
+    return this.productosxproveedors;
+  }
 
-		return productosxdocumento;
-	}
+  public void setProductosxproveedors(List<ProductosXProveedor> productosxproveedors) {
+    this.productosxproveedors = productosxproveedors;
+  }
 
-	public List<ProductosXProveedor> getProductosxproveedors() {
-		return this.productosxproveedors;
-	}
+  public ProductosXProveedor addProductosxproveedor(ProductosXProveedor productosxproveedor) {
+    getProductosxproveedors().add(productosxproveedor);
+    productosxproveedor.setUnidade(this);
 
-	public void setProductosxproveedors(List<ProductosXProveedor> productosxproveedors) {
-		this.productosxproveedors = productosxproveedors;
-	}
+    return productosxproveedor;
+  }
 
-	public ProductosXProveedor addProductosxproveedor(ProductosXProveedor productosxproveedor) {
-		getProductosxproveedors().add(productosxproveedor);
-		productosxproveedor.setUnidade(this);
+  public ProductosXProveedor removeProductosxproveedor(ProductosXProveedor productosxproveedor) {
+    getProductosxproveedors().remove(productosxproveedor);
+    productosxproveedor.setUnidade(null);
 
-		return productosxproveedor;
-	}
+    return productosxproveedor;
+  }
 
-	public ProductosXProveedor removeProductosxproveedor(ProductosXProveedor productosxproveedor) {
-		getProductosxproveedors().remove(productosxproveedor);
-		productosxproveedor.setUnidade(null);
+  public List<ProductosXReceta> getProductosxrecetas() {
+    return this.productosxrecetas;
+  }
 
-		return productosxproveedor;
-	}
+  public void setProductosxrecetas(List<ProductosXReceta> productosxrecetas) {
+    this.productosxrecetas = productosxrecetas;
+  }
 
-	public List<ProductosXReceta> getProductosxrecetas() {
-		return this.productosxrecetas;
-	}
+  public ProductosXReceta addProductosxreceta(ProductosXReceta productosxreceta) {
+    getProductosxrecetas().add(productosxreceta);
+    productosxreceta.setUnidade(this);
 
-	public void setProductosxrecetas(List<ProductosXReceta> productosxrecetas) {
-		this.productosxrecetas = productosxrecetas;
-	}
+    return productosxreceta;
+  }
 
-	public ProductosXReceta addProductosxreceta(ProductosXReceta productosxreceta) {
-		getProductosxrecetas().add(productosxreceta);
-		productosxreceta.setUnidade(this);
+  public ProductosXReceta removeProductosxreceta(ProductosXReceta productosxreceta) {
+    getProductosxrecetas().remove(productosxreceta);
+    productosxreceta.setUnidade(null);
 
-		return productosxreceta;
-	}
+    return productosxreceta;
+  }
 
-	public ProductosXReceta removeProductosxreceta(ProductosXReceta productosxreceta) {
-		getProductosxrecetas().remove(productosxreceta);
-		productosxreceta.setUnidade(null);
+  public List<Saldo> getSaldos() {
+    return this.saldos;
+  }
 
-		return productosxreceta;
-	}
+  public void setSaldos(List<Saldo> saldos) {
+    this.saldos = saldos;
+  }
 
-	public List<Saldo> getSaldos() {
-		return this.saldos;
-	}
+  public Saldo addSaldo(Saldo saldo) {
+    getSaldos().add(saldo);
+    saldo.setUnidade(this);
 
-	public void setSaldos(List<Saldo> saldos) {
-		this.saldos = saldos;
-	}
+    return saldo;
+  }
 
-	public Saldo addSaldo(Saldo saldo) {
-		getSaldos().add(saldo);
-		saldo.setUnidade(this);
+  public Saldo removeSaldo(Saldo saldo) {
+    getSaldos().remove(saldo);
+    saldo.setUnidade(null);
 
-		return saldo;
-	}
+    return saldo;
+  }
 
-	public Saldo removeSaldo(Saldo saldo) {
-		getSaldos().remove(saldo);
-		saldo.setUnidade(null);
+  public List<SaldosFranquicia> getSaldosFranquicias() {
+    return this.saldosFranquicias;
+  }
 
-		return saldo;
-	}
+  public void setSaldosFranquicias(List<SaldosFranquicia> saldosFranquicias) {
+    this.saldosFranquicias = saldosFranquicias;
+  }
 
-	public List<SaldosFranquicia> getSaldosFranquicias() {
-		return this.saldosFranquicias;
-	}
+  public SaldosFranquicia addSaldosFranquicia(SaldosFranquicia saldosFranquicia) {
+    getSaldosFranquicias().add(saldosFranquicia);
+    saldosFranquicia.setUnidade(this);
 
-	public void setSaldosFranquicias(List<SaldosFranquicia> saldosFranquicias) {
-		this.saldosFranquicias = saldosFranquicias;
-	}
+    return saldosFranquicia;
+  }
 
-	public SaldosFranquicia addSaldosFranquicia(SaldosFranquicia saldosFranquicia) {
-		getSaldosFranquicias().add(saldosFranquicia);
-		saldosFranquicia.setUnidade(this);
+  public SaldosFranquicia removeSaldosFranquicia(SaldosFranquicia saldosFranquicia) {
+    getSaldosFranquicias().remove(saldosFranquicia);
+    saldosFranquicia.setUnidade(null);
 
-		return saldosFranquicia;
-	}
+    return saldosFranquicia;
+  }
 
-	public SaldosFranquicia removeSaldosFranquicia(SaldosFranquicia saldosFranquicia) {
-		getSaldosFranquicias().remove(saldosFranquicia);
-		saldosFranquicia.setUnidade(null);
+  /*public List<TempCosto> getTempCostos() {
+   return this.tempCostos;
+   }
 
-		return saldosFranquicia;
-	}
+   public void setTempCostos(List<TempCosto> tempCostos) {
+   this.tempCostos = tempCostos;
+   }
 
-	/*public List<TempCosto> getTempCostos() {
-		return this.tempCostos;
-	}
+   public TempCosto addTempCosto(TempCosto tempCosto) {
+   getTempCostos().add(tempCosto);
+   tempCosto.setUnidade(this);
 
-	public void setTempCostos(List<TempCosto> tempCostos) {
-		this.tempCostos = tempCostos;
-	}
+   return tempCosto;
+   }
 
-	public TempCosto addTempCosto(TempCosto tempCosto) {
-		getTempCostos().add(tempCosto);
-		tempCosto.setUnidade(this);
+   public TempCosto removeTempCosto(TempCosto tempCosto) {
+   getTempCostos().remove(tempCosto);
+   tempCosto.setUnidade(null);
 
-		return tempCosto;
-	}
+   return tempCosto;
+   }*/
+  public List<Venta> getVentas() {
+    return this.ventas;
+  }
 
-	public TempCosto removeTempCosto(TempCosto tempCosto) {
-		getTempCostos().remove(tempCosto);
-		tempCosto.setUnidade(null);
+  public void setVentas(List<Venta> ventas) {
+    this.ventas = ventas;
+  }
 
-		return tempCosto;
-	}*/
+  public Venta addVenta(Venta venta) {
+    getVentas().add(venta);
+    venta.setUnidade(this);
 
-	public List<Venta> getVentas() {
-		return this.ventas;
-	}
+    return venta;
+  }
 
-	public void setVentas(List<Venta> ventas) {
-		this.ventas = ventas;
-	}
+  public Venta removeVenta(Venta venta) {
+    getVentas().remove(venta);
+    venta.setUnidade(null);
 
-	public Venta addVenta(Venta venta) {
-		getVentas().add(venta);
-		venta.setUnidade(this);
+    return venta;
+  }
 
-		return venta;
-	}
-
-	public Venta removeVenta(Venta venta) {
-		getVentas().remove(venta);
-		venta.setUnidade(null);
-
-		return venta;
-	}
-
-	@Override
-	public int compareTo(Object o) {
-		Unidad u=(Unidad)o;
-		return this.getNombre().compareTo(u.getNombre());
-	}
+  @Override
+  public int compareTo(Object o) {
+    Unidad u = (Unidad) o;
+    return this.getNombre().compareTo(u.getNombre());
+  }
 
 }

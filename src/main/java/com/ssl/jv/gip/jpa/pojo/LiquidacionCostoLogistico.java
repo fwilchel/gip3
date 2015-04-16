@@ -8,184 +8,184 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * The persistent class for the liquidacion_costo_logistico database table.
- * 
+ *
  */
 @Entity
-@Table(name="liquidacion_costo_logistico")
-@NamedQuery(name="LiquidacionCostoLogistico.findAll", query="SELECT l FROM LiquidacionCostoLogistico l")
+@Table(name = "liquidacion_costo_logistico")
+@NamedQuery(name = "LiquidacionCostoLogistico.findAll", query = "SELECT l FROM LiquidacionCostoLogistico l")
 public class LiquidacionCostoLogistico implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@SequenceGenerator(name="LIQUIDACION_COSTO_LOGISTICO_ID_GENERATOR", sequenceName="LIQUIDACION_COSTOS_LOGISTICOS_ID_SEQ", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="LIQUIDACION_COSTO_LOGISTICO_ID_GENERATOR")
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	@Column(name="cantidad_1")
-	private BigDecimal cantidad1;
+  @Id
+  @SequenceGenerator(name = "LIQUIDACION_COSTO_LOGISTICO_ID_GENERATOR", sequenceName = "LIQUIDACION_COSTOS_LOGISTICOS_ID_SEQ", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LIQUIDACION_COSTO_LOGISTICO_ID_GENERATOR")
+  private Long id;
 
-	@Column(name="cantidad_2")
-	private BigDecimal cantidad2;
+  @Column(name = "cantidad_1")
+  private BigDecimal cantidad1;
 
-	@Column(name="cliente_id")
-	private Long clienteId;
+  @Column(name = "cantidad_2")
+  private BigDecimal cantidad2;
 
-	@Column(name="incoterm_transporte_id")
-	private Long incotermTransporteId;
+  @Column(name = "cliente_id")
+  private Long clienteId;
 
-	@Column(name="pais_id")
-	private String paisId;
+  @Column(name = "incoterm_transporte_id")
+  private Long incotermTransporteId;
 
-	@Column(name="puerto_internal")
-	private String puertoInternal;
+  @Column(name = "pais_id")
+  private String paisId;
 
-	@Column(name="puerto_nal")
-	private String puertoNal;
+  @Column(name = "puerto_internal")
+  private String puertoInternal;
 
-	@Column(name="tipo_contenedor_1")
-	private Integer tipoContenedor1;
+  @Column(name = "puerto_nal")
+  private String puertoNal;
 
-	@Column(name="tipo_contenedor_2")
-	private Integer tipoContenedor2;
+  @Column(name = "tipo_contenedor_1")
+  private Integer tipoContenedor1;
 
-	//bi-directional many-to-one association to LiquidacionDocumento
-	@OneToMany(mappedBy="liquidacionCostoLogistico", cascade=CascadeType.PERSIST)
-	private List<LiquidacionDocumento> liquidacionDocumentos;
+  @Column(name = "tipo_contenedor_2")
+  private Integer tipoContenedor2;
 
-	//bi-directional many-to-one association to LiquidacionItem
-	@OneToMany(mappedBy="liquidacionCostoLogistico", cascade=CascadeType.PERSIST)
-	private List<LiquidacionItem> liquidacionItems;
+  //bi-directional many-to-one association to LiquidacionDocumento
+  @OneToMany(mappedBy = "liquidacionCostoLogistico", cascade = CascadeType.PERSIST)
+  private List<LiquidacionDocumento> liquidacionDocumentos;
 
-	public LiquidacionCostoLogistico() {
-		this.liquidacionDocumentos=new ArrayList<LiquidacionDocumento>();
-		this.liquidacionItems=new ArrayList<LiquidacionItem>();
-	}
+  //bi-directional many-to-one association to LiquidacionItem
+  @OneToMany(mappedBy = "liquidacionCostoLogistico", cascade = CascadeType.PERSIST)
+  private List<LiquidacionItem> liquidacionItems;
 
-	public Long getId() {
-		return this.id;
-	}
+  public LiquidacionCostoLogistico() {
+    this.liquidacionDocumentos = new ArrayList<LiquidacionDocumento>();
+    this.liquidacionItems = new ArrayList<LiquidacionItem>();
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public BigDecimal getCantidad1() {
-		return this.cantidad1;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setCantidad1(BigDecimal cantidad1) {
-		this.cantidad1 = cantidad1;
-	}
+  public BigDecimal getCantidad1() {
+    return this.cantidad1;
+  }
 
-	public BigDecimal getCantidad2() {
-		return this.cantidad2;
-	}
+  public void setCantidad1(BigDecimal cantidad1) {
+    this.cantidad1 = cantidad1;
+  }
 
-	public void setCantidad2(BigDecimal cantidad2) {
-		this.cantidad2 = cantidad2;
-	}
+  public BigDecimal getCantidad2() {
+    return this.cantidad2;
+  }
 
-	public Long getClienteId() {
-		return this.clienteId;
-	}
+  public void setCantidad2(BigDecimal cantidad2) {
+    this.cantidad2 = cantidad2;
+  }
 
-	public void setClienteId(Long clienteId) {
-		this.clienteId = clienteId;
-	}
+  public Long getClienteId() {
+    return this.clienteId;
+  }
 
-	public Long getIncotermTransporteId() {
-		return this.incotermTransporteId;
-	}
+  public void setClienteId(Long clienteId) {
+    this.clienteId = clienteId;
+  }
 
-	public void setIncotermTransporteId(Long incotermTransporteId) {
-		this.incotermTransporteId = incotermTransporteId;
-	}
+  public Long getIncotermTransporteId() {
+    return this.incotermTransporteId;
+  }
 
-	public String getPaisId() {
-		return this.paisId;
-	}
+  public void setIncotermTransporteId(Long incotermTransporteId) {
+    this.incotermTransporteId = incotermTransporteId;
+  }
 
-	public void setPaisId(String paisId) {
-		this.paisId = paisId;
-	}
+  public String getPaisId() {
+    return this.paisId;
+  }
 
-	public String getPuertoInternal() {
-		return this.puertoInternal;
-	}
+  public void setPaisId(String paisId) {
+    this.paisId = paisId;
+  }
 
-	public void setPuertoInternal(String puertoInternal) {
-		this.puertoInternal = puertoInternal;
-	}
+  public String getPuertoInternal() {
+    return this.puertoInternal;
+  }
 
-	public String getPuertoNal() {
-		return this.puertoNal;
-	}
+  public void setPuertoInternal(String puertoInternal) {
+    this.puertoInternal = puertoInternal;
+  }
 
-	public void setPuertoNal(String puertoNal) {
-		this.puertoNal = puertoNal;
-	}
+  public String getPuertoNal() {
+    return this.puertoNal;
+  }
 
-	public Integer getTipoContenedor1() {
-		return this.tipoContenedor1;
-	}
+  public void setPuertoNal(String puertoNal) {
+    this.puertoNal = puertoNal;
+  }
 
-	public void setTipoContenedor1(Integer tipoContenedor1) {
-		this.tipoContenedor1 = tipoContenedor1;
-	}
+  public Integer getTipoContenedor1() {
+    return this.tipoContenedor1;
+  }
 
-	public Integer getTipoContenedor2() {
-		return this.tipoContenedor2;
-	}
+  public void setTipoContenedor1(Integer tipoContenedor1) {
+    this.tipoContenedor1 = tipoContenedor1;
+  }
 
-	public void setTipoContenedor2(Integer tipoContenedor2) {
-		this.tipoContenedor2 = tipoContenedor2;
-	}
+  public Integer getTipoContenedor2() {
+    return this.tipoContenedor2;
+  }
 
-	public List<LiquidacionDocumento> getLiquidacionDocumentos() {
-		return this.liquidacionDocumentos;
-	}
+  public void setTipoContenedor2(Integer tipoContenedor2) {
+    this.tipoContenedor2 = tipoContenedor2;
+  }
 
-	public void setLiquidacionDocumentos(List<LiquidacionDocumento> liquidacionDocumentos) {
-		this.liquidacionDocumentos = liquidacionDocumentos;
-	}
+  public List<LiquidacionDocumento> getLiquidacionDocumentos() {
+    return this.liquidacionDocumentos;
+  }
 
-	public LiquidacionDocumento addLiquidacionDocumento(LiquidacionDocumento liquidacionDocumento) {
-		getLiquidacionDocumentos().add(liquidacionDocumento);
-		liquidacionDocumento.setLiquidacionCostoLogistico(this);
+  public void setLiquidacionDocumentos(List<LiquidacionDocumento> liquidacionDocumentos) {
+    this.liquidacionDocumentos = liquidacionDocumentos;
+  }
 
-		return liquidacionDocumento;
-	}
+  public LiquidacionDocumento addLiquidacionDocumento(LiquidacionDocumento liquidacionDocumento) {
+    getLiquidacionDocumentos().add(liquidacionDocumento);
+    liquidacionDocumento.setLiquidacionCostoLogistico(this);
 
-	public LiquidacionDocumento removeLiquidacionDocumento(LiquidacionDocumento liquidacionDocumento) {
-		getLiquidacionDocumentos().remove(liquidacionDocumento);
-		liquidacionDocumento.setLiquidacionCostoLogistico(null);
+    return liquidacionDocumento;
+  }
 
-		return liquidacionDocumento;
-	}
+  public LiquidacionDocumento removeLiquidacionDocumento(LiquidacionDocumento liquidacionDocumento) {
+    getLiquidacionDocumentos().remove(liquidacionDocumento);
+    liquidacionDocumento.setLiquidacionCostoLogistico(null);
 
-	public List<LiquidacionItem> getLiquidacionItems() {
-		return this.liquidacionItems;
-	}
+    return liquidacionDocumento;
+  }
 
-	public void setLiquidacionItems(List<LiquidacionItem> liquidacionItems) {
-		this.liquidacionItems = liquidacionItems;
-	}
+  public List<LiquidacionItem> getLiquidacionItems() {
+    return this.liquidacionItems;
+  }
 
-	public LiquidacionItem addLiquidacionItem(LiquidacionItem liquidacionItem) {
-		getLiquidacionItems().add(liquidacionItem);
-		liquidacionItem.setLiquidacionCostoLogistico(this);
+  public void setLiquidacionItems(List<LiquidacionItem> liquidacionItems) {
+    this.liquidacionItems = liquidacionItems;
+  }
 
-		return liquidacionItem;
-	}
+  public LiquidacionItem addLiquidacionItem(LiquidacionItem liquidacionItem) {
+    getLiquidacionItems().add(liquidacionItem);
+    liquidacionItem.setLiquidacionCostoLogistico(this);
 
-	public LiquidacionItem removeLiquidacionItem(LiquidacionItem liquidacionItem) {
-		getLiquidacionItems().remove(liquidacionItem);
-		liquidacionItem.setLiquidacionCostoLogistico(null);
+    return liquidacionItem;
+  }
 
-		return liquidacionItem;
-	}
+  public LiquidacionItem removeLiquidacionItem(LiquidacionItem liquidacionItem) {
+    getLiquidacionItems().remove(liquidacionItem);
+    liquidacionItem.setLiquidacionCostoLogistico(null);
+
+    return liquidacionItem;
+  }
 
 }

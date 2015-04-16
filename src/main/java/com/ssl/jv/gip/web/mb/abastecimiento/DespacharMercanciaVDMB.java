@@ -43,8 +43,8 @@ import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 public class DespacharMercanciaVDMB extends UtilMB {
 
   /**
-	 * 
-	 */
+   *
+   */
   private static final long serialVersionUID = 1L;
 
   private Timestamp currentTimeStamp;
@@ -72,215 +72,214 @@ public class DespacharMercanciaVDMB extends UtilMB {
 
   @PostConstruct
   public void init() {
-	currentTimeStamp = new Timestamp(System.currentTimeMillis());
-	estados = comunEJBlocal.consultarEstados();
+    currentTimeStamp = new Timestamp(System.currentTimeMillis());
+    estados = comunEJBlocal.consultarEstados();
   }
 
   public String buscarDocumentos() {
-	documentos = despachoMercancia.consultarVentasDirectas(consecutivoDocumento);
-	return null;
+    documentos = despachoMercancia.consultarVentasDirectas(consecutivoDocumento);
+    return null;
   }
 
   public void consultarProductosVentaDirecta() {
-	productos = despachoMercancia.consultarProductoPorDocumento(seleccionado.getId() + "", seleccionado.getCliente().getId() + "");
+    productos = despachoMercancia.consultarProductoPorDocumento(seleccionado.getId() + "", seleccionado.getCliente().getId() + "");
   }
 
   public void despacharVentaDirecta() {
-	List<Unidad> unidades = comunEJBlocal.consultarUnidades();
-	List<Moneda> monedas = comunEJBlocal.consultarMonedas();
-	List<ProductosXDocumento> pxd = comercioExteriorEJB.consultarProductosXDocumentosPorDocumento(seleccionado.getId());
-	BodegasLogica bodegas = new BodegasLogica();
-	bodegas.setId(0L);
-	bodegas.setNombre("Default");
-	bodegas.setTipoBodega("default");
-	if (seleccionado.getEstadosxdocumento().getTipoDocumento().getId() == ConstantesTipoDocumento.ORDEN_DESPACHO) {
+    List<Unidad> unidades = comunEJBlocal.consultarUnidades();
+    List<Moneda> monedas = comunEJBlocal.consultarMonedas();
+    List<ProductosXDocumento> pxd = comercioExteriorEJB.consultarProductosXDocumentosPorDocumento(seleccionado.getId());
+    BodegasLogica bodegas = new BodegasLogica();
+    bodegas.setId(0L);
+    bodegas.setNombre("Default");
+    bodegas.setTipoBodega("default");
+    if (seleccionado.getEstadosxdocumento().getTipoDocumento().getId() == ConstantesTipoDocumento.ORDEN_DESPACHO) {
 
-	} else {
-	  try {
-		List<Estado> estados = comunEJBlocal.consultarEstados();
+    } else {
+      try {
+        List<Estado> estados = comunEJBlocal.consultarEstados();
 
-		for (Estado estado : estados) {
-		  if (estado.getId() == ConstantesDocumento.CERRADO) {
-			seleccionado.getEstadosxdocumento().setEstado(estado);
-			this.comercioExteriorEJB.actualizarEstadoDocumento(this.seleccionado);
-		  }
-		}
-		this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));
-	  } catch (Exception ex) {
-		ex.printStackTrace();
-		this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
-	  }
-	  try {
-		MovimientosInventario movimiento = new MovimientosInventario();
-		movimiento.setDocumento(seleccionado);
-		movimiento.setFecha(new Timestamp(System.currentTimeMillis()));
-		movimiento.setUbicacionOrigen(seleccionado.getUbicacionOrigen());
-		movimiento.setUbicacionDestino(seleccionado.getUbicacionDestino());// Externa
-		movimiento.setBodegasLogica1(bodegas);
-		movimiento.setBodegasLogica2(bodegas);
-		for (ProductoDespacharMercanciaDTO p : productosSeleccionados) {
-		  movimiento.setCantidad(p.getCantidadAdespachar());
-		  for (Moneda moneda : monedas) {
-			if (moneda.getId() == p.getMoneda()) {
-			  movimiento.setMoneda(moneda);
-			}
-		  }
-		  for (ProductosXDocumento prod : pxd) {
-			if (prod.getId().getIdProducto() + "" == p.getId()) {
-			  movimiento.setProductosInventario(prod.getProductosInventario());
-			}
-		  }
-		  for (Unidad unidad : unidades) {
-			if (unidad.getAbreviacion() == p.getUnidadVenta()) {
-			  movimiento.setUnidade(unidad);
-			}
-		  }
-		  movimiento.setValorUnitarioMl(0);
-		  movimiento.setValotUnitarioUsd(0);
-		  try {
-			despachoMercancia.crearMovimientoInventario(movimiento);
-		  } catch (Exception e) {
-			e.printStackTrace();
-		  }
-		}
-		this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));
-	  } catch (Exception ex) {
-		ex.printStackTrace();
-		this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
-	  }
-	}
-	// reload list
-	documentos = despachoMercancia.consultarVentasDirectas(consecutivoDocumento);
-	// reset
-	seleccionado = null;
-	consecutivoDocumento = null;
+        for (Estado estado : estados) {
+          if (estado.getId() == ConstantesDocumento.CERRADO) {
+            seleccionado.getEstadosxdocumento().setEstado(estado);
+            this.comercioExteriorEJB.actualizarEstadoDocumento(this.seleccionado);
+          }
+        }
+        this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
+      }
+      try {
+        MovimientosInventario movimiento = new MovimientosInventario();
+        movimiento.setDocumento(seleccionado);
+        movimiento.setFecha(new Timestamp(System.currentTimeMillis()));
+        movimiento.setUbicacionOrigen(seleccionado.getUbicacionOrigen());
+        movimiento.setUbicacionDestino(seleccionado.getUbicacionDestino());// Externa
+        movimiento.setBodegasLogica1(bodegas);
+        movimiento.setBodegasLogica2(bodegas);
+        for (ProductoDespacharMercanciaDTO p : productosSeleccionados) {
+          movimiento.setCantidad(p.getCantidadAdespachar());
+          for (Moneda moneda : monedas) {
+            if (moneda.getId() == p.getMoneda()) {
+              movimiento.setMoneda(moneda);
+            }
+          }
+          for (ProductosXDocumento prod : pxd) {
+            if (prod.getId().getIdProducto() + "" == p.getId()) {
+              movimiento.setProductosInventario(prod.getProductosInventario());
+            }
+          }
+          for (Unidad unidad : unidades) {
+            if (unidad.getAbreviacion() == p.getUnidadVenta()) {
+              movimiento.setUnidade(unidad);
+            }
+          }
+          movimiento.setValorUnitarioMl(0);
+          movimiento.setValotUnitarioUsd(0);
+          try {
+            despachoMercancia.crearMovimientoInventario(movimiento);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+        this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
+      }
+    }
+    // reload list
+    documentos = despachoMercancia.consultarVentasDirectas(consecutivoDocumento);
+    // reset
+    seleccionado = null;
+    consecutivoDocumento = null;
   }
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public JasperPrint reportBuilder() throws JRException {
-	Map parametros = new HashMap();
-	parametros.put("id", seleccionado.getId());
-	parametros.put("consecutivoDocumento", seleccionado.getConsecutivoDocumento());
-	parametros.put("entidadAfacturar", "");
-	parametros.put("SitioEntrega", "");
-	parametros.put("OrdenCompraCliente", "");
-	parametros.put("FechaMin", seleccionado.getFechaEsperadaEntrega().toString());
-	parametros.put("FechaMax", seleccionado.getFechaEntrega().toString());
+    Map parametros = new HashMap();
+    parametros.put("id", seleccionado.getId());
+    parametros.put("consecutivoDocumento", seleccionado.getConsecutivoDocumento());
+    parametros.put("entidadAfacturar", "");
+    parametros.put("SitioEntrega", "");
+    parametros.put("OrdenCompraCliente", "");
+    parametros.put("FechaMin", seleccionado.getFechaEsperadaEntrega().toString());
+    parametros.put("FechaMax", seleccionado.getFechaEntrega().toString());
 
-	JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(productos);
+    JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(productos);
 
-	String report = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_VD.jasper");
+    String report = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_VD.jasper");
 
-	return JasperFillManager.fillReport(report, parametros, beanCollectionDataSource);
+    return JasperFillManager.fillReport(report, parametros, beanCollectionDataSource);
   }
 
   public List<Documento> getDocumentos() {
-	return documentos;
+    return documentos;
   }
 
   public void setDocumentos(List<Documento> documentos) {
-	this.documentos = documentos;
+    this.documentos = documentos;
   }
 
   public List<ProductoDespacharMercanciaDTO> getProductos() {
-	return productos;
+    return productos;
   }
 
   public void setProductos(List<ProductoDespacharMercanciaDTO> productos) {
-	this.productos = productos;
+    this.productos = productos;
   }
 
   /**
    * @return the productosSeleccionados
    */
   public List<ProductoDespacharMercanciaDTO> getProductosSeleccionados() {
-	return productosSeleccionados;
+    return productosSeleccionados;
   }
 
   /**
-   * @param productosSeleccionados
-   *          the productosSeleccionados to set
+   * @param productosSeleccionados the productosSeleccionados to set
    */
   public void setProductosSeleccionados(List<ProductoDespacharMercanciaDTO> productosSeleccionados) {
-	this.productosSeleccionados = productosSeleccionados;
+    this.productosSeleccionados = productosSeleccionados;
   }
 
   public Documento getSeleccionado() {
-	return seleccionado;
+    return seleccionado;
   }
 
   public void setSeleccionado(Documento seleccionado) {
-	this.seleccionado = seleccionado;
+    this.seleccionado = seleccionado;
   }
 
   public Documento getFiltro() {
-	return filtro;
+    return filtro;
   }
 
   public void setFiltro(Documento filtro) {
-	this.filtro = filtro;
+    this.filtro = filtro;
   }
 
   public DespachoMercanciaEJBLocal getDespachoMercancia() {
-	return despachoMercancia;
+    return despachoMercancia;
   }
 
   public void setDespachoMercancia(DespachoMercanciaEJBLocal despachoMercancia) {
-	this.despachoMercancia = despachoMercancia;
+    this.despachoMercancia = despachoMercancia;
   }
 
   public Integer getLanguage() {
-	return language;
+    return language;
   }
 
   public void setLanguage(Integer language) {
-	this.language = language;
+    this.language = language;
   }
 
   public Timestamp getCurrentTimeStamp() {
-	return currentTimeStamp;
+    return currentTimeStamp;
   }
 
   public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
-	this.currentTimeStamp = currentTimeStamp;
+    this.currentTimeStamp = currentTimeStamp;
   }
 
   public String getConsecutivoDocumento() {
-	return consecutivoDocumento;
+    return consecutivoDocumento;
   }
 
   public void setConsecutivoDocumento(String consecutivoDocumento) {
-	this.consecutivoDocumento = consecutivoDocumento;
+    this.consecutivoDocumento = consecutivoDocumento;
   }
 
   public boolean isListo() {
-	return listo;
+    return listo;
   }
 
   public void setListo(boolean listo) {
-	this.listo = listo;
+    this.listo = listo;
   }
 
   public StreamedContent getReporteExcel() throws ClassNotFoundException, IOException, JRException {
-	comercioExteriorEJB.generarReporteOrdenDespachoExcel(reportBuilder(), seleccionado.getId());
-	ByteArrayOutputStream os = (ByteArrayOutputStream) comercioExteriorEJB.generar(jasperPrint, "", "xls");
-	reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "OrdenDespacho.xls");
-	return this.reporteExcel;
+    comercioExteriorEJB.generarReporteOrdenDespachoExcel(reportBuilder(), seleccionado.getId());
+    ByteArrayOutputStream os = (ByteArrayOutputStream) comercioExteriorEJB.generar(jasperPrint, "", "xls");
+    reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "OrdenDespacho.xls");
+    return this.reporteExcel;
   }
 
   public void setReporteExcel(StreamedContent reporteExcel) {
-	this.reporteExcel = reporteExcel;
+    this.reporteExcel = reporteExcel;
   }
 
   public StreamedContent getReportePDF() throws ClassNotFoundException, IOException, JRException {
-	comercioExteriorEJB.generarReporteOrdenDespachoPDF(reportBuilder(), seleccionado.getId());
-	ByteArrayOutputStream os = (ByteArrayOutputStream) comercioExteriorEJB.generar(jasperPrint, "A", "pdf");
-	reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "OD" + seleccionado.getId());
-	return reportePDF;
+    comercioExteriorEJB.generarReporteOrdenDespachoPDF(reportBuilder(), seleccionado.getId());
+    ByteArrayOutputStream os = (ByteArrayOutputStream) comercioExteriorEJB.generar(jasperPrint, "A", "pdf");
+    reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "OD" + seleccionado.getId());
+    return reportePDF;
   }
 
   public void setReportePDF(StreamedContent reportePDF) {
-	this.reportePDF = reportePDF;
+    this.reportePDF = reportePDF;
   }
 
 }

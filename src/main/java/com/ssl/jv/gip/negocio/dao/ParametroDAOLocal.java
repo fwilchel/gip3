@@ -9,8 +9,8 @@ import com.ssl.jv.gip.jpa.pojo.Parametro;
 @Local
 public interface ParametroDAOLocal extends IGenericDAO<Parametro> {
 
-	public Parametro consultarParametroPorNombre(String nombre);
+  public Parametro consultarParametroPorNombre(String nombre);
 
-	public List<Parametro> consultarParametroPorNombres(String... nombres);
+  public List<Parametro> consultarParametroPorNombres(String... nombres);
 
 }

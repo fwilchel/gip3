@@ -5,189 +5,189 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the productosxproveedor database table.
- * 
+ *
  */
 @Entity
-@NamedQuery(name="ProductosXProveedor.findAll", query="SELECT p FROM ProductosXProveedor p")
+@NamedQuery(name = "ProductosXProveedor.findAll", query = "SELECT p FROM ProductosXProveedor p")
 public class ProductosXProveedor implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	@Column(name="codigo_barras_uc")
-	private Long codigoBarrasUc;
+  @Id
+  private Long id;
 
-	@Column(name="factor_uc_ud")
-	private BigDecimal factorUcUd;
+  @Column(name = "codigo_barras_uc")
+  private Long codigoBarrasUc;
 
-	@Column(name="factor_uc_uv")
-	private BigDecimal factorUcUv;
+  @Column(name = "factor_uc_ud")
+  private BigDecimal factorUcUd;
 
-	@Column(name="fecha_final_vigencia")
-	private Timestamp fechaFinalVigencia;
+  @Column(name = "factor_uc_uv")
+  private BigDecimal factorUcUv;
 
-	@Column(name="fecha_inicial_vigencia")
-	private Timestamp fechaInicialVigencia;
+  @Column(name = "fecha_final_vigencia")
+  private Timestamp fechaFinalVigencia;
 
-	@Column(name="nivel_tolerancia")
-	private BigDecimal nivelTolerancia;
+  @Column(name = "fecha_inicial_vigencia")
+  private Timestamp fechaInicialVigencia;
 
-	@Column(name="precio_ml")
-	private BigDecimal precioMl;
+  @Column(name = "nivel_tolerancia")
+  private BigDecimal nivelTolerancia;
 
-	@Column(name="precio_usd")
-	private BigDecimal precioUsd;
+  @Column(name = "precio_ml")
+  private BigDecimal precioMl;
 
-	@Column(name="tiempo_entrega")
-	private BigDecimal tiempoEntrega;
+  @Column(name = "precio_usd")
+  private BigDecimal precioUsd;
 
-	private Boolean vigente;
+  @Column(name = "tiempo_entrega")
+  private BigDecimal tiempoEntrega;
 
-	//bi-directional many-to-one association to Moneda
-	@ManyToOne
-	@JoinColumn(name="id_ml")
-	private Moneda moneda;
+  private Boolean vigente;
 
-	//bi-directional many-to-one association to ProductosInventario
-	@ManyToOne
-	@JoinColumn(name="id_producto")
-	private ProductosInventario productosInventario;
+  //bi-directional many-to-one association to Moneda
+  @ManyToOne
+  @JoinColumn(name = "id_ml")
+  private Moneda moneda;
 
-	//bi-directional many-to-one association to Proveedor
-	@ManyToOne
-	@JoinColumn(name="id_proveedor")
-	private Proveedor proveedore;
+  //bi-directional many-to-one association to ProductosInventario
+  @ManyToOne
+  @JoinColumn(name = "id_producto")
+  private ProductosInventario productosInventario;
 
-	//bi-directional many-to-one association to Unidad
-	@ManyToOne
-	@JoinColumn(name="id_uc")
-	private Unidad unidade;
+  //bi-directional many-to-one association to Proveedor
+  @ManyToOne
+  @JoinColumn(name = "id_proveedor")
+  private Proveedor proveedore;
 
-	public ProductosXProveedor() {
-	}
+  //bi-directional many-to-one association to Unidad
+  @ManyToOne
+  @JoinColumn(name = "id_uc")
+  private Unidad unidade;
 
-	public Long getId() {
-		return this.id;
-	}
+  public ProductosXProveedor() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public Long getCodigoBarrasUc() {
-		return this.codigoBarrasUc;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setCodigoBarrasUc(Long codigoBarrasUc) {
-		this.codigoBarrasUc = codigoBarrasUc;
-	}
+  public Long getCodigoBarrasUc() {
+    return this.codigoBarrasUc;
+  }
 
-	public BigDecimal getFactorUcUd() {
-		return this.factorUcUd;
-	}
+  public void setCodigoBarrasUc(Long codigoBarrasUc) {
+    this.codigoBarrasUc = codigoBarrasUc;
+  }
 
-	public void setFactorUcUd(BigDecimal factorUcUd) {
-		this.factorUcUd = factorUcUd;
-	}
+  public BigDecimal getFactorUcUd() {
+    return this.factorUcUd;
+  }
 
-	public BigDecimal getFactorUcUv() {
-		return this.factorUcUv;
-	}
+  public void setFactorUcUd(BigDecimal factorUcUd) {
+    this.factorUcUd = factorUcUd;
+  }
 
-	public void setFactorUcUv(BigDecimal factorUcUv) {
-		this.factorUcUv = factorUcUv;
-	}
+  public BigDecimal getFactorUcUv() {
+    return this.factorUcUv;
+  }
 
-	public Timestamp getFechaFinalVigencia() {
-		return this.fechaFinalVigencia;
-	}
+  public void setFactorUcUv(BigDecimal factorUcUv) {
+    this.factorUcUv = factorUcUv;
+  }
 
-	public void setFechaFinalVigencia(Timestamp fechaFinalVigencia) {
-		this.fechaFinalVigencia = fechaFinalVigencia;
-	}
+  public Timestamp getFechaFinalVigencia() {
+    return this.fechaFinalVigencia;
+  }
 
-	public Timestamp getFechaInicialVigencia() {
-		return this.fechaInicialVigencia;
-	}
+  public void setFechaFinalVigencia(Timestamp fechaFinalVigencia) {
+    this.fechaFinalVigencia = fechaFinalVigencia;
+  }
 
-	public void setFechaInicialVigencia(Timestamp fechaInicialVigencia) {
-		this.fechaInicialVigencia = fechaInicialVigencia;
-	}
+  public Timestamp getFechaInicialVigencia() {
+    return this.fechaInicialVigencia;
+  }
 
-	public BigDecimal getNivelTolerancia() {
-		return this.nivelTolerancia;
-	}
+  public void setFechaInicialVigencia(Timestamp fechaInicialVigencia) {
+    this.fechaInicialVigencia = fechaInicialVigencia;
+  }
 
-	public void setNivelTolerancia(BigDecimal nivelTolerancia) {
-		this.nivelTolerancia = nivelTolerancia;
-	}
+  public BigDecimal getNivelTolerancia() {
+    return this.nivelTolerancia;
+  }
 
-	public BigDecimal getPrecioMl() {
-		return this.precioMl;
-	}
+  public void setNivelTolerancia(BigDecimal nivelTolerancia) {
+    this.nivelTolerancia = nivelTolerancia;
+  }
 
-	public void setPrecioMl(BigDecimal precioMl) {
-		this.precioMl = precioMl;
-	}
+  public BigDecimal getPrecioMl() {
+    return this.precioMl;
+  }
 
-	public BigDecimal getPrecioUsd() {
-		return this.precioUsd;
-	}
+  public void setPrecioMl(BigDecimal precioMl) {
+    this.precioMl = precioMl;
+  }
 
-	public void setPrecioUsd(BigDecimal precioUsd) {
-		this.precioUsd = precioUsd;
-	}
+  public BigDecimal getPrecioUsd() {
+    return this.precioUsd;
+  }
 
-	public BigDecimal getTiempoEntrega() {
-		return this.tiempoEntrega;
-	}
+  public void setPrecioUsd(BigDecimal precioUsd) {
+    this.precioUsd = precioUsd;
+  }
 
-	public void setTiempoEntrega(BigDecimal tiempoEntrega) {
-		this.tiempoEntrega = tiempoEntrega;
-	}
+  public BigDecimal getTiempoEntrega() {
+    return this.tiempoEntrega;
+  }
 
-	public Boolean getVigente() {
-		return this.vigente;
-	}
+  public void setTiempoEntrega(BigDecimal tiempoEntrega) {
+    this.tiempoEntrega = tiempoEntrega;
+  }
 
-	public void setVigente(Boolean vigente) {
-		this.vigente = vigente;
-	}
+  public Boolean getVigente() {
+    return this.vigente;
+  }
 
-	public Moneda getMoneda() {
-		return this.moneda;
-	}
+  public void setVigente(Boolean vigente) {
+    this.vigente = vigente;
+  }
 
-	public void setMoneda(Moneda moneda) {
-		this.moneda = moneda;
-	}
+  public Moneda getMoneda() {
+    return this.moneda;
+  }
 
-	public ProductosInventario getProductosInventario() {
-		return this.productosInventario;
-	}
+  public void setMoneda(Moneda moneda) {
+    this.moneda = moneda;
+  }
 
-	public void setProductosInventario(ProductosInventario productosInventario) {
-		this.productosInventario = productosInventario;
-	}
+  public ProductosInventario getProductosInventario() {
+    return this.productosInventario;
+  }
 
-	public Proveedor getProveedore() {
-		return this.proveedore;
-	}
+  public void setProductosInventario(ProductosInventario productosInventario) {
+    this.productosInventario = productosInventario;
+  }
 
-	public void setProveedore(Proveedor proveedore) {
-		this.proveedore = proveedore;
-	}
+  public Proveedor getProveedore() {
+    return this.proveedore;
+  }
 
-	public Unidad getUnidade() {
-		return this.unidade;
-	}
+  public void setProveedore(Proveedor proveedore) {
+    this.proveedore = proveedore;
+  }
 
-	public void setUnidade(Unidad unidade) {
-		this.unidade = unidade;
-	}
+  public Unidad getUnidade() {
+    return this.unidade;
+  }
+
+  public void setUnidade(Unidad unidade) {
+    this.unidade = unidade;
+  }
 
 }

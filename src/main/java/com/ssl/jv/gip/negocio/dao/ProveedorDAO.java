@@ -13,16 +13,16 @@ import com.ssl.jv.gip.jpa.pojo.Proveedor;
 @Stateless
 @LocalBean
 public class ProveedorDAO extends GenericDAO<Proveedor> implements
-	ProveedorDAOLocal {
+    ProveedorDAOLocal {
 
-	private static final Logger LOGGER = Logger
-			.getLogger(ProveedorDAO.class);
+  private static final Logger LOGGER = Logger
+      .getLogger(ProveedorDAO.class);
 
-	/**
-	 * @see GenericDAO#GenericDAO()
-	 */
-	public ProveedorDAO() {
-		this.persistentClass = Proveedor.class;
-	}
+  /**
+   * @see GenericDAO#GenericDAO()
+   */
+  public ProveedorDAO() {
+    this.persistentClass = Proveedor.class;
+  }
 
 }

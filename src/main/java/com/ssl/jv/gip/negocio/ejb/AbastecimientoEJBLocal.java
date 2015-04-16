@@ -12,17 +12,17 @@ import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 @Local
 public interface AbastecimientoEJBLocal {
 
-	public List<Documento> consultarDocumentosPorTipoYEstado(
-			FiltroDocumentoDTO filtroDocumentoDTO);
+  public List<Documento> consultarDocumentosPorTipoYEstado(
+      FiltroDocumentoDTO filtroDocumentoDTO);
 
-	public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
+  public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
 
-	public List<ProductosXDocumento> consultarProductosXDocumentosPorDocumento(
-			Long idDocumento);
+  public List<ProductosXDocumento> consultarProductosXDocumentosPorDocumento(
+      Long idDocumento);
 
-	public Documento guardarSugerenciaCompra(Documento sugerencia,
-			List<ProductosXDocumento> productosXSugerencia);
+  public Documento guardarSugerenciaCompra(Documento sugerencia,
+      List<ProductosXDocumento> productosXSugerencia);
 
-	public void importarSugerenciasCompra(byte[] archivo);
+  public void importarSugerenciasCompra(byte[] archivo);
 
 }

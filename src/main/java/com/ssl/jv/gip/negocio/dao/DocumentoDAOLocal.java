@@ -32,43 +32,43 @@ import org.primefaces.model.SortOrder;
 public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
   public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(
-          Map<String, Object> parametros);
+      Map<String, Object> parametros);
 
   public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm();
 
   public void actualizarDocumentoPorNegociacion(
-          DocumentoIncontermDTO documento);
+      DocumentoIncontermDTO documento);
 
   public void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
 
   public void actualizarEstadoDocumentoPorConsecutivo(
-          DocumentoIncontermDTO documento);
+      DocumentoIncontermDTO documento);
 
   public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(
-          String consecutivoFacturaProforma);
+      String consecutivoFacturaProforma);
 
   public BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
 
   public List<Documento> consultarDocumentosSolicitudPedido(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   public List<Documento> consultarDocumentosFacturaPF(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   public List<Documento> consultarDocumentosPorConsecutivoPedido(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
 
   public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(
-          FiltroConsultaSolicitudDTO filtro);
+      FiltroConsultaSolicitudDTO filtro);
 
   public List<DocumentoIncontermDTO> consultarDocumentosGeneral(
-          FiltroConsultaSolicitudDTO filtro);
-  
+      FiltroConsultaSolicitudDTO filtro);
+
   /**
    * Metodo que consulta los documentos por uno o varios de los campos del filtro y adicionalmente paginados
-   * 
+   *
    * @author Diego Poveda - Soft Studio Ltda.
    * @email dpoveda@gmail.com
    * @phone 3192594013
@@ -78,35 +78,35 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
    * @param sortField
    * @param sortOrder
    * @param count
-   * @return 
+   * @return
    */
   Object[] consultarDocumentosGeneral(FiltroConsultaSolicitudDTO filtro, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count);
 
   public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
 
   public List<Documento> consultarDocumento(Map<String, Object> parametros,
-          Long... idEstados);
+      Long... idEstados);
 
   public ListaEmpaqueDTO consultarDocumentoListaEmpaque(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   public List<Documento> consultarOrdenesDeDespacho(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   public FacturaDirectaDTO consultarDocumentoFacturaDirecta(
-          String strConsecutivoDocumento);
+      String strConsecutivoDocumento);
 
   public List<Documento> consultarDocumentosPorTipoDocumentoYEstado(
-          FiltroDocumentoDTO filtro);
+      FiltroDocumentoDTO filtro);
 
   public List<Documento> consultarDocumentosFacturaExportacion(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   public List<Documento> consultarDocumentosPorTipoDocumentoYEstados(
-          FiltroDocumentoDTO filtro);
+      FiltroDocumentoDTO filtro);
 
   /**
    * Consulta documentos por: estado tipo consecutivo
@@ -120,22 +120,22 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
   public List<Documento> consultarDocumentosPorEstadoPorTipoPorConsecutivo(Map<String, Object> parametros);
 
   public List<Documento> consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(
-          Long idTipoDocumento, String consecutivoDocumento,
-          Long... idEstados);
+      Long idTipoDocumento, String consecutivoDocumento,
+      Long... idEstados);
 
   public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
 
   public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(
-          Map<String, Object> parametros);
+      Map<String, Object> parametros);
 
   public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(
-          Map<String, Object> parametros);
+      Map<String, Object> parametros);
 
   public List<ReporteVentaDTO> consultarReporteVentasFD(
-          Map<String, Object> parametros);
+      Map<String, Object> parametros);
 
   /**
    *
@@ -149,7 +149,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
    * @return
    */
   List<Documento> consultarSolicitudesPedidoPorAnular(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   /**
    *
@@ -158,27 +158,27 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
   public void anularSolicitudPedido(Documento documento);
 
   public List<DocumentoInstruccionEmbarqueDTO> consultarDocumentosInstruccionEmbarque(
-          Long idCliente);
+      Long idCliente);
 
   public List<Documento> consultarDocumentosPorTipoDocumentoYFechas(
-          FiltroDocumentoDTO filtro);
+      FiltroDocumentoDTO filtro);
 
   public List<Documento> consultarDocumentosParaGenerarListaEmpaque(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   public Documento consultarDocumentoPorConsecutivo(String consecutivo);
 
   public List<Documento> consultarDocumentosDespacharMercancia(
-          String consecutivo);
+      String consecutivo);
 
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoTipoCafe(
-          FiltroDocumentoDTO filtro);
+      FiltroDocumentoDTO filtro);
 
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeAndConsecutivo(
-          FiltroDocumentoDTO filtro);
+      FiltroDocumentoDTO filtro);
 
   public void actualizarEstadoDocumentoPorConsecutivo(Documento documento);
 
@@ -189,7 +189,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
   public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado);
 
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(
-          FiltroDocumentoDTO filtro);
+      FiltroDocumentoDTO filtro);
 
   /**
    * Metodo que consulta los documentos del reporte de ventas CE
@@ -203,7 +203,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros);
 
   public List<Documento> consultarDocumentosPorObservacionDocumento(
-          String observacionDocumento);
+      String observacionDocumento);
 
   public List<Object[]> consultarAuditoriaEstadoModificacionFacturaProforma(DocumentoIncontermDTO documento);
 

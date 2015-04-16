@@ -4,103 +4,103 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the tipo_canal database table.
- * 
+ *
  */
 @Entity
-@Table(name="tipo_canal")
-@NamedQuery(name="TipoCanal.findAll", query="SELECT t FROM TipoCanal t")
+@Table(name = "tipo_canal")
+@NamedQuery(name = "TipoCanal.findAll", query = "SELECT t FROM TipoCanal t")
 public class TipoCanal implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  private Long id;
 
-	//bi-directional many-to-one association to Cliente
-	@OneToMany(mappedBy="tipoCanal")
-	private List<Cliente> clientes;
+  private String nombre;
 
-	//bi-directional many-to-many association to Usuario
-	@ManyToMany(mappedBy="tipoCanals")
-	private List<Usuario> usuarios;
+  //bi-directional many-to-one association to Cliente
+  @OneToMany(mappedBy = "tipoCanal")
+  private List<Cliente> clientes;
 
-	//bi-directional many-to-one association to Ubicacion
-	@OneToMany(mappedBy="tipoCanal")
-	private List<Ubicacion> ubicaciones;
+  //bi-directional many-to-many association to Usuario
+  @ManyToMany(mappedBy = "tipoCanals")
+  private List<Usuario> usuarios;
 
-	public TipoCanal() {
-	}
+  //bi-directional many-to-one association to Ubicacion
+  @OneToMany(mappedBy = "tipoCanal")
+  private List<Ubicacion> ubicaciones;
 
-	public Long getId() {
-		return this.id;
-	}
+  public TipoCanal() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public List<Cliente> getClientes() {
-		return this.clientes;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
+  public List<Cliente> getClientes() {
+    return this.clientes;
+  }
 
-	public Cliente addCliente(Cliente cliente) {
-		getClientes().add(cliente);
-		cliente.setTipoCanal(this);
+  public void setClientes(List<Cliente> clientes) {
+    this.clientes = clientes;
+  }
 
-		return cliente;
-	}
+  public Cliente addCliente(Cliente cliente) {
+    getClientes().add(cliente);
+    cliente.setTipoCanal(this);
 
-	public Cliente removeCliente(Cliente cliente) {
-		getClientes().remove(cliente);
-		cliente.setTipoCanal(null);
+    return cliente;
+  }
 
-		return cliente;
-	}
+  public Cliente removeCliente(Cliente cliente) {
+    getClientes().remove(cliente);
+    cliente.setTipoCanal(null);
 
-	public List<Usuario> getUsuarios() {
-		return this.usuarios;
-	}
+    return cliente;
+  }
 
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
+  public List<Usuario> getUsuarios() {
+    return this.usuarios;
+  }
 
-	public List<Ubicacion> getUbicaciones() {
-		return this.ubicaciones;
-	}
+  public void setUsuarios(List<Usuario> usuarios) {
+    this.usuarios = usuarios;
+  }
 
-	public void setUbicaciones(List<Ubicacion> ubicaciones) {
-		this.ubicaciones = ubicaciones;
-	}
+  public List<Ubicacion> getUbicaciones() {
+    return this.ubicaciones;
+  }
 
-	public Ubicacion addUbicacione(Ubicacion ubicacione) {
-		getUbicaciones().add(ubicacione);
-		ubicacione.setTipoCanal(this);
+  public void setUbicaciones(List<Ubicacion> ubicaciones) {
+    this.ubicaciones = ubicaciones;
+  }
 
-		return ubicacione;
-	}
+  public Ubicacion addUbicacione(Ubicacion ubicacione) {
+    getUbicaciones().add(ubicacione);
+    ubicacione.setTipoCanal(this);
 
-	public Ubicacion removeUbicacione(Ubicacion ubicacione) {
-		getUbicaciones().remove(ubicacione);
-		ubicacione.setTipoCanal(null);
+    return ubicacione;
+  }
 
-		return ubicacione;
-	}
+  public Ubicacion removeUbicacione(Ubicacion ubicacione) {
+    getUbicaciones().remove(ubicacione);
+    ubicacione.setTipoCanal(null);
+
+    return ubicacione;
+  }
 
 }

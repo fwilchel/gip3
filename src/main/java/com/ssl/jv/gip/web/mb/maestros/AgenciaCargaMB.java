@@ -1,6 +1,5 @@
 package com.ssl.jv.gip.web.mb.maestros;
 
-
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,88 +14,86 @@ import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
 
-@ManagedBean(name="agenciaCargaMB")
+@ManagedBean(name = "agenciaCargaMB")
 @ViewScoped
 public class AgenciaCargaMB extends UtilMB {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private List<AgenciaCarga> agencias;
-	private AgenciaCarga seleccionado;
-	private AgenciaCarga filtro;
-	
-	@EJB
-	private MaestrosEJB servicio;
-	
-	private Integer language=AplicacionMB.SPANISH;
-	
-	private Modo modo;
-	
-	public AgenciaCargaMB(){}
-	
-	@PostConstruct
-	public void init(){
-		agencias = servicio.consultarAgenciasCarga();
-	}
-	
-	public void setSeleccionado(AgenciaCarga seleccionado) {
-		this.seleccionado = seleccionado;
-		this.modo=Modo.EDICION;
-	}
-	
-	public AgenciaCarga getSeleccionado() {
-		return seleccionado;
-	}
-	
-	public void nuevo(){
-		seleccionado=new AgenciaCarga();
-		this.modo=Modo.CREACION;
-	}
-	
-	public void guardar(){
-		try{
-		if (this.modo.equals(Modo.CREACION)){
-			this.servicio.crearAgenciaCarga(this.seleccionado);
-			this.agencias.add(0,this.seleccionado);
-			this.modo = Modo.EDICION;
-		}else{
-			this.servicio.actualizarAgenciaCarga(this.seleccionado);
-		}
-		
-		this.addMensajeInfo("Agencia de Carga almacenada exitosamente");
-		}catch (Exception ex){
-			this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
-		}
-	}
-	
-	public boolean isCreacion(){
-		if (this.modo!=null && this.modo.equals(Modo.CREACION)){
-			return true;
-		}else{
-			return false;
-		}
-	}
 
-	public List<AgenciaCarga> getAgencias() {
-		return agencias;
-	}
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1L;
 
-	public void setAgencias(List<AgenciaCarga> agencias) {
-		this.agencias = agencias;
-	}
+  private List<AgenciaCarga> agencias;
+  private AgenciaCarga seleccionado;
+  private AgenciaCarga filtro;
 
+  @EJB
+  private MaestrosEJB servicio;
 
-	public AgenciaCarga getFiltro() {
-		return filtro;
-	}
+  private Integer language = AplicacionMB.SPANISH;
 
-	public void setFiltro(AgenciaCarga filtro) {
-		this.filtro = filtro;
-	}	
-	
-	
+  private Modo modo;
+
+  public AgenciaCargaMB() {
+  }
+
+  @PostConstruct
+  public void init() {
+    agencias = servicio.consultarAgenciasCarga();
+  }
+
+  public void setSeleccionado(AgenciaCarga seleccionado) {
+    this.seleccionado = seleccionado;
+    this.modo = Modo.EDICION;
+  }
+
+  public AgenciaCarga getSeleccionado() {
+    return seleccionado;
+  }
+
+  public void nuevo() {
+    seleccionado = new AgenciaCarga();
+    this.modo = Modo.CREACION;
+  }
+
+  public void guardar() {
+    try {
+      if (this.modo.equals(Modo.CREACION)) {
+        this.servicio.crearAgenciaCarga(this.seleccionado);
+        this.agencias.add(0, this.seleccionado);
+        this.modo = Modo.EDICION;
+      } else {
+        this.servicio.actualizarAgenciaCarga(this.seleccionado);
+      }
+
+      this.addMensajeInfo("Agencia de Carga almacenada exitosamente");
+    } catch (Exception ex) {
+      this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
+    }
+  }
+
+  public boolean isCreacion() {
+    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public List<AgenciaCarga> getAgencias() {
+    return agencias;
+  }
+
+  public void setAgencias(List<AgenciaCarga> agencias) {
+    this.agencias = agencias;
+  }
+
+  public AgenciaCarga getFiltro() {
+    return filtro;
+  }
+
+  public void setFiltro(AgenciaCarga filtro) {
+    this.filtro = filtro;
+  }
 
 }

@@ -55,7 +55,7 @@ public class SugerenciaCompraMB extends UtilMB {
   private static final long serialVersionUID = 2341202221993062048L;
 
   private static final Logger LOGGER = Logger
-          .getLogger(SugerenciaCompraMB.class);
+      .getLogger(SugerenciaCompraMB.class);
 
   @EJB
   private AbastecimientoEJBLocal abastecimientoEJBLocal;
@@ -105,10 +105,10 @@ public class SugerenciaCompraMB extends UtilMB {
   private void consultarSugerenciasCompras() {
     try {
       filtroDocumentoDTO
-              .setIdTipoDocumento((long) ConstantesTipoDocumento.SUGERENCIA_COMPRAS);
+          .setIdTipoDocumento((long) ConstantesTipoDocumento.SUGERENCIA_COMPRAS);
       filtroDocumentoDTO.setIdEstado(Estado.ACTIVO.getCodigo());
       this.sugerenciasCompra = this.abastecimientoEJBLocal
-              .consultarDocumentosPorTipoYEstado(filtroDocumentoDTO);
+          .consultarDocumentosPorTipoYEstado(filtroDocumentoDTO);
     } catch (Exception e) {
       LOGGER.error(e);
       this.addMensajeError(e);
@@ -136,7 +136,7 @@ public class SugerenciaCompraMB extends UtilMB {
     Documento documento = new Documento();
     documento.setUbicacionDestino(new Ubicacion());
     documento.setUbicacionOrigen(new Ubicacion(
-            com.ssl.jv.gip.util.Ubicacion.EXTERNA.getCodigo()));
+        com.ssl.jv.gip.util.Ubicacion.EXTERNA.getCodigo()));
 
     Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
     EstadosxdocumentoPK id = new EstadosxdocumentoPK();
@@ -159,8 +159,8 @@ public class SugerenciaCompraMB extends UtilMB {
       productosInventarioFiltroDTO = new ProductosInventarioFiltroDTO();
       productosInventarios = new ArrayList<ProductosInventario>();
       productosSeleccionados = abastecimientoEJBLocal
-              .consultarProductosXDocumentosPorDocumento(seleccionado
-                      .getId());
+          .consultarProductosXDocumentosPorDocumento(seleccionado
+              .getId());
       for (ProductosXDocumento productosXDocumento : productosSeleccionados) {
         productosXDocumento.getProductosInventario().setIncluido(true);
       }
@@ -175,33 +175,33 @@ public class SugerenciaCompraMB extends UtilMB {
 
   private void cargarValoresCombos() {
     ubicaciones = this.abastecimientoEJBLocal
-            .consultarUbicacionesPorUsuario(idUsuario);
+        .consultarUbicacionesPorUsuario(idUsuario);
     clientes = maestroEJBLocal
-            .consultarClientesActivosPorUsuario(idUsuario);
+        .consultarClientesActivosPorUsuario(idUsuario);
     cargarCategoriasInventario();
   }
 
   private void cargarCategoriasInventario() {
     List<CategoriasInventario> categorias = maestroEJBLocal
-            .consultarCategoriasInventarios();
+        .consultarCategoriasInventarios();
     SelectItemGroup group = null;
     categoriasInventarios = new ArrayList<SelectItem>();
     for (CategoriasInventario categoriasInventario : categorias) {
       group = new SelectItemGroup(categoriasInventario.getNombre());
       group.setSelectItems(getSelectItems(categoriasInventario
-              .getCategoriasInventarios()));
+          .getCategoriasInventarios()));
       categoriasInventarios.add(group);
     }
 
   }
 
   private SelectItem[] getSelectItems(
-          List<CategoriasInventario> categoriasInventarios) {
+      List<CategoriasInventario> categoriasInventarios) {
     List<SelectItem> items = new ArrayList<SelectItem>();
     SelectItem item = null;
     for (CategoriasInventario categoriasInventario : categoriasInventarios) {
       item = new SelectItem(categoriasInventario.getId(),
-              categoriasInventario.getNombre());
+          categoriasInventario.getNombre());
       items.add(item);
     }
     return items.toArray(new SelectItem[categoriasInventarios.size()]);
@@ -215,21 +215,21 @@ public class SugerenciaCompraMB extends UtilMB {
         productosInventarioFiltroDTO.setIdCategoria(null);
       }
       if (productosInventarioFiltroDTO.getNombre() != null
-              && productosInventarioFiltroDTO.getNombre().trim()
-              .equals("")) {
+          && productosInventarioFiltroDTO.getNombre().trim()
+          .equals("")) {
         productosInventarioFiltroDTO.setNombre(null);
       }
       if (productosInventarioFiltroDTO.getSku() != null
-              && productosInventarioFiltroDTO.getSku().trim().equals("")) {
+          && productosInventarioFiltroDTO.getSku().trim().equals("")) {
         productosInventarioFiltroDTO.setSku(null);
       }
       productosInventarios = maestroEJBLocal
-              .consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(productosInventarioFiltroDTO);
+          .consultarProductosInventariosPorUsuarioCategoriaSkuNombreAndEstado(productosInventarioFiltroDTO);
       // productosInventarios = maestroFacade
       // .consultarProductosInventariosActivos();
       if (productosInventarios.isEmpty()) {
         this.addMensajeInfo(":formaDlg:msgs2",
-                "No se encontraron registros");
+            "No se encontraron registros");
       }
     } catch (Exception e) {
       LOGGER.error(e);
@@ -241,9 +241,9 @@ public class SugerenciaCompraMB extends UtilMB {
     try {
       for (ProductosInventario productosInventario : productosInventarios) {
         if (productosInventario.isIncluido()
-                && !estaRelacionado(productosInventario)) {
+            && !estaRelacionado(productosInventario)) {
           productosSeleccionados
-                  .add(crearProductoXDocumento(productosInventario));
+              .add(crearProductoXDocumento(productosInventario));
         }
       }
     } catch (Exception e) {
@@ -282,7 +282,7 @@ public class SugerenciaCompraMB extends UtilMB {
     boolean relacionado = false;
     for (ProductosXDocumento productosXDocumento : productosSeleccionados) {
       if (productosInventario.getId().equals(
-              productosXDocumento.getProductosInventario().getId())) {
+          productosXDocumento.getProductosInventario().getId())) {
         relacionado = true;
         break;
       }
@@ -300,7 +300,7 @@ public class SugerenciaCompraMB extends UtilMB {
       }
 
       seleccionado = abastecimientoEJBLocal.guardarSugerenciaCompra(
-              seleccionado, productosSeleccionados);
+          seleccionado, productosSeleccionados);
 
       int indexOf = sugerenciasCompra.indexOf(seleccionado);
       if (indexOf != -1) {
@@ -312,7 +312,7 @@ public class SugerenciaCompraMB extends UtilMB {
     } catch (Exception e) {
       LOGGER.error(e);
       Exception unrollException = (Exception) this.unrollException(e,
-              ConstraintViolationException.class);
+          ConstraintViolationException.class);
       if (unrollException != null) {
         this.addMensajeError(unrollException.getLocalizedMessage());
       } else {
@@ -326,17 +326,17 @@ public class SugerenciaCompraMB extends UtilMB {
     try {
       UploadedFile uploadedFile = fileUploadEvent.getFile();
       abastecimientoEJBLocal.importarSugerenciasCompra(uploadedFile
-              .getContents());
+          .getContents());
       this.addMensajeInfo("Archivo cargado con éxito");
     } catch (Exception e) {
       LOGGER.error(e);
       Exception unrollException = (Exception) this.unrollException(e,
-              ConstraintViolationException.class);
+          ConstraintViolationException.class);
       if (unrollException != null) {
         this.addMensajeError(unrollException.getLocalizedMessage());
       } else {
         unrollException = (Exception) this.unrollException(e,
-                RuntimeException.class);
+            RuntimeException.class);
         if (unrollException != null) {
           this.addMensajeError(unrollException.getLocalizedMessage());
         } else {
@@ -415,7 +415,7 @@ public class SugerenciaCompraMB extends UtilMB {
   }
 
   public void setProductosInventarios(
-          List<ProductosInventario> productosInventarios) {
+      List<ProductosInventario> productosInventarios) {
     this.productosInventarios = productosInventarios;
   }
 
@@ -424,7 +424,7 @@ public class SugerenciaCompraMB extends UtilMB {
   }
 
   public void setProductosInventarioFiltroDTO(
-          ProductosInventarioFiltroDTO productosInventarioFiltroDTO) {
+      ProductosInventarioFiltroDTO productosInventarioFiltroDTO) {
     this.productosInventarioFiltroDTO = productosInventarioFiltroDTO;
   }
 
@@ -457,7 +457,7 @@ public class SugerenciaCompraMB extends UtilMB {
   }
 
   public void setProductosSeleccionados(
-          List<ProductosXDocumento> productosSeleccionados) {
+      List<ProductosXDocumento> productosSeleccionados) {
     this.productosSeleccionados = productosSeleccionados;
   }
 

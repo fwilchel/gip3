@@ -9,11 +9,11 @@ import com.ssl.jv.gip.negocio.dto.ProductosInventarioComextFiltroVO;
 
 @Local
 public interface ProductosInventarioComextDAOLocal extends
-		IGenericDAO<ProductosInventarioComext> {
+    IGenericDAO<ProductosInventarioComext> {
 
-	public ProductosInventarioComext findBySku(String sku);
+  public ProductosInventarioComext findBySku(String sku);
 
-	public List<ProductosInventarioComext> consultarPorNombreSKUProductoOCategoria(
-			ProductosInventarioComextFiltroVO filtro);
+  public List<ProductosInventarioComext> consultarPorNombreSKUProductoOCategoria(
+      ProductosInventarioComextFiltroVO filtro);
 
 }

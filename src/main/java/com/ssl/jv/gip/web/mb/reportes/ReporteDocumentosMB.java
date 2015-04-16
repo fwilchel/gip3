@@ -360,7 +360,7 @@ public class ReporteDocumentosMB extends UtilMB {
         r3a = s.createRow((short) 3);
         c12a = r3a.createCell((short) 0);
         c12a.setCellValue("CONSECUTIVO_DOCUMENTO: "
-                + seleccionado.getConsecutivoDocumento());
+            + seleccionado.getConsecutivoDocumento());
         //MergeCellsRecord merge11a = new MergeCellsRecord();
         //merge11a.addArea(2, (short) 0, 2, (short) 5);
         c12a.setCellStyle(cs4);
@@ -375,8 +375,8 @@ public class ReporteDocumentosMB extends UtilMB {
         if (seleccionado.getFechaGeneracion() == null) {
           Calendar fecha = new GregorianCalendar();
           strFechaGeneracion = fecha.get(Calendar.YEAR) + "-"
-                  + ((fecha.get(Calendar.MONTH)) + 1) + "-"
-                  + fecha.get(Calendar.DAY_OF_MONTH);
+              + ((fecha.get(Calendar.MONTH)) + 1) + "-"
+              + fecha.get(Calendar.DAY_OF_MONTH);
           c13.setCellValue("FECHA GENERACION : " + strFechaGeneracion);
         } else {
           DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd");
@@ -393,8 +393,8 @@ public class ReporteDocumentosMB extends UtilMB {
         if (seleccionado.getFechaEntrega() == null) {
           Calendar fecha = new GregorianCalendar();
           strFechaEntrega = fecha.get(Calendar.YEAR) + "-"
-                  + ((fecha.get(Calendar.MONTH)) + 1) + "-"
-                  + fecha.get(Calendar.DAY_OF_MONTH);
+              + ((fecha.get(Calendar.MONTH)) + 1) + "-"
+              + fecha.get(Calendar.DAY_OF_MONTH);
           c14.setCellValue("FECHA ENTREGA: " + strFechaEntrega);
         } else {
           DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd");
@@ -433,8 +433,8 @@ public class ReporteDocumentosMB extends UtilMB {
         c15 = r7.createCell((short) 0);
         Calendar fecha = new GregorianCalendar();
         String strFecha = fecha.get(Calendar.YEAR) + "-"
-                + ((fecha.get(Calendar.MONTH)) + 1) + "-"
-                + fecha.get(Calendar.DAY_OF_MONTH);
+            + ((fecha.get(Calendar.MONTH)) + 1) + "-"
+            + fecha.get(Calendar.DAY_OF_MONTH);
         c15.setCellValue("FECHA: " + strFecha);
         //MergeCellsRecord merge5 = new MergeCellsRecord();
         //merge5.addArea((listaAux.size() + 9), (short) 1, (listaAux
@@ -477,17 +477,17 @@ public class ReporteDocumentosMB extends UtilMB {
 
           // make this column a bit wider
           s.setColumnWidth((short) (0),
-                  (short) ((55 * 8) / ((double) 1 / 20)));
+              (short) ((55 * 8) / ((double) 1 / 20)));
           s.setColumnWidth((short) (1),
-                  (short) ((35 * 8) / ((double) 1 / 20)));
+              (short) ((35 * 8) / ((double) 1 / 20)));
           s.setColumnWidth((short) (2),
-                  (short) ((35 * 8) / ((double) 1 / 20)));
+              (short) ((35 * 8) / ((double) 1 / 20)));
           s.setColumnWidth((short) (3),
-                  (short) ((60 * 8) / ((double) 1 / 20)));
+              (short) ((60 * 8) / ((double) 1 / 20)));
           s.setColumnWidth((short) (4),
-                  (short) ((40 * 8) / ((double) 1 / 20)));
+              (short) ((40 * 8) / ((double) 1 / 20)));
           s.setColumnWidth((short) (5),
-                  (short) ((40 * 8) / ((double) 1 / 20)));
+              (short) ((40 * 8) / ((double) 1 / 20)));
 
         }
         numeroIncial = numeroFilaTope + 1;
@@ -689,7 +689,7 @@ public class ReporteDocumentosMB extends UtilMB {
    * @param listaProductosDocumento the new lista productos documento
    */
   public void setListaProductosDocumento(
-          List<ProductosXDocumento> listaProductosDocumento) {
+      List<ProductosXDocumento> listaProductosDocumento) {
     this.listaProductosDocumento = listaProductosDocumento;
   }
 

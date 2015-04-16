@@ -74,8 +74,7 @@ public interface ComercioExteriorEJBLocal {
   /**
    * Consultar cliente por id.
    *
-   * @param idCliente
-   *          the id cliente
+   * @param idCliente the id cliente
    * @return the cliente
    */
   public Cliente consultarClientePorId(Long idCliente);
@@ -90,16 +89,14 @@ public interface ComercioExteriorEJBLocal {
   /**
    * Actualizar documento por negociacion.
    *
-   * @param documento
-   *          the documento
+   * @param documento the documento
    */
   public void actualizarDocumentoPorNegociacion(DocumentoIncontermDTO documento);
 
   /**
    * Consultar lista inconterm por cliente.
    *
-   * @param idCliente
-   *          the id cliente
+   * @param idCliente the id cliente
    * @return the list
    */
   public List<TerminoIncoterm> consultarListaIncontermPorCliente(Long idCliente);
@@ -121,16 +118,14 @@ public interface ComercioExteriorEJBLocal {
   /**
    * Consultar documentos general.
    *
-   * @param filtro
-   *          the filtro
+   * @param filtro the filtro
    * @return the list
    */
   public List<DocumentoIncontermDTO> consultarDocumentosGeneral(FiltroConsultaSolicitudDTO filtro);
 
   /**
-   * Metodo que consulta los documentos por uno o varios de los campos del
-   * filtro y adicionalmente paginados
-   * 
+   * Metodo que consulta los documentos por uno o varios de los campos del filtro y adicionalmente paginados
+   *
    * @author Diego Poveda - Soft Studio Ltda.
    * @email dpoveda@gmail.com
    * @phone 3192594013
@@ -161,12 +156,9 @@ public interface ComercioExteriorEJBLocal {
   /**
    * Consultar lista productos por cliente ce.
    *
-   * @param idCliente
-   *          the id cliente
-   * @param idsProductos
-   *          the ids productos
-   * @param solicitudCafe
-   *          the solicitud cafe
+   * @param idCliente the id cliente
+   * @param idsProductos the ids productos
+   * @param solicitudCafe the solicitud cafe
    * @return the list
    */
   public List<ProductoPorClienteComExtDTO> consultarListaProductosPorClienteCE(Long idCliente, String idsProductos, Boolean solicitudCafe);
@@ -174,26 +166,22 @@ public interface ComercioExteriorEJBLocal {
   /**
    * Guardar solicitud pedido.
    *
-   * @param documento
-   *          the documento
-   * @param listaSolicitudPedido
-   *          the lista solicitud pedido
+   * @param documento the documento
+   * @param listaSolicitudPedido the lista solicitud pedido
    */
   public void guardarSolicitudPedido(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
 
   /**
    * Actualizar estado documento.
    *
-   * @param documento
-   *          the documento
+   * @param documento the documento
    */
   public void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
 
   /**
    * Consultar ubicaciones por usuario.
    *
-   * @param idUsuario
-   *          the id usuario
+   * @param idUsuario the id usuario
    * @return the list
    */
   public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
@@ -345,6 +333,6 @@ public interface ComercioExteriorEJBLocal {
   public OutputStream generar(JasperPrint jasperPrint, String nombre, String tipo) throws JRException, IOException;
 
   void actualizarEstadoDocumento(Long id, Long estado);
-  
+
   List<String> obtenerListaConsecutivosPorTipoLoteIOC(Long idTipoLoteIOC);
 }

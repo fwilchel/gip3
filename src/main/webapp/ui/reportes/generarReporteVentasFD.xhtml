@@ -1,74 +1,72 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
-
-	
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.tituloReporteVentas}::.</ui:define>
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
-		
-
-		
-
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
-				
-				
-		
-					
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/ui/templates/general.xhtml">
 
 
-	
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.tituloReporteVentas}::.</ui:define>
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form prependId="false" id="forma">
 
-			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.tituloReporteVentas}">
-				
-						<p:panelGrid columns="3"  styleClass="noBorders">
 
-						<p:outputLabel value="#{msg.movimientosFechaInicial}" for="fechaInicial"
-							styleClass="negrita" />
-						<h:inputText value="#{imprimirReporteVentasFDMB.strFechaInicial}" id="fechaInicial"
-							required="true" maxlength="10" label="#{msg.RequisicionNombreFechaEsperadaEntrega}" />
-						<p:message for="fechaInicial"></p:message>
-						
-						
-						<p:outputLabel value="#{msg.movimientosFechaFinal}" for="fechaFinal"
-							styleClass="negrita" />
-						<h:inputText value="#{imprimirReporteVentasFDMB.strFechaFinal}" id="fechaFinal"
-							required="true" maxlength="10" label="#{msg.RequisicionNombreFechaEsperadaEntrega}" />
-						<p:message for="fechaFinal"></p:message>
 
-						
-						
-							
-							
-							
-								<p:commandButton value="Reporte XLS" ajax="false"  icon="ui-icon-document">
-        <p:fileDownload value="#{imprimirReporteVentasFDMB.reporteXLS}" />
-    </p:commandButton>		
-							
 
-					</p:panelGrid>
-				
-				
-					
-					
-				</p:tab>
-			</p:tabView>
-		</h:form>
-		
-		
-		
-	
-	
+      <p:messages id="msgs" showDetail="false" showSummary="true"
+                  globalOnly="false" showIcon="true"></p:messages>
 
-	</ui:define>
+
+
+
+
+
+
+
+      <p:tabView id="tabPanel">
+        <p:tab title="#{msg.tituloReporteVentas}">
+
+          <p:panelGrid columns="3"  styleClass="noBorders">
+
+            <p:outputLabel value="#{msg.movimientosFechaInicial}" for="fechaInicial"
+                           styleClass="negrita" />
+            <h:inputText value="#{imprimirReporteVentasFDMB.strFechaInicial}" id="fechaInicial"
+                         required="true" maxlength="10" label="#{msg.RequisicionNombreFechaEsperadaEntrega}" />
+            <p:message for="fechaInicial"></p:message>
+
+
+            <p:outputLabel value="#{msg.movimientosFechaFinal}" for="fechaFinal"
+                           styleClass="negrita" />
+            <h:inputText value="#{imprimirReporteVentasFDMB.strFechaFinal}" id="fechaFinal"
+                         required="true" maxlength="10" label="#{msg.RequisicionNombreFechaEsperadaEntrega}" />
+            <p:message for="fechaFinal"></p:message>
+
+
+
+
+
+
+            <p:commandButton value="Reporte XLS" ajax="false"  icon="ui-icon-document">
+              <p:fileDownload value="#{imprimirReporteVentasFDMB.reporteXLS}" />
+            </p:commandButton>		
+
+
+          </p:panelGrid>
+
+
+
+
+        </p:tab>
+      </p:tabView>
+    </h:form>
+
+
+
+
+
+
+  </ui:define>
 
 
 

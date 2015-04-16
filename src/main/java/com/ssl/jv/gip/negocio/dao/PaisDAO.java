@@ -12,32 +12,32 @@ import com.ssl.jv.gip.jpa.pojo.Pais;
 
 @Stateless
 @LocalBean
-public class PaisDAO extends GenericDAO<Pais> implements PaisDAOLocal{
+public class PaisDAO extends GenericDAO<Pais> implements PaisDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(PaisDAO.class);
-	
-	public PaisDAO(){
-		this.persistentClass = Pais.class;
-	}	
-	
-	@SuppressWarnings("unchecked")
-	public List<Pais> findByRegional(){
-		try{
-			return this.em.createNamedQuery("Pais.findByRegional").getResultList();
-    	}catch(NoResultException e){
-    		LOGGER.warn(e);
-    		return null;
-    	}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Pais> findByPaisTodos(){
-		try{
-			return this.em.createNamedQuery("Pais.findAll").getResultList();
-    	}catch(NoResultException e){
-    		LOGGER.warn(e);
-    		return null;
-    	}
-	}
-	
+  private static final Logger LOGGER = Logger.getLogger(PaisDAO.class);
+
+  public PaisDAO() {
+    this.persistentClass = Pais.class;
+  }
+
+  @SuppressWarnings("unchecked")
+  public List<Pais> findByRegional() {
+    try {
+      return this.em.createNamedQuery("Pais.findByRegional").getResultList();
+    } catch (NoResultException e) {
+      LOGGER.warn(e);
+      return null;
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public List<Pais> findByPaisTodos() {
+    try {
+      return this.em.createNamedQuery("Pais.findAll").getResultList();
+    } catch (NoResultException e) {
+      LOGGER.warn(e);
+      return null;
+    }
+  }
+
 }

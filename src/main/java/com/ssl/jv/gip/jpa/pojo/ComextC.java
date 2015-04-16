@@ -6,97 +6,97 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
-
 /**
  * The persistent class for the comext_c database table.
- * 
+ *
  */
 @Entity
-@Table(name="comext_c")
-@NamedQuery(name="ComextC.findAll", query="SELECT c FROM ComextC c")
+@Table(name = "comext_c")
+@NamedQuery(name = "ComextC.findAll", query = "SELECT c FROM ComextC c")
 public class ComextC implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Integer id;
+  private static final long serialVersionUID = 1L;
 
-	@Column(name="expires_at")
-	private Timestamp expiresAt;
+  @Id
+  private Integer id;
 
-	private Boolean locked;
+  @Column(name = "expires_at")
+  private Timestamp expiresAt;
 
-	private BigDecimal total;
+  private Boolean locked;
 
-	@Column(name="total_items")
-	private Integer totalItems;
+  private BigDecimal total;
 
-	//bi-directional many-to-one association to ComextItemc
-	@OneToMany(mappedBy="comextC")
-	private List<ComextItemc> comextItemcs;
+  @Column(name = "total_items")
+  private Integer totalItems;
 
-	public ComextC() {
-	}
+  //bi-directional many-to-one association to ComextItemc
+  @OneToMany(mappedBy = "comextC")
+  private List<ComextItemc> comextItemcs;
 
-	public Integer getId() {
-		return this.id;
-	}
+  public ComextC() {
+  }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  public Integer getId() {
+    return this.id;
+  }
 
-	public Timestamp getExpiresAt() {
-		return this.expiresAt;
-	}
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-	public void setExpiresAt(Timestamp expiresAt) {
-		this.expiresAt = expiresAt;
-	}
+  public Timestamp getExpiresAt() {
+    return this.expiresAt;
+  }
 
-	public Boolean getLocked() {
-		return this.locked;
-	}
+  public void setExpiresAt(Timestamp expiresAt) {
+    this.expiresAt = expiresAt;
+  }
 
-	public void setLocked(Boolean locked) {
-		this.locked = locked;
-	}
+  public Boolean getLocked() {
+    return this.locked;
+  }
 
-	public BigDecimal getTotal() {
-		return this.total;
-	}
+  public void setLocked(Boolean locked) {
+    this.locked = locked;
+  }
 
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
+  public BigDecimal getTotal() {
+    return this.total;
+  }
 
-	public Integer getTotalItems() {
-		return this.totalItems;
-	}
+  public void setTotal(BigDecimal total) {
+    this.total = total;
+  }
 
-	public void setTotalItems(Integer totalItems) {
-		this.totalItems = totalItems;
-	}
+  public Integer getTotalItems() {
+    return this.totalItems;
+  }
 
-	public List<ComextItemc> getComextItemcs() {
-		return this.comextItemcs;
-	}
+  public void setTotalItems(Integer totalItems) {
+    this.totalItems = totalItems;
+  }
 
-	public void setComextItemcs(List<ComextItemc> comextItemcs) {
-		this.comextItemcs = comextItemcs;
-	}
+  public List<ComextItemc> getComextItemcs() {
+    return this.comextItemcs;
+  }
 
-	public ComextItemc addComextItemc(ComextItemc comextItemc) {
-		getComextItemcs().add(comextItemc);
-		comextItemc.setComextC(this);
+  public void setComextItemcs(List<ComextItemc> comextItemcs) {
+    this.comextItemcs = comextItemcs;
+  }
 
-		return comextItemc;
-	}
+  public ComextItemc addComextItemc(ComextItemc comextItemc) {
+    getComextItemcs().add(comextItemc);
+    comextItemc.setComextC(this);
 
-	public ComextItemc removeComextItemc(ComextItemc comextItemc) {
-		getComextItemcs().remove(comextItemc);
-		comextItemc.setComextC(null);
+    return comextItemc;
+  }
 
-		return comextItemc;
-	}
+  public ComextItemc removeComextItemc(ComextItemc comextItemc) {
+    getComextItemcs().remove(comextItemc);
+    comextItemc.setComextC(null);
+
+    return comextItemc;
+  }
 
 }

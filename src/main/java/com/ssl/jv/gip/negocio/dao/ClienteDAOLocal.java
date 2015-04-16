@@ -18,7 +18,7 @@ public interface ClienteDAOLocal extends IGenericDAO<Cliente> {
   Cliente guardarCliente(Cliente cliente);
 
   /**
-   * 
+   *
    * @param parametros
    * @return
    */

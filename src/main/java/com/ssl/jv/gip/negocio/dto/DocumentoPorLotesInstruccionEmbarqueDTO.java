@@ -8,136 +8,136 @@ import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 
 public class DocumentoPorLotesInstruccionEmbarqueDTO implements Serializable {
 
-	private static final long serialVersionUID = 5772395465483898864L;
-	
-	private Long idDocumento;
-	
-	private String consecutivo;
-	
-	private Long idTipoLote;
-	
-	private Double totalCajas;
-	
-	private String pedido;
-	
-	private String asignacion;
-	
-	private String aviso;
-	
-	private String descripcion;
-	
-	private Double totalCantidad;
-	
-	private String consecutivoDocumento;
-	
-	private String observacionDocumento;
-	
-	private String facturaProforma;
-	
-	private Date fechaEta;
+  private static final long serialVersionUID = 5772395465483898864L;
 
-	public Long getIdDocumento() {
-		return idDocumento;
-	}
+  private Long idDocumento;
 
-	public void setIdDocumento(Long idDocumento) {
-		this.idDocumento = idDocumento;
-	}
+  private String consecutivo;
 
-	public String getConsecutivo() {
-		return consecutivo;
-	}
+  private Long idTipoLote;
 
-	public void setConsecutivo(String consecutivo) {
-		this.consecutivo = consecutivo;
-	}
+  private Double totalCajas;
 
-	public Long getIdTipoLote() {
-		return idTipoLote;
-	}
+  private String pedido;
 
-	public void setIdTipoLote(Long idTipoLote) {
-		this.idTipoLote = idTipoLote;
-	}
+  private String asignacion;
 
-	public Double getTotalCajas() {
-		return totalCajas;
-	}
+  private String aviso;
 
-	public void setTotalCajas(Double totalCajas) {
-		this.totalCajas = totalCajas;
-	}
+  private String descripcion;
 
-	public String getPedido() {
-		return pedido;
-	}
+  private Double totalCantidad;
 
-	public void setPedido(String pedido) {
-		this.pedido = pedido;
-	}
+  private String consecutivoDocumento;
 
-	public String getAsignacion() {
-		return asignacion;
-	}
+  private String observacionDocumento;
 
-	public void setAsignacion(String asignacion) {
-		this.asignacion = asignacion;
-	}
+  private String facturaProforma;
 
-	public String getAviso() {
-		return aviso;
-	}
+  private Date fechaEta;
 
-	public void setAviso(String aviso) {
-		this.aviso = aviso;
-	}
+  public Long getIdDocumento() {
+    return idDocumento;
+  }
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+  public void setIdDocumento(Long idDocumento) {
+    this.idDocumento = idDocumento;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public String getConsecutivo() {
+    return consecutivo;
+  }
 
-	public Double getTotalCantidad() {
-		return totalCantidad;
-	}
+  public void setConsecutivo(String consecutivo) {
+    this.consecutivo = consecutivo;
+  }
 
-	public void setTotalCantidad(Double totalCantidad) {
-		this.totalCantidad = totalCantidad;
-	}
+  public Long getIdTipoLote() {
+    return idTipoLote;
+  }
 
-	public String getConsecutivoDocumento() {
-		return consecutivoDocumento;
-	}
+  public void setIdTipoLote(Long idTipoLote) {
+    this.idTipoLote = idTipoLote;
+  }
 
-	public void setConsecutivoDocumento(String consecutivoDocumento) {
-		this.consecutivoDocumento = consecutivoDocumento;
-	}
+  public Double getTotalCajas() {
+    return totalCajas;
+  }
 
-	public String getObservacionDocumento() {
-		return observacionDocumento;
-	}
+  public void setTotalCajas(Double totalCajas) {
+    this.totalCajas = totalCajas;
+  }
 
-	public void setObservacionDocumento(String observacionDocumento) {
-		this.observacionDocumento = observacionDocumento;
-	}
+  public String getPedido() {
+    return pedido;
+  }
 
-	public String getFacturaProforma() {
-		return facturaProforma;
-	}
+  public void setPedido(String pedido) {
+    this.pedido = pedido;
+  }
 
-	public void setFacturaProforma(String facturaProforma) {
-		this.facturaProforma = facturaProforma;
-	}
+  public String getAsignacion() {
+    return asignacion;
+  }
 
-	public Date getFechaEta() {
-		return fechaEta;
-	}
+  public void setAsignacion(String asignacion) {
+    this.asignacion = asignacion;
+  }
 
-	public void setFechaEta(Date fechaEta) {
-		this.fechaEta = fechaEta;
-	}
+  public String getAviso() {
+    return aviso;
+  }
+
+  public void setAviso(String aviso) {
+    this.aviso = aviso;
+  }
+
+  public String getDescripcion() {
+    return descripcion;
+  }
+
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
+
+  public Double getTotalCantidad() {
+    return totalCantidad;
+  }
+
+  public void setTotalCantidad(Double totalCantidad) {
+    this.totalCantidad = totalCantidad;
+  }
+
+  public String getConsecutivoDocumento() {
+    return consecutivoDocumento;
+  }
+
+  public void setConsecutivoDocumento(String consecutivoDocumento) {
+    this.consecutivoDocumento = consecutivoDocumento;
+  }
+
+  public String getObservacionDocumento() {
+    return observacionDocumento;
+  }
+
+  public void setObservacionDocumento(String observacionDocumento) {
+    this.observacionDocumento = observacionDocumento;
+  }
+
+  public String getFacturaProforma() {
+    return facturaProforma;
+  }
+
+  public void setFacturaProforma(String facturaProforma) {
+    this.facturaProforma = facturaProforma;
+  }
+
+  public Date getFechaEta() {
+    return fechaEta;
+  }
+
+  public void setFechaEta(Date fechaEta) {
+    this.fechaEta = fechaEta;
+  }
 
 }

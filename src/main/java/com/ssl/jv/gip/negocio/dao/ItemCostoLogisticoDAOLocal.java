@@ -9,12 +9,12 @@ import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
 import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 
 @Local
-public interface ItemCostoLogisticoDAOLocal extends IGenericDAO<ItemCostoLogistico>{
+public interface ItemCostoLogisticoDAOLocal extends IGenericDAO<ItemCostoLogistico> {
 
-	public List<CostoLogisticoDTO> getCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal);
-	
-	public List<String> getPuertosNacionales();
+  public List<CostoLogisticoDTO> getCostosLogisticos(Long idCliente, List<Long> documentos, String terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal);
 
-	public List<String> getPuertosInternacionales(String idPais);
-	
+  public List<String> getPuertosNacionales();
+
+  public List<String> getPuertosInternacionales(String idPais);
+
 }

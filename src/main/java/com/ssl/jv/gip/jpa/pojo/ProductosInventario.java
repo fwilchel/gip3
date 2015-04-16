@@ -83,7 +83,7 @@ public class ProductosInventario implements Serializable {
   @Column(name = "id_cuenta_contable")
   private Long idCuentaContable;
 
-  @ManyToOne(fetch=FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_ur")
   private Unidad unidadReceta;
 
@@ -131,22 +131,22 @@ public class ProductosInventario implements Serializable {
   private List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps;
 
   // bi-directional many-to-one association to CategoriasInventario
-  @ManyToOne(fetch=FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_categoria")
   private CategoriasInventario categoriasInventario;
 
   // bi-directional many-to-one association to Pais
-  @ManyToOne(fetch=FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_pais")
   private Pais pais;
 
   // bi-directional many-to-one association to Unidad
-  @ManyToOne(fetch=FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_ud")
   private Unidad unidadDespacho;
 
   // bi-directional many-to-one association to Unidad
-  @ManyToOne(fetch=FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_uv")
   private Unidad unidadVenta;
 
@@ -439,12 +439,12 @@ public class ProductosInventario implements Serializable {
   }
 
   public void setMovimientosInventarios(
-          List<MovimientosInventario> movimientosInventarios) {
+      List<MovimientosInventario> movimientosInventarios) {
     this.movimientosInventarios = movimientosInventarios;
   }
 
   public MovimientosInventario addMovimientosInventario(
-          MovimientosInventario movimientosInventario) {
+      MovimientosInventario movimientosInventario) {
     getMovimientosInventarios().add(movimientosInventario);
     movimientosInventario.setProductosInventario(this);
 
@@ -452,7 +452,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public MovimientosInventario removeMovimientosInventario(
-          MovimientosInventario movimientosInventario) {
+      MovimientosInventario movimientosInventario) {
     getMovimientosInventarios().remove(movimientosInventario);
     movimientosInventario.setProductosInventario(null);
 
@@ -464,12 +464,12 @@ public class ProductosInventario implements Serializable {
   }
 
   public void setNivelInventarioxubicacions(
-          List<NivelInventarioxubicacion> nivelInventarioxubicacions) {
+      List<NivelInventarioxubicacion> nivelInventarioxubicacions) {
     this.nivelInventarioxubicacions = nivelInventarioxubicacions;
   }
 
   public NivelInventarioxubicacion addNivelInventarioxubicacion(
-          NivelInventarioxubicacion nivelInventarioxubicacion) {
+      NivelInventarioxubicacion nivelInventarioxubicacion) {
     getNivelInventarioxubicacions().add(nivelInventarioxubicacion);
     nivelInventarioxubicacion.setProductosInventario(this);
 
@@ -477,7 +477,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public NivelInventarioxubicacion removeNivelInventarioxubicacion(
-          NivelInventarioxubicacion nivelInventarioxubicacion) {
+      NivelInventarioxubicacion nivelInventarioxubicacion) {
     getNivelInventarioxubicacions().remove(nivelInventarioxubicacion);
     nivelInventarioxubicacion.setProductosInventario(null);
 
@@ -489,12 +489,12 @@ public class ProductosInventario implements Serializable {
   }
 
   public void setNivelInventarioxubicacionTemps(
-          List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps) {
+      List<NivelInventarioxubicacionTemp> nivelInventarioxubicacionTemps) {
     this.nivelInventarioxubicacionTemps = nivelInventarioxubicacionTemps;
   }
 
   public NivelInventarioxubicacionTemp addNivelInventarioxubicacionTemp(
-          NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
+      NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
     getNivelInventarioxubicacionTemps().add(nivelInventarioxubicacionTemp);
     nivelInventarioxubicacionTemp.setProductosInventario(this);
 
@@ -502,9 +502,9 @@ public class ProductosInventario implements Serializable {
   }
 
   public NivelInventarioxubicacionTemp removeNivelInventarioxubicacionTemp(
-          NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
+      NivelInventarioxubicacionTemp nivelInventarioxubicacionTemp) {
     getNivelInventarioxubicacionTemps().remove(
-            nivelInventarioxubicacionTemp);
+        nivelInventarioxubicacionTemp);
     nivelInventarioxubicacionTemp.setProductosInventario(null);
 
     return nivelInventarioxubicacionTemp;
@@ -515,7 +515,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public void setCategoriasInventario(
-          CategoriasInventario categoriasInventario) {
+      CategoriasInventario categoriasInventario) {
     this.categoriasInventario = categoriasInventario;
   }
 
@@ -548,7 +548,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public void setProductosInventarioComext(
-          ProductosInventarioComext productosInventarioComext) {
+      ProductosInventarioComext productosInventarioComext) {
     this.productosInventarioComext = productosInventarioComext;
   }
 
@@ -557,12 +557,12 @@ public class ProductosInventario implements Serializable {
   }
 
   public void setProductosXClienteComexts(
-          List<ProductosXClienteComext> productosXClienteComexts) {
+      List<ProductosXClienteComext> productosXClienteComexts) {
     this.productosXClienteComexts = productosXClienteComexts;
   }
 
   public ProductosXClienteComext addProductosXClienteComext(
-          ProductosXClienteComext productosXClienteComext) {
+      ProductosXClienteComext productosXClienteComext) {
     getProductosXClienteComexts().add(productosXClienteComext);
     productosXClienteComext.setProductosInventario(this);
 
@@ -570,7 +570,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public ProductosXClienteComext removeProductosXClienteComext(
-          ProductosXClienteComext productosXClienteComext) {
+      ProductosXClienteComext productosXClienteComext) {
     getProductosXClienteComexts().remove(productosXClienteComext);
     productosXClienteComext.setProductosInventario(null);
 
@@ -586,7 +586,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public ProductosXCliente addProductosxcliente(
-          ProductosXCliente productosxcliente) {
+      ProductosXCliente productosxcliente) {
     getProductosxclientes().add(productosxcliente);
     productosxcliente.setProductosInventario(this);
 
@@ -594,7 +594,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public ProductosXCliente removeProductosxcliente(
-          ProductosXCliente productosxcliente) {
+      ProductosXCliente productosxcliente) {
     getProductosxclientes().remove(productosxcliente);
     productosxcliente.setProductosInventario(null);
 
@@ -606,12 +606,12 @@ public class ProductosInventario implements Serializable {
   }
 
   public void setProductosxdocumentos(
-          List<ProductosXDocumento> productosxdocumentos) {
+      List<ProductosXDocumento> productosxdocumentos) {
     this.productosxdocumentos = productosxdocumentos;
   }
 
   public ProductosXDocumento addProductosxdocumento(
-          ProductosXDocumento productosxdocumento) {
+      ProductosXDocumento productosxdocumento) {
     getProductosxdocumentos().add(productosxdocumento);
     productosxdocumento.setProductosInventario(this);
 
@@ -619,7 +619,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public ProductosXDocumento removeProductosxdocumento(
-          ProductosXDocumento productosxdocumento) {
+      ProductosXDocumento productosxdocumento) {
     getProductosxdocumentos().remove(productosxdocumento);
     productosxdocumento.setProductosInventario(null);
 
@@ -631,12 +631,12 @@ public class ProductosInventario implements Serializable {
   }
 
   public void setProductosxproveedors(
-          List<ProductosXProveedor> productosxproveedors) {
+      List<ProductosXProveedor> productosxproveedors) {
     this.productosxproveedors = productosxproveedors;
   }
 
   public ProductosXProveedor addProductosxproveedor(
-          ProductosXProveedor productosxproveedor) {
+      ProductosXProveedor productosxproveedor) {
     getProductosxproveedors().add(productosxproveedor);
     productosxproveedor.setProductosInventario(this);
 
@@ -644,7 +644,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public ProductosXProveedor removeProductosxproveedor(
-          ProductosXProveedor productosxproveedor) {
+      ProductosXProveedor productosxproveedor) {
     getProductosxproveedors().remove(productosxproveedor);
     productosxproveedor.setProductosInventario(null);
 
@@ -660,7 +660,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public ProductosXReceta addProductosxreceta(
-          ProductosXReceta productosxreceta) {
+      ProductosXReceta productosxreceta) {
     getProductosxrecetas().add(productosxreceta);
     productosxreceta.setProductosInventario(this);
 
@@ -668,7 +668,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public ProductosXReceta removeProductosxreceta(
-          ProductosXReceta productosxreceta) {
+      ProductosXReceta productosxreceta) {
     getProductosxrecetas().remove(productosxreceta);
     productosxreceta.setProductosInventario(null);
 
@@ -706,7 +706,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public SaldosFranquicia addSaldosFranquicia(
-          SaldosFranquicia saldosFranquicia) {
+      SaldosFranquicia saldosFranquicia) {
     getSaldosFranquicias().add(saldosFranquicia);
     saldosFranquicia.setProductosInventario(this);
 
@@ -714,7 +714,7 @@ public class ProductosInventario implements Serializable {
   }
 
   public SaldosFranquicia removeSaldosFranquicia(
-          SaldosFranquicia saldosFranquicia) {
+      SaldosFranquicia saldosFranquicia) {
     getSaldosFranquicias().remove(saldosFranquicia);
     saldosFranquicia.setProductosInventario(null);
 

@@ -41,13 +41,17 @@ import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 
 /**
- * <p>Title: TerminosTransporteEJB</p>
+ * <p>
+ * Title: TerminosTransporteEJB</p>
  *
- * <p>Description: Bean para llamado a los DAOs de Terminos de transporte</p>
+ * <p>
+ * Description: Bean para llamado a los DAOs de Terminos de transporte</p>
  *
- * <p>Copyright: Copyright (c) 2014</p>
+ * <p>
+ * Copyright: Copyright (c) 2014</p>
  *
- * <p>Company: Soft Studio Ltda.</p>
+ * <p>
+ * Company: Soft Studio Ltda.</p>
  *
  * @author Sebastian Gamba Pinilla
  * @email sebas.gamba02@gmail.com
@@ -58,97 +62,96 @@ import com.ssl.jv.gip.negocio.dto.InstruccionesEmbarqueDTO;
 @LocalBean
 public class TerminosTransporteEJB implements TerminosTransporteEJBLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(TerminosTransporteEJB.class);
+  private static final Logger LOGGER = Logger.getLogger(TerminosTransporteEJB.class);
 
-	@EJB
-	private TerminosTransporteDAOLocal terminosTransporteDAO;
-	
-	@EJB
-	private AgenteAduanaDAOLocal agenteAduanaDAO;
-	
-	@EJB
-	private TerminoIncotermDAOLocal terminoIncotermDAO; 
-	
-	@EJB
-	private DocumentoDAOLocal documentoDAO; 
-	
-	
-	/**
-	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarListadoTerminosTransporte()
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public List<ShipmentConditions> consultarListadoTerminosTransporte() {
-		return terminosTransporteDAO.getAllShipmentConditions();
-	}
+  @EJB
+  private TerminosTransporteDAOLocal terminosTransporteDAO;
 
-	/**
-	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarTerminosTransportePorId(java.lang.String)
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public InstruccionesEmbarqueDTO consultarTerminosTransportePorId(String idTermTrans) {
-		return terminosTransporteDAO.getShipmentConditionsById(idTermTrans);
-	}
+  @EJB
+  private AgenteAduanaDAOLocal agenteAduanaDAO;
 
-	/**
-	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarAgentesAduanaActivos()
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public List<AgenteAduana> consultarAgentesAduanaActivos() {
-		return agenteAduanaDAO.getAllActive();
-	}
+  @EJB
+  private TerminoIncotermDAOLocal terminoIncotermDAO;
 
-	/**
-	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarModalidadesEmbarque()
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public List<ModalidadEmbarque> consultarModalidadesEmbarque() {
-		return terminosTransporteDAO.getAllShipmentMod();
-	}
+  @EJB
+  private DocumentoDAOLocal documentoDAO;
 
-	/**
-	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarIncoterms()
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public List<TerminoIncoterm> consultarIncoterms() {
-		return terminoIncotermDAO.getAll();
-	}
+  /**
+   * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarListadoTerminosTransporte()
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public List<ShipmentConditions> consultarListadoTerminosTransporte() {
+    return terminosTransporteDAO.getAllShipmentConditions();
+  }
 
-	/**
-	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#actualizarInstruccionEmbarque()
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public TerminosTransporte actualizarInstruccionEmbarque(TerminosTransporte tt) {
-		return terminosTransporteDAO.updateTerminoTransporte(tt);
-	}
+  /**
+   * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarTerminosTransportePorId(java.lang.String)
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public InstruccionesEmbarqueDTO consultarTerminosTransportePorId(String idTermTrans) {
+    return terminosTransporteDAO.getShipmentConditionsById(idTermTrans);
+  }
 
-	/**
-	 * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#actualizarDocumento(com.ssl.jv.gip.jpa.pojo.Documento)
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @return 
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public Documento actualizarDocumento(Documento documento) {
-		documentoDAO.update(documento);
-		return documentoDAO.findByPK(documento.getId());
-	}
+  /**
+   * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarAgentesAduanaActivos()
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public List<AgenteAduana> consultarAgentesAduanaActivos() {
+    return agenteAduanaDAO.getAllActive();
+  }
+
+  /**
+   * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarModalidadesEmbarque()
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public List<ModalidadEmbarque> consultarModalidadesEmbarque() {
+    return terminosTransporteDAO.getAllShipmentMod();
+  }
+
+  /**
+   * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#consultarIncoterms()
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public List<TerminoIncoterm> consultarIncoterms() {
+    return terminoIncotermDAO.getAll();
+  }
+
+  /**
+   * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#actualizarInstruccionEmbarque()
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public TerminosTransporte actualizarInstruccionEmbarque(TerminosTransporte tt) {
+    return terminosTransporteDAO.updateTerminoTransporte(tt);
+  }
+
+  /**
+   * @see com.ssl.jv.gip.negocio.ejb.TerminosTransporteEJBLocal#actualizarDocumento(com.ssl.jv.gip.jpa.pojo.Documento)
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @return
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public Documento actualizarDocumento(Documento documento) {
+    documentoDAO.update(documento);
+    return documentoDAO.findByPK(documento.getId());
+  }
 }

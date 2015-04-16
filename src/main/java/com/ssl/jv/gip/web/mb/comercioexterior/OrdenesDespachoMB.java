@@ -55,7 +55,7 @@ import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 
 /**
  * Managed Bean para ordenes de despacho
- * 
+ *
  * @author Daniel Cortes
  * @version 1.0
  * @email danicorc@gmail.com
@@ -94,187 +94,187 @@ public class OrdenesDespachoMB extends UtilMB {
 
   @PostConstruct
   public void init() {
-	currentTimeStamp = new Timestamp(System.currentTimeMillis());
+    currentTimeStamp = new Timestamp(System.currentTimeMillis());
   }
 
   public String buscarDocumentos() {
-	documentos = this.comercioEjb.consultarFP(consecutivoDocumento, (long) ConstantesDocumento.APROBADA, (long) ConstantesDocumento.ASIGNADA);
-	this.deshabilitado = false;
-	return null;
+    documentos = this.comercioEjb.consultarFP(consecutivoDocumento, (long) ConstantesDocumento.APROBADA, (long) ConstantesDocumento.ASIGNADA);
+    this.deshabilitado = false;
+    return null;
   }
 
   public void consultarOrdenDeDespacho() {
-	productos = comercioEjb.consultarProductoPorDocumentoOrdenDespacho(seleccionado.getId(), seleccionado.getCliente().getId(), seleccionado.getDocumentoXNegociacions().get(0).getSolicitudCafe());
-	totalCantidad = 0;
-	totalCantidadCajas = 0;
-	totalCantidadPorEmbalaje = 0;
-	muestrasFITOANTICO = 0;
-	muestrasCalidades = 0;
-	for (ProductoODDTO p : productos) {
-	  p.setCantidadCajas(p.getCantidad().divide(p.getCantidadPorEmbalaje()));
-	  this.totalCantidad += p.getCantidad().doubleValue();
-	  this.totalCantidadCajas += p.getCantidadCajas().doubleValue();
-	  this.totalCantidadPorEmbalaje += p.getCantidadPorEmbalaje().doubleValue();
-	  this.muestrasCalidades += p.getMuestrasCalidades().doubleValue();
-	  this.muestrasFITOANTICO += p.getMuestrasFITOYANTICO().doubleValue();
-	}
+    productos = comercioEjb.consultarProductoPorDocumentoOrdenDespacho(seleccionado.getId(), seleccionado.getCliente().getId(), seleccionado.getDocumentoXNegociacions().get(0).getSolicitudCafe());
+    totalCantidad = 0;
+    totalCantidadCajas = 0;
+    totalCantidadPorEmbalaje = 0;
+    muestrasFITOANTICO = 0;
+    muestrasCalidades = 0;
+    for (ProductoODDTO p : productos) {
+      p.setCantidadCajas(p.getCantidad().divide(p.getCantidadPorEmbalaje()));
+      this.totalCantidad += p.getCantidad().doubleValue();
+      this.totalCantidadCajas += p.getCantidadCajas().doubleValue();
+      this.totalCantidadPorEmbalaje += p.getCantidadPorEmbalaje().doubleValue();
+      this.muestrasCalidades += p.getMuestrasCalidades().doubleValue();
+      this.muestrasFITOANTICO += p.getMuestrasFITOYANTICO().doubleValue();
+    }
   }
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public JasperPrint reportBuilder() throws JRException {
-	SimpleDateFormat formatoFecha;
-	formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-	Map parametros = new HashMap();
-	parametros.put("cliente", seleccionado.getCliente().getNombre());
-	parametros.put("nit", seleccionado.getCliente().getNit());
-	parametros.put("ciudad", seleccionado.getCliente().getCiudad().getNombre());
-	parametros.put("direccion", seleccionado.getCliente().getDireccion());
-	parametros.put("telefono", seleccionado.getCliente().getTelefono());
-	parametros.put("contacto", seleccionado.getCliente().getContacto());
-	parametros.put("documento", seleccionado.getDocumentoCliente());
-	parametros.put("fecha", formatoFecha.format(seleccionado.getFechaGeneracion()));
-	parametros.put("numFactura", seleccionado.getConsecutivoDocumento());
-	parametros.put("fechaCargue", seleccionado.getFechaEntrega() != null ? formatoFecha.format(seleccionado.getFechaEntrega()) : null);
-	parametros.put("solicitud", seleccionado.getObservacionDocumento());
-	parametros.put("observacionDoc", seleccionado.getObservacion2());
-	parametros.put("observacionMar", seleccionado.getDocumentoXNegociacions().get(0).getObservacionesMarcacion2());
-	parametros.put("despacho", seleccionado.getSitioEntrega());
-	parametros.put("totalCantidad", totalCantidad);
-	parametros.put("totalUnidadXEmbalaje", totalCantidadPorEmbalaje);
-	parametros.put("totalCantidadCajas", totalCantidadCajas);
-	parametros.put("totalMuestrasFito", muestrasFITOANTICO);
-	parametros.put("totalMuestrasCalidades", muestrasCalidades);
+    SimpleDateFormat formatoFecha;
+    formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    Map parametros = new HashMap();
+    parametros.put("cliente", seleccionado.getCliente().getNombre());
+    parametros.put("nit", seleccionado.getCliente().getNit());
+    parametros.put("ciudad", seleccionado.getCliente().getCiudad().getNombre());
+    parametros.put("direccion", seleccionado.getCliente().getDireccion());
+    parametros.put("telefono", seleccionado.getCliente().getTelefono());
+    parametros.put("contacto", seleccionado.getCliente().getContacto());
+    parametros.put("documento", seleccionado.getDocumentoCliente());
+    parametros.put("fecha", formatoFecha.format(seleccionado.getFechaGeneracion()));
+    parametros.put("numFactura", seleccionado.getConsecutivoDocumento());
+    parametros.put("fechaCargue", seleccionado.getFechaEntrega() != null ? formatoFecha.format(seleccionado.getFechaEntrega()) : null);
+    parametros.put("solicitud", seleccionado.getObservacionDocumento());
+    parametros.put("observacionDoc", seleccionado.getObservacion2());
+    parametros.put("observacionMar", seleccionado.getDocumentoXNegociacions().get(0).getObservacionesMarcacion2());
+    parametros.put("despacho", seleccionado.getSitioEntrega());
+    parametros.put("totalCantidad", totalCantidad);
+    parametros.put("totalUnidadXEmbalaje", totalCantidadPorEmbalaje);
+    parametros.put("totalCantidadCajas", totalCantidadCajas);
+    parametros.put("totalMuestrasFito", muestrasFITOANTICO);
+    parametros.put("totalMuestrasCalidades", muestrasCalidades);
 
-	JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(productos);
+    JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(productos);
 
-	String report = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_OD.jasper");
+    String report = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_OD.jasper");
 
-	return JasperFillManager.fillReport(report, parametros, beanCollectionDataSource);
+    return JasperFillManager.fillReport(report, parametros, beanCollectionDataSource);
   }
 
   public String getConsecutivoDocumento() {
-	return consecutivoDocumento;
+    return consecutivoDocumento;
   }
 
   public void setConsecutivoDocumento(String consecutivoDocumento) {
-	this.consecutivoDocumento = consecutivoDocumento;
+    this.consecutivoDocumento = consecutivoDocumento;
   }
 
   public boolean isDeshabilitado() {
-	return deshabilitado;
+    return deshabilitado;
   }
 
   public void setDeshabilitado(boolean deshabilitado) {
-	this.deshabilitado = deshabilitado;
+    this.deshabilitado = deshabilitado;
   }
 
   public List<Documento> getDocumentos() {
-	return documentos;
+    return documentos;
   }
 
   public void setDocumentos(List<Documento> documentos) {
-	this.documentos = documentos;
+    this.documentos = documentos;
   }
 
   public List<ProductoODDTO> getProductos() {
-	return productos;
+    return productos;
   }
 
   public static void setProductos(List<ProductoODDTO> productos2) {
-	productos = productos2;
+    productos = productos2;
   }
 
   public Documento getSeleccionado() {
-	return seleccionado;
+    return seleccionado;
   }
 
   public void setSeleccionado(Documento seleccionado) {
-	this.seleccionado = seleccionado;
+    this.seleccionado = seleccionado;
   }
 
   public Documento getFiltro() {
-	return filtro;
+    return filtro;
   }
 
   public void setFiltro(Documento filtro) {
-	this.filtro = filtro;
+    this.filtro = filtro;
   }
 
   public double getTotalCantidad() {
-	return totalCantidad;
+    return totalCantidad;
   }
 
   public void setTotalCantidad(double totalCantidad) {
-	this.totalCantidad = totalCantidad;
+    this.totalCantidad = totalCantidad;
   }
 
   public double getTotalCantidadPorEmbalaje() {
-	return totalCantidadPorEmbalaje;
+    return totalCantidadPorEmbalaje;
   }
 
   public void setTotalCantidadPorEmbalaje(double totalCantidadPorEmbalaje) {
-	this.totalCantidadPorEmbalaje = totalCantidadPorEmbalaje;
+    this.totalCantidadPorEmbalaje = totalCantidadPorEmbalaje;
   }
 
   public double getTotalCantidadCajas() {
-	return totalCantidadCajas;
+    return totalCantidadCajas;
   }
 
   public void setTotalCantidadCajas(double totalCantidadCajas) {
-	this.totalCantidadCajas = totalCantidadCajas;
+    this.totalCantidadCajas = totalCantidadCajas;
   }
 
   public double getMuestrasFITOANTICO() {
-	return muestrasFITOANTICO;
+    return muestrasFITOANTICO;
   }
 
   public void setMuestrasFITOANTICO(double muestrasFITOANTICO) {
-	this.muestrasFITOANTICO = muestrasFITOANTICO;
+    this.muestrasFITOANTICO = muestrasFITOANTICO;
   }
 
   public double getMuestrasCalidades() {
-	return muestrasCalidades;
+    return muestrasCalidades;
   }
 
   public void setMuestrasCalidades(double muestrasCalidades) {
-	this.muestrasCalidades = muestrasCalidades;
+    this.muestrasCalidades = muestrasCalidades;
   }
 
   public Integer getLanguage() {
-	return language;
+    return language;
   }
 
   public void setLanguage(Integer language) {
-	this.language = language;
+    this.language = language;
   }
 
   public Timestamp getCurrentTimeStamp() {
-	return currentTimeStamp;
+    return currentTimeStamp;
   }
 
   public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
-	this.currentTimeStamp = currentTimeStamp;
+    this.currentTimeStamp = currentTimeStamp;
   }
 
   public StreamedContent getReporteExcel() throws ClassNotFoundException, IOException, JRException {
-	comercioEjb.generarReporteOrdenDespachoExcel(reportBuilder(), seleccionado.getId());
-	ByteArrayOutputStream os = (ByteArrayOutputStream) comercioEjb.generar(jasperPrint, "", "xls");
-	reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "OrdenDespacho.xls");
-	return this.reporteExcel;
+    comercioEjb.generarReporteOrdenDespachoExcel(reportBuilder(), seleccionado.getId());
+    ByteArrayOutputStream os = (ByteArrayOutputStream) comercioEjb.generar(jasperPrint, "", "xls");
+    reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "OrdenDespacho.xls");
+    return this.reporteExcel;
   }
 
   public void setReporteExcel(StreamedContent reporteExcel) {
-	this.reporteExcel = reporteExcel;
+    this.reporteExcel = reporteExcel;
   }
 
   public StreamedContent getReportePDF() throws ClassNotFoundException, IOException, JRException {
-	comercioEjb.generarReporteOrdenDespachoPDF(reportBuilder(), seleccionado.getId());
-	ByteArrayOutputStream os = (ByteArrayOutputStream) comercioEjb.generar(jasperPrint, "A", "pdf");
-	reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "OD" + seleccionado.getId());
-	return reportePDF;
+    comercioEjb.generarReporteOrdenDespachoPDF(reportBuilder(), seleccionado.getId());
+    ByteArrayOutputStream os = (ByteArrayOutputStream) comercioEjb.generar(jasperPrint, "A", "pdf");
+    reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "OD" + seleccionado.getId());
+    return reportePDF;
   }
 
   public void setReportePDF(StreamedContent reportePDF) {
-	this.reportePDF = reportePDF;
+    this.reportePDF = reportePDF;
   }
 }

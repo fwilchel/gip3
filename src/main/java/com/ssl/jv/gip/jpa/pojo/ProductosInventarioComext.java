@@ -8,602 +8,601 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the productos_inventario_comext database table.
- * 
+ *
  */
 @Entity
-@Table(name="productos_inventario_comext")
+@Table(name = "productos_inventario_comext")
 @NamedQueries({
-	@NamedQuery(name="ProductosInventarioComext.findAll", query="SELECT p FROM ProductosInventarioComext p"),
-	@NamedQuery(name="ProductosInventarioComext.findBySku", query="SELECT p FROM ProductosInventarioComext p LEFT JOIN FETCH p.tipoLoteoic tl LEFT JOIN FETCH p.cuentaContable cc LEFT JOIN FETCH p.unidadEmbalaje ue WHERE p.idProducto = (SELECT pi.id FROM ProductosInventario pi WHERE pi.sku= :sku)")
+  @NamedQuery(name = "ProductosInventarioComext.findAll", query = "SELECT p FROM ProductosInventarioComext p"),
+  @NamedQuery(name = "ProductosInventarioComext.findBySku", query = "SELECT p FROM ProductosInventarioComext p LEFT JOIN FETCH p.tipoLoteoic tl LEFT JOIN FETCH p.cuentaContable cc LEFT JOIN FETCH p.unidadEmbalaje ue WHERE p.idProducto = (SELECT pi.id FROM ProductosInventario pi WHERE pi.sku= :sku)")
 })
 
-
 public class ProductosInventarioComext implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="id_producto")
-	private Long idProducto;
+  private static final long serialVersionUID = 1L;
 
-	private BigDecimal alto;
+  @Id
+  @Column(name = "id_producto")
+  private Long idProducto;
 
-	@Column(name="alto_embalaje")
-	private BigDecimal altoEmbalaje;
+  private BigDecimal alto;
 
-	@Column(name="altura_max_pallet")
-	private BigDecimal alturaMaxPallet;
+  @Column(name = "alto_embalaje")
+  private BigDecimal altoEmbalaje;
 
-	private BigDecimal ancho;
+  @Column(name = "altura_max_pallet")
+  private BigDecimal alturaMaxPallet;
 
-	@Column(name="ancho_embalaje")
-	private BigDecimal anchoEmbalaje;
+  private BigDecimal ancho;
 
-	@Column(name="cant_cajas_x_tendido")
-	private BigDecimal cantCajasXTendido;
+  @Column(name = "ancho_embalaje")
+  private BigDecimal anchoEmbalaje;
 
-	@Column(name="cant_max_tend_x_pallet")
-	private BigDecimal cantMaxTendXPallet;
+  @Column(name = "cant_cajas_x_tendido")
+  private BigDecimal cantCajasXTendido;
 
-	@Column(name="cantidad_x_embalaje")
-	private BigDecimal cantidadXEmbalaje;
+  @Column(name = "cant_max_tend_x_pallet")
+  private BigDecimal cantMaxTendXPallet;
 
-	private String clave;
+  @Column(name = "cantidad_x_embalaje")
+  private BigDecimal cantidadXEmbalaje;
 
-	@Column(name="codigo_sap")
-	private String codigoSap;
-	
-	@Column(name="controlstock")
-	private Boolean controlStock;
+  private String clave;
 
-	private String descripcion;
+  @Column(name = "codigo_sap")
+  private String codigoSap;
 
-	@Column(name="ean_14")
-	private Long ean14;
+  @Column(name = "controlstock")
+  private Boolean controlStock;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_creado")
-	private Date fechaCreado;
+  private String descripcion;
 
-	private Boolean importado;
+  @Column(name = "ean_14")
+  private Long ean14;
 
-	private BigDecimal largo;
+  @Temporal(TemporalType.DATE)
+  @Column(name = "fecha_creado")
+  private Date fechaCreado;
 
-	@Column(name="largo_embalaje")
-	private BigDecimal largoEmbalaje;
+  private Boolean importado;
 
-	@Column(name="marcacion_fecha_vencimiento")
-	private String marcacionFechaVencimiento;
+  private BigDecimal largo;
 
-	@Column(name="nombre_prd_proveedor")
-	private String nombrePrdProveedor;
+  @Column(name = "largo_embalaje")
+  private BigDecimal largoEmbalaje;
 
-	@Column(name="observaciones_unidad_embalaje")
-	private String observacionesUnidadEmbalaje;
+  @Column(name = "marcacion_fecha_vencimiento")
+  private String marcacionFechaVencimiento;
 
-	@Column(name="peso_bruto")
-	private BigDecimal pesoBruto;
+  @Column(name = "nombre_prd_proveedor")
+  private String nombrePrdProveedor;
 
-	@Column(name="peso_bruto_embalaje")
-	private BigDecimal pesoBrutoEmbalaje;
+  @Column(name = "observaciones_unidad_embalaje")
+  private String observacionesUnidadEmbalaje;
 
-	@Column(name="peso_bruto_max_pallet")
-	private BigDecimal pesoBrutoMaxPallet;
+  @Column(name = "peso_bruto")
+  private BigDecimal pesoBruto;
 
-	@Column(name="peso_neto")
-	private BigDecimal pesoNeto;
+  @Column(name = "peso_bruto_embalaje")
+  private BigDecimal pesoBrutoEmbalaje;
 
-	@Column(name="peso_neto_embalaje")
-	private BigDecimal pesoNetoEmbalaje;
+  @Column(name = "peso_bruto_max_pallet")
+  private BigDecimal pesoBrutoMaxPallet;
 
-	@Column(name="posicion_arancelaria")
-	private String posicionArancelaria;
+  @Column(name = "peso_neto")
+  private BigDecimal pesoNeto;
 
-	@Column(name="ruta_certificaciones")
-	private String rutaCertificaciones;
+  @Column(name = "peso_neto_embalaje")
+  private BigDecimal pesoNetoEmbalaje;
 
-	@Column(name="ruta_examenes_lab")
-	private String rutaExamenesLab;
+  @Column(name = "posicion_arancelaria")
+  private String posicionArancelaria;
 
-	@Column(name="ruta_ficha_tecnica")
-	private String rutaFichaTecnica;
+  @Column(name = "ruta_certificaciones")
+  private String rutaCertificaciones;
 
-	@Column(name="ruta_formula_cuali_cuanti")
-	private String rutaFormulaCualiCuanti;
+  @Column(name = "ruta_examenes_lab")
+  private String rutaExamenesLab;
 
-	@Column(name="ruta_foto")
-	private String rutaFoto;
+  @Column(name = "ruta_ficha_tecnica")
+  private String rutaFichaTecnica;
 
-	@Column(name="ruta_foto1")
-	private String rutaFoto1;
+  @Column(name = "ruta_formula_cuali_cuanti")
+  private String rutaFormulaCualiCuanti;
 
-	@Column(name="ruta_foto2")
-	private String rutaFoto2;
+  @Column(name = "ruta_foto")
+  private String rutaFoto;
 
-	@Column(name="ruta_foto3")
-	private String rutaFoto3;
+  @Column(name = "ruta_foto1")
+  private String rutaFoto1;
 
-	@Column(name="ruta_info_etiquetado")
-	private String rutaInfoEtiquetado;
+  @Column(name = "ruta_foto2")
+  private String rutaFoto2;
 
-	@Column(name="ruta_marcacion_lote")
-	private String rutaMarcacionLote;
+  @Column(name = "ruta_foto3")
+  private String rutaFoto3;
 
-	@Column(name="ruta_reg_sanitario")
-	private String rutaRegSanitario;
+  @Column(name = "ruta_info_etiquetado")
+  private String rutaInfoEtiquetado;
 
-	@Column(name="tiempo_util")
-	private BigDecimal tiempoUtil;
+  @Column(name = "ruta_marcacion_lote")
+  private String rutaMarcacionLote;
 
-	@Column(name="total_cajas_x_pallet")
-	private BigDecimal totalCajasXPallet;
+  @Column(name = "ruta_reg_sanitario")
+  private String rutaRegSanitario;
 
-	@Column(name="unidad_medida")
-	private String unidadMedida;
+  @Column(name = "tiempo_util")
+  private BigDecimal tiempoUtil;
 
-	@Column(name="unidad_min_despacho_x_tendido")
-	private BigDecimal unidadMinDespachoXTendido;
+  @Column(name = "total_cajas_x_pallet")
+  private BigDecimal totalCajasXPallet;
 
-	@Column(name="unidad_peso")
-	private String unidadPeso;
+  @Column(name = "unidad_medida")
+  private String unidadMedida;
 
-	private BigDecimal volumen;
+  @Column(name = "unidad_min_despacho_x_tendido")
+  private BigDecimal unidadMinDespachoXTendido;
 
-	@Column(name="volumen_embalaje")
-	private BigDecimal volumenEmbalaje;
+  @Column(name = "unidad_peso")
+  private String unidadPeso;
 
-	@Column(name="volumen_pallet")
-	private BigDecimal volumenPallet;
+  private BigDecimal volumen;
 
-	//bi-directional many-to-one association to ComextItemc
-	@OneToMany(mappedBy="productosInventarioComext", fetch=FetchType.LAZY)
-	private List<ComextItemc> comextItemcs;
+  @Column(name = "volumen_embalaje")
+  private BigDecimal volumenEmbalaje;
 
-	//bi-directional many-to-one association to CuentaContable
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_cuenta_contable_ce")
-	private CuentaContable cuentaContable;
+  @Column(name = "volumen_pallet")
+  private BigDecimal volumenPallet;
 
-	//bi-directional one-to-one association to ProductosInventario
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_producto")
-	private ProductosInventario productosInventario;
+  //bi-directional many-to-one association to ComextItemc
+  @OneToMany(mappedBy = "productosInventarioComext", fetch = FetchType.LAZY)
+  private List<ComextItemc> comextItemcs;
 
-	//bi-directional many-to-one association to TipoLoteoic
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_tipo_loteoic")
-	private TipoLoteoic tipoLoteoic;
+  //bi-directional many-to-one association to CuentaContable
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_cuenta_contable_ce")
+  private CuentaContable cuentaContable;
 
-	//bi-directional many-to-one association to Unidad
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_unidad_embalaje")
-	private Unidad unidadEmbalaje;
+  //bi-directional one-to-one association to ProductosInventario
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_producto")
+  private ProductosInventario productosInventario;
 
-	public ProductosInventarioComext() {
-	}
+  //bi-directional many-to-one association to TipoLoteoic
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_tipo_loteoic")
+  private TipoLoteoic tipoLoteoic;
 
-	public Long getIdProducto() {
-		return this.idProducto;
-	}
+  //bi-directional many-to-one association to Unidad
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_unidad_embalaje")
+  private Unidad unidadEmbalaje;
 
-	public void setIdProducto(Long idProducto) {
-		this.idProducto = idProducto;
-	}
+  public ProductosInventarioComext() {
+  }
 
-	public BigDecimal getAlto() {
-		return this.alto;
-	}
+  public Long getIdProducto() {
+    return this.idProducto;
+  }
 
-	public void setAlto(BigDecimal alto) {
-		this.alto = alto;
-	}
+  public void setIdProducto(Long idProducto) {
+    this.idProducto = idProducto;
+  }
 
-	public BigDecimal getAltoEmbalaje() {
-		return this.altoEmbalaje;
-	}
+  public BigDecimal getAlto() {
+    return this.alto;
+  }
 
-	public void setAltoEmbalaje(BigDecimal altoEmbalaje) {
-		this.altoEmbalaje = altoEmbalaje;
-	}
+  public void setAlto(BigDecimal alto) {
+    this.alto = alto;
+  }
 
-	public BigDecimal getAlturaMaxPallet() {
-		return this.alturaMaxPallet;
-	}
+  public BigDecimal getAltoEmbalaje() {
+    return this.altoEmbalaje;
+  }
 
-	public void setAlturaMaxPallet(BigDecimal alturaMaxPallet) {
-		this.alturaMaxPallet = alturaMaxPallet;
-	}
+  public void setAltoEmbalaje(BigDecimal altoEmbalaje) {
+    this.altoEmbalaje = altoEmbalaje;
+  }
 
-	public BigDecimal getAncho() {
-		return this.ancho;
-	}
+  public BigDecimal getAlturaMaxPallet() {
+    return this.alturaMaxPallet;
+  }
 
-	public void setAncho(BigDecimal ancho) {
-		this.ancho = ancho;
-	}
+  public void setAlturaMaxPallet(BigDecimal alturaMaxPallet) {
+    this.alturaMaxPallet = alturaMaxPallet;
+  }
 
-	public BigDecimal getAnchoEmbalaje() {
-		return this.anchoEmbalaje;
-	}
+  public BigDecimal getAncho() {
+    return this.ancho;
+  }
 
-	public void setAnchoEmbalaje(BigDecimal anchoEmbalaje) {
-		this.anchoEmbalaje = anchoEmbalaje;
-	}
+  public void setAncho(BigDecimal ancho) {
+    this.ancho = ancho;
+  }
 
-	public BigDecimal getCantCajasXTendido() {
-		return this.cantCajasXTendido;
-	}
+  public BigDecimal getAnchoEmbalaje() {
+    return this.anchoEmbalaje;
+  }
 
-	public void setCantCajasXTendido(BigDecimal cantCajasXTendido) {
-		this.cantCajasXTendido = cantCajasXTendido;
-	}
+  public void setAnchoEmbalaje(BigDecimal anchoEmbalaje) {
+    this.anchoEmbalaje = anchoEmbalaje;
+  }
 
-	public BigDecimal getCantMaxTendXPallet() {
-		return this.cantMaxTendXPallet;
-	}
+  public BigDecimal getCantCajasXTendido() {
+    return this.cantCajasXTendido;
+  }
 
-	public void setCantMaxTendXPallet(BigDecimal cantMaxTendXPallet) {
-		this.cantMaxTendXPallet = cantMaxTendXPallet;
-	}
+  public void setCantCajasXTendido(BigDecimal cantCajasXTendido) {
+    this.cantCajasXTendido = cantCajasXTendido;
+  }
 
-	public BigDecimal getCantidadXEmbalaje() {
-		return this.cantidadXEmbalaje;
-	}
+  public BigDecimal getCantMaxTendXPallet() {
+    return this.cantMaxTendXPallet;
+  }
 
-	public void setCantidadXEmbalaje(BigDecimal cantidadXEmbalaje) {
-		this.cantidadXEmbalaje = cantidadXEmbalaje;
-	}
+  public void setCantMaxTendXPallet(BigDecimal cantMaxTendXPallet) {
+    this.cantMaxTendXPallet = cantMaxTendXPallet;
+  }
 
-	public String getClave() {
-		return this.clave;
-	}
+  public BigDecimal getCantidadXEmbalaje() {
+    return this.cantidadXEmbalaje;
+  }
 
-	public void setClave(String clave) {
-		this.clave = clave;
-	}
+  public void setCantidadXEmbalaje(BigDecimal cantidadXEmbalaje) {
+    this.cantidadXEmbalaje = cantidadXEmbalaje;
+  }
 
-	public String getCodigoSap() {
-		return this.codigoSap;
-	}
+  public String getClave() {
+    return this.clave;
+  }
 
-	public void setCodigoSap(String codigoSap) {
-		this.codigoSap = codigoSap;
-	}
+  public void setClave(String clave) {
+    this.clave = clave;
+  }
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public String getCodigoSap() {
+    return this.codigoSap;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public void setCodigoSap(String codigoSap) {
+    this.codigoSap = codigoSap;
+  }
 
-	public Long getEan14() {
-		return this.ean14;
-	}
+  public String getDescripcion() {
+    return this.descripcion;
+  }
 
-	public void setEan14(Long ean14) {
-		this.ean14 = ean14;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public Date getFechaCreado() {
-		return this.fechaCreado;
-	}
+  public Long getEan14() {
+    return this.ean14;
+  }
 
-	public void setFechaCreado(Date fechaCreado) {
-		this.fechaCreado = fechaCreado;
-	}
+  public void setEan14(Long ean14) {
+    this.ean14 = ean14;
+  }
 
-	public Boolean getImportado() {
-		return this.importado;
-	}
+  public Date getFechaCreado() {
+    return this.fechaCreado;
+  }
 
-	public void setImportado(Boolean importado) {
-		this.importado = importado;
-	}
+  public void setFechaCreado(Date fechaCreado) {
+    this.fechaCreado = fechaCreado;
+  }
 
-	public BigDecimal getLargo() {
-		return this.largo;
-	}
+  public Boolean getImportado() {
+    return this.importado;
+  }
 
-	public void setLargo(BigDecimal largo) {
-		this.largo = largo;
-	}
+  public void setImportado(Boolean importado) {
+    this.importado = importado;
+  }
 
-	public BigDecimal getLargoEmbalaje() {
-		return this.largoEmbalaje;
-	}
+  public BigDecimal getLargo() {
+    return this.largo;
+  }
 
-	public void setLargoEmbalaje(BigDecimal largoEmbalaje) {
-		this.largoEmbalaje = largoEmbalaje;
-	}
+  public void setLargo(BigDecimal largo) {
+    this.largo = largo;
+  }
 
-	public String getMarcacionFechaVencimiento() {
-		return this.marcacionFechaVencimiento;
-	}
+  public BigDecimal getLargoEmbalaje() {
+    return this.largoEmbalaje;
+  }
 
-	public void setMarcacionFechaVencimiento(String marcacionFechaVencimiento) {
-		this.marcacionFechaVencimiento = marcacionFechaVencimiento;
-	}
+  public void setLargoEmbalaje(BigDecimal largoEmbalaje) {
+    this.largoEmbalaje = largoEmbalaje;
+  }
 
-	public String getNombrePrdProveedor() {
-		return this.nombrePrdProveedor;
-	}
+  public String getMarcacionFechaVencimiento() {
+    return this.marcacionFechaVencimiento;
+  }
 
-	public void setNombrePrdProveedor(String nombrePrdProveedor) {
-		this.nombrePrdProveedor = nombrePrdProveedor;
-	}
+  public void setMarcacionFechaVencimiento(String marcacionFechaVencimiento) {
+    this.marcacionFechaVencimiento = marcacionFechaVencimiento;
+  }
 
-	public String getObservacionesUnidadEmbalaje() {
-		return this.observacionesUnidadEmbalaje;
-	}
+  public String getNombrePrdProveedor() {
+    return this.nombrePrdProveedor;
+  }
 
-	public void setObservacionesUnidadEmbalaje(String observacionesUnidadEmbalaje) {
-		this.observacionesUnidadEmbalaje = observacionesUnidadEmbalaje;
-	}
+  public void setNombrePrdProveedor(String nombrePrdProveedor) {
+    this.nombrePrdProveedor = nombrePrdProveedor;
+  }
 
-	public BigDecimal getPesoBruto() {
-		return this.pesoBruto;
-	}
+  public String getObservacionesUnidadEmbalaje() {
+    return this.observacionesUnidadEmbalaje;
+  }
 
-	public void setPesoBruto(BigDecimal pesoBruto) {
-		this.pesoBruto = pesoBruto;
-	}
+  public void setObservacionesUnidadEmbalaje(String observacionesUnidadEmbalaje) {
+    this.observacionesUnidadEmbalaje = observacionesUnidadEmbalaje;
+  }
 
-	public BigDecimal getPesoBrutoEmbalaje() {
-		return this.pesoBrutoEmbalaje;
-	}
+  public BigDecimal getPesoBruto() {
+    return this.pesoBruto;
+  }
 
-	public void setPesoBrutoEmbalaje(BigDecimal pesoBrutoEmbalaje) {
-		this.pesoBrutoEmbalaje = pesoBrutoEmbalaje;
-	}
+  public void setPesoBruto(BigDecimal pesoBruto) {
+    this.pesoBruto = pesoBruto;
+  }
 
-	public BigDecimal getPesoBrutoMaxPallet() {
-		return this.pesoBrutoMaxPallet;
-	}
+  public BigDecimal getPesoBrutoEmbalaje() {
+    return this.pesoBrutoEmbalaje;
+  }
 
-	public void setPesoBrutoMaxPallet(BigDecimal pesoBrutoMaxPallet) {
-		this.pesoBrutoMaxPallet = pesoBrutoMaxPallet;
-	}
+  public void setPesoBrutoEmbalaje(BigDecimal pesoBrutoEmbalaje) {
+    this.pesoBrutoEmbalaje = pesoBrutoEmbalaje;
+  }
 
-	public BigDecimal getPesoNeto() {
-		return this.pesoNeto;
-	}
+  public BigDecimal getPesoBrutoMaxPallet() {
+    return this.pesoBrutoMaxPallet;
+  }
 
-	public void setPesoNeto(BigDecimal pesoNeto) {
-		this.pesoNeto = pesoNeto;
-	}
+  public void setPesoBrutoMaxPallet(BigDecimal pesoBrutoMaxPallet) {
+    this.pesoBrutoMaxPallet = pesoBrutoMaxPallet;
+  }
 
-	public BigDecimal getPesoNetoEmbalaje() {
-		return this.pesoNetoEmbalaje;
-	}
+  public BigDecimal getPesoNeto() {
+    return this.pesoNeto;
+  }
 
-	public void setPesoNetoEmbalaje(BigDecimal pesoNetoEmbalaje) {
-		this.pesoNetoEmbalaje = pesoNetoEmbalaje;
-	}
+  public void setPesoNeto(BigDecimal pesoNeto) {
+    this.pesoNeto = pesoNeto;
+  }
 
-	public String getPosicionArancelaria() {
-		return this.posicionArancelaria;
-	}
+  public BigDecimal getPesoNetoEmbalaje() {
+    return this.pesoNetoEmbalaje;
+  }
 
-	public void setPosicionArancelaria(String posicionArancelaria) {
-		this.posicionArancelaria = posicionArancelaria;
-	}
+  public void setPesoNetoEmbalaje(BigDecimal pesoNetoEmbalaje) {
+    this.pesoNetoEmbalaje = pesoNetoEmbalaje;
+  }
 
-	public String getRutaCertificaciones() {
-		return this.rutaCertificaciones;
-	}
+  public String getPosicionArancelaria() {
+    return this.posicionArancelaria;
+  }
 
-	public void setRutaCertificaciones(String rutaCertificaciones) {
-		this.rutaCertificaciones = rutaCertificaciones;
-	}
+  public void setPosicionArancelaria(String posicionArancelaria) {
+    this.posicionArancelaria = posicionArancelaria;
+  }
 
-	public String getRutaExamenesLab() {
-		return this.rutaExamenesLab;
-	}
+  public String getRutaCertificaciones() {
+    return this.rutaCertificaciones;
+  }
 
-	public void setRutaExamenesLab(String rutaExamenesLab) {
-		this.rutaExamenesLab = rutaExamenesLab;
-	}
+  public void setRutaCertificaciones(String rutaCertificaciones) {
+    this.rutaCertificaciones = rutaCertificaciones;
+  }
 
-	public String getRutaFichaTecnica() {
-		return this.rutaFichaTecnica;
-	}
+  public String getRutaExamenesLab() {
+    return this.rutaExamenesLab;
+  }
 
-	public void setRutaFichaTecnica(String rutaFichaTecnica) {
-		this.rutaFichaTecnica = rutaFichaTecnica;
-	}
+  public void setRutaExamenesLab(String rutaExamenesLab) {
+    this.rutaExamenesLab = rutaExamenesLab;
+  }
 
-	public String getRutaFormulaCualiCuanti() {
-		return this.rutaFormulaCualiCuanti;
-	}
+  public String getRutaFichaTecnica() {
+    return this.rutaFichaTecnica;
+  }
 
-	public void setRutaFormulaCualiCuanti(String rutaFormulaCualiCuanti) {
-		this.rutaFormulaCualiCuanti = rutaFormulaCualiCuanti;
-	}
+  public void setRutaFichaTecnica(String rutaFichaTecnica) {
+    this.rutaFichaTecnica = rutaFichaTecnica;
+  }
 
-	public String getRutaFoto() {
-		return this.rutaFoto;
-	}
+  public String getRutaFormulaCualiCuanti() {
+    return this.rutaFormulaCualiCuanti;
+  }
 
-	public void setRutaFoto(String rutaFoto) {
-		this.rutaFoto = rutaFoto;
-	}
+  public void setRutaFormulaCualiCuanti(String rutaFormulaCualiCuanti) {
+    this.rutaFormulaCualiCuanti = rutaFormulaCualiCuanti;
+  }
 
-	public String getRutaFoto1() {
-		return this.rutaFoto1;
-	}
+  public String getRutaFoto() {
+    return this.rutaFoto;
+  }
 
-	public void setRutaFoto1(String rutaFoto1) {
-		this.rutaFoto1 = rutaFoto1;
-	}
+  public void setRutaFoto(String rutaFoto) {
+    this.rutaFoto = rutaFoto;
+  }
 
-	public String getRutaFoto2() {
-		return this.rutaFoto2;
-	}
+  public String getRutaFoto1() {
+    return this.rutaFoto1;
+  }
 
-	public void setRutaFoto2(String rutaFoto2) {
-		this.rutaFoto2 = rutaFoto2;
-	}
+  public void setRutaFoto1(String rutaFoto1) {
+    this.rutaFoto1 = rutaFoto1;
+  }
 
-	public String getRutaFoto3() {
-		return this.rutaFoto3;
-	}
+  public String getRutaFoto2() {
+    return this.rutaFoto2;
+  }
 
-	public void setRutaFoto3(String rutaFoto3) {
-		this.rutaFoto3 = rutaFoto3;
-	}
+  public void setRutaFoto2(String rutaFoto2) {
+    this.rutaFoto2 = rutaFoto2;
+  }
 
-	public String getRutaInfoEtiquetado() {
-		return this.rutaInfoEtiquetado;
-	}
+  public String getRutaFoto3() {
+    return this.rutaFoto3;
+  }
 
-	public void setRutaInfoEtiquetado(String rutaInfoEtiquetado) {
-		this.rutaInfoEtiquetado = rutaInfoEtiquetado;
-	}
+  public void setRutaFoto3(String rutaFoto3) {
+    this.rutaFoto3 = rutaFoto3;
+  }
 
-	public String getRutaMarcacionLote() {
-		return this.rutaMarcacionLote;
-	}
+  public String getRutaInfoEtiquetado() {
+    return this.rutaInfoEtiquetado;
+  }
 
-	public void setRutaMarcacionLote(String rutaMarcacionLote) {
-		this.rutaMarcacionLote = rutaMarcacionLote;
-	}
+  public void setRutaInfoEtiquetado(String rutaInfoEtiquetado) {
+    this.rutaInfoEtiquetado = rutaInfoEtiquetado;
+  }
 
-	public String getRutaRegSanitario() {
-		return this.rutaRegSanitario;
-	}
+  public String getRutaMarcacionLote() {
+    return this.rutaMarcacionLote;
+  }
 
-	public void setRutaRegSanitario(String rutaRegSanitario) {
-		this.rutaRegSanitario = rutaRegSanitario;
-	}
+  public void setRutaMarcacionLote(String rutaMarcacionLote) {
+    this.rutaMarcacionLote = rutaMarcacionLote;
+  }
 
-	public BigDecimal getTiempoUtil() {
-		return this.tiempoUtil;
-	}
+  public String getRutaRegSanitario() {
+    return this.rutaRegSanitario;
+  }
 
-	public void setTiempoUtil(BigDecimal tiempoUtil) {
-		this.tiempoUtil = tiempoUtil;
-	}
+  public void setRutaRegSanitario(String rutaRegSanitario) {
+    this.rutaRegSanitario = rutaRegSanitario;
+  }
 
-	public BigDecimal getTotalCajasXPallet() {
-		return this.totalCajasXPallet;
-	}
+  public BigDecimal getTiempoUtil() {
+    return this.tiempoUtil;
+  }
 
-	public void setTotalCajasXPallet(BigDecimal totalCajasXPallet) {
-		this.totalCajasXPallet = totalCajasXPallet;
-	}
+  public void setTiempoUtil(BigDecimal tiempoUtil) {
+    this.tiempoUtil = tiempoUtil;
+  }
 
-	public String getUnidadMedida() {
-		return this.unidadMedida;
-	}
+  public BigDecimal getTotalCajasXPallet() {
+    return this.totalCajasXPallet;
+  }
 
-	public void setUnidadMedida(String unidadMedida) {
-		this.unidadMedida = unidadMedida;
-	}
+  public void setTotalCajasXPallet(BigDecimal totalCajasXPallet) {
+    this.totalCajasXPallet = totalCajasXPallet;
+  }
 
-	public BigDecimal getUnidadMinDespachoXTendido() {
-		return this.unidadMinDespachoXTendido;
-	}
+  public String getUnidadMedida() {
+    return this.unidadMedida;
+  }
 
-	public void setUnidadMinDespachoXTendido(BigDecimal unidadMinDespachoXTendido) {
-		this.unidadMinDespachoXTendido = unidadMinDespachoXTendido;
-	}
+  public void setUnidadMedida(String unidadMedida) {
+    this.unidadMedida = unidadMedida;
+  }
 
-	public String getUnidadPeso() {
-		return this.unidadPeso;
-	}
+  public BigDecimal getUnidadMinDespachoXTendido() {
+    return this.unidadMinDespachoXTendido;
+  }
 
-	public void setUnidadPeso(String unidadPeso) {
-		this.unidadPeso = unidadPeso;
-	}
+  public void setUnidadMinDespachoXTendido(BigDecimal unidadMinDespachoXTendido) {
+    this.unidadMinDespachoXTendido = unidadMinDespachoXTendido;
+  }
 
-	public BigDecimal getVolumen() {
-		return this.volumen;
-	}
+  public String getUnidadPeso() {
+    return this.unidadPeso;
+  }
 
-	public void setVolumen(BigDecimal volumen) {
-		this.volumen = volumen;
-	}
+  public void setUnidadPeso(String unidadPeso) {
+    this.unidadPeso = unidadPeso;
+  }
 
-	public BigDecimal getVolumenEmbalaje() {
-		return this.volumenEmbalaje;
-	}
+  public BigDecimal getVolumen() {
+    return this.volumen;
+  }
 
-	public void setVolumenEmbalaje(BigDecimal volumenEmbalaje) {
-		this.volumenEmbalaje = volumenEmbalaje;
-	}
+  public void setVolumen(BigDecimal volumen) {
+    this.volumen = volumen;
+  }
 
-	public BigDecimal getVolumenPallet() {
-		return this.volumenPallet;
-	}
+  public BigDecimal getVolumenEmbalaje() {
+    return this.volumenEmbalaje;
+  }
 
-	public void setVolumenPallet(BigDecimal volumenPallet) {
-		this.volumenPallet = volumenPallet;
-	}
+  public void setVolumenEmbalaje(BigDecimal volumenEmbalaje) {
+    this.volumenEmbalaje = volumenEmbalaje;
+  }
 
-	public List<ComextItemc> getComextItemcs() {
-		return this.comextItemcs;
-	}
+  public BigDecimal getVolumenPallet() {
+    return this.volumenPallet;
+  }
 
-	public void setComextItemcs(List<ComextItemc> comextItemcs) {
-		this.comextItemcs = comextItemcs;
-	}
+  public void setVolumenPallet(BigDecimal volumenPallet) {
+    this.volumenPallet = volumenPallet;
+  }
 
-	public ComextItemc addComextItemc(ComextItemc comextItemc) {
-		getComextItemcs().add(comextItemc);
-		comextItemc.setProductosInventarioComext(this);
+  public List<ComextItemc> getComextItemcs() {
+    return this.comextItemcs;
+  }
 
-		return comextItemc;
-	}
+  public void setComextItemcs(List<ComextItemc> comextItemcs) {
+    this.comextItemcs = comextItemcs;
+  }
 
-	public ComextItemc removeComextItemc(ComextItemc comextItemc) {
-		getComextItemcs().remove(comextItemc);
-		comextItemc.setProductosInventarioComext(null);
+  public ComextItemc addComextItemc(ComextItemc comextItemc) {
+    getComextItemcs().add(comextItemc);
+    comextItemc.setProductosInventarioComext(this);
 
-		return comextItemc;
-	}
+    return comextItemc;
+  }
 
-	public CuentaContable getCuentaContable() {
-		return this.cuentaContable;
-	}
+  public ComextItemc removeComextItemc(ComextItemc comextItemc) {
+    getComextItemcs().remove(comextItemc);
+    comextItemc.setProductosInventarioComext(null);
 
-	public void setCuentaContable(CuentaContable cuentaContable) {
-		this.cuentaContable = cuentaContable;
-	}
+    return comextItemc;
+  }
 
-	public ProductosInventario getProductosInventario() {
-		return this.productosInventario;
-	}
+  public CuentaContable getCuentaContable() {
+    return this.cuentaContable;
+  }
 
-	public void setProductosInventario(ProductosInventario productosInventario) {
-		this.productosInventario = productosInventario;
-	}
+  public void setCuentaContable(CuentaContable cuentaContable) {
+    this.cuentaContable = cuentaContable;
+  }
 
-	public TipoLoteoic getTipoLoteoic() {
-		return this.tipoLoteoic;
-	}
+  public ProductosInventario getProductosInventario() {
+    return this.productosInventario;
+  }
 
-	public void setTipoLoteoic(TipoLoteoic tipoLoteoic) {
-		this.tipoLoteoic = tipoLoteoic;
-	}
+  public void setProductosInventario(ProductosInventario productosInventario) {
+    this.productosInventario = productosInventario;
+  }
 
-	public Unidad getUnidadEmbalaje() {
-		return this.unidadEmbalaje;
-	}
+  public TipoLoteoic getTipoLoteoic() {
+    return this.tipoLoteoic;
+  }
 
-	public void setUnidadEmbalaje(Unidad unidade) {
-		this.unidadEmbalaje = unidade;
-	}
+  public void setTipoLoteoic(TipoLoteoic tipoLoteoic) {
+    this.tipoLoteoic = tipoLoteoic;
+  }
 
-	public Boolean getControlStock() {
-		return controlStock;
-	}
+  public Unidad getUnidadEmbalaje() {
+    return this.unidadEmbalaje;
+  }
 
-	public void setControlStock(Boolean controlStock) {
-		this.controlStock = controlStock;
-	}
+  public void setUnidadEmbalaje(Unidad unidade) {
+    this.unidadEmbalaje = unidade;
+  }
+
+  public Boolean getControlStock() {
+    return controlStock;
+  }
+
+  public void setControlStock(Boolean controlStock) {
+    this.controlStock = controlStock;
+  }
 
 }

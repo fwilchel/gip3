@@ -8,125 +8,116 @@ import java.math.BigDecimal;
  */
 public class ProductoPorClienteDTO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private Long idProducto;
-	private String sku;
-	private String nombre;
-	private BigDecimal cantidadUno;	
-	private BigDecimal precioMl;
-	private BigDecimal precioUsd;
-	private BigDecimal iva;
-	private BigDecimal descuentoxproducto;
-	private BigDecimal otrosDescuentos;
-	private BigDecimal descuentoCliente;
-	private Long idUnidad;
-	
-	private Boolean seleccionado;
-	
-	
+  private Long idProducto;
+  private String sku;
+  private String nombre;
+  private BigDecimal cantidadUno;
+  private BigDecimal precioMl;
+  private BigDecimal precioUsd;
+  private BigDecimal iva;
+  private BigDecimal descuentoxproducto;
+  private BigDecimal otrosDescuentos;
+  private BigDecimal descuentoCliente;
+  private Long idUnidad;
 
-	public Long getIdProducto() {
-		return idProducto;
-	}
+  private Boolean seleccionado;
 
-	public void setIdProducto(Long idProducto) {
-		this.idProducto = idProducto;
-	}
-	
+  public Long getIdProducto() {
+    return idProducto;
+  }
 
-	public Long getIdUnidad() {
-		return idUnidad;
-	}
+  public void setIdProducto(Long idProducto) {
+    this.idProducto = idProducto;
+  }
 
-	public void setIdUnidad(Long idUnidad) {
-		this.idUnidad = idUnidad;
-	}
+  public Long getIdUnidad() {
+    return idUnidad;
+  }
 
-	public String getSku() {
-		return sku;
-	}
+  public void setIdUnidad(Long idUnidad) {
+    this.idUnidad = idUnidad;
+  }
 
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
+  public String getSku() {
+    return sku;
+  }
 
-	public String getNombre() {
-		return nombre;
-	}
+  public void setSku(String sku) {
+    this.sku = sku;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return nombre;
+  }
 
-	public BigDecimal getCantidadUno() {
-		return cantidadUno;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setCantidadUno(BigDecimal cantidadUno) {
-		this.cantidadUno = cantidadUno;
-	}
+  public BigDecimal getCantidadUno() {
+    return cantidadUno;
+  }
 
-	public BigDecimal getPrecioMl() {
-		return precioMl;
-	}
+  public void setCantidadUno(BigDecimal cantidadUno) {
+    this.cantidadUno = cantidadUno;
+  }
 
-	public void setPrecioMl(BigDecimal precioMl) {
-		this.precioMl = precioMl;
-	}
+  public BigDecimal getPrecioMl() {
+    return precioMl;
+  }
 
-	public BigDecimal getIva() {
-		return iva;
-	}
+  public void setPrecioMl(BigDecimal precioMl) {
+    this.precioMl = precioMl;
+  }
 
-	public void setIva(BigDecimal iva) {
-		this.iva = iva;
-	}
+  public BigDecimal getIva() {
+    return iva;
+  }
 
-	public BigDecimal getDescuentoxproducto() {
-		return descuentoxproducto;
-	}
+  public void setIva(BigDecimal iva) {
+    this.iva = iva;
+  }
 
-	public void setDescuentoxproducto(BigDecimal descuentoxproducto) {
-		this.descuentoxproducto = descuentoxproducto;
-	}
+  public BigDecimal getDescuentoxproducto() {
+    return descuentoxproducto;
+  }
 
-	public BigDecimal getOtrosDescuentos() {
-		return otrosDescuentos;
-	}
+  public void setDescuentoxproducto(BigDecimal descuentoxproducto) {
+    this.descuentoxproducto = descuentoxproducto;
+  }
 
-	public void setOtrosDescuentos(BigDecimal otrosDescuentos) {
-		this.otrosDescuentos = otrosDescuentos;
-	}
+  public BigDecimal getOtrosDescuentos() {
+    return otrosDescuentos;
+  }
 
-	public BigDecimal getDescuentoCliente() {
-		return descuentoCliente;
-	}
+  public void setOtrosDescuentos(BigDecimal otrosDescuentos) {
+    this.otrosDescuentos = otrosDescuentos;
+  }
 
-	public void setDescuentoCliente(BigDecimal descuentoCliente) {
-		this.descuentoCliente = descuentoCliente;
-	}
+  public BigDecimal getDescuentoCliente() {
+    return descuentoCliente;
+  }
 
-	public Boolean getSeleccionado() {
-		return seleccionado;
-	}
+  public void setDescuentoCliente(BigDecimal descuentoCliente) {
+    this.descuentoCliente = descuentoCliente;
+  }
 
-	public void setSeleccionado(Boolean seleccionado) {
-		this.seleccionado = seleccionado;
-	}
+  public Boolean getSeleccionado() {
+    return seleccionado;
+  }
 
-	public BigDecimal getPrecioUsd() {
-		return precioUsd;
-	}
+  public void setSeleccionado(Boolean seleccionado) {
+    this.seleccionado = seleccionado;
+  }
 
-	public void setPrecioUsd(BigDecimal precioUsd) {
-		this.precioUsd = precioUsd;
-	}
-	
-	
-	
+  public BigDecimal getPrecioUsd() {
+    return precioUsd;
+  }
 
-
-
+  public void setPrecioUsd(BigDecimal precioUsd) {
+    this.precioUsd = precioUsd;
+  }
 
 }

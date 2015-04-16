@@ -39,7 +39,7 @@
     return this.each(function () {
       // Use the default settings
       var settings = $.extend(true, {}, defaultSettings),
-          $this = $(this);
+              $this = $(this);
 
       if (typeof suppliedSettings === "object") {
         // But over-ride any supplied
@@ -76,26 +76,26 @@
       $this.addClass('ps-container');
 
       var $scrollbarXRail = $("<div class='ps-scrollbar-x-rail'></div>").appendTo($this),
-          $scrollbarYRail = $("<div class='ps-scrollbar-y-rail'></div>").appendTo($this),
-          $scrollbarX = $("<div class='ps-scrollbar-x'></div>").appendTo($scrollbarXRail),
-          $scrollbarY = $("<div class='ps-scrollbar-y'></div>").appendTo($scrollbarYRail),
-          scrollbarXActive,
-          scrollbarYActive,
-          containerWidth,
-          containerHeight,
-          contentWidth,
-          contentHeight,
-          scrollbarXWidth,
-          scrollbarXLeft,
-          scrollbarXBottom = parseInt($scrollbarXRail.css('bottom'), 10),
-          scrollbarYHeight,
-          scrollbarYTop,
-          scrollbarYRight = parseInt($scrollbarYRail.css('right'), 10),
-          eventClassName = getEventClassName();
+              $scrollbarYRail = $("<div class='ps-scrollbar-y-rail'></div>").appendTo($this),
+              $scrollbarX = $("<div class='ps-scrollbar-x'></div>").appendTo($scrollbarXRail),
+              $scrollbarY = $("<div class='ps-scrollbar-y'></div>").appendTo($scrollbarYRail),
+              scrollbarXActive,
+              scrollbarYActive,
+              containerWidth,
+              containerHeight,
+              contentWidth,
+              contentHeight,
+              scrollbarXWidth,
+              scrollbarXLeft,
+              scrollbarXBottom = parseInt($scrollbarXRail.css('bottom'), 10),
+              scrollbarYHeight,
+              scrollbarYTop,
+              scrollbarYRight = parseInt($scrollbarYRail.css('right'), 10),
+              eventClassName = getEventClassName();
 
       var updateContentScrollTop = function (currentTop, deltaY) {
         var newTop = currentTop + deltaY,
-            maxTop = containerHeight - scrollbarYHeight;
+                maxTop = containerHeight - scrollbarYHeight;
 
         if (newTop < 0) {
           scrollbarYTop = 0;
@@ -114,7 +114,7 @@
 
       var updateContentScrollLeft = function (currentLeft, deltaX) {
         var newLeft = currentLeft + deltaX,
-            maxLeft = containerWidth - scrollbarXWidth;
+                maxLeft = containerWidth - scrollbarXWidth;
 
         if (newLeft < 0) {
           scrollbarXLeft = 0;
@@ -139,8 +139,8 @@
       };
 
       var updateScrollbarCss = function () {
-        $scrollbarXRail.css({left: $this.scrollLeft(), bottom: scrollbarXBottom - $this.scrollTop(), width: containerWidth, display: scrollbarXActive ? "inherit": "none"});
-        $scrollbarYRail.css({top: $this.scrollTop(), right: scrollbarYRight - $this.scrollLeft(), height: containerHeight, display: scrollbarYActive ? "inherit": "none"});
+        $scrollbarXRail.css({left: $this.scrollLeft(), bottom: scrollbarXBottom - $this.scrollTop(), width: containerWidth, display: scrollbarXActive ? "inherit" : "none"});
+        $scrollbarYRail.css({top: $this.scrollTop(), right: scrollbarYRight - $this.scrollLeft(), height: containerHeight, display: scrollbarYActive ? "inherit" : "none"});
         $scrollbarX.css({left: scrollbarXLeft, width: scrollbarXWidth});
         $scrollbarY.css({top: scrollbarYTop, height: scrollbarYHeight});
       };
@@ -187,7 +187,7 @@
 
       var bindMouseScrollXHandler = function () {
         var currentLeft,
-            currentPageX;
+                currentPageX;
 
         $scrollbarX.bind('mousedown' + eventClassName, function (e) {
           currentPageX = e.pageX;
@@ -212,12 +212,12 @@
         });
 
         currentLeft =
-        currentPageX = null;
+                currentPageX = null;
       };
 
       var bindMouseScrollYHandler = function () {
         var currentTop,
-            currentPageY;
+                currentPageY;
 
         $scrollbarY.bind('mousedown' + eventClassName, function (e) {
           currentPageY = e.pageY;
@@ -242,7 +242,7 @@
         });
 
         currentTop =
-        currentPageY = null;
+                currentPageY = null;
       };
 
       // check if the default scrolling should be prevented.
@@ -329,36 +329,36 @@
           }
 
           var deltaX = 0,
-              deltaY = 0;
+                  deltaY = 0;
 
           switch (e.which) {
-          case 37: // left
-            deltaX = -3;
-            break;
-          case 38: // up
-            deltaY = 3;
-            break;
-          case 39: // right
-            deltaX = 3;
-            break;
-          case 40: // down
-            deltaY = -3;
-            break;
-          case 33: // page up
-            deltaY = 9;
-            break;
-          case 32: // space bar
-          case 34: // page down
-            deltaY = -9;
-            break;
-          case 35: // end
-            deltaY = -containerHeight;
-            break;
-          case 36: // home
-            deltaY = containerHeight;
-            break;
-          default:
-            return;
+            case 37: // left
+              deltaX = -3;
+              break;
+            case 38: // up
+              deltaY = 3;
+              break;
+            case 39: // right
+              deltaX = 3;
+              break;
+            case 40: // down
+              deltaY = -3;
+              break;
+            case 33: // page up
+              deltaY = 9;
+              break;
+            case 32: // space bar
+            case 34: // page down
+              deltaY = -9;
+              break;
+            case 35: // end
+              deltaY = -containerHeight;
+              break;
+            case 36: // home
+              deltaY = containerHeight;
+              break;
+            default:
+              return;
           }
 
           $this.scrollTop($this.scrollTop() - (deltaY * settings.wheelSpeed));
@@ -372,14 +372,16 @@
       };
 
       var bindRailClickHandler = function () {
-        var stopPropagation = function (e) { e.stopPropagation(); };
+        var stopPropagation = function (e) {
+          e.stopPropagation();
+        };
 
         $scrollbarY.bind('click' + eventClassName, stopPropagation);
         $scrollbarYRail.bind('click' + eventClassName, function (e) {
           var halfOfScrollbarLength = parseInt(scrollbarYHeight / 2, 10),
-              positionTop = e.pageY - $scrollbarYRail.offset().top - halfOfScrollbarLength,
-              maxPositionTop = containerHeight - scrollbarYHeight,
-              positionRatio = positionTop / maxPositionTop;
+                  positionTop = e.pageY - $scrollbarYRail.offset().top - halfOfScrollbarLength,
+                  maxPositionTop = containerHeight - scrollbarYHeight,
+                  positionRatio = positionTop / maxPositionTop;
 
           if (positionRatio < 0) {
             positionRatio = 0;
@@ -393,9 +395,9 @@
         $scrollbarX.bind('click' + eventClassName, stopPropagation);
         $scrollbarXRail.bind('click' + eventClassName, function (e) {
           var halfOfScrollbarLength = parseInt(scrollbarXWidth / 2, 10),
-              positionLeft = e.pageX - $scrollbarXRail.offset().left - halfOfScrollbarLength,
-              maxPositionLeft = containerWidth - scrollbarXWidth,
-              positionRatio = positionLeft / maxPositionLeft;
+                  positionLeft = e.pageX - $scrollbarXRail.offset().left - halfOfScrollbarLength,
+                  maxPositionLeft = containerWidth - scrollbarXWidth,
+                  positionRatio = positionLeft / maxPositionLeft;
 
           if (positionRatio < 0) {
             positionRatio = 0;
@@ -418,10 +420,10 @@
         };
 
         var startCoords = {},
-            startTime = 0,
-            speed = {},
-            breakingProcess = null,
-            inGlobalTouch = false;
+                startTime = 0,
+                speed = {},
+                breakingProcess = null,
+                inGlobalTouch = false;
 
         $(window).bind("touchstart" + eventClassName, function (e) {
           inGlobalTouch = true;
@@ -453,7 +455,7 @@
             currentCoords.pageY = touch.pageY;
 
             var differenceX = currentCoords.pageX - startCoords.pageX,
-              differenceY = currentCoords.pageY - startCoords.pageY;
+                    differenceY = currentCoords.pageY - startCoords.pageY;
 
             applyTouchMove(differenceX, differenceY);
             startCoords = currentCoords;
@@ -502,17 +504,17 @@
 
         // clean all variables
         $scrollbarX =
-        $scrollbarY =
-        containerWidth =
-        containerHeight =
-        contentWidth =
-        contentHeight =
-        scrollbarXWidth =
-        scrollbarXLeft =
-        scrollbarXBottom =
-        scrollbarYHeight =
-        scrollbarYTop =
-        scrollbarYRight = null;
+                $scrollbarY =
+                containerWidth =
+                containerHeight =
+                contentWidth =
+                contentHeight =
+                scrollbarXWidth =
+                scrollbarXLeft =
+                scrollbarXBottom =
+                scrollbarYHeight =
+                scrollbarYTop =
+                scrollbarYRight = null;
       };
 
       var ieSupport = function (version) {

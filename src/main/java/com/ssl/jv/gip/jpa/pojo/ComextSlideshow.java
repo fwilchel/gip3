@@ -3,49 +3,49 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the comext_slideshow database table.
- * 
+ *
  */
 @Entity
-@Table(name="comext_slideshow")
-@NamedQuery(name="ComextSlideshow.findAll", query="SELECT c FROM ComextSlideshow c")
+@Table(name = "comext_slideshow")
+@NamedQuery(name = "ComextSlideshow.findAll", query = "SELECT c FROM ComextSlideshow c")
 public class ComextSlideshow implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	private String descripcion;
+  private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private String descripcion;
 
-	private String ruta;
+  @Id
+  private Long id;
 
-	public ComextSlideshow() {
-	}
+  private String ruta;
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public ComextSlideshow() {
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public String getDescripcion() {
+    return this.descripcion;
+  }
 
-	public Long getId() {
-		return this.id;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getRuta() {
-		return this.ruta;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setRuta(String ruta) {
-		this.ruta = ruta;
-	}
+  public String getRuta() {
+    return this.ruta;
+  }
+
+  public void setRuta(String ruta) {
+    this.ruta = ruta;
+  }
 
 }

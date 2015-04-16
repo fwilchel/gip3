@@ -46,7 +46,7 @@
       <from-outcome>ingresar_costos_incoterm</from-outcome>
       <to-view-id>/ui/comercioexterior/ingresarCostosIncoterm.xhtml</to-view-id>
     </navigation-case>
-     <navigation-case>
+    <navigation-case>
       <from-outcome>listado_documentos</from-outcome>
       <to-view-id>/ui/reportes/reporteDocumentos.xhtml</to-view-id>
     </navigation-case>
@@ -317,20 +317,20 @@
       <to-view-id>/ui/reportesComercioExterior/reporteProduccion.xhtml</to-view-id>
     </navigation-case>
 
-	<navigation-case>
-		<from-outcome>listado_maestro_inventario_ce2</from-outcome>
-		<to-view-id>/ui/maestros/listaInventarioComercioFotos.xhtml</to-view-id>
-	</navigation-case>
+    <navigation-case>
+      <from-outcome>listado_maestro_inventario_ce2</from-outcome>
+      <to-view-id>/ui/maestros/listaInventarioComercioFotos.xhtml</to-view-id>
+    </navigation-case>
 	
-	<navigation-case>
-		<from-outcome>modificar_foto_ce</from-outcome>
-		<to-view-id>/ui/maestros/inventarioComercioFotos.xhtml</to-view-id>
-	</navigation-case>
+    <navigation-case>
+      <from-outcome>modificar_foto_ce</from-outcome>
+      <to-view-id>/ui/maestros/inventarioComercioFotos.xhtml</to-view-id>
+    </navigation-case>
 
-	<navigation-case>
-		<from-outcome>costos_logisticos</from-outcome>
-		<to-view-id>/ui/comercioexterior/costosLogisticos.xhtml</to-view-id>
-	</navigation-case>
+    <navigation-case>
+      <from-outcome>costos_logisticos</from-outcome>
+      <to-view-id>/ui/comercioexterior/costosLogisticos.xhtml</to-view-id>
+    </navigation-case>
 	
     <!-- Reportes Comercio Exterior / Generar Reporte Cinta Testigo Magnetica -->
     <navigation-case>
@@ -356,9 +356,9 @@
     </navigation-case>
     
     <navigation-case>
-			<from-outcome>recibir_devoluciones_tiendas</from-outcome>
-			<to-view-id>/ui/devoluciones/recibirDevolucionTienda.xhtml</to-view-id>
-		</navigation-case>
+      <from-outcome>recibir_devoluciones_tiendas</from-outcome>
+      <to-view-id>/ui/devoluciones/recibirDevolucionTienda.xhtml</to-view-id>
+    </navigation-case>
     
     <!-- Devouciones / Devolucion Tienda Bodega -->
     <navigation-case>
@@ -375,13 +375,13 @@
   </converter-->
   
   <validator>
-		<validator-id>
-			com.ssl.jv.gip.web.mb.util.ValidadorPositivos
-		</validator-id>
-		<validator-class>
-			com.ssl.jv.gip.web.mb.util.ValidadorPositivos
-		</validator-class>
-	</validator>
+    <validator-id>
+      com.ssl.jv.gip.web.mb.util.ValidadorPositivos
+    </validator-id>
+    <validator-class>
+      com.ssl.jv.gip.web.mb.util.ValidadorPositivos
+    </validator-class>
+  </validator>
 
   <application>
     <el-resolver>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver</el-resolver>

@@ -8,8 +8,8 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 
 @Local
-public interface MuestrasXLoteDAOLocal extends IGenericDAO<Muestrasxlote>{
-	
-	public List<Muestrasxlote> consultarMuestrasPorCantidad(BigDecimal cantidad);
+public interface MuestrasXLoteDAOLocal extends IGenericDAO<Muestrasxlote> {
+
+  public List<Muestrasxlote> consultarMuestrasPorCantidad(BigDecimal cantidad);
 
 }

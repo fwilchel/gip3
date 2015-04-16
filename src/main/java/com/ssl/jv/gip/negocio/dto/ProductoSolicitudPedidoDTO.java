@@ -15,238 +15,237 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 @Entity
 public class ProductoSolicitudPedidoDTO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Id
-	private Long id; // OK
-	private String sku;
-	private String nombre;
-	private BigDecimal cantidad; //OK
-	private BigDecimal pesoNeto;
-	private BigDecimal pesoBruto;
-	private BigDecimal cantidadCajas;
-	private BigDecimal cantidadPorEmbalaje;
-	private BigInteger idCliente;
-	private BigDecimal cajasPorPallets;
-	private Long idUnidad;
-	private String posicionArancelaria;
-	private String unidad;
-	private String nombreIngles; 
-	private String descripcion;
-	private BigDecimal pesoNetoEmbalaje; 
-	private BigDecimal pesoBrutoEmbalaje;
-	private BigDecimal saldoAnterior;
-	private Boolean controlStock;
-	private boolean seleccionado;
-	private String observaciones;
-	private boolean desactivado;
-	private String estilo;
-	private ProductosInventarioComext productoInventarioComext;
-	private BigDecimal saldo;
-	
-	public ProductoSolicitudPedidoDTO(){
-		
-	}
+  private static final long serialVersionUID = 1L;
+  @Id
+  private Long id; // OK
+  private String sku;
+  private String nombre;
+  private BigDecimal cantidad; //OK
+  private BigDecimal pesoNeto;
+  private BigDecimal pesoBruto;
+  private BigDecimal cantidadCajas;
+  private BigDecimal cantidadPorEmbalaje;
+  private BigInteger idCliente;
+  private BigDecimal cajasPorPallets;
+  private Long idUnidad;
+  private String posicionArancelaria;
+  private String unidad;
+  private String nombreIngles;
+  private String descripcion;
+  private BigDecimal pesoNetoEmbalaje;
+  private BigDecimal pesoBrutoEmbalaje;
+  private BigDecimal saldoAnterior;
+  private Boolean controlStock;
+  private boolean seleccionado;
+  private String observaciones;
+  private boolean desactivado;
+  private String estilo;
+  private ProductosInventarioComext productoInventarioComext;
+  private BigDecimal saldo;
 
-	public Long getId() {
-		return id;
-	}
+  public ProductoSolicitudPedidoDTO() {
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  }
 
-	public String getSku() {
-		return sku;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public String getNombre() {
-		return nombre;
-	}
+  public String getSku() {
+    return sku;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public void setSku(String sku) {
+    this.sku = sku;
+  }
 
-	public BigDecimal getCantidad() {
-		return cantidad;
-	}
+  public String getNombre() {
+    return nombre;
+  }
 
-	public void setCantidad(BigDecimal cantidad) {
-		this.cantidad = cantidad;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public BigDecimal getPesoNeto() {
-		return pesoNeto;
-	}
+  public BigDecimal getCantidad() {
+    return cantidad;
+  }
 
-	public void setPesoNeto(BigDecimal pesoNeto) {
-		this.pesoNeto = pesoNeto;
-	}
+  public void setCantidad(BigDecimal cantidad) {
+    this.cantidad = cantidad;
+  }
 
-	public BigDecimal getPesoBruto() {
-		return pesoBruto;
-	}
+  public BigDecimal getPesoNeto() {
+    return pesoNeto;
+  }
 
-	public void setPesoBruto(BigDecimal pesoBruto) {
-		this.pesoBruto = pesoBruto;
-	}
+  public void setPesoNeto(BigDecimal pesoNeto) {
+    this.pesoNeto = pesoNeto;
+  }
 
-	public BigDecimal getCantidadCajas() {
-		return cantidadCajas;
-	}
+  public BigDecimal getPesoBruto() {
+    return pesoBruto;
+  }
 
-	public void setCantidadCajas(BigDecimal cantidadCajas) {
-		this.cantidadCajas = cantidadCajas;
-	}
+  public void setPesoBruto(BigDecimal pesoBruto) {
+    this.pesoBruto = pesoBruto;
+  }
 
-	public BigDecimal getCantidadPorEmbalaje() {
-		return cantidadPorEmbalaje;
-	}
+  public BigDecimal getCantidadCajas() {
+    return cantidadCajas;
+  }
 
-	public void setCantidadPorEmbalaje(BigDecimal cantidadPorEmbalaje) {
-		this.cantidadPorEmbalaje = cantidadPorEmbalaje;
-	}
+  public void setCantidadCajas(BigDecimal cantidadCajas) {
+    this.cantidadCajas = cantidadCajas;
+  }
 
-	public BigInteger getIdCliente() {
-		return idCliente;
-	}
+  public BigDecimal getCantidadPorEmbalaje() {
+    return cantidadPorEmbalaje;
+  }
 
-	public void setIdCliente(BigInteger idCliente) {
-		this.idCliente = idCliente;
-	}
+  public void setCantidadPorEmbalaje(BigDecimal cantidadPorEmbalaje) {
+    this.cantidadPorEmbalaje = cantidadPorEmbalaje;
+  }
 
-	public BigDecimal getCajasPorPallets() {
-		return cajasPorPallets;
-	}
+  public BigInteger getIdCliente() {
+    return idCliente;
+  }
 
-	public void setCajasPorPallets(BigDecimal cajasPorPallets) {
-		this.cajasPorPallets = cajasPorPallets;
-	}
+  public void setIdCliente(BigInteger idCliente) {
+    this.idCliente = idCliente;
+  }
 
-	public Long getIdUnidad() {
-		return idUnidad;
-	}
+  public BigDecimal getCajasPorPallets() {
+    return cajasPorPallets;
+  }
 
-	public void setIdUnidad(Long idUnidad) {
-		this.idUnidad = idUnidad;
-	}
+  public void setCajasPorPallets(BigDecimal cajasPorPallets) {
+    this.cajasPorPallets = cajasPorPallets;
+  }
 
-	public String getPosicionArancelaria() {
-		return posicionArancelaria;
-	}
+  public Long getIdUnidad() {
+    return idUnidad;
+  }
 
-	public void setPosicionArancelaria(String posicionArancelaria) {
-		this.posicionArancelaria = posicionArancelaria;
-	}
+  public void setIdUnidad(Long idUnidad) {
+    this.idUnidad = idUnidad;
+  }
 
-	public String getUnidad() {
-		return unidad;
-	}
+  public String getPosicionArancelaria() {
+    return posicionArancelaria;
+  }
 
-	public void setUnidad(String unidad) {
-		this.unidad = unidad;
-	}
+  public void setPosicionArancelaria(String posicionArancelaria) {
+    this.posicionArancelaria = posicionArancelaria;
+  }
 
-	public String getNombreIngles() {
-		return nombreIngles;
-	}
+  public String getUnidad() {
+    return unidad;
+  }
 
-	public void setNombreIngles(String nombreIngles) {
-		this.nombreIngles = nombreIngles;
-	}
+  public void setUnidad(String unidad) {
+    this.unidad = unidad;
+  }
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+  public String getNombreIngles() {
+    return nombreIngles;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public void setNombreIngles(String nombreIngles) {
+    this.nombreIngles = nombreIngles;
+  }
 
-	public BigDecimal getPesoNetoEmbalaje() {
-		return pesoNetoEmbalaje;
-	}
+  public String getDescripcion() {
+    return descripcion;
+  }
 
-	public void setPesoNetoEmbalaje(BigDecimal pesoNetoEmbalaje) {
-		this.pesoNetoEmbalaje = pesoNetoEmbalaje;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public BigDecimal getPesoBrutoEmbalaje() {
-		return pesoBrutoEmbalaje;
-	}
+  public BigDecimal getPesoNetoEmbalaje() {
+    return pesoNetoEmbalaje;
+  }
 
-	public void setPesoBrutoEmbalaje(BigDecimal pesoBrutoEmbalaje) {
-		this.pesoBrutoEmbalaje = pesoBrutoEmbalaje;
-	}
+  public void setPesoNetoEmbalaje(BigDecimal pesoNetoEmbalaje) {
+    this.pesoNetoEmbalaje = pesoNetoEmbalaje;
+  }
 
-	public Boolean getControlStock() {
-		return controlStock;
-	}
+  public BigDecimal getPesoBrutoEmbalaje() {
+    return pesoBrutoEmbalaje;
+  }
 
-	public void setControlStock(Boolean controlStock) {
-		this.controlStock = controlStock;
-	}
+  public void setPesoBrutoEmbalaje(BigDecimal pesoBrutoEmbalaje) {
+    this.pesoBrutoEmbalaje = pesoBrutoEmbalaje;
+  }
 
-	public boolean isSeleccionado() {
-		return seleccionado;
-	}
+  public Boolean getControlStock() {
+    return controlStock;
+  }
 
-	public void setSeleccionado(boolean seleccionado) {
-		this.seleccionado = seleccionado;
-	}
+  public void setControlStock(Boolean controlStock) {
+    this.controlStock = controlStock;
+  }
 
-	public String getObservaciones() {
-		return observaciones;
-	}
+  public boolean isSeleccionado() {
+    return seleccionado;
+  }
 
-	public void setObservaciones(String observaciones) {
-		this.observaciones = observaciones;
-	}
+  public void setSeleccionado(boolean seleccionado) {
+    this.seleccionado = seleccionado;
+  }
 
-	public boolean isDesactivado() {
-		return desactivado;
-	}
+  public String getObservaciones() {
+    return observaciones;
+  }
 
-	public void setDesactivado(boolean desactivado) {
-		this.desactivado = desactivado;
-	}
+  public void setObservaciones(String observaciones) {
+    this.observaciones = observaciones;
+  }
 
-	public String getEstilo() {
-		return estilo;
-	}
+  public boolean isDesactivado() {
+    return desactivado;
+  }
 
-	public void setEstilo(String estilo) {
-		this.estilo = estilo;
-	}
+  public void setDesactivado(boolean desactivado) {
+    this.desactivado = desactivado;
+  }
 
-	public ProductosInventarioComext getProductoInventarioComext() {
-		return productoInventarioComext;
-	}
+  public String getEstilo() {
+    return estilo;
+  }
 
-	public void setProductoInventarioComext(
-			ProductosInventarioComext productoInventarioComext) {
-		this.productoInventarioComext = productoInventarioComext;
-	}
+  public void setEstilo(String estilo) {
+    this.estilo = estilo;
+  }
 
-	public BigDecimal getSaldo() {
-		return saldo;
-	}
+  public ProductosInventarioComext getProductoInventarioComext() {
+    return productoInventarioComext;
+  }
 
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
-	}
+  public void setProductoInventarioComext(
+      ProductosInventarioComext productoInventarioComext) {
+    this.productoInventarioComext = productoInventarioComext;
+  }
 
-	public BigDecimal getSaldoAnterior() {
-		return saldoAnterior;
-	}
+  public BigDecimal getSaldo() {
+    return saldo;
+  }
 
-	public void setSaldoAnterior(BigDecimal saldoAnterior) {
-		this.saldoAnterior = saldoAnterior;
-	}
+  public void setSaldo(BigDecimal saldo) {
+    this.saldo = saldo;
+  }
 
+  public BigDecimal getSaldoAnterior() {
+    return saldoAnterior;
+  }
+
+  public void setSaldoAnterior(BigDecimal saldoAnterior) {
+    this.saldoAnterior = saldoAnterior;
+  }
 
 }

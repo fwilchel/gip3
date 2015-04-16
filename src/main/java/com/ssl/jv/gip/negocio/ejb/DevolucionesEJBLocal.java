@@ -36,8 +36,7 @@ public interface DevolucionesEJBLocal {
   /**
    * Consultar ubicaciones recibir devolucion por usuario.
    *
-   * @param usuario
-   *          the usuario
+   * @param usuario the usuario
    * @return the list
    */
   public List<UbicacionRecibirDevolucionDTO> consultarUbicacionesRecibirDevolucionPorUsuario(String usuario);
@@ -45,8 +44,7 @@ public interface DevolucionesEJBLocal {
   /**
    * Consultar documentos recibir devolucion.
    *
-   * @param bodega
-   *          the bodega
+   * @param bodega the bodega
    * @return the list
    */
   public List<DocumentoRecibirDevolucionDTO> consultarDocumentosRecibirDevolucion(String bodega);

@@ -4,65 +4,65 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the nivel_inventarioxubicacion_temp database table.
- * 
+ *
  */
 @Entity
-@Table(name="nivel_inventarioxubicacion_temp")
-@NamedQuery(name="NivelInventarioxubicacionTemp.findAll", query="SELECT n FROM NivelInventarioxubicacionTemp n")
+@Table(name = "nivel_inventarioxubicacion_temp")
+@NamedQuery(name = "NivelInventarioxubicacionTemp.findAll", query = "SELECT n FROM NivelInventarioxubicacionTemp n")
 public class NivelInventarioxubicacionTemp implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private NivelInventarioxubicacionTempPK id;
+  private static final long serialVersionUID = 1L;
 
-	private BigDecimal cantidad;
+  @EmbeddedId
+  private NivelInventarioxubicacionTempPK id;
 
-	//bi-directional many-to-one association to ProductosInventario
-	@ManyToOne(optional=false)
-	@JoinColumn(name="id_producto", referencedColumnName="id", insertable=false, updatable=false)
-	private ProductosInventario productosInventario;
+  private BigDecimal cantidad;
 
-	//bi-directional many-to-one association to Ubicacion
-	@ManyToOne
-	@JoinColumn(name="id_ubicacion", referencedColumnName="id", insertable=false, updatable=false)
-	private Ubicacion ubicacione;
+  //bi-directional many-to-one association to ProductosInventario
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "id_producto", referencedColumnName = "id", insertable = false, updatable = false)
+  private ProductosInventario productosInventario;
 
-	public NivelInventarioxubicacionTemp() {
-	}
+  //bi-directional many-to-one association to Ubicacion
+  @ManyToOne
+  @JoinColumn(name = "id_ubicacion", referencedColumnName = "id", insertable = false, updatable = false)
+  private Ubicacion ubicacione;
 
-	public NivelInventarioxubicacionTempPK getId() {
-		return this.id;
-	}
+  public NivelInventarioxubicacionTemp() {
+  }
 
-	public void setId(NivelInventarioxubicacionTempPK id) {
-		this.id = id;
-	}
+  public NivelInventarioxubicacionTempPK getId() {
+    return this.id;
+  }
 
-	public BigDecimal getCantidad() {
-		return this.cantidad;
-	}
+  public void setId(NivelInventarioxubicacionTempPK id) {
+    this.id = id;
+  }
 
-	public void setCantidad(BigDecimal cantidad) {
-		this.cantidad = cantidad;
-	}
+  public BigDecimal getCantidad() {
+    return this.cantidad;
+  }
 
-	public ProductosInventario getProductosInventario() {
-		return this.productosInventario;
-	}
+  public void setCantidad(BigDecimal cantidad) {
+    this.cantidad = cantidad;
+  }
 
-	public void setProductosInventario(ProductosInventario productosInventario) {
-		this.productosInventario = productosInventario;
-	}
+  public ProductosInventario getProductosInventario() {
+    return this.productosInventario;
+  }
 
-	public Ubicacion getUbicacione() {
-		return this.ubicacione;
-	}
+  public void setProductosInventario(ProductosInventario productosInventario) {
+    this.productosInventario = productosInventario;
+  }
 
-	public void setUbicacione(Ubicacion ubicacione) {
-		this.ubicacione = ubicacione;
-	}
+  public Ubicacion getUbicacione() {
+    return this.ubicacione;
+  }
+
+  public void setUbicacione(Ubicacion ubicacione) {
+    this.ubicacione = ubicacione;
+  }
 
 }

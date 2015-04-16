@@ -12,247 +12,248 @@ import javax.persistence.Table;
 
 /**
  * The persistent class for the bodegas_logicas database table.
- * 
+ *
  */
 @Entity
 @Table(name = "bodegas_logicas")
 @NamedQuery(name = "BodegasLogica.findAll", query = "SELECT b FROM BodegasLogica b")
 public class BodegasLogica implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  private Long id;
 
-	@Column(name = "tipo_bodega")
-	private String tipoBodega;
+  private String nombre;
 
-	// bi-directional many-to-one association to Conteo
-	@OneToMany(mappedBy = "bodegasLogica")
-	private List<Conteo> conteos;
+  @Column(name = "tipo_bodega")
+  private String tipoBodega;
 
-	// bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy = "bodegasLogica1")
-	private List<MovimientosInventario> movimientosInventarios1;
+  // bi-directional many-to-one association to Conteo
+  @OneToMany(mappedBy = "bodegasLogica")
+  private List<Conteo> conteos;
 
-	// bi-directional many-to-one association to MovimientosInventario
-	@OneToMany(mappedBy = "bodegasLogica2")
-	private List<MovimientosInventario> movimientosInventarios2;
+  // bi-directional many-to-one association to MovimientosInventario
+  @OneToMany(mappedBy = "bodegasLogica1")
+  private List<MovimientosInventario> movimientosInventarios1;
 
-	// bi-directional many-to-one association to ProductosXDocumento
-	@OneToMany(mappedBy = "bodegasLogica1")
-	private List<ProductosXDocumento> productosxdocumentos1;
+  // bi-directional many-to-one association to MovimientosInventario
+  @OneToMany(mappedBy = "bodegasLogica2")
+  private List<MovimientosInventario> movimientosInventarios2;
 
-	// bi-directional many-to-one association to ProductosXDocumento
-	@OneToMany(mappedBy = "bodegasLogica2")
-	private List<ProductosXDocumento> productosxdocumentos2;
+  // bi-directional many-to-one association to ProductosXDocumento
+  @OneToMany(mappedBy = "bodegasLogica1")
+  private List<ProductosXDocumento> productosxdocumentos1;
 
-	// bi-directional many-to-one association to Saldo
-	@OneToMany(mappedBy = "bodegasLogica")
-	private List<Saldo> saldos;
+  // bi-directional many-to-one association to ProductosXDocumento
+  @OneToMany(mappedBy = "bodegasLogica2")
+  private List<ProductosXDocumento> productosxdocumentos2;
 
-	// bi-directional many-to-one association to SaldosFranquicia
-	@OneToMany(mappedBy = "bodegasLogica")
-	private List<SaldosFranquicia> saldosFranquicias;
+  // bi-directional many-to-one association to Saldo
+  @OneToMany(mappedBy = "bodegasLogica")
+  private List<Saldo> saldos;
 
-	public BodegasLogica() {
-	}
+  // bi-directional many-to-one association to SaldosFranquicia
+  @OneToMany(mappedBy = "bodegasLogica")
+  private List<SaldosFranquicia> saldosFranquicias;
 
-	public BodegasLogica(Long id) {
-		this.id = id;
-	}
+  public BodegasLogica() {
+  }
 
-	public Long getId() {
-		return this.id;
-	}
+  public BodegasLogica(Long id) {
+    this.id = id;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public String getTipoBodega() {
-		return this.tipoBodega;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setTipoBodega(String tipoBodega) {
-		this.tipoBodega = tipoBodega;
-	}
+  public String getTipoBodega() {
+    return this.tipoBodega;
+  }
 
-	public List<Conteo> getConteos() {
-		return this.conteos;
-	}
+  public void setTipoBodega(String tipoBodega) {
+    this.tipoBodega = tipoBodega;
+  }
 
-	public void setConteos(List<Conteo> conteos) {
-		this.conteos = conteos;
-	}
+  public List<Conteo> getConteos() {
+    return this.conteos;
+  }
 
-	public Conteo addConteo(Conteo conteo) {
-		getConteos().add(conteo);
-		conteo.setBodegasLogica(this);
+  public void setConteos(List<Conteo> conteos) {
+    this.conteos = conteos;
+  }
 
-		return conteo;
-	}
+  public Conteo addConteo(Conteo conteo) {
+    getConteos().add(conteo);
+    conteo.setBodegasLogica(this);
 
-	public Conteo removeConteo(Conteo conteo) {
-		getConteos().remove(conteo);
-		conteo.setBodegasLogica(null);
+    return conteo;
+  }
 
-		return conteo;
-	}
+  public Conteo removeConteo(Conteo conteo) {
+    getConteos().remove(conteo);
+    conteo.setBodegasLogica(null);
 
-	public List<MovimientosInventario> getMovimientosInventarios1() {
-		return this.movimientosInventarios1;
-	}
+    return conteo;
+  }
 
-	public void setMovimientosInventarios1(
-			List<MovimientosInventario> movimientosInventarios1) {
-		this.movimientosInventarios1 = movimientosInventarios1;
-	}
+  public List<MovimientosInventario> getMovimientosInventarios1() {
+    return this.movimientosInventarios1;
+  }
 
-	public MovimientosInventario addMovimientosInventarios1(
-			MovimientosInventario movimientosInventarios1) {
-		getMovimientosInventarios1().add(movimientosInventarios1);
-		movimientosInventarios1.setBodegasLogica1(this);
+  public void setMovimientosInventarios1(
+      List<MovimientosInventario> movimientosInventarios1) {
+    this.movimientosInventarios1 = movimientosInventarios1;
+  }
 
-		return movimientosInventarios1;
-	}
+  public MovimientosInventario addMovimientosInventarios1(
+      MovimientosInventario movimientosInventarios1) {
+    getMovimientosInventarios1().add(movimientosInventarios1);
+    movimientosInventarios1.setBodegasLogica1(this);
 
-	public MovimientosInventario removeMovimientosInventarios1(
-			MovimientosInventario movimientosInventarios1) {
-		getMovimientosInventarios1().remove(movimientosInventarios1);
-		movimientosInventarios1.setBodegasLogica1(null);
+    return movimientosInventarios1;
+  }
 
-		return movimientosInventarios1;
-	}
+  public MovimientosInventario removeMovimientosInventarios1(
+      MovimientosInventario movimientosInventarios1) {
+    getMovimientosInventarios1().remove(movimientosInventarios1);
+    movimientosInventarios1.setBodegasLogica1(null);
 
-	public List<MovimientosInventario> getMovimientosInventarios2() {
-		return this.movimientosInventarios2;
-	}
+    return movimientosInventarios1;
+  }
 
-	public void setMovimientosInventarios2(
-			List<MovimientosInventario> movimientosInventarios2) {
-		this.movimientosInventarios2 = movimientosInventarios2;
-	}
+  public List<MovimientosInventario> getMovimientosInventarios2() {
+    return this.movimientosInventarios2;
+  }
 
-	public MovimientosInventario addMovimientosInventarios2(
-			MovimientosInventario movimientosInventarios2) {
-		getMovimientosInventarios2().add(movimientosInventarios2);
-		movimientosInventarios2.setBodegasLogica2(this);
+  public void setMovimientosInventarios2(
+      List<MovimientosInventario> movimientosInventarios2) {
+    this.movimientosInventarios2 = movimientosInventarios2;
+  }
 
-		return movimientosInventarios2;
-	}
+  public MovimientosInventario addMovimientosInventarios2(
+      MovimientosInventario movimientosInventarios2) {
+    getMovimientosInventarios2().add(movimientosInventarios2);
+    movimientosInventarios2.setBodegasLogica2(this);
 
-	public MovimientosInventario removeMovimientosInventarios2(
-			MovimientosInventario movimientosInventarios2) {
-		getMovimientosInventarios2().remove(movimientosInventarios2);
-		movimientosInventarios2.setBodegasLogica2(null);
+    return movimientosInventarios2;
+  }
 
-		return movimientosInventarios2;
-	}
+  public MovimientosInventario removeMovimientosInventarios2(
+      MovimientosInventario movimientosInventarios2) {
+    getMovimientosInventarios2().remove(movimientosInventarios2);
+    movimientosInventarios2.setBodegasLogica2(null);
 
-	public List<ProductosXDocumento> getProductosxdocumentos1() {
-		return this.productosxdocumentos1;
-	}
+    return movimientosInventarios2;
+  }
 
-	public void setProductosxdocumentos1(
-			List<ProductosXDocumento> productosxdocumentos1) {
-		this.productosxdocumentos1 = productosxdocumentos1;
-	}
+  public List<ProductosXDocumento> getProductosxdocumentos1() {
+    return this.productosxdocumentos1;
+  }
 
-	public ProductosXDocumento addProductosxdocumentos1(
-			ProductosXDocumento productosxdocumentos1) {
-		getProductosxdocumentos1().add(productosxdocumentos1);
-		productosxdocumentos1.setBodegasLogica1(this);
+  public void setProductosxdocumentos1(
+      List<ProductosXDocumento> productosxdocumentos1) {
+    this.productosxdocumentos1 = productosxdocumentos1;
+  }
 
-		return productosxdocumentos1;
-	}
+  public ProductosXDocumento addProductosxdocumentos1(
+      ProductosXDocumento productosxdocumentos1) {
+    getProductosxdocumentos1().add(productosxdocumentos1);
+    productosxdocumentos1.setBodegasLogica1(this);
 
-	public ProductosXDocumento removeProductosxdocumentos1(
-			ProductosXDocumento productosxdocumentos1) {
-		getProductosxdocumentos1().remove(productosxdocumentos1);
-		productosxdocumentos1.setBodegasLogica1(null);
+    return productosxdocumentos1;
+  }
 
-		return productosxdocumentos1;
-	}
+  public ProductosXDocumento removeProductosxdocumentos1(
+      ProductosXDocumento productosxdocumentos1) {
+    getProductosxdocumentos1().remove(productosxdocumentos1);
+    productosxdocumentos1.setBodegasLogica1(null);
 
-	public List<ProductosXDocumento> getProductosxdocumentos2() {
-		return this.productosxdocumentos2;
-	}
+    return productosxdocumentos1;
+  }
 
-	public void setProductosxdocumentos2(
-			List<ProductosXDocumento> productosxdocumentos2) {
-		this.productosxdocumentos2 = productosxdocumentos2;
-	}
+  public List<ProductosXDocumento> getProductosxdocumentos2() {
+    return this.productosxdocumentos2;
+  }
 
-	public ProductosXDocumento addProductosxdocumentos2(
-			ProductosXDocumento productosxdocumentos2) {
-		getProductosxdocumentos2().add(productosxdocumentos2);
-		productosxdocumentos2.setBodegasLogica2(this);
+  public void setProductosxdocumentos2(
+      List<ProductosXDocumento> productosxdocumentos2) {
+    this.productosxdocumentos2 = productosxdocumentos2;
+  }
 
-		return productosxdocumentos2;
-	}
+  public ProductosXDocumento addProductosxdocumentos2(
+      ProductosXDocumento productosxdocumentos2) {
+    getProductosxdocumentos2().add(productosxdocumentos2);
+    productosxdocumentos2.setBodegasLogica2(this);
 
-	public ProductosXDocumento removeProductosxdocumentos2(
-			ProductosXDocumento productosxdocumentos2) {
-		getProductosxdocumentos2().remove(productosxdocumentos2);
-		productosxdocumentos2.setBodegasLogica2(null);
+    return productosxdocumentos2;
+  }
 
-		return productosxdocumentos2;
-	}
+  public ProductosXDocumento removeProductosxdocumentos2(
+      ProductosXDocumento productosxdocumentos2) {
+    getProductosxdocumentos2().remove(productosxdocumentos2);
+    productosxdocumentos2.setBodegasLogica2(null);
 
-	public List<Saldo> getSaldos() {
-		return this.saldos;
-	}
+    return productosxdocumentos2;
+  }
 
-	public void setSaldos(List<Saldo> saldos) {
-		this.saldos = saldos;
-	}
+  public List<Saldo> getSaldos() {
+    return this.saldos;
+  }
 
-	public Saldo addSaldo(Saldo saldo) {
-		getSaldos().add(saldo);
-		saldo.setBodegasLogica(this);
+  public void setSaldos(List<Saldo> saldos) {
+    this.saldos = saldos;
+  }
 
-		return saldo;
-	}
+  public Saldo addSaldo(Saldo saldo) {
+    getSaldos().add(saldo);
+    saldo.setBodegasLogica(this);
 
-	public Saldo removeSaldo(Saldo saldo) {
-		getSaldos().remove(saldo);
-		saldo.setBodegasLogica(null);
+    return saldo;
+  }
 
-		return saldo;
-	}
+  public Saldo removeSaldo(Saldo saldo) {
+    getSaldos().remove(saldo);
+    saldo.setBodegasLogica(null);
 
-	public List<SaldosFranquicia> getSaldosFranquicias() {
-		return this.saldosFranquicias;
-	}
+    return saldo;
+  }
 
-	public void setSaldosFranquicias(List<SaldosFranquicia> saldosFranquicias) {
-		this.saldosFranquicias = saldosFranquicias;
-	}
+  public List<SaldosFranquicia> getSaldosFranquicias() {
+    return this.saldosFranquicias;
+  }
 
-	public SaldosFranquicia addSaldosFranquicia(
-			SaldosFranquicia saldosFranquicia) {
-		getSaldosFranquicias().add(saldosFranquicia);
-		saldosFranquicia.setBodegasLogica(this);
+  public void setSaldosFranquicias(List<SaldosFranquicia> saldosFranquicias) {
+    this.saldosFranquicias = saldosFranquicias;
+  }
 
-		return saldosFranquicia;
-	}
+  public SaldosFranquicia addSaldosFranquicia(
+      SaldosFranquicia saldosFranquicia) {
+    getSaldosFranquicias().add(saldosFranquicia);
+    saldosFranquicia.setBodegasLogica(this);
 
-	public SaldosFranquicia removeSaldosFranquicia(
-			SaldosFranquicia saldosFranquicia) {
-		getSaldosFranquicias().remove(saldosFranquicia);
-		saldosFranquicia.setBodegasLogica(null);
+    return saldosFranquicia;
+  }
 
-		return saldosFranquicia;
-	}
+  public SaldosFranquicia removeSaldosFranquicia(
+      SaldosFranquicia saldosFranquicia) {
+    getSaldosFranquicias().remove(saldosFranquicia);
+    saldosFranquicia.setBodegasLogica(null);
+
+    return saldosFranquicia;
+  }
 
 }

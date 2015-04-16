@@ -7,8 +7,8 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 
 @Local
-public interface DocumentoXNegociacionDAOLocal extends IGenericDAO<DocumentoXNegociacion>{
+public interface DocumentoXNegociacionDAOLocal extends IGenericDAO<DocumentoXNegociacion> {
 
-	public List<DocumentoXNegociacion> consultarDocumentoXNegociacionPorIdDocumento(Long idDocumento);
-	
+  public List<DocumentoXNegociacion> consultarDocumentoXNegociacionPorIdDocumento(Long idDocumento);
+
 }

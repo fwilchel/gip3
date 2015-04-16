@@ -14,24 +14,24 @@ import java.util.Map;
 
 @Local
 public interface ProductoInventarioDAOLocal extends
-        IGenericDAO<ProductosInventario> {
+    IGenericDAO<ProductosInventario> {
 
   public Object[] consultar(ProductosInventario pi, int first, int pageSize,
-          String sortField, SortOrder sortOrder, boolean count);
+      String sortField, SortOrder sortOrder, boolean count);
 
   public List<ProductosInventario> consultarTodos();
 
   public List<ProductosInventario> consultarActivos();
 
   public List<ProductosInventario> consultarPorUsuarioCategoriaSKUNombreAndEstado(
-          ProductosInventarioFiltroDTO filtro);
+      ProductosInventarioFiltroDTO filtro);
 
   public ProductosInventario consultarPorSku(String sku);
 
   public List<ProductosInventario> consultarPorSkus(List<String> skus);
 
   public List<ProductosInventario> consultarPorEstadoCategoriaSKUNombreAndControlStock(
-          ProductosInventarioFiltroDTO filtro);
+      ProductosInventarioFiltroDTO filtro);
 
   /**
    *
@@ -39,7 +39,7 @@ public interface ProductoInventarioDAOLocal extends
    * @return
    */
   public List<ProductosInventario> consultarListadoProductosReporteVentasCE(Map<String, Object> parametros);
-  
+
   public List<ProductoDevolucionDTO> consultarActivosPorPaises(List<String> paises);
 
   public List<ProductoDevolucionDTO> consultarActivosDev();

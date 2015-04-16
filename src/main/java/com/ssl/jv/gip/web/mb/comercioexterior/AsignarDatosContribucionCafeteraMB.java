@@ -104,7 +104,7 @@ public class AsignarDatosContribucionCafeteraMB extends UtilMB {
   }
 
   public void setDocumentosLotes(
-          List<DocumentoLotesContribucionCafeteriaDTO> documentosLotes) {
+      List<DocumentoLotesContribucionCafeteriaDTO> documentosLotes) {
     this.documentosLotes = documentosLotes;
   }
 

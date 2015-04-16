@@ -147,7 +147,7 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   public void ingresarDevouciones() {
     LOGGER.debug("Metodo: <<ingresarDevouciones>>");
     //TODO: validar la lista de productos seleccionados
-    if (listaProductosXDocumentoSeleccionados != null && !listaProductosXDocumentoSeleccionados.isEmpty()){
+    if (listaProductosXDocumentoSeleccionados != null && !listaProductosXDocumentoSeleccionados.isEmpty()) {
       devolucionesEJB.ingresarDevolucionTiendaBodega(null, listaProductosXDocumentoSeleccionados);
     } else {
       addMensajeError("");
@@ -187,7 +187,7 @@ public class DevolucionTiendaBodegaMB extends UtilMB {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public boolean habilitarBtnIngresoDevoluciones() {

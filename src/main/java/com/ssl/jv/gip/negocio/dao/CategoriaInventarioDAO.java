@@ -11,22 +11,22 @@ import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 
 @Stateless
 @LocalBean
-public class CategoriaInventarioDAO extends GenericDAO<CategoriasInventario> implements CategoriaInventarioDAOLocal{
+public class CategoriaInventarioDAO extends GenericDAO<CategoriasInventario> implements CategoriaInventarioDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(CategoriaInventarioDAO.class);
-	
-	public CategoriaInventarioDAO(){
-		this.persistentClass = CategoriasInventario.class;
-	}	
-	
-	/**
-	 * Consulta solo las categorias padre, y hace fetch de las hijas, ordenadas por nombre de padre y nombre de hijas
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List<CategoriasInventario> findAll(){
-		List list = this.em.createQuery("SELECT DISTINCT ci from CategoriasInventario ci JOIN FETCH ci.categoriasInventarios hijos WHERE ci.categoriasInventario IS NULL ORDER BY ci.nombre, hijos.nombre")
-				.getResultList();
-		return list;
-	}
-		
+  private static final Logger LOGGER = Logger.getLogger(CategoriaInventarioDAO.class);
+
+  public CategoriaInventarioDAO() {
+    this.persistentClass = CategoriasInventario.class;
+  }
+
+  /**
+   * Consulta solo las categorias padre, y hace fetch de las hijas, ordenadas por nombre de padre y nombre de hijas
+   */
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public List<CategoriasInventario> findAll() {
+    List list = this.em.createQuery("SELECT DISTINCT ci from CategoriasInventario ci JOIN FETCH ci.categoriasInventarios hijos WHERE ci.categoriasInventario IS NULL ORDER BY ci.nombre, hijos.nombre")
+        .getResultList();
+    return list;
+  }
+
 }

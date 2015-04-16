@@ -1,414 +1,413 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
-
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloGenerarInstruccionEmbarque}::.</ui:define>
-
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form id="forma">
-
-			<p:messages 
-				id="msgs" 
-				showDetail="false" 
-				showSummary="true"
-				globalOnly="false" 
-				showIcon="true"
-				autoUpdate="true"/>
-
-			<p:tabView id="tabPanel">
-
-				<p:tab title="#{msg.TituloGenerarInstruccionEmbarque}"
-					rendered="#{!generarInstruccionEmbarqueMB.generarInstruccion}">
-
-					<p:outputLabel value="#{msg.trasladoInventarioFecha}:"
-						styleClass="negrita" />
-					<h:outputText
-						value="#{generarInstruccionEmbarqueMB.currentTimeStamp}">
-						<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
-					</h:outputText>
-
-					<p:spacer width="30" />
-
-					<p:outputLabel for="busquedaCliente"
-						value="#{msg.maestroCreModNomCliProductoXCliente}: "
-						styleClass="negrita" />
-					<p:selectOneMenu id="busquedaCliente"
-						value="#{generarInstruccionEmbarqueMB.cliente}">
-		                <f:selectItem 
-		                	itemLabel="#{msg.generalSinSeleccionar}" />
-						<f:selectItems
-							value="#{generarInstruccionEmbarqueMB.listadoClientes}" var="cli"
-							itemLabel="#{cli.nombre}" itemValue="#{cli.id}" />
-					</p:selectOneMenu>
-
-
-					<p:spacer width="30" />
-
-					<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
-						update="tabPanel"
-						actionListener="#{generarInstruccionEmbarqueMB.consultarDocumento}" />
-
-					<p:dataTable var="doc" widgetVar="tablaDoc" id="tablaDocs"
-						rendered="#{not empty generarInstruccionEmbarqueMB.listadoDocumentos}"
-						value="#{generarInstruccionEmbarqueMB.listadoDocumentos}"
-						rows="10" paginator="true" paginatorPosition="bottom"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
-
-						<p:column filterBy="#{doc.id}" headerText="#{msg.CodigoGipSP}"
-							filterMatchMode="contains" sortBy="#{doc.id}">
-							<h:outputText value="#{doc.id}" />
-						</p:column>
-
-						<p:column filterBy="#{doc.consecutivo}"
-							headerText="#{msg.ConsecutivoFP}" filterMatchMode="contains"
-							sortBy="#{doc.consecutivo}">
-							<h:outputText value="#{doc.consecutivo}" />
-						</p:column>
-
-						<p:column filterBy="#{doc.fechaGeneracion}"
-							headerText="#{msg.RequisicionNombreFechaGenerado}"
-							filterMatchMode="contains" sortBy="#{doc.fechaGeneracion}">
-							<h:outputText value="#{doc.fechaGeneracion}">
-								<f:convertDateTime pattern="dd-MMM-yyyy" />
-							</h:outputText>
-						</p:column>
-
-						<p:column headerText="#{msg.buscadorIncluirFactura}">
-							<p:selectBooleanCheckbox value="#{doc.seleccionado}"></p:selectBooleanCheckbox>
-						</p:column>
-
-					</p:dataTable>
-
-					<p:commandButton value="#{msg.BotonCrearInstruccionEmb}"
-						update="tabPanel"
-						rendered="#{not empty generarInstruccionEmbarqueMB.listadoDocumentos}"
-						actionListener="#{generarInstruccionEmbarqueMB.consultarFactura}" />
-
-				</p:tab>
-
-				<p:tab title="#{msg.TituloGenerarInstruccionEmbarque}"
-					rendered="#{generarInstruccionEmbarqueMB.generarInstruccion}">
-
-					<p:outputLabel value="#{msg.nomCliente}:" styleClass="negrita" />
-					<h:outputText
-						value="#{generarInstruccionEmbarqueMB.clienteDetalle.nombre}">
-					</h:outputText>
-
-					<p:spacer width="30" />
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/ui/templates/general.xhtml">
+
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloGenerarInstruccionEmbarque}::.</ui:define>
+
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form id="forma">
+
+      <p:messages 
+        id="msgs" 
+        showDetail="false" 
+        showSummary="true"
+        globalOnly="false" 
+        showIcon="true"
+        autoUpdate="true"/>
+
+      <p:tabView id="tabPanel">
+
+        <p:tab title="#{msg.TituloGenerarInstruccionEmbarque}"
+               rendered="#{!generarInstruccionEmbarqueMB.generarInstruccion}">
+
+          <p:outputLabel value="#{msg.trasladoInventarioFecha}:"
+                         styleClass="negrita" />
+          <h:outputText
+            value="#{generarInstruccionEmbarqueMB.currentTimeStamp}">
+            <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+          </h:outputText>
+
+          <p:spacer width="30" />
+
+          <p:outputLabel for="busquedaCliente"
+                         value="#{msg.maestroCreModNomCliProductoXCliente}: "
+                         styleClass="negrita" />
+          <p:selectOneMenu id="busquedaCliente"
+                           value="#{generarInstruccionEmbarqueMB.cliente}">
+            <f:selectItem 
+              itemLabel="#{msg.generalSinSeleccionar}" />
+            <f:selectItems
+              value="#{generarInstruccionEmbarqueMB.listadoClientes}" var="cli"
+              itemLabel="#{cli.nombre}" itemValue="#{cli.id}" />
+          </p:selectOneMenu>
+
+
+          <p:spacer width="30" />
+
+          <p:commandButton value="#{msg.documentoEjecutarBusqueda}"
+                           update="tabPanel"
+                           actionListener="#{generarInstruccionEmbarqueMB.consultarDocumento}" />
+
+          <p:dataTable var="doc" widgetVar="tablaDoc" id="tablaDocs"
+                       rendered="#{not empty generarInstruccionEmbarqueMB.listadoDocumentos}"
+                       value="#{generarInstruccionEmbarqueMB.listadoDocumentos}"
+                       rows="10" paginator="true" paginatorPosition="bottom"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
+
+            <p:column filterBy="#{doc.id}" headerText="#{msg.CodigoGipSP}"
+                      filterMatchMode="contains" sortBy="#{doc.id}">
+              <h:outputText value="#{doc.id}" />
+            </p:column>
+
+            <p:column filterBy="#{doc.consecutivo}"
+                      headerText="#{msg.ConsecutivoFP}" filterMatchMode="contains"
+                      sortBy="#{doc.consecutivo}">
+              <h:outputText value="#{doc.consecutivo}" />
+            </p:column>
+
+            <p:column filterBy="#{doc.fechaGeneracion}"
+                      headerText="#{msg.RequisicionNombreFechaGenerado}"
+                      filterMatchMode="contains" sortBy="#{doc.fechaGeneracion}">
+              <h:outputText value="#{doc.fechaGeneracion}">
+                <f:convertDateTime pattern="dd-MMM-yyyy" />
+              </h:outputText>
+            </p:column>
+
+            <p:column headerText="#{msg.buscadorIncluirFactura}">
+              <p:selectBooleanCheckbox value="#{doc.seleccionado}"></p:selectBooleanCheckbox>
+            </p:column>
+
+          </p:dataTable>
+
+          <p:commandButton value="#{msg.BotonCrearInstruccionEmb}"
+                           update="tabPanel"
+                           rendered="#{not empty generarInstruccionEmbarqueMB.listadoDocumentos}"
+                           actionListener="#{generarInstruccionEmbarqueMB.consultarFactura}" />
+
+        </p:tab>
+
+        <p:tab title="#{msg.TituloGenerarInstruccionEmbarque}"
+               rendered="#{generarInstruccionEmbarqueMB.generarInstruccion}">
+
+          <p:outputLabel value="#{msg.nomCliente}:" styleClass="negrita" />
+          <h:outputText
+            value="#{generarInstruccionEmbarqueMB.clienteDetalle.nombre}">
+          </h:outputText>
+
+          <p:spacer width="30" />
 
-					<p:outputLabel value="#{msg.maestroDireccionCliente}:"
-						styleClass="negrita" />
-					<h:outputText
-						value="#{generarInstruccionEmbarqueMB.clienteDetalle.direccion}">
-					</h:outputText>
-
-					<p:spacer width="30" />
-
-					<p:outputLabel value="#{msg.maestroTelefonoCliente}:"
-						styleClass="negrita" />
-					<h:outputText
-						value="#{generarInstruccionEmbarqueMB.clienteDetalle.telefono}">
-					</h:outputText>
-
-					<p:spacer width="30" />
-
-					<p:outputLabel value="#{msg.maestroContactoAgente}:"
-						styleClass="negrita" />
-					<h:outputText
-						value="#{generarInstruccionEmbarqueMB.clienteDetalle.contacto}">
-					</h:outputText>
-
-					<p:spacer width="30" />
-
-					<p:outputLabel value="#{msg.documentoCiudad}:" styleClass="negrita" />
-					<h:outputText
-						value="#{generarInstruccionEmbarqueMB.clienteDetalle.ciudad.nombre}">
-					</h:outputText>
-
-					<p:spacer width="30" />
-
-					<p:outputLabel value="#{msg.generalNombrePais}:"
-						styleClass="negrita" />
-					<h:outputText
-						value="#{generarInstruccionEmbarqueMB.clienteDetalle.ciudad.pais.nombre}">
-					</h:outputText>
-
-					<p:spacer height="20px"></p:spacer>
-
-					<p:dataTable var="docLot" widgetVar="tablaDocLot" id="tablaDocsLot"
-						rendered="#{not empty generarInstruccionEmbarqueMB.listadoDocumentoLotes}"
-						value="#{generarInstruccionEmbarqueMB.listadoDocumentoLotes}"
-						rows="10" paginator="true" paginatorPosition="bottom"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
-
-						<p:column headerText="#{msg.CampoFactura}">
-							<h:outputText value="#{docLot.facturaProforma}"
-								styleClass="texto_contenido2" />
-						</p:column>
-
-						<p:column headerText="#{msg.CampoCodigoLote}">
-							<h:outputText value="#{docLot.consecutivo}" />
-						</p:column>
-
-						<p:column headerText="#{msg.CampoNombreLote}">
-							<h:outputText value="#{docLot.descripcion}" />
-						</p:column>
-
-						<p:column headerText="#{msg.SPcantidadCajas}">
-							<h:outputText value="#{docLot.totalCajas}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-							</h:outputText>
-						</p:column>
-
-						<p:column headerText="#{msg.CampoPedido}">
-							<h:outputText value="#{docLot.pedido}" />
-						</p:column>
-
-						<p:column headerText="#{msg.CampoAsignacion}">
-							<h:outputText value="#{docLot.asignacion}" />
-						</p:column>
-
-						<p:column headerText="#{msg.CampoAviso}">
-							<h:outputText value="#{docLot.aviso}" />
-						</p:column>
-
-
-
-					</p:dataTable>
-
-					<p:spacer height="20px"></p:spacer>
-
-					<p:panelGrid id="i5" columns="6" border="0">
-
-
-						<p:outputLabel for="intIdAgenteAduana1"
-							value="#{msg.CampoSociedadAduanera1}" />
-						<p:selectOneMenu id="intIdAgenteAduana1"
-							value="#{generarInstruccionEmbarqueMB.intIdAgenteAduana1}"
-							required="true">
-							<f:selectItems
-								value="#{generarInstruccionEmbarqueMB.listaAgenteAduana}" />
-						</p:selectOneMenu>
-						<p:message id="intIdAgenteAduana1Error" for="intIdAgenteAduana1" />
-
-						<p:outputLabel for="intIdAgenteAduana2"
-							value="#{msg.CampoSociedadAduanera2}" />
-						<p:selectOneMenu id="intIdAgenteAduana2"
-							value="#{generarInstruccionEmbarqueMB.intIdAgenteAduana2}">
-							<f:selectItem id="item0001" itemLabel="" itemValue="" />
-							<f:selectItems
-								value="#{generarInstruccionEmbarqueMB.listaAgenteAduana2}" />
-						</p:selectOneMenu>
-						<p:message id="intIdAgenteAduana2Error" for="intIdAgenteAduana2" />
-
-						<p:outputLabel value="#{msg.CampoMesEmbarque}" />
-						<p:selectOneMenu id="strMesEmbarque"
-							value="#{generarInstruccionEmbarqueMB.strMesEmbarque}"
-							required="true">
-							<f:selectItem id="item01" itemLabel="ENERO" itemValue="ENERO" />
-							<f:selectItem id="item02" itemLabel="FEBRERO" itemValue="FEBRERO" />
-							<f:selectItem id="item03" itemLabel="MARZO" itemValue="MARZO" />
-							<f:selectItem id="item04" itemLabel="ABRIL" itemValue="ABRIL" />
-							<f:selectItem id="item05" itemLabel="MAYO" itemValue="MAYO" />
-							<f:selectItem id="item06" itemLabel="JUNIO" itemValue="JUNIO" />
-							<f:selectItem id="item07" itemLabel="JULIO" itemValue="JULIO" />
-							<f:selectItem id="item08" itemLabel="AGOSTO" itemValue="AGOSTO" />
-							<f:selectItem id="item09" itemLabel="SEPTIEMBRE"
-								itemValue="SEPTIEMBRE" />
-							<f:selectItem id="item10" itemLabel="OCTUBRE" itemValue="OCTUBRE" />
-							<f:selectItem id="item11" itemLabel="NOVIEMBRE"
-								itemValue="NOVIEMBRE" />
-							<f:selectItem id="item12" itemLabel="DICIEMBRE"
-								itemValue="DICIEMBRE" />
-						</p:selectOneMenu>
-						<p:message id="strMesEmbarqueError" for="strMesEmbarque" />
-
-						<p:outputLabel for="strPuertoEmbarque"
-							value="#{msg.CampoPuertoEmbarque}" />
-						<p:inputText id="strPuertoEmbarque"
-							value="#{generarInstruccionEmbarqueMB.strPuertoEmbarque}"
-							required="true" />
-						<p:message id="strPuertoEmbarqueError" for="strPuertoEmbarque" />
-
-						<p:outputLabel for="dateFechaEmbarque"
-							value="#{msg.CampoFechaEmbarque}" />
-						<p:calendar id="dateFechaEmbarque"
-							value="#{generarInstruccionEmbarqueMB.dateFechaEmbarque}"
-							datePattern="yyyy-MM-dd" required="true">
-						</p:calendar>
-						<p:message for="dateFechaEmbarque" styleClass="error" />
-
-						<p:outputLabel for="strNaviera" value="#{msg.CampoNaviera}" />
-						<p:inputText id="strNaviera"
-							value="#{generarInstruccionEmbarqueMB.strNaviera}"
-							required="true" />
-						<p:message id="strNavieraError" for="strNaviera" />
-
-						<p:outputLabel for="strLinea" value="#{msg.CampoLinea}" />
-						<p:inputText id="strLinea"
-							value="#{generarInstruccionEmbarqueMB.strLinea}" required="true" />
-						<p:message id="strLineaError" for="strLinea" />
-
-						<p:outputLabel for="strBuque" value="#{msg.CampoBuque}" />
-						<p:inputText id="strBuque"
-							value="#{generarInstruccionEmbarqueMB.strBuque}" required="true" />
-						<p:message id="strBuqueError" for="strBuque" />
-
-						<p:outputLabel for="strSeguro" value="#{msg.CampoSeguro}" />
-						<p:inputText id="strSeguro"
-							value="#{generarInstruccionEmbarqueMB.strSeguro}" required="true" />
-						<p:message id="strSeguroError" for="strSeguro" />
-
-						<p:outputLabel value="#{msg.CampoTipoContenedor}" />
-						<p:selectOneMenu id="intTipoContenedor"
-							value="#{generarInstruccionEmbarqueMB.intTipoContenedor}"
-							required="true">
-							<f:selectItem id="item2" itemLabel="20" itemValue="20" />
-							<f:selectItem id="item3" itemLabel="40" itemValue="40" />
-						</p:selectOneMenu>
-						<p:message id="intTipoContenedorError" for="intTipoContenedor" />
-
-						<p:outputLabel for="intCantidadContenedores"
-							value="#{msg.CampoCantidadContenedores}" />
-						<p:inputText id="intCantidadContenedores"
-							value="#{generarInstruccionEmbarqueMB.intCantidadContenedores}"
-							required="true" />
-						<p:message id="intCantidadContenedoresError"
-							for="intCantidadContenedores" />
-
-						<p:outputLabel for="strNumeroContenedor"
-							value="#{msg.CampoNumeroContenedor}" />
-						<p:inputText id="strNumeroContenedor"
-							value="#{generarInstruccionEmbarqueMB.strNumeroContenedor}"
-							required="true" />
-						<p:message id="strNumeroContenedorError" for="strNumeroContenedor" />
-
-						<p:outputLabel for="strSellosSeg" value="#{msg.CampoSellosSeg}" />
-						<p:inputText id="strSellosSeg"
-							value="#{generarInstruccionEmbarqueMB.strSellosSeg}"
-							required="true" />
-						<p:message id="strSellosSegError" for="strSellosSeg" />
-
-
-						<p:outputLabel for="strPrecintos" value="#{msg.CampoPrecintos}" />
-						<p:inputText id="strPrecintos"
-							value="#{generarInstruccionEmbarqueMB.strPrecintos}"
-							required="true" />
-						<p:message id="strPrecintosError" for="strPrecintos" />
-
-						<p:outputLabel for="intIdModalidadEmbarque"
-							value="#{msg.CampointModalidadEmbarque}" />
-						<p:selectOneMenu id="intIdModalidadEmbarque"
-							value="#{generarInstruccionEmbarqueMB.intIdModalidadEmbarque}"
-							required="true">
-							<f:selectItems
-								value="#{generarInstruccionEmbarqueMB.listaModalidadEmbarque}" />
-						</p:selectOneMenu>
-						<p:message id="intIdModalidadEmbarqueError"
-							for="intIdModalidadEmbarque" />
-
-						<p:outputLabel for="intIdIncotermDespacho"
-							value="#{msg.CampoIncotermDespacho}" />
-						<p:selectOneMenu id="intIdIncotermDespacho"
-							value="#{generarInstruccionEmbarqueMB.intIdIncotermDespacho}"
-							required="true">
-							<f:selectItems
-								value="#{generarInstruccionEmbarqueMB.listaIncotermDespacho}" />
-						</p:selectOneMenu>
-						<p:message id="intIdIncotermDespachoError"
-							for="intIdIncotermDespacho" />
-
-						<p:outputLabel for="textArea"
-							value="#{msg.CampoNotificacionTerminosTransporte}" />
-						<p:inputTextarea id="textArea" rows="4" cols="40"
-							value="#{generarInstruccionEmbarqueMB.strObservacionTerminosTransporte}"
-							required="false" />
-						<h:outputText value="" />
-
-						<p:outputLabel for="textArea2"
-							value="#{msg.CampoObservacionTerminosTransporte2}" />
-						<p:inputTextarea id="textArea2" rows="4" cols="40"
-							value="#{generarInstruccionEmbarqueMB.strObservacionTerminosTransporte2}"
-							required="false" />
-						<h:outputText value="" />
-
-
-						<p:outputLabel for="dateFechaETA" value="#{msg.CampoFechaETA}" />
-						<p:calendar id="dateFechaETA"
-							value="#{generarInstruccionEmbarqueMB.dateFechaETA}"
-							datePattern="yyyy-MM-dd" required="true">
-						</p:calendar>
-						<p:message for="dateFechaETA" styleClass="error" />
-
-
-
-
-						<p:outputLabel for="strNumeroBooking"
-							value="#{msg.CampoNumeroBooking}" />
-						<p:inputText id="strNumeroBooking"
-							value="#{generarInstruccionEmbarqueMB.strNumeroBooking}"
-							required="true" />
-						<p:message id="strNumeroBookingError" for="strNumeroBooking" />
-
-						<p:outputLabel for="strFleteExterno" value="Flete Externo:" />
-						<p:selectOneRadio id="strFleteExterno"
-							value="#{generarInstruccionEmbarqueMB.strFleteExterno}"
-							title="Seleccione una de las opciones" layout="lineDirection"
-							border="0" required="true">
-							<f:selectItem id="si1" itemLabel="#{msg.CampoFleteExternoP}"
-								itemValue="P" />
-							<f:selectItem id="si2" itemLabel="#{msg.CampoFleteExternoC}"
-								itemValue="C" />
-						</p:selectOneRadio>
-						<p:message id="strFleteExternoError" for="strFleteExterno" />
-
-						<h:outputText value="" />
-						<h:outputText value="" />
-						<h:outputText value="" />
-
-						<p:outputLabel value="#{msg.CampoPaisDestino}" />
-						<p:selectOneMenu id="selectidpais"
-							value="#{generarInstruccionEmbarqueMB.strIdPais}" required="true">
-							<p:ajax event="change" update="selectidcity"
-								listener="#{generarInstruccionEmbarqueMB.cambioPais}"></p:ajax>
-							<f:selectItem id="item1" itemLabel="" itemValue="" />
-							<f:selectItems value="#{generarInstruccionEmbarqueMB.listaPais}" />
-						</p:selectOneMenu>
-						<p:message for="selectidpais" />
-
-						<h:outputText value="" />
-						<h:outputText value="" />
-						<h:outputText value="" />
-
-						<p:outputLabel value="#{msg.CampoCiudadDestino}" />
-						<p:selectOneMenu id="selectidcity"
-							value="#{generarInstruccionEmbarqueMB.lngIdCiudadDestino}">
-							<f:selectItems
-								value="#{generarInstruccionEmbarqueMB.listaCiudad}" />
-						</p:selectOneMenu>
-						<p:message for="selectidcity" />
-
-						<h:outputText value="" />
-						<h:outputText value="" />
-						<h:outputText value="" />
-
-					</p:panelGrid>
-
-					<p:commandButton value="#{msg.BotonGuardarIE}" update="tabPanel"
-						actionListener="#{generarInstruccionEmbarqueMB.guardarInstruccionEmbarque}" />
-
-				</p:tab>
-
-			</p:tabView>
-		</h:form>
-
-	</ui:define>
+          <p:outputLabel value="#{msg.maestroDireccionCliente}:"
+                         styleClass="negrita" />
+          <h:outputText
+            value="#{generarInstruccionEmbarqueMB.clienteDetalle.direccion}">
+          </h:outputText>
+
+          <p:spacer width="30" />
+
+          <p:outputLabel value="#{msg.maestroTelefonoCliente}:"
+                         styleClass="negrita" />
+          <h:outputText
+            value="#{generarInstruccionEmbarqueMB.clienteDetalle.telefono}">
+          </h:outputText>
+
+          <p:spacer width="30" />
+
+          <p:outputLabel value="#{msg.maestroContactoAgente}:"
+                         styleClass="negrita" />
+          <h:outputText
+            value="#{generarInstruccionEmbarqueMB.clienteDetalle.contacto}">
+          </h:outputText>
+
+          <p:spacer width="30" />
+
+          <p:outputLabel value="#{msg.documentoCiudad}:" styleClass="negrita" />
+          <h:outputText
+            value="#{generarInstruccionEmbarqueMB.clienteDetalle.ciudad.nombre}">
+          </h:outputText>
+
+          <p:spacer width="30" />
+
+          <p:outputLabel value="#{msg.generalNombrePais}:"
+                         styleClass="negrita" />
+          <h:outputText
+            value="#{generarInstruccionEmbarqueMB.clienteDetalle.ciudad.pais.nombre}">
+          </h:outputText>
+
+          <p:spacer height="20px"></p:spacer>
+
+          <p:dataTable var="docLot" widgetVar="tablaDocLot" id="tablaDocsLot"
+                       rendered="#{not empty generarInstruccionEmbarqueMB.listadoDocumentoLotes}"
+                       value="#{generarInstruccionEmbarqueMB.listadoDocumentoLotes}"
+                       rows="10" paginator="true" paginatorPosition="bottom"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
+
+            <p:column headerText="#{msg.CampoFactura}">
+              <h:outputText value="#{docLot.facturaProforma}"
+                            styleClass="texto_contenido2" />
+            </p:column>
+
+            <p:column headerText="#{msg.CampoCodigoLote}">
+              <h:outputText value="#{docLot.consecutivo}" />
+            </p:column>
+
+            <p:column headerText="#{msg.CampoNombreLote}">
+              <h:outputText value="#{docLot.descripcion}" />
+            </p:column>
+
+            <p:column headerText="#{msg.SPcantidadCajas}">
+              <h:outputText value="#{docLot.totalCajas}">
+                <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+              </h:outputText>
+            </p:column>
+
+            <p:column headerText="#{msg.CampoPedido}">
+              <h:outputText value="#{docLot.pedido}" />
+            </p:column>
+
+            <p:column headerText="#{msg.CampoAsignacion}">
+              <h:outputText value="#{docLot.asignacion}" />
+            </p:column>
+
+            <p:column headerText="#{msg.CampoAviso}">
+              <h:outputText value="#{docLot.aviso}" />
+            </p:column>
+
+
+
+          </p:dataTable>
+
+          <p:spacer height="20px"></p:spacer>
+
+          <p:panelGrid id="i5" columns="6">
+
+
+            <p:outputLabel for="intIdAgenteAduana1"
+                           value="#{msg.CampoSociedadAduanera1}" />
+            <p:selectOneMenu id="intIdAgenteAduana1"
+                             value="#{generarInstruccionEmbarqueMB.intIdAgenteAduana1}"
+                             required="true">
+              <f:selectItems
+                value="#{generarInstruccionEmbarqueMB.listaAgenteAduana}" />
+            </p:selectOneMenu>
+            <p:message id="intIdAgenteAduana1Error" for="intIdAgenteAduana1" />
+
+            <p:outputLabel for="intIdAgenteAduana2"
+                           value="#{msg.CampoSociedadAduanera2}" />
+            <p:selectOneMenu id="intIdAgenteAduana2"
+                             value="#{generarInstruccionEmbarqueMB.intIdAgenteAduana2}">
+              <f:selectItem id="item0001" itemLabel="" itemValue="" />
+              <f:selectItems
+                value="#{generarInstruccionEmbarqueMB.listaAgenteAduana2}" />
+            </p:selectOneMenu>
+            <p:message id="intIdAgenteAduana2Error" for="intIdAgenteAduana2" />
+
+            <p:outputLabel value="#{msg.CampoMesEmbarque}" />
+            <p:selectOneMenu id="strMesEmbarque"
+                             value="#{generarInstruccionEmbarqueMB.strMesEmbarque}"
+                             required="true">
+              <f:selectItem id="item01" itemLabel="ENERO" itemValue="ENERO" />
+              <f:selectItem id="item02" itemLabel="FEBRERO" itemValue="FEBRERO" />
+              <f:selectItem id="item03" itemLabel="MARZO" itemValue="MARZO" />
+              <f:selectItem id="item04" itemLabel="ABRIL" itemValue="ABRIL" />
+              <f:selectItem id="item05" itemLabel="MAYO" itemValue="MAYO" />
+              <f:selectItem id="item06" itemLabel="JUNIO" itemValue="JUNIO" />
+              <f:selectItem id="item07" itemLabel="JULIO" itemValue="JULIO" />
+              <f:selectItem id="item08" itemLabel="AGOSTO" itemValue="AGOSTO" />
+              <f:selectItem id="item09" itemLabel="SEPTIEMBRE"
+                            itemValue="SEPTIEMBRE" />
+              <f:selectItem id="item10" itemLabel="OCTUBRE" itemValue="OCTUBRE" />
+              <f:selectItem id="item11" itemLabel="NOVIEMBRE"
+                            itemValue="NOVIEMBRE" />
+              <f:selectItem id="item12" itemLabel="DICIEMBRE"
+                            itemValue="DICIEMBRE" />
+            </p:selectOneMenu>
+            <p:message id="strMesEmbarqueError" for="strMesEmbarque" />
+
+            <p:outputLabel for="strPuertoEmbarque"
+                           value="#{msg.CampoPuertoEmbarque}" />
+            <p:inputText id="strPuertoEmbarque"
+                         value="#{generarInstruccionEmbarqueMB.strPuertoEmbarque}"
+                         required="true" />
+            <p:message id="strPuertoEmbarqueError" for="strPuertoEmbarque" />
+
+            <p:outputLabel for="dateFechaEmbarque"
+                           value="#{msg.CampoFechaEmbarque}" />
+            <p:calendar id="dateFechaEmbarque"
+                        value="#{generarInstruccionEmbarqueMB.dateFechaEmbarque}"
+                        pattern="yyyy-MM-dd" required="true">
+            </p:calendar>
+            <p:message for="dateFechaEmbarque" styleClass="error" />
+
+            <p:outputLabel for="strNaviera" value="#{msg.CampoNaviera}" />
+            <p:inputText id="strNaviera"
+                         value="#{generarInstruccionEmbarqueMB.strNaviera}"
+                         required="true" />
+            <p:message id="strNavieraError" for="strNaviera" />
+
+            <p:outputLabel for="strLinea" value="#{msg.CampoLinea}" />
+            <p:inputText id="strLinea"
+                         value="#{generarInstruccionEmbarqueMB.strLinea}" required="true" />
+            <p:message id="strLineaError" for="strLinea" />
+
+            <p:outputLabel for="strBuque" value="#{msg.CampoBuque}" />
+            <p:inputText id="strBuque"
+                         value="#{generarInstruccionEmbarqueMB.strBuque}" required="true" />
+            <p:message id="strBuqueError" for="strBuque" />
+
+            <p:outputLabel for="strSeguro" value="#{msg.CampoSeguro}" />
+            <p:inputText id="strSeguro"
+                         value="#{generarInstruccionEmbarqueMB.strSeguro}" required="true" />
+            <p:message id="strSeguroError" for="strSeguro" />
+
+            <p:outputLabel value="#{msg.CampoTipoContenedor}" />
+            <p:selectOneMenu id="intTipoContenedor"
+                             value="#{generarInstruccionEmbarqueMB.intTipoContenedor}"
+                             required="true">
+              <f:selectItem id="item2" itemLabel="20" itemValue="20" />
+              <f:selectItem id="item3" itemLabel="40" itemValue="40" />
+            </p:selectOneMenu>
+            <p:message id="intTipoContenedorError" for="intTipoContenedor" />
+
+            <p:outputLabel for="intCantidadContenedores"
+                           value="#{msg.CampoCantidadContenedores}" />
+            <p:inputText id="intCantidadContenedores"
+                         value="#{generarInstruccionEmbarqueMB.intCantidadContenedores}"
+                         required="true" />
+            <p:message id="intCantidadContenedoresError"
+                       for="intCantidadContenedores" />
+
+            <p:outputLabel for="strNumeroContenedor"
+                           value="#{msg.CampoNumeroContenedor}" />
+            <p:inputText id="strNumeroContenedor"
+                         value="#{generarInstruccionEmbarqueMB.strNumeroContenedor}"
+                         required="true" />
+            <p:message id="strNumeroContenedorError" for="strNumeroContenedor" />
+
+            <p:outputLabel for="strSellosSeg" value="#{msg.CampoSellosSeg}" />
+            <p:inputText id="strSellosSeg"
+                         value="#{generarInstruccionEmbarqueMB.strSellosSeg}"
+                         required="true" />
+            <p:message id="strSellosSegError" for="strSellosSeg" />
+
+
+            <p:outputLabel for="strPrecintos" value="#{msg.CampoPrecintos}" />
+            <p:inputText id="strPrecintos"
+                         value="#{generarInstruccionEmbarqueMB.strPrecintos}"
+                         required="true" />
+            <p:message id="strPrecintosError" for="strPrecintos" />
+
+            <p:outputLabel for="intIdModalidadEmbarque"
+                           value="#{msg.CampointModalidadEmbarque}" />
+            <p:selectOneMenu id="intIdModalidadEmbarque"
+                             value="#{generarInstruccionEmbarqueMB.intIdModalidadEmbarque}"
+                             required="true">
+              <f:selectItems
+                value="#{generarInstruccionEmbarqueMB.listaModalidadEmbarque}" />
+            </p:selectOneMenu>
+            <p:message id="intIdModalidadEmbarqueError"
+                       for="intIdModalidadEmbarque" />
+
+            <p:outputLabel for="intIdIncotermDespacho"
+                           value="#{msg.CampoIncotermDespacho}" />
+            <p:selectOneMenu id="intIdIncotermDespacho"
+                             value="#{generarInstruccionEmbarqueMB.intIdIncotermDespacho}"
+                             required="true">
+              <f:selectItems
+                value="#{generarInstruccionEmbarqueMB.listaIncotermDespacho}" />
+            </p:selectOneMenu>
+            <p:message id="intIdIncotermDespachoError"
+                       for="intIdIncotermDespacho" />
+
+            <p:outputLabel for="textArea"
+                           value="#{msg.CampoNotificacionTerminosTransporte}" />
+            <p:inputTextarea id="textArea" rows="4" cols="40"
+                             value="#{generarInstruccionEmbarqueMB.strObservacionTerminosTransporte}"
+                             required="false" />
+            <h:outputText value="" />
+
+            <p:outputLabel for="textArea2"
+                           value="#{msg.CampoObservacionTerminosTransporte2}" />
+            <p:inputTextarea id="textArea2" rows="4" cols="40"
+                             value="#{generarInstruccionEmbarqueMB.strObservacionTerminosTransporte2}"
+                             required="false" />
+            <h:outputText value="" />
+
+
+            <p:outputLabel for="dateFechaETA" value="#{msg.CampoFechaETA}" />
+            <p:calendar id="dateFechaETA"
+                        value="#{generarInstruccionEmbarqueMB.dateFechaETA}"
+                        pattern="yyyy-MM-dd" required="true">
+            </p:calendar>
+            <p:message for="dateFechaETA" styleClass="error" />
+
+
+
+
+            <p:outputLabel for="strNumeroBooking"
+                           value="#{msg.CampoNumeroBooking}" />
+            <p:inputText id="strNumeroBooking"
+                         value="#{generarInstruccionEmbarqueMB.strNumeroBooking}"
+                         required="true" />
+            <p:message id="strNumeroBookingError" for="strNumeroBooking" />
+
+            <p:outputLabel for="strFleteExterno" value="Flete Externo:" />
+            <p:selectOneRadio id="strFleteExterno"
+                              value="#{generarInstruccionEmbarqueMB.strFleteExterno}"
+                              layout="lineDirection"
+                              required="true">
+              <f:selectItem id="si1" itemLabel="#{msg.CampoFleteExternoP}"
+                            itemValue="P" />
+              <f:selectItem id="si2" itemLabel="#{msg.CampoFleteExternoC}"
+                            itemValue="C" />
+            </p:selectOneRadio>
+            <p:message id="strFleteExternoError" for="strFleteExterno" />
+
+            <h:outputText value="" />
+            <h:outputText value="" />
+            <h:outputText value="" />
+
+            <p:outputLabel value="#{msg.CampoPaisDestino}" />
+            <p:selectOneMenu id="selectidpais"
+                             value="#{generarInstruccionEmbarqueMB.strIdPais}" required="true">
+              <p:ajax event="change" update="selectidcity"
+                      listener="#{generarInstruccionEmbarqueMB.cambioPais}"></p:ajax>
+              <f:selectItem id="item1" itemLabel="" itemValue="" />
+              <f:selectItems value="#{generarInstruccionEmbarqueMB.listaPais}" />
+            </p:selectOneMenu>
+            <p:message for="selectidpais" />
+
+            <h:outputText value="" />
+            <h:outputText value="" />
+            <h:outputText value="" />
+
+            <p:outputLabel value="#{msg.CampoCiudadDestino}" />
+            <p:selectOneMenu id="selectidcity"
+                             value="#{generarInstruccionEmbarqueMB.lngIdCiudadDestino}">
+              <f:selectItems
+                value="#{generarInstruccionEmbarqueMB.listaCiudad}" />
+            </p:selectOneMenu>
+            <p:message for="selectidcity" />
+
+            <h:outputText value="" />
+            <h:outputText value="" />
+            <h:outputText value="" />
+
+          </p:panelGrid>
+
+          <p:commandButton value="#{msg.BotonGuardarIE}" update="tabPanel"
+                           actionListener="#{generarInstruccionEmbarqueMB.guardarInstruccionEmbarque}" />
+
+        </p:tab>
+
+      </p:tabView>
+    </h:form>
+
+  </ui:define>
 </ui:composition>

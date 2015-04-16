@@ -13,21 +13,21 @@ import com.ssl.jv.gip.jpa.pojo.Region;
 
 @Stateless
 @LocalBean
-public class RegionDAO extends GenericDAO<Region> implements RegionDAOLocal{
+public class RegionDAO extends GenericDAO<Region> implements RegionDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(RegionDAO.class);
-	
-	public RegionDAO(){
-		this.persistentClass = Region.class;
-	}	
-	
-	public List<Region> findByRegional(String pais){
-		try{
-			return this.em.createNamedQuery("Region.findByPais").setParameter("pais", pais).getResultList();
-    	}catch(NoResultException e){
-    		LOGGER.warn(e);
-    		return null;
-    	}
-	}
-	
+  private static final Logger LOGGER = Logger.getLogger(RegionDAO.class);
+
+  public RegionDAO() {
+    this.persistentClass = Region.class;
+  }
+
+  public List<Region> findByRegional(String pais) {
+    try {
+      return this.em.createNamedQuery("Region.findByPais").setParameter("pais", pais).getResultList();
+    } catch (NoResultException e) {
+      LOGGER.warn(e);
+      return null;
+    }
+  }
+
 }

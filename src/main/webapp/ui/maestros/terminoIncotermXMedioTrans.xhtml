@@ -1,161 +1,161 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:misc="http://java.sun.com/jsf/composite/misc"
+                template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroTerminoIncotermMedioTransTituloFrame}::.</ui:define>
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroTerminoIncotermMedioTransTituloFrame}::.</ui:define>
 
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form prependId="false" id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"/>
+      <p:messages id="msgs" showDetail="false" showSummary="true"
+                  globalOnly="false" showIcon="true"/>
 
-			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.maestroTerminoIncotermMedioTransTituloFrame}">
-					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-						value="#{terminoIncotermXMedioTransMB.lista}" rows="10"
-						emptyMessage="#{msg.maestroTerminoIncotermMedioTransNoEncontrados}"
-						paginator="true" paginatorPosition="bottom"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
+      <p:tabView id="tabPanel">
+        <p:tab title="#{msg.maestroTerminoIncotermMedioTransTituloFrame}">
+          <p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+                       value="#{terminoIncotermXMedioTransMB.lista}" rows="10"
+                       emptyMessage="#{msg.maestroTerminoIncotermMedioTransNoEncontrados}"
+                       paginator="true" paginatorPosition="bottom"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
 
-						<f:facet name="header">
-							<div align="right">
-								<p:outputPanel>
+            <f:facet name="header">
+              <div align="right">
+                <p:outputPanel>
 
-									<p:commandButton action="#{terminoIncotermXMedioTransMB.nuevo}"
-										update=":datoDlg" oncomplete="PF('datoDialog').show()"
-										title="#{msg.generalAdicionarRegistro}"
-										icon="ui-icon-document"
-										value="#{msg.generalAdicionarRegistro}" />
-									<p:spacer width="30"></p:spacer>
-									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
-									<p:inputText id="globalFilter"
-										onkeyup="PF('datoTabla').filter()" style="width:150px"
-										placeholder="#{msg.generalPalabrasBuscar}" />
-									<p:spacer width="30"></p:spacer>
-									<p:commandButton action="introduccion"
-										title="#{msg.generalCancelar}" ajax="false"
-										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
-
-
-								</p:outputPanel>
-							</div>
-						</f:facet>
-
-						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete="PF('datoDialog').show()"
-								icon="ui-icon-pencil" title="#{msg.generalEditar}"
-								update=":datoDlg"
-								action="#{terminoIncotermXMedioTransMB.modificar}">
-								<f:setPropertyActionListener value="#{dato}"
-									target="#{terminoIncotermXMedioTransMB.seleccionado}" />
-							</p:commandButton>
-						</p:column>
-
-						<p:column filterBy="#{dato.terminoIncoterm.descripcion}"
-							headerText="#{msg.maestroTerminoIncotermMedioTransIncoterm}"
-							filterMatchMode="contains"
-							sortBy="#{dato.terminoIncoterm.descripcion}">
-							<h:outputText value="#{dato.terminoIncoterm.descripcion}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.medioTransporte.descripcion}"
-							headerText="#{msg.maestroTerminoIncotermMedioTransMedioTra}"
-							filterMatchMode="contains"
-							sortBy="#{dato.medioTransporte.descripcion}">
-							<h:outputText value="#{dato.medioTransporte.descripcion}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.activo?'Si':'No'}"
-							headerText="#{msg.maestroTerminoIncotermMedioTransActivo}"
-							filterMatchMode="exact" sortBy="#{dato.activo}">
-							<f:facet name="filter">
-								<p:selectOneMenu onchange="PF('datoTabla').filter()"
-									style="width:120px">
-									<f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"
-										noSelectionOption="true" />
-									<f:selectItem itemLabel="Si" itemValue="Si" />
-									<f:selectItem itemLabel="No" itemValue="No" />
-								</p:selectOneMenu>
-							</f:facet>
-							<h:outputText value="#{dato.activo?'Si':'No'}" />
-						</p:column>
-
-					</p:dataTable>
-				</p:tab>
-			</p:tabView>
-		</h:form>
-
-		<p:dialog
-			header="#{terminoIncotermXMedioTransMB.creacion?msg.maestroTerminoIncotermMedioTransProducto:msg.maestroTerminoIncotermMedioTransModificarProducto}"
-			widgetVar="datoDialog" modal="true" showEffect="fade"
-			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
-			<h:form id="formaDlg">
-				<p:outputPanel id="datoDetalle" style="text-align:center;">
-					<p:messages id="msgs2" showDetail="false" showSummary="true"
-						globalOnly="true" showIcon="true"></p:messages>
-					<p:panelGrid columns="3"
-						rendered="#{not empty terminoIncotermXMedioTransMB.seleccionado}"
-						columnClasses="label,value">
-
-						<p:outputLabel
-							value="#{msg.maestroTerminoIncotermMedioTransIncoterm}"
-							for="incotermEd" styleClass="negrita" />
-						<p:selectOneMenu id="incotermEd"
-							value="#{terminoIncotermXMedioTransMB.seleccionado.terminoIncoterm.id}"
-							label="#{msg.maestroTerminoIncotermMedioTransIncoterm}">
-							<f:selectItems
-								value="#{terminoIncotermXMedioTransMB.listaTerminoIncoterm}"
-								var="inco" itemValue="#{inco.id}"
-								itemLabel="#{inco.descripcion}" />
-						</p:selectOneMenu>
-						<p:message for="incotermEd"></p:message>
-
-						<p:outputLabel
-							value="#{msg.maestroTerminoIncotermMedioTransMedioTra}"
-							for="medioEd" styleClass="negrita" />
-						<p:selectOneMenu id="medioEd"
-							value="#{terminoIncotermXMedioTransMB.seleccionado.medioTransporte.id}"
-							label="#{msg.maestroTerminoIncotermMedioTransMedioTra}">
-							<f:selectItems
-								value="#{terminoIncotermXMedioTransMB.listaMedioTransporte}"
-								var="med" itemValue="#{med.id}" itemLabel="#{med.descripcion}" />
-						</p:selectOneMenu>
-						<p:message for="medioEd"></p:message>
-
-						<p:outputLabel
-							value="#{msg.maestroTerminoIncotermMedioTransActivo}"
-							for="activo" styleClass="negrita" />
-						<p:selectBooleanCheckbox
-							value="#{terminoIncotermXMedioTransMB.seleccionado.activo}"
-							id="activo" label="#{msg.maestroTerminoIncotermMedioTransActivo}" />
-						<p:message for="activo"></p:message>
-
-					</p:panelGrid>
-
-					<p:panelGrid columns="3"
-						rendered="#{not empty terminoIncotermXMedioTransMB.seleccionado}"
-						columnClasses="label,value">
-						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
-							action="#{terminoIncotermXMedioTransMB.guardar}"
-							update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos"></p:commandButton>
-						<p:commandButton value="#{msg.generalCancelar}"
-							onclick="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
-					</p:panelGrid>
-
-				</p:outputPanel>
-			</h:form>
-		</p:dialog>
+                  <p:commandButton action="#{terminoIncotermXMedioTransMB.nuevo}"
+                                   update=":datoDlg" oncomplete="PF('datoDialog').show()"
+                                   title="#{msg.generalAdicionarRegistro}"
+                                   icon="ui-icon-document"
+                                   value="#{msg.generalAdicionarRegistro}" />
+                  <p:spacer width="30"></p:spacer>
+                  <h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText id="globalFilter"
+                               onkeyup="PF('datoTabla').filter()" style="width:150px"
+                               placeholder="#{msg.generalPalabrasBuscar}" />
+                  <p:spacer width="30"></p:spacer>
+                  <p:commandButton action="introduccion"
+                                   title="#{msg.generalCancelar}" ajax="false"
+                                   icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
 
 
-	</ui:define>
+                </p:outputPanel>
+              </div>
+            </f:facet>
+
+            <p:column style="width:32px;text-align: center">
+              <p:commandButton oncomplete="PF('datoDialog').show()"
+                               icon="ui-icon-pencil" title="#{msg.generalEditar}"
+                               update=":datoDlg"
+                               action="#{terminoIncotermXMedioTransMB.modificar}">
+                <f:setPropertyActionListener value="#{dato}"
+                                             target="#{terminoIncotermXMedioTransMB.seleccionado}" />
+              </p:commandButton>
+            </p:column>
+
+            <p:column filterBy="#{dato.terminoIncoterm.descripcion}"
+                      headerText="#{msg.maestroTerminoIncotermMedioTransIncoterm}"
+                      filterMatchMode="contains"
+                      sortBy="#{dato.terminoIncoterm.descripcion}">
+              <h:outputText value="#{dato.terminoIncoterm.descripcion}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.medioTransporte.descripcion}"
+                      headerText="#{msg.maestroTerminoIncotermMedioTransMedioTra}"
+                      filterMatchMode="contains"
+                      sortBy="#{dato.medioTransporte.descripcion}">
+              <h:outputText value="#{dato.medioTransporte.descripcion}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.activo?'Si':'No'}"
+                      headerText="#{msg.maestroTerminoIncotermMedioTransActivo}"
+                      filterMatchMode="exact" sortBy="#{dato.activo}">
+              <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('datoTabla').filter()"
+                                 style="width:120px">
+                  <f:selectItem itemLabel="Seleccione uno" itemValue="#{null}"
+                                noSelectionOption="true" />
+                  <f:selectItem itemLabel="Si" itemValue="Si" />
+                  <f:selectItem itemLabel="No" itemValue="No" />
+                </p:selectOneMenu>
+              </f:facet>
+              <h:outputText value="#{dato.activo?'Si':'No'}" />
+            </p:column>
+
+          </p:dataTable>
+        </p:tab>
+      </p:tabView>
+    </h:form>
+
+    <p:dialog
+      header="#{terminoIncotermXMedioTransMB.creacion?msg.maestroTerminoIncotermMedioTransProducto:msg.maestroTerminoIncotermMedioTransModificarProducto}"
+      widgetVar="datoDialog" modal="true" showEffect="fade"
+      hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+      <h:form id="formaDlg">
+        <p:outputPanel id="datoDetalle" style="text-align:center;">
+          <p:messages id="msgs2" showDetail="false" showSummary="true"
+                      globalOnly="true" showIcon="true"></p:messages>
+          <p:panelGrid columns="3"
+                       rendered="#{not empty terminoIncotermXMedioTransMB.seleccionado}"
+                       columnClasses="label,value">
+
+            <p:outputLabel
+              value="#{msg.maestroTerminoIncotermMedioTransIncoterm}"
+              for="incotermEd" styleClass="negrita" />
+            <p:selectOneMenu id="incotermEd"
+                             value="#{terminoIncotermXMedioTransMB.seleccionado.terminoIncoterm.id}"
+                             label="#{msg.maestroTerminoIncotermMedioTransIncoterm}">
+              <f:selectItems
+                value="#{terminoIncotermXMedioTransMB.listaTerminoIncoterm}"
+                var="inco" itemValue="#{inco.id}"
+                itemLabel="#{inco.descripcion}" />
+            </p:selectOneMenu>
+            <p:message for="incotermEd"></p:message>
+
+            <p:outputLabel
+              value="#{msg.maestroTerminoIncotermMedioTransMedioTra}"
+              for="medioEd" styleClass="negrita" />
+            <p:selectOneMenu id="medioEd"
+                             value="#{terminoIncotermXMedioTransMB.seleccionado.medioTransporte.id}"
+                             label="#{msg.maestroTerminoIncotermMedioTransMedioTra}">
+              <f:selectItems
+                value="#{terminoIncotermXMedioTransMB.listaMedioTransporte}"
+                var="med" itemValue="#{med.id}" itemLabel="#{med.descripcion}" />
+            </p:selectOneMenu>
+            <p:message for="medioEd"></p:message>
+
+            <p:outputLabel
+              value="#{msg.maestroTerminoIncotermMedioTransActivo}"
+              for="activo" styleClass="negrita" />
+            <p:selectBooleanCheckbox
+              value="#{terminoIncotermXMedioTransMB.seleccionado.activo}"
+              id="activo" label="#{msg.maestroTerminoIncotermMedioTransActivo}" />
+            <p:message for="activo"></p:message>
+
+          </p:panelGrid>
+
+          <p:panelGrid columns="3"
+                       rendered="#{not empty terminoIncotermXMedioTransMB.seleccionado}"
+                       columnClasses="label,value">
+            <p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+                             action="#{terminoIncotermXMedioTransMB.guardar}"
+                             update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos"></p:commandButton>
+            <p:commandButton value="#{msg.generalCancelar}"
+                             onclick="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+          </p:panelGrid>
+
+        </p:outputPanel>
+      </h:form>
+    </p:dialog>
+
+
+  </ui:define>
 
 </ui:composition>
 

@@ -1,85 +1,83 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
-
-	
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloVentasFacturaDirectaArchivoPlano}::.</ui:define>
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
-		
-
-		
-
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
-				
-				
-		
-					
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/ui/templates/general.xhtml">
 
 
-	
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloVentasFacturaDirectaArchivoPlano}::.</ui:define>
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form prependId="false" id="forma">
 
-			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.TituloVentasFacturaDirectaArchivoPlano}">
-				
-						<p:panelGrid columns="2"  styleClass="noBorders">
 
-						<p:outputLabel value="#{msg.movimientosFechaInicial}" 
-							styleClass="negrita" />
-						<p:calendar id="filtrofechainicial" required="true"
-							value="#{imprimirReporteTxtVentasFDMB.fechaInicial}"
-							pattern="yyyy-MM-dd">
-						</p:calendar>
-						
-						
-						
-						
-						
-						
-						<p:outputLabel value="#{msg.movimientosFechaFinal}" 
-							styleClass="negrita" />
-						<p:calendar id="filtrofechafinal" required="true"
-							value="#{imprimirReporteTxtVentasFDMB.fechaFinal}"
-							pattern="yyyy-MM-dd">
-						</p:calendar>
 
-						
-						
-							
-							
-							
 
-    
-    
-    	<p:commandButton value="#{msg.GenerarReporteTxt}" icon="ui-icon-disk" 
-							ajax="false" action="#{imprimirReporteTxtVentasFDMB.generarReportePlanoFD}">
-					</p:commandButton>
-				
-    
-							
+      <p:messages id="msgs" showDetail="false" showSummary="true"
+                  globalOnly="false" showIcon="true"></p:messages>
 
-					</p:panelGrid>
-				
-				
-					
-					
-				</p:tab>
-			</p:tabView>
-		</h:form>
-		
-		
-		
-	
-	
 
-	</ui:define>
+
+
+
+
+
+
+      <p:tabView id="tabPanel">
+        <p:tab title="#{msg.TituloVentasFacturaDirectaArchivoPlano}">
+
+          <p:panelGrid columns="2"  styleClass="noBorders">
+
+            <p:outputLabel value="#{msg.movimientosFechaInicial}" 
+                           styleClass="negrita" />
+            <p:calendar id="filtrofechainicial" required="true"
+                        value="#{imprimirReporteTxtVentasFDMB.fechaInicial}"
+                        pattern="yyyy-MM-dd">
+            </p:calendar>
+
+
+
+
+
+
+            <p:outputLabel value="#{msg.movimientosFechaFinal}" 
+                           styleClass="negrita" />
+            <p:calendar id="filtrofechafinal" required="true"
+                        value="#{imprimirReporteTxtVentasFDMB.fechaFinal}"
+                        pattern="yyyy-MM-dd">
+            </p:calendar>
+
+
+
+
+
+
+
+
+
+            <p:commandButton value="#{msg.GenerarReporteTxt}" icon="ui-icon-disk" 
+                             ajax="false" action="#{imprimirReporteTxtVentasFDMB.generarReportePlanoFD}">
+            </p:commandButton>
+
+
+
+
+          </p:panelGrid>
+
+
+
+
+        </p:tab>
+      </p:tabView>
+    </h:form>
+
+
+
+
+
+
+  </ui:define>
 
 
 

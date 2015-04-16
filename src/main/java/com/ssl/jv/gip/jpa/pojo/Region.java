@@ -6,91 +6,91 @@ import javax.persistence.*;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the regiones database table.
- * 
+ *
  */
 @Entity
-@Table(name="regiones")
+@Table(name = "regiones")
 @NamedQueries({
-	@NamedQuery(name="Region.findAll", query="SELECT r FROM Region r"),
-	@NamedQuery(name="Region.findByPais", query="SELECT r FROM Region r inner join r.pais p WHERE p.id = :pais")
+  @NamedQuery(name = "Region.findAll", query = "SELECT r FROM Region r"),
+  @NamedQuery(name = "Region.findByPais", query = "SELECT r FROM Region r inner join r.pais p WHERE p.id = :pais")
 })
 public class Region implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String abreviatura;
+  @Id
+  private Long id;
 
-	private String nombre;
+  private String abreviatura;
 
-	//bi-directional many-to-one association to Pais
-	@ManyToOne
-	@JoinColumn(name="id_pais")
-	private Pais pais;
+  private String nombre;
 
-	//bi-directional many-to-one association to Ubicacion
-	@OneToMany(mappedBy="regione")
-	private List<Ubicacion> ubicaciones;
+  //bi-directional many-to-one association to Pais
+  @ManyToOne
+  @JoinColumn(name = "id_pais")
+  private Pais pais;
 
-	public Region() {
-	}
+  //bi-directional many-to-one association to Ubicacion
+  @OneToMany(mappedBy = "regione")
+  private List<Ubicacion> ubicaciones;
 
-	public Long getId() {
-		return this.id;
-	}
+  public Region() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getAbreviatura() {
-		return this.abreviatura;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setAbreviatura(String abreviatura) {
-		this.abreviatura = abreviatura;
-	}
+  public String getAbreviatura() {
+    return this.abreviatura;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setAbreviatura(String abreviatura) {
+    this.abreviatura = abreviatura;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public Pais getPais() {
-		return this.pais;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
+  public Pais getPais() {
+    return this.pais;
+  }
 
-	public List<Ubicacion> getUbicaciones() {
-		return this.ubicaciones;
-	}
+  public void setPais(Pais pais) {
+    this.pais = pais;
+  }
 
-	public void setUbicaciones(List<Ubicacion> ubicaciones) {
-		this.ubicaciones = ubicaciones;
-	}
+  public List<Ubicacion> getUbicaciones() {
+    return this.ubicaciones;
+  }
 
-	public Ubicacion addUbicacione(Ubicacion ubicacione) {
-		getUbicaciones().add(ubicacione);
-		ubicacione.setRegione(this);
+  public void setUbicaciones(List<Ubicacion> ubicaciones) {
+    this.ubicaciones = ubicaciones;
+  }
 
-		return ubicacione;
-	}
+  public Ubicacion addUbicacione(Ubicacion ubicacione) {
+    getUbicaciones().add(ubicacione);
+    ubicacione.setRegione(this);
 
-	public Ubicacion removeUbicacione(Ubicacion ubicacione) {
-		getUbicaciones().remove(ubicacione);
-		ubicacione.setRegione(null);
+    return ubicacione;
+  }
 
-		return ubicacione;
-	}
+  public Ubicacion removeUbicacione(Ubicacion ubicacione) {
+    getUbicaciones().remove(ubicacione);
+    ubicacione.setRegione(null);
+
+    return ubicacione;
+  }
 
 }

@@ -8,6 +8,7 @@ import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.RangoCostoLogistico;
 
 @Local
-public interface RangoCostoLogisticoDAOLocal extends IGenericDAO<RangoCostoLogistico>{
-	public List<RangoCostoLogistico> findByItem(ItemCostoLogistico icl);
+public interface RangoCostoLogisticoDAOLocal extends IGenericDAO<RangoCostoLogistico> {
+
+  public List<RangoCostoLogistico> findByItem(ItemCostoLogistico icl);
 }

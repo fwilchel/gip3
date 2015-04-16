@@ -11,23 +11,22 @@ import com.ssl.jv.gip.negocio.dto.DocumentoPorLotesInstruccionEmbarqueDTO;
  * The Interface DocumentoXLoteDAOLocal.
  */
 @Local
-public interface DocumentoXLoteDAOLocal extends IGenericDAO<DocumentoXLotesoic>{
+public interface DocumentoXLoteDAOLocal extends IGenericDAO<DocumentoXLotesoic> {
 
-	/**
-	 * Consultar documento x lote oic.
-	 *
-	 * @return the list
-	 */
-	public List<DocumentoXLotesoic> consultarDocumentoXLoteOIC();
-	
-	/**
-	 * Reiniciar consecutivo lote oic.
-	 *
-	 * @return the integer
-	 */
-	public Integer reiniciarConsecutivoLoteOIC();
-	
-	public List<DocumentoPorLotesInstruccionEmbarqueDTO> consultarDocumentosPorLotes(String strDocs, String strDocsMerca);
-	
-	
+  /**
+   * Consultar documento x lote oic.
+   *
+   * @return the list
+   */
+  public List<DocumentoXLotesoic> consultarDocumentoXLoteOIC();
+
+  /**
+   * Reiniciar consecutivo lote oic.
+   *
+   * @return the integer
+   */
+  public Integer reiniciarConsecutivoLoteOIC();
+
+  public List<DocumentoPorLotesInstruccionEmbarqueDTO> consultarDocumentosPorLotes(String strDocs, String strDocsMerca);
+
 }

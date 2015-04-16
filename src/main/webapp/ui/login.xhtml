@@ -7,49 +7,49 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:misc="http://java.sun.com/jsf/composite/misc"
                 template="/ui/templates/loginTemplate.xhtml">
-                
-	<ui:define name="title">
-        .:: SOC ::. .::Login::.
-    </ui:define>
 
-    <ui:define name="contenido">
-   		 
-		<tr>
-			<td>
-				<div align="center">
-					<table>
-						<tr>
-							<td class="textoCafe"> <p:outputLabel for="emailTxt" value="#{msg.loginIdentificacion}"></p:outputLabel></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><p:inputText value="#{loginMB.email}" required="true" id="emailTxt" validatorMessage="#{msg.generalCorreoInvalido}" size="40">
-								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="emailTxt" />
- 							</p:inputText></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="textoCafe"><p:outputLabel for="contrasenaTxt" value="#{msg.loginContrasena}"></p:outputLabel></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><p:inputText value="#{loginMB.password}" required="true" id="contrasenaTxt" size="40" type="password"/></td>
-							<td class="textoVinotinto"><a href="#{request.contextPath}/ui/recordarContrasena.jsf">#{msg.loginRecordarContrasena}</a></td>
-						</tr>
+  <ui:define name="title">
+    .:: SOC ::. .::Login::.
+  </ui:define>
 
-					</table>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<div align="center">
-					<p:commandButton value="#{msg.loginIngresar}" styleClass="textoCafe" action="#{loginMB.ingresar}" ajax="false" update=":growl"></p:commandButton>
-				</div>
-			</td>
-		</tr>
-    	
-    </ui:define>
-                
+  <ui:define name="contenido">
+
+    <tr>
+      <td>
+        <div align="center">
+          <table>
+            <tr>
+              <td class="textoCafe"> <p:outputLabel for="emailTxt" value="#{msg.loginIdentificacion}"></p:outputLabel></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><p:inputText value="#{loginMB.email}" required="true" id="emailTxt" validatorMessage="#{msg.generalCorreoInvalido}" size="40">
+                  <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="emailTxt" />
+                </p:inputText></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="textoCafe"><p:outputLabel for="contrasenaTxt" value="#{msg.loginContrasena}"></p:outputLabel></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><p:inputText value="#{loginMB.password}" required="true" id="contrasenaTxt" size="40" type="password"/></td>
+              <td class="textoVinotinto"><a href="#{request.contextPath}/ui/recordarContrasena.jsf">#{msg.loginRecordarContrasena}</a></td>
+            </tr>
+
+          </table>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div align="center">
+          <p:commandButton value="#{msg.loginIngresar}" styleClass="textoCafe" action="#{loginMB.ingresar}" ajax="false" update=":growl"></p:commandButton>
+        </div>
+      </td>
+    </tr>
+
+  </ui:define>
+
 </ui:composition>
 

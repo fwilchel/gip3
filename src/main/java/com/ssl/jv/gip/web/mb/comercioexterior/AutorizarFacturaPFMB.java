@@ -36,121 +36,121 @@ import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Utilidad;
 
-@ManagedBean(name="autorizarFacturaPFMB")
+@ManagedBean(name = "autorizarFacturaPFMB")
 @SessionScoped
-public class AutorizarFacturaPFMB extends UtilMB{
+public class AutorizarFacturaPFMB extends UtilMB {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2780795923623719268L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = -2780795923623719268L;
 
-	private static final Logger LOGGER = Logger.getLogger(AutorizarFacturaPFMB.class);
-	private Timestamp currentTimeStamp;
-	private String consecutivoDocumento;
-	private Integer language=AplicacionMB.SPANISH;
-	private List<AutorizarDocumentoDTO> listaDocumentos;
-	private boolean deshabilitado=false;
-	
-	@EJB
-	private ComercioExteriorEJBLocal comercioEjb;
-	
-	@ManagedProperty(value="#{menuMB}")
-	private MenuMB menu;
-	
-	public AutorizarFacturaPFMB(){
-		
-	}
-	
-	@PostConstruct
-	public void init(){
-		currentTimeStamp = new Timestamp(System.currentTimeMillis());
-		
-	}
+  private static final Logger LOGGER = Logger.getLogger(AutorizarFacturaPFMB.class);
+  private Timestamp currentTimeStamp;
+  private String consecutivoDocumento;
+  private Integer language = AplicacionMB.SPANISH;
+  private List<AutorizarDocumentoDTO> listaDocumentos;
+  private boolean deshabilitado = false;
 
-	public Timestamp getCurrentTimeStamp() {
-		return currentTimeStamp;
-	}
+  @EJB
+  private ComercioExteriorEJBLocal comercioEjb;
 
-	public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
-		this.currentTimeStamp = currentTimeStamp;
-	}
+  @ManagedProperty(value = "#{menuMB}")
+  private MenuMB menu;
 
-	public String getConsecutivoDocumento() {
-		return consecutivoDocumento;
-	}
+  public AutorizarFacturaPFMB() {
 
-	public void setConsecutivoDocumento(String consecutivoDocumento) {
-		this.consecutivoDocumento = consecutivoDocumento;
-	}
+  }
 
-	public String buscarDocumentos(){
-		listaDocumentos=this.comercioEjb.consultarDocumentosAutorizar(consecutivoDocumento);
-		this.deshabilitado=false;
-		return null;
-	}
-	
-	public String autorizarDocumentos(){
-		if(listaDocumentos != null && listaDocumentos.size() > 0){
-			
-			List<AutorizarDocumentoDTO> listado = new ArrayList<AutorizarDocumentoDTO>();
-			
-			for(AutorizarDocumentoDTO dto : listaDocumentos){
-				if(dto.isSeleccionado()){
-					listado.add(dto);
-				}
-			}
-			
-			if(listado.size() > 0){
-				
-				comercioEjb.cambiarEstadoFacturaProforma(listado);
-				
-				String mensaje = AplicacionMB.getMessage("PedidoExitoPaginaBoton", language);
-				
-				this.addMensajeInfo(mensaje);
-				
-				buscarDocumentos();
-				
-			} else {
-				String mensaje = AplicacionMB.getMessage("debeSeleccionarFacturaProforma", language);
-				
-				this.addMensajeInfo(mensaje);
-			}
-		} else {
-			String mensaje = AplicacionMB.getMessage("debeSeleccionarFacturaProforma", language);
-			
-			this.addMensajeInfo(mensaje);
-		}
-		return null;
-	}
+  @PostConstruct
+  public void init() {
+    currentTimeStamp = new Timestamp(System.currentTimeMillis());
 
-	public boolean isDeshabilitado() {
-		return deshabilitado;
-	}
+  }
 
-	public void setDeshabilitado(boolean deshabilitado) {
-		this.deshabilitado = deshabilitado;
-	}
+  public Timestamp getCurrentTimeStamp() {
+    return currentTimeStamp;
+  }
 
-	public String autorizarFacturaProforma(){
-		
-		return null;
-	}
+  public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
+    this.currentTimeStamp = currentTimeStamp;
+  }
 
-	public MenuMB getMenu() {
-		return menu;
-	}
+  public String getConsecutivoDocumento() {
+    return consecutivoDocumento;
+  }
 
-	public void setMenu(MenuMB menu) {
-		this.menu = menu;
-	}
+  public void setConsecutivoDocumento(String consecutivoDocumento) {
+    this.consecutivoDocumento = consecutivoDocumento;
+  }
 
-	public List<AutorizarDocumentoDTO> getListaDocumentos() {
-		return listaDocumentos;
-	}
+  public String buscarDocumentos() {
+    listaDocumentos = this.comercioEjb.consultarDocumentosAutorizar(consecutivoDocumento);
+    this.deshabilitado = false;
+    return null;
+  }
 
-	public void setListaDocumentos(List<AutorizarDocumentoDTO> listaDocumentos) {
-		this.listaDocumentos = listaDocumentos;
-	}
-	
+  public String autorizarDocumentos() {
+    if (listaDocumentos != null && listaDocumentos.size() > 0) {
+
+      List<AutorizarDocumentoDTO> listado = new ArrayList<AutorizarDocumentoDTO>();
+
+      for (AutorizarDocumentoDTO dto : listaDocumentos) {
+        if (dto.isSeleccionado()) {
+          listado.add(dto);
+        }
+      }
+
+      if (listado.size() > 0) {
+
+        comercioEjb.cambiarEstadoFacturaProforma(listado);
+
+        String mensaje = AplicacionMB.getMessage("PedidoExitoPaginaBoton", language);
+
+        this.addMensajeInfo(mensaje);
+
+        buscarDocumentos();
+
+      } else {
+        String mensaje = AplicacionMB.getMessage("debeSeleccionarFacturaProforma", language);
+
+        this.addMensajeInfo(mensaje);
+      }
+    } else {
+      String mensaje = AplicacionMB.getMessage("debeSeleccionarFacturaProforma", language);
+
+      this.addMensajeInfo(mensaje);
+    }
+    return null;
+  }
+
+  public boolean isDeshabilitado() {
+    return deshabilitado;
+  }
+
+  public void setDeshabilitado(boolean deshabilitado) {
+    this.deshabilitado = deshabilitado;
+  }
+
+  public String autorizarFacturaProforma() {
+
+    return null;
+  }
+
+  public MenuMB getMenu() {
+    return menu;
+  }
+
+  public void setMenu(MenuMB menu) {
+    this.menu = menu;
+  }
+
+  public List<AutorizarDocumentoDTO> getListaDocumentos() {
+    return listaDocumentos;
+  }
+
+  public void setListaDocumentos(List<AutorizarDocumentoDTO> listaDocumentos) {
+    this.listaDocumentos = listaDocumentos;
+  }
+
 }

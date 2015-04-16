@@ -28,103 +28,103 @@ import com.ssl.jv.gip.web.util.Modo;
 @SessionScoped
 public class ReporteInventarioComercioExtMB extends UtilMB {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8439835485814158653L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = 8439835485814158653L;
 
-	private static final Logger LOGGER = Logger
-			.getLogger(ReporteInventarioComercioExtMB.class);
+  private static final Logger LOGGER = Logger
+      .getLogger(ReporteInventarioComercioExtMB.class);
 
-	@ManagedProperty(value = "#{menuMB}")
-	private MenuMB menu;
-	private String idUsuario;
+  @ManagedProperty(value = "#{menuMB}")
+  private MenuMB menu;
+  private String idUsuario;
 
-	private Integer language = AplicacionMB.SPANISH;
-	private Modo modo;
+  private Integer language = AplicacionMB.SPANISH;
+  private Modo modo;
 
-	private String sku;
-	private boolean ultimoSaldo;
-	private List<MovimientosInventarioComext> movimientosInventarioComexts;
+  private String sku;
+  private boolean ultimoSaldo;
+  private List<MovimientosInventarioComext> movimientosInventarioComexts;
 
-	@EJB
-	private ReportesEJBLocal reporteEJB;
+  @EJB
+  private ReportesEJBLocal reporteEJB;
 
-	@PostConstruct
-	public void init() {
-		idUsuario = menu.getUsuario().getId();
-		movimientosInventarioComexts = new ArrayList<MovimientosInventarioComext>();
-		ultimoSaldo = true;
-	}
+  @PostConstruct
+  public void init() {
+    idUsuario = menu.getUsuario().getId();
+    movimientosInventarioComexts = new ArrayList<MovimientosInventarioComext>();
+    ultimoSaldo = true;
+  }
 
-	public void consultarMovimientosInventarioComExt(ActionEvent actionEvent) {
-		try {
-			if (sku == null || "".equals(sku)) {
-				sku = "%";
-			} else {
-				sku = "%" + sku + "%";
-			}
+  public void consultarMovimientosInventarioComExt(ActionEvent actionEvent) {
+    try {
+      if (sku == null || "".equals(sku)) {
+        sku = "%";
+      } else {
+        sku = "%" + sku + "%";
+      }
 
-			movimientosInventarioComexts = reporteEJB
-					.consultarMovimientosInventarioComextsPorSKU(sku,
-							ultimoSaldo);
-		} catch (Exception e) {
-			LOGGER.error(e);
-			Exception unrollException = (Exception) this.unrollException(e,
-					ConstraintViolationException.class);
-			if (unrollException != null) {
-				this.addMensajeError(unrollException.getLocalizedMessage());
-			} else {
-				unrollException = (Exception) this.unrollException(e,
-						RuntimeException.class);
-				if (unrollException != null) {
-					this.addMensajeError(unrollException.getLocalizedMessage());
-				} else {
-					this.addMensajeError(e);
-				}
-			}
-		}
-	}
+      movimientosInventarioComexts = reporteEJB
+          .consultarMovimientosInventarioComextsPorSKU(sku,
+              ultimoSaldo);
+    } catch (Exception e) {
+      LOGGER.error(e);
+      Exception unrollException = (Exception) this.unrollException(e,
+          ConstraintViolationException.class);
+      if (unrollException != null) {
+        this.addMensajeError(unrollException.getLocalizedMessage());
+      } else {
+        unrollException = (Exception) this.unrollException(e,
+            RuntimeException.class);
+        if (unrollException != null) {
+          this.addMensajeError(unrollException.getLocalizedMessage());
+        } else {
+          this.addMensajeError(e);
+        }
+      }
+    }
+  }
 
-	public MenuMB getMenu() {
-		return menu;
-	}
+  public MenuMB getMenu() {
+    return menu;
+  }
 
-	public void setMenu(MenuMB menu) {
-		this.menu = menu;
-	}
+  public void setMenu(MenuMB menu) {
+    this.menu = menu;
+  }
 
-	public String getIdUsuario() {
-		return idUsuario;
-	}
+  public String getIdUsuario() {
+    return idUsuario;
+  }
 
-	public void setIdUsuario(String idUsuario) {
-		this.idUsuario = idUsuario;
-	}
+  public void setIdUsuario(String idUsuario) {
+    this.idUsuario = idUsuario;
+  }
 
-	public String getSku() {
-		return sku;
-	}
+  public String getSku() {
+    return sku;
+  }
 
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
+  public void setSku(String sku) {
+    this.sku = sku;
+  }
 
-	public boolean isUltimoSaldo() {
-		return ultimoSaldo;
-	}
+  public boolean isUltimoSaldo() {
+    return ultimoSaldo;
+  }
 
-	public void setUltimoSaldo(boolean ultimoSaldo) {
-		this.ultimoSaldo = ultimoSaldo;
-	}
+  public void setUltimoSaldo(boolean ultimoSaldo) {
+    this.ultimoSaldo = ultimoSaldo;
+  }
 
-	public List<MovimientosInventarioComext> getMovimientosInventarioComexts() {
-		return movimientosInventarioComexts;
-	}
+  public List<MovimientosInventarioComext> getMovimientosInventarioComexts() {
+    return movimientosInventarioComexts;
+  }
 
-	public void setMovimientosInventarioComexts(
-			List<MovimientosInventarioComext> movimientosInventarioComexts) {
-		this.movimientosInventarioComexts = movimientosInventarioComexts;
-	}
+  public void setMovimientosInventarioComexts(
+      List<MovimientosInventarioComext> movimientosInventarioComexts) {
+    this.movimientosInventarioComexts = movimientosInventarioComexts;
+  }
 
 }

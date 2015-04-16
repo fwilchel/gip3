@@ -8,13 +8,13 @@ import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 
 @Local
 public interface MovimientosInventarioComextDAOLocal extends
-		IGenericDAO<MovimientosInventarioComext> {
+    IGenericDAO<MovimientosInventarioComext> {
 
-	public List<MovimientosInventarioComext> getUltimosSaldos();
+  public List<MovimientosInventarioComext> getUltimosSaldos();
 
-	public List<MovimientosInventarioComext> consultarPorSKU(String sku);
+  public List<MovimientosInventarioComext> consultarPorSKU(String sku);
 
-	public List<MovimientosInventarioComext> consultarPorSKU(String sku,
-			boolean ultimoSaldo);
+  public List<MovimientosInventarioComext> consultarPorSKU(String sku,
+      boolean ultimoSaldo);
 
 }

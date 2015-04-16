@@ -9,12 +9,12 @@ import com.ssl.jv.gip.jpa.pojo.Empresa;
 
 @Stateless
 @LocalBean
-public class EmpresaDAO extends GenericDAO<Empresa> implements EmpresaDAOLocal{
+public class EmpresaDAO extends GenericDAO<Empresa> implements EmpresaDAOLocal {
 
-private static final Logger LOGGER = Logger.getLogger(EmpresaDAO.class);
-	
-	public EmpresaDAO(){
-		this.persistentClass = Empresa.class;
-	}	
-	
+  private static final Logger LOGGER = Logger.getLogger(EmpresaDAO.class);
+
+  public EmpresaDAO() {
+    this.persistentClass = Empresa.class;
+  }
+
 }

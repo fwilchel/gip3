@@ -3,69 +3,69 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the pga_reports database table.
- * 
+ *
  */
 @Entity
-@Table(name="pga_reports")
-@NamedQuery(name="PgaReport.findAll", query="SELECT p FROM PgaReport p")
+@Table(name = "pga_reports")
+@NamedQuery(name = "PgaReport.findAll", query = "SELECT p FROM PgaReport p")
 public class PgaReport implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private String reportname;
+  private static final long serialVersionUID = 1L;
 
-	private String reportbody;
+  @Id
+  private String reportname;
 
-	private String reportoptions;
+  private String reportbody;
 
-	private String reportprocs;
+  private String reportoptions;
 
-	private String reportsource;
+  private String reportprocs;
 
-	public PgaReport() {
-	}
+  private String reportsource;
 
-	public String getReportname() {
-		return this.reportname;
-	}
+  public PgaReport() {
+  }
 
-	public void setReportname(String reportname) {
-		this.reportname = reportname;
-	}
+  public String getReportname() {
+    return this.reportname;
+  }
 
-	public String getReportbody() {
-		return this.reportbody;
-	}
+  public void setReportname(String reportname) {
+    this.reportname = reportname;
+  }
 
-	public void setReportbody(String reportbody) {
-		this.reportbody = reportbody;
-	}
+  public String getReportbody() {
+    return this.reportbody;
+  }
 
-	public String getReportoptions() {
-		return this.reportoptions;
-	}
+  public void setReportbody(String reportbody) {
+    this.reportbody = reportbody;
+  }
 
-	public void setReportoptions(String reportoptions) {
-		this.reportoptions = reportoptions;
-	}
+  public String getReportoptions() {
+    return this.reportoptions;
+  }
 
-	public String getReportprocs() {
-		return this.reportprocs;
-	}
+  public void setReportoptions(String reportoptions) {
+    this.reportoptions = reportoptions;
+  }
 
-	public void setReportprocs(String reportprocs) {
-		this.reportprocs = reportprocs;
-	}
+  public String getReportprocs() {
+    return this.reportprocs;
+  }
 
-	public String getReportsource() {
-		return this.reportsource;
-	}
+  public void setReportprocs(String reportprocs) {
+    this.reportprocs = reportprocs;
+  }
 
-	public void setReportsource(String reportsource) {
-		this.reportsource = reportsource;
-	}
+  public String getReportsource() {
+    return this.reportsource;
+  }
+
+  public void setReportsource(String reportsource) {
+    this.reportsource = reportsource;
+  }
 
 }

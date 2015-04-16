@@ -47,8 +47,8 @@ import com.ssl.jv.gip.web.util.Modo;
 public class CategoriasCLMB extends UtilMB {
 
   /**
-	 * 
-	 */
+   *
+   */
   private static final long serialVersionUID = -2780795923623719268L;
 
   private static final Logger LOGGER = Logger.getLogger(CategoriasCLMB.class);
@@ -73,97 +73,97 @@ public class CategoriasCLMB extends UtilMB {
 
   @PostConstruct
   public void init() {
-	categorias = this.maestrosEjb.consultarCategoriasCostosLogisticos();
-	campoAcumula = new ArrayList<SelectItem>();
-	for (ECampoAcumula eca : ECampoAcumula.values()) {
-	  this.campoAcumula.add(new SelectItem(eca.name(), eca.getDescripcion()));
-	}
+    categorias = this.maestrosEjb.consultarCategoriasCostosLogisticos();
+    campoAcumula = new ArrayList<SelectItem>();
+    for (ECampoAcumula eca : ECampoAcumula.values()) {
+      this.campoAcumula.add(new SelectItem(eca.name(), eca.getDescripcion()));
+    }
   }
 
   public AplicacionMB getAppMB() {
-	return appMB;
+    return appMB;
   }
 
   public void setAppMB(AplicacionMB appMB) {
-	this.appMB = appMB;
+    this.appMB = appMB;
   }
 
   public Modo getModo() {
-	return modo;
+    return modo;
   }
 
   public void setModo(Modo modo) {
-	this.modo = modo;
+    this.modo = modo;
   }
 
   public MaestrosEJBLocal getMaestrosEjb() {
-	return maestrosEjb;
+    return maestrosEjb;
   }
 
   public void setMaestrosEjb(MaestrosEJBLocal maestrosEjb) {
-	this.maestrosEjb = maestrosEjb;
+    this.maestrosEjb = maestrosEjb;
   }
 
   public CategoriaCostoLogistico getSeleccionado() {
-	return seleccionado;
+    return seleccionado;
   }
 
   public void setSeleccionado(CategoriaCostoLogistico seleccionado) {
-	this.seleccionado = seleccionado;
-	this.modo = Modo.EDICION;
+    this.seleccionado = seleccionado;
+    this.modo = Modo.EDICION;
   }
 
   public void nuevo() {
-	seleccionado = new CategoriaCostoLogistico();
-	this.modo = Modo.CREACION;
+    seleccionado = new CategoriaCostoLogistico();
+    this.modo = Modo.CREACION;
   }
 
   public void guardar() {
-	try {
-	  if (this.seleccionado.getOrden() == 0){
-		this.seleccionado.setOrden(null);
-	  }
-	  if (this.modo.equals(Modo.CREACION)) {
-		this.seleccionado = this.maestrosEjb.crearCategoriaCostoLogistico(this.seleccionado);
-		this.categorias.add(this.seleccionado);
-		this.modo = Modo.EDICION;
-	  } else {
-		this.seleccionado = this.maestrosEjb.actualizarCategoriaCostoLogistico(this.seleccionado);
-	  }
-	  this.addMensajeInfo(AplicacionMB.getMessage("categoriasCLGuardado", language));
-	} catch (EJBTransactionRolledbackException e) {
-	  if (this.isException(e, "categorias_costos_logisticos_pkey")) {
-		this.addMensajeError("formaDlg:codigo", AplicacionMB.getMessage("maestroCategoriaCLMsgValidatioId", language));
-	  }
-	  if (this.isException(e, "categorias_costos_logisticos_orden_unique")) {
-		this.addMensajeError("formaDlg:orden", AplicacionMB.getMessage("maestroCategoriaCLMsgValidationOrden", language));
-	  }
-	  LOGGER.error(e);
-	}
+    try {
+      if (this.seleccionado.getOrden() == 0) {
+        this.seleccionado.setOrden(null);
+      }
+      if (this.modo.equals(Modo.CREACION)) {
+        this.seleccionado = this.maestrosEjb.crearCategoriaCostoLogistico(this.seleccionado);
+        this.categorias.add(this.seleccionado);
+        this.modo = Modo.EDICION;
+      } else {
+        this.seleccionado = this.maestrosEjb.actualizarCategoriaCostoLogistico(this.seleccionado);
+      }
+      this.addMensajeInfo(AplicacionMB.getMessage("categoriasCLGuardado", language));
+    } catch (EJBTransactionRolledbackException e) {
+      if (this.isException(e, "categorias_costos_logisticos_pkey")) {
+        this.addMensajeError("formaDlg:codigo", AplicacionMB.getMessage("maestroCategoriaCLMsgValidatioId", language));
+      }
+      if (this.isException(e, "categorias_costos_logisticos_orden_unique")) {
+        this.addMensajeError("formaDlg:orden", AplicacionMB.getMessage("maestroCategoriaCLMsgValidationOrden", language));
+      }
+      LOGGER.error(e);
+    }
   }
 
   public boolean isCreacion() {
-	if (this.modo != null && this.modo.equals(Modo.CREACION)) {
-	  return true;
-	} else {
-	  return false;
-	}
+    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public List<CategoriaCostoLogistico> getCategorias() {
-	return categorias;
+    return categorias;
   }
 
   public void setCategorias(List<CategoriaCostoLogistico> categorias) {
-	this.categorias = categorias;
+    this.categorias = categorias;
   }
 
   public List<SelectItem> getCampoAcumula() {
-	return campoAcumula;
+    return campoAcumula;
   }
 
   public void setCampoAcumula(List<SelectItem> campoAcumula) {
-	this.campoAcumula = campoAcumula;
+    this.campoAcumula = campoAcumula;
   }
 
 }

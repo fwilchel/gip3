@@ -14,35 +14,37 @@ import com.ssl.jv.gip.jpa.pojo.Usuario;
 
 @Local
 public interface AdministracionEJBLocal {
-	
-    public Usuario findUsuarioByEmail(String email);
-    
-    public List<Funcionalidad> getMenu(String email);
-    
-    public void actualizarUsuario(Usuario u);
 
-    public void crearUsuario(Usuario u);
-    
-    public List<Usuario> consultarUsuarios();
+  public Usuario findUsuarioByEmail(String email);
 
-    public List<Rol> consultarRoles();
+  public List<Funcionalidad> getMenu(String email);
 
-    public List<Pais> consultarPaises();
-    
-    public Parametro encontrarParametro(Long id);
-    
-	public void enviarEmail(String strEmail, String strContrasena,
-			String nombre, String apellido);
-	
-	public List<HistorialContrasena> consultarHistorialContrasenaHoy(Usuario u);
-	
-	public List<HistorialContrasena> consultarHistorialContrasena(Usuario u);
-	
-	public List<HistorialContrasena> consultarHistorialContrasena(String usuarioId);
-	
-	public void crearHistorialContrasena(HistorialContrasena hc);
-	public void actualizarHistorialContrasena(HistorialContrasena hc);
-	public void eliminarHistorialContrasena(HistorialContrasena hc);
-	
-	public List<Ciudad> getCiudadesByIdPais(String idPais);
+  public void actualizarUsuario(Usuario u);
+
+  public void crearUsuario(Usuario u);
+
+  public List<Usuario> consultarUsuarios();
+
+  public List<Rol> consultarRoles();
+
+  public List<Pais> consultarPaises();
+
+  public Parametro encontrarParametro(Long id);
+
+  public void enviarEmail(String strEmail, String strContrasena,
+      String nombre, String apellido);
+
+  public List<HistorialContrasena> consultarHistorialContrasenaHoy(Usuario u);
+
+  public List<HistorialContrasena> consultarHistorialContrasena(Usuario u);
+
+  public List<HistorialContrasena> consultarHistorialContrasena(String usuarioId);
+
+  public void crearHistorialContrasena(HistorialContrasena hc);
+
+  public void actualizarHistorialContrasena(HistorialContrasena hc);
+
+  public void eliminarHistorialContrasena(HistorialContrasena hc);
+
+  public List<Ciudad> getCiudadesByIdPais(String idPais);
 }

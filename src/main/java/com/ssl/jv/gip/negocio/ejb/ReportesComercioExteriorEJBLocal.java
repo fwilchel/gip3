@@ -24,7 +24,7 @@ import com.ssl.jv.gip.negocio.dto.ReporteProduccionDTO;
 @Local
 public interface ReportesComercioExteriorEJBLocal {
 
-  public List<Documento> consultarFacturasExportacion(FiltroDocumentoDTO filtro);
+  public List<Documento> consultarFacturasExportacionReimprimir(Map<String, Object> parametros);
 
   public List<ProductosXDocumento> consultarProductosPorDocumento(Long id);
 
@@ -91,7 +91,7 @@ public interface ReportesComercioExteriorEJBLocal {
   public List<Documento> consultarDocumentosPorTipoDocumentoEstadoSolicitudCafeFechas(FiltroDocumentoDTO filtro);
 
   public List<DocumentoXNegociacion> consultarDocumentoXNegociacionxDocumento(
-          Long idDocumento);
+      Long idDocumento);
 
   /**
    * Metodo que consulta los documentos del reporte de cinta testigo magnetica
@@ -105,7 +105,7 @@ public interface ReportesComercioExteriorEJBLocal {
   List<DocumentoCintaTestigoMagneticaDTO> consultarDocumentosReporteCintaTestigoMagnetica(Map<String, Object> parametros);
 
   public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(
-          String consecutivoDocumento);
+      String consecutivoDocumento);
 
   /**
    * Metodo que consulta los productos del reporte de produccion
@@ -134,7 +134,18 @@ public interface ReportesComercioExteriorEJBLocal {
    * @email dpoveda@gmail.com
    * @phone 3192594013
    * @param parametros
-   * @return 
+   * @return
    */
   List<CuentaContableComprobanteInformeDiarioDTO> consultarCuentaContableComprobanteInformeDiarioFX(Map<String, Object> parametros);
+
+  /**
+   * Metodo que consulta una factura FX para su reimpresion
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param id
+   * @return
+   */
+  Documento consultarFacturaFXReimprimir(Long id);
 }

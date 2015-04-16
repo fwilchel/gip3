@@ -3,69 +3,69 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the comext_directorio database table.
- * 
+ *
  */
 @Entity
-@Table(name="comext_directorio")
-@NamedQuery(name="ComextDirectorio.findAll", query="SELECT c FROM ComextDirectorio c")
+@Table(name = "comext_directorio")
+@NamedQuery(name = "ComextDirectorio.findAll", query = "SELECT c FROM ComextDirectorio c")
 public class ComextDirectorio implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	private String email;
+  private static final long serialVersionUID = 1L;
 
-	@Id
-	private Integer id;
+  private String email;
 
-	private String nombre;
+  @Id
+  private Integer id;
 
-	private Boolean reportegensp;
+  private String nombre;
 
-	private Boolean reportenovhabilitado;
+  private Boolean reportegensp;
 
-	public ComextDirectorio() {
-	}
+  private Boolean reportenovhabilitado;
 
-	public String getEmail() {
-		return this.email;
-	}
+  public ComextDirectorio() {
+  }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public String getEmail() {
+    return this.email;
+  }
 
-	public Integer getId() {
-		return this.id;
-	}
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  public Integer getId() {
+    return this.id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public Boolean getReportegensp() {
-		return this.reportegensp;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setReportegensp(Boolean reportegensp) {
-		this.reportegensp = reportegensp;
-	}
+  public Boolean getReportegensp() {
+    return this.reportegensp;
+  }
 
-	public Boolean getReportenovhabilitado() {
-		return this.reportenovhabilitado;
-	}
+  public void setReportegensp(Boolean reportegensp) {
+    this.reportegensp = reportegensp;
+  }
 
-	public void setReportenovhabilitado(Boolean reportenovhabilitado) {
-		this.reportenovhabilitado = reportenovhabilitado;
-	}
+  public Boolean getReportenovhabilitado() {
+    return this.reportenovhabilitado;
+  }
+
+  public void setReportenovhabilitado(Boolean reportenovhabilitado) {
+    this.reportenovhabilitado = reportenovhabilitado;
+  }
 
 }

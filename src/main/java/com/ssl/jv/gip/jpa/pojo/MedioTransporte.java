@@ -7,51 +7,49 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-
 /**
  * The persistent class for the medio_transporte database table.
- * 
+ *
  */
 @Entity
-@Table(name="medio_transporte")
-@NamedQuery(name="MedioTransporte.findAll", query="SELECT m FROM MedioTransporte m")
+@Table(name = "medio_transporte")
+@NamedQuery(name = "MedioTransporte.findAll", query = "SELECT m FROM MedioTransporte m")
 public class MedioTransporte implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
-	
-	private Boolean activo;
-	
-	private String descripcion;
+  private static final long serialVersionUID = 1L;
 
+  @Id
+  private Long id;
 
-	public MedioTransporte() {
-	}
+  private Boolean activo;
 
-	public Long getId() {
-		return this.id;
-	}
+  private String descripcion;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public MedioTransporte() {
+  }
 
-	public Boolean getActivo() {
-		return this.activo;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public void setActivo(Boolean activo) {
-		this.activo = activo;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public Boolean getActivo() {
+    return this.activo;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public void setActivo(Boolean activo) {
+    this.activo = activo;
+  }
 
+  public String getDescripcion() {
+    return this.descripcion;
+  }
+
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
 }

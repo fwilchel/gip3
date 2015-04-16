@@ -1,332 +1,331 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloAsignarLotesOICaFP}::.</ui:define>
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloAsignarLotesOICaFP}::.</ui:define>
 
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form id="forma">
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
+      <p:messages id="msgs" showDetail="false" showSummary="true"
+                  globalOnly="false" showIcon="true"></p:messages>
 
-			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.TituloAsignarLotesOICaFP}">
+      <p:tabView id="tabPanel">
+        <p:tab title="#{msg.TituloAsignarLotesOICaFP}">
 
-					<p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha"/>
-					<p:inputText value="#{asignarLotesMB.currentTimeStamp}" id="fecha"
-						required="false" disabled="true" >
-						<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
-					</p:inputText>
-						
-					<p:spacer width="30"></p:spacer>
+          <p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha"/>
+          <p:inputText value="#{asignarLotesMB.currentTimeStamp}" id="fecha"
+                       required="false" disabled="true" >
+            <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
+          </p:inputText>
 
-					<p:outputLabel
-						value="#{msg.IngresarNumFP}: " for="consecutivo"/>
-					<p:inputText value="#{asignarLotesMB.consecutivoDocumento}" id="consecutivo"
-						required="false" />
-						
-					<p:spacer width="30"></p:spacer>
+          <p:spacer width="30"></p:spacer>
 
-					<p:commandButton value="#{msg.documentoEjecutarBusqueda}" update="tabPanel"
-						action="#{asignarLotesMB.buscarDocumentos}" />
+          <p:outputLabel
+            value="#{msg.IngresarNumFP}: " for="consecutivo"/>
+          <p:inputText value="#{asignarLotesMB.consecutivoDocumento}" id="consecutivo"
+                       required="false" />
 
-					<p:dataTable var="doc" widgetVar="tablaDoc" id="tablaDocs"
-						rendered="#{not empty asignarLotesMB.listaDocumentos}"
-						value="#{asignarLotesMB.listaDocumentos}" rows="10"
-						paginator="true" paginatorPosition="bottom" 
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
-						
-						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete="PF('datoDialog').show()" action="#{asignarLotesMB.consultarFacturaPF}"
-								icon="ui-icon-search" update=":datoDlg">
-								<f:setPropertyActionListener value="#{doc}"
-									target="#{asignarLotesMB.documentoSeleccionado}" />
-							</p:commandButton>
-						</p:column>
+          <p:spacer width="30"></p:spacer>
 
-						<p:column filterBy="#{doc.id}"
-							headerText="#{msg.CodigoGipSP}"
-							filterMatchMode="contains" sortBy="#{doc.id}">
-							<h:outputText value="#{doc.id}"/>
-						</p:column>
+          <p:commandButton value="#{msg.documentoEjecutarBusqueda}" update="tabPanel"
+                           action="#{asignarLotesMB.buscarDocumentos}" />
 
-						<p:column filterBy="#{doc.consecutivoDocumento}"
-							headerText="#{msg.ConsecutivoFP}"
-							filterMatchMode="contains" sortBy="#{doc.consecutivoDocumento}">
-							<h:outputText value="#{doc.consecutivoDocumento}" />
-						</p:column>
+          <p:dataTable var="doc" widgetVar="tablaDoc" id="tablaDocs"
+                       rendered="#{not empty asignarLotesMB.listaDocumentos}"
+                       value="#{asignarLotesMB.listaDocumentos}" rows="10"
+                       paginator="true" paginatorPosition="bottom" 
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
 
-						<p:column filterBy="#{doc.documentoCliente}"
-							headerText="#{msg.NumeroPedidoWeb}"
-							filterMatchMode="contains" sortBy="#{doc.documentoCliente}">
-							<h:outputText value="#{doc.documentoCliente}" />
-						</p:column>
-						
-						<p:column filterBy="#{doc.cliente.nombre}"
-							headerText="#{msg.NombreClienteSP}"
-							filterMatchMode="contains" sortBy="#{doc.cliente.nombre}">
-							<h:outputText value="#{doc.cliente.nombre}" />
-						</p:column>
+            <p:column style="width:32px;text-align: center">
+              <p:commandButton oncomplete="PF('datoDialog').show()" action="#{asignarLotesMB.consultarFacturaPF}"
+                               icon="ui-icon-search" update=":datoDlg">
+                <f:setPropertyActionListener value="#{doc}"
+                                             target="#{asignarLotesMB.documentoSeleccionado}" />
+              </p:commandButton>
+            </p:column>
 
-						<p:column filterBy="#{doc.fechaGeneracion}"
-							headerText="#{msg.RequisicionNombreFechaGenerado}"
-							filterMatchMode="contains" sortBy="#{doc.fechaGeneracion}">
-							<h:outputText value="#{doc.fechaGeneracion}" >
-								<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
-							</h:outputText>
-						</p:column>
+            <p:column filterBy="#{doc.id}"
+                      headerText="#{msg.CodigoGipSP}"
+                      filterMatchMode="contains" sortBy="#{doc.id}">
+              <h:outputText value="#{doc.id}"/>
+            </p:column>
 
-					</p:dataTable>
-				</p:tab>
-				
-			</p:tabView>
-		</h:form>
-		
-		<p:dialog header="#{msg.TituloAsignarLotesOICaFP}"
-			widgetVar="datoDialog" modal="true" showEffect="fade"
-			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
-			<h:form id="formaDlg">
-				<p:outputPanel id="datoDetalle" style="text-align:center;">
-					<p:messages id="msgs2" showDetail="false" showSummary="true"
-						globalOnly="true" showIcon="true"></p:messages>
-					<p:panelGrid columns="10"
-						rendered="#{not empty asignarLotesMB.documentoSeleccionado}" >
+            <p:column filterBy="#{doc.consecutivoDocumento}"
+                      headerText="#{msg.ConsecutivoFP}"
+                      filterMatchMode="contains" sortBy="#{doc.consecutivoDocumento}">
+              <h:outputText value="#{doc.consecutivoDocumento}" />
+            </p:column>
 
-						<p:outputLabel value="#{msg.recibiProductoDcoumento}"
-							for="documento" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.id}"
-							id="documento" 
-							label="#{msg.recibiProductoDcoumento}" disabled="true"/>
+            <p:column filterBy="#{doc.documentoCliente}"
+                      headerText="#{msg.NumeroPedidoWeb}"
+                      filterMatchMode="contains" sortBy="#{doc.documentoCliente}">
+              <h:outputText value="#{doc.documentoCliente}" />
+            </p:column>
 
-						<p:outputLabel value="#{msg.RequisicionNombreCons}"
-							for="consecutivoDocumento" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.consecutivoDocumento}"
-							id="consecutivoDocumento" 
-							label="#{msg.RequisicionNombreCons}" disabled="true" />
+            <p:column filterBy="#{doc.cliente.nombre}"
+                      headerText="#{msg.NombreClienteSP}"
+                      filterMatchMode="contains" sortBy="#{doc.cliente.nombre}">
+              <h:outputText value="#{doc.cliente.nombre}" />
+            </p:column>
 
-						<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
-							for="fechaGeneracion" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.fechaGeneracion}"
-							id="fechaGeneracion" label="#{msg.RequisicionNombreFechaGenerado}" disabled="true">
-							<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
-						</p:inputText>
+            <p:column filterBy="#{doc.fechaGeneracion}"
+                      headerText="#{msg.RequisicionNombreFechaGenerado}"
+                      filterMatchMode="contains" sortBy="#{doc.fechaGeneracion}">
+              <h:outputText value="#{doc.fechaGeneracion}" >
+                <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
+              </h:outputText>
+            </p:column>
 
-						<p:outputLabel value="#{msg.nomCliente}"
-							for="clienteNombre" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.cliente.nombre}" size="30"
-							id="clienteNombre" label="#{msg.nomCliente}" disabled="true"/>
-						
-						<p:outputLabel value="#{msg.NumeroPedidoWeb}"
-							for="clienteId" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoCliente}"
-							id="clienteId" label="#{msg.NumeroPedidoWeb}" disabled="true"/>
-						
-						<p:outputLabel value="#{msg.maestroDireccionCliente}"
-							for="clienteDireccion" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.cliente.direccion}" size="30"
-							id="clienteDireccion" label="#{msg.maestroDireccionCliente}" disabled="true"/>
-						
-						<p:outputLabel value="#{msg.maestroTelefonoCliente}"
-							for="clienteTelefono" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.cliente.telefono}"
-							id="clienteTelefono" label="#{msg.maestroTelefonoCliente}" disabled="true"/>
-						
-						<p:outputLabel value="#{msg.maestroContactoAgente}"
-							for="clienteContacto" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.cliente.contacto}" size="30"
-							id="clienteContacto" label="#{msg.maestroContactoAgente}" disabled="true"/>
-						
-						<p:outputLabel value="#{msg.TerminoIncotermSP}"
-							for="terminoIncoterm" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).terminoIncoterm.descripcion}"
-							id="terminoIncoterm" label="#{msg.TerminoIncotermSP}" disabled="true"/>
-						
-						<p:outputLabel value="#{msg.LugarIncoterm}"
-							for="lugarIncoterm" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
-							id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true"/>
-							
-						<p:outputLabel value="#{msg.CantidadContenedores20}"
-							for="cantidadContenedores20" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe20}"
-							id="cantidadContenedores20" label="#{msg.CantidadContenedores20}" disabled="true"/>
+          </p:dataTable>
+        </p:tab>
 
-						<p:outputLabel value="#{msg.CantidadContenedores40}"
-							for="cantidadContenedores40" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe40}"
-							id="cantidadContenedores40" label="#{msg.LugarIncoterm}" disabled="true"/>
-							
-						<p:outputLabel value="#{msg.FechaDespacho}"
-							for="fechaDespacho" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.fechaEsperadaEntrega}"
-							id="fechaDespacho" label="#{msg.FechaDespacho}" disabled="true">
-							<f:convertDateTime pattern="dd-MMM-yyyy"/>
-						</p:inputText>
-							
-						<p:outputLabel value="#{msg.DiasVigenciaFP}"
-							for="diasVigencia" styleClass="negrita" />
-						<p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadDiasVigencia}"
-							id="diasVigencia" label="#{msg.DiasVigenciaFP}" disabled="true"  />
-						
-					</p:panelGrid>
-					
-					<p:dataTable var="producto" widgetVar="productoDoc" id="tablaProductos" sortBy="#{producto.idCliente}"
-						rendered="#{not empty asignarLotesMB.productos}"
-						value="#{asignarLotesMB.productos}" >
-						
-						<p:column styleClass="izquierda"
-							headerText="#{msg.TipoLoteOIC}">
-							<h:outputText value="#{producto.descripcionLote}"/>
-						</p:column>
+      </p:tabView>
+    </h:form>
 
-						<p:column styleClass="centro"
-							headerText="#{msg.buscadorPxCSKU}">
-							<h:outputText value="#{producto.sku}"/>
-						</p:column>
+    <p:dialog header="#{msg.TituloAsignarLotesOICaFP}"
+              widgetVar="datoDialog" modal="true" showEffect="fade"
+              hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+      <h:form id="formaDlg">
+        <p:outputPanel id="datoDetalle" style="text-align:center;">
+          <p:messages id="msgs2" showDetail="false" showSummary="true"
+                      globalOnly="true" showIcon="true"></p:messages>
+          <p:panelGrid columns="10"
+                       rendered="#{not empty asignarLotesMB.documentoSeleccionado}" >
 
-						<p:column 
-							headerText="#{msg.buscadorNombreProducto}">
-							<h:outputText value="#{producto.nombre}" />
-						</p:column>
+            <p:outputLabel value="#{msg.recibiProductoDcoumento}"
+                           for="documento" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.id}"
+                         id="documento" 
+                         label="#{msg.recibiProductoDcoumento}" disabled="true"/>
 
-						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
-							<h:outputText value="#{producto.cantidad}" >
-								<f:convertNumber maxFractionDigits="2"/>
-							</h:outputText>
-						</p:column>
-						
-						<p:column styleClass="derecha"
-							headerText="#{msg.PesoNetoVista}">
-							<h:outputText value="#{producto.totalPesoNeto}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-							</h:outputText>
-						</p:column>
-						
-						<p:column styleClass="derecha"
-							headerText="#{msg.PesoBrutoVista}">
-							<h:outputText value="#{producto.totalPesoBruto}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-							</h:outputText>
-						</p:column>
-						
-						
-						<p:column styleClass="derecha"
-							headerText="#{msg.SPcantidadCajas}">
-							<h:outputText value="#{producto.totalCajas}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-							</h:outputText>
-						</p:column>
-						
-						<p:column styleClass="derecha"
-							headerText="#{msg.SPcantidadPallet}">
-							<h:outputText value="#{producto.totalCajasPallet}">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-							</h:outputText>
-						</p:column>
-						<p:summaryRow>
-				            <p:column colspan="3" styleClass="derecha">
-				                <h:outputText value="TOTALES " />
-				            </p:column>
-				            <p:column styleClass="derecha">
-				                <h:outputText value="#{asignarLotesMB.totalCantidad}" >
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            <p:column styleClass="derecha">
-				                <h:outputText value="#{asignarLotesMB.totalPesoNeto}" >
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            <p:column styleClass="derecha">
-				                <h:outputText value="#{asignarLotesMB.totalPesoBruto}" >
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            <p:column styleClass="derecha">
-				                <h:outputText value="#{asignarLotesMB.totalCantidadCajas}">
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            <p:column styleClass="derecha">
-				                <h:outputText value="#{asignarLotesMB.totalCantidadPallets}" >
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
+            <p:outputLabel value="#{msg.RequisicionNombreCons}"
+                           for="consecutivoDocumento" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.consecutivoDocumento}"
+                         id="consecutivoDocumento" 
+                         label="#{msg.RequisicionNombreCons}" disabled="true" />
 
-				        </p:summaryRow>
-						
-					</p:dataTable>
-					<p:spacer height="10"></p:spacer>
-					<p:panelGrid columns="2">
-						<p:dataTable var="lote" widgetVar="loteDoc" id="tablaLotes" sortBy="#{lote.tipoLote}"
-						rendered="#{not empty asignarLotesMB.lotes}" 
-						value="#{asignarLotesMB.lotes}" >
-						
-							<f:facet name="header">
-								#{msg.TotalesPorLote}
-						    </f:facet>
-							<p:column styleClass="izquierda"
-								headerText="#{msg.TipoLoteOIC}">
-								<h:outputText value="#{lote.descripcionLote}"/>
-							</p:column>
-							
-							<p:column styleClass="derecha"
-								headerText="#{msg.comprasCantidadSola}">
-				                <h:outputText value="#{lote.totalCantidad}" >
-				                    <f:convertNumber maxFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-				            <p:column styleClass="derecha"
-								headerText="#{msg.PesoNetoVista}">
-				                <h:outputText value="#{lote.totalPesoNeto}" >
-				                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-							<p:column styleClass="derecha"
-								headerText="#{msg.PesoBrutoVista}">
-				                <h:outputText value="#{lote.totalPesoBruto}" >
-				                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-				            <p:column styleClass="derecha"
-								headerText="#{msg.SPcantidadCajas}">
-				                <h:outputText value="#{lote.totalCajas}" >
-				                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-				            <p:column styleClass="derecha"
-								headerText="#{msg.SPcantidadPallet}">
-				                <h:outputText value="#{lote.totalCajasPallet}" >
-				                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-				                </h:outputText>
-				            </p:column>
-				            
-				            <p:column styleClass="centro" rendered="#{asignarLotesMB.deshabilitado}"
-								headerText="#{msg.CodigoLoteOIC}">
-				                <h:outputText value="#{lote.consecutivo}" />
-				            </p:column>
-				            
-						</p:dataTable>	
-						<p:commandButton value="#{msg.AsignarLotesBoton}" icon="ui-icon-arrowthickstop-1-s" action="#{asignarLotesMB.asignarLotes}" disabled="#{asignarLotesMB.deshabilitado}" id="btnGenerar" update="msgs2, :forma:tabPanel, btnGenerar, tablaLotes"  ></p:commandButton>
-					</p:panelGrid>
+            <p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
+                           for="fechaGeneracion" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.fechaGeneracion}"
+                         id="fechaGeneracion" label="#{msg.RequisicionNombreFechaGenerado}" disabled="true">
+              <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
+            </p:inputText>
 
-				</p:outputPanel>
-			</h:form>
-		</p:dialog>
-		
-	</ui:define>
+            <p:outputLabel value="#{msg.nomCliente}"
+                           for="clienteNombre" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.cliente.nombre}" size="30"
+                         id="clienteNombre" label="#{msg.nomCliente}" disabled="true"/>
+
+            <p:outputLabel value="#{msg.NumeroPedidoWeb}"
+                           for="clienteId" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoCliente}"
+                         id="clienteId" label="#{msg.NumeroPedidoWeb}" disabled="true"/>
+
+            <p:outputLabel value="#{msg.maestroDireccionCliente}"
+                           for="clienteDireccion" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.cliente.direccion}" size="30"
+                         id="clienteDireccion" label="#{msg.maestroDireccionCliente}" disabled="true"/>
+
+            <p:outputLabel value="#{msg.maestroTelefonoCliente}"
+                           for="clienteTelefono" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.cliente.telefono}"
+                         id="clienteTelefono" label="#{msg.maestroTelefonoCliente}" disabled="true"/>
+
+            <p:outputLabel value="#{msg.maestroContactoAgente}"
+                           for="clienteContacto" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.cliente.contacto}" size="30"
+                         id="clienteContacto" label="#{msg.maestroContactoAgente}" disabled="true"/>
+
+            <p:outputLabel value="#{msg.TerminoIncotermSP}"
+                           for="terminoIncoterm" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).terminoIncoterm.descripcion}"
+                         id="terminoIncoterm" label="#{msg.TerminoIncotermSP}" disabled="true"/>
+
+            <p:outputLabel value="#{msg.LugarIncoterm}"
+                           for="lugarIncoterm" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
+                         id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true"/>
+
+            <p:outputLabel value="#{msg.CantidadContenedores20}"
+                           for="cantidadContenedores20" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe20}"
+                         id="cantidadContenedores20" label="#{msg.CantidadContenedores20}" disabled="true"/>
+
+            <p:outputLabel value="#{msg.CantidadContenedores40}"
+                           for="cantidadContenedores40" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe40}"
+                         id="cantidadContenedores40" label="#{msg.LugarIncoterm}" disabled="true"/>
+
+            <p:outputLabel value="#{msg.FechaDespacho}"
+                           for="fechaDespacho" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.fechaEsperadaEntrega}"
+                         id="fechaDespacho" label="#{msg.FechaDespacho}" disabled="true">
+              <f:convertDateTime pattern="dd-MMM-yyyy"/>
+            </p:inputText>
+
+            <p:outputLabel value="#{msg.DiasVigenciaFP}"
+                           for="diasVigencia" styleClass="negrita" />
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadDiasVigencia}"
+                         id="diasVigencia" label="#{msg.DiasVigenciaFP}" disabled="true"  />
+
+          </p:panelGrid>
+
+          <p:dataTable var="producto" widgetVar="productoDoc" id="tablaProductos" sortBy="#{producto.idCliente}"
+                       rendered="#{not empty asignarLotesMB.productos}"
+                       value="#{asignarLotesMB.productos}" >
+
+            <p:column styleClass="izquierda"
+                      headerText="#{msg.TipoLoteOIC}">
+              <h:outputText value="#{producto.descripcionLote}"/>
+            </p:column>
+
+            <p:column styleClass="centro"
+                      headerText="#{msg.buscadorPxCSKU}">
+              <h:outputText value="#{producto.sku}"/>
+            </p:column>
+
+            <p:column 
+              headerText="#{msg.buscadorNombreProducto}">
+              <h:outputText value="#{producto.nombre}" />
+            </p:column>
+
+            <p:column styleClass="derecha"
+                      headerText="#{msg.comprasCantidadSola}">
+              <h:outputText value="#{producto.cantidad}" >
+                <f:convertNumber maxFractionDigits="2"/>
+              </h:outputText>
+            </p:column>
+
+            <p:column styleClass="derecha"
+                      headerText="#{msg.PesoNetoVista}">
+              <h:outputText value="#{producto.totalPesoNeto}">
+                <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+              </h:outputText>
+            </p:column>
+
+            <p:column styleClass="derecha"
+                      headerText="#{msg.PesoBrutoVista}">
+              <h:outputText value="#{producto.totalPesoBruto}">
+                <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+              </h:outputText>
+            </p:column>
+
+
+            <p:column styleClass="derecha"
+                      headerText="#{msg.SPcantidadCajas}">
+              <h:outputText value="#{producto.totalCajas}">
+                <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+              </h:outputText>
+            </p:column>
+
+            <p:column styleClass="derecha"
+                      headerText="#{msg.SPcantidadPallet}">
+              <h:outputText value="#{producto.totalCajasPallet}">
+                <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+              </h:outputText>
+            </p:column>
+            <p:summaryRow>
+              <p:column colspan="3" styleClass="derecha">
+                <h:outputText value="TOTALES " />
+              </p:column>
+              <p:column styleClass="derecha">
+                <h:outputText value="#{asignarLotesMB.totalCantidad}" >
+                  <f:convertNumber maxFractionDigits="2"/>
+                </h:outputText>
+              </p:column>
+              <p:column styleClass="derecha">
+                <h:outputText value="#{asignarLotesMB.totalPesoNeto}" >
+                  <f:convertNumber maxFractionDigits="2"/>
+                </h:outputText>
+              </p:column>
+              <p:column styleClass="derecha">
+                <h:outputText value="#{asignarLotesMB.totalPesoBruto}" >
+                  <f:convertNumber maxFractionDigits="2"/>
+                </h:outputText>
+              </p:column>
+              <p:column styleClass="derecha">
+                <h:outputText value="#{asignarLotesMB.totalCantidadCajas}">
+                  <f:convertNumber maxFractionDigits="2"/>
+                </h:outputText>
+              </p:column>
+              <p:column styleClass="derecha">
+                <h:outputText value="#{asignarLotesMB.totalCantidadPallets}" >
+                  <f:convertNumber maxFractionDigits="2"/>
+                </h:outputText>
+              </p:column>
+
+
+            </p:summaryRow>
+
+          </p:dataTable>
+          <p:spacer height="10"></p:spacer>
+          <p:panelGrid columns="2">
+            <p:dataTable var="lote" widgetVar="loteDoc" id="tablaLotes" sortBy="#{lote.tipoLote}"
+                         rendered="#{not empty asignarLotesMB.lotes}" 
+                         value="#{asignarLotesMB.lotes}" >
+
+              <f:facet name="header">
+                #{msg.TotalesPorLote}
+              </f:facet>
+              <p:column styleClass="izquierda"
+                        headerText="#{msg.TipoLoteOIC}">
+                <h:outputText value="#{lote.descripcionLote}"/>
+              </p:column>
+
+              <p:column styleClass="derecha"
+                        headerText="#{msg.comprasCantidadSola}">
+                <h:outputText value="#{lote.totalCantidad}" >
+                  <f:convertNumber maxFractionDigits="2"/>
+                </h:outputText>
+              </p:column>
+
+              <p:column styleClass="derecha"
+                        headerText="#{msg.PesoNetoVista}">
+                <h:outputText value="#{lote.totalPesoNeto}" >
+                  <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                </h:outputText>
+              </p:column>
+
+              <p:column styleClass="derecha"
+                        headerText="#{msg.PesoBrutoVista}">
+                <h:outputText value="#{lote.totalPesoBruto}" >
+                  <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                </h:outputText>
+              </p:column>
+
+              <p:column styleClass="derecha"
+                        headerText="#{msg.SPcantidadCajas}">
+                <h:outputText value="#{lote.totalCajas}" >
+                  <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                </h:outputText>
+              </p:column>
+
+              <p:column styleClass="derecha"
+                        headerText="#{msg.SPcantidadPallet}">
+                <h:outputText value="#{lote.totalCajasPallet}" >
+                  <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+                </h:outputText>
+              </p:column>
+
+              <p:column styleClass="centro" rendered="#{asignarLotesMB.deshabilitado}"
+                        headerText="#{msg.CodigoLoteOIC}">
+                <h:outputText value="#{lote.consecutivo}" />
+              </p:column>
+
+            </p:dataTable>	
+            <p:commandButton value="#{msg.AsignarLotesBoton}" icon="ui-icon-arrowthickstop-1-s" action="#{asignarLotesMB.asignarLotes}" disabled="#{asignarLotesMB.deshabilitado}" id="btnGenerar" update="msgs2, :forma:tabPanel, btnGenerar, tablaLotes"  ></p:commandButton>
+          </p:panelGrid>
+
+        </p:outputPanel>
+      </h:form>
+    </p:dialog>
+
+  </ui:define>
 </ui:composition>

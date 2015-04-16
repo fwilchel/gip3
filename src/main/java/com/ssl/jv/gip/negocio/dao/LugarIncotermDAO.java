@@ -9,12 +9,12 @@ import com.ssl.jv.gip.jpa.pojo.LugarIncoterm;
 
 @Stateless
 @LocalBean
-public class LugarIncotermDAO extends GenericDAO<LugarIncoterm> implements LugarIncotermDAOLocal{
-	
-	private static final Logger LOGGER = Logger.getLogger(LugarIncotermDAO.class);
-	
-	public LugarIncotermDAO(){
-		this.persistentClass = LugarIncoterm.class;
-	}
-	
+public class LugarIncotermDAO extends GenericDAO<LugarIncoterm> implements LugarIncotermDAOLocal {
+
+  private static final Logger LOGGER = Logger.getLogger(LugarIncotermDAO.class);
+
+  public LugarIncotermDAO() {
+    this.persistentClass = LugarIncoterm.class;
+  }
+
 }

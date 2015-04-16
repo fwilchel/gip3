@@ -30,7 +30,6 @@ import javax.faces.validator.ValidatorException;
  * @phone 3192594013
  * @version 1.0
  */
-
 @FacesValidator("FechaFinalValidador")
 public class FechaFinalValidador implements Validator {
 

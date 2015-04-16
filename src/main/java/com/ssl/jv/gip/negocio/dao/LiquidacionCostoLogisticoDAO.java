@@ -9,12 +9,12 @@ import com.ssl.jv.gip.jpa.pojo.LiquidacionCostoLogistico;
 
 @Stateless
 @LocalBean
-public class LiquidacionCostoLogisticoDAO extends GenericDAO<LiquidacionCostoLogistico> implements LiquidacionCostoLogisticoDAOLocal{
+public class LiquidacionCostoLogisticoDAO extends GenericDAO<LiquidacionCostoLogistico> implements LiquidacionCostoLogisticoDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(LiquidacionCostoLogisticoDAO.class);
-	
-	public LiquidacionCostoLogisticoDAO(){
-		this.persistentClass = LiquidacionCostoLogistico.class;
-	}	
-	
+  private static final Logger LOGGER = Logger.getLogger(LiquidacionCostoLogisticoDAO.class);
+
+  public LiquidacionCostoLogisticoDAO() {
+    this.persistentClass = LiquidacionCostoLogistico.class;
+  }
+
 }

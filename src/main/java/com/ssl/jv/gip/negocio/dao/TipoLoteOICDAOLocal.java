@@ -5,7 +5,6 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 
 @Local
-public interface TipoLoteOICDAOLocal extends IGenericDAO<TipoLoteoic>{
+public interface TipoLoteOICDAOLocal extends IGenericDAO<TipoLoteoic> {
 
-	
 }

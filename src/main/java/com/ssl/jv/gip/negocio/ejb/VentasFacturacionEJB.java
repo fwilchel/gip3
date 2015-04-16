@@ -147,7 +147,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 
   @Override
   public List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
-          Long idPuntoVenta) {
+      Long idPuntoVenta) {
     return productoClienteDAO.consultarPorClientePuntoVenta(idCliente, idPuntoVenta);
   }
 
@@ -156,7 +156,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
    */
   @Override
   public Documento crearVentaDirecta(Documento documento, LogAuditoria auditoria,
-          List<ProductosXDocumento> productos) {
+      List<ProductosXDocumento> productos) {
     //Consultar consecutivo
     StringBuilder strConsecutivo = new StringBuilder();
     TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK((long) ConstantesTipoDocumento.VENTA_DIRECTA);
@@ -170,7 +170,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     }
 
     documento.setConsecutivoDocumento(strConsecutivo.toString() + "-"
-            + this.documentoDAO.consultarProximoValorSecuencia(strConsecutivo.toString() + "_seq"));
+        + this.documentoDAO.consultarProximoValorSecuencia(strConsecutivo.toString() + "_seq"));
     documento = (Documento) this.documentoDAO.add(documento);
 //		auditoria.setIdRegTabla(documento.getId());
 //		auditoria.setValorNuevo(documento.getConsecutivoDocumento());

@@ -3,151 +3,151 @@ package com.ssl.jv.gip.negocio.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-public class ComextFormatoNovedadesDTO implements Serializable{
+public class ComextFormatoNovedadesDTO implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2647339829681076341L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = -2647339829681076341L;
 
-	private Long id;
-	
-	private String distribucionOptima;
-	
-	private String docSolicitado;
-	
-	private String formatoDiligenciado;
-	
-	private String prodCompleto;
-	
-	private String prodBuenEstado;
-	
-	private String prodTiempo;
-	
-	private String obsdistoptima;
-	
-	private String obsdocsolicitados;
-	
-	private String obsprodbuenestado;
-	
-	private String obsprodcompleto;
-	
-	private String obsprodtiempo;
-	
-	private String consecutivo;
-	
-	private Date fecha;
+  private Long id;
 
-	public Long getId() {
-		return id;
-	}
+  private String distribucionOptima;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  private String docSolicitado;
 
-	public String getDistribucionOptima() {
-		return distribucionOptima;
-	}
+  private String formatoDiligenciado;
 
-	public void setDistribucionOptima(String distribucionOptima) {
-		this.distribucionOptima = distribucionOptima;
-	}
+  private String prodCompleto;
 
-	public String getDocSolicitado() {
-		return docSolicitado;
-	}
+  private String prodBuenEstado;
 
-	public void setDocSolicitado(String docSolicitado) {
-		this.docSolicitado = docSolicitado;
-	}
+  private String prodTiempo;
 
-	public String getFormatoDiligenciado() {
-		return formatoDiligenciado;
-	}
+  private String obsdistoptima;
 
-	public void setFormatoDiligenciado(String formatoDiligenciado) {
-		this.formatoDiligenciado = formatoDiligenciado;
-	}
+  private String obsdocsolicitados;
 
-	public String getProdCompleto() {
-		return prodCompleto;
-	}
+  private String obsprodbuenestado;
 
-	public void setProdCompleto(String prodCompleto) {
-		this.prodCompleto = prodCompleto;
-	}
+  private String obsprodcompleto;
 
-	public String getProdBuenEstado() {
-		return prodBuenEstado;
-	}
+  private String obsprodtiempo;
 
-	public void setProdBuenEstado(String prodBuenEstado) {
-		this.prodBuenEstado = prodBuenEstado;
-	}
+  private String consecutivo;
 
-	public String getProdTiempo() {
-		return prodTiempo;
-	}
+  private Date fecha;
 
-	public void setProdTiempo(String prodTiempo) {
-		this.prodTiempo = prodTiempo;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public String getObsdistoptima() {
-		return obsdistoptima;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setObsdistoptima(String obsdistoptima) {
-		this.obsdistoptima = obsdistoptima;
-	}
+  public String getDistribucionOptima() {
+    return distribucionOptima;
+  }
 
-	public String getObsdocsolicitados() {
-		return obsdocsolicitados;
-	}
+  public void setDistribucionOptima(String distribucionOptima) {
+    this.distribucionOptima = distribucionOptima;
+  }
 
-	public void setObsdocsolicitados(String obsdocsolicitados) {
-		this.obsdocsolicitados = obsdocsolicitados;
-	}
+  public String getDocSolicitado() {
+    return docSolicitado;
+  }
 
-	public String getObsprodbuenestado() {
-		return obsprodbuenestado;
-	}
+  public void setDocSolicitado(String docSolicitado) {
+    this.docSolicitado = docSolicitado;
+  }
 
-	public void setObsprodbuenestado(String obsprodbuenestado) {
-		this.obsprodbuenestado = obsprodbuenestado;
-	}
+  public String getFormatoDiligenciado() {
+    return formatoDiligenciado;
+  }
 
-	public String getObsprodcompleto() {
-		return obsprodcompleto;
-	}
+  public void setFormatoDiligenciado(String formatoDiligenciado) {
+    this.formatoDiligenciado = formatoDiligenciado;
+  }
 
-	public void setObsprodcompleto(String obsprodcompleto) {
-		this.obsprodcompleto = obsprodcompleto;
-	}
+  public String getProdCompleto() {
+    return prodCompleto;
+  }
 
-	public String getObsprodtiempo() {
-		return obsprodtiempo;
-	}
+  public void setProdCompleto(String prodCompleto) {
+    this.prodCompleto = prodCompleto;
+  }
 
-	public void setObsprodtiempo(String obsprodtiempo) {
-		this.obsprodtiempo = obsprodtiempo;
-	}
+  public String getProdBuenEstado() {
+    return prodBuenEstado;
+  }
 
-	public String getConsecutivo() {
-		return consecutivo;
-	}
+  public void setProdBuenEstado(String prodBuenEstado) {
+    this.prodBuenEstado = prodBuenEstado;
+  }
 
-	public void setConsecutivo(String consecutivo) {
-		this.consecutivo = consecutivo;
-	}
+  public String getProdTiempo() {
+    return prodTiempo;
+  }
 
-	public Date getFecha() {
-		return fecha;
-	}
+  public void setProdTiempo(String prodTiempo) {
+    this.prodTiempo = prodTiempo;
+  }
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
+  public String getObsdistoptima() {
+    return obsdistoptima;
+  }
+
+  public void setObsdistoptima(String obsdistoptima) {
+    this.obsdistoptima = obsdistoptima;
+  }
+
+  public String getObsdocsolicitados() {
+    return obsdocsolicitados;
+  }
+
+  public void setObsdocsolicitados(String obsdocsolicitados) {
+    this.obsdocsolicitados = obsdocsolicitados;
+  }
+
+  public String getObsprodbuenestado() {
+    return obsprodbuenestado;
+  }
+
+  public void setObsprodbuenestado(String obsprodbuenestado) {
+    this.obsprodbuenestado = obsprodbuenestado;
+  }
+
+  public String getObsprodcompleto() {
+    return obsprodcompleto;
+  }
+
+  public void setObsprodcompleto(String obsprodcompleto) {
+    this.obsprodcompleto = obsprodcompleto;
+  }
+
+  public String getObsprodtiempo() {
+    return obsprodtiempo;
+  }
+
+  public void setObsprodtiempo(String obsprodtiempo) {
+    this.obsprodtiempo = obsprodtiempo;
+  }
+
+  public String getConsecutivo() {
+    return consecutivo;
+  }
+
+  public void setConsecutivo(String consecutivo) {
+    this.consecutivo = consecutivo;
+  }
+
+  public Date getFecha() {
+    return fecha;
+  }
+
+  public void setFecha(Date fecha) {
+    this.fecha = fecha;
+  }
 
 }

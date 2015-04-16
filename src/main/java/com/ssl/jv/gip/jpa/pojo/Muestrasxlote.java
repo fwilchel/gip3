@@ -4,83 +4,83 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the muestrasxlote database table.
- * 
+ *
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name="Muestrasxlote.findAll", query="SELECT m FROM Muestrasxlote m"),
-@NamedQuery(name="Muestrasxlote.findByCantidad", query="SELECT m FROM Muestrasxlote m where :cantidad >= rangoInicial and :cantidad1 <= rangoFinal")
+  @NamedQuery(name = "Muestrasxlote.findAll", query = "SELECT m FROM Muestrasxlote m"),
+  @NamedQuery(name = "Muestrasxlote.findByCantidad", query = "SELECT m FROM Muestrasxlote m where :cantidad >= rangoInicial and :cantidad1 <= rangoFinal")
 })
 public class Muestrasxlote implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private BigDecimal factor;
+  @Id
+  private Long id;
 
-	private BigDecimal muestras;
+  private BigDecimal factor;
 
-	@Column(name="rango_final")
-	private Long rangoFinal;
+  private BigDecimal muestras;
 
-	@Column(name="rango_inicial")
-	private Long rangoInicial;
+  @Column(name = "rango_final")
+  private Long rangoFinal;
 
-	private String tipo;
+  @Column(name = "rango_inicial")
+  private Long rangoInicial;
 
-	public Muestrasxlote() {
-	}
+  private String tipo;
 
-	public Long getId() {
-		return this.id;
-	}
+  public Muestrasxlote() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public BigDecimal getFactor() {
-		return this.factor;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setFactor(BigDecimal factor) {
-		this.factor = factor;
-	}
+  public BigDecimal getFactor() {
+    return this.factor;
+  }
 
-	public BigDecimal getMuestras() {
-		return this.muestras;
-	}
+  public void setFactor(BigDecimal factor) {
+    this.factor = factor;
+  }
 
-	public void setMuestras(BigDecimal muestras) {
-		this.muestras = muestras;
-	}
+  public BigDecimal getMuestras() {
+    return this.muestras;
+  }
 
-	public Long getRangoFinal() {
-		return this.rangoFinal;
-	}
+  public void setMuestras(BigDecimal muestras) {
+    this.muestras = muestras;
+  }
 
-	public void setRangoFinal(Long rangoFinal) {
-		this.rangoFinal = rangoFinal;
-	}
+  public Long getRangoFinal() {
+    return this.rangoFinal;
+  }
 
-	public Long getRangoInicial() {
-		return this.rangoInicial;
-	}
+  public void setRangoFinal(Long rangoFinal) {
+    this.rangoFinal = rangoFinal;
+  }
 
-	public void setRangoInicial(Long rangoInicial) {
-		this.rangoInicial = rangoInicial;
-	}
+  public Long getRangoInicial() {
+    return this.rangoInicial;
+  }
 
-	public String getTipo() {
-		return this.tipo;
-	}
+  public void setRangoInicial(Long rangoInicial) {
+    this.rangoInicial = rangoInicial;
+  }
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+  public String getTipo() {
+    return this.tipo;
+  }
+
+  public void setTipo(String tipo) {
+    this.tipo = tipo;
+  }
 
 }

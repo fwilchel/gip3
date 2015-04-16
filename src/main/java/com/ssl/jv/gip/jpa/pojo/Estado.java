@@ -11,62 +11,63 @@ import javax.persistence.Table;
 
 /**
  * The persistent class for the estados database table.
- * 
+ *
  */
 @Entity
 @Table(name = "estados")
 @NamedQuery(name = "Estado.findAll", query = "SELECT e FROM Estado e")
 public class Estado implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String descripcion;
+  @Id
+  private Long id;
 
-	private String nombre;
+  private String descripcion;
 
-	// bi-directional many-to-many association to TipoDocumento
-	@ManyToMany(mappedBy = "estados")
-	private List<TipoDocumento> tipoDocumentos;
+  private String nombre;
 
-	public Estado() {
-	}
+  // bi-directional many-to-many association to TipoDocumento
+  @ManyToMany(mappedBy = "estados")
+  private List<TipoDocumento> tipoDocumentos;
 
-	public Estado(Long id) {
-		this.id = id;
-	}
+  public Estado() {
+  }
 
-	public Long getId() {
-		return this.id;
-	}
+  public Estado(Long id) {
+    this.id = id;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public String getDescripcion() {
+    return this.descripcion;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public List<TipoDocumento> getTipoDocumentos() {
-		return this.tipoDocumentos;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setTipoDocumentos(List<TipoDocumento> tipoDocumentos) {
-		this.tipoDocumentos = tipoDocumentos;
-	}
+  public List<TipoDocumento> getTipoDocumentos() {
+    return this.tipoDocumentos;
+  }
+
+  public void setTipoDocumentos(List<TipoDocumento> tipoDocumentos) {
+    this.tipoDocumentos = tipoDocumentos;
+  }
 
 }

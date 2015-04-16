@@ -13,82 +13,82 @@ import com.ssl.jv.gip.negocio.ejb.MaestrosEJB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
 
-@ManagedBean(name="lugarIncotermMB")
+@ManagedBean(name = "lugarIncotermMB")
 @SessionScoped
-public class LugarIncotermMB extends UtilMB{
-	
-	private List<LugarIncoterm> lugarIncoterm;
-	private LugarIncoterm seleccionado;
-	
-	private Modo modo;
-	
-	@EJB
-	private MaestrosEJB maestroEjb;	
-	
-	public LugarIncotermMB(){
-		
-	}
-	
-	@PostConstruct
-	public void init(){
-		lugarIncoterm = maestroEjb.consultarLugarIncoterm();
-	}
-	
-	public String modificar(){
-		
-		return "";
-	}
+public class LugarIncotermMB extends UtilMB {
 
-	public Modo getModo() {
-		return modo;
-	}
+  private List<LugarIncoterm> lugarIncoterm;
+  private LugarIncoterm seleccionado;
 
-	public void setModo(Modo modo) {
-		this.modo = modo;
-	}
+  private Modo modo;
 
-	public LugarIncoterm getSeleccionado() {
-		return seleccionado;
-	}
+  @EJB
+  private MaestrosEJB maestroEjb;
 
-	public void setSeleccionado(LugarIncoterm seleccionado) {
-		this.seleccionado = seleccionado;
-		this.modo=Modo.EDICION;
-	}
-	
-	public void nuevo(){
-		seleccionado=new LugarIncoterm();
-		this.modo=Modo.CREACION;
-	}
-	
-	public void guardar(){
-		if (this.modo.equals(Modo.CREACION)){
-			this.seleccionado = this.maestroEjb.crearLugarIncoterm(this.seleccionado);
-			if(this.lugarIncoterm == null){
-				this.lugarIncoterm = new ArrayList<LugarIncoterm>();
-			}
-			this.lugarIncoterm.add(0,this.seleccionado);
-		}else{
-			this.maestroEjb.actualizarLugarIncoterm(this.seleccionado);
-		}
-		
-		this.addMensajeInfo("LugarIncoterm almacenado exitosamente");
-	}
-		
-	public boolean isCreacion(){
-		if (this.modo!=null && this.modo.equals(Modo.CREACION)){
-			return true;
-		}else{
-			return false;
-		}
-	}
+  public LugarIncotermMB() {
 
-	public List<LugarIncoterm> getLugarIncoterm() {
-		return lugarIncoterm;
-	}
+  }
 
-	public void setLugarIncoterm(List<LugarIncoterm> lugarIncoterm) {
-		this.lugarIncoterm = lugarIncoterm;
-	}
+  @PostConstruct
+  public void init() {
+    lugarIncoterm = maestroEjb.consultarLugarIncoterm();
+  }
+
+  public String modificar() {
+
+    return "";
+  }
+
+  public Modo getModo() {
+    return modo;
+  }
+
+  public void setModo(Modo modo) {
+    this.modo = modo;
+  }
+
+  public LugarIncoterm getSeleccionado() {
+    return seleccionado;
+  }
+
+  public void setSeleccionado(LugarIncoterm seleccionado) {
+    this.seleccionado = seleccionado;
+    this.modo = Modo.EDICION;
+  }
+
+  public void nuevo() {
+    seleccionado = new LugarIncoterm();
+    this.modo = Modo.CREACION;
+  }
+
+  public void guardar() {
+    if (this.modo.equals(Modo.CREACION)) {
+      this.seleccionado = this.maestroEjb.crearLugarIncoterm(this.seleccionado);
+      if (this.lugarIncoterm == null) {
+        this.lugarIncoterm = new ArrayList<LugarIncoterm>();
+      }
+      this.lugarIncoterm.add(0, this.seleccionado);
+    } else {
+      this.maestroEjb.actualizarLugarIncoterm(this.seleccionado);
+    }
+
+    this.addMensajeInfo("LugarIncoterm almacenado exitosamente");
+  }
+
+  public boolean isCreacion() {
+    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public List<LugarIncoterm> getLugarIncoterm() {
+    return lugarIncoterm;
+  }
+
+  public void setLugarIncoterm(List<LugarIncoterm> lugarIncoterm) {
+    this.lugarIncoterm = lugarIncoterm;
+  }
 
 }

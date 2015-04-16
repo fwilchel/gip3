@@ -6,87 +6,87 @@ import javax.persistence.*;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the roles database table.
- * 
+ *
  */
 @Entity
-@Table(name="roles")
-@NamedQuery(name="Rol.findAll", query="SELECT r FROM Rol r")
+@Table(name = "roles")
+@NamedQuery(name = "Rol.findAll", query = "SELECT r FROM Rol r")
 public class Rol implements Serializable, Comparable<Object> {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="id_rol")
-	private Long idRol;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  @Column(name = "id_rol")
+  private Long idRol;
 
-	//bi-directional many-to-many association to Permiso
-	@ManyToMany(mappedBy="roles")
-	private List<Permiso> permisos;
+  private String nombre;
 
-	//bi-directional many-to-one association to Usuario
-	@OneToMany(mappedBy="role")
-	private List<Usuario> usuarios;
+  //bi-directional many-to-many association to Permiso
+  @ManyToMany(mappedBy = "roles")
+  private List<Permiso> permisos;
 
-	public Rol() {
-	}
+  //bi-directional many-to-one association to Usuario
+  @OneToMany(mappedBy = "role")
+  private List<Usuario> usuarios;
 
-	public Long getIdRol() {
-		return this.idRol;
-	}
+  public Rol() {
+  }
 
-	public void setIdRol(Long idRol) {
-		this.idRol = idRol;
-	}
+  public Long getIdRol() {
+    return this.idRol;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setIdRol(Long idRol) {
+    this.idRol = idRol;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public List<Permiso> getPermisos() {
-		return this.permisos;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setPermisos(List<Permiso> permisos) {
-		this.permisos = permisos;
-	}
+  public List<Permiso> getPermisos() {
+    return this.permisos;
+  }
 
-	public List<Usuario> getUsuarios() {
-		return this.usuarios;
-	}
+  public void setPermisos(List<Permiso> permisos) {
+    this.permisos = permisos;
+  }
 
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
+  public List<Usuario> getUsuarios() {
+    return this.usuarios;
+  }
 
-	public Usuario addUsuario(Usuario usuario) {
-		getUsuarios().add(usuario);
-		usuario.setRole(this);
+  public void setUsuarios(List<Usuario> usuarios) {
+    this.usuarios = usuarios;
+  }
 
-		return usuario;
-	}
+  public Usuario addUsuario(Usuario usuario) {
+    getUsuarios().add(usuario);
+    usuario.setRole(this);
 
-	public Usuario removeUsuario(Usuario usuario) {
-		getUsuarios().remove(usuario);
-		usuario.setRole(null);
+    return usuario;
+  }
 
-		return usuario;
-	}
+  public Usuario removeUsuario(Usuario usuario) {
+    getUsuarios().remove(usuario);
+    usuario.setRole(null);
 
-	@Override
-	public int compareTo(Object o) {
-		if (o instanceof Rol){
-			Rol p=(Rol)o;
-			return this.nombre.compareTo(p.getNombre());
-		}
-		return 0;
-	}
+    return usuario;
+  }
+
+  @Override
+  public int compareTo(Object o) {
+    if (o instanceof Rol) {
+      Rol p = (Rol) o;
+      return this.nombre.compareTo(p.getNombre());
+    }
+    return 0;
+  }
 
 }

@@ -12,24 +12,21 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 
 @Stateless
 @LocalBean
-public class ProductoClienteDAO extends GenericDAO<ProductosXCliente> implements ProductoClienteDAOLocal{
-	
-	private static final Logger LOGGER = Logger.getLogger(ProductoClienteDAO.class);
+public class ProductoClienteDAO extends GenericDAO<ProductosXCliente> implements ProductoClienteDAOLocal {
 
-	public ProductoClienteDAO () {
-		this.persistentClass = ProductosXCliente.class;
-	}
-	
-	@Override
-	public List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
-			Long idPuntoVenta) {
-		Query query = em
-				.createNamedQuery("ProductosXCliente.findByClientePuntoVenta")
-				.setParameter("idCliente", idCliente).setParameter("idPuntoVenta", idPuntoVenta);
-		return query.getResultList();
-	}
-	
-	
-	
+  private static final Logger LOGGER = Logger.getLogger(ProductoClienteDAO.class);
+
+  public ProductoClienteDAO() {
+    this.persistentClass = ProductosXCliente.class;
+  }
+
+  @Override
+  public List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
+      Long idPuntoVenta) {
+    Query query = em
+        .createNamedQuery("ProductosXCliente.findByClientePuntoVenta")
+        .setParameter("idCliente", idCliente).setParameter("idPuntoVenta", idPuntoVenta);
+    return query.getResultList();
+  }
 
 }

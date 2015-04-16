@@ -3,39 +3,39 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the comext_categoria_producto database table.
- * 
+ *
  */
 @Entity
-@Table(name="comext_categoria_producto")
-@NamedQuery(name="ComextCategoriaProducto.findAll", query="SELECT c FROM ComextCategoriaProducto c")
+@Table(name = "comext_categoria_producto")
+@NamedQuery(name = "ComextCategoriaProducto.findAll", query = "SELECT c FROM ComextCategoriaProducto c")
 public class ComextCategoriaProducto implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  private Long id;
 
-	public ComextCategoriaProducto() {
-	}
+  private String nombre;
 
-	public Long getId() {
-		return this.id;
-	}
+  public ComextCategoriaProducto() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
+
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
 }

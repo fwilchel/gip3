@@ -10,11 +10,11 @@ import javax.ejb.Stateless;
 @LocalBean
 public class ReabastecimientoEJB implements ReabastecimientoEJBLocal {
 
-    /**
-     * Default constructor. 
-     */
-    public ReabastecimientoEJB() {
-        // TODO Auto-generated constructor stub
-    }
+  /**
+   * Default constructor.
+   */
+  public ReabastecimientoEJB() {
+    // TODO Auto-generated constructor stub
+  }
 
 }

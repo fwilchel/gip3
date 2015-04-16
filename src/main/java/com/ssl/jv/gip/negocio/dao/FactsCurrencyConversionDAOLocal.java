@@ -7,7 +7,7 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.FactsCurrencyConversion;
 
 @Local
-public interface FactsCurrencyConversionDAOLocal extends IGenericDAO<FactsCurrencyConversion>{
+public interface FactsCurrencyConversionDAOLocal extends IGenericDAO<FactsCurrencyConversion> {
 
-	public FactsCurrencyConversion getTRMDian(Date fecha);
+  public FactsCurrencyConversion getTRMDian(Date fecha);
 }

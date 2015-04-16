@@ -3,131 +3,123 @@ package com.ssl.jv.gip.negocio.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ProductoDevolucionDTO implements Serializable{
+public class ProductoDevolucionDTO implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4215474239289218901L;
-	
-	private Long id;
-	
-	private String sku;
-	
-	private String nombre;
-	
-	private Long categoriasInventarioId;
-	
-	private String categoriasInventarioNombre;
-	
-	private double cantidadDevolver = 0.0;
-	
-	private String observacion;
-	
-	private String unidadNombre;
-	
-	private Long unidadId;
-	
-	private boolean incluido;
-	
-	
+  /**
+   *
+   */
+  private static final long serialVersionUID = -4215474239289218901L;
 
+  private Long id;
 
-	public ProductoDevolucionDTO(Long id, String sku, String nombre,
-			Long categoriasInventarioId, String categoriasInventarioNombre, String unidadNombre, Long unidadId) {
-		super();
-		this.id = id;
-		this.sku = sku;
-		this.nombre = nombre;
-		this.categoriasInventarioId = categoriasInventarioId;
-		this.categoriasInventarioNombre = categoriasInventarioNombre;
-		this.unidadNombre = unidadNombre;
-		this.unidadId = unidadId;
-	}
+  private String sku;
 
-	public Long getId() {
-		return id;
-	}
+  private String nombre;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  private Long categoriasInventarioId;
 
-	public String getSku() {
-		return sku;
-	}
+  private String categoriasInventarioNombre;
 
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
+  private double cantidadDevolver = 0.0;
 
-	public String getNombre() {
-		return nombre;
-	}
+  private String observacion;
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  private String unidadNombre;
 
-	public Long getCategoriasInventarioId() {
-		return categoriasInventarioId;
-	}
+  private Long unidadId;
 
-	public void setCategoriasInventarioId(Long categoriasInventarioId) {
-		this.categoriasInventarioId = categoriasInventarioId;
-	}
+  private boolean incluido;
 
-	public String getCategoriasInventarioNombre() {
-		return categoriasInventarioNombre;
-	}
+  public ProductoDevolucionDTO(Long id, String sku, String nombre,
+      Long categoriasInventarioId, String categoriasInventarioNombre, String unidadNombre, Long unidadId) {
+    super();
+    this.id = id;
+    this.sku = sku;
+    this.nombre = nombre;
+    this.categoriasInventarioId = categoriasInventarioId;
+    this.categoriasInventarioNombre = categoriasInventarioNombre;
+    this.unidadNombre = unidadNombre;
+    this.unidadId = unidadId;
+  }
 
-	public void setCategoriasInventarioNombre(String categoriasInventarioNombre) {
-		this.categoriasInventarioNombre = categoriasInventarioNombre;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public boolean isIncluido() {
-		return incluido;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setIncluido(boolean incluido) {
-		this.incluido = incluido;
-	}
+  public String getSku() {
+    return sku;
+  }
 
-	public double getCantidadDevolver() {
-		return cantidadDevolver;
-	}
+  public void setSku(String sku) {
+    this.sku = sku;
+  }
 
-	public void setCantidadDevolver(double cantidadDevolver) {
-		this.cantidadDevolver = cantidadDevolver;
-	}
+  public String getNombre() {
+    return nombre;
+  }
 
-	public String getObservacion() {
-		return observacion;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setObservacion(String observacion) {
-		this.observacion = observacion;
-	}
+  public Long getCategoriasInventarioId() {
+    return categoriasInventarioId;
+  }
 
-	public String getUnidadNombre() {
-		return unidadNombre;
-	}
+  public void setCategoriasInventarioId(Long categoriasInventarioId) {
+    this.categoriasInventarioId = categoriasInventarioId;
+  }
 
-	public void setUnidadNombre(String unidadNombre) {
-		this.unidadNombre = unidadNombre;
-	}
+  public String getCategoriasInventarioNombre() {
+    return categoriasInventarioNombre;
+  }
 
-	public Long getUnidadId() {
-		return unidadId;
-	}
+  public void setCategoriasInventarioNombre(String categoriasInventarioNombre) {
+    this.categoriasInventarioNombre = categoriasInventarioNombre;
+  }
 
-	public void setUnidadId(Long unidadId) {
-		this.unidadId = unidadId;
-	}
-	
-	
-	
-		
-	
+  public boolean isIncluido() {
+    return incluido;
+  }
+
+  public void setIncluido(boolean incluido) {
+    this.incluido = incluido;
+  }
+
+  public double getCantidadDevolver() {
+    return cantidadDevolver;
+  }
+
+  public void setCantidadDevolver(double cantidadDevolver) {
+    this.cantidadDevolver = cantidadDevolver;
+  }
+
+  public String getObservacion() {
+    return observacion;
+  }
+
+  public void setObservacion(String observacion) {
+    this.observacion = observacion;
+  }
+
+  public String getUnidadNombre() {
+    return unidadNombre;
+  }
+
+  public void setUnidadNombre(String unidadNombre) {
+    this.unidadNombre = unidadNombre;
+  }
+
+  public Long getUnidadId() {
+    return unidadId;
+  }
+
+  public void setUnidadId(Long unidadId) {
+    this.unidadId = unidadId;
+  }
 
 }

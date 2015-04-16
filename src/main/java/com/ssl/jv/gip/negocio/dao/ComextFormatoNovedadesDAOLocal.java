@@ -8,8 +8,8 @@ import com.ssl.jv.gip.jpa.pojo.ComextFormatoNovedade;
 import com.ssl.jv.gip.negocio.dto.ComextFormatoNovedadesDTO;
 
 @Local
-public interface ComextFormatoNovedadesDAOLocal extends IGenericDAO<ComextFormatoNovedade>{
+public interface ComextFormatoNovedadesDAOLocal extends IGenericDAO<ComextFormatoNovedade> {
 
-	public List<ComextFormatoNovedadesDTO> consultarComextFormatoNovedades();
+  public List<ComextFormatoNovedadesDTO> consultarComextFormatoNovedades();
 
 }

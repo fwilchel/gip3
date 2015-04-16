@@ -3,49 +3,49 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the gasto_publicidad database table.
- * 
+ *
  */
 @Entity
-@Table(name="gasto_publicidad")
-@NamedQuery(name="GastoPublicidad.findAll", query="SELECT g FROM GastoPublicidad g")
+@Table(name = "gasto_publicidad")
+@NamedQuery(name = "GastoPublicidad.findAll", query = "SELECT g FROM GastoPublicidad g")
 public class GastoPublicidad implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String descripcion;
+  @Id
+  private Long id;
 
-	private String nombre;
+  private String descripcion;
 
-	public GastoPublicidad() {
-	}
+  private String nombre;
 
-	public Long getId() {
-		return this.id;
-	}
+  public GastoPublicidad() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public String getDescripcion() {
+    return this.descripcion;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
+
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
 }

@@ -79,7 +79,7 @@ public class GenerarReporteCintaTestigoMagneticaMB extends UtilMB {
 
   @PostConstruct
   public void init() {
-	LOGGER.debug("Metodo: <<init>>");
+    LOGGER.debug("Metodo: <<init>>");
   }
 
   /**
@@ -87,94 +87,90 @@ public class GenerarReporteCintaTestigoMagneticaMB extends UtilMB {
    * @return
    */
   public StreamedContent generarReporte() {
-	LOGGER.debug("Metodo: <<generarReporte>>");
-	Map<String, Object> parametros = new HashMap<>();
-	parametros.put("fechaInicial", getFiltroFechaInicial());
-	parametros.put("fechaFinal", getFiltroFechaFinal());
-	List<DocumentoCintaTestigoMagneticaDTO> listaDocumentos;
-	listaDocumentos = reportesComercioExteriorEJB.consultarDocumentosReporteCintaTestigoMagnetica(parametros);
-	for (DocumentoCintaTestigoMagneticaDTO d : listaDocumentos) {
-	  if (d.getSubtotal() == 0) {
-		d.setSubtotal(d.getValorTotal());
-	  }
-	}
-	// generar reporte
-	StreamedContent reporteXLS = null;
-	Map<String, Object> parametrosReporte = new HashMap<>();
-	SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-	String consecutivoInicial;
-	String consecutivoFinal;
-	Integer sizeList;
-	DocumentoCintaTestigoMagneticaDTO tmp;
-	sizeList = listaDocumentos.size();
-	tmp = listaDocumentos.get(0);
-	consecutivoInicial = tmp.getConsecutivo();
-	tmp = listaDocumentos.get(sizeList - 1);
-	consecutivoFinal = tmp.getConsecutivo();
-	parametrosReporte.put("size", sizeList);
-	parametrosReporte.put("cIni", consecutivoInicial);
-	parametrosReporte.put("cFin", consecutivoFinal);
-	parametrosReporte.put("fechaIni", formatoFecha.format(getFiltroFechaInicial()));
-	parametrosReporte.put("fechaFin", formatoFecha.format(getFiltroFechaFinal()));
-	parametrosReporte.put("ubicacion", "Oficina Central - Comercio Exterior");
-	JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDocumentos, false);
-	try {
-	  Hashtable<String, String> parametrosConfiguracionReporte;
-	  parametrosConfiguracionReporte = new Hashtable<>();
-	  parametrosConfiguracionReporte.put("tipo", "pdf");
-	  String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report_CintaMagneticaCE.jasper");
-	  ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reporte, null, null, null, parametrosReporte, ds);
-	  reporteXLS = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "CintaTestigoMagneticaFX.pdf");
-	} catch (Exception e) {
-	  this.addMensajeError("Problemas al generar el reporte");
-	}
-	return reporteXLS;
+    LOGGER.debug("Metodo: <<generarReporte>>");
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("fechaInicial", getFiltroFechaInicial());
+    parametros.put("fechaFinal", getFiltroFechaFinal());
+    List<DocumentoCintaTestigoMagneticaDTO> listaDocumentos;
+    listaDocumentos = reportesComercioExteriorEJB.consultarDocumentosReporteCintaTestigoMagnetica(parametros);
+    for (DocumentoCintaTestigoMagneticaDTO d : listaDocumentos) {
+      if (d.getSubtotal() == 0) {
+        d.setSubtotal(d.getValorTotal());
+      }
+    }
+    // generar reporte
+    StreamedContent reporteXLS = null;
+    Map<String, Object> parametrosReporte = new HashMap<>();
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    String consecutivoInicial;
+    String consecutivoFinal;
+    Integer sizeList;
+    DocumentoCintaTestigoMagneticaDTO tmp;
+    sizeList = listaDocumentos.size();
+    tmp = listaDocumentos.get(0);
+    consecutivoInicial = tmp.getConsecutivo();
+    tmp = listaDocumentos.get(sizeList - 1);
+    consecutivoFinal = tmp.getConsecutivo();
+    parametrosReporte.put("size", sizeList);
+    parametrosReporte.put("cIni", consecutivoInicial);
+    parametrosReporte.put("cFin", consecutivoFinal);
+    parametrosReporte.put("fechaIni", formatoFecha.format(getFiltroFechaInicial()));
+    parametrosReporte.put("fechaFin", formatoFecha.format(getFiltroFechaFinal()));
+    parametrosReporte.put("ubicacion", "Oficina Central - Comercio Exterior");
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDocumentos, false);
+    try {
+      Hashtable<String, String> parametrosConfiguracionReporte;
+      parametrosConfiguracionReporte = new Hashtable<>();
+      parametrosConfiguracionReporte.put("tipo", "pdf");
+      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report_CintaMagneticaCE.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reporte, null, null, null, parametrosReporte, ds);
+      reporteXLS = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "CintaTestigoMagneticaFX.pdf");
+    } catch (Exception e) {
+      this.addMensajeError("Problemas al generar el reporte");
+    }
+    return reporteXLS;
   }
 
   /**
-   * @param appMB
-   *          the appMB to set
+   * @param appMB the appMB to set
    */
   public void setAppMB(AplicacionMB appMB) {
-	this.appMB = appMB;
+    this.appMB = appMB;
   }
 
   /**
-   * @param menuMB
-   *          the menuMB to set
+   * @param menuMB the menuMB to set
    */
   public void setMenuMB(MenuMB menuMB) {
-	this.menuMB = menuMB;
+    this.menuMB = menuMB;
   }
 
   /**
    * @return the filtroFechaInicial
    */
   public Date getFiltroFechaInicial() {
-	return filtroFechaInicial;
+    return filtroFechaInicial;
   }
 
   /**
-   * @param filtroFechaInicial
-   *          the filtroFechaInicial to set
+   * @param filtroFechaInicial the filtroFechaInicial to set
    */
   public void setFiltroFechaInicial(Date filtroFechaInicial) {
-	this.filtroFechaInicial = filtroFechaInicial;
+    this.filtroFechaInicial = filtroFechaInicial;
   }
 
   /**
    * @return the filtroFechaFinal
    */
   public Date getFiltroFechaFinal() {
-	return filtroFechaFinal;
+    return filtroFechaFinal;
   }
 
   /**
-   * @param filtroFechaFinal
-   *          the filtroFechaFinal to set
+   * @param filtroFechaFinal the filtroFechaFinal to set
    */
   public void setFiltroFechaFinal(Date filtroFechaFinal) {
-	this.filtroFechaFinal = filtroFechaFinal;
+    this.filtroFechaFinal = filtroFechaFinal;
   }
 
 }

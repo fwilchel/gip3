@@ -1,119 +1,119 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:misc="http://java.sun.com/jsf/composite/misc"
+                template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroInventarioComExt_TituloFrame}::.</ui:define>
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroInventarioComExt_TituloFrame}::.</ui:define>
 
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		
-		<h:form prependId="false" id="forma">
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
 
-			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
-				showIcon="true" autoUpdate="true"></p:messages>
+    <h:form prependId="false" id="forma">
 
-
-
-			<p:tabView id="tabPanel">
-			
-				<p:tab title="#{msg.maestroInventarioComExt_TituloFrame}">
-					
-					<p:panelGrid columns="3"
-						columnClasses="label,value">
-
-						<p:outputLabel value="#{msg.maestroInventarioComExt_SKU}" for="sku" styleClass="negrita" />
-						<p:inputText value="#{inventarioComercioExteriorMB.sku}" id="sku" required="false" disabled="false" 
-							label="#{msg.maestroInventarioComExt_SKU}" />
-						<p:message for="sku"></p:message>
-
-					</p:panelGrid>
-					
-					<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{inventarioComercioExteriorMB.consultarMovimientosInventarioComExt}" 
-						update=":forma:tabPanel:tablaDatos" ></p:commandButton>
-					
-					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-						value="#{inventarioComercioExteriorMB.movimientosInventarioComexts}" rows="10"
-						emptyMessage="#{msg.generalNoDatos}" paginator="true"
-						paginatorPosition="bottom" 
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
-
-						<f:facet name="header">
-							<div align="right">
-								<p:outputPanel>
-									<p:commandButton action="#{inventarioComercioExteriorMB.nuevo}" title="#{msg.generalAdicionarRegistro}"
-										icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
-									<p:spacer width="30"></p:spacer>	
-									<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
-												<p:inputText id="globalFilter"
-													onkeyup="PF('datoTabla').filter()" style="width:150px"
-													placeholder="#{msg.generalPalabrasBuscar}" />
-									<p:spacer width="30"></p:spacer>				
-									<p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
-										icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
-								
-									
-								</p:outputPanel>
-							</div>
-						</f:facet>
-
-						<p:column filterBy="#{dato.consecutivoDocumento}" headerText="#{msg.maestroInventarioComExt_Cons_Doc}"
-							filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
-							<h:outputText value="#{dato.consecutivoDocumento}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.productosInventarioComext.productosInventario.sku}" headerText="#{msg.maestroInventarioComExt_SKU}"
-							filterMatchMode="contains" sortBy="#{dato.productosInventarioComext.productosInventario.sku}">
-							<h:outputText value="#{dato.productosInventarioComext.productosInventario.sku}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.productosInventarioComext.productosInventario.nombre}" headerText="#{msg.maestroInventarioComExt_Nombre_Producto}"
-							filterMatchMode="contains" sortBy="#{dato.productosInventarioComext.productosInventario.nombre}">
-							<h:outputText value="#{dato.productosInventarioComext.productosInventario.nombre}" />
-						</p:column>
-	
-						<p:column headerText="#{msg.maestroInventarioComExt_Cantidad}"
-							sortBy="#{dato.cantidad}" style="text-align:right" >
-							<p:outputLabel value="#{dato.cantidad}" >
-               					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-              		 		</p:outputLabel>
-						</p:column>
-	
-						<p:column headerText="#{msg.maestroInventarioComExt_Saldo}"
-							 sortBy="#{dato.saldo}" style="text-align:right">
-							<p:outputLabel value="#{dato.saldo}" >
-               					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
-              		 		</p:outputLabel>
-						</p:column>
-
-						<p:column filterBy="#{dato.tipoMovimiento.nombre}" headerText="#{msg.maestroInventarioComExt_Tipo_Movimiento}"
-							filterMatchMode="contains" sortBy="#{dato.tipoMovimiento.nombre}">
-							<h:outputText value="#{dato.tipoMovimiento.nombre}" />
-						</p:column>
-
-						<p:column filterBy="#{dato.fecha}"
-							headerText="#{msg.maestroInventarioComExt_Fecha}"
-							filterMatchMode="contains" sortBy="#{dato.fecha}">
-							<p:outputLabel value="#{dato.fecha}" >
-								<f:convertDateTime pattern="dd-MMM-yyyy"/>
-							</p:outputLabel>
-						</p:column>
-
-						
-					</p:dataTable>
-				</p:tab>
-			</p:tabView>
+      <p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+                  showIcon="true" autoUpdate="true"></p:messages>
 
 
 
-		</h:form>
+      <p:tabView id="tabPanel">
 
-	</ui:define>
+        <p:tab title="#{msg.maestroInventarioComExt_TituloFrame}">
+
+          <p:panelGrid columns="3"
+                       columnClasses="label,value">
+
+            <p:outputLabel value="#{msg.maestroInventarioComExt_SKU}" for="sku" styleClass="negrita" />
+            <p:inputText value="#{inventarioComercioExteriorMB.sku}" id="sku" required="false" disabled="false" 
+                         label="#{msg.maestroInventarioComExt_SKU}" />
+            <p:message for="sku"></p:message>
+
+          </p:panelGrid>
+
+          <p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{inventarioComercioExteriorMB.consultarMovimientosInventarioComExt}" 
+                           update=":forma:tabPanel:tablaDatos" ></p:commandButton>
+
+          <p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+                       value="#{inventarioComercioExteriorMB.movimientosInventarioComexts}" rows="10"
+                       emptyMessage="#{msg.generalNoDatos}" paginator="true"
+                       paginatorPosition="bottom" 
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
+
+            <f:facet name="header">
+              <div align="right">
+                <p:outputPanel>
+                  <p:commandButton action="#{inventarioComercioExteriorMB.nuevo}" title="#{msg.generalAdicionarRegistro}"
+                                   icon="ui-icon-document" value="#{msg.generalAdicionarRegistro}" />
+                  <p:spacer width="30"></p:spacer>	
+                  <h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText id="globalFilter"
+                               onkeyup="PF('datoTabla').filter()" style="width:150px"
+                               placeholder="#{msg.generalPalabrasBuscar}" />
+                  <p:spacer width="30"></p:spacer>				
+                  <p:commandButton action="introduccion" title="#{msg.generalCancelar}" ajax="false"
+                                   icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
+
+
+                </p:outputPanel>
+              </div>
+            </f:facet>
+
+            <p:column filterBy="#{dato.consecutivoDocumento}" headerText="#{msg.maestroInventarioComExt_Cons_Doc}"
+                      filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
+              <h:outputText value="#{dato.consecutivoDocumento}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.productosInventarioComext.productosInventario.sku}" headerText="#{msg.maestroInventarioComExt_SKU}"
+                      filterMatchMode="contains" sortBy="#{dato.productosInventarioComext.productosInventario.sku}">
+              <h:outputText value="#{dato.productosInventarioComext.productosInventario.sku}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.productosInventarioComext.productosInventario.nombre}" headerText="#{msg.maestroInventarioComExt_Nombre_Producto}"
+                      filterMatchMode="contains" sortBy="#{dato.productosInventarioComext.productosInventario.nombre}">
+              <h:outputText value="#{dato.productosInventarioComext.productosInventario.nombre}" />
+            </p:column>
+
+            <p:column headerText="#{msg.maestroInventarioComExt_Cantidad}"
+                      sortBy="#{dato.cantidad}" style="text-align:right" >
+              <p:outputLabel value="#{dato.cantidad}" >
+                <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+              </p:outputLabel>
+            </p:column>
+
+            <p:column headerText="#{msg.maestroInventarioComExt_Saldo}"
+                      sortBy="#{dato.saldo}" style="text-align:right">
+              <p:outputLabel value="#{dato.saldo}" >
+                <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+              </p:outputLabel>
+            </p:column>
+
+            <p:column filterBy="#{dato.tipoMovimiento.nombre}" headerText="#{msg.maestroInventarioComExt_Tipo_Movimiento}"
+                      filterMatchMode="contains" sortBy="#{dato.tipoMovimiento.nombre}">
+              <h:outputText value="#{dato.tipoMovimiento.nombre}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.fecha}"
+                      headerText="#{msg.maestroInventarioComExt_Fecha}"
+                      filterMatchMode="contains" sortBy="#{dato.fecha}">
+              <p:outputLabel value="#{dato.fecha}" >
+                <f:convertDateTime pattern="dd-MMM-yyyy"/>
+              </p:outputLabel>
+            </p:column>
+
+
+          </p:dataTable>
+        </p:tab>
+      </p:tabView>
+
+
+
+    </h:form>
+
+  </ui:define>
 
 </ui:composition>
 

@@ -3,122 +3,122 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the comext_usuarios database table.
- * 
+ *
  */
 @Entity
-@Table(name="comext_usuarios")
-@NamedQuery(name="ComextUsuario.findAll", query="SELECT c FROM ComextUsuario c")
+@Table(name = "comext_usuarios")
+@NamedQuery(name = "ComextUsuario.findAll", query = "SELECT c FROM ComextUsuario c")
 public class ComextUsuario implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	private Boolean cambiopassword;
+  private static final long serialVersionUID = 1L;
 
-	private Boolean escomercial;
+  private Boolean cambiopassword;
 
-	@Id
-	private Long id;
+  private Boolean escomercial;
 
-	@Column(name="id_canal")
-	private Long idCanal;
+  @Id
+  private Long id;
 
-	@Column(name="id_cliente")
-	private Long idCliente;
+  @Column(name = "id_canal")
+  private Long idCanal;
 
-	@Column(name="id_usuario")
-	private String idUsuario;
+  @Column(name = "id_cliente")
+  private Long idCliente;
 
-	private String password;
+  @Column(name = "id_usuario")
+  private String idUsuario;
 
-	private String salt;
+  private String password;
 
-	private String token;
+  private String salt;
 
-	private String username;
+  private String token;
 
-	public ComextUsuario() {
-	}
+  private String username;
 
-	public Boolean getCambiopassword() {
-		return this.cambiopassword;
-	}
+  public ComextUsuario() {
+  }
 
-	public void setCambiopassword(Boolean cambiopassword) {
-		this.cambiopassword = cambiopassword;
-	}
+  public Boolean getCambiopassword() {
+    return this.cambiopassword;
+  }
 
-	public Boolean getEscomercial() {
-		return this.escomercial;
-	}
+  public void setCambiopassword(Boolean cambiopassword) {
+    this.cambiopassword = cambiopassword;
+  }
 
-	public void setEscomercial(Boolean escomercial) {
-		this.escomercial = escomercial;
-	}
+  public Boolean getEscomercial() {
+    return this.escomercial;
+  }
 
-	public Long getId() {
-		return this.id;
-	}
+  public void setEscomercial(Boolean escomercial) {
+    this.escomercial = escomercial;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public Long getIdCanal() {
-		return this.idCanal;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setIdCanal(Long idCanal) {
-		this.idCanal = idCanal;
-	}
+  public Long getIdCanal() {
+    return this.idCanal;
+  }
 
-	public Long getIdCliente() {
-		return this.idCliente;
-	}
+  public void setIdCanal(Long idCanal) {
+    this.idCanal = idCanal;
+  }
 
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
-	}
+  public Long getIdCliente() {
+    return this.idCliente;
+  }
 
-	public String getIdUsuario() {
-		return this.idUsuario;
-	}
+  public void setIdCliente(Long idCliente) {
+    this.idCliente = idCliente;
+  }
 
-	public void setIdUsuario(String idUsuario) {
-		this.idUsuario = idUsuario;
-	}
+  public String getIdUsuario() {
+    return this.idUsuario;
+  }
 
-	public String getPassword() {
-		return this.password;
-	}
+  public void setIdUsuario(String idUsuario) {
+    this.idUsuario = idUsuario;
+  }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  public String getPassword() {
+    return this.password;
+  }
 
-	public String getSalt() {
-		return this.salt;
-	}
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
+  public String getSalt() {
+    return this.salt;
+  }
 
-	public String getToken() {
-		return this.token;
-	}
+  public void setSalt(String salt) {
+    this.salt = salt;
+  }
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+  public String getToken() {
+    return this.token;
+  }
 
-	public String getUsername() {
-		return this.username;
-	}
+  public void setToken(String token) {
+    this.token = token;
+  }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+  public String getUsername() {
+    return this.username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
 }

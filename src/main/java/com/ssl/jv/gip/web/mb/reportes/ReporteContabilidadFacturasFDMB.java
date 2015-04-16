@@ -35,7 +35,6 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -53,331 +52,295 @@ import com.ssl.jv.gip.web.util.Utilidad;
 @SessionScoped
 public class ReporteContabilidadFacturasFDMB extends UtilMB {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6136563159395512436L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = -6136563159395512436L;
 
-	private static final Logger LOGGER = Logger
-			.getLogger(ReporteContabilidadFacturasFDMB.class);
+  private static final Logger LOGGER = Logger
+      .getLogger(ReporteContabilidadFacturasFDMB.class);
 
+  private List<CuentaContableDTO> listaCuentasxFactura;
 
+  private String consecutivoDocumento;
+  private Date fechaInicial;
+  private Date fechaFinal;
+  private Boolean renderPanelPrincipal = true;
+  private Boolean renderGenerarArchivoFechas = true;
 
-	private List<CuentaContableDTO> listaCuentasxFactura;
+  private List<CuentaContableDTO> listaCuentasxFactura2;
 
-	private String consecutivoDocumento;
-	private Date fechaInicial;
-	private Date fechaFinal;
-	private Boolean renderPanelPrincipal = true;
-	private Boolean renderGenerarArchivoFechas = true;
-	
-	
-	private List<CuentaContableDTO> listaCuentasxFactura2;
+  @EJB
+  private ReportesEJBLocal reportesEJBLocal;
 
-	@EJB
-	private ReportesEJBLocal reportesEJBLocal;
+  @PostConstruct
+  public void init() {
+  }
 
+  public void irGenerarArchivoFechas() {
+    renderGenerarArchivoFechas = true;
+    renderPanelPrincipal = false;
+    consecutivoDocumento = "";
+    fechaInicial = null;
+    fechaFinal = null;
+  }
 
-	@PostConstruct
-	public void init() {
-	}
+  public void irGenerarArchivoConsecutivo() {
+    renderGenerarArchivoFechas = false;
+    renderPanelPrincipal = false;
+    consecutivoDocumento = "";
+    fechaInicial = null;
+    fechaFinal = null;
+  }
 
-	public void irGenerarArchivoFechas(){
-		renderGenerarArchivoFechas=true;
-		renderPanelPrincipal=false;
-		consecutivoDocumento="";
-		fechaInicial=null;
-		fechaFinal=null;
-	}
+  public void cancelar() {
+    renderPanelPrincipal = true;
+    renderGenerarArchivoFechas = true;
+    consecutivoDocumento = "";
+    fechaInicial = null;
+    fechaFinal = null;
+  }
 
-	public void irGenerarArchivoConsecutivo(){
-		renderGenerarArchivoFechas=false;
-		renderPanelPrincipal=false;
-		consecutivoDocumento="";
-		fechaInicial=null;
-		fechaFinal=null;
-	}
+  public void generarReportePlanoFD() {
+    try {
+      // Definicion de variables para el response
+      HttpServletResponse response = null;
+      FacesContext context = null;
+      HttpServletRequest request = null;
 
-	public void cancelar(){
-		renderPanelPrincipal=true;
-		renderGenerarArchivoFechas=true;
-		consecutivoDocumento="";
-		fechaInicial=null;
-		fechaFinal=null;
-	}
+      context = FacesContext.getCurrentInstance();
+      ExternalContext external = context.getExternalContext();
+      response = (HttpServletResponse) external.getResponse();
+      request = (HttpServletRequest) external.getRequest();
+      // fin definicion de variables para el response				
 
+      String DATE_FORMAT = "yyyy-MM-dd";
+      SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+      Calendar fech = Calendar.getInstance(); //Fecha y Tiempo actual
+      String datatime = sdf.format(fech.getTime());
 
-	public void generarReportePlanoFD() {
-		try {
-			// Definicion de variables para el response
-			HttpServletResponse response = null;
-			FacesContext context = null;
-			HttpServletRequest request = null;
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-			context = FacesContext.getCurrentInstance();
-			ExternalContext external = context.getExternalContext();
-			response = (HttpServletResponse) external.getResponse();
-			request = (HttpServletRequest) external.getRequest();
-			// fin definicion de variables para el response				
+      response = Utilidad.configureResponse2(response, "ContaFact" + "-" + datatime);
 
-			String DATE_FORMAT = "yyyy-MM-dd";
-			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-			Calendar fech = Calendar.getInstance(); //Fecha y Tiempo actual
-			String datatime = sdf.format(fech.getTime());
+      // step 8: escribimos el ByteArrayOutputStream en el ServletOutputStream
+      ServletOutputStream out = null;
+      //FileWriter fWriter = null;
+      BufferedWriter writer = null;
 
+      SimpleDateFormat ft = new SimpleDateFormat(DATE_FORMAT);
+      String fechaStringGeneracionInicial = this.fechaInicial != null ? ft.format(this.fechaInicial) : "";
+      String fechaStringGeneracionFinal = this.fechaFinal != null ? ft.format(this.fechaFinal) : "";
 
-			ByteArrayOutputStream baos =new ByteArrayOutputStream();
+      String fechaFinalTmp = fechaStringGeneracionFinal;
+      fechaFinalTmp = this.fechaFinal != null ? (fechaFinalTmp + " 23:59:59") : "";
 
-			response = Utilidad.configureResponse2(response, "ContaFact" + "-" + datatime);
-			
+      try {
 
-			// step 8: escribimos el ByteArrayOutputStream en el ServletOutputStream
-			ServletOutputStream out = null;
-			//FileWriter fWriter = null;
-			BufferedWriter writer = null;
+        listaCuentasxFactura = reportesEJBLocal
+            .consultarReporteFacturasFD(consecutivoDocumento, fechaStringGeneracionInicial, fechaFinalTmp);
 
-			SimpleDateFormat ft = new SimpleDateFormat(DATE_FORMAT);
-			String fechaStringGeneracionInicial = this.fechaInicial!=null ? ft.format(this.fechaInicial):"";
-			String fechaStringGeneracionFinal = this.fechaFinal!=null ? ft.format(this.fechaFinal):"";
+        writer = new BufferedWriter(new OutputStreamWriter(baos));
 
-			String fechaFinalTmp = fechaStringGeneracionFinal;
-			fechaFinalTmp = this.fechaFinal!=null ? (fechaFinalTmp + " 23:59:59"):"";
+        String conseFactTmp = "";
+        String strConsecutivo = "0";
+        String nomCliente;
+        int contaFact = 0;
+        //int i = 0;
 
-			try {
+        int contaX = 0;
+        int contaP = 0;
+        int total_Cuentas = 0;
+        int cuadrar = 0;
+        int valor_UltimaCuenta = 0;
+        double baseIVA = 0;
 
-				listaCuentasxFactura = reportesEJBLocal
-						.consultarReporteFacturasFD(consecutivoDocumento, fechaStringGeneracionInicial, fechaFinalTmp);
+        listaCuentasxFactura2 = listaCuentasxFactura;
 
-				writer = new BufferedWriter(new OutputStreamWriter(baos));
+        CuentaContableDTO cuentaxfactura = new CuentaContableDTO();
+        CuentaContableDTO cuentaxfacturadtlle = new CuentaContableDTO();
+        CuentaContableDTO cuentaxfacturaTmp = new CuentaContableDTO();
+        CuentaContableDTO cuentaxfacturadtlle2 = new CuentaContableDTO();
 
-				String conseFactTmp="";
-				String strConsecutivo="0";
-				String nomCliente;
-				int contaFact = 0;
-				//int i = 0;
-				
-				int contaX = 0;
-				int contaP = 0;
-				int total_Cuentas = 0;
-				int cuadrar = 0;
-				int valor_UltimaCuenta = 0;
-				double baseIVA = 0;
+        System.out.println("TAMAÑO LIST:" + listaCuentasxFactura.size());
+        System.out.println("TAMAÑO LIST2:" + listaCuentasxFactura2.size());
 
-				listaCuentasxFactura2 = listaCuentasxFactura;
-				
-				
-				CuentaContableDTO cuentaxfactura = new CuentaContableDTO();
-				CuentaContableDTO cuentaxfacturadtlle = new CuentaContableDTO();
-				CuentaContableDTO cuentaxfacturaTmp = new CuentaContableDTO();
-				CuentaContableDTO cuentaxfacturadtlle2 = new CuentaContableDTO();
-				
-				
-				System.out.println("TAMAÑO LIST:"+ listaCuentasxFactura.size());
-				System.out.println("TAMAÑO LIST2:"+ listaCuentasxFactura2.size());
-				
-				
-				
-				for (int i = 0; i < listaCuentasxFactura.size();i++)
-				{						
-					cuentaxfactura = (CuentaContableDTO) listaCuentasxFactura.get(i);
-					
-						if (!conseFactTmp.equals(cuentaxfactura.getStrConsecutivoDoc()))
-						{		
-							conseFactTmp = cuentaxfactura.getStrConsecutivoDoc();
-							
-							if (i != 0)
-							{writer.newLine();}
-							
-							String fecha = "";
-							String[] arrayFecha = cuentaxfactura.getStrFechaGeneracion().split("-");
-							 
-							for (int n = 0; n < arrayFecha.length; n++) {
-								fecha = fecha + arrayFecha[n];
-							}
-							
-							//Cabecera
-							writer.write("1," + fecha + "," + fecha + ",DR,PROC,COP,"+ cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomUbicacion());
-							contaX = 0;
-							contaP = 0;
-							total_Cuentas = 0;
-							
-							for (int y = 0; y < listaCuentasxFactura2.size(); y++)
-							{
-								cuentaxfacturaTmp = (CuentaContableDTO) listaCuentasxFactura2.get(y);
-								
-								if (cuentaxfactura.getStrConsecutivoDoc().equals(cuentaxfacturaTmp.getStrConsecutivoDoc()))
-								{
-									baseIVA = baseIVA + cuentaxfacturaTmp.getDblBaseIva();
-								}
-							}								
-							
-							
-							//Subcabecera
-							contaFact = contaFact + 1;
-							writer.newLine();
-							writer.write("2," + contaFact + ",01,1305050001," + cuentaxfactura.getStrCodigoSAP() + ",,,,,," + cuentaxfactura.getDblTotalFactura().intValue()+",,,AT,V3," + (int)baseIVA + ",AC,C1,"+(int)baseIVA+",,,,,,,,,,,,,,,,,,,,,,,,,,,," + "VENTAS " + cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomCliente());
-							//codigoSAP = cuentaxfactura.getStrCodigoSAP();
-							nomCliente = cuentaxfactura.getStrNomCliente();
-							
-							baseIVA = 0;
-							
-							for (int p = 0; p < listaCuentasxFactura.size();p++)
-							{
-								cuentaxfacturadtlle2 = (CuentaContableDTO) listaCuentasxFactura.get(p);
-								
-								if (cuentaxfacturadtlle2.getStrConsecutivoDoc().equals(conseFactTmp))
-								{
-									contaP = contaP + 1;
-								}
-							}
+        for (int i = 0; i < listaCuentasxFactura.size(); i++) {
+          cuentaxfactura = (CuentaContableDTO) listaCuentasxFactura.get(i);
 
-							
-							for (int x = 0; x < listaCuentasxFactura.size();x++)
-							{
-								cuentaxfacturadtlle = (CuentaContableDTO) listaCuentasxFactura.get(x);
-								
-								if (cuentaxfacturadtlle.getStrConsecutivoDoc().equals(conseFactTmp))
-								{
-									//Detalle
-									contaX = contaX + 1;
-									total_Cuentas = total_Cuentas + cuentaxfacturadtlle.getDblTotal().intValue();
-									
-									writer.newLine();
-									
-									if (contaX == 1)
-									{
-										if (contaX == contaP) //Es el último
-										{
-											cuadrar = cuentaxfactura.getDblTotalFactura().intValue() - total_Cuentas;												
-											valor_UltimaCuenta = (cuadrar) + cuentaxfacturadtlle.getDblTotal().intValue();
-											
-											writer.write("2," + contaFact + ",50," + cuentaxfacturadtlle.getLngId()+ ",,,,,,," + valor_UltimaCuenta + "," + cuentaxfacturadtlle.getStrIndicadorIVA() + ",X,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + cuentaxfacturadtlle.getLngObjetoCO() + ",,," + "VENTAS " + conseFactTmp + "," + nomCliente);
-										}
-										else
-										{
-											writer.write("2," + contaFact + ",50," + cuentaxfacturadtlle.getLngId()+ ",,,,,,," + cuentaxfacturadtlle.getDblTotal().intValue() + "," + cuentaxfacturadtlle.getStrIndicadorIVA() + ",X,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + cuentaxfacturadtlle.getLngObjetoCO() + ",,," + "VENTAS " + conseFactTmp + "," + nomCliente);												
-										}
-									}
-									else
-									{
-										if (contaX == contaP) //Es el último
-										{
-											cuadrar = cuentaxfactura.getDblTotalFactura().intValue() - total_Cuentas;												
-											valor_UltimaCuenta = (cuadrar) + cuentaxfacturadtlle.getDblTotal().intValue();
-											
-											writer.write("2," + contaFact + ",50," + cuentaxfacturadtlle.getLngId()+ ",,,,,,," + valor_UltimaCuenta + "," + cuentaxfacturadtlle.getStrIndicadorIVA() + ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + cuentaxfacturadtlle.getLngObjetoCO() + ",,," + "VENTAS " + conseFactTmp + "," + nomCliente);
-										}
-										else
-										{
-											writer.write("2," + contaFact + ",50," + cuentaxfacturadtlle.getLngId()+ ",,,,,,," + cuentaxfacturadtlle.getDblTotal().intValue() + "," + cuentaxfacturadtlle.getStrIndicadorIVA() + ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + cuentaxfacturadtlle.getLngObjetoCO() + ",,," + "VENTAS " + conseFactTmp + "," + nomCliente);
-										}
-									}
-								}
-							}
-							
-						}						
+          if (!conseFactTmp.equals(cuentaxfactura.getStrConsecutivoDoc())) {
+            conseFactTmp = cuentaxfactura.getStrConsecutivoDoc();
 
-				}
-				
-				
-				writer.close();   
-				byte[] buffer = baos.toByteArray(); 	
-				response.setContentLength(baos.size());
+            if (i != 0) {
+              writer.newLine();
+            }
 
-				out = response.getOutputStream();					
-				out.write(buffer);
+            String fecha = "";
+            String[] arrayFecha = cuentaxfactura.getStrFechaGeneracion().split("-");
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+            for (int n = 0; n < arrayFecha.length; n++) {
+              fecha = fecha + arrayFecha[n];
+            }
 
-			baos.flush();
-			out.flush();
-			out.close();
-			context.responseComplete();		
+            //Cabecera
+            writer.write("1," + fecha + "," + fecha + ",DR,PROC,COP," + cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomUbicacion());
+            contaX = 0;
+            contaP = 0;
+            total_Cuentas = 0;
 
-		} catch (Exception e) {
-			LOGGER.error(e);
-			Exception unrollException = (Exception) this.unrollException(e,
-					ConstraintViolationException.class);
-			if (unrollException != null) {
-				this.addMensajeError(unrollException.getLocalizedMessage());
-			} else {
-				unrollException = (Exception) this.unrollException(e,
-						RuntimeException.class);
-				if (unrollException != null) {
-					this.addMensajeError(unrollException.getLocalizedMessage());
-				} else {
-					this.addMensajeError(e);
-				}
-			}
-		}
+            for (int y = 0; y < listaCuentasxFactura2.size(); y++) {
+              cuentaxfacturaTmp = (CuentaContableDTO) listaCuentasxFactura2.get(y);
 
-	}
+              if (cuentaxfactura.getStrConsecutivoDoc().equals(cuentaxfacturaTmp.getStrConsecutivoDoc())) {
+                baseIVA = baseIVA + cuentaxfacturaTmp.getDblBaseIva();
+              }
+            }
 
-	
+            //Subcabecera
+            contaFact = contaFact + 1;
+            writer.newLine();
+            writer.write("2," + contaFact + ",01,1305050001," + cuentaxfactura.getStrCodigoSAP() + ",,,,,," + cuentaxfactura.getDblTotalFactura().intValue() + ",,,AT,V3," + (int) baseIVA + ",AC,C1," + (int) baseIVA + ",,,,,,,,,,,,,,,,,,,,,,,,,,,," + "VENTAS " + cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomCliente());
+            //codigoSAP = cuentaxfactura.getStrCodigoSAP();
+            nomCliente = cuentaxfactura.getStrNomCliente();
 
-	public String getConsecutivoDocumento() {
-		return consecutivoDocumento;
-	}
+            baseIVA = 0;
 
-	public void setConsecutivoDocumento(String consecutivoDocumento) {
-		this.consecutivoDocumento = consecutivoDocumento;
-	}
+            for (int p = 0; p < listaCuentasxFactura.size(); p++) {
+              cuentaxfacturadtlle2 = (CuentaContableDTO) listaCuentasxFactura.get(p);
 
-	public Date getFechaInicial() {
-		return fechaInicial;
-	}
+              if (cuentaxfacturadtlle2.getStrConsecutivoDoc().equals(conseFactTmp)) {
+                contaP = contaP + 1;
+              }
+            }
 
-	public void setFechaInicial(Date fechaInicial) {
-		this.fechaInicial = fechaInicial;
-	}
+            for (int x = 0; x < listaCuentasxFactura.size(); x++) {
+              cuentaxfacturadtlle = (CuentaContableDTO) listaCuentasxFactura.get(x);
 
-	public Date getFechaFinal() {
-		return fechaFinal;
-	}
+              if (cuentaxfacturadtlle.getStrConsecutivoDoc().equals(conseFactTmp)) {
+                //Detalle
+                contaX = contaX + 1;
+                total_Cuentas = total_Cuentas + cuentaxfacturadtlle.getDblTotal().intValue();
 
-	public void setFechaFinal(Date fechaFinal) {
-		this.fechaFinal = fechaFinal;
-	}
+                writer.newLine();
 
-	public Boolean getRenderGenerarArchivoFechas() {
-		return renderGenerarArchivoFechas;
-	}
+                if (contaX == 1) {
+                  if (contaX == contaP) //Es el último
+                  {
+                    cuadrar = cuentaxfactura.getDblTotalFactura().intValue() - total_Cuentas;
+                    valor_UltimaCuenta = (cuadrar) + cuentaxfacturadtlle.getDblTotal().intValue();
 
-	public void setRenderGenerarArchivoFechas(Boolean renderGenerarArchivoFechas) {
-		this.renderGenerarArchivoFechas = renderGenerarArchivoFechas;
-	}
+                    writer.write("2," + contaFact + ",50," + cuentaxfacturadtlle.getLngId() + ",,,,,,," + valor_UltimaCuenta + "," + cuentaxfacturadtlle.getStrIndicadorIVA() + ",X,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + cuentaxfacturadtlle.getLngObjetoCO() + ",,," + "VENTAS " + conseFactTmp + "," + nomCliente);
+                  } else {
+                    writer.write("2," + contaFact + ",50," + cuentaxfacturadtlle.getLngId() + ",,,,,,," + cuentaxfacturadtlle.getDblTotal().intValue() + "," + cuentaxfacturadtlle.getStrIndicadorIVA() + ",X,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + cuentaxfacturadtlle.getLngObjetoCO() + ",,," + "VENTAS " + conseFactTmp + "," + nomCliente);
+                  }
+                } else {
+                  if (contaX == contaP) //Es el último
+                  {
+                    cuadrar = cuentaxfactura.getDblTotalFactura().intValue() - total_Cuentas;
+                    valor_UltimaCuenta = (cuadrar) + cuentaxfacturadtlle.getDblTotal().intValue();
 
-	public Boolean getRenderPanelPrincipal() {
-		return renderPanelPrincipal;
-	}
+                    writer.write("2," + contaFact + ",50," + cuentaxfacturadtlle.getLngId() + ",,,,,,," + valor_UltimaCuenta + "," + cuentaxfacturadtlle.getStrIndicadorIVA() + ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + cuentaxfacturadtlle.getLngObjetoCO() + ",,," + "VENTAS " + conseFactTmp + "," + nomCliente);
+                  } else {
+                    writer.write("2," + contaFact + ",50," + cuentaxfacturadtlle.getLngId() + ",,,,,,," + cuentaxfacturadtlle.getDblTotal().intValue() + "," + cuentaxfacturadtlle.getStrIndicadorIVA() + ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + cuentaxfacturadtlle.getLngObjetoCO() + ",,," + "VENTAS " + conseFactTmp + "," + nomCliente);
+                  }
+                }
+              }
+            }
 
-	public void setRenderPanelPrincipal(Boolean renderPanelPrincipal) {
-		this.renderPanelPrincipal = renderPanelPrincipal;
-	}
+          }
 
-	public List<CuentaContableDTO> getListaCuentasxFactura() {
-		return listaCuentasxFactura;
-	}
+        }
 
-	public void setListaCuentasxFactura(List<CuentaContableDTO> listaCuentasxFactura) {
-		this.listaCuentasxFactura = listaCuentasxFactura;
-	}
+        writer.close();
+        byte[] buffer = baos.toByteArray();
+        response.setContentLength(baos.size());
 
-	public List<CuentaContableDTO> getListaCuentasxFactura2() {
-		return listaCuentasxFactura2;
-	}
+        out = response.getOutputStream();
+        out.write(buffer);
 
-	public void setListaCuentasxFactura2(
-			List<CuentaContableDTO> listaCuentasxFactura2) {
-		this.listaCuentasxFactura2 = listaCuentasxFactura2;
-	}
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
+      baos.flush();
+      out.flush();
+      out.close();
+      context.responseComplete();
 
+    } catch (Exception e) {
+      LOGGER.error(e);
+      Exception unrollException = (Exception) this.unrollException(e,
+          ConstraintViolationException.class);
+      if (unrollException != null) {
+        this.addMensajeError(unrollException.getLocalizedMessage());
+      } else {
+        unrollException = (Exception) this.unrollException(e,
+            RuntimeException.class);
+        if (unrollException != null) {
+          this.addMensajeError(unrollException.getLocalizedMessage());
+        } else {
+          this.addMensajeError(e);
+        }
+      }
+    }
 
+  }
 
+  public String getConsecutivoDocumento() {
+    return consecutivoDocumento;
+  }
 
+  public void setConsecutivoDocumento(String consecutivoDocumento) {
+    this.consecutivoDocumento = consecutivoDocumento;
+  }
 
+  public Date getFechaInicial() {
+    return fechaInicial;
+  }
+
+  public void setFechaInicial(Date fechaInicial) {
+    this.fechaInicial = fechaInicial;
+  }
+
+  public Date getFechaFinal() {
+    return fechaFinal;
+  }
+
+  public void setFechaFinal(Date fechaFinal) {
+    this.fechaFinal = fechaFinal;
+  }
+
+  public Boolean getRenderGenerarArchivoFechas() {
+    return renderGenerarArchivoFechas;
+  }
+
+  public void setRenderGenerarArchivoFechas(Boolean renderGenerarArchivoFechas) {
+    this.renderGenerarArchivoFechas = renderGenerarArchivoFechas;
+  }
+
+  public Boolean getRenderPanelPrincipal() {
+    return renderPanelPrincipal;
+  }
+
+  public void setRenderPanelPrincipal(Boolean renderPanelPrincipal) {
+    this.renderPanelPrincipal = renderPanelPrincipal;
+  }
+
+  public List<CuentaContableDTO> getListaCuentasxFactura() {
+    return listaCuentasxFactura;
+  }
+
+  public void setListaCuentasxFactura(List<CuentaContableDTO> listaCuentasxFactura) {
+    this.listaCuentasxFactura = listaCuentasxFactura;
+  }
+
+  public List<CuentaContableDTO> getListaCuentasxFactura2() {
+    return listaCuentasxFactura2;
+  }
+
+  public void setListaCuentasxFactura2(
+      List<CuentaContableDTO> listaCuentasxFactura2) {
+    this.listaCuentasxFactura2 = listaCuentasxFactura2;
+  }
 
 }

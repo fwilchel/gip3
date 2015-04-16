@@ -19,194 +19,198 @@ import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 
 /**
- * <p>Title: ListaEmpaqueMB</p>
+ * <p>
+ * Title: ListaEmpaqueMB</p>
  *
- * <p>Description: ManagedBean para las Listas de Empaque</p>
+ * <p>
+ * Description: ManagedBean para las Listas de Empaque</p>
  *
- * <p>Copyright: Copyright (c) 2014</p>
+ * <p>
+ * Copyright: Copyright (c) 2014</p>
  *
- * <p>Company: Soft Studio Ltda.</p>
+ * <p>
+ * Company: Soft Studio Ltda.</p>
  *
  * @author Lorena Salamanca
  * @email tachu.salamanca@gmail.com
  * @phone 316 6537244
  * @version 1.0
  */
-@ManagedBean(name="listaEmpaqueMB")
+@ManagedBean(name = "listaEmpaqueMB")
 @SessionScoped
 public class ListaEmpaqueMB extends UtilMB {
-	
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(ListaEmpaqueMB.class);
-	private Timestamp currentTimeStamp;
-	private String consecutivoFacturaProforma;
-	private List<ListaEmpaqueDTO> listaEmpaqueList;
-	private ListaEmpaqueDTO listaEmpaqueSeleccionada;
-	private List<ProductoDTO> productoList;
-	private Double cantidadTotal;
-	private Double unidadesPorEmbalajeTotal;
-	private Double cantidadCajasTotal;
-	private Double cantidadPalletsTotal;
-	private Double pesoNetoTotal;
-	private Double pesoBrutoTotal;
-	private TabView tabView;
-	private Documento docFinal;
 
-	@EJB
-	private ComercioExteriorEJB comercioEjb;
-	
-	@PostConstruct
-	public void init(){
-		LOGGER.debug("init");
-		currentTimeStamp = new Timestamp(System.currentTimeMillis());
-	}
-	
-	public String consultarDocumentoPorFacturaProforma(){
-		listaEmpaqueList = comercioEjb.consultarDocumentoPorFacturaProforma(consecutivoFacturaProforma);
-		return null;
-	}
-	
-	public String consultarProductoPorDocumento(){
-		productoList = comercioEjb.consultarProductoPorDocumento(listaEmpaqueSeleccionada);
-		actualizarTotales();
-		tabView.setActiveIndex(1);
-		return null;
-	}
-	
-	public void actualizarTotales(){
-		cantidadTotal = 0.0D;
-		unidadesPorEmbalajeTotal = 0.0D;
-		cantidadCajasTotal = 0.0D;
-		cantidadPalletsTotal = 0.0D;
-		pesoNetoTotal = 0.0D;
-		pesoBrutoTotal = 0.0D;
-		for (ProductoDTO producto : productoList) {
-			cantidadTotal = cantidadTotal + producto.getCantidad().doubleValue();
-			unidadesPorEmbalajeTotal = unidadesPorEmbalajeTotal + producto.getCantidadPorEmbalaje().doubleValue();
-			cantidadCajasTotal = cantidadCajasTotal + producto.getCantidadCajas().doubleValue();
-			cantidadPalletsTotal = cantidadPalletsTotal + producto.getCantidadPallets().doubleValue();
-			pesoNetoTotal = pesoNetoTotal + producto.getPesoNeto().doubleValue();
-			pesoBrutoTotal = pesoBrutoTotal + producto.getPesoBruto().doubleValue();
-			System.out.println(producto.getCantidadPorEmbalaje().doubleValue());
-			System.out.println(unidadesPorEmbalajeTotal);
-		}
-	}
-	
-	public void generarListaEmpaque(){
-		actualizarTotales();
-		BigInteger consecutivoDocumento = comercioEjb.generarListaEmpaque(listaEmpaqueSeleccionada);
-		System.out.println("***REGRESA DE LOS INSERT GRANDES");
-		this.docFinal = comercioEjb.consultarDocumentoPorId(consecutivoDocumento.longValue());
-		System.out.println("ENCUENTRA EL DOCFINAL " + docFinal.getConsecutivoDocumento());
-		for (ProductoDTO producto : productoList) {
-			producto.setIdDocumento(consecutivoDocumento.toString());
-			comercioEjb.generarListaEmpaque(producto);
-			System.out.println("***REGRESA DE LOS INSERT DE PRODUCTO ");
-		}
-		
-	}
+  private static final long serialVersionUID = 1L;
+  private static final Logger LOGGER = Logger.getLogger(ListaEmpaqueMB.class);
+  private Timestamp currentTimeStamp;
+  private String consecutivoFacturaProforma;
+  private List<ListaEmpaqueDTO> listaEmpaqueList;
+  private ListaEmpaqueDTO listaEmpaqueSeleccionada;
+  private List<ProductoDTO> productoList;
+  private Double cantidadTotal;
+  private Double unidadesPorEmbalajeTotal;
+  private Double cantidadCajasTotal;
+  private Double cantidadPalletsTotal;
+  private Double pesoNetoTotal;
+  private Double pesoBrutoTotal;
+  private TabView tabView;
+  private Documento docFinal;
 
-	public Timestamp getCurrentTimeStamp() {
-		return currentTimeStamp;
-	}
+  @EJB
+  private ComercioExteriorEJB comercioEjb;
 
-	public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
-		this.currentTimeStamp = currentTimeStamp;
-	}
+  @PostConstruct
+  public void init() {
+    LOGGER.debug("init");
+    currentTimeStamp = new Timestamp(System.currentTimeMillis());
+  }
 
-	public String getConsecutivoFacturaProforma() {
-		return consecutivoFacturaProforma;
-	}
+  public String consultarDocumentoPorFacturaProforma() {
+    listaEmpaqueList = comercioEjb.consultarDocumentoPorFacturaProforma(consecutivoFacturaProforma);
+    return null;
+  }
 
-	public void setConsecutivoFacturaProforma(String consecutivoFacturaProforma) {
-		this.consecutivoFacturaProforma = consecutivoFacturaProforma;
-	}
+  public String consultarProductoPorDocumento() {
+    productoList = comercioEjb.consultarProductoPorDocumento(listaEmpaqueSeleccionada);
+    actualizarTotales();
+    tabView.setActiveIndex(1);
+    return null;
+  }
 
-	public List<ListaEmpaqueDTO> getListaEmpaqueList() {
-		return listaEmpaqueList;
-	}
+  public void actualizarTotales() {
+    cantidadTotal = 0.0D;
+    unidadesPorEmbalajeTotal = 0.0D;
+    cantidadCajasTotal = 0.0D;
+    cantidadPalletsTotal = 0.0D;
+    pesoNetoTotal = 0.0D;
+    pesoBrutoTotal = 0.0D;
+    for (ProductoDTO producto : productoList) {
+      cantidadTotal = cantidadTotal + producto.getCantidad().doubleValue();
+      unidadesPorEmbalajeTotal = unidadesPorEmbalajeTotal + producto.getCantidadPorEmbalaje().doubleValue();
+      cantidadCajasTotal = cantidadCajasTotal + producto.getCantidadCajas().doubleValue();
+      cantidadPalletsTotal = cantidadPalletsTotal + producto.getCantidadPallets().doubleValue();
+      pesoNetoTotal = pesoNetoTotal + producto.getPesoNeto().doubleValue();
+      pesoBrutoTotal = pesoBrutoTotal + producto.getPesoBruto().doubleValue();
+      System.out.println(producto.getCantidadPorEmbalaje().doubleValue());
+      System.out.println(unidadesPorEmbalajeTotal);
+    }
+  }
 
-	public void setListaEmpaqueList(List<ListaEmpaqueDTO> listaEmpaqueList) {
-		this.listaEmpaqueList = listaEmpaqueList;
-	}
+  public void generarListaEmpaque() {
+    actualizarTotales();
+    BigInteger consecutivoDocumento = comercioEjb.generarListaEmpaque(listaEmpaqueSeleccionada);
+    System.out.println("***REGRESA DE LOS INSERT GRANDES");
+    this.docFinal = comercioEjb.consultarDocumentoPorId(consecutivoDocumento.longValue());
+    System.out.println("ENCUENTRA EL DOCFINAL " + docFinal.getConsecutivoDocumento());
+    for (ProductoDTO producto : productoList) {
+      producto.setIdDocumento(consecutivoDocumento.toString());
+      comercioEjb.generarListaEmpaque(producto);
+      System.out.println("***REGRESA DE LOS INSERT DE PRODUCTO ");
+    }
 
-	public ListaEmpaqueDTO getListaEmpaqueSeleccionada() {
-		return listaEmpaqueSeleccionada;
-	}
+  }
 
-	public void setListaEmpaqueSeleccionada(ListaEmpaqueDTO listaEmpaqueSeleccionada) {
-		this.listaEmpaqueSeleccionada = listaEmpaqueSeleccionada;
-	}
+  public Timestamp getCurrentTimeStamp() {
+    return currentTimeStamp;
+  }
 
-	public List<ProductoDTO> getProductoList() {
-		return productoList;
-	}
+  public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
+    this.currentTimeStamp = currentTimeStamp;
+  }
 
-	public void setProductoList(List<ProductoDTO> productoList) {
-		this.productoList = productoList;
-	}
+  public String getConsecutivoFacturaProforma() {
+    return consecutivoFacturaProforma;
+  }
 
-	public Double getCantidadTotal() {
-		return cantidadTotal;
-	}
+  public void setConsecutivoFacturaProforma(String consecutivoFacturaProforma) {
+    this.consecutivoFacturaProforma = consecutivoFacturaProforma;
+  }
 
-	public void setCantidadTotal(Double cantidadTotal) {
-		this.cantidadTotal = cantidadTotal;
-	}
+  public List<ListaEmpaqueDTO> getListaEmpaqueList() {
+    return listaEmpaqueList;
+  }
 
-	public Double getUnidadesPorEmbalajeTotal() {
-		return unidadesPorEmbalajeTotal;
-	}
+  public void setListaEmpaqueList(List<ListaEmpaqueDTO> listaEmpaqueList) {
+    this.listaEmpaqueList = listaEmpaqueList;
+  }
 
-	public void setUnidadesPorEmbalajeTotal(Double unidadesPorEmbalajeTotal) {
-		this.unidadesPorEmbalajeTotal = unidadesPorEmbalajeTotal;
-	}
+  public ListaEmpaqueDTO getListaEmpaqueSeleccionada() {
+    return listaEmpaqueSeleccionada;
+  }
 
-	public Double getCantidadCajasTotal() {
-		return cantidadCajasTotal;
-	}
+  public void setListaEmpaqueSeleccionada(ListaEmpaqueDTO listaEmpaqueSeleccionada) {
+    this.listaEmpaqueSeleccionada = listaEmpaqueSeleccionada;
+  }
 
-	public void setCantidadCajasTotal(Double cantidadCajasTotal) {
-		this.cantidadCajasTotal = cantidadCajasTotal;
-	}
+  public List<ProductoDTO> getProductoList() {
+    return productoList;
+  }
 
-	public Double getCantidadPalletsTotal() {
-		return cantidadPalletsTotal;
-	}
+  public void setProductoList(List<ProductoDTO> productoList) {
+    this.productoList = productoList;
+  }
 
-	public void setCantidadPalletsTotal(Double cantidadPalletsTotal) {
-		this.cantidadPalletsTotal = cantidadPalletsTotal;
-	}
+  public Double getCantidadTotal() {
+    return cantidadTotal;
+  }
 
-	public Double getPesoNetoTotal() {
-		return pesoNetoTotal;
-	}
+  public void setCantidadTotal(Double cantidadTotal) {
+    this.cantidadTotal = cantidadTotal;
+  }
 
-	public void setPesoNetoTotal(Double pesoNetoTotal) {
-		this.pesoNetoTotal = pesoNetoTotal;
-	}
+  public Double getUnidadesPorEmbalajeTotal() {
+    return unidadesPorEmbalajeTotal;
+  }
 
-	public Double getPesoBrutoTotal() {
-		return pesoBrutoTotal;
-	}
+  public void setUnidadesPorEmbalajeTotal(Double unidadesPorEmbalajeTotal) {
+    this.unidadesPorEmbalajeTotal = unidadesPorEmbalajeTotal;
+  }
 
-	public void setPesoBrutoTotal(Double pesoBrutoTotal) {
-		this.pesoBrutoTotal = pesoBrutoTotal;
-	}
+  public Double getCantidadCajasTotal() {
+    return cantidadCajasTotal;
+  }
 
-	public TabView getTabView() {
-		return tabView;
-	}
+  public void setCantidadCajasTotal(Double cantidadCajasTotal) {
+    this.cantidadCajasTotal = cantidadCajasTotal;
+  }
 
-	public void setTabView(TabView tabView) {
-      this.tabView = tabView;
- }
+  public Double getCantidadPalletsTotal() {
+    return cantidadPalletsTotal;
+  }
 
-	public Documento getDocFinal() {
-		return docFinal;
-	}
+  public void setCantidadPalletsTotal(Double cantidadPalletsTotal) {
+    this.cantidadPalletsTotal = cantidadPalletsTotal;
+  }
 
-	public void setDocFinal(Documento docFinal) {
-		this.docFinal = docFinal;
-	}
+  public Double getPesoNetoTotal() {
+    return pesoNetoTotal;
+  }
+
+  public void setPesoNetoTotal(Double pesoNetoTotal) {
+    this.pesoNetoTotal = pesoNetoTotal;
+  }
+
+  public Double getPesoBrutoTotal() {
+    return pesoBrutoTotal;
+  }
+
+  public void setPesoBrutoTotal(Double pesoBrutoTotal) {
+    this.pesoBrutoTotal = pesoBrutoTotal;
+  }
+
+  public TabView getTabView() {
+    return tabView;
+  }
+
+  public void setTabView(TabView tabView) {
+    this.tabView = tabView;
+  }
+
+  public Documento getDocFinal() {
+    return docFinal;
+  }
+
+  public void setDocFinal(Documento docFinal) {
+    this.docFinal = docFinal;
+  }
 }

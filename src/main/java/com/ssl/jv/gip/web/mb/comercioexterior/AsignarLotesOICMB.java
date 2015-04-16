@@ -40,265 +40,269 @@ import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Utilidad;
 
 /**
- * <p>Title: GIP</p>
+ * <p>
+ * Title: GIP</p>
  *
- * <p>Description: GIP</p>
+ * <p>
+ * Description: GIP</p>
  *
- * <p>Copyright: Copyright (c) 2014</p>
+ * <p>
+ * Copyright: Copyright (c) 2014</p>
  *
- * <p>Company: Soft Studio Ltda.</p>
+ * <p>
+ * Company: Soft Studio Ltda.</p>
  *
  * @author Fredy Giovanny Wilches López
  * @email fredy.wilches@gmail.com
  * @phone 300 2146240
  * @version 1.0
  */
-@ManagedBean(name="asignarLotesMB")
+@ManagedBean(name = "asignarLotesMB")
 @SessionScoped
-public class AsignarLotesOICMB extends UtilMB{
+public class AsignarLotesOICMB extends UtilMB {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2780795923623719268L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = -2780795923623719268L;
 
-	private static final Logger LOGGER = Logger.getLogger(AsignarLotesOICMB.class);
-	private Timestamp currentTimeStamp;
-	private String consecutivoDocumento;
-	private Integer language=AplicacionMB.SPANISH;
-	private List<Documento> listaDocumentos;
-	private Documento documentoSeleccionado;
-	private List<ProductoAsignarLoteOICDTO> productos;
-	private List<ProductoLoteAsignarLoteOICDTO> lotes;
-	private double totalCantidad=0;
-	private double totalValorTotal=0;
-	private double totalPesoNeto=0;
-	private double totalPesoBruto=0;
-	private double totalCantidadCajas=0;
-	private double totalCantidadTendidos=0;
-	private double totalCantidadPallets=0;
-	private double totalCostos=0;
-	private double totalNegociacion=0;
-	private boolean deshabilitado=false;
-	
-	@EJB
-	private ComercioExteriorEJBLocal comercioEjb;
-	
-	@ManagedProperty(value="#{menuMB}")
-	private MenuMB menu;
-	
-	public AsignarLotesOICMB(){
-		
-	}
-	
-	@PostConstruct
-	public void init(){
-		currentTimeStamp = new Timestamp(System.currentTimeMillis());
-		
-	}
+  private static final Logger LOGGER = Logger.getLogger(AsignarLotesOICMB.class);
+  private Timestamp currentTimeStamp;
+  private String consecutivoDocumento;
+  private Integer language = AplicacionMB.SPANISH;
+  private List<Documento> listaDocumentos;
+  private Documento documentoSeleccionado;
+  private List<ProductoAsignarLoteOICDTO> productos;
+  private List<ProductoLoteAsignarLoteOICDTO> lotes;
+  private double totalCantidad = 0;
+  private double totalValorTotal = 0;
+  private double totalPesoNeto = 0;
+  private double totalPesoBruto = 0;
+  private double totalCantidadCajas = 0;
+  private double totalCantidadTendidos = 0;
+  private double totalCantidadPallets = 0;
+  private double totalCostos = 0;
+  private double totalNegociacion = 0;
+  private boolean deshabilitado = false;
 
-	public List<ProductoLoteAsignarLoteOICDTO> getLotes() {
-		return lotes;
-	}
+  @EJB
+  private ComercioExteriorEJBLocal comercioEjb;
 
-	public void setLotes(List<ProductoLoteAsignarLoteOICDTO> lotes) {
-		this.lotes = lotes;
-	}
+  @ManagedProperty(value = "#{menuMB}")
+  private MenuMB menu;
 
-	public Timestamp getCurrentTimeStamp() {
-		return currentTimeStamp;
-	}
+  public AsignarLotesOICMB() {
 
-	public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
-		this.currentTimeStamp = currentTimeStamp;
-	}
+  }
 
-	public String getConsecutivoDocumento() {
-		return consecutivoDocumento;
-	}
+  @PostConstruct
+  public void init() {
+    currentTimeStamp = new Timestamp(System.currentTimeMillis());
 
-	public void setConsecutivoDocumento(String consecutivoDocumento) {
-		this.consecutivoDocumento = consecutivoDocumento;
-	}
+  }
 
-	public String buscarDocumentos(){
-		listaDocumentos=this.comercioEjb.consultarDocumentosFacturaPF(consecutivoDocumento);
-		this.deshabilitado=false;
-		return null;
-	}
+  public List<ProductoLoteAsignarLoteOICDTO> getLotes() {
+    return lotes;
+  }
 
-	public boolean isDeshabilitado() {
-		return deshabilitado;
-	}
+  public void setLotes(List<ProductoLoteAsignarLoteOICDTO> lotes) {
+    this.lotes = lotes;
+  }
 
-	public void setDeshabilitado(boolean deshabilitado) {
-		this.deshabilitado = deshabilitado;
-	}
+  public Timestamp getCurrentTimeStamp() {
+    return currentTimeStamp;
+  }
 
-	public List<Documento> getListaDocumentos() {
-		return listaDocumentos;
-	}
+  public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
+    this.currentTimeStamp = currentTimeStamp;
+  }
 
-	public void setListaDocumentos(List<Documento> listaDocumentos) {
-		this.listaDocumentos = listaDocumentos;
-	}
+  public String getConsecutivoDocumento() {
+    return consecutivoDocumento;
+  }
 
-	public Documento getDocumentoSeleccionado() {
-		return documentoSeleccionado;
-	}
+  public void setConsecutivoDocumento(String consecutivoDocumento) {
+    this.consecutivoDocumento = consecutivoDocumento;
+  }
 
-	public void setDocumentoSeleccionado(Documento documentoSeleccionado) {
-		this.documentoSeleccionado = documentoSeleccionado;
-	}
-	
-	public double getTotalCantidad() {
-		return totalCantidad;
-	}
+  public String buscarDocumentos() {
+    listaDocumentos = this.comercioEjb.consultarDocumentosFacturaPF(consecutivoDocumento);
+    this.deshabilitado = false;
+    return null;
+  }
 
-	public void setTotalCantidad(double totalCantidad) {
-		this.totalCantidad = totalCantidad;
-	}
+  public boolean isDeshabilitado() {
+    return deshabilitado;
+  }
 
-	public double getTotalValorTotal() {
-		return totalValorTotal;
-	}
+  public void setDeshabilitado(boolean deshabilitado) {
+    this.deshabilitado = deshabilitado;
+  }
 
-	public void setTotalValorTotal(double totalValorTotal) {
-		this.totalValorTotal = totalValorTotal;
-	}
+  public List<Documento> getListaDocumentos() {
+    return listaDocumentos;
+  }
 
-	public double getTotalPesoNeto() {
-		return totalPesoNeto;
-	}
+  public void setListaDocumentos(List<Documento> listaDocumentos) {
+    this.listaDocumentos = listaDocumentos;
+  }
 
-	public void setTotalPesoNeto(double totalPesoNeto) {
-		this.totalPesoNeto = totalPesoNeto;
-	}
+  public Documento getDocumentoSeleccionado() {
+    return documentoSeleccionado;
+  }
 
-	public double getTotalPesoBruto() {
-		return totalPesoBruto;
-	}
+  public void setDocumentoSeleccionado(Documento documentoSeleccionado) {
+    this.documentoSeleccionado = documentoSeleccionado;
+  }
 
-	public void setTotalPesoBruto(double totalPesoBruto) {
-		this.totalPesoBruto = totalPesoBruto;
-	}
+  public double getTotalCantidad() {
+    return totalCantidad;
+  }
 
-	public double getTotalCantidadCajas() {
-		return totalCantidadCajas;
-	}
+  public void setTotalCantidad(double totalCantidad) {
+    this.totalCantidad = totalCantidad;
+  }
 
-	public void setTotalCantidadCajas(double totalCantidadCajas) {
-		this.totalCantidadCajas = totalCantidadCajas;
-	}
+  public double getTotalValorTotal() {
+    return totalValorTotal;
+  }
 
-	public double getTotalCantidadTendidos() {
-		return totalCantidadTendidos;
-	}
+  public void setTotalValorTotal(double totalValorTotal) {
+    this.totalValorTotal = totalValorTotal;
+  }
 
-	public void setTotalCantidadTendidos(double totalCantidadTendidos) {
-		this.totalCantidadTendidos = totalCantidadTendidos;
-	}
+  public double getTotalPesoNeto() {
+    return totalPesoNeto;
+  }
 
-	public double getTotalCantidadPallets() {
-		return totalCantidadPallets;
-	}
+  public void setTotalPesoNeto(double totalPesoNeto) {
+    this.totalPesoNeto = totalPesoNeto;
+  }
 
-	public void setTotalCantidadPallets(double totalCantidadPallets) {
-		this.totalCantidadPallets = totalCantidadPallets;
-	}
+  public double getTotalPesoBruto() {
+    return totalPesoBruto;
+  }
 
-	public double getTotalCostos() {
-		return totalCostos;
-	}
+  public void setTotalPesoBruto(double totalPesoBruto) {
+    this.totalPesoBruto = totalPesoBruto;
+  }
 
-	public void setTotalCostos(double totalCostos) {
-		this.totalCostos = totalCostos;
-	}
+  public double getTotalCantidadCajas() {
+    return totalCantidadCajas;
+  }
 
-	public double getTotalNegociacion() {
-		return totalNegociacion;
-	}
+  public void setTotalCantidadCajas(double totalCantidadCajas) {
+    this.totalCantidadCajas = totalCantidadCajas;
+  }
 
-	public void setTotalNegociacion(double totalNegociacion) {
-		this.totalNegociacion = totalNegociacion;
-	}
+  public double getTotalCantidadTendidos() {
+    return totalCantidadTendidos;
+  }
 
-	public String consultarFacturaPF(){
-		productos=comercioEjb.consultarProductoPorDocumentoAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
-		this.totalCantidad=0;
-		this.totalValorTotal=0;
-		this.totalPesoNeto=0;
-		this.totalPesoBruto=0;
-		this.totalCantidadCajas=0;
-		this.totalCantidadTendidos=0;
-		this.totalCantidadPallets=0;
-		for (ProductoAsignarLoteOICDTO p:productos){
-			this.totalCantidad+=p.getCantidad().doubleValue();
-			this.totalValorTotal+=p.getValorTotal().doubleValue();
-			this.totalPesoNeto+=p.getTotalPesoNeto().doubleValue();
-			this.totalPesoBruto+=p.getTotalPesoBruto().doubleValue();
-			this.totalCantidadCajas+=p.getTotalCajas().doubleValue();
-			this.totalCantidadTendidos+=p.getTotalCajasTendido().doubleValue();
-			this.totalCantidadPallets+=p.getTotalCajasPallet().doubleValue();
-		}
-		
-		totalCostos=0;
-		if (this.documentoSeleccionado.getDocumentoXNegociacions()!=null && this.documentoSeleccionado.getDocumentoXNegociacions().size()>0){
-			totalCostos=this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoEntrega().doubleValue() + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoSeguro().doubleValue() +
-					this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoFlete().doubleValue() + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getOtrosGastos().doubleValue(); 
-		}
-		totalNegociacion= this.totalCostos + this.totalValorTotal;
-		lotes = comercioEjb.consultarProductoPorDocumentoLoteAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
-		
-		return null;
-	}
+  public void setTotalCantidadTendidos(double totalCantidadTendidos) {
+    this.totalCantidadTendidos = totalCantidadTendidos;
+  }
 
-	public List<ProductoAsignarLoteOICDTO> getProductos() {
-		return productos;
-	}
+  public double getTotalCantidadPallets() {
+    return totalCantidadPallets;
+  }
 
-	public void setProductos(List<ProductoAsignarLoteOICDTO> productos) {
-		this.productos = productos;
-	}
-	
-	public String asignarLotes(){
-		List<DocumentoXLotesoic> lista=new ArrayList<DocumentoXLotesoic>();
-		for (ProductoLoteAsignarLoteOICDTO lote:this.lotes){
-			DocumentoXLotesoic docLote = new DocumentoXLotesoic();
-			
-			docLote.setDocumento(this.documentoSeleccionado);
-			docLote.setTipoLoteoic(new TipoLoteoic());
-			
-			docLote.setId(new DocumentoXLotesoicPK());
-			docLote.getId().setIdDocumento(this.documentoSeleccionado.getId());
-			docLote.getId().setIdTipoLote(lote.getTipoLote().longValue());
-			
-			docLote.getTipoLoteoic().setId(lote.getTipoLote().longValue());
-			docLote.setFecha(new Timestamp(System.currentTimeMillis()));
-			docLote.setTotalCantidad(lote.getTotalCantidad());
-			docLote.setTotalCajas(lote.getTotalCajas());
-			docLote.setTotalPesoNeto(lote.getTotalPesoNeto());
-			docLote.setContribucion(new BigDecimal(0));
-			docLote.setDex(new BigDecimal(0));
-			lista.add(docLote);
-		}
-		documentoSeleccionado.getEstadosxdocumento().getId().setIdEstado((long)ConstantesDocumento.ASIGNADA);
-		lista=this.comercioEjb.guardarLotes(lista, this.documentoSeleccionado);
-		for (int i=0; i<lista.size(); i++){
-			this.lotes.get(i).setConsecutivo(lista.get(i).getConsecutivo());
-		}
-		this.buscarDocumentos();
-		this.deshabilitado = true;
-		return null;
-	
-	}
+  public void setTotalCantidadPallets(double totalCantidadPallets) {
+    this.totalCantidadPallets = totalCantidadPallets;
+  }
 
-	public MenuMB getMenu() {
-		return menu;
-	}
+  public double getTotalCostos() {
+    return totalCostos;
+  }
 
-	public void setMenu(MenuMB menu) {
-		this.menu = menu;
-	}
-	
+  public void setTotalCostos(double totalCostos) {
+    this.totalCostos = totalCostos;
+  }
+
+  public double getTotalNegociacion() {
+    return totalNegociacion;
+  }
+
+  public void setTotalNegociacion(double totalNegociacion) {
+    this.totalNegociacion = totalNegociacion;
+  }
+
+  public String consultarFacturaPF() {
+    productos = comercioEjb.consultarProductoPorDocumentoAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
+    this.totalCantidad = 0;
+    this.totalValorTotal = 0;
+    this.totalPesoNeto = 0;
+    this.totalPesoBruto = 0;
+    this.totalCantidadCajas = 0;
+    this.totalCantidadTendidos = 0;
+    this.totalCantidadPallets = 0;
+    for (ProductoAsignarLoteOICDTO p : productos) {
+      this.totalCantidad += p.getCantidad().doubleValue();
+      this.totalValorTotal += p.getValorTotal().doubleValue();
+      this.totalPesoNeto += p.getTotalPesoNeto().doubleValue();
+      this.totalPesoBruto += p.getTotalPesoBruto().doubleValue();
+      this.totalCantidadCajas += p.getTotalCajas().doubleValue();
+      this.totalCantidadTendidos += p.getTotalCajasTendido().doubleValue();
+      this.totalCantidadPallets += p.getTotalCajasPallet().doubleValue();
+    }
+
+    totalCostos = 0;
+    if (this.documentoSeleccionado.getDocumentoXNegociacions() != null && this.documentoSeleccionado.getDocumentoXNegociacions().size() > 0) {
+      totalCostos = this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoEntrega().doubleValue() + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoSeguro().doubleValue()
+          + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoFlete().doubleValue() + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getOtrosGastos().doubleValue();
+    }
+    totalNegociacion = this.totalCostos + this.totalValorTotal;
+    lotes = comercioEjb.consultarProductoPorDocumentoLoteAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
+
+    return null;
+  }
+
+  public List<ProductoAsignarLoteOICDTO> getProductos() {
+    return productos;
+  }
+
+  public void setProductos(List<ProductoAsignarLoteOICDTO> productos) {
+    this.productos = productos;
+  }
+
+  public String asignarLotes() {
+    List<DocumentoXLotesoic> lista = new ArrayList<DocumentoXLotesoic>();
+    for (ProductoLoteAsignarLoteOICDTO lote : this.lotes) {
+      DocumentoXLotesoic docLote = new DocumentoXLotesoic();
+
+      docLote.setDocumento(this.documentoSeleccionado);
+      docLote.setTipoLoteoic(new TipoLoteoic());
+
+      docLote.setId(new DocumentoXLotesoicPK());
+      docLote.getId().setIdDocumento(this.documentoSeleccionado.getId());
+      docLote.getId().setIdTipoLote(lote.getTipoLote().longValue());
+
+      docLote.getTipoLoteoic().setId(lote.getTipoLote().longValue());
+      docLote.setFecha(new Timestamp(System.currentTimeMillis()));
+      docLote.setTotalCantidad(lote.getTotalCantidad());
+      docLote.setTotalCajas(lote.getTotalCajas());
+      docLote.setTotalPesoNeto(lote.getTotalPesoNeto());
+      docLote.setContribucion(new BigDecimal(0));
+      docLote.setDex(new BigDecimal(0));
+      lista.add(docLote);
+    }
+    documentoSeleccionado.getEstadosxdocumento().getId().setIdEstado((long) ConstantesDocumento.ASIGNADA);
+    lista = this.comercioEjb.guardarLotes(lista, this.documentoSeleccionado);
+    for (int i = 0; i < lista.size(); i++) {
+      this.lotes.get(i).setConsecutivo(lista.get(i).getConsecutivo());
+    }
+    this.buscarDocumentos();
+    this.deshabilitado = true;
+    return null;
+
+  }
+
+  public MenuMB getMenu() {
+    return menu;
+  }
+
+  public void setMenu(MenuMB menu) {
+    this.menu = menu;
+  }
+
 }

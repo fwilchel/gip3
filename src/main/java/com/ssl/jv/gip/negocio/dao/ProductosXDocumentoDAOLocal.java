@@ -12,14 +12,20 @@ import com.ssl.jv.gip.negocio.dto.ProductoReporteTxtFacturaDirectaDTO;
 
 @Local
 public interface ProductosXDocumentoDAOLocal extends
-		IGenericDAO<ProductosXDocumento> {
+    IGenericDAO<ProductosXDocumento> {
 
-	public List<ProductosXDocumento> consultarPorDocumento(Long id);
-	public List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(String strConsecutivoDocumento); 
-	public void modificarProductosXDocumentos(List<ProductosXDocumento> productosXDocumentos);
-	public List<ProductosXDocumento> consultarPorDocumentoYCliente(Long idDocumento, Long idCliente);
-	public List<ProductoReporteTxtFacturaDirectaDTO> consultarReporteTxtVentasFD(Map<String, Object> parametros);
-	public List<ProductosXDocumento> consultarPorDocumentoConColecciones(Long id);
-	public List<ProductoDespacharMercanciaDTO> consultarProductoVentaDirecta(
-			String consecutivoDocumento);
+  public List<ProductosXDocumento> consultarPorDocumento(Long id);
+
+  public List<ProductoFacturaDirectaDTO> consultarProductoFacturaDirecta(String strConsecutivoDocumento);
+
+  public void modificarProductosXDocumentos(List<ProductosXDocumento> productosXDocumentos);
+
+  public List<ProductosXDocumento> consultarPorDocumentoYCliente(Long idDocumento, Long idCliente);
+
+  public List<ProductoReporteTxtFacturaDirectaDTO> consultarReporteTxtVentasFD(Map<String, Object> parametros);
+
+  public List<ProductosXDocumento> consultarPorDocumentoConColecciones(Long id);
+
+  public List<ProductoDespacharMercanciaDTO> consultarProductoVentaDirecta(
+      String consecutivoDocumento);
 }

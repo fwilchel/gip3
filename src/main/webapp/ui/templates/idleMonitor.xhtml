@@ -1,30 +1,30 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
 
-	<p:idleMonitor timeout="7200000" 
-		onidle="sessionTimeOutDialog.show();" >
-		<p:dialog header="La sesión expiró" widgetVar="sessionTimeOutDialog"
-			modal="true" closable="false" appendToBody="true" resizable="false">
+  <p:idleMonitor timeout="7200000" 
+                 onidle="sessionTimeOutDialog.show();" >
+    <p:dialog header="La sesiï¿½n expirï¿½" widgetVar="sessionTimeOutDialog"
+              modal="true" closable="false" resizable="false">
 
-			<h:panelGrid columns="1">
-				<h:outputText
-					value="Su sesión de trabajo expiró, para volver a ingresar a la aplicación haga click en el siguiente botón."
-					style="text-align: center" />
-				<input id="regresarLogin" type="button" value="Iniciar" align="center"
-					onclick="window.location='#{request.contextPath}/pages/login.jsf'" />
-			</h:panelGrid>
-		</p:dialog>
-	</p:idleMonitor>
+      <h:panelGrid columns="1">
+        <h:outputText
+          value="Su sesiï¿½n de trabajo expirï¿½, para volver a ingresar a la aplicaciï¿½n haga click en el siguiente botï¿½n."
+          style="text-align: center" />
+        <input id="regresarLogin" type="button" value="Iniciar" align="center"
+               onclick="window.location = '#{request.contextPath}/pages/login.jsf'" />
+      </h:panelGrid>
+    </p:dialog>
+  </p:idleMonitor>
 
-	<p:dialog modal="true" widgetVar="statusDialog" header="Estado"
-		draggable="false" closable="false" showHeader="false"
-		resizable="false" width="245">
-		<p:graphicImage value="/images/loaderb64.gif" />
-	</p:dialog>
+  <p:dialog modal="true" widgetVar="statusDialog" header="Estado"
+            draggable="false" closable="false" showHeader="false"
+            resizable="false" width="245">
+    <p:graphicImage value="/images/loaderb64.gif" />
+  </p:dialog>
 
 
 </ui:composition>

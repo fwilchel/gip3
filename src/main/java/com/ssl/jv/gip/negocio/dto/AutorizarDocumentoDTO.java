@@ -8,62 +8,70 @@ import java.sql.Timestamp;
 /**
  * The Class DocumentoIncontermDTO.
  */
-public class AutorizarDocumentoDTO implements Serializable{
+public class AutorizarDocumentoDTO implements Serializable {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 6826470281110432159L;
+  /**
+   * The Constant serialVersionUID.
+   */
+  private static final long serialVersionUID = 6826470281110432159L;
 
-	/** The id documento. */
-	private Long idDocumento;
-	
-	/** The consecutivo documento. */
-	private String consecutivoDocumento;
-	
-	/** The fecha generacion. */
-	private Date fechaGeneracion;
-	
-	private boolean seleccionado;
-	
-	private String documentoCliente;
+  /**
+   * The id documento.
+   */
+  private Long idDocumento;
 
-	public Long getIdDocumento() {
-		return idDocumento;
-	}
+  /**
+   * The consecutivo documento.
+   */
+  private String consecutivoDocumento;
 
-	public void setIdDocumento(Long idDocumento) {
-		this.idDocumento = idDocumento;
-	}
+  /**
+   * The fecha generacion.
+   */
+  private Date fechaGeneracion;
 
-	public String getConsecutivoDocumento() {
-		return consecutivoDocumento;
-	}
+  private boolean seleccionado;
 
-	public void setConsecutivoDocumento(String consecutivoDocumento) {
-		this.consecutivoDocumento = consecutivoDocumento;
-	}
+  private String documentoCliente;
 
-	public Date getFechaGeneracion() {
-		return fechaGeneracion;
-	}
+  public Long getIdDocumento() {
+    return idDocumento;
+  }
 
-	public void setFechaGeneracion(Date fechaGeneracion) {
-		this.fechaGeneracion = fechaGeneracion;
-	}
+  public void setIdDocumento(Long idDocumento) {
+    this.idDocumento = idDocumento;
+  }
 
-	public boolean isSeleccionado() {
-		return seleccionado;
-	}
+  public String getConsecutivoDocumento() {
+    return consecutivoDocumento;
+  }
 
-	public void setSeleccionado(boolean seleccionado) {
-		this.seleccionado = seleccionado;
-	}
+  public void setConsecutivoDocumento(String consecutivoDocumento) {
+    this.consecutivoDocumento = consecutivoDocumento;
+  }
 
-	public String getDocumentoCliente() {
-		return documentoCliente;
-	}
+  public Date getFechaGeneracion() {
+    return fechaGeneracion;
+  }
 
-	public void setDocumentoCliente(String documentoCliente) {
-		this.documentoCliente = documentoCliente;
-	}	
+  public void setFechaGeneracion(Date fechaGeneracion) {
+    this.fechaGeneracion = fechaGeneracion;
+  }
+
+  public boolean isSeleccionado() {
+    return seleccionado;
+  }
+
+  public void setSeleccionado(boolean seleccionado) {
+    this.seleccionado = seleccionado;
+  }
+
+  public String getDocumentoCliente() {
+    return documentoCliente;
+  }
+
+  public void setDocumentoCliente(String documentoCliente) {
+    this.documentoCliente = documentoCliente;
+  }
 
 }

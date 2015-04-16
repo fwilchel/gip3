@@ -10,11 +10,11 @@ import javax.ejb.Stateless;
 @LocalBean
 public class FinancieroEJB implements FinancieroEJBLocal {
 
-    /**
-     * Default constructor. 
-     */
-    public FinancieroEJB() {
-        // TODO Auto-generated constructor stub
-    }
+  /**
+   * Default constructor.
+   */
+  public FinancieroEJB() {
+    // TODO Auto-generated constructor stub
+  }
 
 }

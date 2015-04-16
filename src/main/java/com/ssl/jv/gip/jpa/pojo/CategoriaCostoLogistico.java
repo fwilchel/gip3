@@ -13,87 +13,87 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
 /**
  * The persistent class for the categorias_costos_logisticos database table.
- * 
+ *
  */
 @Entity
-@Table(name="categorias_costos_logisticos")
-@NamedQuery(name="CategoriaCostoLogistico.findAll", query="SELECT c FROM CategoriaCostoLogistico c")
+@Table(name = "categorias_costos_logisticos")
+@NamedQuery(name = "CategoriaCostoLogistico.findAll", query = "SELECT c FROM CategoriaCostoLogistico c")
 public class CategoriaCostoLogistico implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@SequenceGenerator(name="CATEGORIAS_COSTOS_LOGISTICOS_ID_GENERATOR", sequenceName="CATEGORIAS_COSTOS_ID_SEQ", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CATEGORIAS_COSTOS_LOGISTICOS_ID_GENERATOR")
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
-	private Integer orden;
+  @Id
+  @SequenceGenerator(name = "CATEGORIAS_COSTOS_LOGISTICOS_ID_GENERATOR", sequenceName = "CATEGORIAS_COSTOS_ID_SEQ", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CATEGORIAS_COSTOS_LOGISTICOS_ID_GENERATOR")
+  private Long id;
 
-	//bi-directional many-to-one association to ItemCostoLogistico
-	@OneToMany(mappedBy="categoriaCostoLogistico")
-	private List<ItemCostoLogistico> itemsCostosLogisticos;
-	
-	@Column(name="campo_acumula")
-	private String campoAcumula; 
+  private String nombre;
+  private Integer orden;
 
-	public CategoriaCostoLogistico() {
-	}
+  //bi-directional many-to-one association to ItemCostoLogistico
+  @OneToMany(mappedBy = "categoriaCostoLogistico")
+  private List<ItemCostoLogistico> itemsCostosLogisticos;
 
-	public Long getId() {
-		return this.id;
-	}
+  @Column(name = "campo_acumula")
+  private String campoAcumula;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public CategoriaCostoLogistico() {
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public List<ItemCostoLogistico> getItemsCostosLogisticos() {
-		return this.itemsCostosLogisticos;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public void setItemsCostosLogisticos(List<ItemCostoLogistico> itemsCostosLogisticos) {
-		this.itemsCostosLogisticos = itemsCostosLogisticos;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public ItemCostoLogistico addItemCostoLogistico(ItemCostoLogistico itemCostoLogistico) {
-		getItemsCostosLogisticos().add(itemCostoLogistico);
-		itemCostoLogistico.setCategoriaCostoLogistico(this);
+  public List<ItemCostoLogistico> getItemsCostosLogisticos() {
+    return this.itemsCostosLogisticos;
+  }
 
-		return itemCostoLogistico;
-	}
+  public void setItemsCostosLogisticos(List<ItemCostoLogistico> itemsCostosLogisticos) {
+    this.itemsCostosLogisticos = itemsCostosLogisticos;
+  }
 
-	public ItemCostoLogistico removeItemCostoLogistico(ItemCostoLogistico itemCostoLogistico) {
-		getItemsCostosLogisticos().remove(itemCostoLogistico);
-		itemCostoLogistico.setCategoriaCostoLogistico(null);
+  public ItemCostoLogistico addItemCostoLogistico(ItemCostoLogistico itemCostoLogistico) {
+    getItemsCostosLogisticos().add(itemCostoLogistico);
+    itemCostoLogistico.setCategoriaCostoLogistico(this);
 
-		return itemCostoLogistico;
-	}
+    return itemCostoLogistico;
+  }
 
-	public String getCampoAcumula() {
-		return campoAcumula;
-	}
+  public ItemCostoLogistico removeItemCostoLogistico(ItemCostoLogistico itemCostoLogistico) {
+    getItemsCostosLogisticos().remove(itemCostoLogistico);
+    itemCostoLogistico.setCategoriaCostoLogistico(null);
 
-	public void setCampoAcumula(String campoAcumula) {
-		this.campoAcumula = campoAcumula;
-	}
+    return itemCostoLogistico;
+  }
 
-	public Integer getOrden() {
-		return orden;
-	}
+  public String getCampoAcumula() {
+    return campoAcumula;
+  }
 
-	public void setOrden(Integer orden) {
-		this.orden = orden;
-	}
+  public void setCampoAcumula(String campoAcumula) {
+    this.campoAcumula = campoAcumula;
+  }
+
+  public Integer getOrden() {
+    return orden;
+  }
+
+  public void setOrden(Integer orden) {
+    this.orden = orden;
+  }
 
 }

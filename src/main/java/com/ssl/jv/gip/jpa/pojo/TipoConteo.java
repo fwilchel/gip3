@@ -4,104 +4,104 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the tipo_conteo database table.
- * 
+ *
  */
 @Entity
-@Table(name="tipo_conteo")
-@NamedQuery(name="TipoConteo.findAll", query="SELECT t FROM TipoConteo t")
+@Table(name = "tipo_conteo")
+@NamedQuery(name = "TipoConteo.findAll", query = "SELECT t FROM TipoConteo t")
 public class TipoConteo implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  private Long id;
 
-	//bi-directional many-to-one association to Conteo
-	@OneToMany(mappedBy="tipoConteo")
-	private List<Conteo> conteos;
+  private String nombre;
 
-	//bi-directional many-to-one association to EstandarConteo
-	@OneToMany(mappedBy="tipoConteo")
-	private List<EstandarConteo> estandarConteos;
+  //bi-directional many-to-one association to Conteo
+  @OneToMany(mappedBy = "tipoConteo")
+  private List<Conteo> conteos;
 
-	//bi-directional many-to-one association to Pais
-	@ManyToOne
-	@JoinColumn(name="id_pais")
-	private Pais pais;
+  //bi-directional many-to-one association to EstandarConteo
+  @OneToMany(mappedBy = "tipoConteo")
+  private List<EstandarConteo> estandarConteos;
 
-	public TipoConteo() {
-	}
+  //bi-directional many-to-one association to Pais
+  @ManyToOne
+  @JoinColumn(name = "id_pais")
+  private Pais pais;
 
-	public Long getId() {
-		return this.id;
-	}
+  public TipoConteo() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public List<Conteo> getConteos() {
-		return this.conteos;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setConteos(List<Conteo> conteos) {
-		this.conteos = conteos;
-	}
+  public List<Conteo> getConteos() {
+    return this.conteos;
+  }
 
-	public Conteo addConteo(Conteo conteo) {
-		getConteos().add(conteo);
-		conteo.setTipoConteo(this);
+  public void setConteos(List<Conteo> conteos) {
+    this.conteos = conteos;
+  }
 
-		return conteo;
-	}
+  public Conteo addConteo(Conteo conteo) {
+    getConteos().add(conteo);
+    conteo.setTipoConteo(this);
 
-	public Conteo removeConteo(Conteo conteo) {
-		getConteos().remove(conteo);
-		conteo.setTipoConteo(null);
+    return conteo;
+  }
 
-		return conteo;
-	}
+  public Conteo removeConteo(Conteo conteo) {
+    getConteos().remove(conteo);
+    conteo.setTipoConteo(null);
 
-	public List<EstandarConteo> getEstandarConteos() {
-		return this.estandarConteos;
-	}
+    return conteo;
+  }
 
-	public void setEstandarConteos(List<EstandarConteo> estandarConteos) {
-		this.estandarConteos = estandarConteos;
-	}
+  public List<EstandarConteo> getEstandarConteos() {
+    return this.estandarConteos;
+  }
 
-	public EstandarConteo addEstandarConteo(EstandarConteo estandarConteo) {
-		getEstandarConteos().add(estandarConteo);
-		estandarConteo.setTipoConteo(this);
+  public void setEstandarConteos(List<EstandarConteo> estandarConteos) {
+    this.estandarConteos = estandarConteos;
+  }
 
-		return estandarConteo;
-	}
+  public EstandarConteo addEstandarConteo(EstandarConteo estandarConteo) {
+    getEstandarConteos().add(estandarConteo);
+    estandarConteo.setTipoConteo(this);
 
-	public EstandarConteo removeEstandarConteo(EstandarConteo estandarConteo) {
-		getEstandarConteos().remove(estandarConteo);
-		estandarConteo.setTipoConteo(null);
+    return estandarConteo;
+  }
 
-		return estandarConteo;
-	}
+  public EstandarConteo removeEstandarConteo(EstandarConteo estandarConteo) {
+    getEstandarConteos().remove(estandarConteo);
+    estandarConteo.setTipoConteo(null);
 
-	public Pais getPais() {
-		return this.pais;
-	}
+    return estandarConteo;
+  }
 
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
+  public Pais getPais() {
+    return this.pais;
+  }
+
+  public void setPais(Pais pais) {
+    this.pais = pais;
+  }
 
 }

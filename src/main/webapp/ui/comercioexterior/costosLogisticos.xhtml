@@ -1,254 +1,253 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.costosLogisticosTitulo}::.</ui:define>
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.costosLogisticosTitulo}::.</ui:define>
 
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form prependId="false" id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
-
-
-
-			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.costosLogisticosTitulo}">
-					<p:panelGrid columns="9">
-
-						<p:outputLabel value="#{msg.costosLogisticosCliente}" for="cliente"
-							styleClass="negrita" />
-						<p:selectOneMenu id="cliente" value="#{generarCLMB.cliente}" 
-							label="#{msg.costosLogisticosCliente}">
-							<f:selectItem itemLabel="" itemValue="" />
-							<f:selectItems value="#{generarCLMB.clientes}" var="cliente" itemLabel="#{cliente.nombre}" itemValue="#{cliente.id}"  />
-							<!-- p:ajax event="change" process="cliente" listener="#{ingresarSolicitudPedidoMB.cargarTerminos}"></p:ajax-->
-						</p:selectOneMenu>
-						<p:message for="cliente"></p:message>
-
-						<p:outputLabel value="#{msg.costosLogisticosPais}" for="pais"
-							styleClass="negrita" />
-						<p:selectOneMenu id="pais" value="#{generarCLMB.pais}" 
-							label="#{msg.costosLogisticosPais}">
-							<f:selectItem itemLabel="" itemValue="" />
-							<f:selectItems value="#{generarCLMB.paises}" var="pais" itemLabel="#{pais.nombre}" itemValue="#{pais.id}"  />
-							<p:ajax event="change" process="pais" listener="#{generarCLMB.cargarPuertosInternacionales}" update="puertoInternal"></p:ajax>
-						</p:selectOneMenu>
-						<p:message for="pais"></p:message>
-						
-						<p:outputLabel value="#{msg.costosLogisticosIncoterm}" for="incoterm"
-							styleClass="negrita" />
-						<p:selectOneMenu id="incoterm" value="#{generarCLMB.terminoIncoterm}" required="true"
-							label="#{msg.costosLogisticosIncoterm}">
-							<f:selectItem itemLabel="" itemValue="" />
-							<f:selectItems value="#{generarCLMB.incoterms}" var="incoterm" itemLabel="#{incoterm.medioTransporte.descripcion} #{incoterm.terminoIncoterm.descripcion}" itemValue="#{incoterm.id}"  />
-						</p:selectOneMenu>
-						<p:message for="incoterm"></p:message>
-
-						<p:outputLabel value="#{msg.costosLogisticosPuertoNal}" for="puertoNal"
-							styleClass="negrita" />
-						<p:selectOneMenu id="puertoNal" value="#{generarCLMB.puertoNal}" 
-							label="#{msg.costosLogisticosPuertoNal}">
-							<f:selectItem itemLabel="" itemValue="" />
-							<f:selectItems value="#{generarCLMB.puertosNacionales}"  />
-						</p:selectOneMenu>
-						<p:message for="puertoNal"></p:message>
-
-						<p:outputLabel value="#{msg.costosLogisticosPuertoInternal}" for="puertoInternal"
-							styleClass="negrita" />
-						<p:selectOneMenu id="puertoInternal" value="#{generarCLMB.puertoInternal}" 
-							label="#{msg.costosLogisticosPuertoInternal}">
-							<f:selectItem itemLabel="" itemValue="" />
-							<f:selectItems value="#{generarCLMB.puertosInternacionales}"  />
-						</p:selectOneMenu>
-						<p:message for="puertoInternal"></p:message>
-						
-						<p:commandButton action="#{generarCLMB.consultarSolicitudes}" update="tablaDatos" value="#{msg.costosLogisticosConsultar}" icon="ui-icon-search" process="@form"></p:commandButton>
-						
-					</p:panelGrid>
-
-					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-						value="#{generarCLMB.solicitudes}" rows="10"
-						emptyMessage="#{msg.costosLogisticosSolicitudesNoEncontradas}"
-						paginator="true" paginatorPosition="bottom"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
-					
-
-						<p:column style="width:50px;text-align: center" headerText="#{msg.costosLogisticosSeleccionada}">
-							<p:selectBooleanCheckbox value="#{dato.seleccionada}"></p:selectBooleanCheckbox>
-						</p:column>
-
-						<p:column headerText="#{msg.costosLogisticosDocumento}">
-							<h:outputText value="#{dato.idDocumento}" />
-						</p:column>
-						
-						<p:column headerText="#{msg.costosLogisticosConsecutivo}">
-							<h:outputText value="#{dato.consecutivoDocumento}" />
-						</p:column>
-						
-						<p:column headerText="#{msg.costosLogisticosPedido}">
-							<h:outputText value="#{dato.documentoCliente}" />
-						</p:column>
-						
-						<p:column  headerText="#{msg.costosLogisticosFechaGeneracion}">
-							<h:outputText value="#{dato.fechaGeneracion}">
-								<f:convertDateTime pattern="dd-MMM-yyyy"/>
-							</h:outputText>
-						</p:column>
-						
-						<p:column headerText="#{msg.costosLogisticosValorEtiquetas}" styleClass="derecha">
-							<p:inputText value="#{dato.etiquetas}" />
-						</p:column>
-						
-						<p:column headerText="#{msg.costosLogisticosValorTotal}" styleClass="derecha">
-							<h:outputText value="#{dato.valorTotalDocumento}" >
-								<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" pattern="#,##0.00"/>
-							</h:outputText>
-						</p:column>
-
-					</p:dataTable>
-					
-					<p:panel id="panelCostos">
-						<p:panelGrid columns="1" id="panelG">
-							<p:panelGrid columns="11">
-								<p:outputLabel value="Tipo de contenedor"></p:outputLabel>
-								<p:selectOneMenu value="#{generarCLMB.tipoContenedor1}">
-									<f:selectItems value="#{generarCLMB.tipoContenedores}"/>
-								</p:selectOneMenu>
-								<p:outputLabel value="Cantidad"></p:outputLabel>
-								<p:inputText value="#{generarCLMB.cantidad1}"></p:inputText>
-								
-								<p:spacer width="50"></p:spacer>
-								
-								<p:outputLabel value="Tipo de contenedor"></p:outputLabel>
-								<p:selectOneMenu value="#{generarCLMB.tipoContenedor2}">
-									<f:selectItems value="#{generarCLMB.tipoContenedores}"/>
-								</p:selectOneMenu>
-								<p:outputLabel value="Cantidad"></p:outputLabel>
-								<p:inputText value="#{generarCLMB.cantidad2}"></p:inputText>
-								
-								<p:commandButton value="#{msg.costosLogisticosGenerar}" action="#{generarCLMB.generarCostosLogisticos()}" process="@form" update=":forma" icon="ui-icon-play"></p:commandButton>
-							</p:panelGrid>
-							<p:spacer height="10"></p:spacer>
-						    <p:dataTable var="grupo" id="costos" value="#{generarCLMB.costos}" emptyMessage="No hay registros" >
-						        <f:facet name="header">
-						            COSTOS LOGISTICOS
-						        </f:facet>
-						        
-						        <p:columnGroup type="header">
-						            <p:row>
-						                <p:column  headerText="Incluido" style="width:40px" width="40" />
-						                <p:column  headerText="Item" />
-						                <p:column  headerText="Descripci�n" />
-						                <p:column  headerText="Documento" style="width:100px" width="100"/>
-						                <p:column  headerText="Cantidad" style="width:100px" width="100"/>
-						                <p:column  headerText="Valor M�nimo" style="width:100px" width="100"/>
-						                <p:column  headerText="Valor" style="width:100px" width="100"/>
-						            </p:row>
-						        </p:columnGroup>
-						        
-						        
-						        <p:subTable var="costo" value="#{grupo.costos}">
-						        	<f:facet name="header">
-						                <h:outputText value="#{grupo.categoria}" />
-						            </f:facet>
-						            
-						            <p:column headerText="Incluido"  >
-										<p:selectBooleanCheckbox value="#{costo.seleccionado}">
-							            	<p:ajax update=":forma:tabPanel:panelCostos" process="@form" listener="#{generarCLMB.recalcular}" immediate="true" event="change" />
-							        	</p:selectBooleanCheckbox>
-							        </p:column>	        	
-							        <p:column headerText="Item">
-		            					<h:outputText value="#{costo.id.item}" />
-		        					</p:column>
-		        					<p:column headerText="Descripci�n">
-		            					<h:outputText value="#{costo.id.descripcion}" />
-		        					</p:column>
-		        					<p:column headerText="#{msg.costosLogisticosConsecutivo}">
-										<h:outputText value="#{costo.id.consecutivoDocumento}" />
-									</p:column>
-		        					<p:column headerText="Cantidad" styleClass="derecha">
-		            					<h:outputText value="#{costo.id.cantidad}" >
-		            						<f:convertNumber type="number" groupingUsed="true" minFractionDigits="3" maxFractionDigits="3" pattern="#,##0.00"/>
-		            					</h:outputText>
-		        					</p:column>
-		        					<p:column headerText="Valor M�nimo" styleClass="derecha">
-		            					<h:outputText value="#{costo.id.valorMinimo}" />
-		        					</p:column>
-							 		<p:column headerText="Valor" styleClass="derecha">
-		            					<h:outputText value="#{costo.id.valor}"  >
-		            						<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
-		            					</h:outputText>
-		            					
-		        					</p:column>
-		        					
-		        					<p:columnGroup type="footer">
-						                <p:row>
-						                    <p:column footerText="Total #{grupo.categoria} :" colspan="6" style="text-align:right"/>
-						                    <p:column style="text-align:right">
-							                    <f:facet name="footer">
-								                    <h:outputText value="#{grupo.total}"  >
-				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
-				            						</h:outputText>
-			            						</f:facet>
-		            						</p:column>
-						                </p:row>
-						            </p:columnGroup>
-		        					
-								</p:subTable>
-								
-								 <p:columnGroup type="footer">
-						            <p:row>
-						                <p:column colspan="5" style="text-align:right">
-						                	<f:facet name="footer">
-						                		<p:commandButton value="Guardar" icon="ui-icon-disk" action="#{generarCLMB.guardar}" update=":forma:msgs"></p:commandButton>
-							                </f:facet>
-						                </p:column>
-						                <p:column style="text-align:right; border:none" colspan="2">
-						                	<f:facet name="footer">
-						                		<h:panelGrid columns="2" style="text-align:right; border:none; font-size:10">
-						                			<h:outputText value="FOB" style="text-align:right; border:none; font-size:10"/>
-								                    <h:outputText value="#{generarCLMB.totalFOB}" style="text-align:right; border:none; font-size:10" >
-				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
-				            						</h:outputText>
-				            						<h:outputText value="Fletes" style="text-align:right; border:none; font-size:10"/>
-				            						<h:outputText value="#{generarCLMB.totalFletes}" style="text-align:right; border:none; font-size:10" >
-				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
-				            						</h:outputText>
-				            						<h:outputText value="Seguros" style="text-align:right; border:none; font-size:10"/>
-				            						<h:outputText value="#{generarCLMB.totalSeguros}" style="text-align:right; border:none; font-size:10" >
-				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
-				            						</h:outputText>
-				            						<h:outputText value="Total" style="text-align:right; border:none; font-size:12; font-weight:bold"/>
-				            						<h:outputText value="#{generarCLMB.total}" style="text-align:right; border:none; font-size:12; font-weight:bold" >
-				            							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
-				            						</h:outputText>
-				            					</h:panelGrid>
-			            					</f:facet>
-		            					
-						                </p:column>
-						            </p:row>
-						        </p:columnGroup>
-						    </p:dataTable>
-							
-						
-						</p:panelGrid>
-					</p:panel>
-					
-				</p:tab>
-			</p:tabView>
-		</h:form>
+      <p:messages id="msgs" showDetail="false" showSummary="true"
+                  globalOnly="false" showIcon="true"></p:messages>
 
 
 
-	</ui:define>
+      <p:tabView id="tabPanel">
+        <p:tab title="#{msg.costosLogisticosTitulo}">
+          <p:panelGrid columns="9">
+
+            <p:outputLabel value="#{msg.costosLogisticosCliente}" for="cliente"
+                           styleClass="negrita" />
+            <p:selectOneMenu id="cliente" value="#{generarCLMB.cliente}" 
+                             label="#{msg.costosLogisticosCliente}">
+              <f:selectItem itemLabel="" itemValue="" />
+              <f:selectItems value="#{generarCLMB.clientes}" var="cliente" itemLabel="#{cliente.nombre}" itemValue="#{cliente.id}"  />
+              <!-- p:ajax event="change" process="cliente" listener="#{ingresarSolicitudPedidoMB.cargarTerminos}"></p:ajax-->
+            </p:selectOneMenu>
+            <p:message for="cliente"></p:message>
+
+            <p:outputLabel value="#{msg.costosLogisticosPais}" for="pais"
+                           styleClass="negrita" />
+            <p:selectOneMenu id="pais" value="#{generarCLMB.pais}" 
+                             label="#{msg.costosLogisticosPais}">
+              <f:selectItem itemLabel="" itemValue="" />
+              <f:selectItems value="#{generarCLMB.paises}" var="pais" itemLabel="#{pais.nombre}" itemValue="#{pais.id}"  />
+              <p:ajax event="change" process="pais" listener="#{generarCLMB.cargarPuertosInternacionales}" update="puertoInternal"></p:ajax>
+            </p:selectOneMenu>
+            <p:message for="pais"></p:message>
+
+            <p:outputLabel value="#{msg.costosLogisticosIncoterm}" for="incoterm"
+                           styleClass="negrita" />
+            <p:selectOneMenu id="incoterm" value="#{generarCLMB.terminoIncoterm}" required="true"
+                             label="#{msg.costosLogisticosIncoterm}">
+              <f:selectItem itemLabel="" itemValue="" />
+              <f:selectItems value="#{generarCLMB.incoterms}" var="incoterm" itemLabel="#{incoterm.medioTransporte.descripcion} #{incoterm.terminoIncoterm.descripcion}" itemValue="#{incoterm.id}"  />
+            </p:selectOneMenu>
+            <p:message for="incoterm"></p:message>
+
+            <p:outputLabel value="#{msg.costosLogisticosPuertoNal}" for="puertoNal"
+                           styleClass="negrita" />
+            <p:selectOneMenu id="puertoNal" value="#{generarCLMB.puertoNal}" 
+                             label="#{msg.costosLogisticosPuertoNal}">
+              <f:selectItem itemLabel="" itemValue="" />
+              <f:selectItems value="#{generarCLMB.puertosNacionales}"  />
+            </p:selectOneMenu>
+            <p:message for="puertoNal"></p:message>
+
+            <p:outputLabel value="#{msg.costosLogisticosPuertoInternal}" for="puertoInternal"
+                           styleClass="negrita" />
+            <p:selectOneMenu id="puertoInternal" value="#{generarCLMB.puertoInternal}" 
+                             label="#{msg.costosLogisticosPuertoInternal}">
+              <f:selectItem itemLabel="" itemValue="" />
+              <f:selectItems value="#{generarCLMB.puertosInternacionales}"  />
+            </p:selectOneMenu>
+            <p:message for="puertoInternal"></p:message>
+
+            <p:commandButton action="#{generarCLMB.consultarSolicitudes}" update="tablaDatos" value="#{msg.costosLogisticosConsultar}" icon="ui-icon-search" process="@form"></p:commandButton>
+
+          </p:panelGrid>
+
+          <p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+                       value="#{generarCLMB.solicitudes}" rows="10"
+                       emptyMessage="#{msg.costosLogisticosSolicitudesNoEncontradas}"
+                       paginator="true" paginatorPosition="bottom"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
+
+
+            <p:column style="width:50px;text-align: center" headerText="#{msg.costosLogisticosSeleccionada}">
+              <p:selectBooleanCheckbox value="#{dato.seleccionada}"></p:selectBooleanCheckbox>
+            </p:column>
+
+            <p:column headerText="#{msg.costosLogisticosDocumento}">
+              <h:outputText value="#{dato.idDocumento}" />
+            </p:column>
+
+            <p:column headerText="#{msg.costosLogisticosConsecutivo}">
+              <h:outputText value="#{dato.consecutivoDocumento}" />
+            </p:column>
+
+            <p:column headerText="#{msg.costosLogisticosPedido}">
+              <h:outputText value="#{dato.documentoCliente}" />
+            </p:column>
+
+            <p:column  headerText="#{msg.costosLogisticosFechaGeneracion}">
+              <h:outputText value="#{dato.fechaGeneracion}">
+                <f:convertDateTime pattern="dd-MMM-yyyy"/>
+              </h:outputText>
+            </p:column>
+
+            <p:column headerText="#{msg.costosLogisticosValorEtiquetas}" styleClass="derecha">
+              <p:inputText value="#{dato.etiquetas}" />
+            </p:column>
+
+            <p:column headerText="#{msg.costosLogisticosValorTotal}" styleClass="derecha">
+              <h:outputText value="#{dato.valorTotalDocumento}" >
+                <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" pattern="#,##0.00"/>
+              </h:outputText>
+            </p:column>
+
+          </p:dataTable>
+
+          <p:panel id="panelCostos">
+            <p:panelGrid columns="1" id="panelG">
+              <p:panelGrid columns="11">
+                <p:outputLabel value="Tipo de contenedor"></p:outputLabel>
+                <p:selectOneMenu value="#{generarCLMB.tipoContenedor1}">
+                  <f:selectItems value="#{generarCLMB.tipoContenedores}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="Cantidad"></p:outputLabel>
+                <p:inputText value="#{generarCLMB.cantidad1}"></p:inputText>
+
+                <p:spacer width="50"></p:spacer>
+
+                <p:outputLabel value="Tipo de contenedor"></p:outputLabel>
+                <p:selectOneMenu value="#{generarCLMB.tipoContenedor2}">
+                  <f:selectItems value="#{generarCLMB.tipoContenedores}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="Cantidad"></p:outputLabel>
+                <p:inputText value="#{generarCLMB.cantidad2}"></p:inputText>
+
+                <p:commandButton value="#{msg.costosLogisticosGenerar}" action="#{generarCLMB.generarCostosLogisticos()}" process="@form" update=":forma" icon="ui-icon-play"></p:commandButton>
+              </p:panelGrid>
+              <p:spacer height="10"></p:spacer>
+              <p:dataTable var="grupo" id="costos" value="#{generarCLMB.costos}" emptyMessage="No hay registros" >
+                <f:facet name="header">
+                  COSTOS LOGISTICOS
+                </f:facet>
+
+                <p:columnGroup type="header">
+                  <p:row>
+                    <p:column  headerText="Incluido" style="width:40px" width="40" />
+                    <p:column  headerText="Item" />
+                    <p:column  headerText="Descripci�n" />
+                    <p:column  headerText="Documento" style="width:100px" width="100"/>
+                    <p:column  headerText="Cantidad" style="width:100px" width="100"/>
+                    <p:column  headerText="Valor M�nimo" style="width:100px" width="100"/>
+                    <p:column  headerText="Valor" style="width:100px" width="100"/>
+                  </p:row>
+                </p:columnGroup>
+
+
+                <p:subTable var="costo" value="#{grupo.costos}">
+                  <f:facet name="header">
+                    <h:outputText value="#{grupo.categoria}" />
+                  </f:facet>
+
+                  <p:column headerText="Incluido"  >
+                    <p:selectBooleanCheckbox value="#{costo.seleccionado}">
+                      <p:ajax update=":forma:tabPanel:panelCostos" process="@form" listener="#{generarCLMB.recalcular}" immediate="true" event="change" />
+                    </p:selectBooleanCheckbox>
+                  </p:column>	        	
+                  <p:column headerText="Item">
+                    <h:outputText value="#{costo.id.item}" />
+                  </p:column>
+                  <p:column headerText="Descripci�n">
+                    <h:outputText value="#{costo.id.descripcion}" />
+                  </p:column>
+                  <p:column headerText="#{msg.costosLogisticosConsecutivo}">
+                    <h:outputText value="#{costo.id.consecutivoDocumento}" />
+                  </p:column>
+                  <p:column headerText="Cantidad" styleClass="derecha">
+                    <h:outputText value="#{costo.id.cantidad}" >
+                      <f:convertNumber type="number" groupingUsed="true" minFractionDigits="3" maxFractionDigits="3" pattern="#,##0.00"/>
+                    </h:outputText>
+                  </p:column>
+                  <p:column headerText="Valor M�nimo" styleClass="derecha">
+                    <h:outputText value="#{costo.id.valorMinimo}" />
+                  </p:column>
+                  <p:column headerText="Valor" styleClass="derecha">
+                    <h:outputText value="#{costo.id.valor}"  >
+                      <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+                    </h:outputText>
+
+                  </p:column>
+
+                  <p:columnGroup type="footer">
+                    <p:row>
+                      <p:column footerText="Total #{grupo.categoria} :" colspan="6" style="text-align:right"/>
+                      <p:column style="text-align:right">
+                        <f:facet name="footer">
+                          <h:outputText value="#{grupo.total}"  >
+                            <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+                          </h:outputText>
+                        </f:facet>
+                      </p:column>
+                    </p:row>
+                  </p:columnGroup>
+
+                </p:subTable>
+
+                <p:columnGroup type="footer">
+                  <p:row>
+                    <p:column colspan="5" style="text-align:right">
+                      <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="ui-icon-disk" action="#{generarCLMB.guardar}" update=":forma:msgs"></p:commandButton>
+                      </f:facet>
+                    </p:column>
+                    <p:column style="text-align:right; border:none" colspan="2">
+                      <f:facet name="footer">
+                        <h:panelGrid columns="2" style="text-align:right; border:none; font-size:10">
+                          <h:outputText value="FOB" style="text-align:right; border:none; font-size:10"/>
+                          <h:outputText value="#{generarCLMB.totalFOB}" style="text-align:right; border:none; font-size:10" >
+                            <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+                          </h:outputText>
+                          <h:outputText value="Fletes" style="text-align:right; border:none; font-size:10"/>
+                          <h:outputText value="#{generarCLMB.totalFletes}" style="text-align:right; border:none; font-size:10" >
+                            <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+                          </h:outputText>
+                          <h:outputText value="Seguros" style="text-align:right; border:none; font-size:10"/>
+                          <h:outputText value="#{generarCLMB.totalSeguros}" style="text-align:right; border:none; font-size:10" >
+                            <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+                          </h:outputText>
+                          <h:outputText value="Total" style="text-align:right; border:none; font-size:12; font-weight:bold"/>
+                          <h:outputText value="#{generarCLMB.total}" style="text-align:right; border:none; font-size:12; font-weight:bold" >
+                            <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#,##0.00"/>
+                          </h:outputText>
+                        </h:panelGrid>
+                      </f:facet>
+
+                    </p:column>
+                  </p:row>
+                </p:columnGroup>
+              </p:dataTable>
+
+
+            </p:panelGrid>
+          </p:panel>
+
+        </p:tab>
+      </p:tabView>
+    </h:form>
+
+
+
+  </ui:define>
 
 </ui:composition>
 

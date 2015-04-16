@@ -9,12 +9,12 @@ import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
 
 @Stateless
 @LocalBean
-public class TipoLoteOICDAO extends GenericDAO<TipoLoteoic> implements TipoLoteOICDAOLocal{
+public class TipoLoteOICDAO extends GenericDAO<TipoLoteoic> implements TipoLoteOICDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(TipoLoteOICDAO.class);
-	
-	public TipoLoteOICDAO(){
-		this.persistentClass = TipoLoteoic.class;
-	}	
-	
+  private static final Logger LOGGER = Logger.getLogger(TipoLoteOICDAO.class);
+
+  public TipoLoteOICDAO() {
+    this.persistentClass = TipoLoteoic.class;
+  }
+
 }

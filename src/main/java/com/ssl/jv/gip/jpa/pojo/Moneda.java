@@ -167,12 +167,12 @@ public class Moneda implements Serializable {
   }
 
   public void setMovimientosInventarios(
-          List<MovimientosInventario> movimientosInventarios) {
+      List<MovimientosInventario> movimientosInventarios) {
     this.movimientosInventarios = movimientosInventarios;
   }
 
   public MovimientosInventario addMovimientosInventario(
-          MovimientosInventario movimientosInventario) {
+      MovimientosInventario movimientosInventario) {
     getMovimientosInventarios().add(movimientosInventario);
     movimientosInventario.setMoneda(this);
 
@@ -180,7 +180,7 @@ public class Moneda implements Serializable {
   }
 
   public MovimientosInventario removeMovimientosInventario(
-          MovimientosInventario movimientosInventario) {
+      MovimientosInventario movimientosInventario) {
     getMovimientosInventarios().remove(movimientosInventario);
     movimientosInventario.setMoneda(null);
 
@@ -218,7 +218,7 @@ public class Moneda implements Serializable {
   }
 
   public ProductosXCliente addProductosxcliente(
-          ProductosXCliente productosxcliente) {
+      ProductosXCliente productosxcliente) {
     getProductosxclientes().add(productosxcliente);
     productosxcliente.setMoneda(this);
 
@@ -226,7 +226,7 @@ public class Moneda implements Serializable {
   }
 
   public ProductosXCliente removeProductosxcliente(
-          ProductosXCliente productosxcliente) {
+      ProductosXCliente productosxcliente) {
     getProductosxclientes().remove(productosxcliente);
     productosxcliente.setMoneda(null);
 
@@ -238,12 +238,12 @@ public class Moneda implements Serializable {
   }
 
   public void setProductosxdocumentos(
-          List<ProductosXDocumento> productosxdocumentos) {
+      List<ProductosXDocumento> productosxdocumentos) {
     this.productosxdocumentos = productosxdocumentos;
   }
 
   public ProductosXDocumento addProductosxdocumento(
-          ProductosXDocumento productosxdocumento) {
+      ProductosXDocumento productosxdocumento) {
     getProductosxdocumentos().add(productosxdocumento);
     productosxdocumento.setMoneda(this);
 
@@ -251,7 +251,7 @@ public class Moneda implements Serializable {
   }
 
   public ProductosXDocumento removeProductosxdocumento(
-          ProductosXDocumento productosxdocumento) {
+      ProductosXDocumento productosxdocumento) {
     getProductosxdocumentos().remove(productosxdocumento);
     productosxdocumento.setMoneda(null);
 
@@ -263,12 +263,12 @@ public class Moneda implements Serializable {
   }
 
   public void setProductosxproveedors(
-          List<ProductosXProveedor> productosxproveedors) {
+      List<ProductosXProveedor> productosxproveedors) {
     this.productosxproveedors = productosxproveedors;
   }
 
   public ProductosXProveedor addProductosxproveedor(
-          ProductosXProveedor productosxproveedor) {
+      ProductosXProveedor productosxproveedor) {
     getProductosxproveedors().add(productosxproveedor);
     productosxproveedor.setMoneda(this);
 
@@ -276,7 +276,7 @@ public class Moneda implements Serializable {
   }
 
   public ProductosXProveedor removeProductosxproveedor(
-          ProductosXProveedor productosxproveedor) {
+      ProductosXProveedor productosxproveedor) {
     getProductosxproveedors().remove(productosxproveedor);
     productosxproveedor.setMoneda(null);
 

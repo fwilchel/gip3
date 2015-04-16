@@ -4,75 +4,75 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the historial_costos database table.
- * 
+ *
  */
 @Entity
-@Table(name="historial_costos")
-@NamedQuery(name="HistorialCosto.findAll", query="SELECT h FROM HistorialCosto h")
+@Table(name = "historial_costos")
+@NamedQuery(name = "HistorialCosto.findAll", query = "SELECT h FROM HistorialCosto h")
 public class HistorialCosto implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	@Column(name="es_definitivo")
-	private Boolean esDefinitivo;
+  @Id
+  private Long id;
 
-	@Column(name="fecha_final_costos")
-	private Timestamp fechaFinalCostos;
+  @Column(name = "es_definitivo")
+  private Boolean esDefinitivo;
 
-	@Column(name="fecha_inicial_costos")
-	private Timestamp fechaInicialCostos;
+  @Column(name = "fecha_final_costos")
+  private Timestamp fechaFinalCostos;
 
-	//bi-directional many-to-one association to Empresa
-	@ManyToOne
-	@JoinColumn(name="id_empresa")
-	private Empresa empresa;
+  @Column(name = "fecha_inicial_costos")
+  private Timestamp fechaInicialCostos;
 
-	public HistorialCosto() {
-	}
+  //bi-directional many-to-one association to Empresa
+  @ManyToOne
+  @JoinColumn(name = "id_empresa")
+  private Empresa empresa;
 
-	public Long getId() {
-		return this.id;
-	}
+  public HistorialCosto() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public Boolean getEsDefinitivo() {
-		return this.esDefinitivo;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setEsDefinitivo(Boolean esDefinitivo) {
-		this.esDefinitivo = esDefinitivo;
-	}
+  public Boolean getEsDefinitivo() {
+    return this.esDefinitivo;
+  }
 
-	public Timestamp getFechaFinalCostos() {
-		return this.fechaFinalCostos;
-	}
+  public void setEsDefinitivo(Boolean esDefinitivo) {
+    this.esDefinitivo = esDefinitivo;
+  }
 
-	public void setFechaFinalCostos(Timestamp fechaFinalCostos) {
-		this.fechaFinalCostos = fechaFinalCostos;
-	}
+  public Timestamp getFechaFinalCostos() {
+    return this.fechaFinalCostos;
+  }
 
-	public Timestamp getFechaInicialCostos() {
-		return this.fechaInicialCostos;
-	}
+  public void setFechaFinalCostos(Timestamp fechaFinalCostos) {
+    this.fechaFinalCostos = fechaFinalCostos;
+  }
 
-	public void setFechaInicialCostos(Timestamp fechaInicialCostos) {
-		this.fechaInicialCostos = fechaInicialCostos;
-	}
+  public Timestamp getFechaInicialCostos() {
+    return this.fechaInicialCostos;
+  }
 
-	public Empresa getEmpresa() {
-		return this.empresa;
-	}
+  public void setFechaInicialCostos(Timestamp fechaInicialCostos) {
+    this.fechaInicialCostos = fechaInicialCostos;
+  }
 
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
-	}
+  public Empresa getEmpresa() {
+    return this.empresa;
+  }
+
+  public void setEmpresa(Empresa empresa) {
+    this.empresa = empresa;
+  }
 
 }

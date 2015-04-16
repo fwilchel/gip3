@@ -3,39 +3,39 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the departamentos database table.
- * 
+ *
  */
 @Entity
-@Table(name="departamentos")
-@NamedQuery(name="Departamento.findAll", query="SELECT d FROM Departamento d")
+@Table(name = "departamentos")
+@NamedQuery(name = "Departamento.findAll", query = "SELECT d FROM Departamento d")
 public class Departamento implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  private Long id;
 
-	public Departamento() {
-	}
+  private String nombre;
 
-	public Long getId() {
-		return this.id;
-	}
+  public Departamento() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
+
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
 }

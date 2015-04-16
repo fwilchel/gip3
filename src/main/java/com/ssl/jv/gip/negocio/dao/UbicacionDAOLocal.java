@@ -54,7 +54,7 @@ public interface UbicacionDAOLocal extends IGenericDAO<Ubicacion> {
    * @phone 3192594013
    */
   List<Ubicacion> consultarUbicacionesQueSonTiendaPorUsuario(String usuario);
-  
+
   /**
    * Consultar ubicaciones recibir devolucion por usuario.
    *

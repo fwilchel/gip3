@@ -4,65 +4,65 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the insumos database table.
- * 
+ *
  */
 @Entity
-@Table(name="insumos")
-@NamedQuery(name="Insumo.findAll", query="SELECT i FROM Insumo i")
+@Table(name = "insumos")
+@NamedQuery(name = "Insumo.findAll", query = "SELECT i FROM Insumo i")
 public class Insumo implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  private Long id;
 
-	//bi-directional many-to-one association to ProductosXReceta
-	@OneToMany(mappedBy="insumo")
-	private List<ProductosXReceta> productosxrecetas;
+  private String nombre;
 
-	public Insumo() {
-	}
+  //bi-directional many-to-one association to ProductosXReceta
+  @OneToMany(mappedBy = "insumo")
+  private List<ProductosXReceta> productosxrecetas;
 
-	public Long getId() {
-		return this.id;
-	}
+  public Insumo() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public List<ProductosXReceta> getProductosxrecetas() {
-		return this.productosxrecetas;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setProductosxrecetas(List<ProductosXReceta> productosxrecetas) {
-		this.productosxrecetas = productosxrecetas;
-	}
+  public List<ProductosXReceta> getProductosxrecetas() {
+    return this.productosxrecetas;
+  }
 
-	public ProductosXReceta addProductosxreceta(ProductosXReceta productosxreceta) {
-		getProductosxrecetas().add(productosxreceta);
-		productosxreceta.setInsumo(this);
+  public void setProductosxrecetas(List<ProductosXReceta> productosxrecetas) {
+    this.productosxrecetas = productosxrecetas;
+  }
 
-		return productosxreceta;
-	}
+  public ProductosXReceta addProductosxreceta(ProductosXReceta productosxreceta) {
+    getProductosxrecetas().add(productosxreceta);
+    productosxreceta.setInsumo(this);
 
-	public ProductosXReceta removeProductosxreceta(ProductosXReceta productosxreceta) {
-		getProductosxrecetas().remove(productosxreceta);
-		productosxreceta.setInsumo(null);
+    return productosxreceta;
+  }
 
-		return productosxreceta;
-	}
+  public ProductosXReceta removeProductosxreceta(ProductosXReceta productosxreceta) {
+    getProductosxrecetas().remove(productosxreceta);
+    productosxreceta.setInsumo(null);
+
+    return productosxreceta;
+  }
 
 }

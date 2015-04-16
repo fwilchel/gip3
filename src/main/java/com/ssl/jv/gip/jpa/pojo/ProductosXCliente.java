@@ -7,175 +7,175 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the productosxcliente database table.
- * 
+ *
  */
 @Entity
-@NamedQueries(value = { 
-@NamedQuery(name="ProductosXCliente.findAll", query="SELECT p FROM ProductosXCliente p"),
-@NamedQuery(name="ProductosXCliente.findByClientePuntoVenta", query="SELECT p FROM ProductosXCliente p JOIN FETCH p.productosInventario pi JOIN FETCH pi.unidadVenta uv WHERE p.pk.idCliente= :idCliente AND p.pk.idPuntoVenta= :idPuntoVenta AND p.vigente = true AND pi.desactivado = true AND p.activo = true ORDER BY pi.sku")
+@NamedQueries(value = {
+  @NamedQuery(name = "ProductosXCliente.findAll", query = "SELECT p FROM ProductosXCliente p"),
+  @NamedQuery(name = "ProductosXCliente.findByClientePuntoVenta", query = "SELECT p FROM ProductosXCliente p JOIN FETCH p.productosInventario pi JOIN FETCH pi.unidadVenta uv WHERE p.pk.idCliente= :idCliente AND p.pk.idPuntoVenta= :idPuntoVenta AND p.vigente = true AND pi.desactivado = true AND p.activo = true ORDER BY pi.sku")
 })
 public class ProductosXCliente implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private ProductosXClientePK pk;
+  private static final long serialVersionUID = 1L;
 
-	private Boolean activo;
+  @EmbeddedId
+  private ProductosXClientePK pk;
 
-	private BigDecimal descuentoxproducto;
+  private Boolean activo;
 
-	@Column(name="fecha_final_vigencia")
-	private Timestamp fechaFinalVigencia;
+  private BigDecimal descuentoxproducto;
 
-	@Column(name="fecha_inicial_vigencia")
-	private Timestamp fechaInicialVigencia;
+  @Column(name = "fecha_final_vigencia")
+  private Timestamp fechaFinalVigencia;
 
-	private Long id;
+  @Column(name = "fecha_inicial_vigencia")
+  private Timestamp fechaInicialVigencia;
 
-	private BigDecimal iva;
+  private Long id;
 
-	@Column(name="otros_descuentos")
-	private BigDecimal otrosDescuentos;
+  private BigDecimal iva;
 
-	@Column(name="precio_ml")
-	private BigDecimal precioMl;
+  @Column(name = "otros_descuentos")
+  private BigDecimal otrosDescuentos;
 
-	@Column(name="precio_usd")
-	private BigDecimal precioUsd;
+  @Column(name = "precio_ml")
+  private BigDecimal precioMl;
 
-	private Boolean vigente;
+  @Column(name = "precio_usd")
+  private BigDecimal precioUsd;
 
-	//bi-directional many-to-one association to Cliente
-	@ManyToOne(optional=false)
-	@JoinColumn(name="id_cliente", referencedColumnName="id", insertable=false, updatable=false)
-	private Cliente cliente;
+  private Boolean vigente;
 
-	//bi-directional many-to-one association to Moneda
-	@ManyToOne
-	@JoinColumn(name="id_ml")
-	private Moneda moneda;
+  //bi-directional many-to-one association to Cliente
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "id_cliente", referencedColumnName = "id", insertable = false, updatable = false)
+  private Cliente cliente;
 
-	//bi-directional many-to-one association to ProductosInventario
-	@ManyToOne(optional=false)
-	@JoinColumn(name="id_producto", referencedColumnName="id", insertable=false, updatable=false)
-	private ProductosInventario productosInventario;
+  //bi-directional many-to-one association to Moneda
+  @ManyToOne
+  @JoinColumn(name = "id_ml")
+  private Moneda moneda;
 
-	public ProductosXCliente() {
-	}
+  //bi-directional many-to-one association to ProductosInventario
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "id_producto", referencedColumnName = "id", insertable = false, updatable = false)
+  private ProductosInventario productosInventario;
 
-	public ProductosXClientePK getPk() {
-		return this.pk;
-	}
+  public ProductosXCliente() {
+  }
 
-	public void setPk(ProductosXClientePK pk) {
-		this.pk = pk;
-	}
+  public ProductosXClientePK getPk() {
+    return this.pk;
+  }
 
-	public Boolean getActivo() {
-		return this.activo;
-	}
+  public void setPk(ProductosXClientePK pk) {
+    this.pk = pk;
+  }
 
-	public void setActivo(Boolean activo) {
-		this.activo = activo;
-	}
+  public Boolean getActivo() {
+    return this.activo;
+  }
 
-	public BigDecimal getDescuentoxproducto() {
-		return this.descuentoxproducto;
-	}
+  public void setActivo(Boolean activo) {
+    this.activo = activo;
+  }
 
-	public void setDescuentoxproducto(BigDecimal descuentoxproducto) {
-		this.descuentoxproducto = descuentoxproducto;
-	}
+  public BigDecimal getDescuentoxproducto() {
+    return this.descuentoxproducto;
+  }
 
-	public Timestamp getFechaFinalVigencia() {
-		return this.fechaFinalVigencia;
-	}
+  public void setDescuentoxproducto(BigDecimal descuentoxproducto) {
+    this.descuentoxproducto = descuentoxproducto;
+  }
 
-	public void setFechaFinalVigencia(Timestamp fechaFinalVigencia) {
-		this.fechaFinalVigencia = fechaFinalVigencia;
-	}
+  public Timestamp getFechaFinalVigencia() {
+    return this.fechaFinalVigencia;
+  }
 
-	public Timestamp getFechaInicialVigencia() {
-		return this.fechaInicialVigencia;
-	}
+  public void setFechaFinalVigencia(Timestamp fechaFinalVigencia) {
+    this.fechaFinalVigencia = fechaFinalVigencia;
+  }
 
-	public void setFechaInicialVigencia(Timestamp fechaInicialVigencia) {
-		this.fechaInicialVigencia = fechaInicialVigencia;
-	}
+  public Timestamp getFechaInicialVigencia() {
+    return this.fechaInicialVigencia;
+  }
 
-	public Long getId() {
-		return this.id;
-	}
+  public void setFechaInicialVigencia(Timestamp fechaInicialVigencia) {
+    this.fechaInicialVigencia = fechaInicialVigencia;
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public BigDecimal getIva() {
-		return this.iva;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setIva(BigDecimal iva) {
-		this.iva = iva;
-	}
+  public BigDecimal getIva() {
+    return this.iva;
+  }
 
-	public BigDecimal getOtrosDescuentos() {
-		return this.otrosDescuentos;
-	}
+  public void setIva(BigDecimal iva) {
+    this.iva = iva;
+  }
 
-	public void setOtrosDescuentos(BigDecimal otrosDescuentos) {
-		this.otrosDescuentos = otrosDescuentos;
-	}
+  public BigDecimal getOtrosDescuentos() {
+    return this.otrosDescuentos;
+  }
 
-	public BigDecimal getPrecioMl() {
-		return this.precioMl;
-	}
+  public void setOtrosDescuentos(BigDecimal otrosDescuentos) {
+    this.otrosDescuentos = otrosDescuentos;
+  }
 
-	public void setPrecioMl(BigDecimal precioMl) {
-		this.precioMl = precioMl;
-	}
+  public BigDecimal getPrecioMl() {
+    return this.precioMl;
+  }
 
-	public BigDecimal getPrecioUsd() {
-		return this.precioUsd;
-	}
+  public void setPrecioMl(BigDecimal precioMl) {
+    this.precioMl = precioMl;
+  }
 
-	public void setPrecioUsd(BigDecimal precioUsd) {
-		this.precioUsd = precioUsd;
-	}
+  public BigDecimal getPrecioUsd() {
+    return this.precioUsd;
+  }
 
-	public Boolean getVigente() {
-		return this.vigente;
-	}
+  public void setPrecioUsd(BigDecimal precioUsd) {
+    this.precioUsd = precioUsd;
+  }
 
-	public void setVigente(Boolean vigente) {
-		this.vigente = vigente;
-	}
+  public Boolean getVigente() {
+    return this.vigente;
+  }
 
-	public Cliente getCliente() {
-		return this.cliente;
-	}
+  public void setVigente(Boolean vigente) {
+    this.vigente = vigente;
+  }
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+  public Cliente getCliente() {
+    return this.cliente;
+  }
 
-	public Moneda getMoneda() {
-		return this.moneda;
-	}
+  public void setCliente(Cliente cliente) {
+    this.cliente = cliente;
+  }
 
-	public void setMoneda(Moneda moneda) {
-		this.moneda = moneda;
-	}
+  public Moneda getMoneda() {
+    return this.moneda;
+  }
 
-	public ProductosInventario getProductosInventario() {
-		return this.productosInventario;
-	}
+  public void setMoneda(Moneda moneda) {
+    this.moneda = moneda;
+  }
 
-	public void setProductosInventario(ProductosInventario productosInventario) {
-		this.productosInventario = productosInventario;
-	}
+  public ProductosInventario getProductosInventario() {
+    return this.productosInventario;
+  }
+
+  public void setProductosInventario(ProductosInventario productosInventario) {
+    this.productosInventario = productosInventario;
+  }
 
 }

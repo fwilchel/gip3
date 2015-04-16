@@ -1,206 +1,207 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:misc="http://java.sun.com/jsf/composite/misc"
+                template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{sugerenciasCompraMB.creacion?msg.sugerenciasCompra_TituloFrameCrear:msg.sugerenciasCompra_TituloFrameEditar}::.</ui:define>
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{sugerenciasCompraMB.creacion?msg.sugerenciasCompra_TituloFrameCrear:msg.sugerenciasCompra_TituloFrameEditar}::.</ui:define>
 
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		
-		<h:form prependId="false" id="forma">
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
 
-			<p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
-				showIcon="true" autoUpdate="true"></p:messages>
+    <h:form prependId="false" id="forma">
 
-			<p:tabView id="tabPanel">
-			
-				<p:tab title="#{msg.maestroProductosXClienteCETituloFrame}">
-					
-					<p:panelGrid columns="3"
-						columnClasses="label,value">
+      <p:messages id="msgs" showDetail="false" showSummary="true" globalOnly="false"
+                  showIcon="true" autoUpdate="true"></p:messages>
 
-						<p:outputLabel value="#{msg.sugerenciasCompra_Fecha}" for="fecha" styleClass="negrita" />
-						<p:inputText value="#{sugerenciaCompraMB.seleccionado.fechaGeneracion}" id="fecha" required="false" disabled="true" >
-							<f:convertDateTime pattern="dd-MMM-yyyy"/>
-						</p:inputText>
-						<p:message for="fecha"></p:message>
+      <p:tabView id="tabPanel">
 
-						<p:outputLabel value="#{msg.sugerenciasCompra_FechaEsperadaEntrega}" for="fechaEsperada" styleClass="negrita" />
-						<p:calendar id="fechaEsperada" value="#{sugerenciaCompraMB.seleccionado.fechaEsperadaEntrega}" pattern="dd-MM-yyyy" required="true" label="#{msg.sugerenciasCompra_FechaEsperadaEntrega}" mask="true"  />
-						<p:message for="fechaEsperada"></p:message>
+        <p:tab title="#{msg.maestroProductosXClienteCETituloFrame}">
 
-						<p:outputLabel value="#{msg.sugerenciasCompra_LugarDespacho}" for="lugarDespacho" styleClass="negrita" />
-						<p:selectOneMenu id="lugarDespacho" value="#{sugerenciaCompraMB.seleccionado.ubicacionDestino.id}" required="true" label="#{msg.sugerenciasCompra_LugarDespacho}">
-							<f:selectItems value="#{sugerenciaCompraMB.ubicaciones}" var="lugarDespacho" itemValue="#{lugarDespacho.id}" itemLabel="#{lugarDespacho.nombre}" />
-						</p:selectOneMenu>
-						<p:message for="lugarDespacho"></p:message>
+          <p:panelGrid columns="3"
+                       columnClasses="label,value">
 
-						<p:outputLabel value="#{msg.sugerenciasCompra_ConsecutivoDocumento}" for="consecutivo" styleClass="negrita" />
-						<p:inputText value="#{sugerenciaCompraMB.seleccionado.consecutivoDocumento}" id="consecutivo" required="false" disabled="true" />
-						<p:message for="consecutivo"></p:message>
+            <p:outputLabel value="#{msg.sugerenciasCompra_Fecha}" for="fecha" styleClass="negrita" />
+            <p:inputText value="#{sugerenciaCompraMB.seleccionado.fechaGeneracion}" id="fecha" required="false" disabled="true" >
+              <f:convertDateTime pattern="dd-MMM-yyyy"/>
+            </p:inputText>
+            <p:message for="fecha"></p:message>
 
-						<p:outputLabel value="#{msg.sugerenciasCompra_ObservacionesGenerales}" for="observaciones" styleClass="negrita" />
-						<p:inputTextarea id="observaciones" rows="6" cols="50" value="#{sugerenciaCompraMB.seleccionado.observacionDocumento}" />
-						<p:message for="observaciones"></p:message>
-						
-						<p:outputLabel value="#{msg.sugerenciasCompra_Estado}" for="estado" styleClass="negrita" rendered="#{!sugerenciaCompraMB.creacion}" />
-						<p:selectOneMenu id="estado" value="#{sugerenciaCompraMB.seleccionado.estadosxdocumento.id.idEstado}" required="true" rendered="#{!sugerenciaCompraMB.creacion}" label="#{msg.sugerenciasCompra_Estado}">
-							<f:selectItems value="#{sugerenciaCompraMB.estados}" var="estado"  itemValue="#{estado.codigo}" itemLabel="#{estado.nombre}" />
-						</p:selectOneMenu>
-						<p:message for="estado" rendered="#{!sugerenciaCompraMB.creacion}"></p:message>
+            <p:outputLabel value="#{msg.sugerenciasCompra_FechaEsperadaEntrega}" for="fechaEsperada" styleClass="negrita" />
+            <p:calendar id="fechaEsperada" value="#{sugerenciaCompraMB.seleccionado.fechaEsperadaEntrega}" pattern="dd-MM-yyyy" required="true" label="#{msg.sugerenciasCompra_FechaEsperadaEntrega}" mask="true"  />
+            <p:message for="fechaEsperada"></p:message>
 
-					</p:panelGrid>
-					
-					<p:link value="#{msg.sugerenciasCompra_BuscarProductos}" rendered="#{sugerenciaCompraMB.creacion}"  onclick="PF('buscarProdDialog').show(); return false;" />
-				
-				<p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
-						value="#{sugerenciaCompraMB.productosSeleccionados}" rows="10"
-						emptyMessage="#{msg.generalNoDatos}" paginator="true"
-						paginatorPosition="bottom"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
+            <p:outputLabel value="#{msg.sugerenciasCompra_LugarDespacho}" for="lugarDespacho" styleClass="negrita" />
+            <p:selectOneMenu id="lugarDespacho" value="#{sugerenciaCompraMB.seleccionado.ubicacionDestino.id}" required="true" label="#{msg.sugerenciasCompra_LugarDespacho}">
+              <f:selectItems value="#{sugerenciaCompraMB.ubicaciones}" var="lugarDespacho" itemValue="#{lugarDespacho.id}" itemLabel="#{lugarDespacho.nombre}" />
+            </p:selectOneMenu>
+            <p:message for="lugarDespacho"></p:message>
 
-					<f:facet name="header">
-						<div align="right">
-						<p:outputPanel>
-							<p:spacer width="30"></p:spacer>	
-							<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
-										<p:inputText id="globalFilter"
-											onkeyup="PF('datoTabla2').filter()" style="width:150px"
-											placeholder="#{msg.generalPalabrasBuscar}" />
-							<p:spacer width="30"></p:spacer>
-						</p:outputPanel>
-						</div>
-					</f:facet>
+            <p:outputLabel value="#{msg.sugerenciasCompra_ConsecutivoDocumento}" for="consecutivo" styleClass="negrita" />
+            <p:inputText value="#{sugerenciaCompraMB.seleccionado.consecutivoDocumento}" id="consecutivo" required="false" disabled="true" />
+            <p:message for="consecutivo"></p:message>
 
-					<p:column filterBy="#{dato.productosInventario.id}" headerText="#{msg.sugerenciasCompra_idProducto}"
-						filterMatchMode="contains" sortBy="#{dato.productosInventario.id}">
-						<h:outputText value="#{dato.productosInventario.id}" />
-					</p:column>
+            <p:outputLabel value="#{msg.sugerenciasCompra_ObservacionesGenerales}" for="observaciones" styleClass="negrita" />
+            <p:inputTextarea id="observaciones" rows="6" cols="50" value="#{sugerenciaCompraMB.seleccionado.observacionDocumento}" />
+            <p:message for="observaciones"></p:message>
 
-					<p:column filterBy="#{dato.productosInventario.sku}" headerText="#{msg.sugerenciasCompra_SKU}"
-						filterMatchMode="contains" sortBy="#{dato.productosInventario.sku}">
-						<h:outputText value="#{dato.productosInventario.sku}" />
-					</p:column>
+            <p:outputLabel value="#{msg.sugerenciasCompra_Estado}" for="estado" styleClass="negrita" rendered="#{!sugerenciaCompraMB.creacion}" />
+            <p:selectOneMenu id="estado" value="#{sugerenciaCompraMB.seleccionado.estadosxdocumento.id.idEstado}" required="true" rendered="#{!sugerenciaCompraMB.creacion}" label="#{msg.sugerenciasCompra_Estado}">
+              <f:selectItems value="#{sugerenciaCompraMB.estados}" var="estado"  itemValue="#{estado.codigo}" itemLabel="#{estado.nombre}" />
+            </p:selectOneMenu>
+            <p:message for="estado" rendered="#{!sugerenciaCompraMB.creacion}"></p:message>
 
-					<p:column filterBy="#{dato.productosInventario.nombre}" headerText="#{msg.sugerenciasCompra_NombreProducto}"
-						filterMatchMode="contains" sortBy="#{dato.productosInventario.nombre}">
-						<h:outputText value="#{dato.productosInventario.nombre}" />
-					</p:column>
+          </p:panelGrid>
 
-					<p:column filterBy="#{dato.cantidad1}" headerText="#{msg.sugerenciasCompra_CantidadRequerida}"
-						filterMatchMode="contains" sortBy="#{dato.cantidad1}">
-							<h:inputText value="#{dato.cantidad1}" id="precio" label="#{msg.sugerenciasCompra_CantidadRequerida}" required="true" maxlength="13" >
-								<f:validateDoubleRange minimum="1" maximum="9999999999.99"></f:validateDoubleRange>
-							</h:inputText>
-					</p:column>
+          <p:link value="#{msg.sugerenciasCompra_BuscarProductos}" rendered="#{sugerenciaCompraMB.creacion}"  onclick="PF('buscarProdDialog').show();
+              return false;" />
 
-					<p:column filterBy="#{dato.unidade.nombre}" headerText="#{msg.sugerenciasCompra_UnidadVenta}"
-						filterMatchMode="contains" sortBy="#{dato.unidade.nombre}">
-						<h:outputText value="#{dato.unidade.nombre}" />
-					</p:column> 
-						
-					<p:column headerText="#{msg.sugerenciasCompra_IncluirProducto}" rendered="#{sugerenciaCompraMB.creacion}">
-						<p:selectBooleanCheckbox value="#{dato.productosInventario.incluido}" id="seleccionado" label="#{msg.maestroProductosXClienteIncluirProd}"/>
-					</p:column>
-						
-				</p:dataTable>
-					
-					<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{sugerenciaCompraMB.guardarSugerenciaCompra}" ></p:commandButton>
-					<p:commandButton value="#{msg.generalCancelar}" process="@this" icon="ui-icon-cancel" action="lista_sugerencia" ></p:commandButton>
-					
-				</p:tab>
-			</p:tabView>
-		</h:form>
-		
-		<p:dialog header="#{msg.maestroProductosXClienteBuscarProd}" widgetVar="buscarProdDialog" modal="true"
-			showEffect="fade" hideEffect="fade" resizable="true"  dynamic="true" id="findProdDlg">
-			<h:form id="formaDlg">
-				<p:outputPanel id="busquedaProducto" style="text-align:center;">
-				
-					<p:messages id="msgs2" showDetail="false" showSummary="true" globalOnly="true"
-						showIcon="true"></p:messages>
-						
-					<p:panelGrid columns="3"
-						columnClasses="label,value">
-	
-						<p:outputLabel value="#{msg.sugerenciasCompra_CategoriaInventario}" for="categoria" styleClass="negrita" />
-						<p:selectOneMenu id="categoria" value="#{sugerenciaCompraMB.productosInventarioFiltroDTO.idCategoria}" height="200" label="#{msg.sugerenciasCompra_CategoriaInventario}">
-							<f:selectItem itemValue="-1" itemLabel="#{msg.generalTodos}"></f:selectItem>
-							<f:selectItems value="#{sugerenciaCompraMB.categoriasInventarios}" />
-						</p:selectOneMenu>
-						<p:message for="categoria"></p:message>
-						
-						<p:outputLabel value="#{msg.sugerenciasCompra_NombreProducto}" for="nombreProd" styleClass="negrita"/>
-						<h:inputText value="#{sugerenciaCompraMB.productosInventarioFiltroDTO.nombre}" id="nombreProd" maxlength="40" label="#{msg.sugerenciasCompra_NombreProducto}"/>
-						<p:message for="nombreProd"></p:message>
-						
-						<p:outputLabel value="#{msg.sugerenciasCompra_SKU}" for="sku" styleClass="negrita"/>
-						<h:inputText value="#{sugerenciaCompraMB.productosInventarioFiltroDTO.sku}" id="sku" maxlength="40" label="#{msg.sugerenciasCompra_SKU}"/>
-						<p:message for="sku"></p:message>
-						
-						<p:outputLabel value=""></p:outputLabel>
-						<p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{sugerenciaCompraMB.buscarProductosInventarios}" update=":formaDlg:tablaDatos2" ></p:commandButton>
-	
-					</p:panelGrid>
-					
-					<p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
-							value="#{sugerenciaCompraMB.productosInventarios}" rows="10"
-							emptyMessage="#{msg.generalNoDatos}" paginator="true"
-							paginatorPosition="bottom"
-							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							rowsPerPageTemplate="5,10,15">
-	
-						<f:facet name="header">
-							<div align="right">
-							<p:outputPanel>
-								<p:spacer width="30"></p:spacer>	
-								<h:outputText value="#{msg.generalBuscarTodosCampos}: " />
-											<p:inputText id="globalFilter"
-												onkeyup="PF('datoTabla2').filter()" style="width:150px"
-												placeholder="#{msg.generalPalabrasBuscar}" />
-								<p:spacer width="30"></p:spacer>
-							</p:outputPanel>
-							</div>
-						</f:facet>
-	
-						<p:column filterBy="#{dato.sku}" headerText="#{msg.sugerenciasCompra_SKU}"
-							filterMatchMode="contains" sortBy="#{dato.sku}">
-							<h:outputText value="#{dato.sku}" />
-						</p:column>
-	
-						<p:column filterBy="#{dato.nombre}" headerText="#{msg.sugerenciasCompra_NombreProducto}"
-							filterMatchMode="contains" sortBy="#{dato.nombre}">
-							<h:outputText value="#{dato.nombre}" />
-						</p:column>
-							
-						<p:column headerText="#{msg.sugerenciasCompra_IncluirProducto}" >
-							<p:selectBooleanCheckbox value="#{dato.incluido}" id="seleccionado" label="#{msg.sugerenciasCompra_IncluirProducto}"/>
-						</p:column>
-							
-					</p:dataTable>
-					
-					<p:panelGrid columns="2"
-						columnClasses="label,value">
-						<p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{sugerenciaCompraMB.adicionarProductosSeleccionados}" update=":forma:tabPanel:tablaDatos2" oncomplete="PF('buscarProdDialog').hide();" ></p:commandButton>
-						<p:commandButton value="#{msg.generalCancelar}" process="@this" oncomplete="PF('buscarProdDialog').hide();" icon="ui-icon-cancel" >
-							<p:resetInput target="busquedaProducto" />
-						</p:commandButton>
-					</p:panelGrid>
-					
-				</p:outputPanel>
-				
-			</h:form>
-			
-		</p:dialog>
+          <p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
+                       value="#{sugerenciaCompraMB.productosSeleccionados}" rows="10"
+                       emptyMessage="#{msg.generalNoDatos}" paginator="true"
+                       paginatorPosition="bottom"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
+
+            <f:facet name="header">
+              <div align="right">
+                <p:outputPanel>
+                  <p:spacer width="30"></p:spacer>	
+                  <h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText id="globalFilter"
+                               onkeyup="PF('datoTabla2').filter()" style="width:150px"
+                               placeholder="#{msg.generalPalabrasBuscar}" />
+                  <p:spacer width="30"></p:spacer>
+                </p:outputPanel>
+              </div>
+            </f:facet>
+
+            <p:column filterBy="#{dato.productosInventario.id}" headerText="#{msg.sugerenciasCompra_idProducto}"
+                      filterMatchMode="contains" sortBy="#{dato.productosInventario.id}">
+              <h:outputText value="#{dato.productosInventario.id}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.productosInventario.sku}" headerText="#{msg.sugerenciasCompra_SKU}"
+                      filterMatchMode="contains" sortBy="#{dato.productosInventario.sku}">
+              <h:outputText value="#{dato.productosInventario.sku}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.productosInventario.nombre}" headerText="#{msg.sugerenciasCompra_NombreProducto}"
+                      filterMatchMode="contains" sortBy="#{dato.productosInventario.nombre}">
+              <h:outputText value="#{dato.productosInventario.nombre}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.cantidad1}" headerText="#{msg.sugerenciasCompra_CantidadRequerida}"
+                      filterMatchMode="contains" sortBy="#{dato.cantidad1}">
+              <h:inputText value="#{dato.cantidad1}" id="precio" label="#{msg.sugerenciasCompra_CantidadRequerida}" required="true" maxlength="13" >
+                <f:validateDoubleRange minimum="1" maximum="9999999999.99"></f:validateDoubleRange>
+              </h:inputText>
+            </p:column>
+
+            <p:column filterBy="#{dato.unidade.nombre}" headerText="#{msg.sugerenciasCompra_UnidadVenta}"
+                      filterMatchMode="contains" sortBy="#{dato.unidade.nombre}">
+              <h:outputText value="#{dato.unidade.nombre}" />
+            </p:column> 
+
+            <p:column headerText="#{msg.sugerenciasCompra_IncluirProducto}" rendered="#{sugerenciaCompraMB.creacion}">
+              <p:selectBooleanCheckbox value="#{dato.productosInventario.incluido}" id="seleccionado" label="#{msg.maestroProductosXClienteIncluirProd}"/>
+            </p:column>
+
+          </p:dataTable>
+
+          <p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{sugerenciaCompraMB.guardarSugerenciaCompra}" ></p:commandButton>
+          <p:commandButton value="#{msg.generalCancelar}" process="@this" icon="ui-icon-cancel" action="lista_sugerencia" ></p:commandButton>
+
+        </p:tab>
+      </p:tabView>
+    </h:form>
+
+    <p:dialog header="#{msg.maestroProductosXClienteBuscarProd}" widgetVar="buscarProdDialog" modal="true"
+              showEffect="fade" hideEffect="fade" resizable="true"  dynamic="true" id="findProdDlg">
+      <h:form id="formaDlg">
+        <p:outputPanel id="busquedaProducto" style="text-align:center;">
+
+          <p:messages id="msgs2" showDetail="false" showSummary="true" globalOnly="true"
+                      showIcon="true"></p:messages>
+
+          <p:panelGrid columns="3"
+                       columnClasses="label,value">
+
+            <p:outputLabel value="#{msg.sugerenciasCompra_CategoriaInventario}" for="categoria" styleClass="negrita" />
+            <p:selectOneMenu id="categoria" value="#{sugerenciaCompraMB.productosInventarioFiltroDTO.idCategoria}" height="200" label="#{msg.sugerenciasCompra_CategoriaInventario}">
+              <f:selectItem itemValue="-1" itemLabel="#{msg.generalTodos}"></f:selectItem>
+              <f:selectItems value="#{sugerenciaCompraMB.categoriasInventarios}" />
+            </p:selectOneMenu>
+            <p:message for="categoria"></p:message>
+
+            <p:outputLabel value="#{msg.sugerenciasCompra_NombreProducto}" for="nombreProd" styleClass="negrita"/>
+            <h:inputText value="#{sugerenciaCompraMB.productosInventarioFiltroDTO.nombre}" id="nombreProd" maxlength="40" label="#{msg.sugerenciasCompra_NombreProducto}"/>
+            <p:message for="nombreProd"></p:message>
+
+            <p:outputLabel value="#{msg.sugerenciasCompra_SKU}" for="sku" styleClass="negrita"/>
+            <h:inputText value="#{sugerenciaCompraMB.productosInventarioFiltroDTO.sku}" id="sku" maxlength="40" label="#{msg.sugerenciasCompra_SKU}"/>
+            <p:message for="sku"></p:message>
+
+            <p:outputLabel value=""></p:outputLabel>
+            <p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{sugerenciaCompraMB.buscarProductosInventarios}" update=":formaDlg:tablaDatos2" ></p:commandButton>
+
+          </p:panelGrid>
+
+          <p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
+                       value="#{sugerenciaCompraMB.productosInventarios}" rows="10"
+                       emptyMessage="#{msg.generalNoDatos}" paginator="true"
+                       paginatorPosition="bottom"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
+
+            <f:facet name="header">
+              <div align="right">
+                <p:outputPanel>
+                  <p:spacer width="30"></p:spacer>	
+                  <h:outputText value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText id="globalFilter"
+                               onkeyup="PF('datoTabla2').filter()" style="width:150px"
+                               placeholder="#{msg.generalPalabrasBuscar}" />
+                  <p:spacer width="30"></p:spacer>
+                </p:outputPanel>
+              </div>
+            </f:facet>
+
+            <p:column filterBy="#{dato.sku}" headerText="#{msg.sugerenciasCompra_SKU}"
+                      filterMatchMode="contains" sortBy="#{dato.sku}">
+              <h:outputText value="#{dato.sku}" />
+            </p:column>
+
+            <p:column filterBy="#{dato.nombre}" headerText="#{msg.sugerenciasCompra_NombreProducto}"
+                      filterMatchMode="contains" sortBy="#{dato.nombre}">
+              <h:outputText value="#{dato.nombre}" />
+            </p:column>
+
+            <p:column headerText="#{msg.sugerenciasCompra_IncluirProducto}" >
+              <p:selectBooleanCheckbox value="#{dato.incluido}" id="seleccionado" label="#{msg.sugerenciasCompra_IncluirProducto}"/>
+            </p:column>
+
+          </p:dataTable>
+
+          <p:panelGrid columns="2"
+                       columnClasses="label,value">
+            <p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk" action="#{sugerenciaCompraMB.adicionarProductosSeleccionados}" update=":forma:tabPanel:tablaDatos2" oncomplete="PF('buscarProdDialog').hide();" ></p:commandButton>
+            <p:commandButton value="#{msg.generalCancelar}" process="@this" oncomplete="PF('buscarProdDialog').hide();" icon="ui-icon-cancel" >
+              <p:resetInput target="busquedaProducto" />
+            </p:commandButton>
+          </p:panelGrid>
+
+        </p:outputPanel>
+
+      </h:form>
+
+    </p:dialog>
 
 
-	</ui:define>
+  </ui:define>
 
 </ui:composition>
 

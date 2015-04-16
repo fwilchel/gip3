@@ -10,14 +10,11 @@ import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 @Local
 public interface PuntoVentaDAOLocal extends IGenericDAO<PuntoVenta> {
 
-	void guardarPuntoVenta(PuntoVenta puntoVenta);
+  void guardarPuntoVenta(PuntoVenta puntoVenta);
 
-	//List<Cliente> consultarPorFiltro(ClienteFiltroVO filtroVO);
-
-	//List<PuntoVenta> consultarActivosPorUsuario(String idUsuario);
-	
-	//void guardarCliente(Cliente cliente);
-	
-	List<PuntoVenta> findByCliente(Long idCliente);
+  //List<Cliente> consultarPorFiltro(ClienteFiltroVO filtroVO);
+  //List<PuntoVenta> consultarActivosPorUsuario(String idUsuario);
+  //void guardarCliente(Cliente cliente);
+  List<PuntoVenta> findByCliente(Long idCliente);
 
 }

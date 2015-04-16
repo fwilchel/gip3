@@ -8,146 +8,145 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class CostoLogisticoDTOPK implements Serializable {
 
-	private Integer tipo;
-	private String categoria;
-	private String item;
-	private String descripcion;
-	private BigDecimal cantidad;
-	private Double valor;
-	private Double valorMinimo;
-	private Boolean baseFob;
-	private String campoAcumula;
-	private String consecutivoDocumento;
-	private Long categoriaId;
-	private Long itemId;
-	private Integer orden;
+  private Integer tipo;
+  private String categoria;
+  private String item;
+  private String descripcion;
+  private BigDecimal cantidad;
+  private Double valor;
+  private Double valorMinimo;
+  private Boolean baseFob;
+  private String campoAcumula;
+  private String consecutivoDocumento;
+  private Long categoriaId;
+  private Long itemId;
+  private Integer orden;
 
-	public Long getCategoriaId() {
-		return categoriaId;
-	}
+  public Long getCategoriaId() {
+    return categoriaId;
+  }
 
-	public void setCategoriaId(Long categoriaId) {
-		this.categoriaId = categoriaId;
-	}
+  public void setCategoriaId(Long categoriaId) {
+    this.categoriaId = categoriaId;
+  }
 
-	public Long getItemId() {
-		return itemId;
-	}
+  public Long getItemId() {
+    return itemId;
+  }
 
-	public void setItemId(Long itemId) {
-		this.itemId = itemId;
-	}
+  public void setItemId(Long itemId) {
+    this.itemId = itemId;
+  }
 
-	public Integer getTipo() {
-		return tipo;
-	}
+  public Integer getTipo() {
+    return tipo;
+  }
 
-	public void setTipo(Integer tipo) {
-		this.tipo = tipo;
-	}
+  public void setTipo(Integer tipo) {
+    this.tipo = tipo;
+  }
 
-	public String getCategoria() {
-		return categoria;
-	}
+  public String getCategoria() {
+    return categoria;
+  }
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
+  public void setCategoria(String categoria) {
+    this.categoria = categoria;
+  }
 
-	public String getItem() {
-		return item;
-	}
+  public String getItem() {
+    return item;
+  }
 
-	public void setItem(String item) {
-		this.item = item;
-	}
+  public void setItem(String item) {
+    this.item = item;
+  }
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+  public String getDescripcion() {
+    return descripcion;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public BigDecimal getCantidad() {
-		return cantidad;
-	}
+  public BigDecimal getCantidad() {
+    return cantidad;
+  }
 
-	public void setCantidad(BigDecimal cantidad) {
-		this.cantidad = cantidad;
-	}
+  public void setCantidad(BigDecimal cantidad) {
+    this.cantidad = cantidad;
+  }
 
-	public Double getValor() {
-		return valor;
-	}
+  public Double getValor() {
+    return valor;
+  }
 
-	public void setValor(Double valor) {
-		this.valor = valor;
-	}
+  public void setValor(Double valor) {
+    this.valor = valor;
+  }
 
-	public Double getValorMinimo() {
-		return valorMinimo;
-	}
+  public Double getValorMinimo() {
+    return valorMinimo;
+  }
 
-	public void setValorMinimo(Double valorMinimo) {
-		this.valorMinimo = valorMinimo;
-	}
+  public void setValorMinimo(Double valorMinimo) {
+    this.valorMinimo = valorMinimo;
+  }
 
-	public Boolean getBaseFob() {
-		return baseFob;
-	}
+  public Boolean getBaseFob() {
+    return baseFob;
+  }
 
-	public void setBaseFob(Boolean baseFob) {
-		this.baseFob = baseFob;
-	}
-	
-	public String getCampoAcumula() {
-		return campoAcumula;
-	}
+  public void setBaseFob(Boolean baseFob) {
+    this.baseFob = baseFob;
+  }
 
-	public void setCampoAcumula(String campoAcumula) {
-		this.campoAcumula = campoAcumula;
-	}
+  public String getCampoAcumula() {
+    return campoAcumula;
+  }
 
-	public String getConsecutivoDocumento() {
-		return consecutivoDocumento;
-	}
+  public void setCampoAcumula(String campoAcumula) {
+    this.campoAcumula = campoAcumula;
+  }
 
-	public void setConsecutivoDocumento(String consecutivoDocumento) {
-		this.consecutivoDocumento = consecutivoDocumento;
-	}
+  public String getConsecutivoDocumento() {
+    return consecutivoDocumento;
+  }
 
-	public Integer getOrden() {
-		return orden;
-	}
+  public void setConsecutivoDocumento(String consecutivoDocumento) {
+    this.consecutivoDocumento = consecutivoDocumento;
+  }
 
-	public void setOrden(Integer orden) {
-		this.orden = orden;
-	}
+  public Integer getOrden() {
+    return orden;
+  }
 
-	@Override
-	public boolean equals(Object arg0) {
-		// TODO Auto-generated method stub
-		return super.equals(arg0);
-	}
+  public void setOrden(Integer orden) {
+    this.orden = orden;
+  }
 
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
-	}
+  @Override
+  public boolean equals(Object arg0) {
+    // TODO Auto-generated method stub
+    return super.equals(arg0);
+  }
 
-	@Override
-	public String toString() {
-		return "CostoLogisticoDTOPK [tipo=" + tipo + ", categoria=" + categoria
-				+ ", item=" + item + ", descripcion=" + descripcion
-				+ ", cantidad=" + cantidad + ", valor=" + valor
-				+ ", valorMinimo=" + valorMinimo + ", baseFob=" + baseFob
-				+ ", campoAcumula=" + campoAcumula + ", consecutivoDocumento="
-				+ consecutivoDocumento + ", categoriaId=" + categoriaId
-				+ ", itemId=" + itemId + ", orden=" + orden + "]";
-	}
+  @Override
+  public int hashCode() {
+    // TODO Auto-generated method stub
+    return super.hashCode();
+  }
 
-	
+  @Override
+  public String toString() {
+    return "CostoLogisticoDTOPK [tipo=" + tipo + ", categoria=" + categoria
+        + ", item=" + item + ", descripcion=" + descripcion
+        + ", cantidad=" + cantidad + ", valor=" + valor
+        + ", valorMinimo=" + valorMinimo + ", baseFob=" + baseFob
+        + ", campoAcumula=" + campoAcumula + ", consecutivoDocumento="
+        + consecutivoDocumento + ", categoriaId=" + categoriaId
+        + ", itemId=" + itemId + ", orden=" + orden + "]";
+  }
+
 }

@@ -8,9 +8,9 @@ import com.ssl.jv.gip.jpa.pojo.MedioTransporte;
 @Stateless
 @LocalBean
 public class MedioTransporteDAO extends GenericDAO<MedioTransporte> implements MedioTransporteDAOLocal {
-	
-	public MedioTransporteDAO(){
-		this.persistentClass = MedioTransporte.class;
-	}
+
+  public MedioTransporteDAO() {
+    this.persistentClass = MedioTransporte.class;
+  }
 
 }

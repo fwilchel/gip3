@@ -4,134 +4,134 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the funcionalidades database table.
- * 
+ *
  */
 @Entity
-@Table(name="funcionalidades")
-@NamedQuery(name="Funcionalidad.findAll", query="SELECT f FROM Funcionalidad f")
+@Table(name = "funcionalidades")
+@NamedQuery(name = "Funcionalidad.findAll", query = "SELECT f FROM Funcionalidad f")
 public class Funcionalidad implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String descripcion;
+  @Id
+  private Long id;
 
-	private String nombre;
+  private String descripcion;
 
-	private Integer ordenar;
+  private String nombre;
 
-	private String ruta;
+  private Integer ordenar;
 
-	//bi-directional many-to-one association to Funcionalidad
-	@ManyToOne
-	@JoinColumn(name="id_funcionalidad_padre")
-	private Funcionalidad funcionalidade;
+  private String ruta;
 
-	//bi-directional many-to-one association to Funcionalidad
-	@OneToMany(mappedBy="funcionalidade")
-	private List<Funcionalidad> funcionalidades;
+  //bi-directional many-to-one association to Funcionalidad
+  @ManyToOne
+  @JoinColumn(name = "id_funcionalidad_padre")
+  private Funcionalidad funcionalidade;
 
-	//bi-directional many-to-one association to Permiso
-	@OneToMany(mappedBy="funcionalidade")
-	private List<Permiso> permisos;
+  //bi-directional many-to-one association to Funcionalidad
+  @OneToMany(mappedBy = "funcionalidade")
+  private List<Funcionalidad> funcionalidades;
 
-	public Funcionalidad() {
-	}
+  //bi-directional many-to-one association to Permiso
+  @OneToMany(mappedBy = "funcionalidade")
+  private List<Permiso> permisos;
 
-	public Long getId() {
-		return this.id;
-	}
+  public Funcionalidad() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public String getDescripcion() {
+    return this.descripcion;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public Integer getOrdenar() {
-		return this.ordenar;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setOrdenar(Integer ordenar) {
-		this.ordenar = ordenar;
-	}
+  public Integer getOrdenar() {
+    return this.ordenar;
+  }
 
-	public String getRuta() {
-		return this.ruta;
-	}
+  public void setOrdenar(Integer ordenar) {
+    this.ordenar = ordenar;
+  }
 
-	public void setRuta(String ruta) {
-		this.ruta = ruta;
-	}
+  public String getRuta() {
+    return this.ruta;
+  }
 
-	public Funcionalidad getFuncionalidade() {
-		return this.funcionalidade;
-	}
+  public void setRuta(String ruta) {
+    this.ruta = ruta;
+  }
 
-	public void setFuncionalidade(Funcionalidad funcionalidade) {
-		this.funcionalidade = funcionalidade;
-	}
+  public Funcionalidad getFuncionalidade() {
+    return this.funcionalidade;
+  }
 
-	public List<Funcionalidad> getFuncionalidades() {
-		return this.funcionalidades;
-	}
+  public void setFuncionalidade(Funcionalidad funcionalidade) {
+    this.funcionalidade = funcionalidade;
+  }
 
-	public void setFuncionalidades(List<Funcionalidad> funcionalidades) {
-		this.funcionalidades = funcionalidades;
-	}
+  public List<Funcionalidad> getFuncionalidades() {
+    return this.funcionalidades;
+  }
 
-	public Funcionalidad addFuncionalidade(Funcionalidad funcionalidade) {
-		getFuncionalidades().add(funcionalidade);
-		funcionalidade.setFuncionalidade(this);
+  public void setFuncionalidades(List<Funcionalidad> funcionalidades) {
+    this.funcionalidades = funcionalidades;
+  }
 
-		return funcionalidade;
-	}
+  public Funcionalidad addFuncionalidade(Funcionalidad funcionalidade) {
+    getFuncionalidades().add(funcionalidade);
+    funcionalidade.setFuncionalidade(this);
 
-	public Funcionalidad removeFuncionalidade(Funcionalidad funcionalidade) {
-		getFuncionalidades().remove(funcionalidade);
-		funcionalidade.setFuncionalidade(null);
+    return funcionalidade;
+  }
 
-		return funcionalidade;
-	}
+  public Funcionalidad removeFuncionalidade(Funcionalidad funcionalidade) {
+    getFuncionalidades().remove(funcionalidade);
+    funcionalidade.setFuncionalidade(null);
 
-	public List<Permiso> getPermisos() {
-		return this.permisos;
-	}
+    return funcionalidade;
+  }
 
-	public void setPermisos(List<Permiso> permisos) {
-		this.permisos = permisos;
-	}
+  public List<Permiso> getPermisos() {
+    return this.permisos;
+  }
 
-	public Permiso addPermiso(Permiso permiso) {
-		getPermisos().add(permiso);
-		permiso.setFuncionalidade(this);
+  public void setPermisos(List<Permiso> permisos) {
+    this.permisos = permisos;
+  }
 
-		return permiso;
-	}
+  public Permiso addPermiso(Permiso permiso) {
+    getPermisos().add(permiso);
+    permiso.setFuncionalidade(this);
 
-	public Permiso removePermiso(Permiso permiso) {
-		getPermisos().remove(permiso);
-		permiso.setFuncionalidade(null);
+    return permiso;
+  }
 
-		return permiso;
-	}
+  public Permiso removePermiso(Permiso permiso) {
+    getPermisos().remove(permiso);
+    permiso.setFuncionalidade(null);
+
+    return permiso;
+  }
 
 }

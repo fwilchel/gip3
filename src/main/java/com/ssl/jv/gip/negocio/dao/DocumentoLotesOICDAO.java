@@ -18,17 +18,17 @@ import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 @Stateless
 @LocalBean
 public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic>
-        implements DocumentoLotesOICDAOLocal {
+    implements DocumentoLotesOICDAOLocal {
 
   private static final Logger LOGGER = Logger
-          .getLogger(DocumentoLotesOICDAO.class);
+      .getLogger(DocumentoLotesOICDAO.class);
 
   public DocumentoLotesOICDAO() {
     this.persistentClass = DocumentoXLotesoic.class;
   }
 
   public List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(
-          Map<String, Object> parametros) {
+      Map<String, Object> parametros) {
 
     List<DocumentoLotesContribucionCafeteriaDTO> lista = new ArrayList<DocumentoLotesContribucionCafeteriaDTO>();
 
@@ -36,18 +36,18 @@ public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic>
 
     String consecutivo = (String) parametros.get("consecutivo");
     sql = "select d.id as id_documento,tl.descripcion ,dxl.consecutivo, dxl.contribucion, dxl.dex ,tl.id from documentos d "
-            + "LEFT JOIN documento_x_lotesoic dxl on dxl.id_documento = d.id "
-            + "inner join  productosXdocumentos pxd on d.id=pxd.id_documento  "
-            + "LEFT JOIN productos_inventario_comext pi_ce on pi_ce.id_producto=pxd.id_producto  "
-            + "LEFT JOIN tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id   "
-            + "where  (dxl.id_tipo_lote=tl.id  or   dxl.id_documento is null) and  "
-            + " d.consecutivo_documento  "
-            + "in(select observacion_documento from documentos where consecutivo_documento =  "
-            + "(select observacion_documento from documentos where consecutivo_documento = '"
-            + consecutivo
-            + "')) "
-            + "group by  d.id,tl.descripcion,dxl.consecutivo ,dxl.contribucion, dxl.dex ,tl.id "
-            + "order by dxl.consecutivo";
+        + "LEFT JOIN documento_x_lotesoic dxl on dxl.id_documento = d.id "
+        + "inner join  productosXdocumentos pxd on d.id=pxd.id_documento  "
+        + "LEFT JOIN productos_inventario_comext pi_ce on pi_ce.id_producto=pxd.id_producto  "
+        + "LEFT JOIN tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id   "
+        + "where  (dxl.id_tipo_lote=tl.id  or   dxl.id_documento is null) and  "
+        + " d.consecutivo_documento  "
+        + "in(select observacion_documento from documentos where consecutivo_documento =  "
+        + "(select observacion_documento from documentos where consecutivo_documento = '"
+        + consecutivo
+        + "')) "
+        + "group by  d.id,tl.descripcion,dxl.consecutivo ,dxl.contribucion, dxl.dex ,tl.id "
+        + "order by dxl.consecutivo";
 
     List<Object[]> listado = em.createNativeQuery(sql).getResultList();
 
@@ -56,15 +56,15 @@ public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic>
         DocumentoLotesContribucionCafeteriaDTO dto = new DocumentoLotesContribucionCafeteriaDTO();
 
         dto.setIdDocumento(objs[0] != null ? Long.parseLong(objs[0]
-                .toString()) : null);
+            .toString()) : null);
         dto.setDescripcion(objs[1] != null ? objs[1].toString() : null);
         dto.setConsecutivo(objs[2] != null ? objs[2].toString() : null);
         dto.setContribucion(objs[3] != null ? BigDecimal.valueOf(Double
-                .parseDouble(objs[3].toString())) : null);
+            .parseDouble(objs[3].toString())) : null);
         dto.setDex(objs[4] != null ? BigDecimal.valueOf(Double
-                .parseDouble(objs[4].toString())) : null);
+            .parseDouble(objs[4].toString())) : null);
         dto.setTipoLoteId(objs[5] != null ? Long.parseLong(objs[5]
-                .toString()) : null);
+            .toString()) : null);
 
         lista.add(dto);
       }
@@ -76,7 +76,7 @@ public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic>
 
   @Override
   public List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(
-          List<DocumentoLotesContribucionCafeteriaDTO> documentos) {
+      List<DocumentoLotesContribucionCafeteriaDTO> documentos) {
 
     if (documentos != null) {
       for (DocumentoLotesContribucionCafeteriaDTO dto : documentos) {
@@ -106,9 +106,9 @@ public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic>
   @SuppressWarnings("unchecked")
   @Override
   public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(
-          String consecutivoDocumento) {
+      String consecutivoDocumento) {
     Query query = em
-            .createNamedQuery(DocumentoXLotesoic.FIND_BY_CONSECUIVO_DOCUMENTO);
+        .createNamedQuery(DocumentoXLotesoic.FIND_BY_CONSECUIVO_DOCUMENTO);
     query.setParameter("consecutivoDocumento", consecutivoDocumento);
     return query.getResultList();
   }

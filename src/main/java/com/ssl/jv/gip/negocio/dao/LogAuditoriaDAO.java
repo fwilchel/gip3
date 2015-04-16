@@ -9,12 +9,12 @@ import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 
 @Stateless
 @LocalBean
-public class LogAuditoriaDAO extends GenericDAO<LogAuditoria> implements LogAuditoriaDAOLocal{
+public class LogAuditoriaDAO extends GenericDAO<LogAuditoria> implements LogAuditoriaDAOLocal {
 
-	private static final Logger LOGGER = Logger.getLogger(LogAuditoriaDAO.class);
-	
-	public LogAuditoriaDAO(){
-		this.persistentClass = LogAuditoria.class;
-	}	
-	
+  private static final Logger LOGGER = Logger.getLogger(LogAuditoriaDAO.class);
+
+  public LogAuditoriaDAO() {
+    this.persistentClass = LogAuditoria.class;
+  }
+
 }

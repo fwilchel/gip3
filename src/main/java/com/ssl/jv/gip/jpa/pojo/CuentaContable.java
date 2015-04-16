@@ -4,112 +4,112 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the cuenta_contable database table.
- * 
+ *
  */
 @Entity
-@Table(name="cuenta_contable")
-@NamedQuery(name="CuentaContable.findAll", query="SELECT c FROM CuentaContable c")
+@Table(name = "cuenta_contable")
+@NamedQuery(name = "CuentaContable.findAll", query = "SELECT c FROM CuentaContable c")
 public class CuentaContable implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String descripcion;
+  @Id
+  private Long id;
 
-	@Column(name="indicador_iva")
-	private String indicadorIva;
+  private String descripcion;
 
-	private String tipo;
+  @Column(name = "indicador_iva")
+  private String indicadorIva;
 
-	//bi-directional many-to-one association to Cliente
-	@OneToMany(mappedBy="cuentaContable")
-	private List<Cliente> clientes;
+  private String tipo;
 
-	//bi-directional many-to-one association to ProductosInventarioComext
-	@OneToMany(mappedBy="cuentaContable")
-	private List<ProductosInventarioComext> productosInventarioComexts;
+  //bi-directional many-to-one association to Cliente
+  @OneToMany(mappedBy = "cuentaContable")
+  private List<Cliente> clientes;
 
-	public CuentaContable() {
-	}
+  //bi-directional many-to-one association to ProductosInventarioComext
+  @OneToMany(mappedBy = "cuentaContable")
+  private List<ProductosInventarioComext> productosInventarioComexts;
 
-	public Long getId() {
-		return this.id;
-	}
+  public CuentaContable() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public String getDescripcion() {
+    return this.descripcion;
+  }
 
-	public String getIndicadorIva() {
-		return this.indicadorIva;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public void setIndicadorIva(String indicadorIva) {
-		this.indicadorIva = indicadorIva;
-	}
+  public String getIndicadorIva() {
+    return this.indicadorIva;
+  }
 
-	public String getTipo() {
-		return this.tipo;
-	}
+  public void setIndicadorIva(String indicadorIva) {
+    this.indicadorIva = indicadorIva;
+  }
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+  public String getTipo() {
+    return this.tipo;
+  }
 
-	public List<Cliente> getClientes() {
-		return this.clientes;
-	}
+  public void setTipo(String tipo) {
+    this.tipo = tipo;
+  }
 
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
+  public List<Cliente> getClientes() {
+    return this.clientes;
+  }
 
-	public Cliente addCliente(Cliente cliente) {
-		getClientes().add(cliente);
-		cliente.setCuentaContable(this);
+  public void setClientes(List<Cliente> clientes) {
+    this.clientes = clientes;
+  }
 
-		return cliente;
-	}
+  public Cliente addCliente(Cliente cliente) {
+    getClientes().add(cliente);
+    cliente.setCuentaContable(this);
 
-	public Cliente removeCliente(Cliente cliente) {
-		getClientes().remove(cliente);
-		cliente.setCuentaContable(null);
+    return cliente;
+  }
 
-		return cliente;
-	}
+  public Cliente removeCliente(Cliente cliente) {
+    getClientes().remove(cliente);
+    cliente.setCuentaContable(null);
 
-	public List<ProductosInventarioComext> getProductosInventarioComexts() {
-		return this.productosInventarioComexts;
-	}
+    return cliente;
+  }
 
-	public void setProductosInventarioComexts(List<ProductosInventarioComext> productosInventarioComexts) {
-		this.productosInventarioComexts = productosInventarioComexts;
-	}
+  public List<ProductosInventarioComext> getProductosInventarioComexts() {
+    return this.productosInventarioComexts;
+  }
 
-	public ProductosInventarioComext addProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
-		getProductosInventarioComexts().add(productosInventarioComext);
-		productosInventarioComext.setCuentaContable(this);
+  public void setProductosInventarioComexts(List<ProductosInventarioComext> productosInventarioComexts) {
+    this.productosInventarioComexts = productosInventarioComexts;
+  }
 
-		return productosInventarioComext;
-	}
+  public ProductosInventarioComext addProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
+    getProductosInventarioComexts().add(productosInventarioComext);
+    productosInventarioComext.setCuentaContable(this);
 
-	public ProductosInventarioComext removeProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
-		getProductosInventarioComexts().remove(productosInventarioComext);
-		productosInventarioComext.setCuentaContable(null);
+    return productosInventarioComext;
+  }
 
-		return productosInventarioComext;
-	}
+  public ProductosInventarioComext removeProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
+    getProductosInventarioComexts().remove(productosInventarioComext);
+    productosInventarioComext.setCuentaContable(null);
+
+    return productosInventarioComext;
+  }
 
 }

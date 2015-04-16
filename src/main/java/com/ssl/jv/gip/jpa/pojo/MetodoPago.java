@@ -4,76 +4,76 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the metodo_pago database table.
- * 
+ *
  */
 @Entity
-@Table(name="metodo_pago")
-@NamedQuery(name="MetodoPago.findAll", query="SELECT m FROM MetodoPago m")
+@Table(name = "metodo_pago")
+@NamedQuery(name = "MetodoPago.findAll", query = "SELECT m FROM MetodoPago m")
 public class MetodoPago implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String descripcion;
+  @Id
+  private Long id;
 
-	@Column(name="descripcion_ingles")
-	private String descripcionIngles;
+  private String descripcion;
 
-	//bi-directional many-to-one association to Cliente
-	@OneToMany(mappedBy="metodoPago")
-	private List<Cliente> clientes;
+  @Column(name = "descripcion_ingles")
+  private String descripcionIngles;
 
-	public MetodoPago() {
-	}
+  //bi-directional many-to-one association to Cliente
+  @OneToMany(mappedBy = "metodoPago")
+  private List<Cliente> clientes;
 
-	public Long getId() {
-		return this.id;
-	}
+  public MetodoPago() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getDescripcion() {
-		return this.descripcion;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+  public String getDescripcion() {
+    return this.descripcion;
+  }
 
-	public String getDescripcionIngles() {
-		return this.descripcionIngles;
-	}
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
 
-	public void setDescripcionIngles(String descripcionIngles) {
-		this.descripcionIngles = descripcionIngles;
-	}
+  public String getDescripcionIngles() {
+    return this.descripcionIngles;
+  }
 
-	public List<Cliente> getClientes() {
-		return this.clientes;
-	}
+  public void setDescripcionIngles(String descripcionIngles) {
+    this.descripcionIngles = descripcionIngles;
+  }
 
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
+  public List<Cliente> getClientes() {
+    return this.clientes;
+  }
 
-	public Cliente addCliente(Cliente cliente) {
-		getClientes().add(cliente);
-		cliente.setMetodoPago(this);
+  public void setClientes(List<Cliente> clientes) {
+    this.clientes = clientes;
+  }
 
-		return cliente;
-	}
+  public Cliente addCliente(Cliente cliente) {
+    getClientes().add(cliente);
+    cliente.setMetodoPago(this);
 
-	public Cliente removeCliente(Cliente cliente) {
-		getClientes().remove(cliente);
-		cliente.setMetodoPago(null);
+    return cliente;
+  }
 
-		return cliente;
-	}
+  public Cliente removeCliente(Cliente cliente) {
+    getClientes().remove(cliente);
+    cliente.setMetodoPago(null);
+
+    return cliente;
+  }
 
 }

@@ -5,127 +5,127 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
 /**
  * The persistent class for the conteos database table.
- * 
+ *
  */
 @Entity
-@Table(name="conteos")
-@NamedQuery(name="Conteo.findAll", query="SELECT c FROM Conteo c")
+@Table(name = "conteos")
+@NamedQuery(name = "Conteo.findAll", query = "SELECT c FROM Conteo c")
 public class Conteo implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	@Column(name="cantidad_reportada")
-	private BigDecimal cantidadReportada;
+  @Id
+  private Long id;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_conteo")
-	private Date fechaConteo;
+  @Column(name = "cantidad_reportada")
+  private BigDecimal cantidadReportada;
 
-	private Boolean revisado;
+  @Temporal(TemporalType.DATE)
+  @Column(name = "fecha_conteo")
+  private Date fechaConteo;
 
-	//bi-directional many-to-one association to BodegasLogica
-	@ManyToOne
-	@JoinColumn(name="id_bodega_logica")
-	private BodegasLogica bodegasLogica;
+  private Boolean revisado;
 
-	//bi-directional many-to-one association to ProductosInventario
-	@ManyToOne
-	@JoinColumn(name="id_producto")
-	private ProductosInventario productosInventario;
+  //bi-directional many-to-one association to BodegasLogica
+  @ManyToOne
+  @JoinColumn(name = "id_bodega_logica")
+  private BodegasLogica bodegasLogica;
 
-	//bi-directional many-to-one association to TipoConteo
-	@ManyToOne
-	@JoinColumn(name="id_tipo_conteo")
-	private TipoConteo tipoConteo;
+  //bi-directional many-to-one association to ProductosInventario
+  @ManyToOne
+  @JoinColumn(name = "id_producto")
+  private ProductosInventario productosInventario;
 
-	//bi-directional many-to-one association to Ubicacion
-	@ManyToOne
-	@JoinColumn(name="id_ubicacion")
-	private Ubicacion ubicacione;
+  //bi-directional many-to-one association to TipoConteo
+  @ManyToOne
+  @JoinColumn(name = "id_tipo_conteo")
+  private TipoConteo tipoConteo;
 
-	//bi-directional many-to-one association to Unidad
-	@ManyToOne
-	@JoinColumn(name="id_unidad")
-	private Unidad unidade;
+  //bi-directional many-to-one association to Ubicacion
+  @ManyToOne
+  @JoinColumn(name = "id_ubicacion")
+  private Ubicacion ubicacione;
 
-	public Conteo() {
-	}
+  //bi-directional many-to-one association to Unidad
+  @ManyToOne
+  @JoinColumn(name = "id_unidad")
+  private Unidad unidade;
 
-	public Long getId() {
-		return this.id;
-	}
+  public Conteo() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public BigDecimal getCantidadReportada() {
-		return this.cantidadReportada;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setCantidadReportada(BigDecimal cantidadReportada) {
-		this.cantidadReportada = cantidadReportada;
-	}
+  public BigDecimal getCantidadReportada() {
+    return this.cantidadReportada;
+  }
 
-	public Date getFechaConteo() {
-		return this.fechaConteo;
-	}
+  public void setCantidadReportada(BigDecimal cantidadReportada) {
+    this.cantidadReportada = cantidadReportada;
+  }
 
-	public void setFechaConteo(Date fechaConteo) {
-		this.fechaConteo = fechaConteo;
-	}
+  public Date getFechaConteo() {
+    return this.fechaConteo;
+  }
 
-	public Boolean getRevisado() {
-		return this.revisado;
-	}
+  public void setFechaConteo(Date fechaConteo) {
+    this.fechaConteo = fechaConteo;
+  }
 
-	public void setRevisado(Boolean revisado) {
-		this.revisado = revisado;
-	}
+  public Boolean getRevisado() {
+    return this.revisado;
+  }
 
-	public BodegasLogica getBodegasLogica() {
-		return this.bodegasLogica;
-	}
+  public void setRevisado(Boolean revisado) {
+    this.revisado = revisado;
+  }
 
-	public void setBodegasLogica(BodegasLogica bodegasLogica) {
-		this.bodegasLogica = bodegasLogica;
-	}
+  public BodegasLogica getBodegasLogica() {
+    return this.bodegasLogica;
+  }
 
-	public ProductosInventario getProductosInventario() {
-		return this.productosInventario;
-	}
+  public void setBodegasLogica(BodegasLogica bodegasLogica) {
+    this.bodegasLogica = bodegasLogica;
+  }
 
-	public void setProductosInventario(ProductosInventario productosInventario) {
-		this.productosInventario = productosInventario;
-	}
+  public ProductosInventario getProductosInventario() {
+    return this.productosInventario;
+  }
 
-	public TipoConteo getTipoConteo() {
-		return this.tipoConteo;
-	}
+  public void setProductosInventario(ProductosInventario productosInventario) {
+    this.productosInventario = productosInventario;
+  }
 
-	public void setTipoConteo(TipoConteo tipoConteo) {
-		this.tipoConteo = tipoConteo;
-	}
+  public TipoConteo getTipoConteo() {
+    return this.tipoConteo;
+  }
 
-	public Ubicacion getUbicacione() {
-		return this.ubicacione;
-	}
+  public void setTipoConteo(TipoConteo tipoConteo) {
+    this.tipoConteo = tipoConteo;
+  }
 
-	public void setUbicacione(Ubicacion ubicacione) {
-		this.ubicacione = ubicacione;
-	}
+  public Ubicacion getUbicacione() {
+    return this.ubicacione;
+  }
 
-	public Unidad getUnidade() {
-		return this.unidade;
-	}
+  public void setUbicacione(Ubicacion ubicacione) {
+    this.ubicacione = ubicacione;
+  }
 
-	public void setUnidade(Unidad unidade) {
-		this.unidade = unidade;
-	}
+  public Unidad getUnidade() {
+    return this.unidade;
+  }
+
+  public void setUnidade(Unidad unidade) {
+    this.unidade = unidade;
+  }
 
 }

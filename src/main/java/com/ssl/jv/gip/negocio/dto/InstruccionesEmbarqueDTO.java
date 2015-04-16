@@ -6,13 +6,17 @@ import java.util.List;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 
 /**
- * <p>Title: InstruccionesEmbarqueDTO</p>
+ * <p>
+ * Title: InstruccionesEmbarqueDTO</p>
  *
- * <p>Description: DTO para almacenar la informacion de una instruccion de embarque</p>
+ * <p>
+ * Description: DTO para almacenar la informacion de una instruccion de embarque</p>
  *
- * <p>Copyright: Copyright (c) 2014</p>
+ * <p>
+ * Copyright: Copyright (c) 2014</p>
  *
- * <p>Company: Soft Studio Ltda.</p>
+ * <p>
+ * Company: Soft Studio Ltda.</p>
  *
  * @author Sebastian Gamba Pinilla
  * @email sebas.gamba02@gmail.com
@@ -21,92 +25,91 @@ import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
  */
 public class InstruccionesEmbarqueDTO implements Serializable {
 
-	private static final long serialVersionUID = 5772395465483898864L;
-	
-	private String clientName;
-	private String clientAddress;
-	private String clientPhone;
-	private String clientContact;
-	private String city;
-	private String country;
-	private List<DocTerminosTransporteDTO> documentos;
-	private TerminosTransporte terminosTransporte;
+  private static final long serialVersionUID = 5772395465483898864L;
 
-	public InstruccionesEmbarqueDTO() {
-	}
+  private String clientName;
+  private String clientAddress;
+  private String clientPhone;
+  private String clientContact;
+  private String city;
+  private String country;
+  private List<DocTerminosTransporteDTO> documentos;
+  private TerminosTransporte terminosTransporte;
 
-	public String getClientName() {
-		return clientName;
-	}
+  public InstruccionesEmbarqueDTO() {
+  }
 
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
+  public String getClientName() {
+    return clientName;
+  }
 
-	public String getClientAddress() {
-		return clientAddress;
-	}
+  public void setClientName(String clientName) {
+    this.clientName = clientName;
+  }
 
-	public void setClientAddress(String clientAddress) {
-		this.clientAddress = clientAddress;
-	}
+  public String getClientAddress() {
+    return clientAddress;
+  }
 
-	public String getClientPhone() {
-		return clientPhone;
-	}
+  public void setClientAddress(String clientAddress) {
+    this.clientAddress = clientAddress;
+  }
 
-	public void setClientPhone(String clientPhone) {
-		this.clientPhone = clientPhone;
-	}
+  public String getClientPhone() {
+    return clientPhone;
+  }
 
-	public String getClientContact() {
-		return clientContact;
-	}
+  public void setClientPhone(String clientPhone) {
+    this.clientPhone = clientPhone;
+  }
 
-	public void setClientContact(String clientContact) {
-		this.clientContact = clientContact;
-	}
+  public String getClientContact() {
+    return clientContact;
+  }
 
-	public String getCity() {
-		return city;
-	}
+  public void setClientContact(String clientContact) {
+    this.clientContact = clientContact;
+  }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+  public String getCity() {
+    return city;
+  }
 
-	public String getCountry() {
-		return country;
-	}
+  public void setCity(String city) {
+    this.city = city;
+  }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+  public String getCountry() {
+    return country;
+  }
 
-	public TerminosTransporte getTerminosTransporte() {
-		return terminosTransporte;
-	}
+  public void setCountry(String country) {
+    this.country = country;
+  }
 
-	public void setTerminosTransporte(TerminosTransporte terminosTransporte) {
-		this.terminosTransporte = terminosTransporte;
-	}
+  public TerminosTransporte getTerminosTransporte() {
+    return terminosTransporte;
+  }
 
-	public List<DocTerminosTransporteDTO> getDocumentos() {
-		return documentos;
-	}
+  public void setTerminosTransporte(TerminosTransporte terminosTransporte) {
+    this.terminosTransporte = terminosTransporte;
+  }
 
-	public void setDocumentos(List<DocTerminosTransporteDTO> documentos) {
-		this.documentos = documentos;
-	}
+  public List<DocTerminosTransporteDTO> getDocumentos() {
+    return documentos;
+  }
 
-	@Override
-	public String toString() {
-		return "InstruccionesEmbarqueDTO [clientName=" + clientName
-				+ ", clientAddress=" + clientAddress + ", clientPhone="
-				+ clientPhone + ", clientContact=" + clientContact + ", city="
-				+ city + ", country=" + country + ", documentos=" + documentos
-				+ ", terminosTransporte=" + terminosTransporte + "]";
-	}
-	
-	
+  public void setDocumentos(List<DocTerminosTransporteDTO> documentos) {
+    this.documentos = documentos;
+  }
+
+  @Override
+  public String toString() {
+    return "InstruccionesEmbarqueDTO [clientName=" + clientName
+        + ", clientAddress=" + clientAddress + ", clientPhone="
+        + clientPhone + ", clientContact=" + clientContact + ", city="
+        + city + ", country=" + country + ", documentos=" + documentos
+        + ", terminosTransporte=" + terminosTransporte + "]";
+  }
+
 }

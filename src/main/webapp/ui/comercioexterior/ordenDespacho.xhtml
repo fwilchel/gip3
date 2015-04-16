@@ -1,311 +1,310 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:misc="http://java.sun.com/jsf/composite/misc"
-	template="/ui/templates/general.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/ui/templates/general.xhtml">
 
-	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroUbicacionesTituloFrame}::.</ui:define>
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroUbicacionesTituloFrame}::.</ui:define>
 
-	<ui:define name="contenido">
-		<p:spacer height="40"></p:spacer>
-		<h:form prependId="false" id="forma">
+  <ui:define name="contenido">
+    <p:spacer height="40"></p:spacer>
+    <h:form prependId="false" id="forma">
 
-			<p:messages id="msgs" showDetail="false" showSummary="true"
-				globalOnly="false" showIcon="true"></p:messages>
+      <p:messages id="msgs" showDetail="false" showSummary="true"
+                  globalOnly="false" showIcon="true"></p:messages>
 
-			<p:tabView id="tabPanel">
-				<p:tab title="#{msg.generarOrdenDespachoTituloFrame}">
+      <p:tabView id="tabPanel">
+        <p:tab title="#{msg.generarOrdenDespachoTituloFrame}">
 
-					<p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha" />
-					<p:inputText value="#{ordenesDespachoMB.currentTimeStamp}"
-						id="fecha" required="false" disabled="true">
-						<f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
-					</p:inputText>
+          <p:outputLabel value="#{msg.trasladoInventarioFecha}: " for="fecha" />
+          <p:inputText value="#{ordenesDespachoMB.currentTimeStamp}"
+                       id="fecha" required="false" disabled="true">
+            <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+          </p:inputText>
 
-					<p:spacer width="30"></p:spacer>
+          <p:spacer width="30"></p:spacer>
 
-					<p:outputLabel value="#{msg.IngresarNumFP}: "
-						for="consecutivo" />
-					<p:inputText value="#{ordenesDespachoMB.consecutivoDocumento}"
-						id="consecutivo" required="false" />
+          <p:outputLabel value="#{msg.IngresarNumFP}: "
+                         for="consecutivo" />
+          <p:inputText value="#{ordenesDespachoMB.consecutivoDocumento}"
+                       id="consecutivo" required="false" />
 
-					<p:spacer width="30"></p:spacer>
+          <p:spacer width="30"></p:spacer>
 
-					<p:commandButton value="#{msg.documentoEjecutarBusqueda}"
-						update="tabPanel" action="#{ordenesDespachoMB.buscarDocumentos}" />
+          <p:commandButton value="#{msg.documentoEjecutarBusqueda}"
+                           update="tabPanel" action="#{ordenesDespachoMB.buscarDocumentos}" />
 
-					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-						value="#{ordenesDespachoMB.documentos}" rows="10"
-						emptyMessage="#{msg.generalNoDatos}" paginator="true"
-						paginatorPosition="bottom"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15">
+          <p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+                       value="#{ordenesDespachoMB.documentos}" rows="10"
+                       emptyMessage="#{msg.generalNoDatos}" paginator="true"
+                       paginatorPosition="bottom"
+                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                       rowsPerPageTemplate="5,10,15">
 
-						<p:column style="width:32px;text-align: center">
-							<p:commandButton oncomplete="PF('datoDialog').show()"
-								process="@this"
-								action="#{ordenesDespachoMB.consultarOrdenDeDespacho}"
-								icon="ui-icon-search" update=":datoDlg">
-								<f:setPropertyActionListener value="#{dato}"
-									target="#{ordenesDespachoMB.seleccionado}" />
-							</p:commandButton>
-						</p:column>
+            <p:column style="width:32px;text-align: center">
+              <p:commandButton oncomplete="PF('datoDialog').show()"
+                               process="@this"
+                               action="#{ordenesDespachoMB.consultarOrdenDeDespacho}"
+                               icon="ui-icon-search" update=":datoDlg">
+                <f:setPropertyActionListener value="#{dato}"
+                                             target="#{ordenesDespachoMB.seleccionado}" />
+              </p:commandButton>
+            </p:column>
 
-						<p:column filterBy="#{dato.id}"
-							headerText="#{msg.documentoConsecutivo}"
-							filterMatchMode="contains" sortBy="#{dato.id}">
-							<h:outputText value="#{dato.id}" />
-						</p:column>
+            <p:column filterBy="#{dato.id}"
+                      headerText="#{msg.documentoConsecutivo}"
+                      filterMatchMode="contains" sortBy="#{dato.id}">
+              <h:outputText value="#{dato.id}" />
+            </p:column>
 
-						<p:column filterBy="#{dato.consecutivoDocumento}"
-							headerText="#{msg.ConsecutivoFP}" filterMatchMode="contains"
-							sortBy="#{dato.consecutivoDocumento}">
-							<h:outputText value="#{dato.consecutivoDocumento}" />
-						</p:column>
+            <p:column filterBy="#{dato.consecutivoDocumento}"
+                      headerText="#{msg.ConsecutivoFP}" filterMatchMode="contains"
+                      sortBy="#{dato.consecutivoDocumento}">
+              <h:outputText value="#{dato.consecutivoDocumento}" />
+            </p:column>
 
-						<p:column filterBy="#{dato.fechaGeneracion}"
-							headerText="#{msg.documentoFechaGeneracion}"
-							filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
-							<h:outputText value="#{dato.fechaGeneracion}">
-								<f:convertDateTime pattern="dd-MMM-yyyy" />
-							</h:outputText>
-						</p:column>
+            <p:column filterBy="#{dato.fechaGeneracion}"
+                      headerText="#{msg.documentoFechaGeneracion}"
+                      filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
+              <h:outputText value="#{dato.fechaGeneracion}">
+                <f:convertDateTime pattern="dd-MMM-yyyy" />
+              </h:outputText>
+            </p:column>
 
 
-					</p:dataTable>
-				</p:tab>
-			</p:tabView>
-		</h:form>
-		<p:dialog header="#{msg.generarOrdenDespachoTituloFrame}"
-			widgetVar="datoDialog" modal="true" showEffect="fade"
-			hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
-			<h:form id="formaDlg">
-				<p:outputPanel id="datoDetalle" style="text-align:center;">
-					<p:messages id="msgs2" showDetail="false" showSummary="true"
-						globalOnly="true" showIcon="true"></p:messages>
-					<p:panelGrid columns="10"
-						rendered="#{not empty ordenesDespachoMB.seleccionado}">
+          </p:dataTable>
+        </p:tab>
+      </p:tabView>
+    </h:form>
+    <p:dialog header="#{msg.generarOrdenDespachoTituloFrame}"
+              widgetVar="datoDialog" modal="true" showEffect="fade"
+              hideEffect="fade" resizable="false" dynamic="true" id="datoDlg">
+      <h:form id="formaDlg">
+        <p:outputPanel id="datoDetalle" style="text-align:center;">
+          <p:messages id="msgs2" showDetail="false" showSummary="true"
+                      globalOnly="true" showIcon="true"></p:messages>
+          <p:panelGrid columns="10"
+                       rendered="#{not empty ordenesDespachoMB.seleccionado}">
 
-						<p:outputLabel value="#{msg.recibiProductoDcoumento}"
-							for="documento" styleClass="negrita" />
-						<h:inputText value="#{ordenesDespachoMB.seleccionado.id}"
-							id="documento" label="#{msg.recibiProductoDcoumento}"
-							disabled="true" />
+            <p:outputLabel value="#{msg.recibiProductoDcoumento}"
+                           for="documento" styleClass="negrita" />
+            <h:inputText value="#{ordenesDespachoMB.seleccionado.id}"
+                         id="documento" label="#{msg.recibiProductoDcoumento}"
+                         disabled="true" />
 
-						<p:outputLabel value="#{msg.RequisicionNombreCons}"
-							for="consecutivoDocumento" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.consecutivoDocumento}"
-							id="consecutivoDocumento" label="#{msg.RequisicionNombreCons}"
-							disabled="true" />
+            <p:outputLabel value="#{msg.RequisicionNombreCons}"
+                           for="consecutivoDocumento" styleClass="negrita" />
+            <h:inputText
+              value="#{ordenesDespachoMB.seleccionado.consecutivoDocumento}"
+              id="consecutivoDocumento" label="#{msg.RequisicionNombreCons}"
+              disabled="true" />
 
-						<p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
-							for="fechaGeneracion" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.fechaGeneracion}"
-							id="fechaGeneracion"
-							label="#{msg.RequisicionNombreFechaGenerado}" disabled="true">
-							<f:convertDateTime pattern="dd-MMM-yyyy" />
-						</h:inputText>
+            <p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
+                           for="fechaGeneracion" styleClass="negrita" />
+            <h:inputText
+              value="#{ordenesDespachoMB.seleccionado.fechaGeneracion}"
+              id="fechaGeneracion"
+              label="#{msg.RequisicionNombreFechaGenerado}" disabled="true">
+              <f:convertDateTime pattern="dd-MMM-yyyy" />
+            </h:inputText>
 
-						<p:outputLabel value="#{msg.nomCliente}" for="clienteNombre"
-							styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.cliente.nombre}"
-							size="30" id="clienteNombre" label="#{msg.nomCliente}"
-							disabled="true" />
+            <p:outputLabel value="#{msg.nomCliente}" for="clienteNombre"
+                           styleClass="negrita" />
+            <h:inputText
+              value="#{ordenesDespachoMB.seleccionado.cliente.nombre}"
+              size="30" id="clienteNombre" label="#{msg.nomCliente}"
+              disabled="true" />
 
-						<p:outputLabel value="#{msg.NumeroPedidoWeb}" for="clienteId"
-							styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoCliente}"
-							id="clienteId" label="#{msg.NumeroPedidoWeb}" disabled="true" />
+            <p:outputLabel value="#{msg.NumeroPedidoWeb}" for="clienteId"
+                           styleClass="negrita" />
+            <h:inputText
+              value="#{ordenesDespachoMB.seleccionado.documentoCliente}"
+              id="clienteId" label="#{msg.NumeroPedidoWeb}" disabled="true" />
 
-						<p:outputLabel value="#{msg.maestroDireccionCliente}"
-							for="clienteDireccion" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.cliente.direccion}"
-							size="30" id="clienteDireccion"
-							label="#{msg.maestroDireccionCliente}" disabled="true" />
+            <p:outputLabel value="#{msg.maestroDireccionCliente}"
+                           for="clienteDireccion" styleClass="negrita" />
+            <h:inputText
+              value="#{ordenesDespachoMB.seleccionado.cliente.direccion}"
+              size="30" id="clienteDireccion"
+              label="#{msg.maestroDireccionCliente}" disabled="true" />
 
-						<p:outputLabel value="#{msg.maestroTelefonoCliente}"
-							for="clienteTelefono" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.cliente.telefono}"
-							id="clienteTelefono" label="#{msg.maestroTelefonoCliente}"
-							disabled="true" />
+            <p:outputLabel value="#{msg.maestroTelefonoCliente}"
+                           for="clienteTelefono" styleClass="negrita" />
+            <h:inputText
+              value="#{ordenesDespachoMB.seleccionado.cliente.telefono}"
+              id="clienteTelefono" label="#{msg.maestroTelefonoCliente}"
+              disabled="true" />
 
-						<p:outputLabel value="#{msg.maestroContactoAgente}"
-							for="clienteContacto" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.cliente.contacto}"
-							id="clienteContacto" label="#{msg.maestroContactoAgente}"
-							disabled="true" />
+            <p:outputLabel value="#{msg.maestroContactoAgente}"
+                           for="clienteContacto" styleClass="negrita" />
+            <h:inputText
+              value="#{ordenesDespachoMB.seleccionado.cliente.contacto}"
+              id="clienteContacto" label="#{msg.maestroContactoAgente}"
+              disabled="true" />
 
-						<p:outputLabel value="#{msg.TerminoIncotermSP}"
-							for="terminoIncoterm" styleClass="negrita" />
-						<p:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).terminoIncoterm.descripcion}"
-							id="terminoIncoterm" label="#{msg.TerminoIncotermSP}"
-							disabled="true" />
+            <p:outputLabel value="#{msg.TerminoIncotermSP}"
+                           for="terminoIncoterm" styleClass="negrita" />
+            <p:inputText
+              value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).terminoIncoterm.descripcion}"
+              id="terminoIncoterm" label="#{msg.TerminoIncotermSP}"
+              disabled="true" />
 
-						<p:outputLabel value="#{msg.LugarIncoterm}" for="lugarIncoterm"
-							styleClass="negrita" />
-						<p:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
-							id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true" />
+            <p:outputLabel value="#{msg.LugarIncoterm}" for="lugarIncoterm"
+                           styleClass="negrita" />
+            <p:inputText
+              value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
+              id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true" />
 
-						<p:outputLabel value="#{msg.cegodLblContenedor20}"
-							for="contenedores20" styleClass="negrita" />
-						<p:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe20}"
-							id="contenedores20" label="#{msg.cegodLblContenedor20}"
-							disabled="true" />
+            <p:outputLabel value="#{msg.cegodLblContenedor20}"
+                           for="contenedores20" styleClass="negrita" />
+            <p:inputText
+              value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe20}"
+              id="contenedores20" label="#{msg.cegodLblContenedor20}"
+              disabled="true" />
 
-						<p:outputLabel value="#{msg.cegodLblContenedor40}"
-							for="contenedores40" styleClass="negrita" />
-						<p:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe40}"
-							id="contenedores40" label="#{msg.cegodLblContenedor40}"
-							disabled="true" />
+            <p:outputLabel value="#{msg.cegodLblContenedor40}"
+                           for="contenedores40" styleClass="negrita" />
+            <p:inputText
+              value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe40}"
+              id="contenedores40" label="#{msg.cegodLblContenedor40}"
+              disabled="true" />
 
-						<p:outputLabel value="#{msg.observacionDocumento}"
-							for="observacionDelDocumento" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.observacion2}"
-							id="observacionDelDocumento" label="#{msg.observacionDocumento}"
-							disabled="true" />
+            <p:outputLabel value="#{msg.observacionDocumento}"
+                           for="observacionDelDocumento" styleClass="negrita" />
+            <h:inputText
+              value="#{ordenesDespachoMB.seleccionado.observacion2}"
+              id="observacionDelDocumento" label="#{msg.observacionDocumento}"
+              disabled="true" />
 
-						<p:outputLabel value="#{msg.cegodLblCObservacionMarcacion}"
-							for="observacionMarcacion" styleClass="negrita" />
-						<h:inputText
-							value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).observacionesMarcacion2}"
-							id="observacionMarcacion" label="#{msg.cegodLblCObservacionMarcacion}"
-							disabled="true">
-						</h:inputText>
+            <p:outputLabel value="#{msg.cegodLblCObservacionMarcacion}"
+                           for="observacionMarcacion" styleClass="negrita" />
+            <h:inputText
+              value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).observacionesMarcacion2}"
+              id="observacionMarcacion" label="#{msg.cegodLblCObservacionMarcacion}"
+              disabled="true">
+            </h:inputText>
 
-						<p:outputLabel value="#{msg.Despacho}" for="despachadoEn"
-							styleClass="negrita" />
-						<p:inputText
-							value="#{ordenesDespachoMB.seleccionado.sitioEntrega}"
-							id="despachadoEn" label="#{msg.LugarIncoterm}" required="true" />
+            <p:outputLabel value="#{msg.Despacho}" for="despachadoEn"
+                           styleClass="negrita" />
+            <p:inputText
+              value="#{ordenesDespachoMB.seleccionado.sitioEntrega}"
+              id="despachadoEn" label="#{msg.LugarIncoterm}" required="true" />
 
-						<p:outputLabel value="#{msg.FechaCargue}" for="fechaCargue"
-							styleClass="negrita" />
-						<p:calendar
-							value="#{ordenesDespachoMB.seleccionado.fechaEntrega}"
-							id="fechaCargue" label="#{msg.FechaCargue}" showOn="button" readonlyInput="true"
-							required="true" pattern="yyyy-MM-dd">
-						</p:calendar>
+            <p:outputLabel value="#{msg.FechaCargue}" for="fechaCargue"
+                           styleClass="negrita" />
+            <p:calendar
+              value="#{ordenesDespachoMB.seleccionado.fechaEntrega}"
+              id="fechaCargue" label="#{msg.FechaCargue}" showOn="button" readonlyInput="true"
+              required="true" pattern="yyyy-MM-dd">
+            </p:calendar>
 
-					</p:panelGrid>
+          </p:panelGrid>
 
-					<p:dataTable var="producto" widgetVar="productoDoc"
-						id="tablaProductos"
-						rendered="#{not empty ordenesDespachoMB.productos}"
-						sortBy="#{producto.idCliente}"
-						value="#{ordenesDespachoMB.productos}">
+          <p:dataTable var="producto" widgetVar="productoDoc"
+                       id="tablaProductos"
+                       rendered="#{not empty ordenesDespachoMB.productos}"
+                       sortBy="#{producto.idCliente}"
+                       value="#{ordenesDespachoMB.productos}">
 
-						<p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
-							<h:outputText value="#{producto.sku}" />
-						</p:column>
+            <p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
+              <h:outputText value="#{producto.sku}" />
+            </p:column>
 
-						<p:column headerText="#{msg.buscadorNombreProducto}">
-							<h:outputText value="#{producto.nombre}" />
-						</p:column>
+            <p:column headerText="#{msg.buscadorNombreProducto}">
+              <h:outputText value="#{producto.nombre}" />
+            </p:column>
 
-						<p:column styleClass="derecha"
-							headerText="#{msg.comprasCantidadSola}">
-							<h:outputText value="#{producto.cantidad}">
-								<f:convertNumber pattern="$#####,###,###,##0.00" />
-							</h:outputText>
-						</p:column>
+            <p:column styleClass="derecha"
+                      headerText="#{msg.comprasCantidadSola}">
+              <h:outputText value="#{producto.cantidad}">
+                <f:convertNumber pattern="$#####,###,###,##0.00" />
+              </h:outputText>
+            </p:column>
 
-						<p:column styleClass="derecha" headerText="#{msg.unidadxembalaje}">
-							<h:outputText value="#{producto.cantidadPorEmbalaje}">
-								<f:convertNumber pattern="$#####,###,###,##0.00" />
-							</h:outputText>
-						</p:column>
+            <p:column styleClass="derecha" headerText="#{msg.unidadxembalaje}">
+              <h:outputText value="#{producto.cantidadPorEmbalaje}">
+                <f:convertNumber pattern="$#####,###,###,##0.00" />
+              </h:outputText>
+            </p:column>
 
-						<p:column styleClass="derecha" headerText="#{msg.SPcantidadCajas}">
-							<h:outputText
-								value="#{producto.cantidad/producto.cantidadPorEmbalaje}">
-								<f:convertNumber pattern="$#####,###,###,##0.00" />
-							</h:outputText>
-						</p:column>
+            <p:column styleClass="derecha" headerText="#{msg.SPcantidadCajas}">
+              <h:outputText
+                value="#{producto.cantidad/producto.cantidadPorEmbalaje}">
+                <f:convertNumber pattern="$#####,###,###,##0.00" />
+              </h:outputText>
+            </p:column>
 
-						<p:column styleClass="derecha"
-							headerText="#{msg.MuestrasFitoAntico}">
-							<h:outputText value="#{producto.muestrasFITOYANTICO}">
-								<f:convertNumber pattern="$#####,###,###,##0.00" />
-							</h:outputText>
-						</p:column>
+            <p:column styleClass="derecha"
+                      headerText="#{msg.MuestrasFitoAntico}">
+              <h:outputText value="#{producto.muestrasFITOYANTICO}">
+                <f:convertNumber pattern="$#####,###,###,##0.00" />
+              </h:outputText>
+            </p:column>
 
-						<p:column styleClass="derecha"
-							headerText="#{msg.MuestrasCalidades}">
-							<h:outputText value="#{producto.muestrasCalidades}">
-								<f:convertNumber pattern="$#####,###,###,##0.00" />
-							</h:outputText>
-						</p:column>
+            <p:column styleClass="derecha"
+                      headerText="#{msg.MuestrasCalidades}">
+              <h:outputText value="#{producto.muestrasCalidades}">
+                <f:convertNumber pattern="$#####,###,###,##0.00" />
+              </h:outputText>
+            </p:column>
 
-						<p:summaryRow>
-							<p:column colspan="2" styleClass="derecha">
-								<h:outputText value="TOTALES " />
-							</p:column>
+            <p:summaryRow>
+              <p:column colspan="2" styleClass="derecha">
+                <h:outputText value="TOTALES " />
+              </p:column>
 
-							<p:column styleClass="derecha">
-								<h:outputText value="#{ordenesDespachoMB.totalCantidad}">
-									<f:convertNumber pattern="$#####,###,###,##0.00" />
-								</h:outputText>
-							</p:column>
+              <p:column styleClass="derecha">
+                <h:outputText value="#{ordenesDespachoMB.totalCantidad}">
+                  <f:convertNumber pattern="$#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
 
-							<p:column styleClass="derecha">
-								<h:outputText
-									value="#{ordenesDespachoMB.totalCantidadPorEmbalaje}">
-									<f:convertNumber pattern="$#####,###,###,##0.00" />
-								</h:outputText>
-							</p:column>
-							<p:column styleClass="derecha">
-								<h:outputText value="#{ordenesDespachoMB.totalCantidadCajas}">
-									<f:convertNumber pattern="$#####,###,###,##0.00" />
-								</h:outputText>
-							</p:column>
-							<p:column styleClass="derecha">
-								<h:outputText value="#{ordenesDespachoMB.muestrasFITOANTICO}">
-									<f:convertNumber pattern="$#####,###,###,##0.00" />
-								</h:outputText>
-							</p:column>
-							<p:column styleClass="derecha">
-								<h:outputText value="#{ordenesDespachoMB.muestrasCalidades}">
-									<f:convertNumber pattern="$#####,###,###,##0.00" />
-								</h:outputText>
-							</p:column>
+              <p:column styleClass="derecha">
+                <h:outputText
+                  value="#{ordenesDespachoMB.totalCantidadPorEmbalaje}">
+                  <f:convertNumber pattern="$#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column styleClass="derecha">
+                <h:outputText value="#{ordenesDespachoMB.totalCantidadCajas}">
+                  <f:convertNumber pattern="$#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column styleClass="derecha">
+                <h:outputText value="#{ordenesDespachoMB.muestrasFITOANTICO}">
+                  <f:convertNumber pattern="$#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column styleClass="derecha">
+                <h:outputText value="#{ordenesDespachoMB.muestrasCalidades}">
+                  <f:convertNumber pattern="$#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
 
-						</p:summaryRow>
-					</p:dataTable>
-					<p:spacer height="10" />
-					<p:panelGrid columns="2">
-						<p:column styleClass="derecha">
-							<h:outputText value="#{msg.MenuReportes}" />
-						</p:column>
-						<p:column styleClass="derecha">
-							<p:commandButton value="#{msg.ReportePdf}" icon="ui-icon-script"
-								ajax="false" id="btnGenerarPdf">
-								<p:fileDownload value="#{ordenesDespachoMB.reportePDF}" />
-							</p:commandButton>
-							<p:commandButton value="#{msg.ReporteExcel}"
-								icon="ui-icon-script" ajax="false" id="btnGenerarExcel">
-								<p:fileDownload value="#{ordenesDespachoMB.reporteExcel}" />
-							</p:commandButton>
-						</p:column>
-					</p:panelGrid>
+            </p:summaryRow>
+          </p:dataTable>
+          <p:spacer height="10" />
+          <p:panelGrid columns="2">
+            <p:column styleClass="derecha">
+              <h:outputText value="#{msg.MenuReportes}" />
+            </p:column>
+            <p:column styleClass="derecha">
+              <p:commandButton value="#{msg.ReportePdf}" icon="ui-icon-script"
+                               ajax="false" id="btnGenerarPdf">
+                <p:fileDownload value="#{ordenesDespachoMB.reportePDF}" />
+              </p:commandButton>
+              <p:commandButton value="#{msg.ReporteExcel}"
+                               icon="ui-icon-script" ajax="false" id="btnGenerarExcel">
+                <p:fileDownload value="#{ordenesDespachoMB.reporteExcel}" />
+              </p:commandButton>
+            </p:column>
+          </p:panelGrid>
 
-				</p:outputPanel>
-			</h:form>
-		</p:dialog>
-	</ui:define>
+        </p:outputPanel>
+      </h:form>
+    </p:dialog>
+  </ui:define>
 </ui:composition>
 

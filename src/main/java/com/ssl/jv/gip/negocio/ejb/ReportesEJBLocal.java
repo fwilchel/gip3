@@ -13,24 +13,24 @@ import com.ssl.jv.gip.negocio.dto.CuentaContableDTO;
 @Local
 public interface ReportesEJBLocal {
 
-	public List<ComextFormatoNovedadesDTO> consultarComextFormatoNovedades();
+  public List<ComextFormatoNovedadesDTO> consultarComextFormatoNovedades();
 
-	public List<Documento> consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(
-			String consecutivo);
+  public List<Documento> consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(
+      String consecutivo);
 
-	public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
-			String consecutivoDocumento);
+  public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(
+      String consecutivoDocumento);
 
-	public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
-			Long idDocumento, Long idCliente);
+  public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
+      Long idDocumento, Long idCliente);
 
-	public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc,
-			String fechaIni, String fechaFin);
+  public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc,
+      String fechaIni, String fechaFin);
 
-	public List<CuentaContableDTO> consultarReporteFacturasFD(
-			String consecutivoDocumento, String fechaStringGeneracionInicial,
-			String fechaFinalTmp);
+  public List<CuentaContableDTO> consultarReporteFacturasFD(
+      String consecutivoDocumento, String fechaStringGeneracionInicial,
+      String fechaFinalTmp);
 
-	public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSKU(
-			String sku, boolean ultimoSaldo);
+  public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSKU(
+      String sku, boolean ultimoSaldo);
 }

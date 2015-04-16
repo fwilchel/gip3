@@ -12,101 +12,102 @@ import javax.persistence.OneToMany;
 
 /**
  * The persistent class for the estadosxdocumento database table.
- * 
+ *
  */
 @Entity
 @NamedQuery(name = "Estadosxdocumento.findAll", query = "SELECT e FROM Estadosxdocumento e")
 public class Estadosxdocumento implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private EstadosxdocumentoPK id;
+  private static final long serialVersionUID = 1L;
 
-	@ManyToOne
-	@JoinColumn(name = "id_estado", insertable = false, updatable = false)
-	private Estado estado;
+  @EmbeddedId
+  private EstadosxdocumentoPK id;
 
-	@ManyToOne
-	@JoinColumn(name = "id_tipo_documento", insertable = false, updatable = false)
-	private TipoDocumento tipoDocumento;
+  @ManyToOne
+  @JoinColumn(name = "id_estado", insertable = false, updatable = false)
+  private Estado estado;
 
-	// bi-directional many-to-one association to Documento
-	@OneToMany(mappedBy = "estadosxdocumento")
-	private List<Documento> documentos;
+  @ManyToOne
+  @JoinColumn(name = "id_tipo_documento", insertable = false, updatable = false)
+  private TipoDocumento tipoDocumento;
 
-	// bi-directional many-to-one association to Documento2
-	@OneToMany(mappedBy = "estadosxdocumento")
-	private List<Documento2> documentos2s;
+  // bi-directional many-to-one association to Documento
+  @OneToMany(mappedBy = "estadosxdocumento")
+  private List<Documento> documentos;
 
-	public Estadosxdocumento() {
-	}
+  // bi-directional many-to-one association to Documento2
+  @OneToMany(mappedBy = "estadosxdocumento")
+  private List<Documento2> documentos2s;
 
-	public EstadosxdocumentoPK getId() {
-		return this.id;
-	}
+  public Estadosxdocumento() {
+  }
 
-	public void setId(EstadosxdocumentoPK id) {
-		this.id = id;
-	}
+  public EstadosxdocumentoPK getId() {
+    return this.id;
+  }
 
-	public List<Documento> getDocumentos() {
-		return this.documentos;
-	}
+  public void setId(EstadosxdocumentoPK id) {
+    this.id = id;
+  }
 
-	public void setDocumentos(List<Documento> documentos) {
-		this.documentos = documentos;
-	}
+  public List<Documento> getDocumentos() {
+    return this.documentos;
+  }
 
-	public Documento addDocumento(Documento documento) {
-		getDocumentos().add(documento);
-		documento.setEstadosxdocumento(this);
+  public void setDocumentos(List<Documento> documentos) {
+    this.documentos = documentos;
+  }
 
-		return documento;
-	}
+  public Documento addDocumento(Documento documento) {
+    getDocumentos().add(documento);
+    documento.setEstadosxdocumento(this);
 
-	public Documento removeDocumento(Documento documento) {
-		getDocumentos().remove(documento);
-		documento.setEstadosxdocumento(null);
+    return documento;
+  }
 
-		return documento;
-	}
+  public Documento removeDocumento(Documento documento) {
+    getDocumentos().remove(documento);
+    documento.setEstadosxdocumento(null);
 
-	public List<Documento2> getDocumentos2s() {
-		return this.documentos2s;
-	}
+    return documento;
+  }
 
-	public void setDocumentos2s(List<Documento2> documentos2s) {
-		this.documentos2s = documentos2s;
-	}
+  public List<Documento2> getDocumentos2s() {
+    return this.documentos2s;
+  }
 
-	public Documento2 addDocumentos2(Documento2 documentos2) {
-		getDocumentos2s().add(documentos2);
-		documentos2.setEstadosxdocumento(this);
+  public void setDocumentos2s(List<Documento2> documentos2s) {
+    this.documentos2s = documentos2s;
+  }
 
-		return documentos2;
-	}
+  public Documento2 addDocumentos2(Documento2 documentos2) {
+    getDocumentos2s().add(documentos2);
+    documentos2.setEstadosxdocumento(this);
 
-	public Documento2 removeDocumentos2(Documento2 documentos2) {
-		getDocumentos2s().remove(documentos2);
-		documentos2.setEstadosxdocumento(null);
+    return documentos2;
+  }
 
-		return documentos2;
-	}
+  public Documento2 removeDocumentos2(Documento2 documentos2) {
+    getDocumentos2s().remove(documentos2);
+    documentos2.setEstadosxdocumento(null);
 
-	public Estado getEstado() {
-		return estado;
-	}
+    return documentos2;
+  }
 
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
+  public Estado getEstado() {
+    return estado;
+  }
 
-	public TipoDocumento getTipoDocumento() {
-		return tipoDocumento;
-	}
+  public void setEstado(Estado estado) {
+    this.estado = estado;
+  }
 
-	public void setTipoDocumento(TipoDocumento tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
-	}
+  public TipoDocumento getTipoDocumento() {
+    return tipoDocumento;
+  }
+
+  public void setTipoDocumento(TipoDocumento tipoDocumento) {
+    this.tipoDocumento = tipoDocumento;
+  }
 
 }

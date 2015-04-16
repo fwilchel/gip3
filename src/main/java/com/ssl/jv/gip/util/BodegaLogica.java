@@ -2,16 +2,16 @@ package com.ssl.jv.gip.util;
 
 public enum BodegaLogica {
 
-	DEFAULT(0L), DEVOLUCION(1L), DANANO(6L);
+  DEFAULT(0L), DEVOLUCION(1L), DANANO(6L);
 
-	private Long codigo;
+  private Long codigo;
 
-	private BodegaLogica(Long codigo) {
-		this.codigo = codigo;
-	}
+  private BodegaLogica(Long codigo) {
+    this.codigo = codigo;
+  }
 
-	public Long getCodigo() {
-		return codigo;
-	}
+  public Long getCodigo() {
+    return codigo;
+  }
 
 }

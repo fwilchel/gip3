@@ -52,242 +52,229 @@ import com.ssl.jv.gip.web.util.Utilidad;
 @SessionScoped
 public class ReporteContabilidadFacturasFxMB extends UtilMB {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6136563159395512436L;
+  /**
+   *
+   */
+  private static final long serialVersionUID = -6136563159395512436L;
 
-	private static final Logger LOGGER = Logger
-			.getLogger(ReporteContabilidadFacturasFxMB.class);
+  private static final Logger LOGGER = Logger
+      .getLogger(ReporteContabilidadFacturasFxMB.class);
 
+  private List<CuentaContableDTO> listaCuentasContables;
 
+  private String consecutivoDocumento;
+  private Date fechaInicial;
+  private Date fechaFinal;
+  private Boolean renderPanelPrincipal = true;
+  private Boolean renderGenerarArchivoFechas = true;
 
-	private List<CuentaContableDTO> listaCuentasContables;
+  @EJB
+  private ReportesEJBLocal reportesEJBLocal;
 
-	private String consecutivoDocumento;
-	private Date fechaInicial;
-	private Date fechaFinal;
-	private Boolean renderPanelPrincipal = true;
-	private Boolean renderGenerarArchivoFechas = true;
+  @PostConstruct
+  public void init() {
+  }
 
-	@EJB
-	private ReportesEJBLocal reportesEJBLocal;
+  public void irGenerarArchivoFechas() {
+    renderGenerarArchivoFechas = true;
+    renderPanelPrincipal = false;
+    consecutivoDocumento = "";
+    fechaInicial = null;
+    fechaFinal = null;
+  }
 
+  public void irGenerarArchivoConsecutivo() {
+    renderGenerarArchivoFechas = false;
+    renderPanelPrincipal = false;
+    consecutivoDocumento = "";
+    fechaInicial = null;
+    fechaFinal = null;
+  }
 
-	@PostConstruct
-	public void init() {
-	}
+  public void cancelar() {
+    renderPanelPrincipal = true;
+    renderGenerarArchivoFechas = true;
+    consecutivoDocumento = "";
+    fechaInicial = null;
+    fechaFinal = null;
+  }
 
-	public void irGenerarArchivoFechas(){
-		renderGenerarArchivoFechas=true;
-		renderPanelPrincipal=false;
-		consecutivoDocumento="";
-		fechaInicial=null;
-		fechaFinal=null;
-	}
+  public void generarReportePlanoCE() {
+    try {
+      // Definicion de variables para el response
+      HttpServletResponse response = null;
+      FacesContext context = null;
+      HttpServletRequest request = null;
 
-	public void irGenerarArchivoConsecutivo(){
-		renderGenerarArchivoFechas=false;
-		renderPanelPrincipal=false;
-		consecutivoDocumento="";
-		fechaInicial=null;
-		fechaFinal=null;
-	}
+      context = FacesContext.getCurrentInstance();
+      ExternalContext external = context.getExternalContext();
+      response = (HttpServletResponse) external.getResponse();
+      request = (HttpServletRequest) external.getRequest();
+      // fin definicion de variables para el response				
 
-	public void cancelar(){
-		renderPanelPrincipal=true;
-		renderGenerarArchivoFechas=true;
-		consecutivoDocumento="";
-		fechaInicial=null;
-		fechaFinal=null;
-	}
+      String DATE_FORMAT = "yyyy-MM-dd";
+      SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+      Calendar fech = Calendar.getInstance(); //Fecha y Tiempo actual
+      String datatime = sdf.format(fech.getTime());
 
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-	public void generarReportePlanoCE() {
-		try {
-			// Definicion de variables para el response
-			HttpServletResponse response = null;
-			FacesContext context = null;
-			HttpServletRequest request = null;
+      response = Utilidad.configureResponse2(response, "ContaFact" + "-" + datatime);
 
-			context = FacesContext.getCurrentInstance();
-			ExternalContext external = context.getExternalContext();
-			response = (HttpServletResponse) external.getResponse();
-			request = (HttpServletRequest) external.getRequest();
-			// fin definicion de variables para el response				
+      // step 8: escribimos el ByteArrayOutputStream en el ServletOutputStream
+      ServletOutputStream out = null;
+      FileWriter fWriter = null;
+      BufferedWriter writer = null;
 
-			String DATE_FORMAT = "yyyy-MM-dd";
-			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-			Calendar fech = Calendar.getInstance(); //Fecha y Tiempo actual
-			String datatime = sdf.format(fech.getTime());
+      SimpleDateFormat ft = new SimpleDateFormat(DATE_FORMAT);
+      String fechaStringGeneracionInicial = this.fechaInicial != null ? ft.format(this.fechaInicial) : "";
+      String fechaStringGeneracionFinal = this.fechaFinal != null ? ft.format(this.fechaFinal) : "";
 
+      String fechaFinalTmp = fechaStringGeneracionFinal;
+      fechaFinalTmp = this.fechaFinal != null ? (fechaFinalTmp + " 23:59:59") : "";
 
-			ByteArrayOutputStream baos =new ByteArrayOutputStream();
+      try {
 
-			response = Utilidad.configureResponse2(response, "ContaFact" + "-" + datatime);
-			
+        listaCuentasContables = reportesEJBLocal
+            .consultarReporteFacturasFX(consecutivoDocumento, fechaStringGeneracionInicial, fechaFinalTmp);
 
-			// step 8: escribimos el ByteArrayOutputStream en el ServletOutputStream
-			ServletOutputStream out = null;
-			FileWriter fWriter = null;
-			BufferedWriter writer = null;
+        writer = new BufferedWriter(new OutputStreamWriter(baos));
 
-			SimpleDateFormat ft = new SimpleDateFormat(DATE_FORMAT);
-			String fechaStringGeneracionInicial = this.fechaInicial!=null ? ft.format(this.fechaInicial):"";
-			String fechaStringGeneracionFinal = this.fechaFinal!=null ? ft.format(this.fechaFinal):"";
+        String conseFactTmp = "";
+        String strConsecutivo = "0";
+        String nomCliente;
+        int contaFact = 0;
+        int i = 0;
 
-			String fechaFinalTmp = fechaStringGeneracionFinal;
-			fechaFinalTmp = this.fechaFinal!=null ? (fechaFinalTmp + " 23:59:59"):"";
+        if (listaCuentasContables != null && !listaCuentasContables.isEmpty()) {
+          for (CuentaContableDTO cuentaxfactura : listaCuentasContables) {
 
-			try {
+            conseFactTmp = cuentaxfactura.getStrConsecutivoDoc();
 
-				listaCuentasContables = reportesEJBLocal
-						.consultarReporteFacturasFX(consecutivoDocumento, fechaStringGeneracionInicial, fechaFinalTmp);
+            if (i != 0) {
+              writer.newLine();
+            }
 
-				writer = new BufferedWriter(new OutputStreamWriter(baos));
+            String fecha = "";
+            String[] arrayFecha = cuentaxfactura.getStrFechaGeneracion().split("-");
 
-				String conseFactTmp="";
-				String strConsecutivo="0";
-				String nomCliente;
-				int contaFact = 0;
-				int i = 0;
+            for (int n = 0; n < arrayFecha.length; n++) {
+              fecha = fecha + arrayFecha[n];
+            }
 
-				if(listaCuentasContables!=null && !listaCuentasContables.isEmpty()){
-					for(CuentaContableDTO cuentaxfactura:listaCuentasContables){
+            if (!strConsecutivo.equals(cuentaxfactura.getStrConsecutivoDoc())) {
+              //Cabecera
+              writer.write("1," + fecha + "," + fecha + ",DR,PROC,USD," + cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomUbicacion());
+              strConsecutivo = cuentaxfactura.getStrConsecutivoDoc();
+              writer.newLine();
 
-						conseFactTmp = cuentaxfactura.getStrConsecutivoDoc();
+              //Subcabecera
+              contaFact = contaFact + 1;
 
-						if (i != 0){
-							writer.newLine();
-						}
+              if (cuentaxfactura.getBlnSolicitudCafe()) //Factura de Café
+              {
+                writer.write("2," + contaFact + ",01,1305100001," + cuentaxfactura.getStrCodigoSAP() + ",,,,,," + cuentaxfactura.getDblTotalFactura() + ",,,AC,C1," + cuentaxfactura.getDblTotalFactura() + ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + "VENTAS " + cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomCliente());
 
-						String fecha = "";
-						String[] arrayFecha = cuentaxfactura.getStrFechaGeneracion().split("-");
+              } else //Factura de Mercadeo
+              {
+                writer.write("2," + contaFact + ",01,1305100003," + cuentaxfactura.getStrCodigoSAP() + ",,,,,," + cuentaxfactura.getDblTotalFactura() + ",,,AC,C1," + cuentaxfactura.getDblTotalFactura() + ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + "VENTAS " + cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomCliente());
+              }
 
-						for (int n = 0; n < arrayFecha.length; n++) {
-							fecha = fecha + arrayFecha[n];
-						}
+              writer.newLine();
 
-						if (!strConsecutivo.equals(cuentaxfactura.getStrConsecutivoDoc()))
-						{
-							//Cabecera
-							writer.write("1," + fecha + "," + fecha + ",DR,PROC,USD,"+ cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomUbicacion());
-							strConsecutivo=cuentaxfactura.getStrConsecutivoDoc() ;
-							writer.newLine();
+            }
 
-							//Subcabecera
-							contaFact = contaFact + 1;
+            nomCliente = cuentaxfactura.getStrNomCliente();
+            writer.write("2," + contaFact + ",50," + cuentaxfactura.getLngId() + ",,,,,,," + cuentaxfactura.getDblTotal() + "," + cuentaxfactura.getStrIndicadorIVA() + ",X,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + cuentaxfactura.getLngObjetoCO() + ",,," + "VENTAS " + conseFactTmp + "," + nomCliente);
 
+            i++;
 
-							if (cuentaxfactura.getBlnSolicitudCafe()) //Factura de Café
-							{
-								writer.write("2," + contaFact + ",01,1305100001," + cuentaxfactura.getStrCodigoSAP() + ",,,,,," + cuentaxfactura.getDblTotalFactura()+",,,AC,C1,"+cuentaxfactura.getDblTotalFactura()+",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + "VENTAS " + cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomCliente());	    												
+          }
 
-							}
-							else //Factura de Mercadeo
-							{
-								writer.write("2," + contaFact + ",01,1305100003," + cuentaxfactura.getStrCodigoSAP() + ",,,,,," + cuentaxfactura.getDblTotalFactura()+",,,AC,C1,"+cuentaxfactura.getDblTotalFactura()+",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + "VENTAS " + cuentaxfactura.getStrConsecutivoDoc() + "," + cuentaxfactura.getStrNomCliente());	    												
-							}
+        }
 
-							writer.newLine();
+        writer.close();
+        byte[] buffer = baos.toByteArray();
+        response.setContentLength(baos.size());
 
-						}
+        out = response.getOutputStream();
+        out.write(buffer);
 
-						nomCliente = cuentaxfactura.getStrNomCliente();
-						writer.write("2," + contaFact + ",50," + cuentaxfactura.getLngId()+ ",,,,,,," + cuentaxfactura.getDblTotal() + "," + cuentaxfactura.getStrIndicadorIVA() + ",X,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + cuentaxfactura.getLngObjetoCO() + ",,," + "VENTAS " + conseFactTmp + "," + nomCliente);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
-						i++;
+      baos.flush();
+      out.flush();
+      out.close();
+      context.responseComplete();
 
-					}			 
+    } catch (Exception e) {
+      LOGGER.error(e);
+      Exception unrollException = (Exception) this.unrollException(e,
+          ConstraintViolationException.class);
+      if (unrollException != null) {
+        this.addMensajeError(unrollException.getLocalizedMessage());
+      } else {
+        unrollException = (Exception) this.unrollException(e,
+            RuntimeException.class);
+        if (unrollException != null) {
+          this.addMensajeError(unrollException.getLocalizedMessage());
+        } else {
+          this.addMensajeError(e);
+        }
+      }
+    }
 
-				}
+  }
 
-				writer.close();   
-				byte[] buffer = baos.toByteArray(); 	
-				response.setContentLength(baos.size());
+  public List<CuentaContableDTO> getListaCuentasContables() {
+    return listaCuentasContables;
+  }
 
-				out = response.getOutputStream();					
-				out.write(buffer);
+  public void setListaCuentasContables(
+      List<CuentaContableDTO> listaCuentasContables) {
+    this.listaCuentasContables = listaCuentasContables;
+  }
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+  public String getConsecutivoDocumento() {
+    return consecutivoDocumento;
+  }
 
-			baos.flush();
-			out.flush();
-			out.close();
-			context.responseComplete();		
+  public void setConsecutivoDocumento(String consecutivoDocumento) {
+    this.consecutivoDocumento = consecutivoDocumento;
+  }
 
-		} catch (Exception e) {
-			LOGGER.error(e);
-			Exception unrollException = (Exception) this.unrollException(e,
-					ConstraintViolationException.class);
-			if (unrollException != null) {
-				this.addMensajeError(unrollException.getLocalizedMessage());
-			} else {
-				unrollException = (Exception) this.unrollException(e,
-						RuntimeException.class);
-				if (unrollException != null) {
-					this.addMensajeError(unrollException.getLocalizedMessage());
-				} else {
-					this.addMensajeError(e);
-				}
-			}
-		}
+  public Date getFechaInicial() {
+    return fechaInicial;
+  }
 
-	}
+  public void setFechaInicial(Date fechaInicial) {
+    this.fechaInicial = fechaInicial;
+  }
 
-	public List<CuentaContableDTO> getListaCuentasContables() {
-		return listaCuentasContables;
-	}
+  public Date getFechaFinal() {
+    return fechaFinal;
+  }
 
-	public void setListaCuentasContables(
-			List<CuentaContableDTO> listaCuentasContables) {
-		this.listaCuentasContables = listaCuentasContables;
-	}
+  public void setFechaFinal(Date fechaFinal) {
+    this.fechaFinal = fechaFinal;
+  }
 
-	public String getConsecutivoDocumento() {
-		return consecutivoDocumento;
-	}
+  public Boolean getRenderGenerarArchivoFechas() {
+    return renderGenerarArchivoFechas;
+  }
 
-	public void setConsecutivoDocumento(String consecutivoDocumento) {
-		this.consecutivoDocumento = consecutivoDocumento;
-	}
+  public void setRenderGenerarArchivoFechas(Boolean renderGenerarArchivoFechas) {
+    this.renderGenerarArchivoFechas = renderGenerarArchivoFechas;
+  }
 
-	public Date getFechaInicial() {
-		return fechaInicial;
-	}
+  public Boolean getRenderPanelPrincipal() {
+    return renderPanelPrincipal;
+  }
 
-	public void setFechaInicial(Date fechaInicial) {
-		this.fechaInicial = fechaInicial;
-	}
-
-	public Date getFechaFinal() {
-		return fechaFinal;
-	}
-
-	public void setFechaFinal(Date fechaFinal) {
-		this.fechaFinal = fechaFinal;
-	}
-
-	public Boolean getRenderGenerarArchivoFechas() {
-		return renderGenerarArchivoFechas;
-	}
-
-	public void setRenderGenerarArchivoFechas(Boolean renderGenerarArchivoFechas) {
-		this.renderGenerarArchivoFechas = renderGenerarArchivoFechas;
-	}
-
-	public Boolean getRenderPanelPrincipal() {
-		return renderPanelPrincipal;
-	}
-
-	public void setRenderPanelPrincipal(Boolean renderPanelPrincipal) {
-		this.renderPanelPrincipal = renderPanelPrincipal;
-	}
-
-
-
-
+  public void setRenderPanelPrincipal(Boolean renderPanelPrincipal) {
+    this.renderPanelPrincipal = renderPanelPrincipal;
+  }
 
 }

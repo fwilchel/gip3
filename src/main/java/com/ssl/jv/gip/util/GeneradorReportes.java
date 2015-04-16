@@ -137,11 +137,11 @@ public class GeneradorReportes {
         exporter.exportReport();
       } else if (tipo.equals("jxl")) {
         net.sf.jasperreports.engine.export.JExcelApiExporter exporter
-                = new net.sf.jasperreports.engine.export.JExcelApiExporter();
+            = new net.sf.jasperreports.engine.export.JExcelApiExporter();
         exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
         exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
         net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration
-                = new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
+            = new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
         configuration.setOnePagePerSheet(true);
         exporter.setConfiguration(configuration);
         exporter.exportReport();
@@ -190,7 +190,7 @@ public class GeneradorReportes {
       } else if (tipo.equals("xhtml")) {
         response.setContentType("application/xhtml+xml");
         net.sf.jasperreports.engine.export.JRXhtmlExporter exporter
-                = new net.sf.jasperreports.engine.export.JRXhtmlExporter();
+            = new net.sf.jasperreports.engine.export.JRXhtmlExporter();
         exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
         exporter.setExporterOutput(new SimpleHtmlExporterOutput(os));
         exporter.exportReport();

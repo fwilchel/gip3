@@ -2,45 +2,41 @@ package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
 
-public class FiltroProductoDTO implements Serializable{
+public class FiltroProductoDTO implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4718485839592479544L;
-	
-	private String nombre;
-	
-	private String sku;
-	
-	private Long idCategoria;
+  /**
+   *
+   */
+  private static final long serialVersionUID = -4718485839592479544L;
 
-	public String getNombre() {
-		return nombre;
-	}
+  private String nombre;
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  private String sku;
 
-	public String getSku() {
-		return sku;
-	}
+  private Long idCategoria;
 
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
+  public String getNombre() {
+    return nombre;
+  }
 
-	public Long getIdCategoria() {
-		return idCategoria;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setIdCategoria(Long idCategoria) {
-		this.idCategoria = idCategoria;
-	}
-	
-	
-	
-	
+  public String getSku() {
+    return sku;
+  }
+
+  public void setSku(String sku) {
+    this.sku = sku;
+  }
+
+  public Long getIdCategoria() {
+    return idCategoria;
+  }
+
+  public void setIdCategoria(Long idCategoria) {
+    this.idCategoria = idCategoria;
+  }
 
 }

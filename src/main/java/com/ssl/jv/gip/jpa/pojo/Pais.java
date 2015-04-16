@@ -6,172 +6,172 @@ import javax.persistence.*;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the paises database table.
- * 
+ *
  */
 @Entity
-@Table(name="paises")
+@Table(name = "paises")
 @NamedQueries({
-	@NamedQuery(name="Pais.findAll", query="SELECT p FROM Pais p"),
-	@NamedQuery(name="Pais.findByRegional", query="SELECT distinct(p) FROM Pais p inner join p.regiones r")
+  @NamedQuery(name = "Pais.findAll", query = "SELECT p FROM Pais p"),
+  @NamedQuery(name = "Pais.findByRegional", query = "SELECT distinct(p) FROM Pais p inner join p.regiones r")
 })
 public class Pais implements Serializable, Comparable<Object> {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private String id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  private String id;
 
-	//bi-directional many-to-one association to Moneda
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_ml")
-	private Moneda moneda;
+  private String nombre;
 
-	//bi-directional many-to-one association to ProductosInventario
-	@OneToMany(mappedBy="pais", fetch=FetchType.LAZY)
-	private List<ProductosInventario> productosInventarios;
+  //bi-directional many-to-one association to Moneda
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "id_ml")
+  private Moneda moneda;
 
-	//bi-directional many-to-one association to Region
-	@OneToMany(mappedBy="pais", fetch=FetchType.LAZY)
-	private List<Region> regiones;
+  //bi-directional many-to-one association to ProductosInventario
+  @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
+  private List<ProductosInventario> productosInventarios;
 
-	//bi-directional many-to-one association to TipoConteo
-	@OneToMany(mappedBy="pais", fetch=FetchType.LAZY)
-	private List<TipoConteo> tipoConteos;
+  //bi-directional many-to-one association to Region
+  @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
+  private List<Region> regiones;
 
-	//bi-directional many-to-one association to Usuario
-	@OneToMany(mappedBy="pais", fetch=FetchType.LAZY)
-	private List<Usuario> usuarios;
+  //bi-directional many-to-one association to TipoConteo
+  @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
+  private List<TipoConteo> tipoConteos;
 
-	public Pais() {
-	}
+  //bi-directional many-to-one association to Usuario
+  @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
+  private List<Usuario> usuarios;
 
-	public Pais(String id) {
-	  this.id = id;
-	}
+  public Pais() {
+  }
 
-	public String getId() {
-		return this.id;
-	}
+  public Pais(String id) {
+    this.id = id;
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId() {
+    return this.id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public Moneda getMoneda() {
-		return this.moneda;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setMoneda(Moneda moneda) {
-		this.moneda = moneda;
-	}
+  public Moneda getMoneda() {
+    return this.moneda;
+  }
 
-	public List<ProductosInventario> getProductosInventarios() {
-		return this.productosInventarios;
-	}
+  public void setMoneda(Moneda moneda) {
+    this.moneda = moneda;
+  }
 
-	public void setProductosInventarios(List<ProductosInventario> productosInventarios) {
-		this.productosInventarios = productosInventarios;
-	}
+  public List<ProductosInventario> getProductosInventarios() {
+    return this.productosInventarios;
+  }
 
-	public ProductosInventario addProductosInventario(ProductosInventario productosInventario) {
-		getProductosInventarios().add(productosInventario);
-		productosInventario.setPais(this);
+  public void setProductosInventarios(List<ProductosInventario> productosInventarios) {
+    this.productosInventarios = productosInventarios;
+  }
 
-		return productosInventario;
-	}
+  public ProductosInventario addProductosInventario(ProductosInventario productosInventario) {
+    getProductosInventarios().add(productosInventario);
+    productosInventario.setPais(this);
 
-	public ProductosInventario removeProductosInventario(ProductosInventario productosInventario) {
-		getProductosInventarios().remove(productosInventario);
-		productosInventario.setPais(null);
+    return productosInventario;
+  }
 
-		return productosInventario;
-	}
+  public ProductosInventario removeProductosInventario(ProductosInventario productosInventario) {
+    getProductosInventarios().remove(productosInventario);
+    productosInventario.setPais(null);
 
-	public List<Region> getRegiones() {
-		return this.regiones;
-	}
+    return productosInventario;
+  }
 
-	public void setRegiones(List<Region> regiones) {
-		this.regiones = regiones;
-	}
+  public List<Region> getRegiones() {
+    return this.regiones;
+  }
 
-	public Region addRegione(Region regione) {
-		getRegiones().add(regione);
-		regione.setPais(this);
+  public void setRegiones(List<Region> regiones) {
+    this.regiones = regiones;
+  }
 
-		return regione;
-	}
+  public Region addRegione(Region regione) {
+    getRegiones().add(regione);
+    regione.setPais(this);
 
-	public Region removeRegione(Region regione) {
-		getRegiones().remove(regione);
-		regione.setPais(null);
+    return regione;
+  }
 
-		return regione;
-	}
+  public Region removeRegione(Region regione) {
+    getRegiones().remove(regione);
+    regione.setPais(null);
 
-	public List<TipoConteo> getTipoConteos() {
-		return this.tipoConteos;
-	}
+    return regione;
+  }
 
-	public void setTipoConteos(List<TipoConteo> tipoConteos) {
-		this.tipoConteos = tipoConteos;
-	}
+  public List<TipoConteo> getTipoConteos() {
+    return this.tipoConteos;
+  }
 
-	public TipoConteo addTipoConteo(TipoConteo tipoConteo) {
-		getTipoConteos().add(tipoConteo);
-		tipoConteo.setPais(this);
+  public void setTipoConteos(List<TipoConteo> tipoConteos) {
+    this.tipoConteos = tipoConteos;
+  }
 
-		return tipoConteo;
-	}
+  public TipoConteo addTipoConteo(TipoConteo tipoConteo) {
+    getTipoConteos().add(tipoConteo);
+    tipoConteo.setPais(this);
 
-	public TipoConteo removeTipoConteo(TipoConteo tipoConteo) {
-		getTipoConteos().remove(tipoConteo);
-		tipoConteo.setPais(null);
+    return tipoConteo;
+  }
 
-		return tipoConteo;
-	}
+  public TipoConteo removeTipoConteo(TipoConteo tipoConteo) {
+    getTipoConteos().remove(tipoConteo);
+    tipoConteo.setPais(null);
 
-	public List<Usuario> getUsuarios() {
-		return this.usuarios;
-	}
+    return tipoConteo;
+  }
 
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
+  public List<Usuario> getUsuarios() {
+    return this.usuarios;
+  }
 
-	public Usuario addUsuario(Usuario usuario) {
-		getUsuarios().add(usuario);
-		usuario.setPais(this);
+  public void setUsuarios(List<Usuario> usuarios) {
+    this.usuarios = usuarios;
+  }
 
-		return usuario;
-	}
+  public Usuario addUsuario(Usuario usuario) {
+    getUsuarios().add(usuario);
+    usuario.setPais(this);
 
-	public Usuario removeUsuario(Usuario usuario) {
-		getUsuarios().remove(usuario);
-		usuario.setPais(null);
+    return usuario;
+  }
 
-		return usuario;
-	}
+  public Usuario removeUsuario(Usuario usuario) {
+    getUsuarios().remove(usuario);
+    usuario.setPais(null);
 
-	@Override
-	public int compareTo(Object o) {
-		if (o instanceof Pais){
-			Pais p=(Pais)o;
-			return this.nombre.compareTo(p.getNombre());
-		}
-		return 0;
-	}
+    return usuario;
+  }
+
+  @Override
+  public int compareTo(Object o) {
+    if (o instanceof Pais) {
+      Pais p = (Pais) o;
+      return this.nombre.compareTo(p.getNombre());
+    }
+    return 0;
+  }
 
 }

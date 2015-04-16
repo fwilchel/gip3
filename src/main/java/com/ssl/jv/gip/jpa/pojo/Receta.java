@@ -4,88 +4,88 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the recetas database table.
- * 
+ *
  */
 @Entity
-@Table(name="recetas")
-@NamedQuery(name="Receta.findAll", query="SELECT r FROM Receta r")
+@Table(name = "recetas")
+@NamedQuery(name = "Receta.findAll", query = "SELECT r FROM Receta r")
 public class Receta implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private String nombre;
+  @Id
+  private Long id;
 
-	private String preparacion;
+  private String nombre;
 
-	//bi-directional many-to-one association to ProductosXReceta
-	@OneToMany(mappedBy="receta")
-	private List<ProductosXReceta> productosxrecetas;
+  private String preparacion;
 
-	//bi-directional many-to-one association to CategoriasReceta
-	@ManyToOne
-	@JoinColumn(name="id_categoria_receta")
-	private CategoriasReceta categoriasReceta;
+  //bi-directional many-to-one association to ProductosXReceta
+  @OneToMany(mappedBy = "receta")
+  private List<ProductosXReceta> productosxrecetas;
 
-	public Receta() {
-	}
+  //bi-directional many-to-one association to CategoriasReceta
+  @ManyToOne
+  @JoinColumn(name = "id_categoria_receta")
+  private CategoriasReceta categoriasReceta;
 
-	public Long getId() {
-		return this.id;
-	}
+  public Receta() {
+  }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public String getPreparacion() {
-		return this.preparacion;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setPreparacion(String preparacion) {
-		this.preparacion = preparacion;
-	}
+  public String getPreparacion() {
+    return this.preparacion;
+  }
 
-	public List<ProductosXReceta> getProductosxrecetas() {
-		return this.productosxrecetas;
-	}
+  public void setPreparacion(String preparacion) {
+    this.preparacion = preparacion;
+  }
 
-	public void setProductosxrecetas(List<ProductosXReceta> productosxrecetas) {
-		this.productosxrecetas = productosxrecetas;
-	}
+  public List<ProductosXReceta> getProductosxrecetas() {
+    return this.productosxrecetas;
+  }
 
-	public ProductosXReceta addProductosxreceta(ProductosXReceta productosxreceta) {
-		getProductosxrecetas().add(productosxreceta);
-		productosxreceta.setReceta(this);
+  public void setProductosxrecetas(List<ProductosXReceta> productosxrecetas) {
+    this.productosxrecetas = productosxrecetas;
+  }
 
-		return productosxreceta;
-	}
+  public ProductosXReceta addProductosxreceta(ProductosXReceta productosxreceta) {
+    getProductosxrecetas().add(productosxreceta);
+    productosxreceta.setReceta(this);
 
-	public ProductosXReceta removeProductosxreceta(ProductosXReceta productosxreceta) {
-		getProductosxrecetas().remove(productosxreceta);
-		productosxreceta.setReceta(null);
+    return productosxreceta;
+  }
 
-		return productosxreceta;
-	}
+  public ProductosXReceta removeProductosxreceta(ProductosXReceta productosxreceta) {
+    getProductosxrecetas().remove(productosxreceta);
+    productosxreceta.setReceta(null);
 
-	public CategoriasReceta getCategoriasReceta() {
-		return this.categoriasReceta;
-	}
+    return productosxreceta;
+  }
 
-	public void setCategoriasReceta(CategoriasReceta categoriasReceta) {
-		this.categoriasReceta = categoriasReceta;
-	}
+  public CategoriasReceta getCategoriasReceta() {
+    return this.categoriasReceta;
+  }
+
+  public void setCategoriasReceta(CategoriasReceta categoriasReceta) {
+    this.categoriasReceta = categoriasReceta;
+  }
 
 }

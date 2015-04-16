@@ -34,7 +34,6 @@ import org.apache.commons.io.IOUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-
 /**
  * <p>
  * Title: GIP
@@ -186,7 +185,7 @@ public class Utilidad {
    * metodo que configura el tipo de respuesta del servlet cuando se genera el
    * pdf
    */
-  public static HttpServletResponse configureResponse(      HttpServletResponse response, String fileName) {
+  public static HttpServletResponse configureResponse(HttpServletResponse response, String fileName) {
 
     response.setHeader("Expires", "0");
     response.setHeader("Cache-Control",
@@ -201,7 +200,7 @@ public class Utilidad {
     return response;
   }
 
-  public static HttpServletResponse configureResponse2(      HttpServletResponse response, String fileName) {
+  public static HttpServletResponse configureResponse2(HttpServletResponse response, String fileName) {
 
     response.setHeader("Expires", "0");
     response.setHeader("Cache-Control",
@@ -219,7 +218,7 @@ public class Utilidad {
    * metodo que configura el tipo de respuesta del servlet cuando se genera el
    * pdf
    */
-  public static HttpServletResponse configureResponse3(      HttpServletResponse response, String fileName) {
+  public static HttpServletResponse configureResponse3(HttpServletResponse response, String fileName) {
 
     response.setHeader("Expires", "0");
     response.setHeader("Cache-Control",

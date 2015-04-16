@@ -25,11 +25,11 @@ public class TipoDocumento implements Serializable {
   //bi-directional many-to-many association to Estado
   @ManyToMany
   @JoinTable(
-          name = "estadosxdocumento", joinColumns = {
-            @JoinColumn(name = "id_tipo_documento")
-          }, inverseJoinColumns = {
-            @JoinColumn(name = "id_estado")
-          }
+      name = "estadosxdocumento", joinColumns = {
+        @JoinColumn(name = "id_tipo_documento")
+      }, inverseJoinColumns = {
+        @JoinColumn(name = "id_estado")
+      }
   )
   private List<Estado> estados;
 

@@ -6,139 +6,139 @@ import javax.persistence.*;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the ciudades database table.
- * 
+ *
  */
 @Entity
-@Table(name="ciudades")
+@Table(name = "ciudades")
 @NamedQueries({
-@NamedQuery(name="Ciudad.findAll", query="SELECT c FROM Ciudad c"),
-@NamedQuery(name="Ciudad.findByPais", query="SELECT c FROM Ciudad c where c.idPais = :idPais")
+  @NamedQuery(name = "Ciudad.findAll", query = "SELECT c FROM Ciudad c"),
+  @NamedQuery(name = "Ciudad.findByPais", query = "SELECT c FROM Ciudad c where c.idPais = :idPais")
 })
 public class Ciudad implements Serializable, Comparable<Ciudad> {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	@Column(name="id_departamento")
-	private Long idDepartamento;
+  @Id
+  private Long id;
 
-	@Column(name="id_pais")
-	private String idPais;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_pais", insertable=false, updatable=false)
-	private Pais pais;
+  @Column(name = "id_departamento")
+  private Long idDepartamento;
 
-	private String nombre;
+  @Column(name = "id_pais")
+  private String idPais;
 
-	//bi-directional many-to-one association to PuntoVenta
-	@OneToMany(mappedBy="ciudade")
-	private List<PuntoVenta> puntoVentas;
+  @ManyToOne
+  @JoinColumn(name = "id_pais", insertable = false, updatable = false)
+  private Pais pais;
 
-	//bi-directional many-to-one association to TerminosTransporte
-	@OneToMany(mappedBy="ciudade")
-	private List<TerminosTransporte> terminosTransportes;
+  private String nombre;
 
-	public Ciudad() {
-	}
+  //bi-directional many-to-one association to PuntoVenta
+  @OneToMany(mappedBy = "ciudade")
+  private List<PuntoVenta> puntoVentas;
 
-	public Long getId() {
-		return this.id;
-	}
+  //bi-directional many-to-one association to TerminosTransporte
+  @OneToMany(mappedBy = "ciudade")
+  private List<TerminosTransporte> terminosTransportes;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Ciudad() {
+  }
 
-	public Long getIdDepartamento() {
-		return this.idDepartamento;
-	}
+  public Long getId() {
+    return this.id;
+  }
 
-	public void setIdDepartamento(Long idDepartamento) {
-		this.idDepartamento = idDepartamento;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public String getIdPais() {
-		return this.idPais;
-	}
+  public Long getIdDepartamento() {
+    return this.idDepartamento;
+  }
 
-	public void setIdPais(String idPais) {
-		this.idPais = idPais;
-	}
+  public void setIdDepartamento(Long idDepartamento) {
+    this.idDepartamento = idDepartamento;
+  }
 
-	public String getNombre() {
-		return this.nombre;
-	}
+  public String getIdPais() {
+    return this.idPais;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public void setIdPais(String idPais) {
+    this.idPais = idPais;
+  }
 
-	public List<PuntoVenta> getPuntoVentas() {
-		return this.puntoVentas;
-	}
+  public String getNombre() {
+    return this.nombre;
+  }
 
-	public void setPuntoVentas(List<PuntoVenta> puntoVentas) {
-		this.puntoVentas = puntoVentas;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public PuntoVenta addPuntoVenta(PuntoVenta puntoVenta) {
-		getPuntoVentas().add(puntoVenta);
-		puntoVenta.setCiudade(this);
+  public List<PuntoVenta> getPuntoVentas() {
+    return this.puntoVentas;
+  }
 
-		return puntoVenta;
-	}
+  public void setPuntoVentas(List<PuntoVenta> puntoVentas) {
+    this.puntoVentas = puntoVentas;
+  }
 
-	public PuntoVenta removePuntoVenta(PuntoVenta puntoVenta) {
-		getPuntoVentas().remove(puntoVenta);
-		puntoVenta.setCiudade(null);
+  public PuntoVenta addPuntoVenta(PuntoVenta puntoVenta) {
+    getPuntoVentas().add(puntoVenta);
+    puntoVenta.setCiudade(this);
 
-		return puntoVenta;
-	}
+    return puntoVenta;
+  }
 
-	public List<TerminosTransporte> getTerminosTransportes() {
-		return this.terminosTransportes;
-	}
+  public PuntoVenta removePuntoVenta(PuntoVenta puntoVenta) {
+    getPuntoVentas().remove(puntoVenta);
+    puntoVenta.setCiudade(null);
 
-	public void setTerminosTransportes(List<TerminosTransporte> terminosTransportes) {
-		this.terminosTransportes = terminosTransportes;
-	}
+    return puntoVenta;
+  }
 
-	public TerminosTransporte addTerminosTransporte(TerminosTransporte terminosTransporte) {
-		getTerminosTransportes().add(terminosTransporte);
-		terminosTransporte.setCiudade(this);
+  public List<TerminosTransporte> getTerminosTransportes() {
+    return this.terminosTransportes;
+  }
 
-		return terminosTransporte;
-	}
+  public void setTerminosTransportes(List<TerminosTransporte> terminosTransportes) {
+    this.terminosTransportes = terminosTransportes;
+  }
 
-	public TerminosTransporte removeTerminosTransporte(TerminosTransporte terminosTransporte) {
-		getTerminosTransportes().remove(terminosTransporte);
-		terminosTransporte.setCiudade(null);
+  public TerminosTransporte addTerminosTransporte(TerminosTransporte terminosTransporte) {
+    getTerminosTransportes().add(terminosTransporte);
+    terminosTransporte.setCiudade(this);
 
-		return terminosTransporte;
-	}
+    return terminosTransporte;
+  }
 
-	public Pais getPais() {
-		return pais;
-	}
+  public TerminosTransporte removeTerminosTransporte(TerminosTransporte terminosTransporte) {
+    getTerminosTransportes().remove(terminosTransporte);
+    terminosTransporte.setCiudade(null);
 
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
+    return terminosTransporte;
+  }
 
-	/**
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
-	 * @email seba.gamba02@gmail.com
-	 * @phone 311 8376670
-	 */
-	@Override
-	public int compareTo(Ciudad o) {
-		return nombre.compareTo(o.nombre);
-	}
+  public Pais getPais() {
+    return pais;
+  }
+
+  public void setPais(Pais pais) {
+    this.pais = pais;
+  }
+
+  /**
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   * @author Sebastian Gamba Pinilla - Soft Studio Ltda.
+   * @email seba.gamba02@gmail.com
+   * @phone 311 8376670
+   */
+  @Override
+  public int compareTo(Ciudad o) {
+    return nombre.compareTo(o.nombre);
+  }
 
 }

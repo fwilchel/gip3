@@ -30,75 +30,75 @@ public class ProductoODDTO implements Serializable {
   private String descripcion;
 
   public BigInteger getId() {
-	return id;
+    return id;
   }
 
   public void setId(BigInteger id) {
-	this.id = id;
+    this.id = id;
   }
 
   public String getSku() {
-	return sku;
+    return sku;
   }
 
   public void setSku(String sku) {
-	this.sku = sku;
+    this.sku = sku;
   }
 
   public String getNombre() {
-	return nombre;
+    return nombre;
   }
 
   public void setNombre(String nombre) {
-	this.nombre = nombre;
+    this.nombre = nombre;
   }
 
   public BigDecimal getCantidad() {
-	return cantidad;
+    return cantidad;
   }
 
   public void setCantidad(BigDecimal cantidad) {
-	this.cantidad = cantidad;
+    this.cantidad = cantidad;
   }
 
   public BigDecimal getCantidadCajas() {
-	return cantidadCajas;
+    return cantidadCajas;
   }
 
   public void setCantidadCajas(BigDecimal cantidadCajas) {
-	this.cantidadCajas = cantidadCajas;
+    this.cantidadCajas = cantidadCajas;
   }
 
   public BigDecimal getCantidadPorEmbalaje() {
-	return cantidadPorEmbalaje;
+    return cantidadPorEmbalaje;
   }
 
   public void setCantidadPorEmbalaje(BigDecimal cantidadPorEmbalaje) {
-	this.cantidadPorEmbalaje = cantidadPorEmbalaje;
+    this.cantidadPorEmbalaje = cantidadPorEmbalaje;
   }
 
   public BigDecimal getMuestrasFITOYANTICO() {
-	return muestrasFITOYANTICO;
+    return muestrasFITOYANTICO;
   }
 
   public void setMuestrasFITOYANTICO(BigDecimal muestrasFITOYANTICO) {
-	this.muestrasFITOYANTICO = muestrasFITOYANTICO;
+    this.muestrasFITOYANTICO = muestrasFITOYANTICO;
   }
 
   public BigDecimal getMuestrasCalidades() {
-	return muestrasCalidades;
+    return muestrasCalidades;
   }
 
   public void setMuestrasCalidades(BigDecimal muestrasCalidades) {
-	this.muestrasCalidades = muestrasCalidades;
+    this.muestrasCalidades = muestrasCalidades;
   }
 
   public BigInteger getIdCliente() {
-	return idCliente;
+    return idCliente;
   }
 
   public void setIdCliente(BigInteger idCliente) {
-	this.idCliente = idCliente;
+    this.idCliente = idCliente;
   }
 
   /**

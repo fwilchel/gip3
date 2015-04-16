@@ -7,8 +7,8 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Region;
 
 @Local
-public interface RegionDAOLocal extends IGenericDAO<Region>{
+public interface RegionDAOLocal extends IGenericDAO<Region> {
 
-	public List<Region> findByRegional(String pais);
-	
+  public List<Region> findByRegional(String pais);
+
 }

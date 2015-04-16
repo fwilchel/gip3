@@ -3,89 +3,89 @@ package com.ssl.jv.gip.jpa.pojo;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the pga_queries database table.
- * 
+ *
  */
 @Entity
-@Table(name="pga_queries")
-@NamedQuery(name="PgaQuery.findAll", query="SELECT p FROM PgaQuery p")
+@Table(name = "pga_queries")
+@NamedQuery(name = "PgaQuery.findAll", query = "SELECT p FROM PgaQuery p")
 public class PgaQuery implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private String queryname;
+  private static final long serialVersionUID = 1L;
 
-	private String querycommand;
+  @Id
+  private String queryname;
 
-	private String querycomments;
+  private String querycommand;
 
-	private String querylinks;
+  private String querycomments;
 
-	private String queryresults;
+  private String querylinks;
 
-	private String querytables;
+  private String queryresults;
 
-	private String querytype;
+  private String querytables;
 
-	public PgaQuery() {
-	}
+  private String querytype;
 
-	public String getQueryname() {
-		return this.queryname;
-	}
+  public PgaQuery() {
+  }
 
-	public void setQueryname(String queryname) {
-		this.queryname = queryname;
-	}
+  public String getQueryname() {
+    return this.queryname;
+  }
 
-	public String getQuerycommand() {
-		return this.querycommand;
-	}
+  public void setQueryname(String queryname) {
+    this.queryname = queryname;
+  }
 
-	public void setQuerycommand(String querycommand) {
-		this.querycommand = querycommand;
-	}
+  public String getQuerycommand() {
+    return this.querycommand;
+  }
 
-	public String getQuerycomments() {
-		return this.querycomments;
-	}
+  public void setQuerycommand(String querycommand) {
+    this.querycommand = querycommand;
+  }
 
-	public void setQuerycomments(String querycomments) {
-		this.querycomments = querycomments;
-	}
+  public String getQuerycomments() {
+    return this.querycomments;
+  }
 
-	public String getQuerylinks() {
-		return this.querylinks;
-	}
+  public void setQuerycomments(String querycomments) {
+    this.querycomments = querycomments;
+  }
 
-	public void setQuerylinks(String querylinks) {
-		this.querylinks = querylinks;
-	}
+  public String getQuerylinks() {
+    return this.querylinks;
+  }
 
-	public String getQueryresults() {
-		return this.queryresults;
-	}
+  public void setQuerylinks(String querylinks) {
+    this.querylinks = querylinks;
+  }
 
-	public void setQueryresults(String queryresults) {
-		this.queryresults = queryresults;
-	}
+  public String getQueryresults() {
+    return this.queryresults;
+  }
 
-	public String getQuerytables() {
-		return this.querytables;
-	}
+  public void setQueryresults(String queryresults) {
+    this.queryresults = queryresults;
+  }
 
-	public void setQuerytables(String querytables) {
-		this.querytables = querytables;
-	}
+  public String getQuerytables() {
+    return this.querytables;
+  }
 
-	public String getQuerytype() {
-		return this.querytype;
-	}
+  public void setQuerytables(String querytables) {
+    this.querytables = querytables;
+  }
 
-	public void setQuerytype(String querytype) {
-		this.querytype = querytype;
-	}
+  public String getQuerytype() {
+    return this.querytype;
+  }
+
+  public void setQuerytype(String querytype) {
+    this.querytype = querytype;
+  }
 
 }
