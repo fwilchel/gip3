@@ -2,6 +2,8 @@ package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -21,14 +23,12 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.CuentaContableComprobanteInformeDiarioDTO;
+import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-import java.math.BigDecimal;
-
-import java.text.SimpleDateFormat;
 
 @ViewScoped
 @ManagedBean(name = "comprobanteInformeDiarioFXMB")
@@ -55,59 +55,83 @@ public class ComprobanteInformeDiarioFXMB extends UtilMB {
       getFiltro().setTipoDocumento((long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
       getFiltro().setOrdenCampo("fechaGeneracion");
       List<Documento> listaFacturasExportacion = this.reportesComercioExteriorEJBLocal.consultarFacturasExportacionFechaTipo(getFiltro());
+      for (Documento d : listaFacturasExportacion) {
+        if (d.getEstadosxdocumento().getId().getIdEstado() == 11) {
+          d.getCliente().setNombre("ANULADA");
+        }
+        if (d.getEstadosxdocumento().getId().getIdEstado() == 11 || d.getSubtotal() == null) {
+          d.setSubtotal(new BigDecimal(0));
+        }
+        if (d.getEstadosxdocumento().getId().getIdEstado() == 11 || d.getDescuento() == null) {
+          d.setDescuento(new BigDecimal(0));
+        }
+        if (d.getEstadosxdocumento().getId().getIdEstado() == 11 || d.getValorTotal() == null) {
+          d.setValorTotal(new BigDecimal(0));
+        }
+        if (d.getEstadosxdocumento().getId().getIdEstado() == 11 || d.getSubtotal() == null) {
+          d.setSubtotal(new BigDecimal(0));
+        }
+        if (d.getEstadosxdocumento().getId().getIdEstado() == 11 || d.getValorIva5() == null) {
+          d.setValorIva5(new BigDecimal(0));
+        }
+        if (d.getEstadosxdocumento().getId().getIdEstado() == 11 || d.getValorIva10() == null) {
+          d.setValorIva10(new BigDecimal(0));
+        }
+        if (d.getEstadosxdocumento().getId().getIdEstado() == 11 || d.getValorIva16() == null) {
+          d.setValorIva16(new BigDecimal(0));
+        }
+      }
       // consulta de cuentas contables
       Map<String, Object> parametrosConsulta = new HashMap<>();
-	  // sdf = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-      // parametrosConsulta.put("fechaInicial",
-      // sdf.format(getFiltro().getFechaGeneracionInicio()));
-      // sdf = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
-      // parametrosConsulta.put("fechaFinal",
-      // sdf.format(getFiltro().getFechaGeneracionFin()));
-      // parametrosConsulta.put("tipoDocumento", (long)
-      // ConstantesTipoDocumento.FACTURA_EXPORTACION);
-      // parametrosConsulta.put("estadoGenerado",(long)
-      // ConstantesDocumento.GENERADO);
-      // parametrosConsulta.put("estadoImpreso", (long)
-      // ConstantesDocumento.IMPRESO);
-      List<CuentaContableComprobanteInformeDiarioDTO> listaCuentaContable = reportesComercioExteriorEJBLocal.consultarCuentaContableComprobanteInformeDiarioFX(parametrosReporte);
+      parametrosConsulta.put("fechaInicial", (getFiltro().getFechaGeneracionInicio()));
+      parametrosConsulta.put("fechaFinal", (getFiltro().getFechaGeneracionFin()));
+      parametrosConsulta.put("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
+      parametrosConsulta.put("estadoGenerado", (long) ConstantesDocumento.GENERADO);
+      parametrosConsulta.put("estadoImpreso", (long) ConstantesDocumento.IMPRESO);
+      List<CuentaContableComprobanteInformeDiarioDTO> listaCuentaContable = reportesComercioExteriorEJBLocal.consultarCuentaContableComprobanteInformeDiarioFX(parametrosConsulta);
       Long idDoc = 0L;
       BigDecimal totalCuentaPrd;
       Long idCuenta = 0L;
       Long idCuenta1 = 0L;
       Long idCuenta2 = 0L;
       BigDecimal totalFinal;
-      for (int i = 0; i < listaCuentaContable.size(); i++) {
-        if ((idDoc != ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i)).getIdCuentaContable()) && (i > 0)) {
-          totalCuentaPrd = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i - 1)).getValorTotalConCostos();
-          ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i - 1)).setValorTotal(totalCuentaPrd);
-        }
-        if (i == listaCuentaContable.size() - 1) {
-          totalCuentaPrd = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i)).getValorTotalConCostos();
-          ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i)).setValorTotal(totalCuentaPrd);
-        }
-        idDoc = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i)).getIdCuentaContable();
-      }
+      // la primera vez no hace nada, luego pasa los valores del total con costos al total, para mi, no hace nada.
+//      for (int i = 0; i < listaCuentaContable.size(); i++) {
+//        if ((idDoc != listaCuentaContable.get(i).getIdCuentaContable()) && (i > 0)) {
+//          totalCuentaPrd = listaCuentaContable.get(i - 1).getValorTotalConCostos();
+//          listaCuentaContable.get(i - 1).setValorTotal(totalCuentaPrd);
+//        }
+//        if (i == listaCuentaContable.size() - 1) {
+//          totalCuentaPrd = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(i)).getValorTotalConCostos();
+//          listaCuentaContable.get(i).setValorTotal(totalCuentaPrd);
+//        }
+//        idDoc = listaCuentaContable.get(i).getIdDocumento();
+//      }
+      // crea una lista de las cuentas sin repetir
       List<CuentaContableComprobanteInformeDiarioDTO> listaCuentas = new ArrayList<>();
       for (int n = 0; n < listaCuentaContable.size(); n++) {
-        if (!idCuenta.equals(((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(n)).getId())) {
+        if (!idCuenta.equals(listaCuentaContable.get(n).getIdCuentaContable())) {
           CuentaContableComprobanteInformeDiarioDTO cc = new CuentaContableComprobanteInformeDiarioDTO();
-          cc.setId(((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(n)).getId());
-          cc.setDescripcionCuentaContable(((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(n)).getDescripcionCuentaContable());
+          cc.setIdCuentaContable(listaCuentaContable.get(n).getIdCuentaContable());
+          cc.setDescripcionCuentaContable(listaCuentaContable.get(n).getDescripcionCuentaContable());
           cc.setValorTotal(new BigDecimal(0.0));
           listaCuentas.add(cc);
         }
-        idCuenta = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(n)).getId();
+        idCuenta = listaCuentaContable.get(n).getIdCuentaContable();
       }
+      // calcula los valores totales para cada cuenta
       for (int x = 0; x < listaCuentas.size(); x++) {
-        idCuenta1 = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentas.get(x)).getId();
+        idCuenta1 = listaCuentas.get(x).getIdCuentaContable();
         totalFinal = new BigDecimal(0);
         for (int z = 0; z < listaCuentaContable.size(); z++) {
-          idCuenta2 = ((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(z)).getId();
+          idCuenta2 = listaCuentaContable.get(z).getIdCuentaContable();
           if (idCuenta1.equals(idCuenta2)) {
-            totalFinal = totalFinal.add(((CuentaContableComprobanteInformeDiarioDTO) listaCuentaContable.get(z)).getValorTotal());
+            // totalFinal =
+            // totalFinal.add(listaCuentaContable.get(z).getValorTotal());
+            totalFinal = totalFinal.add(listaCuentaContable.get(z).getValorTotalConCostos());
           }
         }
-        ((CuentaContableComprobanteInformeDiarioDTO) listaCuentas.get(x)).setValorTotal(totalFinal);
+        listaCuentas.get(x).setValorTotal(totalFinal);
       }
       String consecIni = "";
       String consecFin = "";
@@ -135,15 +159,9 @@ public class ComprobanteInformeDiarioFXMB extends UtilMB {
         resSuma1 = resSuma1.add(cuenta.getValorTotal());
       }
       for (Documento doc : listaFacturasExportacion) {
-        if (doc.getDescuento() != null) {
-          resSuma2 = resSuma2.add(doc.getDescuento());
-        }
-        if (doc.getValorIva16() != null) {
-          resSuma3 = resSuma3.add(doc.getValorIva16());
-        }
-        if (doc.getValorIva10() != null) {
-          resSuma4 = resSuma4.add(doc.getValorIva10());
-        }
+        resSuma2 = resSuma2.add(doc.getDescuento());
+        resSuma3 = resSuma3.add(doc.getValorIva16());
+        resSuma4 = resSuma4.add(doc.getValorIva10());
       }
       resSuma5 = resSuma1.subtract(resSuma2);
       resSuma6 = resSuma3.add(resSuma4);
