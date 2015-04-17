@@ -148,7 +148,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     parametros.put("fechaDespacho", fechaStringDespacho);
     parametros.put("totalPesoNeto", this.totalPesoNeto.doubleValue());
     parametros.put("totalPesoBruto", this.totalPesoBruto.doubleValue());
-    parametros.put("totalCajas", this.totalValorTotal.doubleValue());
+    parametros.put("totalCajas", this.totalCantidadCajas.doubleValue());
     parametros.put("totalPallets", this.totalPallets.doubleValue());
     parametros.put("costoEntrega", this.totalCostoEntrega.doubleValue());
     parametros.put("costoSeguro", this.totalCostoSeguro.doubleValue());
@@ -158,7 +158,6 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     parametros.put("incoterm", strNombreIncoterm);
     parametros.put("lugarIncoterm", "(" + strLugarIncoterm + ")");
     parametros.put("valorLetras", valorLetrasIngles);
-    parametros.put("solicitud", this.seleccionado.getConsecutivoDocumento());
     parametros.put("qEstibas", cantidadEstibas.doubleValue());
     parametros.put("PesoBrutoEstibas", pesoBrutoEstibas.doubleValue());
     parametros.put("descripcion_envio", strObservacionMarcacion2);
@@ -219,6 +218,9 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
       registro.setValorUnitarioUSD(prod.getValorUnitarioUsd().doubleValue());
       registro.setTotalCajasPallet(prod.getCantidadPalletsItem().doubleValue());
       reporteDTOS.add(registro);
+    }
+    if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()){
+      parametros.put("solicitud", this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento()));
     }
     JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reporteDTOS);
     try {

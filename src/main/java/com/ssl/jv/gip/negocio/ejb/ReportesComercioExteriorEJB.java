@@ -253,9 +253,25 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   @Override
   public Documento consultarFacturaFXReimprimir(Long id) {
     LOGGER.debug("Metodo: <<consultarFacturaFXReimprimir>>");
-    Map<String, Object> parametros = new HashMap<>();
-    parametros.put("id", id);
-    return documentoDAO.buscarRegistroPorConsultaNombrada(Documento.FIND_DOCUMENTO_FX_REIMPRIMIR_BY_ID, parametros);
+    if (id == null) {
+      throw new IllegalArgumentException("El parametro <<observacionDocumento>> es requerido");
+    } else {
+      Map<String, Object> parametros = new HashMap<>();
+      parametros.put("id", id);
+      return documentoDAO.buscarRegistroPorConsultaNombrada(Documento.FIND_DOCUMENTO_FX_REIMPRIMIR_BY_ID, parametros);
+    }
+  }
+
+  @Override
+  public String consultarConsecutivoOrdenFacturaFX(Long id) {
+    LOGGER.debug("Metodo: <<consultarConsecutivoOrdenFacturaFX>>");
+    if (id == null) {
+      throw new IllegalArgumentException("El parametro <<observacionDocumento>> es requerido");
+    } else {
+      Map<String, Object> parametros = new HashMap<>();
+      parametros.put("id", id);
+      return documentoDAO.buscarRegistroPorConsultaNativa(Documento.BUSCAR_CONSECUTIVO_ORDEN_FACTURA_FX, parametros);
+    }
   }
 
 }

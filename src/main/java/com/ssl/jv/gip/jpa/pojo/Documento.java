@@ -75,6 +75,7 @@ public class Documento implements Serializable {
   public static final String ACTUALIZAR_ESTADO_Y_OBSERVACION = "UPDATE documentos SET id_estado = :estado, observacion_documento = :observacionDocumento WHERE id = :id";
   public static final String FIND_DOCUMENTOS_FX_REIMPRIMIR = "Documento.findDocumentosFXImprimir";
   public static final String FIND_DOCUMENTO_FX_REIMPRIMIR_BY_ID = "Documento.findDocumentosFXImprimirById";
+  public static final String BUSCAR_CONSECUTIVO_ORDEN_FACTURA_FX = "select observacion_documento from documentos where consecutivo_documento = (select observacion_documento from documentos where id = :id)";
 
   @Id
   @SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)

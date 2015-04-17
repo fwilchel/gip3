@@ -148,4 +148,16 @@ public interface ReportesComercioExteriorEJBLocal {
    * @return
    */
   Documento consultarFacturaFXReimprimir(Long id);
+
+  /**
+   * Metodo que consulta el consecutivo de la orden relacionada a la factura FX
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param id id de la factura FX
+   * @return consecutivo de la orden relacionada a la factura fx
+   */
+  String consultarConsecutivoOrdenFacturaFX(Long id);
+
 }
