@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import java.util.List;
 
@@ -78,4 +79,14 @@ public interface ComunEJBLocal {
    */
   List<Documento> consultarDocumentos(FiltroDocumentoDTO filtro);
 
+  /**
+   * Metodo que consulta un cliente por su id.
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param id
+   * @return 
+   */
+  Cliente consultarCliente(Long id);
 }

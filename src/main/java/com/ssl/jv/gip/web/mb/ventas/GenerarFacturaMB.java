@@ -14,12 +14,14 @@ import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
@@ -29,17 +31,21 @@ import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
 import com.ssl.jv.gip.web.util.Utilidad;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Objects;
+
 import javax.faces.context.FacesContext;
+import javax.persistence.PersistenceException;
+
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -83,6 +89,9 @@ public class GenerarFacturaMB extends UtilMB {
 
   @EJB
   private MaestrosEJBLocal maestrosEJB;
+  
+  @EJB
+  private ComunEJBLocal comunEJB;
 
   @ManagedProperty(value = "#{aplicacionMB}")
   private AplicacionMB appMB;
@@ -339,13 +348,19 @@ public class GenerarFacturaMB extends UtilMB {
     SimpleDateFormat formatoFecha;
     formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
     if (facturaGenerada.getCliente() != null) {
-      parametrosReporte.put("cliente", facturaGenerada.getCliente().getNombre());
-      parametrosReporte.put("nit", facturaGenerada.getCliente().getNit());
-      if (facturaGenerada.getCliente().getCiudad() != null) {
-        parametrosReporte.put("ciudad", facturaGenerada.getCliente().getCiudad().getNombre() + " - " + facturaGenerada.getCliente().getCiudad().getPais().getNombre());
+      Cliente cliente = facturaGenerada.getCliente();
+      try {
+      cliente = comunEJB.consultarCliente(facturaGenerada.getCliente().getId());
+      } catch (PersistenceException ex) {
+    	LOGGER.debug("Cliente no encontrado", ex);
       }
-      parametrosReporte.put("direccion", facturaGenerada.getCliente().getDireccion());
-      parametrosReporte.put("telefono", facturaGenerada.getCliente().getTelefono());
+      parametrosReporte.put("cliente", cliente.getNombre());
+      parametrosReporte.put("nit", cliente.getNit());
+      if (cliente.getCiudad() != null) {
+        parametrosReporte.put("ciudad", cliente.getCiudad().getNombre() + " - " + cliente.getCiudad().getPais().getNombre());
+      }
+      parametrosReporte.put("direccion", cliente.getDireccion());
+      parametrosReporte.put("telefono", cliente.getTelefono());
     }
     if (facturaGenerada.getPuntoVenta() != null) {
       parametrosReporte.put("despachado_a", facturaGenerada.getPuntoVenta().getNombre());

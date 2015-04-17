@@ -109,7 +109,6 @@ import com.ssl.jv.gip.util.Moneda;
 import com.ssl.jv.gip.util.TipoMovimiento;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
 
 /**
  * Session Bean implementation class ComercioExterior.

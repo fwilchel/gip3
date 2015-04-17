@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
+import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.EmpresaDAO;
 import com.ssl.jv.gip.negocio.dao.EstadoDAOLocal;
@@ -30,6 +32,8 @@ import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.log4j.Logger;
 
 /**
@@ -73,6 +77,9 @@ public class ComunEJB implements ComunEJBLocal {
 
   @EJB
   private DocumentoDAOLocal documentoDAO;
+
+  @EJB
+  private ClienteDAOLocal clienteDao;
 
   /**
    * Default constructor.
@@ -224,4 +231,16 @@ public class ComunEJB implements ComunEJBLocal {
     return documentoDAO.consultarDocumentos(filtro);
   }
 
+  /**
+   * Consultar cliente por id.
+   *
+   * @param id the id cliente
+   * @return the cliente
+   */
+  public Cliente consultarCliente(Long id) {
+    LOGGER.trace("Metodo: <<consultarCliente>>");
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("id", id);
+    return clienteDao.buscarRegistroPorConsultaNombrada(Cliente.CLIENTE_FIND_BY_ID, parametros);
+  }
 }
