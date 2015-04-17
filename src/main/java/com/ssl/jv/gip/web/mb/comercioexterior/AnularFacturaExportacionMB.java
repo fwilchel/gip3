@@ -57,6 +57,7 @@ public class AnularFacturaExportacionMB extends UtilMB {
     try {
       this.comercioExteriorEJB.anularFacturaFX(seleccionado);
       this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));
+      this.buscarDocumentos();
     } catch (Exception ex) {
       this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
     }

@@ -1670,12 +1670,21 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
           } else {
             parametros.put("id_estado", (long) ConstantesDocumento.APROBADA);
           }
-          parametros.put("id", (long) documento.getId());
+          parametros.put("id", fp.getId());
           documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
           LOGGER.debug("Factura fp actualizada");
         }
       }
       LOGGER.debug("Reactivacion de la respectiva FP exitosa");
+    }
+    { // cuarto paso: Anulacion de la respectiva LE
+      LOGGER.debug("Anulacion de la respectiva LE");
+      parametros = new HashMap<>();
+      parametros.put("estado", (long) ConstantesDocumento.ANULADO);
+      parametros.put("observacionDocumento", null);
+      parametros.put("consecutivoDocumento", documento.getObservacionDocumento());
+      documentoDAO.ejecutarConsultaJPQL(Documento.ACTUALIZAR_ESTADO_Y_OBSERVACION_POR_CONSECUTIVO, parametros);
+      LOGGER.debug("Anulacion de la respectiva LE exitosa");
     }
   }
 }

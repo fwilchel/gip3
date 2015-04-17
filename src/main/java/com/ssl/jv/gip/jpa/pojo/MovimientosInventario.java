@@ -21,11 +21,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "movimientos_inventario")
-@NamedQuery(name = "MovimientosInventario.findAll", query = "SELECT m FROM MovimientosInventario m")
+@NamedQuery(name = MovimientosInventario.ELIMINAR_REGISTROS_POR_DOCUMENTO, query = "DELETE FROM MovimientosInventario mi WHERE mi.documento.id = :idDocumento")
 public class MovimientosInventario implements Serializable {
 
   private static final long serialVersionUID = 1L;
-
+  public static final String ELIMINAR_REGISTROS_POR_DOCUMENTO = "MovimientosInventario.eliminarRegistrosPorDocumento";
   @Id
   @SequenceGenerator(name = "movimientosInventarioSeq", sequenceName = "movimientos_inventario_id_seq", allocationSize = 1)
   @GeneratedValue(generator = "movimientosInventarioSeq", strategy = GenerationType.SEQUENCE)

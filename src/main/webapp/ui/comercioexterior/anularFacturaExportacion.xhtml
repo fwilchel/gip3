@@ -24,7 +24,7 @@
 
           <p:spacer width="30"></p:spacer>
 
-          <p:outputLabel value="#{msg.IngresarNumPedidoFactura}: "
+          <p:outputLabel value="#{msg.IngresarNumFX}: "
                          for="consecutivo" />
           <p:inputText value="#{anularFacturaExportacionMB.consecutivoDocumento}"
                        id="consecutivo" required="false" />
@@ -85,7 +85,7 @@
         <p:commandButton value="#{msg.generalConfirmar}"
                          oncomplete="PF('confirmacionDLG').hide()"
                          action="#{anularFacturaExportacionMB.anularFactura()}"
-                         update=":forma:tabPanel">
+                         update=":forma:msgs :forma:tabPanel">
         </p:commandButton>
       </h:form>
     </p:dialog>

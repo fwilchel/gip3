@@ -18,6 +18,8 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.ClienteDTO;
@@ -38,6 +40,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import java.util.HashMap;
 import org.primefaces.model.SortOrder;
 
 @Stateless
@@ -2048,6 +2051,33 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     }
     if (filtro.isSolicitudCafe() != null) {
       query.setParameter("solicitudCafe", filtro.isSolicitudCafe());
+    }
+  }
+  
+  @Override
+  public void delete(Documento documento){
+    LOGGER.trace("Metodo: <<delete>>");
+    Map<String, Object> parametros;
+    { // SE BORRAN PRIMERO LOS MOVIEMIENTOS DEL DOCUMENTO
+      LOGGER.debug("borrar movimientos");
+      parametros = new HashMap<>();
+      parametros.put("idDocumento", documento.getId());
+      int registrosAfectados = ejecutarConsultaNombrada(MovimientosInventario.ELIMINAR_REGISTROS_POR_DOCUMENTO, parametros);
+      LOGGER.debug("Numero de registros afectados: #" + registrosAfectados);
+    }
+    { // SE BORRAN PRIMERO LOS HIJOS DE LA TABLA PRODUCTOS POR DOCUMENTO
+      LOGGER.debug("borrar productos por documento");
+      parametros = new HashMap<>();
+      parametros.put("idDocumento", documento.getId());
+      int registrosAfectados = ejecutarConsultaNombrada(ProductosXDocumento.ELIMINAR_REGISTROS_POR_DOCUMENTO, parametros);
+      LOGGER.debug("Numero de registros afectados: #" + registrosAfectados);
+    }
+    { // SE BORRAN LOS DATOS DEL PADRE
+      LOGGER.debug("borrar documento");
+      parametros = new HashMap<>();
+      parametros.put("id", documento.getId());
+      int registrosAfectados = ejecutarConsultaNombrada(Documento.ELIMINAR_REGISTRO, parametros);
+      LOGGER.debug("Numero de registros afectados: #" + registrosAfectados);
     }
   }
 }
