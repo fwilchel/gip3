@@ -429,13 +429,12 @@ public class GenerarFacturaMB extends UtilMB {
   }
 
   /**
-   *
+   * 
    * @return
    */
-  public Date getFechaActual() {
-    return new Date();
+  public boolean showPrintBtn(){
+    return (isModoMensage() && (tipoFacturaSeleccionado == ConstantesTipoDocumento.FACTURA));
   }
-
   /**
    *
    * @return

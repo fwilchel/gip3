@@ -222,7 +222,7 @@
                   for="id"
                   value="#{msg.gfLblDocumento}"
                   styleClass="label"/>
-                <h:inputText
+                <p:inputText
                   id="id"
                   value="#{generarFacturaMB.remisionSeleccionada.id}" 
                   disabled="true"
@@ -235,7 +235,7 @@
                   for="consecutivoDocumento"
                   value="#{msg.gfLblConsecutivoDocumento}"
                   styleClass="label"/>
-                <h:inputText
+                <p:inputText
                   id="consecutivoDocumento"
                   value="#{generarFacturaMB.remisionSeleccionada.consecutivoDocumento}" 
                   disabled="true"
@@ -248,7 +248,7 @@
                   for="fechaGeneracion"
                   value="#{msg.gfLblFechaGeneracion}"
                   styleClass="label"/>
-                <h:inputText
+                <p:inputText
                   id="fechaGeneracion"
                   value="#{generarFacturaMB.remisionSeleccionada.fechaGeneracion}" 
                   disabled="true"
@@ -256,7 +256,7 @@
                   required="true">
                   <f:convertDateTime 
                     pattern="dd-MMM-yyyy"/>
-                </h:inputText>
+                </p:inputText>
                 <p:message
                   for="fechaGeneracion"/>
                 <!--Ubicación Destino-->
@@ -264,7 +264,7 @@
                   for="ubicacionDestino"
                   value="#{msg.gfLblUbicacionDestino}"
                   styleClass="label"/>
-                <h:inputText
+                <p:inputText
                   id="ubicacionDestino"
                   value="#{generarFacturaMB.remisionSeleccionada.ubicacionDestino.nombre}" 
                   disabled="true"
@@ -277,7 +277,7 @@
                   for="observacionDocumento"
                   value="#{msg.gfLblDocVDRel}"
                   styleClass="label"/>
-                <h:inputText
+                <p:inputText
                   id="observacionDocumento"
                   value="#{generarFacturaMB.remisionSeleccionada.observacionDocumento}" 
                   disabled="true"
@@ -291,12 +291,12 @@
                   value="#{msg.gfLblNumeroFacturaEspecial}"
                   styleClass="label"
                   rendered="#{generarFacturaMB.facturaEspecial or generarFacturaMB.facturaConsumoServicios}"/>
-                <h:inputText
+                <p:inputText
                   id="numeroFacturaEspecial"
                   value="#{generarFacturaMB.remisionSeleccionada.numeroFacturaEspecial}" 
-                  disabled="true"
                   styleClass="filas_contenido"
                   required="true"
+                  readonly="true"
                   rendered="#{generarFacturaMB.facturaEspecial or generarFacturaMB.facturaConsumoServicios}"/>
                 <p:message
                   for="numeroFacturaEspecial"
@@ -497,7 +497,7 @@
               onclick="PF('dlgDetalle').hide()"
               ajax="false"
               icon="ui-icon-document"
-              rendered="#{generarFacturaMB.modoMensage}">
+              rendered="#{generarFacturaMB.showPrintBtn()}">
               <p:fileDownload 
                 value="#{generarFacturaMB.previsuaizarFactura()}" />
             </p:commandButton>
