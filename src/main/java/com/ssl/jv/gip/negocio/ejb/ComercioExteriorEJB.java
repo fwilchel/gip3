@@ -109,6 +109,7 @@ import com.ssl.jv.gip.util.Moneda;
 import com.ssl.jv.gip.util.TipoMovimiento;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
 
 /**
  * Session Bean implementation class ComercioExterior.
@@ -1462,15 +1463,16 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @Override
   public List<Documento> consultarFacturasDeExportacionEstado(String consecutivoDocumento) {
-    try {
-      if (consecutivoDocumento.equals("")) {
-        return documentoDAO.consultarDocumentosFacturaExportacionEstado();
-      }
-      return documentoDAO.consultarDocumentosFacturaExportacionEstado(consecutivoDocumento);
-    } catch (Exception e) {
-      LOGGER.error(e + "Error consultando facturas de exportacion por estado");
-      return null;
+    LOGGER.trace("Metodo: <<consultarFacturasDeExportacionEstado>> parametros -->> consecutivoDocumento = " + consecutivoDocumento);
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
+    parametros.put("estado", (long) ConstantesDocumento.IMPRESO);
+    if (consecutivoDocumento != null && !consecutivoDocumento.isEmpty()) {
+      parametros.put("consecutivoDocumento", "%" + consecutivoDocumento + "%");
+    } else {
+      parametros.put("consecutivoDocumento", "%");
     }
+    return documentoDAO.buscarPorConsultaNombrada(Documento.BUSCAR_FACTURAS_FX_ANULAR, parametros);
   }
 
   @Override
@@ -1608,5 +1610,72 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
       }
     }
     return consecutivos;
+  }
+
+  @Override
+  public void anularFacturaFX(Documento documento) {
+    LOGGER.trace("Metodo: <<anularFacturaFX>> parametros -->> documento = " + documento);
+    Map<String, Object> parametros;
+    String consecutivoDocumentoFP = null;
+    { // primer paso: anular el documento
+      LOGGER.debug("Actualizar el estado de la factura ");
+      parametros = new HashMap<>();
+      parametros.put("id_estado", (long) ConstantesDocumento.ANULADO);
+      parametros.put("id", (long) documento.getId());
+      documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
+      LOGGER.debug("Factura fx en estado anulada: OK");
+    }
+    { // segundo paso: Eliminacion de VD, RM y Movimientos.
+      LOGGER.debug("Eliminacion de VD, RM y Movimientos");
+      parametros = new HashMap<>();
+      parametros.put("consecutivoDocumento", documento.getObservacionDocumento());
+      Documento orden = documentoDAO.buscarRegistroPorConsultaNombrada(Documento.BUSCAR_DOCUMENTO_POR_CONSECUTIVO, parametros);
+      if (orden != null) {
+        consecutivoDocumentoFP = orden.getObservacionDocumento();
+        String[] arrayCadena = orden.getSitioEntrega().split(";");
+        String consecVD = arrayCadena[0];
+        String consecRM = arrayCadena[1];
+        {
+          LOGGER.debug("Consulta la venta directa asociada a la orden");
+          parametros = new HashMap<>();
+          parametros.put("consecutivoDocumento", consecVD);
+          Documento vd = documentoDAO.buscarRegistroPorConsultaNombrada(Documento.BUSCAR_DOCUMENTO_POR_CONSECUTIVO, parametros);
+          if (vd != null) {
+            documentoDAO.delete(vd);
+          }
+        }
+        {
+          LOGGER.debug("Consulta la remision asociada a la orden");
+          parametros = new HashMap<>();
+          parametros.put("consecutivoDocumento", consecRM);
+          Documento rm = documentoDAO.buscarRegistroPorConsultaNombrada(Documento.BUSCAR_DOCUMENTO_POR_CONSECUTIVO, parametros);
+          if (rm != null) {
+            documentoDAO.delete(rm);
+          }
+        }
+      }
+      LOGGER.debug("Eliminacion de VD, RM y Movimientos exitosa");
+    }
+    { // tercer paso: Reactivacion de la respectiva FP
+      LOGGER.debug("Reactivacion de la respectiva FP");
+      if (consecutivoDocumentoFP != null) {
+        parametros = new HashMap<>();
+        parametros.put("consecutivoDocumento", consecutivoDocumentoFP);
+        Documento fp = documentoDAO.buscarRegistroPorConsultaNombrada(Documento.BUSCAR_DOCUMENTO_POR_CONSECUTIVO, parametros);
+        if (fp != null) {
+          LOGGER.debug("Actualizar el estado de la factura fp");
+          parametros = new HashMap<>();
+          if (documento.getDocumentoXNegociacions().get(0).getSolicitudCafe()) {
+            parametros.put("id_estado", (long) ConstantesDocumento.ASIGNADA);
+          } else {
+            parametros.put("id_estado", (long) ConstantesDocumento.APROBADA);
+          }
+          parametros.put("id", (long) documento.getId());
+          documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
+          LOGGER.debug("Factura fp actualizada");
+        }
+      }
+      LOGGER.debug("Reactivacion de la respectiva FP exitosa");
+    }
   }
 }

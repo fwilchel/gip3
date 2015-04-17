@@ -10,13 +10,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
-import com.ssl.jv.gip.web.util.Modo;
 
 /**
  * Managed Bean para anular factura de exportacion
@@ -26,16 +23,12 @@ import com.ssl.jv.gip.web.util.Modo;
  * @email danicorc@gmail.com
  *
  */
-@ManagedBean(name = "anularFacturaExportacionMB")
 @ViewScoped
+@ManagedBean(name = "anularFacturaExportacionMB")
 public class AnularFacturaExportacionMB extends UtilMB {
 
-  /**
-   *
-   */
   private static final long serialVersionUID = 1L;
   private Integer language = AplicacionMB.SPANISH;
-
   private String mensaje;
   private Timestamp currentTimeStamp;
   private String consecutivoDocumento;
@@ -60,6 +53,15 @@ public class AnularFacturaExportacionMB extends UtilMB {
     return null;
   }
 
+  public void anularFactura() {
+    try {
+      this.comercioExteriorEJB.anularFacturaFX(seleccionado);
+      this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));
+    } catch (Exception ex) {
+      this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
+    }
+  }
+
   public List<Documento> getDocumentos() {
     return documentos;
   }
@@ -73,7 +75,7 @@ public class AnularFacturaExportacionMB extends UtilMB {
   }
 
   public void setSeleccionado(Documento seleccionado) {
-    mensaje = MessageFormat.format(AplicacionMB.getMessage("AdvertenciaAnularFX", 1), seleccionado.getConsecutivoDocumento());
+    mensaje = MessageFormat.format(AplicacionMB.getMessage("AdvertenciaAnularFX", language), seleccionado.getConsecutivoDocumento());
     this.seleccionado = seleccionado;
   }
 
@@ -107,22 +109,5 @@ public class AnularFacturaExportacionMB extends UtilMB {
 
   public void setMensaje(String mensaje) {
     this.mensaje = mensaje;
-  }
-
-  public void anularFactura() {
-    try {
-      List<Estado> estados = comunEJBlocal.consultarEstados();
-      for (Estado estado : estados) {
-        if (estado.getId() == ConstantesDocumento.ANULADO) {
-          seleccionado.getEstadosxdocumento().setEstado(estado);
-          this.comercioExteriorEJB.actualizarEstadoDocumento(this.seleccionado);
-          documentos = comercioExteriorEJB.consultarFacturasDeExportacionEstado(consecutivoDocumento);
-        }
-      }
-      this.addMensajeInfo(AplicacionMB.getMessage("UsuarioExitoPaginaTexto", language));
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      this.addMensajeError(AplicacionMB.getMessage("NivelInventarioError", language));
-    }
   }
 }

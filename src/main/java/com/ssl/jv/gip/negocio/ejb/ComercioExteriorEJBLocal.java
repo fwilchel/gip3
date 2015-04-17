@@ -335,4 +335,11 @@ public interface ComercioExteriorEJBLocal {
   void actualizarEstadoDocumento(Long id, Long estado);
 
   List<String> obtenerListaConsecutivosPorTipoLoteIOC(Long idTipoLoteIOC);
+
+  /**
+   *
+   * @param documento
+   */
+  void anularFacturaFX(Documento documento);
+
 }

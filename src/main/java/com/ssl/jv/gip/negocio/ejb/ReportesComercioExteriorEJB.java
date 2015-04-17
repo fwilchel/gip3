@@ -77,7 +77,7 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 
   @Override
   public List<Documento> consultarFacturasExportacionReimprimir(Map<String, Object> parametros) {
-    return documentoDAO.buscarPorConsultaNombrada(Documento.FIND_DOCUMENTOS_FX_REIMPRIMIR, parametros);
+    return documentoDAO.buscarPorConsultaNombrada(Documento.BUSCAR_DOCUMENTOS_FX_REIMPRIMIR, parametros);
   }
 
   @Override
@@ -258,7 +258,7 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
     } else {
       Map<String, Object> parametros = new HashMap<>();
       parametros.put("id", id);
-      return documentoDAO.buscarRegistroPorConsultaNombrada(Documento.FIND_DOCUMENTO_FX_REIMPRIMIR_BY_ID, parametros);
+      return documentoDAO.buscarRegistroPorConsultaNombrada(Documento.BUSCAR_DOCUMENTO_FX_REIMPRIMIR_BY_ID, parametros);
     }
   }
 

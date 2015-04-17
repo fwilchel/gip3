@@ -1350,7 +1350,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   @Override
   public Documento consultarDocumentoPorConsecutivo(String consecutivo) {
-    Query query = em.createNamedQuery(Documento.FIND_BY_CONSECUTIVO);
+    Query query = em.createNamedQuery(Documento.BUSCAR_DOCUMENTO_POR_CONSECUTIVO);
     query.setParameter("consecutivoDocumento", consecutivo);
     try {
       return (Documento) query.getSingleResult();

@@ -37,18 +37,19 @@ import org.hibernate.annotations.LazyCollectionOption;
   @NamedQuery(name = Documento.FIND_BY_OBSERVACION_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.observacionDocumento = :observacionDocumento"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado ORDER BY d.id"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS, query = "SELECT distinct d FROM Documento d JOIN FETCH d.cliente cli JOIN FETCH cli.ciudad ciu JOIN FETCH cli.metodoPago mpa JOIN FETCH cli.terminoIncoterms ti WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstado,:idEstado2) ORDER BY d.id desc"),
-  @NamedQuery(name = Documento.FIND_DOCUMENTOS_FX_REIMPRIMIR, query = "SELECT d FROM Documento d JOIN d.cliente JOIN d.estadosxdocumento JOIN d.documentoXNegociacions JOIN d.cliente.ciudad JOIN d.cliente.metodoPago WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d.estadosxdocumento.id.idEstado IN (:estado) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id desc"),
-  @NamedQuery(name = Documento.FIND_DOCUMENTO_FX_REIMPRIMIR_BY_ID, query = "SELECT d FROM Documento d JOIN FETCH d.cliente c JOIN d.cliente.terminoIncoterms JOIN FETCH d.documentoXNegociacions WHERE d.id = :id"),
   @NamedQuery(name = Documento.FIND_BY_FECHAS_TIPO_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.fechaGeneracion BETWEEN :fechaInicio AND :fechaFin ORDER BY d.fechaGeneracion"),
   @NamedQuery(name = Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn LEFT JOIN FETCH d.cliente cli LEFT JOIN FETCH cli.ciudad ciu LEFT JOIN FETCH cli.metodoPago mp WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstados) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
   @NamedQuery(name = Documento.LISTADO_ANULAR_SOLICITUD_PEDIDO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d.estadosxdocumento.id.idEstado NOT IN (:cerrado, :anulado) AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.estadosxdocumento.id.idTipoDocumento = :facturaProforma) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
   @NamedQuery(name = Documento.FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO_CUSTOM, query = "SELECT DISTINCT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn LEFT JOIN FETCH d.cliente c WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND ((d.estadosxdocumento.id.idEstado = :idEstado1 AND dn.solicitudCafe = false) OR (d.estadosxdocumento.id.idEstado = :idEstado2 AND dn.solicitudCafe = true)) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
-  @NamedQuery(name = Documento.FIND_BY_CONSECUTIVO, query = "SELECT d FROM Documento d  WHERE UPPER(d.consecutivoDocumento) = UPPER(:consecutivoDocumento)"),
+  @NamedQuery(name = Documento.BUSCAR_DOCUMENTO_POR_CONSECUTIVO, query = "SELECT d FROM Documento d  WHERE UPPER(d.consecutivoDocumento) = UPPER(:consecutivoDocumento)"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_TIPO_CAFE, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado AND dn.solicitudCafe = true ORDER BY d.id DESC"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado AND dn.solicitudCafe = :solicitudCafe AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
   @NamedQuery(name = Documento.FIND_BY_FECHAS_AND_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado AND d.fechaGeneracion BETWEEN :fechaInicio AND :fechaFin AND dn.solicitudCafe = :solicitudCafe ORDER BY d.fechaGeneracion"),
   @NamedQuery(name = Documento.FIND_BY_ESTADO_AND_TIPO_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN d.ubicacionOrigen origen JOIN d.cliente cliente WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstado) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
-  @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_OBSERVACION_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.observacionDocumento = :observacionDocumento AND d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento")})
+  @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_OBSERVACION_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.observacionDocumento = :observacionDocumento AND d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento"),
+  @NamedQuery(name = Documento.BUSCAR_DOCUMENTOS_FX_REIMPRIMIR, query = "SELECT d FROM Documento d JOIN d.cliente JOIN d.estadosxdocumento JOIN d.documentoXNegociacions JOIN d.cliente.ciudad JOIN d.cliente.metodoPago WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d.estadosxdocumento.id.idEstado IN (:estado) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id desc"),
+  @NamedQuery(name = Documento.BUSCAR_DOCUMENTO_FX_REIMPRIMIR_BY_ID, query = "SELECT d FROM Documento d JOIN FETCH d.cliente c JOIN d.cliente.terminoIncoterms JOIN FETCH d.documentoXNegociacions WHERE d.id = :id"),
+  @NamedQuery(name = Documento.BUSCAR_FACTURAS_FX_ANULAR, query = "SELECT d FROM Documento d JOIN d.cliente JOIN d.cliente.ciudad JOIN d.cliente.metodoPago JOIN d.estadosxdocumento JOIN d.documentoXNegociacions dxn JOIN dxn.terminoIncoterm WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d.estadosxdocumento.id.idEstado IN (:estado) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id desc")})
 public class Documento implements Serializable {
 
   /**
@@ -65,7 +66,7 @@ public class Documento implements Serializable {
   public static final String ACTUALIZAR_ESTADO_DOCUMENTO = "UPDATE documentos SET id_estado = :id_estado WHERE id = :id";
   public static final String FIND_BY_FECHAS_TIPO_DOCUMENTO = "Documento.findByFechasAndTipoDocumento";
   public static final String FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO_CUSTOM = "Documento.findByEstadoTipoDocumentoConsecutivoDocumentoCustom";
-  public static final String FIND_BY_CONSECUTIVO = "Documento.findByConsecutivoDocumento";
+  public static final String BUSCAR_DOCUMENTO_POR_CONSECUTIVO = "Documento.findByConsecutivoDocumento";
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_TIPO_CAFE = "Documento.findByTipoDocumentoAndEstadoAndTipoCafe";
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE_AND_CONSECUTIVO = "Documento.findByTipoDocumentoAndEstadoAndSolicitudCafeAndConsecutivo";
   public static final String FIND_BY_FECHAS_AND_TIPO_DOCUMENTO_AND_ESTADO_AND_SOLICITUD_CAFE = "Documento.findByFechasAndTipoDocumentoAndEstado";
@@ -73,9 +74,10 @@ public class Documento implements Serializable {
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_OBSERVACION_DOCUMENTO = "Documento.findByObservacionAndTipo";
   public static final String ACTUALIZAR_ESTADO_Y_NUMERO_FACTURA = "UPDATE documentos SET id_estado = :estado, numero_factura = :numeroFactura WHERE id = :id";
   public static final String ACTUALIZAR_ESTADO_Y_OBSERVACION = "UPDATE documentos SET id_estado = :estado, observacion_documento = :observacionDocumento WHERE id = :id";
-  public static final String FIND_DOCUMENTOS_FX_REIMPRIMIR = "Documento.findDocumentosFXImprimir";
-  public static final String FIND_DOCUMENTO_FX_REIMPRIMIR_BY_ID = "Documento.findDocumentosFXImprimirById";
+  public static final String BUSCAR_DOCUMENTOS_FX_REIMPRIMIR = "Documento.findDocumentosFXImprimir";
+  public static final String BUSCAR_DOCUMENTO_FX_REIMPRIMIR_BY_ID = "Documento.findDocumentosFXImprimirById";
   public static final String BUSCAR_CONSECUTIVO_ORDEN_FACTURA_FX = "select observacion_documento from documentos where consecutivo_documento = (select observacion_documento from documentos where id = :id)";
+  public static final String BUSCAR_FACTURAS_FX_ANULAR = "Documento.buscarFacturaFXAnular";
 
   @Id
   @SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)
