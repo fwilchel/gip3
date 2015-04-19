@@ -28,7 +28,8 @@ import javax.persistence.Table;
 @Table(name = "clientes")
 @NamedQueries({
   @NamedQuery(name = Cliente.CLIENTE_FIND_ALL, query = "SELECT c FROM Cliente c"),
-  @NamedQuery(name = Cliente.CLIENTE_FIND_BY_ID, query = "SELECT c FROM Cliente c JOIN FETCH c.ciudad WHERE c.id = :id"),
+  @NamedQuery(name = Cliente.BUSCAR_CLIENTE_FETCH_CIUDAD, query = "SELECT c FROM Cliente c JOIN FETCH c.ciudad WHERE c.id = :id"),
+  @NamedQuery(name = Cliente.BUSCAR_CLIENTE_FETCH_CIUDAD_AND_METODO_PAGO, query = "SELECT c FROM Cliente c JOIN FETCH c.ciudad JOIN FETCH c.metodoPago WHERE c.id = :id"),
   @NamedQuery(name = Cliente.CLIENTE_ACTIVO_FIND_BY_USUARIO, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u LEFT JOIN FETCH c.ciudad ciu WHERE c.activo = true AND u.id = :idUsuario ORDER BY c.nombre ASC"),
   @NamedQuery(name = Cliente.BUSCAR_CLIENTES_REPORTE_VENTAS_CE, query = "SELECT c FROM Cliente c LEFT JOIN c.tipoCanal tc LEFT JOIN tc.usuarios u WHERE UPPER (c.nombre) LIKE UPPER (:nombre) AND c.activo = :activo AND u.id = :idUsuario ORDER BY c.nombre ASC"),
   @NamedQuery(name = Cliente.CLIENTE_ACTIVO_INTERNACIONAL, query = "SELECT c FROM Cliente c WHERE c.activo = :activo AND c.tipoCanal.id=6 ORDER BY c.nombre ASC")})
@@ -39,7 +40,8 @@ public class Cliente implements Serializable, Comparable {
    */
   private static final long serialVersionUID = 466740775247498616L;
   public static final String CLIENTE_FIND_ALL = "Cliente.findAll";
-  public static final String CLIENTE_FIND_BY_ID = "Cliente.findById";
+  public static final String BUSCAR_CLIENTE_FETCH_CIUDAD = "Cliente.buscarClienteFetchCiudad";
+  public static final String BUSCAR_CLIENTE_FETCH_CIUDAD_AND_METODO_PAGO = "Cliente.buscarClienteFetchCiudadAndMetodoPago";
   public static final String CLIENTE_ACTIVO_FIND_BY_USUARIO = "Cliente.findActivoFindByUsuario";
   public static final String BUSCAR_CLIENTES_REPORTE_VENTAS_CE = "Cliente.buscarClientesReporteVentasCE";
   public static final String CLIENTE_ACTIVO_INTERNACIONAL = "Cliente.findActivoInternacional";

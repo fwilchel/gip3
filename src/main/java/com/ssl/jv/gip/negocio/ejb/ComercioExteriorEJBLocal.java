@@ -319,7 +319,7 @@ public interface ComercioExteriorEJBLocal {
 
   public List<ProductoODDTO> consultarProductoPorDocumentoOrdenDespacho(Long idDocumento, Long idCliente, Boolean cafe);
 
-  public List<Documento> consultarFP(String consecutivoDocumento, Long estado1, Long estado2);
+  public List<Documento> consultarFP(String consecutivoDocumento);
 
   // public int actualizarCostosLogisticos(Long idDocumento, Long
   // idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal

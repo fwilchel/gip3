@@ -231,16 +231,11 @@ public class ComunEJB implements ComunEJBLocal {
     return documentoDAO.consultarDocumentos(filtro);
   }
 
-  /**
-   * Consultar cliente por id.
-   *
-   * @param id the id cliente
-   * @return the cliente
-   */
-  public Cliente consultarCliente(Long id) {
+  @Override
+  public Cliente consultarCliente(Long id, String nquery) {
     LOGGER.trace("Metodo: <<consultarCliente>>");
     Map<String, Object> parametros = new HashMap<>();
     parametros.put("id", id);
-    return clienteDao.buscarRegistroPorConsultaNombrada(Cliente.CLIENTE_FIND_BY_ID, parametros);
+    return clienteDao.buscarRegistroPorConsultaNombrada(nquery, parametros);
   }
 }

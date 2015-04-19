@@ -2,7 +2,6 @@ package com.ssl.jv.gip.web.mb.ventas;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -89,7 +88,7 @@ public class GenerarFacturaMB extends UtilMB {
 
   @EJB
   private MaestrosEJBLocal maestrosEJB;
-  
+
   @EJB
   private ComunEJBLocal comunEJB;
 
@@ -350,9 +349,9 @@ public class GenerarFacturaMB extends UtilMB {
     if (facturaGenerada.getCliente() != null) {
       Cliente cliente = facturaGenerada.getCliente();
       try {
-      cliente = comunEJB.consultarCliente(facturaGenerada.getCliente().getId());
+        cliente = comunEJB.consultarCliente(facturaGenerada.getCliente().getId(), Cliente.BUSCAR_CLIENTE_FETCH_CIUDAD);
       } catch (PersistenceException ex) {
-    	LOGGER.debug("Cliente no encontrado", ex);
+        LOGGER.debug("Cliente no encontrado", ex);
       }
       parametrosReporte.put("cliente", cliente.getNombre());
       parametrosReporte.put("nit", cliente.getNit());
@@ -429,12 +428,13 @@ public class GenerarFacturaMB extends UtilMB {
   }
 
   /**
-   * 
+   *
    * @return
    */
-  public boolean showPrintBtn(){
+  public boolean showPrintBtn() {
     return (isModoMensage() && (tipoFacturaSeleccionado == ConstantesTipoDocumento.FACTURA));
   }
+
   /**
    *
    * @return

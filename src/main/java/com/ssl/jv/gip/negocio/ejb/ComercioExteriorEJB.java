@@ -259,7 +259,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   public Cliente consultarClientePorId(Long idCliente) {
     Map<String, Object> parametros = new HashMap<>();
     parametros.put("id", idCliente);
-    return clienteDao.buscarRegistroPorConsultaNombrada(Cliente.CLIENTE_FIND_BY_ID, parametros);
+    return clienteDao.buscarRegistroPorConsultaNombrada(Cliente.BUSCAR_CLIENTE_FETCH_CIUDAD, parametros);
   }
 
   /*
@@ -1456,8 +1456,18 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
 
   @Override
-  public List<Documento> consultarFP(String consecutivoDocumento, Long estado1, Long estado2) {
-    return documentoDAO.consultaFP(consecutivoDocumento, estado1, estado2);
+  public List<Documento> consultarFP(String consecutivoDocumento) {
+    LOGGER.trace("Metodo: <<consultarFP>> parametros -->> consecutivoDocumento = " + consecutivoDocumento);
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_PROFORMA);
+    parametros.put("estadoAprobada", (long) ConstantesDocumento.APROBADA);
+    parametros.put("estadoAsignada", (long) ConstantesDocumento.ASIGNADA);
+    if (consecutivoDocumento != null && !consecutivoDocumento.isEmpty()) {
+      parametros.put("consecutivoDocumento", "%" + consecutivoDocumento + "%");
+    } else {
+      parametros.put("consecutivoDocumento", "%");
+    }
+    return documentoDAO.buscarPorConsultaNombrada(Documento.BUSCAR_FACTURAS_PROFORMA, parametros);
   }
 
   @Override

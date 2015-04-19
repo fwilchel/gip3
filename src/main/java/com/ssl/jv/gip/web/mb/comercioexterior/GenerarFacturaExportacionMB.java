@@ -43,6 +43,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteReimprimirFacturaDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
+import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
@@ -91,6 +92,9 @@ public class GenerarFacturaExportacionMB extends UtilMB {
    */
   @EJB
   private ComercioExteriorEJBLocal comercioExteriorEJBLocal;
+
+  @EJB
+  private ComunEJBLocal comunEJB;
 
   /**
    * The lista facturas exportacion.
@@ -523,7 +527,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
     Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
     tmsFecha = new Timestamp(Calendario.getTimeInMillis());
     String fechaStringVigencia = ft.format(tmsFecha);
-    Cliente docCabeceraCli = comercioExteriorEJBLocal.consultarClientePorId(seleccionado.getCliente().getId());
+    Cliente docCabeceraCli = comunEJB.consultarCliente(seleccionado.getCliente().getId(), Cliente.BUSCAR_CLIENTE_FETCH_CIUDAD_AND_METODO_PAGO);
     String fechaStringDespacho = ft.format(this.seleccionado.getFechaEsperadaEntrega());
     BigDecimal dblValorTotalNeg = this.totalValorNeg.multiply(new BigDecimal(100)).divide(new BigDecimal(100));
     Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();

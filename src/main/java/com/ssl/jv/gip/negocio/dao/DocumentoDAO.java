@@ -1679,19 +1679,30 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   @Override
   public List<Documento> consultaFP(String consecutivoDocumento, Long estado1, Long estado2) {
-
-    List<Documento> listado = new ArrayList<Documento>();
     String query;
     try {
-      query = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " + "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " + "JOIN FETCH d.documentoXNegociacions dxn " + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " + "JOIN FETCH c.metodoPago mp " + "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento " + "AND (d.estadosxdocumento.estado.id = :estado1 " + "OR d.estadosxdocumento.estado.id = :estado2) "
-          + "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + "ORDER BY d.id DESC";
-
-      listado = em.createQuery(query).setParameter("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_PROFORMA).setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%").setParameter("estado1", estado1).setParameter("estado2", estado2).setMaxResults(35).getResultList();
+      query = "SELECT d FROM Documento d "
+          + "JOIN FETCH d.cliente c "
+          + "JOIN FETCH d.estadosxdocumento exd "
+          + "JOIN FETCH exd.estado e "
+          + "JOIN FETCH d.documentoXNegociacions dxn "
+          + "JOIN FETCH dxn.terminoIncoterm ti "
+          + "JOIN FETCH c.ciudad ciu "
+          + "JOIN FETCH c.metodoPago mp "
+          + "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento "
+          + "AND ((d.estadosxdocumento.estado.id = :estado1 AND dxn.solicitudCafe = false) OR (d.estadosxdocumento.estado.id = :estado2 AND dxn.solicitudCafe = true)) "
+          + "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
+          + "ORDER BY d.id DESC";
+      return em.createQuery(query)
+          .setParameter("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_PROFORMA)
+          .setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%")
+          .setParameter("estado1", estado1)
+          .setParameter("estado2", estado2)
+          .getResultList();
     } catch (Exception e) {
       LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");
       return null;
     }
-    return listado;
   }
 
   @Override
@@ -2053,9 +2064,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
       query.setParameter("solicitudCafe", filtro.isSolicitudCafe());
     }
   }
-  
+
   @Override
-  public void delete(Documento documento){
+  public void delete(Documento documento) {
     LOGGER.trace("Metodo: <<delete>>");
     Map<String, Object> parametros;
     { // SE BORRAN PRIMERO LOS MOVIEMIENTOS DEL DOCUMENTO

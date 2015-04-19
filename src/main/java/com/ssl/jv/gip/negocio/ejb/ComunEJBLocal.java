@@ -83,10 +83,11 @@ public interface ComunEJBLocal {
    * Metodo que consulta un cliente por su id.
    *
    * @author Diego Poveda - Soft Studio Ltda.
+   * @param nquery
    * @email dpoveda@gmail.com
    * @phone 3192594013
    * @param id
-   * @return 
+   * @return
    */
-  Cliente consultarCliente(Long id);
+  Cliente consultarCliente(Long id, String nquery);
 }
