@@ -32,6 +32,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteReimprimirFacturaDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
+import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.util.Estado;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
@@ -40,6 +41,7 @@ import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.Numero_a_Letra_Ingles;
 import com.ssl.jv.gip.web.util.Modo;
 import java.util.Arrays;
+import javax.persistence.PersistenceException;
 
 /**
  * The Class ReImprimirFacturaExpoMB.
@@ -57,6 +59,8 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
   private ReportesComercioExteriorEJBLocal reportesComercioExteriorEJBLocal;
   @EJB
   private ComercioExteriorEJBLocal comercioExteriorEJBLocal;
+  @EJB
+  private ComunEJBLocal comunEJB;
   private List<Documento> listaFacturasExportacion;
   private Integer language = AplicacionMB.SPANISH;
   private Modo modo;
@@ -129,17 +133,22 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
     tmsFecha = new Timestamp(Calendario.getTimeInMillis());
     String fechaStringVigencia = ft.format(tmsFecha);
-    Cliente docCabeceraCli = comercioExteriorEJBLocal.consultarClientePorId(seleccionado.getCliente().getId());
+    Cliente cliente = seleccionado.getCliente();
+    try {
+      cliente = comunEJB.consultarCliente(seleccionado.getCliente().getId(), Cliente.BUSCAR_CLIENTE_FETCH_CIUDAD_AND_METODO_PAGO);
+    } catch (PersistenceException ex) {
+      LOGGER.debug("Cliente no encontrado", ex);
+    }
     String fechaStringDespacho = ft.format(this.seleccionado.getFechaEsperadaEntrega());
     BigDecimal dblValorTotalNeg = this.totalValorNeg.multiply(new BigDecimal(100)).divide(new BigDecimal(100));
     Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
     String valorLetrasIngles = NumLetraIng.convert(dblValorTotalNeg.doubleValue());
-    parametros.put("cliente", docCabeceraCli.getNombre());
-    parametros.put("nit", docCabeceraCli.getNit());
-    parametros.put("ciudad", docCabeceraCli.getCiudad().getNombre());
-    parametros.put("direccion", docCabeceraCli.getDireccion());
-    parametros.put("telefono", docCabeceraCli.getTelefono());
-    parametros.put("contacto", docCabeceraCli.getContacto());
+    parametros.put("cliente", cliente.getNombre());
+    parametros.put("nit", cliente.getNit());
+    parametros.put("ciudad", cliente.getCiudad().getNombre());
+    parametros.put("direccion", cliente.getDireccion());
+    parametros.put("telefono", cliente.getTelefono());
+    parametros.put("contacto", cliente.getContacto());
     parametros.put("documento", this.seleccionado.getDocumentoCliente());
     parametros.put("fecha", fechaStringGeneracion);
     parametros.put("numFactura", this.seleccionado.getConsecutivoDocumento());
@@ -166,12 +175,12 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     } else {
       parametros.put("anulada", "");
     }
-    if (docCabeceraCli.getModoFactura() == 1) {
-      parametros.put("metodoPago", docCabeceraCli.getMetodoPago().getDescripcionIngles());
+    if (cliente.getModoFactura() == 1) {
+      parametros.put("metodoPago", cliente.getMetodoPago().getDescripcionIngles());
     } else {
-      parametros.put("metodoPago", docCabeceraCli.getMetodoPago().getDescripcion());
+      parametros.put("metodoPago", cliente.getMetodoPago().getDescripcion());
     }
-    if (docCabeceraCli.getModoFactura() == 1) {
+    if (cliente.getModoFactura() == 1) {
       String productoIngles;
       String unidadIngles;
       String tipoLoteIngles;
@@ -183,7 +192,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
         produ.getUnidade().setNombre(unidadIngles);
         produ.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().setDescripcion(tipoLoteIngles);
       }
-    } else if (docCabeceraCli.getModoFactura() == 3) {
+    } else if (cliente.getModoFactura() == 3) {
       String productoIngles;
       String unidadIngles;
       for (ProductosXDocumento produ : this.listaProductosDocumento) {
@@ -219,7 +228,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
       registro.setTotalCajasPallet(prod.getCantidadPalletsItem().doubleValue());
       reporteDTOS.add(registro);
     }
-    if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()){
+    if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()) {
       parametros.put("solicitud", this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento()));
     }
     JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reporteDTOS);
