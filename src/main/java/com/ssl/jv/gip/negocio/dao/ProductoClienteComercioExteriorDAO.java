@@ -716,14 +716,16 @@ public class ProductoClienteComercioExteriorDAO extends
    * Consulta productos por documento para Generar Factura Proforma
    *
    * @author Fredy Wilches
+   * @param idDocumento
+   * @param idCliente
+   * @return 
    * @email fredy.wilches@softstudio.co
    * @phone 3002146240
    * @version 1.0
    */
   @SuppressWarnings("unchecked")
   @Override
-  public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(
-      Long idDocumento, Long idCliente) {
+  public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente) {
 
     String sql = "SELECT productos_inventario.id, productos_inventario.nombre, productos_inventario.sku, productosXdocumentos.cantidad1 as cantidad, productos_x_cliente_comext.precio, productosXdocumentos.cantidad1*productos_x_cliente_comext.precio as valorTotal, "
         + "(CASE WHEN (productos_inventario_comext.cantidad_x_embalaje = 0) THEN 0 ELSE round((productos_inventario_comext.peso_neto_embalaje/productos_inventario_comext.cantidad_x_embalaje),3)*productosXdocumentos.cantidad1 END) as totalPesoNeto,  "

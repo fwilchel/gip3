@@ -3,7 +3,6 @@ package com.ssl.jv.gip.web.mb.ventas;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -25,13 +24,10 @@ import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
-import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
 /**
  * <p>
@@ -98,12 +94,6 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   public void consultarListaVentasDirectas() {
     LOGGER.debug("Metodo: <<consultarListaVentasDirectas>>");
     setListaVentasDirectas(ventasFacturacionEJB.consultarDocumentosOrdenDespacho());
-//    FiltroDocumentoDTO filtroDocumento = new FiltroDocumentoDTO();
-//    filtroDocumento.setConsecutivoDocumento(null);
-//    filtroDocumento.setTipoDocumento(Arrays.asList((long) ConstantesTipoDocumento.VENTA_DIRECTA));
-//    filtroDocumento.setEstado((long) ConstantesDocumento.ACTIVO);
-//    filtroDocumento.setOrdenCampo("fechaGeneracion");
-//    listaVentasDirectas = comunEJB.consultarDocumentos(filtroDocumento);
     LOGGER.debug("listaVentasDirectas.size(): " + listaVentasDirectas.size());
   }
 
@@ -114,8 +104,6 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   public void seleccionarVentaDirecta(Documento documento) {
     LOGGER.debug("Metodo: <<seleccionarVentaDirecta>>");
     ventaDirectaSeleccionada = documento;
-    // TODO: concatenar valores del punto de venta para sobreescribir sitio de
-    // entrega.
     if (ventaDirectaSeleccionada.getPuntoVenta() != null) {
       StringBuilder sb = new StringBuilder();
       sb.append(ventaDirectaSeleccionada.getPuntoVenta().getDireccion());

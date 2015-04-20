@@ -3,6 +3,7 @@ package com.ssl.jv.gip.web.mb.comercioexterior;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -15,13 +16,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.negocio.dto.ProductoODDTO;
@@ -87,7 +88,7 @@ public class OrdenesDespachoMB extends UtilMB {
     muestrasFITOANTICO = 0;
     muestrasCalidades = 0;
     for (ProductoODDTO p : productos) {
-      p.setCantidadCajas(p.getCantidad().divide(p.getCantidadPorEmbalaje()));
+      p.setCantidadCajas(p.getCantidad().divide(p.getCantidadPorEmbalaje(), 2, RoundingMode.HALF_UP));
       this.totalCantidad += p.getCantidad().doubleValue();
       this.totalCantidadCajas += p.getCantidadCajas().doubleValue();
       this.totalCantidadPorEmbalaje += p.getCantidadPorEmbalaje().doubleValue();
@@ -120,11 +121,8 @@ public class OrdenesDespachoMB extends UtilMB {
     parametros.put("totalCantidadCajas", totalCantidadCajas);
     parametros.put("totalMuestrasFito", muestrasFITOANTICO);
     parametros.put("totalMuestrasCalidades", muestrasCalidades);
-
     JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(productos);
-
     String report = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_OD.jasper");
-
     return JasperFillManager.fillReport(report, parametros, beanCollectionDataSource);
   }
 
