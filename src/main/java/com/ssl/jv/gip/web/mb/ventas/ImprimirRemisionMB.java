@@ -1,4 +1,4 @@
-package com.ssl.jv.gip.web.mb.reportes;
+package com.ssl.jv.gip.web.mb.ventas;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

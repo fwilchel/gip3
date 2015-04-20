@@ -209,7 +209,7 @@
     </navigation-case>
     <navigation-case>
       <from-outcome>generar_reporte_remision</from-outcome>
-      <to-view-id>/ui/reportes/imprimirRemision.xhtml</to-view-id>
+      <to-view-id>/ui/ventas/imprimirRemision.xhtml</to-view-id>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_factura_especial</from-outcome>
