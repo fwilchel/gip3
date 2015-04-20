@@ -126,7 +126,7 @@ public class AsignarLotesOICMB extends UtilMB {
   }
 
   public String buscarDocumentos() {
-    listaDocumentos = this.comercioEjb.consultarDocumentosFacturaPF(consecutivoDocumento);
+    listaDocumentos = this.comercioEjb.consultarDocumentosSP(consecutivoDocumento);
     this.deshabilitado = false;
     return null;
   }

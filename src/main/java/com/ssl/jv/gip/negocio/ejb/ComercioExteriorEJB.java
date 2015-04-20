@@ -1690,4 +1690,15 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
       LOGGER.debug("Anulacion de la respectiva LE exitosa");
     }
   }
+  
+  
+  @Override
+  public List<Documento> consultarDocumentosSP(String consecutivoDocumento) {
+    return documentoDAO.consultarDocumentosSP(consecutivoDocumento);
+  }
+  
+  @Override
+  public List<Documento> consultarDocumentosOD(String consecutivoDocumento) {
+    return documentoDAO.consultarDocumentosOD(consecutivoDocumento);
+  }
 }

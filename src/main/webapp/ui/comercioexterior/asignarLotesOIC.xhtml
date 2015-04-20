@@ -27,7 +27,7 @@
           <p:spacer width="30"></p:spacer>
 
           <p:outputLabel
-            value="#{msg.IngresarNumFP}: " for="consecutivo"/>
+            value="#{msg.IngresarNumSP}: " for="consecutivo"/>
           <p:inputText value="#{asignarLotesMB.consecutivoDocumento}" id="consecutivo"
                        required="false" />
 
@@ -82,6 +82,8 @@
                 <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
               </h:outputText>
             </p:column>
+            
+            
 
           </p:dataTable>
         </p:tab>

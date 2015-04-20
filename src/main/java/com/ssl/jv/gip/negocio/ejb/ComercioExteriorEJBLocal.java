@@ -342,4 +342,8 @@ public interface ComercioExteriorEJBLocal {
    */
   void anularFacturaFX(Documento documento);
 
+  public List<Documento> consultarDocumentosSP(String consecutivoDocumento);
+
+public List<Documento> consultarDocumentosOD(String consecutivoDocumento);
+
 }

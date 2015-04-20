@@ -75,7 +75,9 @@ public class OrdenesDespachoMB extends UtilMB {
   }
 
   public String buscarDocumentos() {
-    documentos = this.comercioEjb.consultarFP(consecutivoDocumento);
+    //documentos = this.comercioEjb.consultarFP(consecutivoDocumento);
+    documentos = this.comercioEjb.consultarDocumentosOD(consecutivoDocumento);
+    
     this.deshabilitado = false;
     return null;
   }

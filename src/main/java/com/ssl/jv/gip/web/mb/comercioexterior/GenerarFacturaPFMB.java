@@ -352,7 +352,8 @@ public class GenerarFacturaPFMB extends UtilMB {
     parametros[0] = "" + documento.getId();
     parametros[1] = documento.getConsecutivoDocumento();
     mensaje = Utilidad.stringFormat(mensaje, parametros);
-    this.documentoSeleccionado.getEstadosxdocumento().getEstado().setId((long) ConstantesDocumento.APROBADA);
+    //this.documentoSeleccionado.getEstadosxdocumento().getEstado().setId((long) ConstantesDocumento.APROBADA);
+    this.documentoSeleccionado.getEstadosxdocumento().getEstado().setId((long) ConstantesDocumento.CERRADO);
     this.comercioEjb.actualizarEstadoDocumentoPorId(this.documentoSeleccionado);
     this.addMensajeInfo(mensaje);
     this.buscarDocumentos();

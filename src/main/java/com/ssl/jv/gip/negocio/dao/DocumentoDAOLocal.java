@@ -25,6 +25,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
+
 import org.primefaces.model.SortOrder;
 
 @Local
@@ -229,4 +230,11 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
   
   @Override
   void delete(Documento documento);
+
+public List<Documento> consultarDocumentosSP(String consecutivoDocumento);
+public List<Documento> consultarDocumentosOD(String consecutivoDocumento);
 }
+
+
+
+
