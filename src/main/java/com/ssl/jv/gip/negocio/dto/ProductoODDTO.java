@@ -2,7 +2,6 @@ package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,8 +15,7 @@ public class ProductoODDTO implements Serializable {
 
   private static final long serialVersionUID = 1L;
   /**
-   * param idDocumento
-   * param idCliente
+   * param idDocumento param idCliente
    */
   public static final String BUSCAR_PRODUCTOS_ORDEN_DESPACHO = "SELECT productos_inventario.id as id, productos_inventario.nombre as nombre, productos_inventario.sku as sku, productos_inventario.id_uv as idUV, productosXdocumentos.cantidad1 as cantidad, pi_ce.cantidad_x_embalaje as cantidadPorEmbalaje, (CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje) END) as cantidadCajas, ((CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (pi_ce.peso_neto_embalaje/pi_ce.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as totalPesoNeto, ((CASE WHEN (pi_ce.cantidad_x_embalaje = 0) THEN 0 ELSE (pi_ce.peso_bruto_embalaje/pi_ce.cantidad_x_embalaje)*productosXdocumentos.cantidad1 END)) as totalPesoBruto, ((CASE WHEN (pi_ce.cantidad_x_embalaje = 0 or pi_ce.total_cajas_x_pallet = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pi_ce.cantidad_x_embalaje)/pi_ce.total_cajas_x_pallet END)) AS totalCajasPallet, tl.descripcion as descripcionLote, dxl.consecutivo as consecutivoLote , dxl.total_cantidad as totalCantidadLote, documento_x_negociacion.solicitud_cafe as solicitudCafe FROM productosXdocumentos LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id LEFT JOIN productos_x_cliente_comext ON productos_x_cliente_comext.id_producto=productosXdocumentos.id_producto LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=productos_inventario.id left join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id LEFT join documento_x_lotesoic dxl on dxl.id_tipo_lote=tl.id LEFT JOIN documento_x_negociacion on productosXdocumentos.id_documento = documento_x_negociacion.id_documento WHERE productosXdocumentos.id_documento=:idDocumento AND (dxl.id_documento=:idDocumento or dxl.id_documento is null) AND (productos_x_cliente_comext.id_cliente=:idCliente or productos_x_cliente_comext.id_cliente is null) order by consecutivoLote ";
   @Id
@@ -35,8 +33,6 @@ public class ProductoODDTO implements Serializable {
   private String consecutivoLote;
   private BigDecimal totalCantidadLote;
   private boolean solicitudCafe;
-  @Transient
-  private BigInteger idCliente;
   @Transient
   private BigDecimal muestrasFITOYANTICO;
   @Transient
@@ -229,20 +225,6 @@ public class ProductoODDTO implements Serializable {
    */
   public boolean isSolicitudCafe() {
     return solicitudCafe;
-  }
-
-  /**
-   * @return the idCliente
-   */
-  public BigInteger getIdCliente() {
-    return idCliente;
-  }
-
-  /**
-   * @param idCliente the idCliente to set
-   */
-  public void setIdCliente(BigInteger idCliente) {
-    this.idCliente = idCliente;
   }
 
   /**
