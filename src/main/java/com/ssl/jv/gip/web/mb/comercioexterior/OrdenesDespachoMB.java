@@ -96,6 +96,11 @@ public class OrdenesDespachoMB extends UtilMB {
       this.totalCantidadPorEmbalaje += p.getCantidadPorEmbalaje().doubleValue();
       this.muestrasCalidades += p.getMuestrasCalidades().doubleValue();
       this.muestrasFITOANTICO += p.getMuestrasFITOYANTICO().doubleValue();
+      
+      //p.getConsecutivoLote()
+      //p.getDescripcionLote()
+      //p.getSku()
+      
     }
   }
 

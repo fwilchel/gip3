@@ -314,7 +314,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
         + "clientes.nombre nombrecliente, 	" + "clientes.direccion, 	" + "clientes.telefono, 	" + "clientes.contacto,  	" + "Documento_x_Negociacion.id_termino_incoterm, 	" + "termino_incoterm.descripcion, 	" + "documentos.valor_total, 	" + "Documento_x_Negociacion.costo_entrega, 	" + "Documento_x_Negociacion.costo_flete, 	" + "Documento_x_Negociacion.costo_seguro, 	" + "Documento_x_Negociacion.otros_gastos, 	" + "Documento_x_Negociacion.cantidad_contenedores_de_20, 	"
         + "Documento_x_Negociacion.cantidad_contenedores_de_40, 	" + "ciudades.nombre nombrecuidad, 	" + "Documento_x_Negociacion.lugar_incoterm, 	" + "estados.nombre nombreestados, 	" + "Documento_x_Negociacion.solicitud_cafe, 	" + "documentos.observacion_documento, 	" + "Documento_x_Negociacion.observaciones_marcacion_2,   " + "clientes.nit, " + "Documento_x_Negociacion.cantidad_dias_vigencia,   " + "metodo_pago.descripcion descripcionPago, "
         + "metodo_pago.descripcion_ingles descripcionPagoIngles " + "FROM documentos,clientes,Documento_x_Negociacion,termino_incoterm,ciudades,estados,metodo_pago   " + "WHERE documentos.id_cliente = clientes.id  " + "AND documentos.id=Documento_x_Negociacion.id_documento   " + "AND Documento_x_Negociacion.id_termino_incoterm=termino_incoterm.id   " + "AND clientes.id_ciudad=ciudades.id  	" + "AND documentos.id_estado=estados.id  " + "AND documentos.id_tipo_documento=22  "
-        + "AND clientes.id_metodo_pago = metodo_pago.id " + "AND documentos.id_estado IN (:estado1, :estado2, :estado3)  ");
+        + "AND clientes.id_metodo_pago = metodo_pago.id " + "AND documentos.id_estado IN (:estado1, :estado2, :estado3,:estado4)  ");
 
     if (filtro.getFechaBusqueda() != null) {
       DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd");
@@ -337,7 +337,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
     sql.append(" ORDER BY documentos.id DESC ;");
 
-    List<Object[]> listado = em.createNativeQuery(sql.toString()).setParameter("estado1", (long) ConstantesDocumento.ACTIVO).setParameter("estado2", (long) ConstantesDocumento.APROBADA).setParameter("estado3", (long) ConstantesDocumento.VERIFICADO).getResultList();
+    List<Object[]> listado = em.createNativeQuery(sql.toString()).setParameter("estado1", (long) ConstantesDocumento.ACTIVO).setParameter("estado2", (long) ConstantesDocumento.APROBADA).setParameter("estado3", (long) ConstantesDocumento.VERIFICADO).setParameter("estado4", (long) ConstantesDocumento.ASIGNADA).getResultList();
 
     if (listado != null) {
       for (Object[] objs : listado) {
