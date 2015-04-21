@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_OD" pageWidth="720" pageHeight="800" whenNoDataType="AllSectionsNoDetail" columnWidth="720" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f1bc1c0a-4d0e-4562-9858-8ee627b5db15">
 	<property name="ireport.zoom" value="1.6105100000000008"/>
-	<property name="ireport.x" value="25"/>
-	<property name="ireport.y" value="365"/>
+	<property name="ireport.x" value="388"/>
+	<property name="ireport.y" value="366"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="false,true,0.75,0,0,0,0,0,0"/>
 	<style name="table">
@@ -622,26 +622,29 @@
 	<variable name="objProductoxDocumento.dblCantidad1_4" class="java.math.BigDecimal" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
 		<variableExpression><![CDATA[$F{cantidad}]]></variableExpression>
 	</variable>
-	<variable name="muestrasFITOYANTICO_1" class="java.math.BigDecimal" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
-		<variableExpression><![CDATA[$F{muestrasFITOYANTICO}]]></variableExpression>
+	<variable name="cantidad_1" class="java.math.BigDecimal" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
+		<variableExpression><![CDATA[$F{cantidad}]]></variableExpression>
 	</variable>
-	<variable name="muestrasFITOYANTICO_2" class="java.math.BigDecimal" calculation="Sum">
+	<variable name="cantidadPorEmbalaje_1" class="java.math.BigDecimal" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
+		<variableExpression><![CDATA[$F{cantidadPorEmbalaje}]]></variableExpression>
+	</variable>
+	<variable name="cantidadCajas_1" class="java.math.BigDecimal" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
+		<variableExpression><![CDATA[$F{cantidadCajas}]]></variableExpression>
+	</variable>
+	<variable name="muestrasFITOYANTICO_1" class="java.math.BigDecimal" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
 		<variableExpression><![CDATA[$F{muestrasFITOYANTICO}]]></variableExpression>
 	</variable>
 	<variable name="muestrasCalidades_1" class="java.math.BigDecimal" resetType="Group" resetGroup="TipoLoteOIC" calculation="Sum">
 		<variableExpression><![CDATA[$F{muestrasCalidades}]]></variableExpression>
 	</variable>
-	<variable name="muestrasCalidades_2" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{muestrasCalidades}]]></variableExpression>
-	</variable>
 	<group name="TipoLoteOIC">
-		<groupExpression><![CDATA[]]></groupExpression>
+		<groupExpression><![CDATA[$F{descripcionLote}]]></groupExpression>
 		<groupHeader>
 			<band height="36">
 				<textField>
-					<reportElement uuid="b991fecc-6e89-4a48-8fdf-bd57348ee7e9" x="65" y="2" width="338" height="11"/>
+					<reportElement uuid="b991fecc-6e89-4a48-8fdf-bd57348ee7e9" x="65" y="2" width="497" height="11"/>
 					<textElement>
-						<font size="7" isBold="true"/>
+						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{descripcionLote} +"        Lote OIC " + $F{consecutivoLote}]]></textFieldExpression>
 				</textField>
@@ -698,13 +701,6 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="32">
-				<textField pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement uuid="8ddaf50f-1ed7-4029-a62a-0d05e666629e" x="228" y="6" width="47" height="16"/>
-					<textElement textAlignment="Right">
-						<font size="8" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{totalCantidad}]]></textFieldExpression>
-				</textField>
 				<staticText>
 					<reportElement uuid="67275e7b-0c27-4580-b3ab-db058f4050cc" x="65" y="6" width="161" height="15"/>
 					<textElement>
@@ -712,33 +708,40 @@
 					</textElement>
 					<text><![CDATA[SubTotales:]]></text>
 				</staticText>
-				<textField pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement uuid="50ac4b42-20e2-4a5b-894c-fdc447d9f612" x="275" y="6" width="90" height="15"/>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="0368b5af-9d26-4d1e-9559-ee9a963f7d6d" x="230" y="6" width="45" height="15"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{totalUnidadXEmbalaje}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{cantidad_1}]]></textFieldExpression>
 				</textField>
-				<textField pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement uuid="c97796ce-c673-4988-ad18-5cafdf7a364c" x="365" y="6" width="133" height="15"/>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="ec6d83b3-148e-456a-b389-76ed2c4b7c6e" x="282" y="7" width="83" height="14"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{totalCantidadCajas}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{cantidadPorEmbalaje_1}]]></textFieldExpression>
 				</textField>
-				<textField pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement uuid="32f87362-6a71-4017-b1b1-ac2b16b0e969" x="518" y="6" width="100" height="15"/>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="aef78633-4b10-4b0f-99cf-1c17bfcb76bd" x="365" y="7" width="133" height="14"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{totalMuestrasFito}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{cantidadCajas_1}]]></textFieldExpression>
 				</textField>
-				<textField pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement uuid="b9f8be4a-9de7-411e-bb29-eaa6acbbb87d" x="620" y="6" width="98" height="15"/>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="3fbe692d-73de-438a-b4b8-da7fab24558b" x="498" y="7" width="118" height="14"/>
 					<textElement textAlignment="Right">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{totalMuestrasCalidades}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{muestrasFITOYANTICO_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="e65851e6-6f0f-48e7-9e81-89600f25cd21" x="618" y="7" width="100" height="14"/>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{muestrasCalidades_1}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
