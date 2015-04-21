@@ -182,4 +182,27 @@ public class DocumentoXLoteDAO extends GenericDAO<DocumentoXLotesoic> implements
     return listadoDocumentos;
 
   }
+  
+  
+  
+  @Override
+  public void addConsecutivoLoteOIC_FP(Documento documento) {
+    try {
+      StringBuilder sql = new StringBuilder();
+     // sql.append("UPDATE documentos SET " + " id_estado = " + documento.getEstadosxdocumento().getEstado().getId() + " WHERE  consecutivo_documento = '" + documento.getConsecutivoDocumento() + "'");
+      
+      
+      sql.append("insert into documento_x_lotesoic(id_documento,consecutivo,id_tipo_lote,fecha,total_cantidad,total_cajas,pedido,asignacion,aviso,total_peso_neto,contribucion,dex)"
+        +" select "+ documento.getId()+", consecutivo,id_tipo_lote,fecha,total_cantidad,total_cajas,pedido,asignacion,aviso,total_peso_neto,contribucion,dex"
+        +" from documento_x_lotesoic where id_documento  in (select id from documentos where consecutivo_documento ='"+ documento.getObservacionDocumento()+"')");
+                                                         
+      
+      
+
+      int q = em.createNativeQuery(sql.toString()).executeUpdate();
+
+    } catch (Exception e) {
+
+    }
+  }
 }

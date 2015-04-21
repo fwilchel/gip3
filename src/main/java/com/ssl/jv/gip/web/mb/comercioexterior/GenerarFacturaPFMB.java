@@ -346,6 +346,8 @@ public class GenerarFacturaPFMB extends UtilMB {
 
       productos.add(productoDocumento);
     }
+    
+    
     documento = this.comercioEjb.crearFactura(documento, auditoria, dxn, productos, this.documentoSeleccionado);
     String mensaje = AplicacionMB.getMessage("VentasFPExito_Crear", language);
     String parametros[] = new String[2];
@@ -353,6 +355,14 @@ public class GenerarFacturaPFMB extends UtilMB {
     parametros[1] = documento.getConsecutivoDocumento();
     mensaje = Utilidad.stringFormat(mensaje, parametros);
     //this.documentoSeleccionado.getEstadosxdocumento().getEstado().setId((long) ConstantesDocumento.APROBADA);
+    
+    System.out.println("Id_FP"+documento.getId());
+    System.out.println("Consecutivo SP"+documento.getObservacionDocumento());
+    
+    
+    this.comercioEjb.guardarLotesFP(documento);
+    
+    
     this.documentoSeleccionado.getEstadosxdocumento().getEstado().setId((long) ConstantesDocumento.CERRADO);
     this.comercioEjb.actualizarEstadoDocumentoPorId(this.documentoSeleccionado);
     this.addMensajeInfo(mensaje);

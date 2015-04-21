@@ -1701,4 +1701,12 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   public List<Documento> consultarDocumentosOD(String consecutivoDocumento) {
     return documentoDAO.consultarDocumentosOD(consecutivoDocumento);
   }
+  
+  
+  @Override
+  public void guardarLotesFP(Documento documento) {
+   
+      documentoXLoteDAO.addConsecutivoLoteOIC_FP(documento);
+    //return lista;
+  }
 }
