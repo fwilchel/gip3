@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/ui/templates/general.xhtml">
+  <ui:define 
+    name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.
+  </ui:define>
+  <ui:define 
+    name="contenido">
+    <p:spacer 
+      height="40"/>
+    <h:form 
+      id="forma"
+      prependId="false" >
+      <p:messages 
+        id="msgs" 
+        showIcon="true"
+        globalOnly="true"/>
+      <p:tabView 
+        id="pnlTab">
+        <p:tab 
+          title="#{msg.gfTitle}">
+          <p:panel
+            id="pnlFtlDocumentos">
+            <p:panelGrid
+              columns="3"
+              styleClass="noBorders">
+              <p:outputLabel 
+                value="#{msg.maestroSkuPrdProductoXCliente}" 
+                for="skuProducto" 
+                styleClass="negrita" />
+              <p:inputText 
+                value="#{productosClienteMB.skuFlt}" 
+                id="skuProducto" 
+                required="false" 
+                disabled="false" 
+                label="#{msg.maestroSkuPrdProductoXCliente}" />
+              <p:message 
+                for="skuProducto"/>
+              <p:outputLabel 
+                value="#{msg.maestroNombreCliProductoXCliente}" 
+                for="nombreCliente" 
+                styleClass="negrita" />
+              <p:inputText 
+                value="#{productosClienteMB.nombreClienteFlt}" 
+                id="nombreCliente" 
+                required="false" 
+                disabled="false" 
+                label="#{msg.maestroNombreCliProductoXCliente}" />
+              <p:message 
+                for="nombreCliente"/>
+<!--              <p:outputLabel 
+                value="#{msg.maestroNombrePVProductoXCliente}" 
+                for="nombreCliente" 
+                styleClass="negrita" />
+              <p:inputText 
+                value="#{productosClienteMB.nombreSitioEntregaFlt}" 
+                id="nombreCliente" 
+                required="false" 
+                disabled="false" 
+                label="#{msg.maestroNombrePVProductoXCliente}" />
+              <p:message 
+                for="nombreCliente"/>-->
+              <p:outputLabel 
+                value="#{msg.generalEstado}" 
+                for="estado" 
+                styleClass="negrita" />
+              <p:selectOneRadio 
+                id="estado" 
+                value="#{productosClienteMB.estadoFlt}">
+                <f:selectItem 
+                  itemLabel="#{msg.generalActivos}" 
+                  itemValue="A" />
+                <f:selectItem 
+                  itemLabel="#{msg.generalTodos}" 
+                  itemValue="T" />
+              </p:selectOneRadio>
+              <p:message 
+                for="estado"/>
+              <f:facet
+                name="footer">
+                <p:commandButton
+                  value="#{msg.gfFltBtnBuscar}"
+                  actionListener="#{productosClienteMB.consultarProductos()}"
+                  update=":forma:msgs tblRegistros"/>
+              </f:facet>
+            </p:panelGrid>
+          </p:panel>
+          <p:dataTable 
+            id="tblRegistros"
+            var="registro" 
+            widgetVar="tblRegistros" 
+            value="#{productosClienteMB.productoXClienteLista}" 
+            rows="10"
+            emptyMessage="#{msg.generalNoDatos}" 
+            paginator="true"
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
+            <f:facet 
+              name="header">
+              <div 
+                align="right">
+                <p:outputPanel>
+                  <h:outputText 
+                    value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText 
+                    id="globalFilter"
+                    onkeyup="PF('tblRegistros').filter()" 
+                    style="width:150px"
+                    placeholder="#{msg.generalPalabrasBuscar}" />
+                  <p:spacer 
+                    width="30">
+                  </p:spacer>				
+                  <p:commandButton 
+                    action="introduccion" 
+                    title="#{msg.generalCancelar}" 
+                    ajax="false"
+                    icon="ui-icon-cancel" 
+                    value="#{msg.generalCancelar}" />
+                </p:outputPanel>
+              </div>
+            </f:facet>
+            <!-- ver detalle -->
+            <p:column 
+              style="width:32px;text-align: center">
+              <p:commandButton 
+                icon="ui-icon-zoomin" 
+                title="#{msg.gfBtnDetalle}"
+                actionListener="#{productosClienteMB.seleccionarProducto(registro)}"
+                update=":forma:msgs"/>
+            </p:column>
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroIdProductoXCliente}"
+              filterBy="#{registro.id}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.id}">
+              <h:outputText value="#{registro.id}" />
+            </p:column>
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroSkuPrdProductoXCliente}"
+              filterBy="#{registro.productosInventario.sku}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.productosInventario.sku}">
+              <h:outputText value="#{registro.productosInventario.sku}" />
+            </p:column>
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroNombrePrdProductoXCliente}"
+              filterBy="#{registro.productosInventario.nombre}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.productosInventario.nombre}">
+              <h:outputText value="#{registro.productosInventario.nombre}" />
+            </p:column>
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroNombreCliProductoXCliente}"
+              filterBy="#{registro.cliente.nombre}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.cliente.nombre}">
+              <h:outputText value="#{registro.cliente.nombre}" />
+            </p:column>
+            <!--  -->
+<!--             <p:column  -->
+<!--               headerText="#{msg.maestroNombrePVProductoXCliente}" -->
+<!--               filterBy="#{registro.pk.idPuntoVenta}"  -->
+<!--               filterMatchMode="contains"  -->
+<!--               sortBy="#{registro.pk.idPuntoVenta}"> -->
+<!--               <h:outputText value="#{registro.pk.idPuntoVenta}" /> -->
+<!--             </p:column> -->
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroPrecioMlProductoXCliente}"
+              filterBy="#{registro.precioMl}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.precioMl}">
+              <h:outputText value="#{registro.precioMl}">
+                <f:convertNumber 
+                  pattern="$#####,###,###,###.0" />
+              </h:outputText>
+            </p:column>
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroIVAProductoXCliente}"
+              filterBy="#{registro.iva}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.iva}">
+              <h:outputText value="#{registro.iva}">
+                <f:convertNumber 
+                  pattern="$#####,###,###,###.0" />
+              </h:outputText>
+            </p:column>
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroDesPrdProductoXCliente}"
+              filterBy="#{registro.descuentoxproducto}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.descuentoxproducto}">
+              <h:outputText value="#{registro.descuentoxproducto}">
+                <f:convertNumber 
+                  pattern="$#####,###,###,###.0" />
+              </h:outputText>
+            </p:column>
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroOtrosDesProductoXCliente}"
+              filterBy="#{registro.otrosDescuentos}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.otrosDescuentos}">
+              <h:outputText value="#{registro.otrosDescuentos}">
+                <f:convertNumber 
+                  pattern="$#####,###,###,###.0" />
+              </h:outputText>
+            </p:column>
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroFecIniProductoXCliente}"
+              filterBy="#{registro.fechaInicialVigencia}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.fechaInicialVigencia}">
+              <h:outputText value="#{registro.fechaInicialVigencia}">
+                <f:convertDateTime 
+                  pattern="yyyy-MM-dd"/>
+              </h:outputText>
+            </p:column>
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroFecFinProductoXCliente}"
+              filterBy="#{registro.fechaFinalVigencia}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.fechaFinalVigencia}">
+              <h:outputText value="#{registro.fechaFinalVigencia}">
+                <f:convertDateTime 
+                  pattern="yyyy-MM-dd"/>
+              </h:outputText>
+            </p:column>
+            <!--  -->
+            <p:column 
+              headerText="#{msg.maestroVigenteProductoXCliente}"
+              filterBy="#{registro.vigente?'Si':'No'}" 
+              filterMatchMode="exact" 
+              sortBy="#{registro.vigente}">
+              <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('tblRegistros').filter()" style="width:65px" >
+                  <f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+                  <f:selectItem itemLabel="Si" itemValue="Si" />
+                  <f:selectItem itemLabel="No" itemValue="No" />
+                </p:selectOneMenu>
+              </f:facet>
+              <h:outputText value="#{registro.vigente?'Si':'No'}" />
+            </p:column>
+            <!--  -->
+            <p:column 
+              filterBy="#{registro.activo?'Si':'No'}" 
+              headerText="#{msg.generalActivo}"
+              filterMatchMode="exact" 
+              sortBy="#{registro.activo}">
+              <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('tblRegistros').filter()" style="width:65px" >
+                  <f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+                  <f:selectItem itemLabel="Si" itemValue="Si" />
+                  <f:selectItem itemLabel="No" itemValue="No" />
+                </p:selectOneMenu>
+              </f:facet>
+              <h:outputText value="#{registro.activo?'Si':'No'}" />
+            </p:column>
+          </p:dataTable>
+        </p:tab>
+      </p:tabView>
+    </h:form>
+  </ui:define>
+</ui:composition>

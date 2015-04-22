@@ -26,6 +26,7 @@ import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComExtFiltroVO;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
@@ -39,6 +40,7 @@ import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioComextFiltroVO;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
+import java.util.Map;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -385,4 +387,12 @@ public interface MaestrosEJBLocal {
   Documento consultarDocumentoPorConsecutivo(String consecutivo);
 
   public void cargarPuntoEntregaDesdeArchivo(List<String[]> lines);
+
+  /**
+   * Metodo que consulta la lista de los productos por cliente
+   *
+   * @param parametros
+   * @return
+   */
+  List<ProductosXCliente> consultarProductosXCliente(Map<String, Object> parametros);
 }

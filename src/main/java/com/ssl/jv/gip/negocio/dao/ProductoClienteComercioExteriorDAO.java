@@ -496,28 +496,20 @@ public class ProductoClienteComercioExteriorDAO extends
   }
 
   @Override
-  public List<ProductosXClienteComext> consultarPorFiltro(
-      ProductosXClienteComExtFiltroVO filtroVO) {
+  public List<ProductosXClienteComext> consultarPorFiltro(ProductosXClienteComExtFiltroVO filtroVO) {
     CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-    CriteriaQuery<ProductosXClienteComext> query = criteriaBuilder
-        .createQuery(ProductosXClienteComext.class);
-    Root<ProductosXClienteComext> from = query
-        .from(ProductosXClienteComext.class);
-    Join<ProductosXClienteComext, ProductosInventario> productosInventarioJoin = from
-        .join("productosInventario");
-    Join<ProductosXClienteComext, Cliente> clientJoin = from
-        .join("cliente");
+    CriteriaQuery<ProductosXClienteComext> query = criteriaBuilder.createQuery(ProductosXClienteComext.class);
+    Root<ProductosXClienteComext> from = query.from(ProductosXClienteComext.class);
+    Join<ProductosXClienteComext, ProductosInventario> productosInventarioJoin = from.join("productosInventario");
+    Join<ProductosXClienteComext, Cliente> clientJoin = from.join("cliente");
     from.fetch("productosInventario");
     from.fetch("cliente");
     CriteriaQuery<ProductosXClienteComext> select = query.select(from);
-
     query.orderBy(criteriaBuilder.asc(productosInventarioJoin.get("sku")));
-
     ParameterExpression<Boolean> peActivo = null;
     ParameterExpression<String> peSku = null;
     ParameterExpression<String> peNombre = null;
-
-    List<Predicate> predicates = new ArrayList<Predicate>();
+    List<Predicate> predicates = new ArrayList<>();
     if (filtroVO.getActivo() != null) {
       Expression<Boolean> path = from.get("activo");
       // predicates.add(criteriaBuilder.isTrue(path));
@@ -530,42 +522,29 @@ public class ProductoClienteComercioExteriorDAO extends
         // predicates.add(criteriaBuilder.isFalse(peActivo));
       }
     }
-    if (filtroVO.getSkuProducto() != null
-        && !filtroVO.getSkuProducto().trim().isEmpty()) {
+    if (filtroVO.getSkuProducto() != null && !filtroVO.getSkuProducto().trim().isEmpty()) {
       // Path<Object> path = productosInventarioJoin.get("sku");
       peSku = criteriaBuilder.parameter(String.class, "sku");
-      Expression<String> literal = criteriaBuilder.upper(criteriaBuilder
-          .literal(filtroVO.getSkuProducto()));
-      predicates
-          .add(criteriaBuilder.like(
-                  criteriaBuilder.upper(productosInventarioJoin
-                      .<String>get("sku")), peSku));
+      Expression<String> literal = criteriaBuilder.upper(criteriaBuilder.literal(filtroVO.getSkuProducto()));
+      predicates.add(criteriaBuilder.like(criteriaBuilder.upper(productosInventarioJoin.<String>get("sku")), peSku));
     }
-    if (filtroVO.getNombreCliente() != null
-        && !filtroVO.getNombreCliente().trim().isEmpty()) {
+    if (filtroVO.getNombreCliente() != null && !filtroVO.getNombreCliente().trim().isEmpty()) {
       // Path<Object> path = productosInventarioJoin.get("sku");
       peNombre = criteriaBuilder.parameter(String.class, "nombre");
-      Expression<String> literal = criteriaBuilder.upper(criteriaBuilder
-          .literal(filtroVO.getNombreCliente()));
-      predicates.add(criteriaBuilder.like(
-          criteriaBuilder.upper(clientJoin.<String>get("nombre")),
-          peNombre));
+      Expression<String> literal = criteriaBuilder.upper(criteriaBuilder.literal(filtroVO.getNombreCliente()));
+      predicates.add(criteriaBuilder.like(criteriaBuilder.upper(clientJoin.<String>get("nombre")), peNombre));
     }
     // select.where(criteriaBuilder.equal(productosInventarioJoin.get("sku"),
     // filtroVO.getSkuProducto()));
     if (!predicates.isEmpty()) {
       select.where(predicates.toArray(new Predicate[0]));
     }
-
     TypedQuery<ProductosXClienteComext> typedQuery = em.createQuery(select);
-
     if (peSku != null) {
-      typedQuery.setParameter(peSku, filtroVO.getSkuProducto()
-          .toUpperCase());
+      typedQuery.setParameter(peSku, filtroVO.getSkuProducto().toUpperCase());
     }
     if (peNombre != null) {
-      typedQuery.setParameter(peNombre, filtroVO.getNombreCliente()
-          .toUpperCase());
+      typedQuery.setParameter(peNombre, filtroVO.getNombreCliente().toUpperCase());
     }
     return typedQuery.getResultList();
   }
@@ -718,7 +697,7 @@ public class ProductoClienteComercioExteriorDAO extends
    * @author Fredy Wilches
    * @param idDocumento
    * @param idCliente
-   * @return 
+   * @return
    * @email fredy.wilches@softstudio.co
    * @phone 3002146240
    * @version 1.0

@@ -366,6 +366,12 @@
       <to-view-id>/ui/devoluciones/devolucionTiendaBodega.xhtml</to-view-id>
     </navigation-case>
        
+    <!-- maestros / productos x cliente -->
+    <navigation-case>
+      <from-outcome>listado_maestro_ProductosPorCliente</from-outcome>
+      <to-view-id>/ui/maestros/productosCliente.xhtml</to-view-id>
+    </navigation-case>
+       
   </navigation-rule>
 
 
