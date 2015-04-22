@@ -121,6 +121,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     Integer cantidadEstibas = 0;
     Integer pesoBrutoEstibas = 0;
     String strObservacionMarcacion2 = "";
+    String strFacturaProforma="";
     this.seleccionado.setDocumentoXNegociacions(this.reportesComercioExteriorEJBLocal.consultarDocumentoXNegociacionxDocumento(this.seleccionado.getId()));
     if (this.seleccionado.getDocumentoXNegociacions() != null && !this.seleccionado.getDocumentoXNegociacions().isEmpty()) {
       intCantidadDiasVigencia = this.seleccionado.getDocumentoXNegociacions().get(0).getCantidadDiasVigencia();
@@ -202,6 +203,13 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
         produ.getUnidade().setNombre(unidadIngles);
       }
     }
+    
+    if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()) {
+    parametros.put("solicitud", this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento()));
+    strFacturaProforma=this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento());
+  }
+    
+    
     List<ReporteReimprimirFacturaDTO> reporteDTOS = new ArrayList<>();
     for (ProductosXDocumento prod : listaProductosDocumento) {
       ReporteReimprimirFacturaDTO registro = new ReporteReimprimirFacturaDTO();
@@ -219,7 +227,8 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
       registro.setUnidadNombre(prod.getUnidade().getNombre());
       registro.setTipoLoteOICDesc(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDescripcion());
       String consecDocxlote = "";
-      List<DocumentoXLotesoic> docxLotesOic = this.reportesComercioExteriorEJBLocal.consultarPorConsecutivoDocumento(this.seleccionado.getConsecutivoDocumento());
+      //List<DocumentoXLotesoic> docxLotesOic = this.reportesComercioExteriorEJBLocal.consultarPorConsecutivoDocumento(this.seleccionado.getConsecutivoDocumento());
+      List<DocumentoXLotesoic> docxLotesOic = this.reportesComercioExteriorEJBLocal.consultarPorConsecutivoDocumento(strFacturaProforma);
       if (docxLotesOic != null && !docxLotesOic.isEmpty()) {
         consecDocxlote = docxLotesOic.get(0).getConsecutivo();
       }
@@ -228,9 +237,14 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
       registro.setTotalCajasPallet(prod.getCantidadPalletsItem().doubleValue());
       reporteDTOS.add(registro);
     }
-    if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()) {
+    
+    
+    /*if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()) {
       parametros.put("solicitud", this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento()));
-    }
+    }*/
+    
+    
+    
     JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reporteDTOS);
     try {
       Hashtable<String, String> parametrosR = new Hashtable<String, String>();
