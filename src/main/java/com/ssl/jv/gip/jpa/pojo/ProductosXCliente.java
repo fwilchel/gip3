@@ -46,6 +46,9 @@ public class ProductosXCliente implements Serializable {
   @ManyToOne(optional = false)
   @JoinColumn(name = "id_cliente", referencedColumnName = "id", insertable = false, updatable = false)
   private Cliente cliente;
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "id_punto_venta", referencedColumnName = "id", insertable = false, updatable = false)
+  private PuntoVenta puntoVenta;
   @ManyToOne
   @JoinColumn(name = "id_ml")
   private Moneda moneda;
@@ -230,6 +233,20 @@ public class ProductosXCliente implements Serializable {
    */
   public void setCliente(Cliente cliente) {
     this.cliente = cliente;
+  }
+
+  /**
+   * @return the puntoVenta
+   */
+  public PuntoVenta getPuntoVenta() {
+    return puntoVenta;
+  }
+
+  /**
+   * @param puntoVenta the puntoVenta to set
+   */
+  public void setPuntoVenta(PuntoVenta puntoVenta) {
+    this.puntoVenta = puntoVenta;
   }
 
   /**

@@ -89,6 +89,7 @@ public class ProductoClienteDAO extends GenericDAO<ProductosXCliente> implements
         moneda.setId(objs[17] == null ? null : objs[17].toString());
         pxc.setCliente(cliente);
         pxc.setProductosInventario(productosInventario);
+        pxc.setPuntoVenta(puntoVenta);
         pxc.setMoneda(moneda);
         listaRetorno.add(pxc);
 	  }

@@ -53,18 +53,18 @@
                 label="#{msg.maestroNombreCliProductoXCliente}" />
               <p:message 
                 for="nombreCliente"/>
-<!--              <p:outputLabel 
+              <p:outputLabel 
                 value="#{msg.maestroNombrePVProductoXCliente}" 
-                for="nombreCliente" 
+                for="nombrePuntoVenta" 
                 styleClass="negrita" />
               <p:inputText 
                 value="#{productosClienteMB.nombreSitioEntregaFlt}" 
-                id="nombreCliente" 
+                id="nombrePuntoVenta" 
                 required="false" 
                 disabled="false" 
                 label="#{msg.maestroNombrePVProductoXCliente}" />
               <p:message 
-                for="nombreCliente"/>-->
+                for="nombrePuntoVenta"/>
               <p:outputLabel 
                 value="#{msg.generalEstado}" 
                 for="estado" 
@@ -167,13 +167,13 @@
               <h:outputText value="#{registro.cliente.nombre}" />
             </p:column>
             <!--  -->
-<!--             <p:column  -->
-<!--               headerText="#{msg.maestroNombrePVProductoXCliente}" -->
-<!--               filterBy="#{registro.pk.idPuntoVenta}"  -->
-<!--               filterMatchMode="contains"  -->
-<!--               sortBy="#{registro.pk.idPuntoVenta}"> -->
-<!--               <h:outputText value="#{registro.pk.idPuntoVenta}" /> -->
-<!--             </p:column> -->
+            <p:column 
+              headerText="#{msg.maestroNombrePVProductoXCliente}"
+              filterBy="#{registro.puntoVenta.nombre}" 
+              filterMatchMode="contains" 
+              sortBy="#{registro.puntoVenta.nombre}">
+              <h:outputText value="#{registro.puntoVenta.nombre}" />
+            </p:column>
             <!--  -->
             <p:column 
               headerText="#{msg.maestroPrecioMlProductoXCliente}"

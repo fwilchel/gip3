@@ -56,7 +56,7 @@ public class ProductosClienteMB extends UtilMB {
   private String skuFlt;
   private String nombreClienteFlt;
   private String nombreSitioEntregaFlt;
-  private boolean estadoFlt;
+  private String estadoFlt;
   private List<ProductosXCliente> productoXClienteLista;
   private ProductosXCliente productoXClienteSeleccionado;
 
@@ -68,6 +68,7 @@ public class ProductosClienteMB extends UtilMB {
   @PostConstruct
   public void init() {
     LOGGER.trace("Metodo: <<init>>");
+    estadoFlt = "A";
   }
 
   /**
@@ -78,8 +79,15 @@ public class ProductosClienteMB extends UtilMB {
     Map<String, Object> parametros = new HashMap<>();
     parametros.put("sku", skuFlt);
     parametros.put("nombreCliente", nombreClienteFlt);
-//    parametros.put("nombrePuntoVenta", nombreSitioEntregaFlt);
-    parametros.put("activo", estadoFlt);
+    parametros.put("nombrePuntoVenta", nombreSitioEntregaFlt);
+    switch (estadoFlt) {
+      case "A":
+        parametros.put("activo", true);
+        break;
+      case "T":
+        parametros.put("activo", false);
+        break;
+    }
     productoXClienteLista = maestrosEJB.consultarProductosXCliente(parametros);
   }
 
@@ -150,14 +158,14 @@ public class ProductosClienteMB extends UtilMB {
   /**
    * @return the estadoFlt
    */
-  public boolean isEstadoFlt() {
+  public String getEstadoFlt() {
     return estadoFlt;
   }
 
   /**
    * @param estadoFlt the estadoFlt to set
    */
-  public void setEstadoFlt(boolean estadoFlt) {
+  public void setEstadoFlt(String estadoFlt) {
     this.estadoFlt = estadoFlt;
   }
 
