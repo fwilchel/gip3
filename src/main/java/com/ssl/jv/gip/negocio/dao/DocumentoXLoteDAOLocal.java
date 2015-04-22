@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.negocio.dto.DocumentoPorLotesInstruccionEmbarqueDTO;
 
@@ -28,5 +29,7 @@ public interface DocumentoXLoteDAOLocal extends IGenericDAO<DocumentoXLotesoic> 
   public Integer reiniciarConsecutivoLoteOIC();
 
   public List<DocumentoPorLotesInstruccionEmbarqueDTO> consultarDocumentosPorLotes(String strDocs, String strDocsMerca);
+
+  public void addConsecutivoLoteOIC_FP(Documento documento);
 
 }

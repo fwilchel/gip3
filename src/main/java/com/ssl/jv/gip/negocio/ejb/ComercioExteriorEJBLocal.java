@@ -346,4 +346,6 @@ public interface ComercioExteriorEJBLocal {
 
 public List<Documento> consultarDocumentosOD(String consecutivoDocumento);
 
+public void guardarLotesFP(Documento documento);
+
 }
