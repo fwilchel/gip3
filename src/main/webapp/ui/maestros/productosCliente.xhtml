@@ -97,6 +97,12 @@
               <div 
                 align="right">
                 <p:outputPanel>
+                  <!-- cargar archivo -->
+                  <p:commandButton 
+                    onclick="PF('dlgUploadFile').show()"
+                    icon="ui-icon-document" 
+                    value="#{msg.fileupload_button}" />
+                  <p:spacer width="30"/>
                   <!-- generar reporte -->
                   <p:commandButton 
                     value="#{msg.reporteNivelInventarioExcel}"
@@ -106,14 +112,14 @@
                     <p:fileDownload 
                       value="#{productosClienteMB.onGenerateEcxelEvent()}" />
                   </p:commandButton>
-                  <p:spacer width="30"></p:spacer>
+                  <p:spacer width="30"/>
                   <p:commandButton 
                     action="#{productosClienteMB.onCreateEvent()}"
                     update=":pnlTab" 
                     icon="ui-icon-document"
                     title="#{msg.generalAdicionarRegistro}"
                     value="#{msg.generalAdicionarRegistro}" />
-                  <p:spacer width="30"></p:spacer>
+                  <p:spacer width="30"/>
                   <h:outputText 
                     value="#{msg.generalBuscarTodosCampos}: " />
                   <p:inputText 
@@ -121,9 +127,7 @@
                     onkeyup="PF('tblRegistros').filter()" 
                     style="width:150px"
                     placeholder="#{msg.generalPalabrasBuscar}" />
-                  <p:spacer 
-                    width="30">
-                  </p:spacer>				
+                  <p:spacer width="30"/>
                   <p:commandButton 
                     action="introduccion" 
                     title="#{msg.generalCancelar}" 
@@ -506,7 +510,50 @@
                 actionListener="#{productosClienteMB.onBackToListEvent()}"/>
             </f:facet>
           </p:panel>
-        </h:form>          
+        </h:form>
+        <p:dialog  
+          id="dlgUploadFile"
+          widgetVar="dlgUploadFile"
+          header="#{msg.fileupload_button}" 
+          modal="true" 
+          showEffect="fade" 
+          hideEffect="fade" 
+          resizable="false"
+          dynamic="true">
+          <h:form 
+            id="formaDlgUploadFile" 
+            enctype="multipart/form-data">
+            <p:messages 
+              id="msgsDlgUploadFile" 
+              showDetail="false" 
+              showSummary="true"
+              globalOnly="true" 
+              showIcon="true"/>
+            <p:outputPanel>
+              <p:outputLabel 
+                value="#{msg['fileupload_upfile']}" 
+                for="fileUpload"
+                styleClass="negrita" />
+              <p:fileUpload 
+                id="fileUpload"
+                fileUploadListener="#{productosClienteMB.handleFileUpload}"
+                mode="advanced" 
+                dragDropSupport="false" 
+                sizeLimit="200000" 
+                allowTypes="/(\.|\/)(txt)$/"
+                oncomplete="PF('dlgUploadFile').hide();"
+                uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}"
+                cancelLabel="#{msg.generalCancelar}"
+                invalidFileMessage="#{msg.maestroProductosXClienteArchivoNoValido}" />
+            </p:outputPanel>
+            <p:commandButton 
+              value="#{msg.generalCancelar}" 
+              process="@this"
+              oncomplete="PF('dlgUploadFile').hide();" 
+              icon="ui-icon-cancel">
+            </p:commandButton>
+          </h:form>
+        </p:dialog>
       </p:tab>
     </p:tabView>
   </ui:define>
