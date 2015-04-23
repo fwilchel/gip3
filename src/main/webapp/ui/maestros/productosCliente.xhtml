@@ -13,21 +13,22 @@
     name="contenido">
     <p:spacer 
       height="40"/>
-    <h:form 
-      id="forma"
-      prependId="false" >
-      <p:messages 
-        id="msgs" 
-        showIcon="true"
-        globalOnly="true"/>
-      <p:tabView 
-        id="pnlTab">
-        <p:tab 
-          title="#{msg.gfTitle}">
+    <p:tabView 
+      id="pnlTab">
+      <p:tab 
+        title="#{msg.maestroProductosXClienteTituloFrame}">
+        <h:form 
+          id="forma"
+          prependId="false" 
+          rendered="#{productosClienteMB.modoListado}">
+          <p:messages 
+            id="msgs" 
+            showIcon="true"
+            globalOnly="true"/>
           <p:panel
             id="pnlFtlDocumentos">
             <p:panelGrid
-              columns="3"
+              columns="9"
               styleClass="noBorders">
               <p:outputLabel 
                 value="#{msg.maestroSkuPrdProductoXCliente}" 
@@ -39,8 +40,6 @@
                 required="false" 
                 disabled="false" 
                 label="#{msg.maestroSkuPrdProductoXCliente}" />
-              <p:message 
-                for="skuProducto"/>
               <p:outputLabel 
                 value="#{msg.maestroNombreCliProductoXCliente}" 
                 for="nombreCliente" 
@@ -51,8 +50,6 @@
                 required="false" 
                 disabled="false" 
                 label="#{msg.maestroNombreCliProductoXCliente}" />
-              <p:message 
-                for="nombreCliente"/>
               <p:outputLabel 
                 value="#{msg.maestroNombrePVProductoXCliente}" 
                 for="nombrePuntoVenta" 
@@ -63,8 +60,6 @@
                 required="false" 
                 disabled="false" 
                 label="#{msg.maestroNombrePVProductoXCliente}" />
-              <p:message 
-                for="nombrePuntoVenta"/>
               <p:outputLabel 
                 value="#{msg.generalEstado}" 
                 for="estado" 
@@ -79,15 +74,11 @@
                   itemLabel="#{msg.generalTodos}" 
                   itemValue="T" />
               </p:selectOneRadio>
-              <p:message 
-                for="estado"/>
-              <f:facet
-                name="footer">
-                <p:commandButton
-                  value="#{msg.gfFltBtnBuscar}"
-                  actionListener="#{productosClienteMB.consultarProductos()}"
-                  update=":forma:msgs tblRegistros"/>
-              </f:facet>
+              <p:commandButton
+                value="#{msg.gfFltBtnBuscar}"
+                actionListener="#{productosClienteMB.onConsultEvent()}"
+                update=":pnlTab:forma:msgs tblRegistros"
+                icon="ui-icon-search"/>
             </p:panelGrid>
           </p:panel>
           <p:dataTable 
@@ -106,6 +97,23 @@
               <div 
                 align="right">
                 <p:outputPanel>
+                  <!-- generar reporte -->
+                  <p:commandButton 
+                    value="#{msg.reporteNivelInventarioExcel}"
+                    ajax="false"
+                    icon="ui-icon-document"
+                    disabled="#{empty productosClienteMB.productoXClienteLista}">
+                    <p:fileDownload 
+                      value="#{productosClienteMB.onGenerateEcxelEvent()}" />
+                  </p:commandButton>
+                  <p:spacer width="30"></p:spacer>
+                  <p:commandButton 
+                    action="#{productosClienteMB.onCreateEvent()}"
+                    update=":pnlTab" 
+                    icon="ui-icon-document"
+                    title="#{msg.generalAdicionarRegistro}"
+                    value="#{msg.generalAdicionarRegistro}" />
+                  <p:spacer width="30"></p:spacer>
                   <h:outputText 
                     value="#{msg.generalBuscarTodosCampos}: " />
                   <p:inputText 
@@ -131,8 +139,12 @@
               <p:commandButton 
                 icon="ui-icon-zoomin" 
                 title="#{msg.gfBtnDetalle}"
-                actionListener="#{productosClienteMB.seleccionarProducto(registro)}"
-                update=":forma:msgs"/>
+                action="#{productosClienteMB.onEditEvent()}"
+                update=":pnlTab">
+                <f:setPropertyActionListener 
+                  value="#{registro}"
+                  target="#{productosClienteMB.productoXClienteSeleccionado}" />
+              </p:commandButton>
             </p:column>
             <!--  -->
             <p:column 
@@ -271,8 +283,231 @@
               <h:outputText value="#{registro.activo?'Si':'No'}" />
             </p:column>
           </p:dataTable>
-        </p:tab>
-      </p:tabView>
-    </h:form>
+        </h:form>
+        <!-- detalle -->
+        <h:form
+          id="formaDetalle"
+          prependId="false"
+          rendered="#{productosClienteMB.modoCreacion or productosClienteMB.modoEdicion}">
+          <p:messages 
+            id="msgsDetalle"
+            showIcon="true"
+            autoUpdate="true"/>
+          <p:panel 
+            id="pnlPrincipal">
+            <h:panelGroup 
+              id="pnlDetalle"
+              layout="block">
+              <!-- detalle -->
+              <div 
+                align="left" 
+                style="margin-bottom:20px;">
+                <p:panelGrid 
+                  id="pnlDetalleCliente"
+                  columns="3"
+                  styleClass="noBorders">
+                  <p:outputLabel 
+                    for="cliente"
+                    styleClass="negrita"
+                    value="#{msg.maestroCreModNomCliProductoXCliente}" />
+                  <p:selectOneMenu 
+                    id="cliente"
+                    value="#{productosClienteMB.productoXClienteSeleccionado.cliente.id}">
+                    <p:ajax 
+                      update="puntoVenta"/>
+                    <f:selectItems 
+                      value="#{comunMB.obtenerListaClientes(menuMB.usuario.id)}" 
+                      var="cliente"
+                      itemLabel="#{cliente.nombre}"
+                      itemValue="#{cliente.id}"/>
+                  </p:selectOneMenu>
+                  <p:message 
+                    for="cliente" />
+                  <p:outputLabel 
+                    for="puntoVenta"
+                    styleClass="negrita"
+                    value="#{msg.maestroCreModNomPVProductoXCliente}" />
+                  <p:selectOneMenu 
+                    id="puntoVenta"
+                    value="#{productosClienteMB.productoXClienteSeleccionado.puntoVenta.id}">
+                    <f:selectItems 
+                      value="#{comunMB.obtenerListaPuntosVenta(productosClienteMB.productoXClienteSeleccionado.cliente.id)}" 
+                      var="puntoVenta"
+                      itemLabel="#{puntoVenta.nombre}"
+                      itemValue="#{puntoVenta.id}"/>
+                  </p:selectOneMenu>
+                  <p:message 
+                    for="puntoVenta" />
+                  <p:outputLabel 
+                    for="vigente"
+                    styleClass="negrita"
+                    value="#{msg.maestroVigenteProductoXCliente}" />
+                  <p:selectBooleanCheckbox 
+                    id="vigente"
+                    value="#{productosClienteMB.productoXClienteSeleccionado.vigente}" >
+                  </p:selectBooleanCheckbox>
+                  <p:message 
+                    for="vigente" />
+                  <p:outputLabel 
+                    for="moneda"
+                    styleClass="negrita"
+                    value="#{msg.maestroIdMlProductoXCliente}" />
+                  <p:selectOneMenu 
+                    id="moneda"
+                    value="#{productosClienteMB.productoXClienteSeleccionado.moneda.id}">
+                    <f:selectItems 
+                      value="#{comunMB.obtenerListaMonedas()}" 
+                      var="moneda"
+                      itemLabel="#{moneda.nombre}"
+                      itemValue="#{moneda.id}"/>
+                  </p:selectOneMenu>
+                  <p:message 
+                    for="moneda"/>
+                  <p:outputLabel 
+                    for="fechaInicialVigencia"
+                    styleClass="negrita"
+                    value="#{msg.maestroFecIniProductoXCliente}" />
+                  <p:calendar
+                    id="fechaInicialVigencia"
+                    value="#{productosClienteMB.productoXClienteSeleccionado.fechaInicialVigencia}"
+                    pattern="yyyy-MM-dd"
+                    required="false">
+                  </p:calendar>
+                  <p:message 
+                    for="fechaInicialVigencia"/>
+                  <p:outputLabel 
+                    for="fechaFinalVigencia"
+                    styleClass="negrita"
+                    value="#{msg.maestroFecFinProductoXCliente}" />
+                  <p:calendar 
+                    id="fechaFinalVigencia"
+                    value="#{productosClienteMB.productoXClienteSeleccionado.fechaFinalVigencia}"
+                    pattern="yyyy-MM-dd"
+                    required="false">
+                  </p:calendar>
+                  <p:message 
+                    for="fechaFinalVigencia"/>
+                  <p:outputLabel
+                    for="activo"
+                    styleClass="negrita"
+                    value="#{msg.UsuarioNombreActivo}"/>
+                  <p:selectBooleanCheckbox 
+                    id="activo"
+                    value="#{productosClienteMB.productoXClienteSeleccionado.activo}" >
+                  </p:selectBooleanCheckbox>
+                  <p:message 
+                    for="activo" />
+                </p:panelGrid>
+              </div>
+              <!-- tabla -->
+              <div 
+                align="left" 
+                style="margin-bottom:20px;">
+                <p:dataTable 
+                  id="tblDetalle"
+                  var="producto" 
+                  value="#{productosClienteMB.productoXClienteListaSeleccionados}" 
+                  emptyMessage="#{msg.generalNoDatos}" >
+                  <f:facet 
+                    name="header">
+                    <div align="left">
+                      <h:outputText 
+                        value="Productos a Asociar (*)"/>
+                      <p:spacer 
+                        width="10" /> 
+                      <p:commandButton 
+                        title="#{msg.maestroBuscarProAsoPxC}"
+                        value="#{msg.maestroBuscarProAsoPxC}" 
+                        icon="ui-icon-search" />
+                    </div>
+                  </f:facet>
+                  <p:column
+                    headerText="#{msg.buscadorPxCIdProducto}">
+                    <h:outputText value="#{producto.id}" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.buscadorPxCSKU}">
+                    <h:outputText value="#{producto.productosInventario.sku}" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.buscadorPxCNombreProducto}">
+                    <h:outputText 
+                      value="#{producto.productosInventario.nombre}" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.maestroPrecioProductoXCliente}">
+                    <p:inputText 
+                      id="dblPrecioTmp"
+                      value="#{producto.precioMl}" 
+                      required="true" 
+                      maxlength="20"
+                      size="18" />
+                    <p:message 
+                      for="dblPrecioTmp" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.maestroIVAProductoXCliente}">
+                    <p:inputText 
+                      id="dblIVA"
+                      value="#{producto.iva}" 
+                      required="true" 
+                      maxlength="20"
+                      size="18" />
+                    <p:message 
+                      for="dblIVA" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.maestroDesPrdProductoXCliente}">
+                    <p:inputText 
+                      id="dblDescuentoProducto"
+                      value="#{producto.descuentoxproducto}" 
+                      required="true"
+                      maxlength="20" 
+                      size="18" />
+                    <p:message 
+                      for="dblDescuentoProducto" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.maestroOtrosDesProductoXCliente}">
+                    <p:inputText 
+                      id="dblOtrosDescuentos" 
+                      value="#{producto.otrosDescuentos}"
+                      required="true" 
+                      maxlength="20" 
+                      size="18" />
+                    <h:message 
+                      for="dblOtrosDescuentos" />
+                  </p:column>
+                </p:dataTable>
+              </div>
+            </h:panelGroup>
+            <!-- botones -->
+            <f:facet
+              name="footer">
+              <!-- Crear -->
+              <p:commandButton 
+                value="Crear" 
+                icon="ui-icon-document"
+                actionListener="#{generarFacturaMB.generarFactura()}"
+                rendered="#{productosClienteMB.modoCreacion}"/>
+              <!-- Modificar -->
+              <p:commandButton 
+                value="Modificar" 
+                icon="ui-icon-document"
+                actionListener="#{generarFacturaMB.generarFactura()}"
+                rendered="#{productosClienteMB.modoEdicion}"/>
+              <!-- volver -->
+              <p:commandButton 
+                value="volver a la lista" 
+                styleClass="ui-confirmdialog-no" 
+                icon="ui-icon-close" 
+                update=":pnlTab"
+                immediate="true"
+                actionListener="#{productosClienteMB.onBackToListEvent()}"/>
+            </f:facet>
+          </p:panel>
+        </h:form>          
+      </p:tab>
+    </p:tabView>
   </ui:define>
 </ui:composition>

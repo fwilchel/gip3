@@ -14,8 +14,7 @@ import java.sql.Timestamp;
 @Entity
 @NamedQueries(value = {
   @NamedQuery(name = "ProductosXCliente.findAll", query = "SELECT p FROM ProductosXCliente p"),
-  @NamedQuery(name = "ProductosXCliente.findByClientePuntoVenta", query = "SELECT p FROM ProductosXCliente p JOIN FETCH p.productosInventario pi JOIN FETCH pi.unidadVenta uv WHERE p.pk.idCliente= :idCliente AND p.pk.idPuntoVenta= :idPuntoVenta AND p.vigente = true AND pi.desactivado = true AND p.activo = true ORDER BY pi.sku"),
-  @NamedQuery(name = ProductosXCliente.BUSCAR_PRODUCTOS_X_CLIENTES, query = "SELECT p FROM ProductosXCliente p WHERE UPPER(p.productosInventario.sku) LIKE UPPER (:sku) AND UPPER(p.cliente.nombre) LIKE UPPER (:nombreCliente) AND (p.productosInventario.unidadVenta) LIKE UPPER (:nombrePuntoVenta) AND p.activo = true ORDER BY p.productosInventario.sku")
+  @NamedQuery(name = "ProductosXCliente.findByClientePuntoVenta", query = "SELECT p FROM ProductosXCliente p JOIN FETCH p.productosInventario pi JOIN FETCH pi.unidadVenta uv WHERE p.pk.idCliente= :idCliente AND p.pk.idPuntoVenta= :idPuntoVenta AND p.vigente = true AND pi.desactivado = true AND p.activo = true ORDER BY pi.sku")
 })
 public class ProductosXCliente implements Serializable {
 
