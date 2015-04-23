@@ -3,9 +3,14 @@ package com.ssl.jv.gip.web.mb.maestros;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +19,11 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
@@ -100,6 +108,7 @@ public class ProductosClienteMB extends UtilMB {
     this.productoXClienteSeleccionado = new ProductosXCliente();
     this.productoXClienteSeleccionado.setCliente(new Cliente());
     this.productoXClienteSeleccionado.setProductosInventario(new ProductosInventario());
+    this.productoXClienteSeleccionado.setPuntoVenta(new PuntoVenta());
     this.productoXClienteSeleccionado.setMoneda(new Moneda());
     this.initEdit();
   }
@@ -133,6 +142,28 @@ public class ProductosClienteMB extends UtilMB {
   public void onBackToListEvent() {
 	this.reset();
   }
+
+  /**
+  *
+  * @return
+  */
+ public StreamedContent onGenerateEcxelEvent() {
+   LOGGER.debug("Metodo: <<onGenerateEcxelEvent>>");
+   StreamedContent reporte = null;
+   Map<String, Object> parametrosReporte = new HashMap<>();
+   parametrosReporte.put("datos", productoXClienteLista);
+   try {
+     Hashtable<String, String> parametrosConfiguracionReporte;
+     parametrosConfiguracionReporte = new Hashtable<>();
+     parametrosConfiguracionReporte.put("tipo", "jxls");
+     String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteMaestroPXC.xls");
+     ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, null);
+     reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "ReporteMaestroPXC.xls");
+   } catch (Exception e) {
+     this.addMensajeError("Problemas al generar el reporte");
+   }
+   return reporte;
+ }
 
   /**
    * 

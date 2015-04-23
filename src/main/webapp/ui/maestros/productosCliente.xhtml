@@ -16,7 +16,7 @@
     <p:tabView 
       id="pnlTab">
       <p:tab 
-        title="#{msg.gfTitle}">
+        title="#{msg.maestroProductosXClienteTituloFrame}">
         <h:form 
           id="forma"
           prependId="false" 
@@ -97,6 +97,16 @@
               <div 
                 align="right">
                 <p:outputPanel>
+                  <!-- generar reporte -->
+                  <p:commandButton 
+                    value="#{msg.reporteNivelInventarioExcel}"
+                    ajax="false"
+                    icon="ui-icon-document"
+                    disabled="#{empty productosClienteMB.productoXClienteLista}">
+                    <p:fileDownload 
+                      value="#{productosClienteMB.onGenerateEcxelEvent()}" />
+                  </p:commandButton>
+                  <p:spacer width="30"></p:spacer>
                   <p:commandButton 
                     action="#{productosClienteMB.onCreateEvent()}"
                     update=":pnlTab" 
@@ -129,7 +139,7 @@
               <p:commandButton 
                 icon="ui-icon-zoomin" 
                 title="#{msg.gfBtnDetalle}"
-                actionListener="#{productosClienteMB.onEditEvent()}"
+                action="#{productosClienteMB.onEditEvent()}"
                 update=":pnlTab">
                 <f:setPropertyActionListener 
                   value="#{registro}"
