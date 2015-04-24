@@ -85,7 +85,7 @@
             id="tblRegistros"
             var="registro" 
             widgetVar="tblRegistros" 
-            value="#{productosClienteMB.productoXClienteLista}" 
+            value="#{productosClienteMB.listaProductosXClientes}" 
             rows="10"
             emptyMessage="#{msg.generalNoDatos}" 
             paginator="true"
@@ -108,7 +108,7 @@
                     value="#{msg.reporteNivelInventarioExcel}"
                     ajax="false"
                     icon="ui-icon-document"
-                    disabled="#{empty productosClienteMB.productoXClienteLista}">
+                    disabled="#{empty productosClienteMB.listaProductosXClientes}">
                     <p:fileDownload 
                       value="#{productosClienteMB.onGenerateEcxelEvent()}" />
                   </p:commandButton>
@@ -409,8 +409,8 @@
                 style="margin-bottom:20px;">
                 <p:dataTable 
                   id="tblDetalle"
+                  value="#{productosClienteMB.listaProductosXClientesSeleccionados}" 
                   var="producto" 
-                  value="#{productosClienteMB.productoXClienteListaSeleccionados}" 
                   emptyMessage="#{msg.generalNoDatos}" >
                   <f:facet 
                     name="header">
@@ -420,9 +420,18 @@
                       <p:spacer 
                         width="10" /> 
                       <p:commandButton 
+                        value="#{msg.maestroBuscarProAsoPxC}" 
+                        icon="ui-icon-extlink" 
+                        actionListener="#{productosClienteMB.chooseProducts()}">
+                        <p:ajax 
+                          event="dialogReturn" 
+                          listener="#{productosClienteMB.onProductsChosen}" 
+                          update=":pnlTab:formaDetalle:msgsDetalle" />
+                      </p:commandButton>
+<!--                      <p:commandButton 
                         title="#{msg.maestroBuscarProAsoPxC}"
                         value="#{msg.maestroBuscarProAsoPxC}" 
-                        icon="ui-icon-search" />
+                        icon="ui-icon-search" />-->
                     </div>
                   </f:facet>
                   <p:column

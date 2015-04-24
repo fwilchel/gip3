@@ -14,6 +14,7 @@ import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
@@ -26,6 +27,7 @@ import com.ssl.jv.gip.negocio.dao.EstadoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MonedaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAO;
 import com.ssl.jv.gip.negocio.dao.ParametroDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProveedorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.RegionDAO;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
@@ -79,7 +81,10 @@ public class ComunEJB implements ComunEJBLocal {
   private DocumentoDAOLocal documentoDAO;
 
   @EJB
-  private ClienteDAOLocal clienteDao;
+  private ClienteDAOLocal clienteDAO;
+  
+  @EJB
+  private ProductoInventarioDAOLocal productoDAO;
 
   /**
    * Default constructor.
@@ -236,6 +241,12 @@ public class ComunEJB implements ComunEJBLocal {
     LOGGER.trace("Metodo: <<consultarCliente>>");
     Map<String, Object> parametros = new HashMap<>();
     parametros.put("id", id);
-    return clienteDao.buscarRegistroPorConsultaNombrada(nquery, parametros);
+    return clienteDAO.buscarRegistroPorConsultaNombrada(nquery, parametros);
+  }
+
+  @Override
+  public ProductosInventario consultarProducto(Long id) {
+    LOGGER.trace("Metodo: <<consultarProducto>>");
+    return productoDAO.findByPK(id);
   }
 }
