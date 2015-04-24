@@ -11,6 +11,7 @@ import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
@@ -90,4 +91,11 @@ public interface ComunEJBLocal {
    * @return
    */
   Cliente consultarCliente(Long id, String nquery);
+  
+  /**
+   * 
+   * @param id
+   * @return 
+   */
+  ProductosInventario consultarProducto(Long id);
 }

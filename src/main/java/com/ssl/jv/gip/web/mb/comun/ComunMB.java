@@ -1,4 +1,4 @@
-package com.ssl.jv.gip.web.mb;
+package com.ssl.jv.gip.web.mb.comun;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
@@ -11,6 +11,9 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
+import com.ssl.jv.gip.web.mb.AplicacionMB;
+import com.ssl.jv.gip.web.mb.MenuMB;
+import com.ssl.jv.gip.web.mb.UtilMB;
 import java.util.List;
 import javax.faces.bean.ViewScoped;
 

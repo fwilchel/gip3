@@ -4,6 +4,7 @@
   version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
   xmlns:xi="http://www.w3.org/2001/XInclude"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
   <navigation-rule>
     <from-view-id>*</from-view-id>
     <navigation-case>
@@ -240,7 +241,6 @@
       <from-outcome>listado_terminos_transporte2</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/imprimirInstruccionEmbarque.xhtml</to-view-id>
     </navigation-case>
-		
     <navigation-case>
       <from-outcome>listado_FX_AsignarDatosTL</from-outcome>
       <to-view-id>/ui/comercioexterior/listadoAsignarDatosTL.xhtml</to-view-id>
@@ -249,18 +249,14 @@
       <from-outcome>listado_GenerarOrdenDespacho</from-outcome>
       <to-view-id>/ui/abastecimiento/ordenDespacho.xhtml</to-view-id>
     </navigation-case>
-        
     <navigation-case>
       <from-outcome>listado_factura2</from-outcome>
       <to-view-id>/ui/reportes/generarReporteVentasFD2.xhtml</to-view-id>
     </navigation-case>
-        
     <navigation-case>
       <from-outcome>generar_RepMenu_ContaFact</from-outcome>
       <to-view-id>/ui/reportes/reporteContabilidadFacturasFD.xhtml</to-view-id>
     </navigation-case>
-    
-    
     <navigation-case>
       <from-outcome>listado_LE3</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/generarInformeTiendaLinea.xhtml</to-view-id>
@@ -282,7 +278,6 @@
       <from-outcome>listado_terminos_transporte2</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/imprimirInstruccionEmbarque.xhtml</to-view-id>
     </navigation-case>
-		
     <navigation-case>
       <from-outcome>listado_FX_AsignarDatosTL</from-outcome>
       <to-view-id>/ui/comercioexterior/listadoAsignarDatosTL.xhtml</to-view-id>
@@ -291,12 +286,10 @@
       <from-outcome>listado_GenerarOrdenDespacho</from-outcome>
       <to-view-id>/ui/abastecimiento/ordenDespacho.xhtml</to-view-id>
     </navigation-case>
-        
     <navigation-case>
       <from-outcome>listado_factura2</from-outcome>
       <to-view-id>/ui/reportes/generarReporteVentasFD2.xhtml</to-view-id>
     </navigation-case>
-        
     <navigation-case>
       <from-outcome>generar_RepMenu_ContaFact</from-outcome>
       <to-view-id>/ui/reportes/reporteContabilidadFacturasFD.xhtml</to-view-id>
@@ -306,74 +299,65 @@
       <from-outcome>generar_Reporte_VentasCE</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/generarReporteVentasCE.xhtml</to-view-id>
     </navigation-case>
-    
     <navigation-case>
       <from-outcome>reporte_maestro_inventario_ce</from-outcome>
       <to-view-id>/ui/reportes/reporteInventarioComercioExt.xhtml</to-view-id>
     </navigation-case>	
-    
     <navigation-case>
       <from-outcome>generar_Reporte_ProduccionCE</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/reporteProduccion.xhtml</to-view-id>
     </navigation-case>
-
     <navigation-case>
       <from-outcome>listado_maestro_inventario_ce2</from-outcome>
       <to-view-id>/ui/maestros/listaInventarioComercioFotos.xhtml</to-view-id>
     </navigation-case>
-	
     <navigation-case>
       <from-outcome>modificar_foto_ce</from-outcome>
       <to-view-id>/ui/maestros/inventarioComercioFotos.xhtml</to-view-id>
     </navigation-case>
-
     <navigation-case>
       <from-outcome>costos_logisticos</from-outcome>
       <to-view-id>/ui/comercioexterior/costosLogisticos.xhtml</to-view-id>
     </navigation-case>
-	
     <!-- Reportes Comercio Exterior / Generar Reporte Cinta Testigo Magnetica -->
     <navigation-case>
       <from-outcome>generar_cinta_magneticaFX</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/generarReporteCintaTestigoMagnetica.xhtml</to-view-id>
     </navigation-case>
-    
     <!-- Ventas y Facturacion / Generar Factura -->
     <navigation-case>
       <from-outcome>listado_remision</from-outcome>
       <to-view-id>/ui/ventas/generarFactura.xhtml</to-view-id>
     </navigation-case>
-    
     <!-- Ventas y Facturacion / Generar Orden Despacho -->
     <navigation-case>
       <from-outcome>listado_despachar_mercanciaVD</from-outcome>
       <to-view-id>/ui/ventas/generarOrdenDespacho.xhtml</to-view-id>
     </navigation-case>
-    
     <navigation-case>
       <from-outcome>devolucion_cliente_tienda</from-outcome>
       <to-view-id>/ui/devoluciones/devolucionClienteTienda.xhtml</to-view-id>
     </navigation-case>
-    
     <navigation-case>
       <from-outcome>recibir_devoluciones_tiendas</from-outcome>
       <to-view-id>/ui/devoluciones/recibirDevolucionTienda.xhtml</to-view-id>
     </navigation-case>
-    
     <!-- Devouciones / Devolucion Tienda Bodega -->
     <navigation-case>
       <from-outcome>devolucion_tienda_bodega</from-outcome>
       <to-view-id>/ui/devoluciones/devolucionTiendaBodega.xhtml</to-view-id>
     </navigation-case>
-       
     <!-- maestros / productos x cliente -->
     <navigation-case>
       <from-outcome>listado_maestro_ProductosPorCliente</from-outcome>
       <to-view-id>/ui/maestros/productosCliente.xhtml</to-view-id>
     </navigation-case>
-       
+    <!-- seleccionar productos -->
+    <navigation-case>
+      <from-outcome>seleccionarProductos</from-outcome>
+      <to-view-id>/ui/comun/seleccionarProductos.xhtml</to-view-id>
+    </navigation-case>
   </navigation-rule>
-
 
   <!-- converter>
       <converter-id>theme</converter-id>
@@ -381,19 +365,20 @@
   </converter-->
   
   <validator>
-    <validator-id>
-      com.ssl.jv.gip.web.mb.util.ValidadorPositivos
-    </validator-id>
-    <validator-class>
-      com.ssl.jv.gip.web.mb.util.ValidadorPositivos
-    </validator-class>
+    <validator-id>com.ssl.jv.gip.web.mb.util.ValidadorPositivos</validator-id>
+    <validator-class>com.ssl.jv.gip.web.mb.util.ValidadorPositivos</validator-class>
   </validator>
 
   <application>
     <el-resolver>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver</el-resolver>
+    <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+    <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+    <view-handler>org.primefaces.application.DialogViewHandler</view-handler>  
   </application>
+
   <factory>
     <exception-handler-factory>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory</exception-handler-factory>
   </factory>
+
 </faces-config>
 
