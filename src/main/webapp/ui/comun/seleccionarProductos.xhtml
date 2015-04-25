@@ -22,6 +22,21 @@
           id="pnlFltProductos">
           <p:panelGrid
             columns="2">
+            <p:outputLabel 
+              value="#{msg.maestroProductosXClienteCateInv}" 
+              for="categoria" 
+              styleClass="negrita" />
+            <p:selectOneMenu 
+              id="categoria" 
+              value="#{seleccionarProductosMB.filtroIdCategoria}" 
+              height="200" 
+              label="#{msg.maestroProductosXClienteCateInv}">
+              <f:selectItem 
+                noSelectionOption="true" 
+                itemLabel="#{msg.generalTodos}"/>
+              <f:selectItems 
+                value="#{comunMB.obtenerListaCategoriasInventarios()}" />
+            </p:selectOneMenu>
             <h:outputLabel 
               for="filtroSKUProducto" 
               value="#{msg.grvceFltProductosLblSKU}" 

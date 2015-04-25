@@ -40,6 +40,7 @@ import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioComextFiltroVO;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
+import java.io.IOException;
 import java.util.Map;
 
 // TODO: Auto-generated Javadoc
@@ -391,8 +392,22 @@ public interface MaestrosEJBLocal {
   /**
    * Metodo que consulta la lista de los productos por cliente
    *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
    * @param parametros
    * @return
    */
   List<ProductosXCliente> consultarProductosXCliente(Map<String, Object> parametros);
+
+  /**
+   * Metodo que crea productos por cliente a partir de un archivo
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param archivo
+   * @throws IOException 
+   */
+  void crearProductosXClientesDesdeArchivo(byte[] archivo) throws IOException;
 }

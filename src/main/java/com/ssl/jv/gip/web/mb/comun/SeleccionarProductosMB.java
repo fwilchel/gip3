@@ -1,8 +1,10 @@
 package com.ssl.jv.gip.web.mb.comun;
 
+import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.web.mb.UtilMB;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -11,7 +13,9 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
+
 import javax.faces.bean.ViewScoped;
+
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -45,6 +49,7 @@ public class SeleccionarProductosMB extends UtilMB {
   private static final Logger LOGGER = Logger.getLogger(SeleccionarProductosMB.class);
   @EJB
   private MaestrosEJBLocal maestrosEJB;
+  private Long filtroIdCategoria;
   private String filtroSKUProducto;
   private String filtroNombreProducto;
   private List<ProductosInventario> listaProductos;
@@ -65,6 +70,10 @@ public class SeleccionarProductosMB extends UtilMB {
     setListaProductosLazyModel(new LazyProductsDataModel());
     filtro = new ProductosInventario();
     filtro.setDesactivado(true);
+    if (filtroIdCategoria != null && filtroIdCategoria != 0) {
+      filtro.setCategoriasInventario(new CategoriasInventario());
+      filtro.getCategoriasInventario().setId(filtroIdCategoria);
+    }
     if (filtroSKUProducto != null && !filtroSKUProducto.isEmpty()) {
       filtro.setSku(filtroSKUProducto);
     }
@@ -93,6 +102,20 @@ public class SeleccionarProductosMB extends UtilMB {
    */
   public void setListaProductos(List<ProductosInventario> listaProductos) {
     this.listaProductos = listaProductos;
+  }
+
+  /**
+   * @return the filtroIdCategoria
+   */
+  public Long getFiltroIdCategoria() {
+    return filtroIdCategoria;
+  }
+
+  /**
+   * @param filtroIdCategoria the filtroIdCategoria to set
+   */
+  public void setFiltroIdCategoria(Long filtroIdCategoria) {
+    this.filtroIdCategoria = filtroIdCategoria;
   }
 
   /**
