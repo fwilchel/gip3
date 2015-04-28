@@ -24,7 +24,8 @@
           <p:messages 
             id="msgs" 
             showIcon="true"
-            globalOnly="true"/>
+            globalOnly="true"
+            autoUpdate="true"/>
           <p:panel
             id="pnlFtlDocumentos">
             <p:panelGrid
@@ -422,21 +423,18 @@
                       <p:commandButton 
                         value="#{msg.maestroBuscarProAsoPxC}" 
                         icon="ui-icon-extlink" 
-                        actionListener="#{productosClienteMB.chooseProducts()}">
+                        actionListener="#{productosClienteMB.chooseProducts()}"
+                        immediate="true">
                         <p:ajax 
                           event="dialogReturn" 
                           listener="#{productosClienteMB.onProductsChosen}" 
-                          update=":pnlTab:formaDetalle:msgsDetalle" />
+                          update=":pnlTab:formaDetalle:msgsDetalle :pnlTab:formaDetalle:tblDetalle" />
                       </p:commandButton>
-<!--                      <p:commandButton 
-                        title="#{msg.maestroBuscarProAsoPxC}"
-                        value="#{msg.maestroBuscarProAsoPxC}" 
-                        icon="ui-icon-search" />-->
                     </div>
                   </f:facet>
                   <p:column
                     headerText="#{msg.buscadorPxCIdProducto}">
-                    <h:outputText value="#{producto.id}" />
+                    <h:outputText value="#{producto.productosInventario.id}" />
                   </p:column>
                   <p:column
                     headerText="#{msg.buscadorPxCSKU}">
@@ -528,7 +526,9 @@
           showEffect="fade" 
           hideEffect="fade" 
           resizable="false"
-          dynamic="true">
+          dynamic="true"
+          width="640"
+          height="220">
           <h:form 
             id="formaDlgUploadFile" 
             enctype="multipart/form-data">
@@ -539,10 +539,18 @@
               globalOnly="true" 
               showIcon="true"/>
             <p:outputPanel>
-              <p:outputLabel 
-                value="#{msg['fileupload_upfile']}" 
-                for="fileUpload"
-                styleClass="negrita" />
+              <p>
+                <b>
+                  <h:outputText 
+                    value="#{msg.maestroPXCDlgBuscarArchivo}" />
+                </b>
+              </p>
+              <p>
+                <b>
+                  <h:outputText 
+                    value="#{msg.maestroPXCDlgBuscarArchivoEstructura}" />    
+                </b>
+              </p>
               <p:fileUpload 
                 id="fileUpload"
                 fileUploadListener="#{productosClienteMB.handleFileUpload}"
@@ -553,7 +561,8 @@
                 oncomplete="PF('dlgUploadFile').hide();"
                 uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}"
                 cancelLabel="#{msg.generalCancelar}"
-                invalidFileMessage="#{msg.maestroProductosXClienteArchivoNoValido}" />
+                invalidFileMessage="#{msg.maestroProductosXClienteArchivoNoValido}"
+                update=":pnlTab:forma:msgs"/>
             </p:outputPanel>
             <p:commandButton 
               value="#{msg.generalCancelar}" 
