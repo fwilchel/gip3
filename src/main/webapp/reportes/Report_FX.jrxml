@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_FX" pageWidth="609" pageHeight="800" whenNoDataType="AllSectionsNoDetail" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7b96cc99-4a12-4081-b476-5cf0acd2e8c0">
 	<property name="ireport.zoom" value="1.4641000000000777"/>
 	<property name="ireport.x" value="18"/>
-	<property name="ireport.y" value="187"/>
+	<property name="ireport.y" value="233"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="true,true,0.75,-9,-4,0,0,625,796"/>
 	<parameter name="nit" class="java.lang.String"/>
@@ -75,7 +75,7 @@
 					<textElement>
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[($F{docxLoteOICConsec}==null || $F{docxLoteOICConsec}.equals("0"))?"": $F{tipoLoteOICDesc} +"        Lote " + $F{docxLoteOICConsec}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{docxLoteOICConsec}==null || $F{docxLoteOICConsec}.equals("0"))?"": $F{tipoLoteOICDesc} +"        Lote OIC* " + $F{docxLoteOICConsec}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement uuid="94c9dd41-dc09-42a8-85fa-618af20eb29b" x="23" y="29" width="48" height="14" forecolor="#000000"/>
@@ -539,6 +539,9 @@ Bogotá - Colombia]]></text>
 	<lastPageFooter>
 		<band height="287">
 			<rectangle>
+				<reportElement uuid="8b7bfef1-834c-4a2a-99aa-957e6b105c53" mode="Transparent" x="22" y="109" width="255" height="126"/>
+			</rectangle>
+			<rectangle>
 				<reportElement uuid="02a6b048-0f83-46ed-a642-b3a441933270" mode="Transparent" x="308" y="26" width="279" height="78" backcolor="#CCCCCC"/>
 				<graphicElement>
 					<pen lineWidth="1.0"/>
@@ -595,7 +598,7 @@ Bogotá - Colombia]]></text>
 				<text><![CDATA[Net Weight (kg)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="20caed24-b545-46cc-bd9d-ad677dde08e5" x="24" y="163" width="56" height="15"/>
+				<reportElement uuid="20caed24-b545-46cc-bd9d-ad677dde08e5" x="24" y="110" width="56" height="15"/>
 				<textElement>
 					<font size="9" isBold="true" isItalic="true"/>
 				</textElement>
@@ -637,7 +640,7 @@ En los términos de la ley 1231 de 2008, concordante con el art. 774 del C.C.]]>
 				<textFieldExpression><![CDATA[$P{costoFlete}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="ac9deb1f-e4e5-4e07-b685-841ab49f1acf" x="97" y="215" width="122" height="16"/>
+				<reportElement uuid="ac9deb1f-e4e5-4e07-b685-841ab49f1acf" x="97" y="162" width="122" height="16"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
@@ -674,7 +677,7 @@ En los términos de la ley 1231 de 2008, concordante con el art. 774 del C.C.]]>
 				<text><![CDATA[Gross Weight (kg)]]></text>
 			</staticText>
 			<line>
-				<reportElement uuid="4b57d4e1-a505-4690-b00b-5e7ca511f620" x="49" y="211" width="217" height="1"/>
+				<reportElement uuid="4b57d4e1-a505-4690-b00b-5e7ca511f620" x="49" y="155" width="217" height="1"/>
 			</line>
 			<line>
 				<reportElement uuid="82195e35-4569-400b-b484-c3dd0de3620a" x="125" y="73" width="84" height="1"/>
@@ -693,9 +696,6 @@ En los términos de la ley 1231 de 2008, concordante con el art. 774 del C.C.]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{valorLetras}]]></textFieldExpression>
 			</textField>
-			<rectangle>
-				<reportElement uuid="8b7bfef1-834c-4a2a-99aa-957e6b105c53" mode="Transparent" x="22" y="109" width="255" height="126"/>
-			</rectangle>
 			<line>
 				<reportElement uuid="50a16d0e-3e96-4026-a09e-49ac074eaed2" x="125" y="89" width="84" height="1"/>
 			</line>
@@ -759,7 +759,7 @@ En los términos de la ley 1231 de 2008, concordante con el art. 774 del C.C.]]>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<text><![CDATA[Grandes Contribuyentes según Resolución No. 014047 del 23 de Dic. de 2009. Autorretenedores según Resolución No. 0002968 del 5 de Abril de 2010.]]></text>
+				<text><![CDATA[Grandes Contribuyentes según Resolución 000041 del 30 de Enero de 2014. Autorretenedores según Resolución No. 0002968 del 5 de Abril de 2010.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="a89e6741-e562-4793-9317-761bba5430d1" x="92" y="89" width="38" height="16"/>
@@ -864,6 +864,16 @@ En los términos de la ley 1231 de 2008, concordante con el art. 774 del C.C.]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{dblTotalCajasPalletItem}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement uuid="c5f29574-c1a9-4156-abc2-dc387c71a923" x="22" y="214" width="255" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="24057610-f5ad-4c61-8610-c2a4b1cdc398" x="25" y="218" width="252" height="20"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Lote OIC es.....]]></text>
+			</staticText>
 		</band>
 	</lastPageFooter>
 </jasperReport>
