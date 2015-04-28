@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="a18bf358-73ac-445b-b19b-f0921c907396">
 	<property name="ireport.zoom" value="2.59374246010013"/>
-	<property name="ireport.x" value="829"/>
-	<property name="ireport.y" value="105"/>
+	<property name="ireport.x" value="830"/>
+	<property name="ireport.y" value="99"/>
 	<property name="ireport.background.image.properties" value="true,true,0.75,-9,-4,0,0,625,796"/>
 	<parameter name="nit" class="java.lang.String"/>
 	<parameter name="direccion" class="java.lang.String"/>
@@ -279,14 +279,11 @@ Bogotá - Colombia]]></text>
 				<text><![CDATA[de]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="20bdb75b-1402-4307-a983-907bdc1e7f67" x="424" y="33" width="86" height="15"/>
-				<textElement textAlignment="Left"/>
-				<text><![CDATA[Factura de Venta]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="353adbd2-e216-4b62-905b-3b03092f6cee" x="509" y="33" width="17" height="15"/>
-				<textElement textAlignment="Left"/>
-				<text><![CDATA[No.]]></text>
+				<reportElement uuid="20bdb75b-1402-4307-a983-907bdc1e7f67" x="424" y="33" width="100" height="15"/>
+				<textElement textAlignment="Left">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Factura de Venta No.]]></text>
 			</staticText>
 			<textField>
 				<reportElement uuid="25e530ef-fc1f-4d3c-ba15-4cdc3730f6d2" x="98" y="144" width="170" height="20"/>
@@ -334,7 +331,7 @@ Bogotá - Colombia]]></text>
 				<reportElement uuid="10632e20-2793-4901-baa2-a6c086468a16" x="423" y="48" width="164" height="15" backcolor="#000000"/>
 			</rectangle>
 			<textField>
-				<reportElement uuid="f21da5aa-5c55-4076-b515-ff06d845266e" x="525" y="33" width="62" height="15"/>
+				<reportElement uuid="f21da5aa-5c55-4076-b515-ff06d845266e" x="524" y="33" width="63" height="15"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
