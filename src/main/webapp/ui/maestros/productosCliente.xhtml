@@ -25,7 +25,7 @@
             id="msgs" 
             showIcon="true"
             globalOnly="true"
-            autoUpdate="true"/>
+            autoUpdate="false"/>
           <p:panel
             id="pnlFtlDocumentos">
             <p:panelGrid
@@ -297,7 +297,7 @@
           <p:messages 
             id="msgsDetalle"
             showIcon="true"
-            autoUpdate="true"/>
+            autoUpdate="false"/>
           <p:panel 
             id="pnlPrincipal">
             <h:panelGroup 
@@ -317,9 +317,12 @@
                     value="#{msg.maestroCreModNomCliProductoXCliente}" />
                   <p:selectOneMenu 
                     id="cliente"
-                    value="#{productosClienteMB.productoXClienteSeleccionado.cliente.id}">
+                    value="#{productosClienteMB.productoXClienteSeleccionado.cliente.id}"
+                    required="true">
                     <p:ajax 
                       update="puntoVenta"/>
+                    <f:selectItem 
+                      noSelectionOption="true"/>
                     <f:selectItems 
                       value="#{comunMB.obtenerListaClientes(menuMB.usuario.id)}" 
                       var="cliente"
@@ -334,7 +337,10 @@
                     value="#{msg.maestroCreModNomPVProductoXCliente}" />
                   <p:selectOneMenu 
                     id="puntoVenta"
-                    value="#{productosClienteMB.productoXClienteSeleccionado.puntoVenta.id}">
+                    value="#{productosClienteMB.productoXClienteSeleccionado.puntoVenta.id}"
+                    required="true">
+                    <f:selectItem 
+                      noSelectionOption="true"/>
                     <f:selectItems 
                       value="#{comunMB.obtenerListaPuntosVenta(productosClienteMB.productoXClienteSeleccionado.cliente.id)}" 
                       var="puntoVenta"
@@ -349,8 +355,8 @@
                     value="#{msg.maestroVigenteProductoXCliente}" />
                   <p:selectBooleanCheckbox 
                     id="vigente"
-                    value="#{productosClienteMB.productoXClienteSeleccionado.vigente}" >
-                  </p:selectBooleanCheckbox>
+                    value="#{productosClienteMB.productoXClienteSeleccionado.vigente}" 
+                    required="true"/>
                   <p:message 
                     for="vigente" />
                   <p:outputLabel 
@@ -359,7 +365,10 @@
                     value="#{msg.maestroIdMlProductoXCliente}" />
                   <p:selectOneMenu 
                     id="moneda"
-                    value="#{productosClienteMB.productoXClienteSeleccionado.moneda.id}">
+                    value="#{productosClienteMB.productoXClienteSeleccionado.moneda.id}"
+                    required="true">
+                    <f:selectItem 
+                      noSelectionOption="true"/>
                     <f:selectItems 
                       value="#{comunMB.obtenerListaMonedas()}" 
                       var="moneda"
@@ -374,9 +383,9 @@
                     value="#{msg.maestroFecIniProductoXCliente}" />
                   <p:calendar
                     id="fechaInicialVigencia"
-                    value="#{productosClienteMB.productoXClienteSeleccionado.fechaInicialVigencia}"
+                    value="#{productosClienteMB.fechaInicialVigencia}"
                     pattern="yyyy-MM-dd"
-                    required="false">
+                    required="true">
                   </p:calendar>
                   <p:message 
                     for="fechaInicialVigencia"/>
@@ -386,9 +395,9 @@
                     value="#{msg.maestroFecFinProductoXCliente}" />
                   <p:calendar 
                     id="fechaFinalVigencia"
-                    value="#{productosClienteMB.productoXClienteSeleccionado.fechaFinalVigencia}"
+                    value="#{productosClienteMB.fechaFinalVigencia}"
                     pattern="yyyy-MM-dd"
-                    required="false">
+                    required="true">
                   </p:calendar>
                   <p:message 
                     for="fechaFinalVigencia"/>
@@ -428,7 +437,7 @@
                         <p:ajax 
                           event="dialogReturn" 
                           listener="#{productosClienteMB.onProductsChosen}" 
-                          update=":pnlTab:formaDetalle:msgsDetalle :pnlTab:formaDetalle:tblDetalle" />
+                          update=":pnlTab:formaDetalle:msgsDetalle :pnlTab:formaDetalle:tblDetalle :pnlTab:formaDetalle:btnCrear :pnlTab:formaDetalle:btnModificar" />
                       </p:commandButton>
                     </div>
                   </f:facet>
@@ -450,9 +459,11 @@
                     <p:inputText 
                       id="dblPrecioTmp"
                       value="#{producto.precioMl}" 
+                      label="#{msg.maestroPrecioProductoXCliente}"
                       required="true" 
                       maxlength="20"
-                      size="18" />
+                      size="18" 
+                      converter="javax.faces.BigDecimal"/>
                     <p:message 
                       for="dblPrecioTmp" />
                   </p:column>
@@ -461,9 +472,11 @@
                     <p:inputText 
                       id="dblIVA"
                       value="#{producto.iva}" 
+                      label="#{msg.maestroIVAProductoXCliente}"
                       required="true" 
                       maxlength="20"
-                      size="18" />
+                      size="18" 
+                      converter="javax.faces.BigDecimal"/>
                     <p:message 
                       for="dblIVA" />
                   </p:column>
@@ -472,9 +485,11 @@
                     <p:inputText 
                       id="dblDescuentoProducto"
                       value="#{producto.descuentoxproducto}" 
+                      label="#{msg.maestroDesPrdProductoXCliente}"
                       required="true"
                       maxlength="20" 
-                      size="18" />
+                      size="18" 
+                      converter="javax.faces.BigDecimal"/>
                     <p:message 
                       for="dblDescuentoProducto" />
                   </p:column>
@@ -483,10 +498,12 @@
                     <p:inputText 
                       id="dblOtrosDescuentos" 
                       value="#{producto.otrosDescuentos}"
+                      label="#{msg.maestroOtrosDesProductoXCliente}"
                       required="true" 
                       maxlength="20" 
-                      size="18" />
-                    <h:message 
+                      size="18" 
+                      converter="javax.faces.BigDecimal"/>
+                    <p:message 
                       for="dblOtrosDescuentos" />
                   </p:column>
                 </p:dataTable>
@@ -497,16 +514,22 @@
               name="footer">
               <!-- Crear -->
               <p:commandButton 
+                id="btnCrear"
                 value="Crear" 
                 icon="ui-icon-document"
-                actionListener="#{generarFacturaMB.generarFactura()}"
-                rendered="#{productosClienteMB.modoCreacion}"/>
+                actionListener="#{productosClienteMB.guardar()}"
+                rendered="#{productosClienteMB.modoCreacion}"
+                disabled="#{empty productosClienteMB.listaProductosXClientesSeleccionados}"
+                update=":pnlTab"/>
               <!-- Modificar -->
               <p:commandButton 
+                id="btnModificar"
                 value="Modificar" 
                 icon="ui-icon-document"
-                actionListener="#{generarFacturaMB.generarFactura()}"
-                rendered="#{productosClienteMB.modoEdicion}"/>
+                actionListener="#{productosClienteMB.guardar()}"
+                rendered="#{productosClienteMB.modoEdicion}"
+                disabled="#{empty productosClienteMB.listaProductosXClientesSeleccionados}"
+                update=":pnlTab"/>
               <!-- volver -->
               <p:commandButton 
                 value="volver a la lista" 
