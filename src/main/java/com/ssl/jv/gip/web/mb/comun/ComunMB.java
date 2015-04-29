@@ -4,6 +4,7 @@ import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
+import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -65,6 +66,10 @@ public class ComunMB extends UtilMB {
 
   public List<PuntoVenta> obtenerListaPuntosVenta(Long idCliente) {
     return maestrosEJB.consultarPuntoEntregaPorCliente(idCliente);
+  }
+
+  public List<Ubicacion> obtenerListaUbicaciones(String idCliente) {
+    return comunEJB.consultarUbicacionesPorUsuario(idCliente);
   }
 
   public List<SelectItem> obtenerListaCategoriasInventarios() {

@@ -118,4 +118,16 @@ public interface VentasFacturacionEJBLocal {
    * @return
    */
   List<ProductosXDocumento> consultarProductosPorDocumentoOrdenadosPorSKU(Long id);
+
+  /**
+   * 
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param ventaDirecta
+   * @param listaProductos
+   * @param auditoria
+   * @return 
+   */
+  Documento generarConsumoServicios(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria);
 }

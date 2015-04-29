@@ -155,31 +155,31 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
    * @see com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal#crearVentaDirecta(com.ssl.jv.gip.jpa.pojo.Documento, com.ssl.jv.gip.jpa.pojo.LogAuditoria, java.util.List)
    */
   @Override
-  public Documento crearVentaDirecta(Documento documento, LogAuditoria auditoria,
+  public Documento crearVentaDirecta(Documento ventaDirecta, LogAuditoria auditoria,
       List<ProductosXDocumento> productos) {
     //Consultar consecutivo
     StringBuilder strConsecutivo = new StringBuilder();
     TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK((long) ConstantesTipoDocumento.VENTA_DIRECTA);
 
-    if (documento.getUbicacionDestino().getId().equals(com.ssl.jv.gip.util.Ubicacion.EXTERNA.getCodigo())) {
-      Ubicacion ubicacionOrigen = ubicacionDAOLocal.findByPK(documento.getUbicacionOrigen().getId());
+    if (ventaDirecta.getUbicacionDestino().getId().equals(com.ssl.jv.gip.util.Ubicacion.EXTERNA.getCodigo())) {
+      Ubicacion ubicacionOrigen = ubicacionDAOLocal.findByPK(ventaDirecta.getUbicacionOrigen().getId());
       strConsecutivo.append(tipoDocumento.getAbreviatura() + ubicacionOrigen.getEmpresa().getId());
     } else {
-      Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(documento.getUbicacionDestino().getId());
+      Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(ventaDirecta.getUbicacionDestino().getId());
       strConsecutivo.append(tipoDocumento.getAbreviatura() + ubicacionDestino.getEmpresa().getId());
     }
 
-    documento.setConsecutivoDocumento(strConsecutivo.toString() + "-"
+    ventaDirecta.setConsecutivoDocumento(strConsecutivo.toString() + "-"
         + this.documentoDAO.consultarProximoValorSecuencia(strConsecutivo.toString() + "_seq"));
-    documento = (Documento) this.documentoDAO.add(documento);
-//		auditoria.setIdRegTabla(documento.getId());
-//		auditoria.setValorNuevo(documento.getConsecutivoDocumento());
+    ventaDirecta = (Documento) this.documentoDAO.add(ventaDirecta);
+//		auditoria.setIdRegTabla(ventaDirecta.getId());
+//		auditoria.setValorNuevo(ventaDirecta.getConsecutivoDocumento());
 //		this.logAuditoriaDAO.add(auditoria);
     for (ProductosXDocumento pxd : productos) {
-      pxd.getId().setIdDocumento(documento.getId());
+      pxd.getId().setIdDocumento(ventaDirecta.getId());
       this.productoXDocumentoDAO.add(pxd);
     }
-    return documento;
+    return ventaDirecta;
   }
 
   @Override
@@ -266,7 +266,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 //    TableOfZcaStPedidosCompraHolder compraHolder = new TableOfZcaStPedidosCompraHolder(compra);
 //    TableOfZcaStPedidosCompraRtaHolder rtaHolder = new TableOfZcaStPedidosCompraRtaHolder(rta);
 //    try {
-//      LOGGER.debug("Envia la informacion para crear documento en SAP");
+//      LOGGER.debug("Envia la informacion para crear ventaDirecta en SAP");
 //      proxy.zmmInterfazIcgCreaPedido(compraHolder, rtaHolder);
 //      if (rtaHolder.value != null && rtaHolder.value.length > 0) {
 //        for (ZcaStPedidosCompraRta value : rtaHolder.value) {
@@ -342,44 +342,44 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
   }
 
   @Override
-  public Documento generarFactura(Documento documento, List<ProductosXDocumento> listaProductos, Documento remisionRelacionada, LogAuditoria auditoria) {
+  public Documento generarFactura(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, Documento remisionRelacionada, LogAuditoria auditoria) {
     LOGGER.trace("Metodo: <<generarFactura>>");
     LOGGER.debug("Crear factura");
     Documento factura = new Documento();
-    factura.setFechaEsperadaEntrega(documento.getFechaEsperadaEntrega());
-    factura.setUbicacionOrigen(documento.getUbicacionOrigen());
-    factura.setUbicacionDestino(documento.getUbicacionDestino());
-    factura.setEstadosxdocumento(documento.getEstadosxdocumento());
-    factura.setFechaGeneracion(documento.getFechaGeneracion());
-    factura.setFechaEntrega(documento.getFechaEntrega());
-    factura.setProveedore(documento.getProveedore());
-    factura.setObservacionDocumento(documento.getObservacionDocumento());
-    factura.setDocumentoCliente(documento.getDocumentoCliente());
-    factura.setSitioEntrega(documento.getSitioEntrega());
-    if (documento.getCliente() != null) {
-      factura.setCliente(documento.getCliente());
-      factura.setSubtotal(documento.getSubtotal());
-      factura.setDescuento(documento.getDescuento());
-      factura.setValorIva16(documento.getValorIva16());
-      factura.setValorTotal(documento.getValorTotal());
-      factura.setValorIva10(documento.getValorIva10());
-      factura.setPuntoVenta(documento.getPuntoVenta());
-      factura.setDescuentoCliente(documento.getDescuentoCliente());
-      if (documento.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA || documento.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA_ESPECIAL) {
-        factura.setNumeroFactura(documento.getNumeroFactura());
-        factura.setValorIva5(documento.getValorIva5());
-        factura.setObservacion2(documento.getObservacion2());
-        factura.setObservacion3(documento.getObservacion3());
+    factura.setFechaEsperadaEntrega(ventaDirecta.getFechaEsperadaEntrega());
+    factura.setUbicacionOrigen(ventaDirecta.getUbicacionOrigen());
+    factura.setUbicacionDestino(ventaDirecta.getUbicacionDestino());
+    factura.setEstadosxdocumento(ventaDirecta.getEstadosxdocumento());
+    factura.setFechaGeneracion(ventaDirecta.getFechaGeneracion());
+    factura.setFechaEntrega(ventaDirecta.getFechaEntrega());
+    factura.setProveedore(ventaDirecta.getProveedore());
+    factura.setObservacionDocumento(ventaDirecta.getObservacionDocumento());
+    factura.setDocumentoCliente(ventaDirecta.getDocumentoCliente());
+    factura.setSitioEntrega(ventaDirecta.getSitioEntrega());
+    if (ventaDirecta.getCliente() != null) {
+      factura.setCliente(ventaDirecta.getCliente());
+      factura.setSubtotal(ventaDirecta.getSubtotal());
+      factura.setDescuento(ventaDirecta.getDescuento());
+      factura.setValorIva16(ventaDirecta.getValorIva16());
+      factura.setValorTotal(ventaDirecta.getValorTotal());
+      factura.setValorIva10(ventaDirecta.getValorIva10());
+      factura.setPuntoVenta(ventaDirecta.getPuntoVenta());
+      factura.setDescuentoCliente(ventaDirecta.getDescuentoCliente());
+      if (ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA || ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA_ESPECIAL) {
+        factura.setNumeroFactura(ventaDirecta.getNumeroFactura());
+        factura.setValorIva5(ventaDirecta.getValorIva5());
+        factura.setObservacion2(ventaDirecta.getObservacion2());
+        factura.setObservacion3(ventaDirecta.getObservacion3());
       }
     }
     StringBuilder secuencia = new StringBuilder();
-    if (documento.getConsecutivoDocumento() == null || documento.getConsecutivoDocumento().isEmpty() || documento.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
-      TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(documento.getEstadosxdocumento().getId().getIdTipoDocumento());
+    if (ventaDirecta.getConsecutivoDocumento() == null || ventaDirecta.getConsecutivoDocumento().isEmpty() || ventaDirecta.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
+      TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento());
       secuencia.append(tipoDocumento.getAbreviatura());
-      if (documento.getUbicacionDestino() != null && documento.getUbicacionDestino().getId() == -1) {
-        secuencia.append(documento.getUbicacionOrigen().getEmpresa().getId());
+      if (ventaDirecta.getUbicacionDestino() != null && ventaDirecta.getUbicacionDestino().getId() == -1) {
+        secuencia.append(ventaDirecta.getUbicacionOrigen().getEmpresa().getId());
       } else {
-        Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(documento.getUbicacionDestino().getId());
+        Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(ventaDirecta.getUbicacionDestino().getId());
         secuencia.append(ubicacionDestino.getEmpresa().getId());
       }
       Long valorSecuencia = documentoDAO.consultarProximoValorSecuencia(secuencia.toString().concat("_SEQ"));
@@ -387,17 +387,17 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       secuencia.append(valorSecuencia);
       String consecutivoDocumento = secuencia.toString();
       factura.setConsecutivoDocumento(consecutivoDocumento);
-      if (documento.getCliente() != null) {
-        if (documento.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA) {
+      if (ventaDirecta.getCliente() != null) {
+        if (ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA) {
           factura.setNumeroFactura(consecutivoDocumento);
         }
       }
     } else {
       // el usuario ha introducido un consecutivo manualmente
-      factura.setConsecutivoDocumento(documento.getConsecutivoDocumento());
-      if (documento.getCliente() != null) {
-        if (documento.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA) {
-          factura.setNumeroFactura(documento.getConsecutivoDocumento());
+      factura.setConsecutivoDocumento(ventaDirecta.getConsecutivoDocumento());
+      if (ventaDirecta.getCliente() != null) {
+        if (ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA) {
+          factura.setNumeroFactura(ventaDirecta.getConsecutivoDocumento());
         }
       }
     }
@@ -429,7 +429,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
     }
     LOGGER.debug("Productos creados exitosamente");
-    LOGGER.debug("Consultar los productos de un documento por su consecutivo [informacion relacionada a los movimientos]");
+    LOGGER.debug("Consultar los productos de un ventaDirecta por su consecutivo [informacion relacionada a los movimientos]");
     Documento documentoRelacionado = maestrosEJB.consultarDocumentoPorConsecutivo(remisionRelacionada.getConsecutivoDocumento());
     List<ProductosXDocumento> pxds = this.consultarProductosPorDocumento(documentoRelacionado.getId());
     LOGGER.debug("Ejecutar despacho");
@@ -514,5 +514,98 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     Map<String, Object> parametros = new HashMap<>();
     parametros.put("idDocumento", id);
     return documentoDAO.buscarPorConsultaNombrada(ProductosXDocumento.FIND_BY_DOCUMENTO_ORDER_BY_SKU, parametros);
+  }
+
+  @Override
+  public Documento generarConsumoServicios(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria) {
+    LOGGER.trace("Metodo: <<generarFactura>>");
+    LOGGER.debug("Crear factura");
+    Documento factura = new Documento();
+    factura.setFechaEsperadaEntrega(ventaDirecta.getFechaEsperadaEntrega());
+    factura.setUbicacionOrigen(ventaDirecta.getUbicacionOrigen());
+    factura.setUbicacionDestino(ventaDirecta.getUbicacionDestino());
+    factura.setEstadosxdocumento(ventaDirecta.getEstadosxdocumento());
+    factura.setFechaGeneracion(ventaDirecta.getFechaGeneracion());
+    factura.setFechaEntrega(ventaDirecta.getFechaEntrega());
+    factura.setProveedore(ventaDirecta.getProveedore());
+    factura.setObservacionDocumento(ventaDirecta.getObservacionDocumento());
+    factura.setDocumentoCliente(ventaDirecta.getDocumentoCliente());
+    factura.setSitioEntrega(ventaDirecta.getSitioEntrega());
+    if (ventaDirecta.getCliente() != null) {
+      factura.setCliente(ventaDirecta.getCliente());
+      factura.setSubtotal(ventaDirecta.getSubtotal());
+      factura.setDescuento(ventaDirecta.getDescuento());
+      factura.setValorIva16(ventaDirecta.getValorIva16());
+      factura.setValorTotal(ventaDirecta.getValorTotal());
+      factura.setValorIva10(ventaDirecta.getValorIva10());
+      factura.setPuntoVenta(ventaDirecta.getPuntoVenta());
+      factura.setDescuentoCliente(ventaDirecta.getDescuentoCliente());
+      if (ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA || ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA_ESPECIAL) {
+        factura.setNumeroFactura(ventaDirecta.getNumeroFactura());
+        factura.setValorIva5(ventaDirecta.getValorIva5());
+        factura.setObservacion2(ventaDirecta.getObservacion2());
+        factura.setObservacion3(ventaDirecta.getObservacion3());
+      }
+    }
+    StringBuilder secuencia = new StringBuilder();
+    if (ventaDirecta.getConsecutivoDocumento() == null || ventaDirecta.getConsecutivoDocumento().isEmpty() || ventaDirecta.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
+      TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento());
+      secuencia.append(tipoDocumento.getAbreviatura());
+      if (ventaDirecta.getUbicacionDestino() != null && ventaDirecta.getUbicacionDestino().getId() == -1) {
+        secuencia.append(ventaDirecta.getUbicacionOrigen().getEmpresa().getId());
+      } else {
+        Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(ventaDirecta.getUbicacionDestino().getId());
+        secuencia.append(ubicacionDestino.getEmpresa().getId());
+      }
+      Long valorSecuencia = documentoDAO.consultarProximoValorSecuencia(secuencia.toString().concat("_SEQ"));
+      secuencia.append("-");
+      secuencia.append(valorSecuencia);
+      String consecutivoDocumento = secuencia.toString();
+      factura.setConsecutivoDocumento(consecutivoDocumento);
+      if (ventaDirecta.getCliente() != null) {
+        if (ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA) {
+          factura.setNumeroFactura(consecutivoDocumento);
+        }
+      }
+    } else {
+      // el usuario ha introducido un consecutivo manualmente
+      factura.setConsecutivoDocumento(ventaDirecta.getConsecutivoDocumento());
+      if (ventaDirecta.getCliente() != null) {
+        if (ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA) {
+          factura.setNumeroFactura(ventaDirecta.getConsecutivoDocumento());
+        }
+      }
+    }
+    factura = (Documento) documentoDAO.add(factura);
+    LOGGER.debug("Factura creada con id: " + factura.getId());
+    LOGGER.debug("Crear log de auditoria");
+    auditoria.setTabla(Documento.class.getName());
+    auditoria.setAccion("CRE");
+    auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+    auditoria.setIdRegTabla(factura.getId());
+    auditoria = logAuditoriaDAO.add(auditoria);
+    LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
+    LOGGER.debug("Crear los productos para la factura");
+    for (ProductosXDocumento pxd : listaProductos) {
+      pxd.setInformacion(Boolean.FALSE);
+      pxd.setCalidad(Boolean.FALSE);
+      pxd.setFechaEstimadaEntrega(new Timestamp(System.currentTimeMillis()));
+      pxd.setFechaEntrega(new Timestamp(System.currentTimeMillis()));
+      ProductosXDocumentoPK productosXDocumentoPK = new ProductosXDocumentoPK();
+      productosXDocumentoPK.setIdDocumento(factura.getId());
+      productosXDocumentoPK.setIdProducto(pxd.getProductosInventario().getId());
+      pxd.setId(productosXDocumentoPK);
+      pxd.setMoneda(new Moneda("COP"));
+      pxd.setCantidad2(BigDecimal.ZERO);
+      pxd.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
+      pxd.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
+      pxd.setValorUnitarioUsd(BigDecimal.ZERO);
+      pxd = productoXDocumentoDAO.add(pxd);
+      LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
+    }
+    LOGGER.debug("Productos creados exitosamente");
+    factura.getCliente().getCiudad();
+    factura.getPuntoVenta();
+    return factura;
   }
 }

@@ -357,6 +357,11 @@
       <from-outcome>seleccionarProductos</from-outcome>
       <to-view-id>/ui/comun/seleccionarProductos.xhtml</to-view-id>
     </navigation-case>
+    <!-- ingresar consumo de servicio -->
+    <navigation-case>
+      <from-outcome>ingresar_CS_listadoP</from-outcome>
+      <to-view-id>/ui/ventas/ingresarConsumoServicio.xhtml</to-view-id>
+    </navigation-case>
     <!-- log auditoria -->
     <navigation-case>
       <from-outcome>listado_log_auditoria</from-outcome>

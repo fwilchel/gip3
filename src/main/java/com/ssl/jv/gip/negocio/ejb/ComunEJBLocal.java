@@ -91,11 +91,19 @@ public interface ComunEJBLocal {
    * @return
    */
   Cliente consultarCliente(Long id, String nquery);
-  
+
   /**
-   * 
+   *
    * @param id
-   * @return 
+   * @return
    */
   ProductosInventario consultarProducto(Long id);
+
+  /**
+   * 
+   * @param idUsuario
+   * @return 
+   */
+  List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
+
 }
