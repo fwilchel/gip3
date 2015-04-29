@@ -21,6 +21,7 @@ import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
+import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
@@ -68,6 +69,7 @@ public class IngresarConsumoServicioMB extends UtilMB {
     ventaDirecta = new Documento();
     ventaDirecta.setCliente(new Cliente());
     ventaDirecta.setPuntoVenta(new PuntoVenta());
+    ventaDirecta.setUbicacionDestino(new Ubicacion());
     listaProductosXDocumento = new ArrayList<>();
   }
 
@@ -113,14 +115,13 @@ public class IngresarConsumoServicioMB extends UtilMB {
     auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
     try {
       Documento documentoGenerado = ventasFacturacionEJB.generarConsumoServicios(ventaDirecta, listaProductosXDocumento, auditoria);
+      LOGGER.debug("Documento generado exitosamente con id: " + documentoGenerado.getId() + " y consecutivo: " + documentoGenerado.getConsecutivoDocumento());
+      addMensajeInfo(formatearCadenaConParametros("VentasCSExito_Crear", language, documentoGenerado.getId().toString(), documentoGenerado.getConsecutivoDocumento()));
+      init();
     } catch (Exception ex) {
       addMensajeError("Error");
       LOGGER.error("Error");
     }
-  }
-
-  private void reset() {
-    LOGGER.trace("Metodo: <<reset>>");
   }
 
   /**

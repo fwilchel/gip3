@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
+import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
@@ -41,17 +42,12 @@ import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
 
 import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
-import com.ssl.jv.gip.web.util.Utilidad;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import mc_style.functions.soap.sap.document.sap_com.ZVI_MM_EXT_SAP_PEDIDOProxy;
-import mc_style.functions.soap.sap.document.sap_com.ZcaStPedidosCompra;
-import mc_style.functions.soap.sap.document.sap_com.ZcaStPedidosCompraRta;
-import mc_style.functions.soap.sap.document.sap_com.holders.TableOfZcaStPedidosCompraHolder;
-import mc_style.functions.soap.sap.document.sap_com.holders.TableOfZcaStPedidosCompraRtaHolder;
 
 /**
  * Session Bean implementation class VentasFacturacionEJB
@@ -520,33 +516,18 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
   public Documento generarConsumoServicios(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria) {
     LOGGER.trace("Metodo: <<generarFactura>>");
     LOGGER.debug("Crear factura");
-    Documento factura = new Documento();
-    factura.setFechaEsperadaEntrega(ventaDirecta.getFechaEsperadaEntrega());
-    factura.setUbicacionOrigen(ventaDirecta.getUbicacionOrigen());
-    factura.setUbicacionDestino(ventaDirecta.getUbicacionDestino());
-    factura.setEstadosxdocumento(ventaDirecta.getEstadosxdocumento());
-    factura.setFechaGeneracion(ventaDirecta.getFechaGeneracion());
-    factura.setFechaEntrega(ventaDirecta.getFechaEntrega());
-    factura.setProveedore(ventaDirecta.getProveedore());
-    factura.setObservacionDocumento(ventaDirecta.getObservacionDocumento());
-    factura.setDocumentoCliente(ventaDirecta.getDocumentoCliente());
-    factura.setSitioEntrega(ventaDirecta.getSitioEntrega());
-    if (ventaDirecta.getCliente() != null) {
-      factura.setCliente(ventaDirecta.getCliente());
-      factura.setSubtotal(ventaDirecta.getSubtotal());
-      factura.setDescuento(ventaDirecta.getDescuento());
-      factura.setValorIva16(ventaDirecta.getValorIva16());
-      factura.setValorTotal(ventaDirecta.getValorTotal());
-      factura.setValorIva10(ventaDirecta.getValorIva10());
-      factura.setPuntoVenta(ventaDirecta.getPuntoVenta());
-      factura.setDescuentoCliente(ventaDirecta.getDescuentoCliente());
-      if (ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA || ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA_ESPECIAL) {
-        factura.setNumeroFactura(ventaDirecta.getNumeroFactura());
-        factura.setValorIva5(ventaDirecta.getValorIva5());
-        factura.setObservacion2(ventaDirecta.getObservacion2());
-        factura.setObservacion3(ventaDirecta.getObservacion3());
-      }
-    }
+    // tipo de documento y estado
+    Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
+    EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
+    estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.ACTIVO);
+    estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.VENTA_DIRECTA);
+    estadosxdocumento.setId(estadosxdocumentoPK);
+    // llenar el objeto documento
+    ventaDirecta.setEstadosxdocumento(estadosxdocumento);
+    ventaDirecta.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
+    ventaDirecta.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.EXTERNA));
+    ventaDirecta.setDescuentoCliente(new BigDecimal(0.0));
+    ventaDirecta.setSitioEntrega("CS");
     StringBuilder secuencia = new StringBuilder();
     if (ventaDirecta.getConsecutivoDocumento() == null || ventaDirecta.getConsecutivoDocumento().isEmpty() || ventaDirecta.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
       TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento());
@@ -561,51 +542,54 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       secuencia.append("-");
       secuencia.append(valorSecuencia);
       String consecutivoDocumento = secuencia.toString();
-      factura.setConsecutivoDocumento(consecutivoDocumento);
+      ventaDirecta.setConsecutivoDocumento(consecutivoDocumento);
       if (ventaDirecta.getCliente() != null) {
         if (ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA) {
-          factura.setNumeroFactura(consecutivoDocumento);
+          ventaDirecta.setNumeroFactura(consecutivoDocumento);
         }
       }
     } else {
       // el usuario ha introducido un consecutivo manualmente
-      factura.setConsecutivoDocumento(ventaDirecta.getConsecutivoDocumento());
       if (ventaDirecta.getCliente() != null) {
         if (ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento().intValue() == ConstantesTipoDocumento.FACTURA) {
-          factura.setNumeroFactura(ventaDirecta.getConsecutivoDocumento());
+          ventaDirecta.setNumeroFactura(ventaDirecta.getConsecutivoDocumento());
         }
       }
     }
-    factura = (Documento) documentoDAO.add(factura);
-    LOGGER.debug("Factura creada con id: " + factura.getId());
+    ventaDirecta = (Documento) documentoDAO.add(ventaDirecta);
+    LOGGER.debug("Factura creada con id: " + ventaDirecta.getId());
     LOGGER.debug("Crear log de auditoria");
     auditoria.setTabla(Documento.class.getName());
     auditoria.setAccion("CRE");
     auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
-    auditoria.setIdRegTabla(factura.getId());
+    auditoria.setIdRegTabla(ventaDirecta.getId());
     auditoria = logAuditoriaDAO.add(auditoria);
     LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
     LOGGER.debug("Crear los productos para la factura");
     for (ProductosXDocumento pxd : listaProductos) {
       pxd.setInformacion(Boolean.FALSE);
       pxd.setCalidad(Boolean.FALSE);
-      pxd.setFechaEstimadaEntrega(new Timestamp(System.currentTimeMillis()));
-      pxd.setFechaEntrega(new Timestamp(System.currentTimeMillis()));
+      pxd.setFechaEstimadaEntrega(ventaDirecta.getFechaEsperadaEntrega());
+      pxd.setFechaEntrega(ventaDirecta.getFechaEntrega());
       ProductosXDocumentoPK productosXDocumentoPK = new ProductosXDocumentoPK();
-      productosXDocumentoPK.setIdDocumento(factura.getId());
+      productosXDocumentoPK.setIdDocumento(ventaDirecta.getId());
       productosXDocumentoPK.setIdProducto(pxd.getProductosInventario().getId());
       pxd.setId(productosXDocumentoPK);
       pxd.setMoneda(new Moneda("COP"));
-      pxd.setCantidad2(BigDecimal.ZERO);
       pxd.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
       pxd.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
+      // consultar el ultimo costo y setearlo en ml
+      pxd.setValorUnitatrioMl(BigDecimal.ZERO);
       pxd.setValorUnitarioUsd(BigDecimal.ZERO);
+      pxd.setIva(BigDecimal.ZERO);
+      pxd.setDescuentoxproducto(BigDecimal.ZERO);
+      pxd.setOtrosDescuentos(BigDecimal.ZERO);
       pxd = productoXDocumentoDAO.add(pxd);
       LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
     }
     LOGGER.debug("Productos creados exitosamente");
-    factura.getCliente().getCiudad();
-    factura.getPuntoVenta();
-    return factura;
+    ventaDirecta.getCliente().getCiudad();
+    ventaDirecta.getPuntoVenta();
+    return ventaDirecta;
   }
 }
