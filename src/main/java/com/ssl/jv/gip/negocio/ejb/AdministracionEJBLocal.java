@@ -7,10 +7,12 @@ import javax.ejb.Local;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 import com.ssl.jv.gip.jpa.pojo.HistorialContrasena;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.Rol;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
+import java.util.Map;
 
 @Local
 public interface AdministracionEJBLocal {
@@ -47,4 +49,11 @@ public interface AdministracionEJBLocal {
   public void eliminarHistorialContrasena(HistorialContrasena hc);
 
   public List<Ciudad> getCiudadesByIdPais(String idPais);
+
+  /**
+   * 
+   * @param parametros
+   * @return 
+   */
+  List<LogAuditoria> consultarLogAuditoria(Map<String, Object> parametros);
 }
