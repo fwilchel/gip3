@@ -1254,4 +1254,104 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
       }
     }
   }
+
+  @Override
+  public void crearProductosXClientes(ProductosXCliente pxc, LogAuditoria auditoria) {
+    LOGGER.trace("Metodo: <<crearProductosXClientes>>");
+    productoClienteDAO.add(pxc);
+    LOGGER.debug("Crear log de auditoria");
+    auditoria.setTabla(ProductosXCliente.class.getName());
+    auditoria.setAccion("CRE");
+    auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+    auditoria.setIdRegTabla(pxc.getId());
+    auditoria = logAuditoriaDAO.add(auditoria);
+    LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
+  }
+
+  @Override
+  public void modificarProductosXClientes(ProductosXCliente pxcOld, ProductosXCliente pxcNew, LogAuditoria auditoria) {
+    LOGGER.trace("Metodo: <<modificarProductosXClientes>>");
+    productoClienteDAO.update(pxcNew);
+    LOGGER.debug("Crear log de auditoria");
+    auditoria.setTabla(ProductosXCliente.class.getName());
+    auditoria.setAccion("MOD");
+    auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+    auditoria.setIdRegTabla(pxcNew.getId());
+    String[][] matrizOld = {
+      {
+        "Id_Producto",
+        "Id_Cliente",
+        "Fecha_Incial_Vigencia",
+        "Fecha_Final_Vigencia",
+        "Vigente",
+        "Precio_ML",
+        "Precio_USD",
+        "Id_ML",
+        "IVA",
+        "DescuentoxProducto",
+        "Otros_Descuentos",
+        "Id_Punto_Venta",
+        "Activo"
+      },
+      {
+        pxcOld.getProductosInventario().getId().toString(),
+        pxcOld.getCliente().getId().toString(),
+        pxcOld.getFechaInicialVigencia().toString(),
+        pxcOld.getFechaFinalVigencia().toString(),
+        pxcOld.getVigente().toString(),
+        pxcOld.getPrecioMl().toString(),
+        pxcOld.getPrecioUsd().toString(),
+        pxcOld.getMoneda().getId(),
+        pxcOld.getIva().toString(),
+        pxcOld.getDescuentoxproducto().toString(),
+        pxcOld.getOtrosDescuentos().toString(),
+        pxcOld.getPuntoVenta().getId().toString(),
+        pxcOld.getActivo().toString()
+      }
+    };
+    String[][] matrizNew = {
+      {
+        "Id_Producto",
+        "Id_Cliente",
+        "Fecha_Incial_Vigencia",
+        "Fecha_Final_Vigencia",
+        "Vigente",
+        "Precio_ML",
+        "Precio_USD",
+        "Id_ML",
+        "IVA",
+        "DescuentoxProducto",
+        "Otros_Descuentos",
+        "Id_Punto_Venta",
+        "Activo"
+      },
+      {
+        pxcNew.getProductosInventario().getId().toString(),
+        pxcNew.getCliente().getId().toString(),
+        pxcNew.getFechaInicialVigencia().toString(),
+        pxcNew.getFechaFinalVigencia().toString(),
+        pxcNew.getVigente().toString(),
+        pxcNew.getPrecioMl().toString(),
+        pxcNew.getPrecioUsd().toString(),
+        pxcNew.getMoneda().getId(),
+        pxcNew.getIva().toString(),
+        pxcNew.getDescuentoxproducto().toString(),
+        pxcNew.getOtrosDescuentos().toString(),
+        pxcNew.getPuntoVenta().getId().toString(),
+        pxcNew.getActivo().toString()
+      }
+    };
+    for (int x = 1; x < matrizOld.length; x++) {
+      for (int y = 0; y < matrizOld[x].length; y++) {
+        // Anterior //Nuevo
+        if (!(matrizOld[x][y].equals(matrizNew[x][y]))) {
+          auditoria.setCampo(matrizOld[0][y]);
+          auditoria.setValorAnterior(matrizOld[x][y]);
+          auditoria.setValorNuevo(matrizNew[x][y]);
+          auditoria = logAuditoriaDAO.add(auditoria);
+        }
+      }
+    }
+    LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
+  }
 }

@@ -407,7 +407,28 @@ public interface MaestrosEJBLocal {
    * @email dpoveda@gmail.com
    * @phone 3192594013
    * @param archivo
-   * @throws IOException 
+   * @throws IOException
    */
   void crearProductosXClientesDesdeArchivo(byte[] archivo) throws IOException;
+
+  /**
+   * Metodo que crea producto por cliente
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @param pxc
+   * @param auditoria
+   */
+  void crearProductosXClientes(ProductosXCliente pxc, LogAuditoria auditoria);
+
+  /**
+   * Metodo que modifica producto por cliente
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @param pxcOld
+   * @param pxcNew
+   * @email dpoveda@gmail.com
+   * @param auditoria
+   */
+  void modificarProductosXClientes(ProductosXCliente pxcOld, ProductosXCliente pxcNew, LogAuditoria auditoria);
 }

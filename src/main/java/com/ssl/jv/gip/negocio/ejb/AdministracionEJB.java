@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 import com.ssl.jv.gip.jpa.pojo.HistorialContrasena;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.Rol;
@@ -26,10 +27,12 @@ import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.dao.CiudadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.FuncionalidadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.HistorialContrasenaDAOLocal;
+import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ParametroDAOLocal;
 import com.ssl.jv.gip.negocio.dao.RolDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UsuarioDAOLocal;
+import java.util.Map;
 
 /**
  * Session Bean implementation class AdministracionEJB
@@ -60,6 +63,9 @@ public class AdministracionEJB implements AdministracionEJBLocal {
 
   @EJB
   private CiudadDAOLocal ciudadDao;
+
+  @EJB
+  private LogAuditoriaDAOLocal logAuditoriaDao;
 
   @Resource(mappedName = "java:jboss/mail/Default")
   private Session mailSessionServer;
@@ -160,5 +166,12 @@ public class AdministracionEJB implements AdministracionEJBLocal {
   @Override
   public List<Ciudad> getCiudadesByIdPais(String idPais) {
     return ciudadDao.findByPais(idPais);
+  }
+
+  @Override
+  public List<LogAuditoria> consultarLogAuditoria(Map<String, Object> parametros) {
+    LOGGER.debug("Metodo: <<consultarLogAuditoria>>");
+    return logAuditoriaDao.buscarPorConsultaNombrada(LogAuditoria.FIND_BY_PARAMETROS, parametros);
+//    return logAuditoriaDao.consultarLogAuditoria(parametros);
   }
 }
