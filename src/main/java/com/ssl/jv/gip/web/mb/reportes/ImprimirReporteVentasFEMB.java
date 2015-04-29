@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,6 @@ import org.primefaces.model.StreamedContent;
 import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-
 import com.ssl.jv.gip.web.mb.util.exportarExcel;
 import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
 
@@ -59,6 +59,10 @@ public class ImprimirReporteVentasFEMB extends UtilMB {
   private StreamedContent reportePDF;
   private String strFechaInicial;
   private String strFechaFinal;
+  
+  
+  private Date filtroFechaInicial;
+  private Date filtroFechaFinal;
 
   @EJB
   private VentasFacturacionEJB ventasFacturacionEjb;
@@ -67,9 +71,24 @@ public class ImprimirReporteVentasFEMB extends UtilMB {
     Map<String, Object> parametros = new HashMap<String, Object>();
 
     parametros.put("tipo", ConstantesTipoDocumento.FACTURA_ESPECIAL);
-    parametros.put("fechaInicial", strFechaInicial);
-    parametros.put("fechaFinal", strFechaFinal);
-    list = ventasFacturacionEjb.consultarReporteVentasFD(parametros);
+   // parametros.put("fechaInicial", strFechaInicial);
+   // parametros.put("fechaFinal", strFechaFinal);
+    
+    
+    //parametros.put("fechaInicial", filtroFechaInicial);
+    //parametros.put("fechaFinal",  filtroFechaFinal);
+    
+    
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    parametros.put("fechaInicial", formatoFecha.format(filtroFechaInicial));
+    parametros.put("fechaFinal", formatoFecha.format(filtroFechaFinal));
+    
+    
+    System.out.println("fechaIni_1: " + formatoFecha.format(filtroFechaInicial));
+    System.out.println("fechaFin_1: " +formatoFecha.format(filtroFechaFinal));
+    
+    
+    list = ventasFacturacionEjb.consultarReporteVentasFE(parametros);
 
     System.out.println("lista reporte ventas" + list.size());
 
@@ -268,8 +287,13 @@ public class ImprimirReporteVentasFEMB extends UtilMB {
       //merge11.addArea(2, (short) 0, 2, (short) 5);
       c12b.setCellStyle(cs6);
 
+      
+      SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+     
+      
+      
       c17 = r2.createCell((short) 1);
-      c17.setCellValue(this.strFechaInicial);
+      c17.setCellValue(formatoFecha.format(filtroFechaInicial));
       //MergeCellsRecord merge9 = new MergeCellsRecord();
       //merge9.addArea(4, (short) 1, 4, (short) 4);
       c17.setCellStyle(cs7);
@@ -283,7 +307,7 @@ public class ImprimirReporteVentasFEMB extends UtilMB {
       c12.setCellStyle(cs6);
 
       c17 = r3.createCell((short) 1);
-      c17.setCellValue(this.strFechaFinal);
+      c17.setCellValue(formatoFecha.format(filtroFechaFinal));
       //MergeCellsRecord merge10 = new MergeCellsRecord();
       //merge10.addArea(4, (short) 1, 4, (short) 4);
       c17.setCellStyle(cs7);
@@ -303,11 +327,11 @@ public class ImprimirReporteVentasFEMB extends UtilMB {
       c5 = r.createCell((short) 5);
       c5.setCellValue("CONSECUTIVO FACTURA");
       c6 = r.createCell((short) 6);
-      c6.setCellValue("NÚMERO FACTURA");
+      c6.setCellValue("NUMERO FACTURA");
       c7 = r.createCell((short) 7);
       c7.setCellValue("SKU PRODUCTO");
       c8 = r.createCell((short) 8);
-      c8.setCellValue("DESCRIPCIÓN PRODUCTO");
+      c8.setCellValue("DESCRIPCION PRODUCTO");
       c9 = r.createCell((short) 9);
       c9.setCellValue("CANTIDAD VD");
       c10 = r.createCell((short) 10);
@@ -380,7 +404,7 @@ public class ImprimirReporteVentasFEMB extends UtilMB {
         c.setCellStyle(cs2);
 
         c = r.createCell((short) 6);
-        c.setCellValue(objproducto.getConsecutivoDocumentoFD());
+        c.setCellValue(objproducto.getNumeroFactura());
         c.setCellStyle(cs2);
 
         c = r.createCell((short) 7);
@@ -482,5 +506,33 @@ public class ImprimirReporteVentasFEMB extends UtilMB {
   public void setList(List<ReporteVentaDTO> list) {
     this.list = list;
   }
+  
+  /**
+ * @return the filtroFechaInicial
+ */
+public Date getFiltroFechaInicial() {
+	return filtroFechaInicial;
+}
+
+/**
+ * @param filtroFechaInicial the filtroFechaInicial to set
+ */
+public void setFiltroFechaInicial(Date filtroFechaInicial) {
+	this.filtroFechaInicial = filtroFechaInicial;
+}
+
+/**
+ * @return the filtroFechaFinal
+ */
+public Date getFiltroFechaFinal() {
+	return filtroFechaFinal;
+}
+
+/**
+ * @param filtroFechaFinal the filtroFechaFinal to set
+ */
+public void setFiltroFechaFinal(Date filtroFechaFinal) {
+	this.filtroFechaFinal = filtroFechaFinal;
+}
 
 }

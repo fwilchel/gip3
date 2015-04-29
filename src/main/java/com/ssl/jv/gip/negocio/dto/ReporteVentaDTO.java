@@ -35,6 +35,9 @@ public class ReporteVentaDTO implements Serializable {
   private BigDecimal valorDescuentoProducto;
   private BigDecimal valorOtrosDescuentos;
   private String nitCliente;
+  private String numeroFactura;
+
+
 
   public Long getId() {
     return id;
@@ -203,5 +206,19 @@ public class ReporteVentaDTO implements Serializable {
   public void setNitCliente(String nitCliente) {
     this.nitCliente = nitCliente;
   }
+  
+  /**
+ * @return the numeroFactura
+ */
+public String getNumeroFactura() {
+	return numeroFactura;
+}
+
+/**
+ * @param numeroFactura the numeroFactura to set
+ */
+public void setNumeroFactura(String numeroFactura) {
+	this.numeroFactura = numeroFactura;
+}
 
 }

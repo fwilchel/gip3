@@ -515,4 +515,10 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     parametros.put("idDocumento", id);
     return documentoDAO.buscarPorConsultaNombrada(ProductosXDocumento.FIND_BY_DOCUMENTO_ORDER_BY_SKU, parametros);
   }
+  
+  
+  public List<ReporteVentaDTO> consultarReporteVentasFE(Map<String, Object> parametros) {
+	    // TODO Auto-generated method stub
+	    return documentoDAO.consultarReporteVentasFE(parametros);
+	  }
 }

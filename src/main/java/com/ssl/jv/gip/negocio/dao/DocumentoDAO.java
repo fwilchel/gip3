@@ -1458,7 +1458,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     String query = "";
 
     query = "SELECT row_number() over (ORDER BY d.consecutivo_documento) as id, CASE WHEN pxd2.cantidad1 is null THEN prodVD.fecha_generacion ELSE d.fecha_generacion END as fechaGeneracion," + " c.nombre as nombreCliente,pv.nombre as nombrePuntoVenta ,prodVD.consecutivo_documento as consecutivoDocumentoVD," + " CASE WHEN pxd2.cantidad1 is null THEN prodVD.observacion_documento  ELSE d.observacion_documento  END as consecutivoDocumentoRM,"
-        + " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE d.consecutivo_documento END consecutivoDocumentoFD," + " pi.sku as sku , pi.nombre as nombreProducto," + " prodVD.cantidad1 as cantidadVD," + " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE  pxd2.cantidad1  END as cantidadFD ,prodVD.valor_unitatrio_ml as valorUnitario," + " CASE WHEN pxd2.descuentoxproducto is null  THEN '0' else pxd2.descuentoxproducto END as valorDescuentoProducto,"
+        + " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE d.consecutivo_documento END consecutivoDocumentoFD," + "d.numero_factura as numeroFactura,   pi.sku as sku , pi.nombre as nombreProducto," + " prodVD.cantidad1 as cantidadVD," + " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE  pxd2.cantidad1  END as cantidadFD ,prodVD.valor_unitatrio_ml as valorUnitario," + " CASE WHEN pxd2.descuentoxproducto is null  THEN '0' else pxd2.descuentoxproducto END as valorDescuentoProducto,"
         + " CASE WHEN d.descuento_cliente is null THEN '0' ELSE d.descuento_cliente END as valorDescuentoCliente," + " CASE WHEN pxd2.otros_descuentos is null THEN '0' ELSE pxd2.otros_descuentos END as valorOtrosDescuentos," + " CASE WHEN pxd2.iva is null THEN '0' ELSE pxd2.iva END as valorPorcentajeIva," + " d.documento_cliente as OrdenCompra ,d.observacion2 as NumeroEntregaSap ,d.observacion3 as ConsecutivoOD, d.sitio_entrega  as NumeroPedidoSap," + " c.nit as nitCliente"
         + " from  documentos d " + " inner join (SELECT  pxd.id_producto ,d.id as id_documento ,pxd.cantidad1 , d3.consecutivo_documento ,d3.observacion_documento," + " pxd.valor_unitatrio_ml,d3.fecha_generacion from  documentos d " + " inner join (select id ,consecutivo_documento,observacion_documento from documentos ) d2 on d2.consecutivo_documento = d.observacion_documento"
         + " inner join (select id ,consecutivo_documento,observacion_documento , fecha_generacion from documentos ) d3 on d3.consecutivo_documento = d2.observacion_documento" + " inner join productosxdocumentos pxd  on pxd.id_documento=d3.id" + " where d.id_tipo_documento= :tipoDoc1" + " and d.fecha_generacion between  :fechaIni1 and :fechaFin1" + " and d.id_estado in (12,5) )"
@@ -2155,5 +2155,45 @@ where id_tipo_documento=22 and id_estado in (15,14) and dxn.solicitud_cafe=true 
 	    return listado;
 
 	  }
+  
+  @Override
+  public List<ReporteVentaDTO> consultarReporteVentasFE(Map<String, Object> parametros) {
+    String fechaIni = (String) parametros.get("fechaInicial");
+    String fechaFin = (String) parametros.get("fechaFinal");
+    
+    
+    System.out.println("fechaIni: " + fechaIni);
+    System.out.println("fechaFin: " + fechaFin);
+
+    Timestamp tsfechaIni = Timestamp.valueOf(fechaIni + " 00:00:00");
+    Timestamp tsfechaFin = Timestamp.valueOf(fechaFin + " 23:59:59");
+    
+    
+    
+    
+
+    int tipoDoc = (Integer) parametros.get("tipo");
+
+    List<ReporteVentaDTO> lista = new ArrayList<ReporteVentaDTO>();
+    String query = "";
+
+    query = "SELECT row_number() over (ORDER BY d.consecutivo_documento) as id, CASE WHEN pxd2.cantidad1 is null THEN prodVD.fecha_generacion ELSE d.fecha_generacion END as fechaGeneracion," + " c.nombre as nombreCliente,pv.nombre as nombrePuntoVenta ,prodVD.consecutivo_documento as consecutivoDocumentoVD," + " CASE WHEN pxd2.cantidad1 is null THEN prodVD.observacion_documento  ELSE d.observacion_documento  END as consecutivoDocumentoRM,"
+        + " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE d.consecutivo_documento END consecutivoDocumentoFD," + "  d.numero_factura as numeroFactura, pi.sku as sku , pi.nombre as nombreProducto," + " prodVD.cantidad1 as cantidadVD," + " CASE WHEN pxd2.cantidad1 is null THEN '0' ELSE  pxd2.cantidad1  END as cantidadFD ,prodVD.valor_unitatrio_ml as valorUnitario," + " CASE WHEN pxd2.descuentoxproducto is null  THEN '0' else pxd2.descuentoxproducto END as valorDescuentoProducto,"
+        + " CASE WHEN d.descuento_cliente is null THEN '0' ELSE d.descuento_cliente END as valorDescuentoCliente," + " CASE WHEN pxd2.otros_descuentos is null THEN '0' ELSE pxd2.otros_descuentos END as valorOtrosDescuentos," + " CASE WHEN pxd2.iva is null THEN '0' ELSE pxd2.iva END as valorPorcentajeIva," + " d.documento_cliente as OrdenCompra ,d.observacion2 as NumeroEntregaSap ,d.observacion3 as ConsecutivoOD, d.sitio_entrega  as NumeroPedidoSap," + " c.nit as nitCliente"
+        + " from  documentos d " + " inner join (SELECT  pxd.id_producto ,d.id as id_documento ,pxd.cantidad1 , d3.consecutivo_documento ,d3.observacion_documento," + " pxd.valor_unitatrio_ml,d3.fecha_generacion from  documentos d " + " inner join (select id ,consecutivo_documento,observacion_documento from documentos ) d2 on d2.consecutivo_documento = d.observacion_documento"
+        + " inner join (select id ,consecutivo_documento,observacion_documento , fecha_generacion from documentos ) d3 on d3.consecutivo_documento = d2.observacion_documento" + " inner join productosxdocumentos pxd  on pxd.id_documento=d3.id" + " where d.id_tipo_documento= :tipoDoc1" + " and d.fecha_generacion between  :fechaIni1 and :fechaFin1" + " and d.id_estado in (12,5) "
+        + " and d.sitio_entrega = 'CS' )"
+        + " prodVD on prodVD.id_documento=d.id" + " inner join clientes c on c.id=d.id_cliente" + " inner join punto_venta pv on d.id_punto_venta= pv.id" + " inner join productos_inventario pi on pi.id=prodVD.id_producto" + " left outer  join productosxdocumentos pxd2 on pxd2.id_producto=prodVD.id_producto and pxd2.id_documento=d.id" + " where d.id_tipo_documento= :tipoDoc2" + " and d.fecha_generacion between  :fechaIni2 and :fechaFin2" + " and d.id_estado in (12,5)"
+        + " and d.sitio_entrega = 'CS'";
+    // + " order by d.consecutivo_documento";
+
+    lista = em.createNativeQuery(query, ReporteVentaDTO.class).setParameter("fechaIni1", tsfechaIni).setParameter("fechaFin1", tsfechaFin).setParameter("fechaIni2", tsfechaIni).setParameter("fechaFin2", tsfechaFin).setParameter("tipoDoc1", tipoDoc).setParameter("tipoDoc2", tipoDoc).getResultList();
+
+    System.out.println("query: " + query);
+    System.out.println("query ventas" + lista.size());
+
+    return lista;
+
+  }
   
 }

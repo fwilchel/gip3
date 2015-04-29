@@ -233,6 +233,8 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
 public List<Documento> consultarDocumentosSP(String consecutivoDocumento);
 public List<Documento> consultarDocumentosOD(String consecutivoDocumento);
+
+public List<ReporteVentaDTO> consultarReporteVentasFE(Map<String, Object> parametros);
 }
 
 
