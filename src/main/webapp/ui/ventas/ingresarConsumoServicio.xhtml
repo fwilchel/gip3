@@ -192,6 +192,14 @@
                     <p:message 
                       for="cantidadRequerida" />
                   </p:column>
+                  <p:column
+                    style="width:32px;text-align: center">
+                    <p:commandButton 
+                      icon="ui-icon-trash" 
+                      actionListener="#{ingresarConsumoServicioMB.onRemoveEvent(registro)}"
+                      immediate="true"
+                      update="tblRegistros :pnlTab:forma:btnGenerar"/>
+                  </p:column>
                 </p:dataTable>
               </div>
             </h:panelGroup>

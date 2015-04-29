@@ -25,6 +25,7 @@ import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import java.util.Objects;
 
 /**
  * <p>
@@ -84,10 +85,24 @@ public class IngresarConsumoServicioMB extends UtilMB {
     LOGGER.trace("Metodo: <<onProductsChosen>>");
     List<ProductosInventario> listaProductos = (List<ProductosInventario>) event.getObject();
     for (ProductosInventario producto : listaProductos) {
-      ProductosXDocumento tmp = new ProductosXDocumento();
-      tmp.setProductosInventario(producto);
-      this.getListaProductosXDocumento().add(tmp);
+      boolean incluido = false;
+      for (ProductosXDocumento pxd : listaProductosXDocumento) {
+        if (Objects.equals(producto.getId(), pxd.getProductosInventario().getId())) {
+          incluido = true;
+          break;
+        }
+      }
+      if (!incluido) {
+        ProductosXDocumento tmp = new ProductosXDocumento();
+        tmp.setProductosInventario(producto);
+        this.getListaProductosXDocumento().add(tmp);
+      }
     }
+  }
+
+  public void onRemoveEvent(ProductosXDocumento registro) {
+    LOGGER.trace("Metodo: <<onRemoveEvent>>");
+    listaProductosXDocumento.remove(registro);
   }
 
   public void ingresarConsumoServicio() {
@@ -96,7 +111,6 @@ public class IngresarConsumoServicioMB extends UtilMB {
     LogAuditoria auditoria = new LogAuditoria();
     auditoria.setIdUsuario(menu.getUsuario().getId());
     auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
-    // generar
     try {
       Documento documentoGenerado = ventasFacturacionEJB.generarConsumoServicios(ventaDirecta, listaProductosXDocumento, auditoria);
     } catch (Exception ex) {
