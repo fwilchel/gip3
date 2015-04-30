@@ -11,6 +11,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
+import java.io.IOException;
 
 @Local
 public interface VentasFacturacionEJBLocal {
@@ -120,14 +121,35 @@ public interface VentasFacturacionEJBLocal {
   List<ProductosXDocumento> consultarProductosPorDocumentoOrdenadosPorSKU(Long id);
 
   /**
-   * 
+   *
    * @author Diego Poveda - Soft Studio Ltda.
    * @email dpoveda@gmail.com
    * @phone 3192594013
    * @param ventaDirecta
    * @param listaProductos
    * @param auditoria
-   * @return 
+   * @return
    */
   Documento generarConsumoServicios(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria);
+
+  /**
+   * 
+   * @param documento
+   * @param archivo
+   * @return 
+   * @throws IOException 
+   */
+  List<ProductosXDocumento> consultarProductosXDocumentoValidadosContraArchivo(Documento documento, byte[] archivo) throws IOException;
+
+  /**
+   *
+   * @author Diego Poveda - Soft Studio Ltda.
+   * @email dpoveda@gmail.com
+   * @phone 3192594013
+   * @param ventaDirecta
+   * @param listaProductos
+   * @param auditoria
+   * @return
+   */
+  Documento generarRemision(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria);
 }

@@ -111,7 +111,7 @@ public class ImprimirFacturaProformaMB extends UtilMB {
   public String editar() {
     String outcome = null;
     try {
-      this.modo = Modo.EDICION;
+      this.modo = Modo.EDITAR;
 
       totalCantidad = BigDecimal.ZERO;
       totalValorUnitario = BigDecimal.ZERO;
@@ -298,7 +298,7 @@ public class ImprimirFacturaProformaMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

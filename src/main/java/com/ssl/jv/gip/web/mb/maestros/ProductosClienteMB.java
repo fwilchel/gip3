@@ -91,7 +91,7 @@ public class ProductosClienteMB extends UtilMB {
   @PostConstruct
   public void init() {
     LOGGER.trace("Metodo: <<init>>");
-    modo = Modo.LISTADO;
+    modo = Modo.LISTAR;
     setEstadoFlt("A");
   }
 
@@ -114,7 +114,7 @@ public class ProductosClienteMB extends UtilMB {
 
   public void onCreateEvent() {
     LOGGER.trace("Metodo: <<onCreateEvent>>");
-    modo = Modo.CREACION;
+    modo = Modo.CREAR;
     this.setProductoXClienteSeleccionado(new ProductosXCliente());
     this.getProductoXClienteSeleccionado().setCliente(new Cliente());
     this.getProductoXClienteSeleccionado().setProductosInventario(new ProductosInventario());
@@ -125,7 +125,7 @@ public class ProductosClienteMB extends UtilMB {
 
   public void onEditEvent() {
     LOGGER.trace("Metodo: <<onEditEvent>>");
-    modo = Modo.EDICION;
+    modo = Modo.EDITAR;
     if (productoXClienteSeleccionado.getFechaInicialVigencia() != null) {
       fechaInicialVigencia = new Date(productoXClienteSeleccionado.getFechaInicialVigencia().getTime());
     }
@@ -203,7 +203,7 @@ public class ProductosClienteMB extends UtilMB {
 
   private void reset() {
     LOGGER.trace("Metodo: <<reset>>");
-    modo = Modo.LISTADO;
+    modo = Modo.LISTAR;
     setProductoXClienteSeleccionado(null);
     getListaProductosXClientesSeleccionados().clear();
     fechaInicialVigencia = null;
@@ -258,7 +258,7 @@ public class ProductosClienteMB extends UtilMB {
    * @return
    */
   public boolean isModoListado() {
-    return modo.equals(Modo.LISTADO);
+    return modo.equals(Modo.LISTAR);
   }
 
   /**
@@ -266,7 +266,7 @@ public class ProductosClienteMB extends UtilMB {
    * @return
    */
   public boolean isModoCreacion() {
-    return modo.equals(Modo.CREACION);
+    return modo.equals(Modo.CREAR);
   }
 
   /**
@@ -274,7 +274,7 @@ public class ProductosClienteMB extends UtilMB {
    * @return
    */
   public boolean isModoEdicion() {
-    return modo.equals(Modo.EDICION);
+    return modo.equals(Modo.EDITAR);
   }
 
   /**

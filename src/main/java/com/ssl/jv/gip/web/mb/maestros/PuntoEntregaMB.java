@@ -141,13 +141,13 @@ public class PuntoEntregaMB extends UtilMB {
 
     seleccionado.setCiudade(new Ciudad());
     seleccionado.setCliente(new Cliente());
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
   }
 
   public void guardar() {
     try {
 
-      if (this.modo.equals(Modo.CREACION)) {
+      if (this.modo.equals(Modo.CREAR)) {
         this.seleccionado = this.servicio.crearPuntoVenta(this.seleccionado);
         if (this.puntoVenta == null) {
           this.puntoVenta = new ArrayList<PuntoVenta>();
@@ -174,7 +174,7 @@ public class PuntoEntregaMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;
@@ -195,7 +195,7 @@ public class PuntoEntregaMB extends UtilMB {
 
   public void setSeleccionado(PuntoVenta seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
     this.isEditar = true;
 
   }

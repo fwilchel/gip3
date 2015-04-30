@@ -367,6 +367,11 @@
       <from-outcome>listado_log_auditoria</from-outcome>
       <to-view-id>/ui/administracion/logAuditoria.xhtml</to-view-id>
     </navigation-case>
+    <!-- generar remision -->
+    <navigation-case>
+      <from-outcome>generar_remision</from-outcome>
+      <to-view-id>/ui/ventas/generarRemision.xhtml</to-view-id>
+    </navigation-case>
   </navigation-rule>
 
   <!-- converter>

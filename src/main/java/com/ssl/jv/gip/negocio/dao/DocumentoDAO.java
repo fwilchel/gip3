@@ -687,27 +687,22 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     List<Documento> listado = new ArrayList<Documento>();
     String query;
     try {
-    	
-    	//Consulta las SPs q están en estado Verificado (14) de  mercadeo y Asignada (16) de Café,
-      query = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " + "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " + "JOIN FETCH d.documentoXNegociacions dxn " 
-          + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " 
-    	  + "JOIN FETCH c.metodoPago mp " + "WHERE (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id=:estado2 and   dxn.solicitudCafe = :solicitudCafe ) or (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id=:estado1 and   dxn.solicitudCafe = :solicitudMercadeo) "
+
+      //Consulta las SPs q estï¿½n en estado Verificado (14) de  mercadeo y Asignada (16) de Cafï¿½,
+      query = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " + "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " + "JOIN FETCH d.documentoXNegociacions dxn "
+          + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu "
+          + "JOIN FETCH c.metodoPago mp " + "WHERE (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id=:estado2 and   dxn.solicitudCafe = :solicitudCafe ) or (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id=:estado1 and   dxn.solicitudCafe = :solicitudMercadeo) "
           + " AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.observacionDocumento IN (SELECT d3.consecutivoDocumento FROM Documento d3 WHERE d3.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d3.estadosxdocumento.estado.id IN (:estado1, :estado2)))" + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + " ORDER BY d.id DESC";
 
-       
-      
 //Query anterior
       /*query = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " + "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " + "JOIN FETCH d.documentoXNegociacions dxn " 
-              + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " 
-        	  + "JOIN FETCH c.metodoPago mp " + "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id IN (:estado1, :estado2) "
-              + " AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.observacionDocumento IN (SELECT d3.consecutivoDocumento FROM Documento d3 WHERE d3.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d3.estadosxdocumento.estado.id IN (:estado1, :estado2)))" + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + " ORDER BY d.id DESC";
-      listado = em.createQuery(query).setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO).setParameter("estado1", (long) ConstantesDocumento.VERIFICADO).setParameter("estado2", (long) ConstantesDocumento.APROBADA).setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%").getResultList();
-      */
-      
+       + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " 
+       + "JOIN FETCH c.metodoPago mp " + "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id IN (:estado1, :estado2) "
+       + " AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.observacionDocumento IN (SELECT d3.consecutivoDocumento FROM Documento d3 WHERE d3.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d3.estadosxdocumento.estado.id IN (:estado1, :estado2)))" + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + " ORDER BY d.id DESC";
+       listado = em.createQuery(query).setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO).setParameter("estado1", (long) ConstantesDocumento.VERIFICADO).setParameter("estado2", (long) ConstantesDocumento.APROBADA).setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%").getResultList();
+       */
       listado = em.createQuery(query).setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO).setParameter("estado1", (long) ConstantesDocumento.VERIFICADO).setParameter("estado2", (long) ConstantesDocumento.ASIGNADA).setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%").setParameter("solicitudCafe", true).setParameter("solicitudMercadeo", false).getResultList();
-      
-       
-      
+
     } catch (Exception e) {
       LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");
       return null;
@@ -2006,6 +2001,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
       if (filtro.getEstado() != null && !filtro.getEstado().isEmpty()) {
         where.append("AND d.estadosxdocumento.id.idEstado IN (:estado) ");
       }
+      if (filtro.getFechaGeneracion() != null) {
+        where.append("AND d.fechaGeneracion = :fechaGeneracion ");
+      }
       if (filtro.getFechaGeneracionInicio() != null && filtro.getFechaGeneracionFin() != null) {
         where.append("AND d.fechaGeneracion BETWEEN :fechaGeneracionInicio AND :fechaGeneracionFin ");
       }
@@ -2051,6 +2049,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     }
     if (filtro.getEstado() != null && !filtro.getEstado().isEmpty()) {
       query.setParameter("estado", filtro.getEstado());
+    }
+    if (filtro.getFechaGeneracion() != null) {
+      query.setParameter("fechaGeneracion", filtro.getFechaGeneracion());
     }
     if (filtro.getFechaGeneracionInicio() != null && filtro.getFechaGeneracionFin() != null) {
       query.setParameter("fechaGeneracionInicio", filtro.getFechaGeneracionInicio());
@@ -2108,52 +2109,48 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
       LOGGER.debug("Numero de registros afectados: #" + registrosAfectados);
     }
   }
-  
+
   public List<Documento> consultarDocumentosSP(String consecutivoDocumento) {
 
-	    List<Documento> listado = new ArrayList<Documento>();
-	    String query;
-	    try {
-	      query = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " + "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " + "JOIN FETCH d.documentoXNegociacions dxn " + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " + "JOIN FETCH c.metodoPago mp " 
-	          + "WHERE (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id in( :estado,:estado2)"  + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + " AND dxn.solicitudCafe = :solicitudCafe ) "
-	          + " ORDER BY d.id DESC";
+    List<Documento> listado = new ArrayList<Documento>();
+    String query;
+    try {
+      query = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " + "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " + "JOIN FETCH d.documentoXNegociacions dxn " + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " + "JOIN FETCH c.metodoPago mp "
+          + "WHERE (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id in( :estado,:estado2)" + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + " AND dxn.solicitudCafe = :solicitudCafe ) "
+          + " ORDER BY d.id DESC";
 
 	      //+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id= :estado " + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + " AND dxn.solicitudCafe = :solicitudCafe "
-	      
-	    /*select d.id ,d.consecutivo_documento,d.documento_cliente,d.fecha_generacion ,c.nombre , dxn.solicitud_cafe ,d.id_estado
-from documentos d inner join documento_x_negociacion dxn  on d.id=dxn.id_documento
-inner join clientes c on c.id=d.id_cliente 
-where id_tipo_documento=22 and id_estado in (15,14) and dxn.solicitud_cafe=true  ORDER BY d.id DESC
-	      */
-	      
-	      listado = em.createQuery(query).setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO).setParameter("estado", (long) ConstantesDocumento.APROBADA).setParameter("solicitudCafe", true).setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%").setParameter("estado2", (long) ConstantesDocumento.VERIFICADO).getResultList();
-	    } catch (Exception e) {
-	      LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");
-	      return null;
-	    }
-	    return listado;
+      /*select d.id ,d.consecutivo_documento,d.documento_cliente,d.fecha_generacion ,c.nombre , dxn.solicitud_cafe ,d.id_estado
+       from documentos d inner join documento_x_negociacion dxn  on d.id=dxn.id_documento
+       inner join clientes c on c.id=d.id_cliente 
+       where id_tipo_documento=22 and id_estado in (15,14) and dxn.solicitud_cafe=true  ORDER BY d.id DESC
+       */
+      listado = em.createQuery(query).setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO).setParameter("estado", (long) ConstantesDocumento.APROBADA).setParameter("solicitudCafe", true).setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%").setParameter("estado2", (long) ConstantesDocumento.VERIFICADO).getResultList();
+    } catch (Exception e) {
+      LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");
+      return null;
+    }
+    return listado;
 
-	  }
-  
-  
+  }
+
   public List<Documento> consultarDocumentosOD(String consecutivoDocumento) {
 
-	  //Orden despacho debe listar las SPs en estado asignada solamente para la categoría de Café
-	    List<Documento> listado = new ArrayList<Documento>();
-	    String query;
-	    try {
-	      query = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " + "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " + "JOIN FETCH d.documentoXNegociacions dxn " + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " + "JOIN FETCH c.metodoPago mp " 
-	          + "WHERE (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id=:estado"  + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + " AND dxn.solicitudCafe = :solicitudCafe ) "
-	          + " ORDER BY d.id DESC";
+    //Orden despacho debe listar las SPs en estado asignada solamente para la categorï¿½a de Cafï¿½
+    List<Documento> listado = new ArrayList<Documento>();
+    String query;
+    try {
+      query = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " + "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " + "JOIN FETCH d.documentoXNegociacions dxn " + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " + "JOIN FETCH c.metodoPago mp "
+          + "WHERE (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id=:estado" + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + " AND dxn.solicitudCafe = :solicitudCafe ) "
+          + " ORDER BY d.id DESC";
 
-	      
-	      listado = em.createQuery(query).setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO).setParameter("estado", (long) ConstantesDocumento.ASIGNADA).setParameter("solicitudCafe", true).setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%").getResultList();
-	    } catch (Exception e) {
-	      LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");
-	      return null;
-	    }
-	    return listado;
+      listado = em.createQuery(query).setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO).setParameter("estado", (long) ConstantesDocumento.ASIGNADA).setParameter("solicitudCafe", true).setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%").getResultList();
+    } catch (Exception e) {
+      LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");
+      return null;
+    }
+    return listado;
 
-	  }
-  
+  }
+
 }

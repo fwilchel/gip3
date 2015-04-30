@@ -79,7 +79,7 @@ public class ClienteMB extends UtilMB {
   }
 
   public void onAddEvent() {
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
     seleccionado = new Cliente();
     listaTerminosIncotermSeleccionados = new ArrayList<>();
     this.isEditar = false;
@@ -87,7 +87,7 @@ public class ClienteMB extends UtilMB {
   }
 
   public void onEditEvent() {
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
     this.isEditar = true;
     this.idPais = this.seleccionado.getCiudad().getIdPais();
     this.listaTerminosIncotermSeleccionados = this.seleccionado.getTerminoIncoterms();
@@ -109,7 +109,7 @@ public class ClienteMB extends UtilMB {
       LogAuditoria auditoria = new LogAuditoria();
       auditoria.setIdUsuario(menu.getUsuario().getId());
       auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
-      if (this.modo.equals(Modo.CREACION)) {
+      if (this.modo.equals(Modo.CREAR)) {
         this.seleccionado = this.servicio.crearCliente(this.seleccionado, auditoria);
         onAddEvent();
         this.addMensajeInfo("Cliente adicionado exitosamente");
@@ -178,7 +178,7 @@ public class ClienteMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

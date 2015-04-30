@@ -89,7 +89,7 @@ public class AsignarDatosTLMB extends UtilMB {
   public String editar() {
     String outcome = null;
     try {
-      this.modo = Modo.EDICION;
+      this.modo = Modo.EDITAR;
       documentosXLotesOIC = comercioExteriorEJBLocal
           .consultarDocumentosXLotesOICParaAsignarDatosTL(seleccionado
               .getObservacionDocumento());
@@ -128,7 +128,7 @@ public class AsignarDatosTLMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

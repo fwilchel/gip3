@@ -38,6 +38,10 @@ public class FiltroDocumentoDTO implements Serializable {
    */
   private List<Long> estado;
   /**
+   * filtra por la fecha de generacion. EQ
+   */
+  private Date fechaGeneracion;
+  /**
    * filtra por la fecha de generacion. BETWEEN
    */
   private Date fechaGeneracionInicio;
@@ -226,6 +230,20 @@ public class FiltroDocumentoDTO implements Serializable {
    */
   public void setEstado(Long... estado) {
     this.estado = Arrays.asList(estado);
+  }
+
+  /**
+   * @return the fechaGeneracion
+   */
+  public Date getFechaGeneracion() {
+    return fechaGeneracion;
+  }
+
+  /**
+   * @param fechaGeneracion the fechaGeneracion to set
+   */
+  public void setFechaGeneracion(Date fechaGeneracion) {
+    this.fechaGeneracion = fechaGeneracion;
   }
 
   /**

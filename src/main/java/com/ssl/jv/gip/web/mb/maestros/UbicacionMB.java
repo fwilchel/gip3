@@ -86,7 +86,7 @@ public class UbicacionMB extends UtilMB {
 
   public void setSeleccionado(Ubicacion seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
   }
 
   public void nuevo() {
@@ -96,7 +96,7 @@ public class UbicacionMB extends UtilMB {
     seleccionado.setUbicacione(new Ubicacion());
     seleccionado.setEmpresa(new Empresa());
     regiones = comunEJB.consultarRegiones(paises.get(0).getId());
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
   }
 
   public void guardar() {
@@ -140,7 +140,7 @@ public class UbicacionMB extends UtilMB {
 //				}
 //			}
 //		}
-    if (this.modo.equals(Modo.CREACION)) {
+    if (this.modo.equals(Modo.CREAR)) {
       seleccionado.setRegione(region);
       this.seleccionado = this.maestroEjb.crearUbicacion(this.seleccionado);
       //this.ubicacion.add(0,this.seleccionado);
@@ -159,7 +159,7 @@ public class UbicacionMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

@@ -126,7 +126,7 @@ public class UsuariosMB extends UtilMB {
 
   public void setSeleccionado(Usuario seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
   }
 
   public void nuevo() {
@@ -134,19 +134,19 @@ public class UsuariosMB extends UtilMB {
     seleccionado.setRole(new Rol());
     seleccionado.setPais(new Pais());
     seleccionado.setIntentos(0L);
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
   }
 
   public void guardar() {
     try {
       this.seleccionado.setPais(this.appMB.getPais(this.seleccionado.getPais().getId()));
       this.seleccionado.setRole(this.getRol(this.seleccionado.getRole().getIdRol()));
-      if (this.modo.equals(Modo.CREACION)) {
+      if (this.modo.equals(Modo.CREAR)) {
         this.seleccionado.setFechaIngreso(new Timestamp(new Date().getTime()));
         this.seleccionado.setContrasena(this.passwordDefault);
         this.admonEjb.crearUsuario(this.seleccionado);
         this.usuarios.add(this.seleccionado);
-        this.modo = Modo.EDICION;
+        this.modo = Modo.EDITAR;
       } else {
         this.admonEjb.actualizarUsuario(this.seleccionado);
       }
@@ -169,7 +169,7 @@ public class UsuariosMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

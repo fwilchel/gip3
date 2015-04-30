@@ -53,16 +53,16 @@ public class LugarIncotermMB extends UtilMB {
 
   public void setSeleccionado(LugarIncoterm seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
   }
 
   public void nuevo() {
     seleccionado = new LugarIncoterm();
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
   }
 
   public void guardar() {
-    if (this.modo.equals(Modo.CREACION)) {
+    if (this.modo.equals(Modo.CREAR)) {
       this.seleccionado = this.maestroEjb.crearLugarIncoterm(this.seleccionado);
       if (this.lugarIncoterm == null) {
         this.lugarIncoterm = new ArrayList<LugarIncoterm>();
@@ -76,7 +76,7 @@ public class LugarIncotermMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

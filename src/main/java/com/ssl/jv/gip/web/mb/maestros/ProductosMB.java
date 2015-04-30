@@ -183,16 +183,16 @@ public class ProductosMB extends UtilMB {
 
   public void setSeleccionado(ProductosInventario seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
     this.seleccionado2 = this.maestrosEjb.consultarProductoInventarioComext(this.seleccionado.getSku());
-    this.modoDetalle = Modo.EDICION;
+    this.modoDetalle = Modo.EDITAR;
     if (seleccionado2 == null) {
       this.seleccionado2 = new ProductosInventarioComext();
       this.seleccionado2.setCuentaContable(new CuentaContable());
       this.seleccionado2.setTipoLoteoic(new TipoLoteoic());
       this.seleccionado2.setUnidadEmbalaje(new Unidad());
       this.seleccionado2.setIdProducto(this.seleccionado.getId());
-      this.modoDetalle = Modo.CREACION;
+      this.modoDetalle = Modo.CREAR;
     }
     if (seleccionado2.getUnidadEmbalaje() == null) {
       this.seleccionado2.setUnidadEmbalaje(new Unidad());
@@ -230,17 +230,17 @@ public class ProductosMB extends UtilMB {
     seleccionado.setUnidadVenta(new Unidad());
     seleccionado.setUnidadReceta(new Unidad());
     seleccionado.setPais(new Pais());
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
   }
 
   public void guardar() {
     try {
       this.seleccionado.setPais(this.appMB.getPais(this.seleccionado.getPais().getId()));
-      if (this.modo.equals(Modo.CREACION)) {
+      if (this.modo.equals(Modo.CREAR)) {
         this.seleccionado.setAbc("A");
         this.seleccionado.setFactorUdUv(new BigDecimal(1));
         this.maestrosEjb.crearProductoInventario(this.seleccionado);
-        this.modo = Modo.EDICION;
+        this.modo = Modo.EDITAR;
       } else {
         this.maestrosEjb.actualizarProductoInventario(this.seleccionado);
       }
@@ -264,7 +264,7 @@ public class ProductosMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;
@@ -283,7 +283,7 @@ public class ProductosMB extends UtilMB {
     if (this.seleccionado2.getFechaCreado() == null) {
       this.seleccionado2.setFechaCreado(new Date());
     }
-    if (this.modoDetalle.equals(Modo.CREACION)) {
+    if (this.modoDetalle.equals(Modo.CREAR)) {
       this.maestrosEjb.crearProductoInventarioComext(this.seleccionado2);
     } else {
       this.maestrosEjb.actualizarProductoInventarioComext(this.seleccionado2);
