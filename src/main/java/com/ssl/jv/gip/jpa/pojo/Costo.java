@@ -10,10 +10,15 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "costos")
-@NamedQuery(name = "Costo.findAll", query = "SELECT c FROM Costo c")
+@NamedQueries({
+  @NamedQuery(name = Costo.FIND_ALL, query = "SELECT c FROM Costo c"),
+  @NamedQuery(name = Costo.FIND_BY_PRODUCTO_AND_FECHA, query = "SELECT c FROM Costo c WHERE c.productosInventario.id = :idProducto AND c.fecha <= :fecha ORDER BY c.fecha DESC")
+})
 public class Costo implements Serializable {
 
   private static final long serialVersionUID = 1L;
+  public static final String FIND_ALL = "Costo.findAll";
+  public static final String FIND_BY_PRODUCTO_AND_FECHA = "Costo.findByProductoYFecha";
 
   @Id
   private Long id;

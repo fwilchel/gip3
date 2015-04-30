@@ -528,6 +528,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     ventaDirecta.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.EXTERNA));
     ventaDirecta.setDescuentoCliente(new BigDecimal(0.0));
     ventaDirecta.setSitioEntrega("CS");
+    ventaDirecta.setNumeroFactura("0");// TODO: revisar esto, pq aunque en la db esta por defecto "0", al parecer no lo está tomando.
     StringBuilder secuencia = new StringBuilder();
     if (ventaDirecta.getConsecutivoDocumento() == null || ventaDirecta.getConsecutivoDocumento().isEmpty() || ventaDirecta.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
       TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento());
@@ -575,11 +576,20 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       productosXDocumentoPK.setIdDocumento(ventaDirecta.getId());
       productosXDocumentoPK.setIdProducto(pxd.getProductosInventario().getId());
       pxd.setId(productosXDocumentoPK);
+      pxd.setUnidade(pxd.getProductosInventario().getUnidadVenta());
       pxd.setMoneda(new Moneda("COP"));
       pxd.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
       pxd.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
       // consultar el ultimo costo y setearlo en ml
-      pxd.setValorUnitatrioMl(BigDecimal.ZERO);
+      Map<String, Object> parametros = new HashMap<>();
+      parametros.put("idProducto", pxd.getProductosInventario().getId());
+      parametros.put("fecha", new Timestamp(System.currentTimeMillis()));
+      Double costoML = productoDocumentoDAO.buscarRegistroPorConsultaNativa("SELECT costo_ml FROM costos WHERE id_producto = :idProducto AND fecha <= :fecha ORDER BY fecha DESC LIMIT 1 OFFSET 0", parametros);
+      if (costoML != null) {
+        pxd.setValorUnitatrioMl(new BigDecimal(costoML));
+      } else {
+        pxd.setValorUnitatrioMl(BigDecimal.ZERO);
+      }
       pxd.setValorUnitarioUsd(BigDecimal.ZERO);
       pxd.setIva(BigDecimal.ZERO);
       pxd.setDescuentoxproducto(BigDecimal.ZERO);
