@@ -247,7 +247,9 @@
                 id="btnGenerar"
                 value="#{msg.VentasGenerarRemision}" 
                 icon="ui-icon-document"
-                update=":pnlTab:forma:msgs :pnlTab:forma:pnlGroup"/>
+                update=":pnlTab:forma:msgs :pnlTab:forma:pnlGroup"
+                actionListener="#{generarRemisionMB.generarRemision()}"
+                disabled="#{empty generarRemisionMB.listaProductosXDocumento}"/>
               <!-- volver -->
               <p:commandButton 
                 value="volver a la lista" 

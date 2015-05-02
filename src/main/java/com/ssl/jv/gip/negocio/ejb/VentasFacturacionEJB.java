@@ -1,7 +1,12 @@
 package com.ssl.jv.gip.negocio.ejb;
 
-import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
+import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +14,9 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import mc_style.functions.soap.sap.document.sap_com.ZVI_MM_EXT_SAP_PEDIDOProxy;
+
+import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
@@ -23,12 +31,6 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.TipoMovimiento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
-import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
-import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
-import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoReporteTxtFacturaDirectaDTO;
-import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientoInventarioDAOLocal;
@@ -37,26 +39,23 @@ import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
+import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
+import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
+import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoReporteTxtFacturaDirectaDTO;
+import com.ssl.jv.gip.negocio.dto.ReporteVentaDTO;
 import com.ssl.jv.gip.web.mb.util.ConstantesBodegas;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesInventario;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
-
-import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import mc_style.functions.soap.sap.document.sap_com.ZVI_MM_EXT_SAP_PEDIDOProxy;
 
 /**
  * Session Bean implementation class VentasFacturacionEJB
@@ -619,103 +618,125 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
   @Override
   public List<ProductosXDocumento> consultarProductosXDocumentoValidadosContraArchivo(Documento documento, byte[] archivo) throws IOException {
     LOGGER.debug("Metodo: <<crearProductosXClientesDesdeArchivo>>");
-//    List<ProductosXDocumento> listPXDFromFile;
-//    boolean error;
-//    String message = null;
-//    error = false;
-//    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(archivo)))) {
-//      listPXDFromFile = new ArrayList<>();
-//      int numLinea = 0;
-//      String line;
-//      DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//      while ((line = reader.readLine()) != null) {
-//        if (numLinea != 0) { // obviamos la primera linea
-//          if (!line.isEmpty()) {
-//            String[] values = line.split("\\|");
-//            if (values.length != 13) {
-//              message = "Error de estructura en la línea " + numLinea;
-//              error = true;
-//              break;
-//            }
-//            if (values[0].trim().isEmpty()) {
-//              message = "Error de datos en la línea " + numLinea;
-//              error = true;
-//              break;
-//            }
-//            ProductosXDocumento pxd;
-//            try {
-//              pxd = new ProductosXDocumento();
-//              pxd.setProductosInventario(new ProductosInventario());
-//              pxd.setMoneda(new Moneda());
-//              if (values[0] == null) {
-//                error = true;
-//              } else {
-//                // necesario validar si el sku existe en db y traer el id
-//                String sku = values[0].trim();
-//                Map<String, Object> parametros = new HashMap<>();
-//                parametros.put("sku", sku);
-//                Object id = productoInventarioDao.buscarRegistroPorConsultaNativa("SELECT p.id FROM productos_inventario AS p WHERE p.sku = :sku", parametros);
-//                if (id != null) {
-//                  pxd.getProductosInventario().setId(Long.parseLong(id.toString()));
-//                  pxd.getProductosInventario().setSku(sku);
-//                } else {
-//                  error = true;
-//                }
-//              }
-//              if (values[7] == null) {
-//                error = true;
-//              } else {
-//                // necesario validar si el id existe en db
-//                String id = values[7].trim();
-//                Map<String, Object> parametros = new HashMap<>();
-//                parametros.put("id", id);
-//                Object count = productoInventarioDao.buscarRegistroPorConsultaNativa("SELECT COUNT(m.id) FROM monedas AS m WHERE m.id = :id", parametros);
-//                if (count != null && Integer.parseInt(count.toString()) > 0) {
-//                  pxd.getMoneda().setId(id);
-//                } else {
-//                  error = true;
-//                }
-//              }
-//              if (values[8] == null) {
-//                error = true;
-//              } else {
-//                pxd.setIva(new BigDecimal(values[8].trim()));
-//              }
-//              if (values[9] == null) {
-//                error = true;
-//              } else {
-//                pxd.setDescuentoxproducto(new BigDecimal(values[9].trim()));
-//              }
-//              if (values[10] == null) {
-//                error = true;
-//              } else {
-//                pxd.setOtrosDescuentos(new BigDecimal(values[10].trim()));
-//              }
-//            } catch (Exception e) {
-//              message = "Error de datos en la línea " + numLinea;
-//              error = true;
-//              break;
-//            }
-//            listPXDFromFile.add(pxd);
-//          }
-//        }
-//        numLinea++;
-//      }
-//    } catch (IOException ex) {
-//      message = "Error en el archivo";
-//      throw ex;
-//    }
-//    if (error) {
-//      throw new RuntimeException(message);
-//    }
+    List<ProductosXDocumento> listPXDFromFile = null;
+    boolean errorInFile = false;
+    String messageError = null;
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(archivo)))) {
+      listPXDFromFile = new ArrayList<>();
+      int numLinea = 0;
+      String line;
+      DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+      while ((line = reader.readLine()) != null) {
+        if (numLinea != 0) { // obviamos la primera linea
+          if (!line.isEmpty()) {
+            String[] values = line.split("\\|");
+            if (values.length != 13) {
+              messageError = "Error de estructura en la línea " + numLinea;
+              errorInFile = true;
+              break;
+            }
+            if (values[0].trim().isEmpty()) {
+              messageError = "Error de datos en la línea " + numLinea;
+              errorInFile = true;
+              break;
+            }
+            ProductosXDocumento pxd;
+            try {
+              pxd = new ProductosXDocumento();
+              pxd.setProductosInventario(new ProductosInventario());
+              pxd.setMoneda(new Moneda());
+              if (values[0] == null) {
+                errorInFile = true;
+              } else {
+                // necesario validar si el sku existe en db y traer el id
+                String sku = values[0].trim();
+                Map<String, Object> parametros = new HashMap<>();
+                parametros.put("sku", sku);
+                Object id = productoInventarioDao.buscarRegistroPorConsultaNativa("SELECT p.id FROM productos_inventario AS p WHERE p.sku = :sku", parametros);
+                if (id != null) {
+                  pxd.getProductosInventario().setId(Long.parseLong(id.toString()));
+                  pxd.getProductosInventario().setSku(sku);
+                } else {
+                  errorInFile = true;
+                }
+              }
+              if (values[7] == null) {
+                errorInFile = true;
+              } else {
+                // necesario validar si el id existe en db
+                String id = values[7].trim();
+                Map<String, Object> parametros = new HashMap<>();
+                parametros.put("id", id);
+                Object count = productoInventarioDao.buscarRegistroPorConsultaNativa("SELECT COUNT(m.id) FROM monedas AS m WHERE m.id = :id", parametros);
+                if (count != null && Integer.parseInt(count.toString()) > 0) {
+                  pxd.getMoneda().setId(id);
+                } else {
+                  errorInFile = true;
+                }
+              }
+              if (values[8] == null) {
+                errorInFile = true;
+              } else {
+                pxd.setIva(new BigDecimal(values[8].trim()));
+              }
+              if (values[9] == null) {
+                errorInFile = true;
+              } else {
+                pxd.setDescuentoxproducto(new BigDecimal(values[9].trim()));
+              }
+              if (values[10] == null) {
+                errorInFile = true;
+              } else {
+                pxd.setOtrosDescuentos(new BigDecimal(values[10].trim()));
+              }
+            } catch (Exception e) {
+              messageError = "Error de datos en la línea " + numLinea;
+              errorInFile = true;
+              break;
+            }
+            listPXDFromFile.add(pxd);
+          }
+        }
+        numLinea++;
+      }
+    } catch (IOException ex) {
+      messageError = "Error en el archivo";
+      throw ex;
+    }
+    if (errorInFile) {
+      throw new RuntimeException(messageError);
+    }
+    errorInFile = false;
     List<ProductosXDocumento> listPXD = productoDocumentoDAO.consultarPorDocumento(documento.getId());
+    for (ProductosXDocumento pxd : listPXD) {
+      boolean existeSKU = false;
+      for (ProductosXDocumento pxdFronFile : listPXDFromFile) {
+        if (pxd.getProductosInventario().getSku().equals(pxdFronFile.getProductosInventario().getSku())) {
+          existeSKU = true;
+          // la cantidad de produstos en el archivo no puede ser superior a la consultada en la db
+          if (pxdFronFile.getCantidad1().compareTo(pxd.getCantidad1()) == 1) {
+            errorInFile = true;
+            messageError = "Error de Cantidades";
+            break;
+          }
+        }
+      }
+      if (!existeSKU) {
+        errorInFile = true;
+        messageError = "Error de Cantidades";
+        break;
+      }
+    }
+    if (errorInFile) {
+      throw new RuntimeException(messageError);
+    }
     return listPXD;
   }
 
   @Override
   public Documento generarRemision(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria) {
-    LOGGER.trace("Metodo: <<generarFactura>>");
-    LOGGER.debug("Crear factura");
+    LOGGER.trace("Metodo: <<generarRemision>>");
+    LOGGER.debug("Crear remision");
     Documento remision = new Documento();
     // tipo de documento y estado
     Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
@@ -724,25 +745,24 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.REMISION);
     estadosxdocumento.setId(estadosxdocumentoPK);
     remision.setEstadosxdocumento(estadosxdocumento);
-    remision.setFechaEsperadaEntrega(ventaDirecta.getFechaEsperadaEntrega());
     remision.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.UBICACION_DESTINO_DEFAULT));
     remision.setUbicacionDestino(ventaDirecta.getUbicacionDestino());
     remision.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
+    remision.setFechaEsperadaEntrega(ventaDirecta.getFechaEsperadaEntrega());
     remision.setFechaEntrega(ventaDirecta.getFechaEntrega());
-    remision.setProveedore(ventaDirecta.getProveedore());
-    remision.setObservacionDocumento(ventaDirecta.getObservacionDocumento());
+    remision.setObservacionDocumento(ventaDirecta.getConsecutivoDocumento());
+    // trae codigo Sap del archivo a cargar  ???
+    remision.setCliente(ventaDirecta.getCliente());
     remision.setDocumentoCliente(ventaDirecta.getDocumentoCliente());
     remision.setSitioEntrega(ventaDirecta.getSitioEntrega());
-    if (ventaDirecta.getCliente() != null) {
-      remision.setCliente(ventaDirecta.getCliente());
-      remision.setSubtotal(ventaDirecta.getSubtotal());
-      remision.setDescuento(ventaDirecta.getDescuento());
-      remision.setValorIva16(ventaDirecta.getValorIva16());
-      remision.setValorTotal(ventaDirecta.getValorTotal());
-      remision.setValorIva10(ventaDirecta.getValorIva10());
-      remision.setPuntoVenta(ventaDirecta.getPuntoVenta());
-      remision.setDescuentoCliente(ventaDirecta.getDescuentoCliente());
-    }
+    remision.setSubtotal(ventaDirecta.getSubtotal());
+    remision.setDescuento(ventaDirecta.getDescuento());
+    remision.setValorIva16(ventaDirecta.getValorIva16());
+    remision.setValorTotal(ventaDirecta.getValorTotal());
+    remision.setValorIva10(ventaDirecta.getValorIva10());
+    remision.setPuntoVenta(ventaDirecta.getPuntoVenta());
+    remision.setDescuentoCliente(ventaDirecta.getDescuentoCliente());
+    remision.setObservacion2(ventaDirecta.getObservacion2());
     StringBuilder secuencia = new StringBuilder();
     if (ventaDirecta.getConsecutivoDocumento() == null || ventaDirecta.getConsecutivoDocumento().isEmpty() || ventaDirecta.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
       TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento());
@@ -763,7 +783,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       remision.setConsecutivoDocumento(ventaDirecta.getConsecutivoDocumento());
     }
     remision = (Documento) documentoDAO.add(remision);
-    LOGGER.debug("Factura creada con id: " + remision.getId());
+    LOGGER.debug("Remision creada con id: " + remision.getId());
     LOGGER.debug("Crear log de auditoria");
     auditoria.setTabla(Documento.class.getName());
     auditoria.setAccion("CRE");
@@ -771,31 +791,57 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     auditoria.setIdRegTabla(remision.getId());
     auditoria = logAuditoriaDAO.add(auditoria);
     LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
-    LOGGER.debug("Crear los productos para la factura");
+    LOGGER.debug("Crear los productos para la remision");
     for (ProductosXDocumento pxd : listaProductos) {
-      pxd.setInformacion(Boolean.FALSE);
-      pxd.setCalidad(Boolean.FALSE);
-      pxd.setFechaEstimadaEntrega(new Timestamp(System.currentTimeMillis()));
-      pxd.setFechaEntrega(new Timestamp(System.currentTimeMillis()));
       ProductosXDocumentoPK productosXDocumentoPK = new ProductosXDocumentoPK();
       productosXDocumentoPK.setIdDocumento(remision.getId());
       productosXDocumentoPK.setIdProducto(pxd.getProductosInventario().getId());
       pxd.setId(productosXDocumentoPK);
+      pxd.setInformacion(Boolean.FALSE);
+      pxd.setCalidad(Boolean.FALSE);
+      pxd.setFechaEstimadaEntrega(new Timestamp(System.currentTimeMillis()));
+      pxd.setFechaEntrega(new Timestamp(System.currentTimeMillis()));
       pxd.setMoneda(new Moneda("COP"));
       pxd.setCantidad2(BigDecimal.ZERO);
       pxd.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
       pxd.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
       pxd.setValorUnitarioUsd(BigDecimal.ZERO);
+      pxd.setValorUnitatrioMl(BigDecimal.ZERO);
       pxd = productoXDocumentoDAO.add(pxd);
       LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
     }
     LOGGER.debug("Productos creados exitosamente");
-//    LOGGER.debug("Actualizar estado de la remision con id: " + remisionRelacionada.getId());
-//    Map<String, Object> parametros = new HashMap<>();
-//    parametros.put("id_estado", (long) ConstantesDocumento.RECIBIDO);
-//    parametros.put("id", (long) remisionRelacionada.getId());
-//    documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
-//    LOGGER.debug("Remision actualizada exitosamente");
+    LOGGER.debug("Crear los movimientos a la remision seleccionada con id: " + ventaDirecta.getId());
+    for (ProductosXDocumento pxd : listaProductos) {
+      MovimientosInventario movimiento = new MovimientosInventario();
+      movimiento.setFecha(new Timestamp(System.currentTimeMillis()));
+      movimiento.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.TRANSITO));
+      movimiento.setUbicacionDestino(ventaDirecta.getUbicacionDestino());
+      movimiento.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
+      movimiento.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
+      movimiento.setProductosInventario(pxd.getProductosInventario());
+      movimiento.setDocumento(ventaDirecta);
+      movimiento.setUnidade(pxd.getUnidade());
+      movimiento.setCantidad(pxd.getCantidad1());
+      movimiento.setMoneda(pxd.getMoneda());
+      movimiento.setValorUnitarioMl(0);
+      movimiento.setValotUnitarioUsd(0);
+      MovimientosInventario movimientoEntrada = movimiento;
+      movimientoEntrada.setTipoMovimiento(new TipoMovimiento(ConstantesInventario.ENTRADAS));
+      movimientoEntrada = movimientoInventarioDAO.add(movimientoEntrada);
+      LOGGER.debug("Movimiento de entrada creado con id: " + movimientoEntrada.getId());
+      MovimientosInventario movimientoSalida = movimiento;
+      movimientoSalida.setTipoMovimiento(new TipoMovimiento(ConstantesInventario.SALIDAS));
+      movimientoSalida = movimientoInventarioDAO.add(movimientoSalida);
+      LOGGER.debug("Movimiento de salida creado con id: " + movimientoSalida.getId());
+    }
+    LOGGER.debug("Movimientos creados exitosamente");
+    LOGGER.debug("Actualizar estado de la vd con id: " + ventaDirecta.getId());
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("id_estado", (long) ConstantesDocumento.REMISIONADA);
+    parametros.put("id", (long) ventaDirecta.getId());
+    documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
+    LOGGER.debug("VD actualizada exitosamente");
     remision.getCliente().getCiudad();
     remision.getPuntoVenta();
     return remision;
