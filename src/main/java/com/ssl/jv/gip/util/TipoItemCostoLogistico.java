@@ -13,7 +13,7 @@ public enum TipoItemCostoLogistico {
   MULTIPLICA_PESO_BRUTO(8, "Multiplica por peso Bruto"),
   MULTIPLICA_PESO_NETO(9, "Multiplica por peso Neto"),
   MULTIPLICA_CONTENEDOR(10, "Multiplica por Cantidad contenedores"),
-  VALOR_UNICO(11, "Valor único")
+  VALOR_UNICO(11, "Valor Unico")
   
   /*, 
    A_PUERTO_NAL(11,"A puerto Nacional"), 
