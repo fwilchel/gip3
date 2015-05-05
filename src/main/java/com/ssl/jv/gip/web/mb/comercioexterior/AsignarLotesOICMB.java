@@ -245,15 +245,15 @@ public class AsignarLotesOICMB extends UtilMB {
       this.totalCantidadTendidos += p.getTotalCajasTendido().doubleValue();
       this.totalCantidadPallets += p.getTotalCajasPallet().doubleValue();
     }
-
+   /*
     totalCostos = 0;
     if (this.documentoSeleccionado.getDocumentoXNegociacions() != null && this.documentoSeleccionado.getDocumentoXNegociacions().size() > 0) {
       totalCostos = this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoEntrega().doubleValue() + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoSeguro().doubleValue()
           + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoFlete().doubleValue() + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getOtrosGastos().doubleValue();
     }
     totalNegociacion = this.totalCostos + this.totalValorTotal;
+    */
     lotes = comercioEjb.consultarProductoPorDocumentoLoteAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
-
     return null;
   }
 
