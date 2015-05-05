@@ -40,7 +40,7 @@ public class AgenteAduanaMB extends UtilMB {
 
   public void setSeleccionado(AgenteAduana seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
   }
 
   public AgenteAduana getSeleccionado() {
@@ -49,15 +49,15 @@ public class AgenteAduanaMB extends UtilMB {
 
   public void nuevo() {
     seleccionado = new AgenteAduana();
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
   }
 
   public void guardar() {
     try {
-      if (modo.equals(Modo.CREACION)) {
+      if (modo.equals(Modo.CREAR)) {
         this.servicio.crearAgenteAduana(seleccionado);
         this.agentes.add(0, this.seleccionado);
-        this.modo = Modo.EDICION;
+        this.modo = Modo.EDITAR;
       } else {
         this.servicio.actualizarAgenteAduana(this.seleccionado);
       }
@@ -68,7 +68,7 @@ public class AgenteAduanaMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    return this.modo != null && this.modo.equals(Modo.CREACION);
+    return this.modo != null && this.modo.equals(Modo.CREAR);
   }
 
   public List<AgenteAduana> getAgentes() {

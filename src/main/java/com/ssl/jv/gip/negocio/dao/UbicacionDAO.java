@@ -36,10 +36,9 @@ public class UbicacionDAO extends GenericDAO<Ubicacion> implements UbicacionDAOL
     return listado;
   }
 
+  @Override
   public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario) {
-
-    List<Ubicacion> lista = new ArrayList<Ubicacion>();
-
+    List<Ubicacion> lista = new ArrayList<>();
     try {
       String sql = "SELECT  ubicaciones.id, 	"
           + "ubicaciones.nombre "
@@ -47,21 +46,16 @@ public class UbicacionDAO extends GenericDAO<Ubicacion> implements UbicacionDAOL
           + "WHERE ubicaciones.id=usuariosXgeografias.id_geografia "
           + "AND usuariosXgeografias.id_usuario= '" + idUsuario + "' "
           + "ORDER BY UPPER (ubicaciones.nombre) ASC";
-
       List<Object[]> listado = em.createNativeQuery(sql).getResultList();
-
       if (listado != null) {
         for (Object[] objs : listado) {
           Ubicacion dto = new Ubicacion();
           dto.setId(objs[0] != null ? Long.parseLong(objs[0].toString()) : null);
           dto.setNombre(objs[1] != null ? objs[1].toString() : null);
-
           lista.add(dto);
         }
       }
-
     } catch (Exception e) {
-
     }
     return lista;
   }

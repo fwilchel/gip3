@@ -44,7 +44,7 @@ public class AgenciaCargaMB extends UtilMB {
 
   public void setSeleccionado(AgenciaCarga seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
   }
 
   public AgenciaCarga getSeleccionado() {
@@ -53,15 +53,15 @@ public class AgenciaCargaMB extends UtilMB {
 
   public void nuevo() {
     seleccionado = new AgenciaCarga();
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
   }
 
   public void guardar() {
     try {
-      if (this.modo.equals(Modo.CREACION)) {
+      if (this.modo.equals(Modo.CREAR)) {
         this.servicio.crearAgenciaCarga(this.seleccionado);
         this.agencias.add(0, this.seleccionado);
-        this.modo = Modo.EDICION;
+        this.modo = Modo.EDITAR;
       } else {
         this.servicio.actualizarAgenciaCarga(this.seleccionado);
       }
@@ -73,7 +73,7 @@ public class AgenciaCargaMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

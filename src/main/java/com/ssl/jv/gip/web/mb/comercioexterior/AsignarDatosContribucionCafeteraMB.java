@@ -71,7 +71,7 @@ public class AsignarDatosContribucionCafeteraMB extends UtilMB {
 
   public void setSeleccionado(DatoContribucionCafeteraDTO seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
   }
 
   public void guardar() {
@@ -84,7 +84,7 @@ public class AsignarDatosContribucionCafeteraMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

@@ -125,7 +125,7 @@ public class ItemsCLMB extends UtilMB {
 
   public void setSeleccionado(ItemCostoLogistico seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
     if (this.seleccionado.getMoneda() == null) {
       this.seleccionado.setMoneda(new Moneda());
     }
@@ -143,7 +143,7 @@ public class ItemsCLMB extends UtilMB {
     seleccionado = new ItemCostoLogistico();
     seleccionado.setCategoriaCostoLogistico(new CategoriaCostoLogistico());
     seleccionado.setMoneda(new Moneda());
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
   }
 
   public void guardar() {
@@ -156,10 +156,10 @@ public class ItemsCLMB extends UtilMB {
     } else {
       moneda = this.seleccionado.getMoneda().getId();
     }
-    if (this.modo.equals(Modo.CREACION)) {
+    if (this.modo.equals(Modo.CREAR)) {
       this.seleccionado = this.maestrosEjb.crearItemCostoLogistico(this.seleccionado);
       this.items = this.maestrosEjb.consultarItemsCostosLogisticos();
-      this.modo = Modo.EDICION;
+      this.modo = Modo.EDITAR;
     } else {
       this.seleccionado = this.maestrosEjb.actualizarItemCostoLogistico(this.seleccionado);
     }
@@ -189,7 +189,7 @@ public class ItemsCLMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

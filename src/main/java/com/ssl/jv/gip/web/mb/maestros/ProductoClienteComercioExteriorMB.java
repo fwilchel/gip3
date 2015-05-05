@@ -145,7 +145,7 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
       seleccionado = new ProductosXClienteComext();
       seleccionado.setCliente(new Cliente());
       productosSeleccionados = new ArrayList<ProductosXClienteComext>();
-      this.modo = Modo.CREACION;
+      this.modo = Modo.CREAR;
       outcome = "crear_maestro_productosporcliente_CE";
     } catch (Exception e) {
       LOGGER.error(e);
@@ -163,7 +163,7 @@ public class ProductoClienteComercioExteriorMB extends UtilMB {
       productosSeleccionados = new ArrayList<ProductosXClienteComext>();
       seleccionado.getProductosInventario().setIncluido(true);
       productosSeleccionados.add(seleccionado);
-      this.modo = Modo.EDICION;
+      this.modo = Modo.EDITAR;
       outcome = "crear_maestro_productosporcliente_CE";
     } catch (Exception e) {
       LOGGER.error(e);

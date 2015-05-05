@@ -116,7 +116,7 @@ public class ModificarListaEmpaqueMB extends UtilMB {
   public String editar() {
     String outcome = null;
     try {
-      this.modo = Modo.EDICION;
+      this.modo = Modo.EDITAR;
       this.productosInventarios = new ArrayList<ProductosInventario>();
       this.productosXDocumentos = new ArrayList<ProductosXDocumento>();
       totalCantidad = BigDecimal.ZERO;
@@ -315,7 +315,7 @@ public class ModificarListaEmpaqueMB extends UtilMB {
           productosXDocumentos);
 
       consecutivoDocumento = null;
-      this.modo = Modo.CREACION;
+      this.modo = Modo.CREAR;
       outcome = "listado_LE4";
     } catch (Exception e) {
       LOGGER.error(e);
@@ -337,7 +337,7 @@ public class ModificarListaEmpaqueMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

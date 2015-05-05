@@ -107,7 +107,7 @@ public class GenerarListaEmpaqueMB extends UtilMB {
   public String editar() {
     String outcome = null;
     try {
-      this.modo = Modo.EDICION;
+      this.modo = Modo.EDITAR;
 
       ListaEmpaqueDTO listaEmpaqueDTO = new ListaEmpaqueDTO();
       listaEmpaqueDTO.setIdDocumento(seleccionado.getId().toString());
@@ -178,7 +178,7 @@ public class GenerarListaEmpaqueMB extends UtilMB {
       facturasProforma.remove(seleccionado);
 
       consecutivoDocumento = null;
-      this.modo = Modo.CREACION;
+      this.modo = Modo.CREAR;
       outcome = "listado_LE";
     } catch (Exception e) {
       LOGGER.error(e);
@@ -278,7 +278,7 @@ public class GenerarListaEmpaqueMB extends UtilMB {
   // return listaEmpaque;
   // }
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

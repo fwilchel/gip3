@@ -64,12 +64,12 @@ public class TerminoIncotermXMedioTransMB extends UtilMB {
     seleccionado = new TerminoIncotermXMedioTransporte();
     seleccionado.setTerminoIncoterm(new TerminoIncoterm());
     seleccionado.setMedioTransporte(new MedioTransporte());
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
   }
 
   public void guardar() {
     try {
-      if (this.modo.equals(Modo.CREACION)) {
+      if (this.modo.equals(Modo.CREAR)) {
         this.seleccionado = this.maestroEjb.crearTerminoIncotermXMedioTransporte(this.seleccionado);
         if (this.lista == null) {
           this.lista = new ArrayList<TerminoIncotermXMedioTransporte>();
@@ -96,7 +96,7 @@ public class TerminoIncotermXMedioTransMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;
@@ -117,7 +117,7 @@ public class TerminoIncotermXMedioTransMB extends UtilMB {
 
   public void setSeleccionado(TerminoIncotermXMedioTransporte seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
   }
 
   public List<TerminoIncotermXMedioTransporte> getLista() {

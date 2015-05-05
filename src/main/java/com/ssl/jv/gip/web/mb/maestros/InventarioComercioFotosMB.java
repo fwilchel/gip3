@@ -179,7 +179,7 @@ public class InventarioComercioFotosMB extends UtilMB {
   public String editar() {
     String outcome = null;
     try {
-      modo = Modo.EDICION;
+      modo = Modo.EDITAR;
 
       // FacesContext context = FacesContext.getCurrentInstance();
       // Map<String, String> map = context.getExternalContext()

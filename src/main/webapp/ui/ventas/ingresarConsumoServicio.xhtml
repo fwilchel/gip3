@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/ui/templates/general.xhtml">
+  <ui:define 
+    name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.
+  </ui:define>
+  <ui:define 
+    name="contenido">
+    <p:spacer 
+      height="40"/>
+    <p:tabView 
+      id="pnlTab">
+      <p:tab 
+        title="#{msg.consumoServiciosTituloGenerarVD}">
+        <!--  -->
+        <h:form
+          id="forma"
+          prependId="false">
+          <p:messages 
+            id="msgs"
+            showIcon="true"
+            autoUpdate="false"/>
+          <p:panel 
+            id="pnlPrincipal">
+            <h:panelGroup 
+              id="pnlGroup"
+              layout="block">
+              <!--  -->
+              <div 
+                align="left" 
+                style="margin-bottom:20px;">
+                <p:panelGrid 
+                  id="pnlDocumento"
+                  columns="3"
+                  styleClass="noBorders">
+                  <!--fechaActual-->
+                  <p:outputLabel 
+                    for="fechaActual" 
+                    value="#{msg.RequisicionNombrFechaSistema}" 
+                    styleClass="label"/>
+                  <h:outputText
+                    id="fechaActual"
+                    value="#{ingresarConsumoServicioMB.fechaActual}">
+                    <f:convertDateTime 
+                      pattern="dd/MM/yyyy hh:mm:ss a"/>
+                  </h:outputText>
+                  <p:message
+                    for="fechaActual"/>
+                  <p:outputLabel 
+                    for="fechaEntrega"
+                    styleClass="negrita"
+                    value="#{msg.RequisicionNombreFechaEsperada}" />
+                  <p:calendar
+                    id="fechaEntrega"
+                    value="#{ingresarConsumoServicioMB.ventaDirecta.fechaEntrega}"
+                    pattern="yyyy-MM-dd"
+                    required="true">
+                  </p:calendar>
+                  <p:message 
+                    for="fechaEntrega"/>
+                  <p:outputLabel 
+                    for="fechaEsperadaEntrega"
+                    styleClass="negrita"
+                    value="#{msg.RequisicionNombreFechaEsperadaEntrega}" />
+                  <p:calendar 
+                    id="fechaEsperadaEntrega"
+                    value="#{ingresarConsumoServicioMB.ventaDirecta.fechaEsperadaEntrega}"
+                    pattern="yyyy-MM-dd"
+                    required="true">
+                  </p:calendar>
+                  <p:message 
+                    for="fechaEsperadaEntrega"/>
+                  <p:outputLabel 
+                    for="ordenCompraCliente"
+                    styleClass="negrita"
+                    value="#{msg.VentasDocumentoCliente}" />
+                  <p:inputText
+                    id="ordenCompraCliente"
+                    value="#{ingresarConsumoServicioMB.ventaDirecta.documentoCliente}"
+                    label="#{msg.VentasDocumentoCliente}"
+                    required="true"/>
+                  <p:message 
+                    for="ordenCompraCliente"/>
+                  <p:outputLabel 
+                    for="cliente"
+                    styleClass="negrita"
+                    value="#{msg.maestroCreModNomCliProductoXCliente}" />
+                  <p:selectOneMenu 
+                    id="cliente"
+                    value="#{ingresarConsumoServicioMB.ventaDirecta.cliente.id}"
+                    label="#{msg.maestroCreModNomCliProductoXCliente}"
+                    required="true">
+                    <p:ajax 
+                      update="puntoEntrega"/>
+                    <f:selectItem 
+                      noSelectionOption="true"/>
+                    <f:selectItems 
+                      value="#{comunMB.obtenerListaClientes(menuMB.usuario.id)}" 
+                      var="cliente"
+                      itemLabel="#{cliente.nombre}"
+                      itemValue="#{cliente.id}"/>
+                  </p:selectOneMenu>
+                  <p:message 
+                    for="cliente" />
+                  <p:outputLabel 
+                    for="puntoEntrega"
+                    styleClass="negrita"
+                    value="#{msg.maestroCreModNomPVProductoXCliente}" />
+                  <p:selectOneMenu 
+                    id="puntoEntrega"
+                    value="#{ingresarConsumoServicioMB.ventaDirecta.puntoVenta.id}"
+                    label="#{msg.maestroCreModNomPVProductoXCliente}"
+                    required="true">
+                    <f:selectItem 
+                      noSelectionOption="true"/>
+                    <f:selectItems 
+                      value="#{comunMB.obtenerListaPuntosVenta(ingresarConsumoServicioMB.ventaDirecta.cliente.id)}" 
+                      var="puntoEntrega"
+                      itemLabel="#{puntoEntrega.nombre}"
+                      itemValue="#{puntoEntrega.id}"/>
+                  </p:selectOneMenu>
+                  <p:message 
+                    for="puntoEntrega" />
+                  <p:outputLabel 
+                    for="ubicacionOrigen"
+                    styleClass="negrita"
+                    value="#{msg.movimientoUbicacionOrigen}" />
+                  <p:selectOneMenu 
+                    id="ubicacionOrigen"
+                    value="#{ingresarConsumoServicioMB.ventaDirecta.ubicacionDestino.id}"
+                    label="#{msg.movimientoUbicacionOrigen}"
+                    required="true">
+                    <f:selectItem 
+                      noSelectionOption="true"/>
+                    <f:selectItems 
+                      value="#{comunMB.obtenerListaUbicaciones(menuMB.usuario.id)}" 
+                      var="puntoEntrega"
+                      itemLabel="#{puntoEntrega.nombre}"
+                      itemValue="#{puntoEntrega.id}"/>
+                  </p:selectOneMenu>
+                  <p:message 
+                    for="ubicacionOrigen" />
+                </p:panelGrid>
+              </div>
+              <!-- tabla -->
+              <div 
+                align="left" 
+                style="margin-bottom:20px;">
+                <p:dataTable 
+                  id="tblRegistros"
+                  value="#{ingresarConsumoServicioMB.listaProductosXDocumento}" 
+                  var="registro" 
+                  emptyMessage="#{msg.generalNoDatos}" >
+                  <f:facet 
+                    name="header">
+                    <div align="left">
+                      <p:commandButton 
+                        value="#{msg.comprasConsultarBoton}" 
+                        icon="ui-icon-extlink" 
+                        actionListener="#{ingresarConsumoServicioMB.chooseProducts()}"
+                        immediate="true">
+                        <p:ajax 
+                          event="dialogReturn" 
+                          listener="#{ingresarConsumoServicioMB.onProductsChosen}" 
+                          update=":pnlTab:forma:msgs :pnlTab:forma:tblRegistros :pnlTab:forma:btnGenerar" />
+                      </p:commandButton>
+                    </div>
+                  </f:facet>
+                  <p:column
+                    headerText="#{msg.comprasProductoSKU}">
+                    <h:outputText value="#{registro.productosInventario.sku}" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.buscadorNombreProducto}">
+                    <h:outputText 
+                      value="#{registro.productosInventario.nombre}" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.comprasCantidadRequerida}">
+                    <p:inputText 
+                      id="cantidadRequerida"
+                      value="#{registro.cantidad1}" 
+                      label="#{msg.comprasCantidadRequerida}"
+                      required="true" 
+                      maxlength="20"
+                      size="18" 
+                      converter="javax.faces.BigDecimal"/>
+                    <p:message 
+                      for="cantidadRequerida" />
+                  </p:column>
+                  <p:column
+                    style="width:32px;text-align: center">
+                    <p:commandButton 
+                      icon="ui-icon-trash" 
+                      actionListener="#{ingresarConsumoServicioMB.onRemoveEvent(registro)}"
+                      immediate="true"
+                      update="tblRegistros :pnlTab:forma:btnGenerar"/>
+                  </p:column>
+                </p:dataTable>
+              </div>
+            </h:panelGroup>
+            <!-- botones -->
+            <f:facet
+              name="footer">
+              <!-- Crear -->
+              <p:commandButton 
+                id="btnGenerar"
+                value="#{msg.VentasGenerarCS}" 
+                icon="ui-icon-document"
+                actionListener="#{ingresarConsumoServicioMB.ingresarConsumoServicio()}"
+                disabled="#{empty ingresarConsumoServicioMB.listaProductosXDocumento}"
+                update=":pnlTab:forma:msgs :pnlTab:forma:pnlGroup"/>
+            </f:facet>
+          </p:panel>
+        </h:form>
+      </p:tab>
+    </p:tabView>
+  </ui:define>
+</ui:composition>

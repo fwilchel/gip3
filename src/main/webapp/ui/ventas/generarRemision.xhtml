@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:misc="http://java.sun.com/jsf/composite/misc"
+  template="/ui/templates/general.xhtml">
+  <ui:define 
+    name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.
+  </ui:define>
+  <ui:define 
+    name="contenido">
+    <p:spacer 
+      height="40"/>
+    <p:tabView 
+      id="pnlTab">
+      <p:tab 
+        title="#{msg.ventasRemisionManual}">
+        <!--  -->
+        <h:form
+          id="forma"
+          prependId="false"
+          rendered="#{generarRemisionMB.modoListar}">
+          <p:messages 
+            id="msgs"
+            showIcon="true"
+            autoUpdate="false"/>
+          <p:panel 
+            id="pnlPrincipal">
+            <h:panelGroup 
+              id="pnlGroup"
+              layout="block">
+              <!--  -->
+              <div 
+                align="left" 
+                style="margin-bottom:20px;">
+                <p:panelGrid 
+                  id="pnlFiltro"
+                  columns="3"
+                  styleClass="noBorders">
+                  <!--fechaActual-->
+                  <p:outputLabel 
+                    for="fechaActual" 
+                    value="#{msg.RequisicionNombrFechaSistema}" 
+                    styleClass="label"/>
+                  <h:outputText
+                    id="fechaActual"
+                    value="#{generarRemisionMB.fechaActual}">
+                    <f:convertDateTime 
+                      pattern="dd/MM/yyyy hh:mm:ss a"/>
+                  </h:outputText>
+                  <p:message
+                    for="fechaActual"/>
+                  <p:outputLabel 
+                    for="fechaEntrega"
+                    styleClass="negrita"
+                    value="#{msg.RequisicionNombreFechaEsperada}" />
+                  <p:calendar
+                    id="fechaEntrega"
+                    value="#{generarRemisionMB.fechaEntrega}"
+                    pattern="yyyy-MM-dd"
+                    required="true">
+                  </p:calendar>
+                  <p:message 
+                    for="fechaEntrega"/>
+                  <p:outputLabel 
+                    for="cliente"
+                    styleClass="negrita"
+                    value="#{msg.VentasClientes}" />
+                  <p:selectOneMenu 
+                    id="cliente"
+                    value="#{generarRemisionMB.idCliente}"
+                    label="#{msg.VentasClientes}"
+                    required="true">
+                    <f:selectItem 
+                      noSelectionOption="true"/>
+                    <f:selectItems 
+                      value="#{comunMB.obtenerListaClientes(menuMB.usuario.id)}" 
+                      var="cliente"
+                      itemLabel="#{cliente.nombre}"
+                      itemValue="#{cliente.id}"/>
+                  </p:selectOneMenu>
+                  <p:message 
+                    for="cliente" />
+                  <f:facet
+                    name="footer">
+                    <p:commandButton
+                      value="#{msg.comprasConsultarBoton}"
+                      actionListener="#{generarRemisionMB.onConsultEvent()}"
+                      update=":pnlTab:forma:pnlFiltro :pnlTab:forma:tblRegistros"/>
+                  </f:facet>
+                </p:panelGrid>
+              </div>
+              <!-- tabla -->
+              <div 
+                align="left" 
+                style="margin-bottom:20px;">
+                <p:dataTable 
+                  id="tblRegistros"
+                  var="registro" 
+                  widgetVar="tblRegistros" 
+                  value="#{generarRemisionMB.listaDocumentosVD}" 
+                  rows="10"
+                  emptyMessage="#{msg.generalNoDatos}" 
+                  paginator="true"
+                  paginatorPosition="bottom"
+                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                  rowsPerPageTemplate="5,10,15">
+                  <f:facet 
+                    name="header">
+                    <div 
+                      align="right">
+                      <p:outputPanel>
+                        <h:outputText 
+                          value="#{msg.generalBuscarTodosCampos}: " />
+                        <p:inputText 
+                          id="globalFilter"
+                          onkeyup="PF('tblRegistros').filter()" 
+                          style="width:150px"
+                          placeholder="#{msg.generalPalabrasBuscar}" />
+                        <p:spacer 
+                          width="30">
+                        </p:spacer>				
+                        <p:commandButton 
+                          action="introduccion" 
+                          title="#{msg.generalCancelar}" 
+                          ajax="false"
+                          icon="ui-icon-cancel" 
+                          value="#{msg.generalCancelar}" />
+                      </p:outputPanel>
+                    </div>
+                  </f:facet>
+                  <!-- opcion de generar factura -->
+                  <p:column 
+                    style="width:32px;text-align: center">
+                    <p:commandButton 
+                      icon="ui-icon-zoomin" 
+                      title="#{msg.gfBtnDetalle}"
+                      action="#{generarRemisionMB.onEditEvent()}"
+                      update=":pnlTab">
+                      <f:setPropertyActionListener 
+                        value="#{registro}"
+                        target="#{generarRemisionMB.documentoVDSeleccionado}" />
+                    </p:commandButton>
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.documentoId}">
+                    <h:outputText 
+                      value="#{registro.id}" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.documentoConsecutivo}">
+                    <h:outputText 
+                      value="#{registro.consecutivoDocumento}" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.documentoFechaGeneracion}">
+                    <h:outputText 
+                      value="#{registro.fechaGeneracion}" />
+                  </p:column>
+                </p:dataTable>
+              </div>
+            </h:panelGroup>
+          </p:panel>
+        </h:form>
+        <h:form
+          id="formaDetalle"
+          prependId="false"
+          rendered="#{generarRemisionMB.modoGenerar}">
+          <p:messages 
+            id="msgsDetalle"
+            showIcon="true"
+            autoUpdate="true"/>
+          <p:panel 
+            id="pnlPrincipalDetalle">
+            <h:panelGroup 
+              id="pnlDetalle"
+              layout="block">
+              <!--  -->
+              <div 
+                align="left" 
+                style="margin-bottom:20px;">
+                <p:panelGrid 
+                  columns="2"
+                  styleClass="noBorders">
+                  <!--fechaActual-->
+                  <p:outputLabel 
+                    for="fechaActualDetalle" 
+                    value="#{msg.RequisicionNombrFechaSistema}" 
+                    styleClass="label"/>
+                  <h:outputText
+                    id="fechaActualDetalle"
+                    value="#{generarRemisionMB.fechaActual}">
+                    <f:convertDateTime 
+                      pattern="yyyy-MM-dd hh:mm:ss a"/>
+                  </h:outputText>
+                  <p:outputLabel 
+                    for="fechaEntregaDetalle"
+                    styleClass="negrita"
+                    value="#{msg.RequisicionNombreFechaEsperada}" />
+                  <h:outputText
+                    id="fechaEntregaDetalle"
+                    value="#{generarRemisionMB.documentoVDSeleccionado.fechaEntrega}">
+                    <f:convertDateTime 
+                      pattern="yyyy-MM-dd"/>
+                  </h:outputText>
+                  <p:outputLabel 
+                    for="clienteDetalle"
+                    styleClass="negrita"
+                    value="#{msg.VentasClientes}" />
+                  <h:outputText 
+                    id="clienteDetalle"
+                    value="#{generarRemisionMB.documentoVDSeleccionado.cliente.nombre}"/>
+                  <f:facet
+                    name="footer">
+                    <!-- cargar archivo -->
+                    <p:commandButton 
+                      onclick="PF('dlgUploadFile').show()"
+                      icon="ui-icon-document" 
+                      value="#{msg.fileupload_button}" />
+                  </f:facet>
+                </p:panelGrid>
+              </div>
+              <!-- tabla -->
+              <div 
+                align="left" 
+                style="margin-bottom:20px;">
+                <p:dataTable 
+                  id="tblDetalle"
+                  value="#{generarRemisionMB.listaProductosXDocumento}" 
+                  var="producto" 
+                  emptyMessage="#{msg.generalNoDatos}" >
+                  <p:column
+                    headerText="#{msg.buscadorPxCIdProducto}">
+                    <h:outputText value="#{producto.productosInventario.id}" />
+                  </p:column>
+                </p:dataTable>
+              </div>
+            </h:panelGroup>
+            <!-- botones -->
+            <f:facet
+              name="footer">
+              <!-- Generar factura -->
+              <p:commandButton 
+                id="btnGenerar"
+                value="#{msg.VentasGenerarRemision}" 
+                icon="ui-icon-document"
+                update=":pnlTab:forma:msgs :pnlTab:forma:pnlGroup"
+                actionListener="#{generarRemisionMB.generarRemision()}"
+                disabled="#{empty generarRemisionMB.listaProductosXDocumento}"/>
+              <!-- volver -->
+              <p:commandButton 
+                value="volver a la lista" 
+                styleClass="ui-confirmdialog-no" 
+                icon="ui-icon-close" 
+                update=":pnlTab"
+                immediate="true"
+                actionListener="#{generarRemisionMB.onBackToListEvent()}"/>
+            </f:facet>
+          </p:panel>
+        </h:form>         
+        <p:dialog  
+          id="dlgUploadFile"
+          widgetVar="dlgUploadFile"
+          header="#{msg.fileupload_button}" 
+          modal="true" 
+          showEffect="fade" 
+          hideEffect="fade" 
+          resizable="false"
+          dynamic="true"
+          width="640"
+          height="220">
+          <h:form 
+            id="formaDlgUploadFile" 
+            enctype="multipart/form-data">
+            <p:messages 
+              id="msgsDlgUploadFile" 
+              showDetail="false" 
+              showSummary="true"
+              globalOnly="true" 
+              showIcon="true"/>
+            <p:outputPanel>
+              <p:fileUpload 
+                id="fileUpload"
+                fileUploadListener="#{generarRemisionMB.handleFileUpload}"
+                mode="advanced" 
+                dragDropSupport="false" 
+                sizeLimit="200000" 
+                allowTypes="/(\.|\/)(txt)$/"
+                oncomplete="PF('dlgUploadFile').hide();"
+                uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}"
+                cancelLabel="#{msg.generalCancelar}"
+                invalidFileMessage="#{msg.maestroProductosXClienteArchivoNoValido}"
+                update=":pnlTab:forma:msgs :pnlTab:formaDetalle:tblDetalle"/>
+            </p:outputPanel>
+            <p:commandButton 
+              value="#{msg.generalCancelar}" 
+              process="@this"
+              oncomplete="PF('dlgUploadFile').hide();" 
+              icon="ui-icon-cancel">
+            </p:commandButton>
+          </h:form>
+        </p:dialog>
+      </p:tab>
+    </p:tabView>
+  </ui:define>
+</ui:composition>

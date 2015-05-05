@@ -83,6 +83,10 @@ public class Unidad implements Serializable, Comparable {
   public Unidad() {
   }
 
+  public Unidad(Long id) {
+    this.id = id;
+  }
+
   public Long getId() {
     return this.id;
   }

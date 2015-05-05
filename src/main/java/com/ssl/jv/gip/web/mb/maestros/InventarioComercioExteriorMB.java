@@ -101,7 +101,7 @@ public class InventarioComercioExteriorMB extends UtilMB {
   public String nuevo() {
     String outcome = null;
     try {
-      modo = Modo.CREACION;
+      modo = Modo.CREAR;
       seleccionado = new MovimientosInventarioComext();
       productosInventarioFiltroDTO = new ProductosInventarioFiltroDTO();
       productosInventarios = new ArrayList<ProductosInventario>();
@@ -256,7 +256,7 @@ public class InventarioComercioExteriorMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

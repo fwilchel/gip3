@@ -82,7 +82,7 @@ public class ComunEJB implements ComunEJBLocal {
 
   @EJB
   private ClienteDAOLocal clienteDAO;
-  
+
   @EJB
   private ProductoInventarioDAOLocal productoDAO;
 
@@ -248,5 +248,14 @@ public class ComunEJB implements ComunEJBLocal {
   public ProductosInventario consultarProducto(Long id) {
     LOGGER.trace("Metodo: <<consultarProducto>>");
     return productoDAO.findByPK(id);
+  }
+
+  @Override
+  public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario) {
+    LOGGER.trace("Metodo: <<consultarUbicacionesPorUsuario>>");
+    if (idUsuario == null || idUsuario.isEmpty()) {
+      throw new IllegalArgumentException();
+    }
+    return ubicacionDao.consultarUbicacionesPorUsuario(idUsuario);
   }
 }

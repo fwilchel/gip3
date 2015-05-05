@@ -123,7 +123,7 @@ public class SugerenciaCompraMB extends UtilMB {
       productosInventarios = new ArrayList<ProductosInventario>();
       productosSeleccionados = new ArrayList<ProductosXDocumento>();
       seleccionado = crearNuevoDocumento();
-      this.modo = Modo.CREACION;
+      this.modo = Modo.CREAR;
       outcome = "sugerencia_compra";
     } catch (Exception e) {
       LOGGER.error(e);
@@ -164,7 +164,7 @@ public class SugerenciaCompraMB extends UtilMB {
       for (ProductosXDocumento productosXDocumento : productosSeleccionados) {
         productosXDocumento.getProductosInventario().setIncluido(true);
       }
-      this.modo = Modo.EDICION;
+      this.modo = Modo.EDITAR;
       outcome = "sugerencia_compra";
     } catch (Exception e) {
       LOGGER.error(e);
@@ -403,7 +403,7 @@ public class SugerenciaCompraMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;

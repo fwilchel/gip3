@@ -110,12 +110,12 @@ public class CategoriasCLMB extends UtilMB {
 
   public void setSeleccionado(CategoriaCostoLogistico seleccionado) {
     this.seleccionado = seleccionado;
-    this.modo = Modo.EDICION;
+    this.modo = Modo.EDITAR;
   }
 
   public void nuevo() {
     seleccionado = new CategoriaCostoLogistico();
-    this.modo = Modo.CREACION;
+    this.modo = Modo.CREAR;
   }
 
   public void guardar() {
@@ -123,10 +123,10 @@ public class CategoriasCLMB extends UtilMB {
       if (this.seleccionado.getOrden() == 0) {
         this.seleccionado.setOrden(null);
       }
-      if (this.modo.equals(Modo.CREACION)) {
+      if (this.modo.equals(Modo.CREAR)) {
         this.seleccionado = this.maestrosEjb.crearCategoriaCostoLogistico(this.seleccionado);
         this.categorias.add(this.seleccionado);
-        this.modo = Modo.EDICION;
+        this.modo = Modo.EDITAR;
       } else {
         this.seleccionado = this.maestrosEjb.actualizarCategoriaCostoLogistico(this.seleccionado);
       }
@@ -143,7 +143,7 @@ public class CategoriasCLMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREACION)) {
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
       return true;
     } else {
       return false;
