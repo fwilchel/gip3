@@ -12,7 +12,10 @@ public enum TipoItemCostoLogistico {
   POR_RANGOS(7, "Segun rangos de peso"),
   MULTIPLICA_PESO_BRUTO(8, "Multiplica por peso Bruto"),
   MULTIPLICA_PESO_NETO(9, "Multiplica por peso Neto"),
-  MULTIPLICA_CONTENEDOR(10, "Multiplica por Cantidad contenedores")/*, 
+  MULTIPLICA_CONTENEDOR(10, "Multiplica por Cantidad contenedores"),
+  VALOR_UNICO(11, "Valor Unico")
+  
+  /*, 
    A_PUERTO_NAL(11,"A puerto Nacional"), 
    A_PUERTO_INTERNAL(12,"Puerto Nal a Puerto Internacional")*/;
 
