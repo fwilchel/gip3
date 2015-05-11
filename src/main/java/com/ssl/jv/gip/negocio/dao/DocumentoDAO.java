@@ -2014,7 +2014,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
         where.append("AND d.puntoVenta.id IN (:puntoVenta) ");
       }
       if (filtro.getNumeroFactura() != null) {
-        where.append("d.numeroFactura LIKE (:numeroFactura) ");
+        where.append("AND d.numeroFactura LIKE (:numeroFactura) ");
       }
       if (filtro.getObservacionDocumento() != null) {
         where.append("AND d.observacionDocumento LIKE (:observacionDocumento) ");
@@ -2137,7 +2137,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   public List<Documento> consultarDocumentosOD(String consecutivoDocumento) {
 
 
-	  //Orden despacho debe listar las SPs en estado asignada solamente para la categoría de Café
+	  //Orden despacho debe listar las SPs en estado asignada solamente para la categorï¿½a de Cafï¿½
 	    List<Documento> listado = new ArrayList<Documento>();
 	    String query;
 	    try {

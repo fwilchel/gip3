@@ -1,7 +1,6 @@
 package com.ssl.jv.gip.web.mb.administracion;
 
-import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
-import com.ssl.jv.gip.negocio.ejb.AdministracionEJBLocal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +12,14 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
+
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import com.ssl.jv.gip.negocio.ejb.AdministracionEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import java.util.Date;
 
 /**
  * <p>
@@ -53,7 +56,8 @@ public class LogAuditoriaMB extends UtilMB {
   private String nombreUsuarioFlt;
   private String nombreFuncionalidadFlt;
   private Date fechaFlt;
-  private List<LogAuditoria> listaAuditoria;
+  private LazyDataModel<LogAuditoria> listaAuditoriaLazyModel;
+  Map<String, Object> filtro;
 
   @PostConstruct
   public void init() {
@@ -62,23 +66,17 @@ public class LogAuditoriaMB extends UtilMB {
 
   public void onConsultEvent() {
     LOGGER.trace("Metodo: <<onConsultEvent>>");
-    Map<String, Object> parametros = new HashMap<>();
-    if (nombreUsuarioFlt != null && !nombreUsuarioFlt.isEmpty()){
-      parametros.put("nombreUsuario", "%" + nombreUsuarioFlt + "%");
-    } else {
-      parametros.put("nombreUsuario", "%");
+    listaAuditoriaLazyModel = new LazyLogAuditoriaDataModel();
+    filtro = new HashMap<>();
+    if (nombreUsuarioFlt != null && !nombreUsuarioFlt.isEmpty()) {
+      filtro.put("nombreUsuario", nombreUsuarioFlt);
     }
-    if (nombreFuncionalidadFlt != null && !nombreFuncionalidadFlt.isEmpty()){
-      parametros.put("nombreFuncionalidad", "%" + nombreFuncionalidadFlt + "%");
-    } else {
-      parametros.put("nombreFuncionalidad", "%");
+    if (nombreFuncionalidadFlt != null && !nombreFuncionalidadFlt.isEmpty()) {
+      filtro.put("nombreFuncionalidad", nombreFuncionalidadFlt);
     }
-//    if (fechaFlt != null){
-//      parametros.put("fecha", nombreUsuarioFlt);
-//    } else {
-//      parametros.put("fecha", "%");
-//    }
-    listaAuditoria = admonEjb.consultarLogAuditoria(parametros);
+    if (fechaFlt != null) {
+      filtro.put("fecha", nombreUsuarioFlt);
+    }
   }
 
   /**
@@ -159,17 +157,57 @@ public class LogAuditoriaMB extends UtilMB {
   }
 
   /**
-   * @return the listaAuditoria
+   * @return the listaAuditoriaLazyModel
    */
-  public List<LogAuditoria> getListaAuditoria() {
-    return listaAuditoria;
+  public LazyDataModel<LogAuditoria> getListaAuditoriaLazyModel() {
+    return listaAuditoriaLazyModel;
   }
 
   /**
-   * @param listaAuditoria the listaAuditoria to set
+   * @param listaAuditoriaLazyModel the listaAuditoriaLazyModel to set
    */
-  public void setListaAuditoria(List<LogAuditoria> listaAuditoria) {
-    this.listaAuditoria = listaAuditoria;
+  public void setListaAuditoriaLazyModel(LazyDataModel<LogAuditoria> listaAuditoriaLazyModel) {
+    this.listaAuditoriaLazyModel = listaAuditoriaLazyModel;
+  }
+
+  /**
+   * Implementacion de LazyModel
+   */
+  private class LazyLogAuditoriaDataModel extends LazyDataModel<LogAuditoria> {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 283497341126330045L;
+    private List<LogAuditoria> list;
+
+    @Override
+    public Object getRowKey(LogAuditoria row) {
+      LOGGER.debug("Metodo: <<getRowKey>>");
+      return row.getIdLog();
+    }
+
+    @Override
+    public LogAuditoria getRowData(String rowKey) {
+      LOGGER.debug("Metodo: <<getRowData>>");
+      for (LogAuditoria record : list) {
+        if (record.getIdLog().toString().equals(rowKey)) {
+          return record;
+        }
+      }
+      return null;
+    }
+
+    @Override
+    public List<LogAuditoria> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+      LOGGER.debug("Metodo: <<load>>");
+      Object rta[] = admonEjb.consultarLogAuditoria(filtro, first, pageSize, sortField, sortOrder, true);
+      this.setRowCount(((Long) rta[0]).intValue());
+      rta = admonEjb.consultarLogAuditoria(filtro, first, pageSize, sortField, sortOrder, false);
+      list = (List<LogAuditoria>) rta[1];
+      return list;
+    }
+
   }
 
 }
