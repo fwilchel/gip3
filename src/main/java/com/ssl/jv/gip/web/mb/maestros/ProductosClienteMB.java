@@ -31,6 +31,7 @@ import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
+import com.ssl.jv.gip.jpa.pojo.ProductosXClientePK;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
@@ -38,6 +39,7 @@ import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -164,6 +166,15 @@ public class ProductosClienteMB extends UtilMB {
   public void guardar() {
     LOGGER.trace("Metodo: <<guardar>>");
     for (ProductosXCliente pxc : listaProductosXClientesSeleccionados) {
+
+    	ProductosXClientePK pk=new ProductosXClientePK();
+    	pk.setIdCliente(productoXClienteSeleccionado.getCliente().getId());
+    	pk.setIdProducto(pxc.getProductosInventario().getId());
+    	pk.setIdPuntoVenta(productoXClienteSeleccionado.getPuntoVenta().getId());
+    	pxc.setPk(pk);
+    	
+    	
+    	
       pxc.setCliente(productoXClienteSeleccionado.getCliente());
       pxc.setPuntoVenta(productoXClienteSeleccionado.getPuntoVenta());
       pxc.setVigente(productoXClienteSeleccionado.getVigente());

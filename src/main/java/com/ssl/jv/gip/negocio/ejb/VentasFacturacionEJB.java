@@ -412,7 +412,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     factura = (Documento) documentoDAO.add(factura);
     LOGGER.debug("Factura creada con id: " + factura.getId());
     LOGGER.debug("Crear log de auditoria");
-    auditoria.setTabla(Documento.class.getName());
+    auditoria.setTabla("Documentos");
     auditoria.setAccion("CRE");
     auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
     auditoria.setIdRegTabla(factura.getId());
@@ -580,7 +580,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     ventaDirecta = (Documento) documentoDAO.add(ventaDirecta);
     LOGGER.debug("Factura creada con id: " + ventaDirecta.getId());
     LOGGER.debug("Crear log de auditoria");
-    auditoria.setTabla(Documento.class.getName());
+    auditoria.setTabla("Documentos");
     auditoria.setAccion("CRE");
     auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
     auditoria.setIdRegTabla(ventaDirecta.getId());
@@ -793,7 +793,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     remision = (Documento) documentoDAO.add(remision);
     LOGGER.debug("Remision creada con id: " + remision.getId());
     LOGGER.debug("Crear log de auditoria");
-    auditoria.setTabla(Documento.class.getName());
+    auditoria.setTabla("Documentos");
     auditoria.setAccion("CRE");
     auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
     auditoria.setIdRegTabla(remision.getId());
