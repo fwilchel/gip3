@@ -100,31 +100,36 @@
             </f:facet>
             <!--  -->
             <p:column
-              headerText="#{msg.auditoriaId}">
+              headerText="#{msg.auditoriaId}"
+              style="width:40px;">
               <h:outputText 
               	value="#{registro.idLog}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaIdUsuario}">
+              headerText="#{msg.auditoriaIdUsuario}"
+              style="width:40px;">
               <h:outputText 
               	value="#{registro.usuario.id}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaNomUsuario}">
+              headerText="#{msg.auditoriaNomUsuario}"
+              style="width:60px;">
               <h:outputText 
               	value="#{registro.usuario.nombre}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaAplUsuario}">
+              headerText="#{msg.auditoriaAplUsuario}"
+              style="width:60px;">
               <h:outputText 
               	value="#{registro.usuario.apellidos}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaIdFuncionalidad}">
+              headerText="#{msg.auditoriaIdFuncionalidad}"
+              style="width:40px;">
               <h:outputText 
               	value="#{registro.funcionalidad.id}" />
             </p:column>
@@ -142,37 +147,43 @@
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaAccion}">
+              headerText="#{msg.auditoriaAccion}"
+              style="width:40px;">
               <h:outputText 
               	value="#{registro.accion}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaIdRegTabla}">
+              headerText="#{msg.auditoriaIdRegTabla}"
+              style="width:40px;">
               <h:outputText 
               	value="#{registro.idRegTabla}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaCampo}">
+              headerText="#{msg.auditoriaCampo}"
+              style="width:40px;">
               <h:outputText 
               	value="#{registro.campo}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaValorAnt}">
+              headerText="#{msg.auditoriaValorAnt}"
+              style="width:40px;">
               <h:outputText 
               	value="#{registro.valorAnterior}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaValorNue}">
+              headerText="#{msg.auditoriaValorNue}"
+              style="width:40px;">
               <h:outputText 
               	value="#{registro.valorNuevo}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaFecha}">
+              headerText="#{msg.auditoriaFecha}"
+              style="width:50px;">
               <h:outputText 
               	value="#{registro.fecha}">
                 <f:convertDateTime 
