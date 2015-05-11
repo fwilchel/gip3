@@ -17,10 +17,10 @@ import javax.persistence.criteria.Root;
 import org.apache.log4j.Logger;
 import org.primefaces.model.SortOrder;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
+import java.util.Calendar;
 
 @Stateless
 @LocalBean
@@ -88,7 +88,7 @@ public class LogAuditoriaDAO extends GenericDAO<LogAuditoria> implements LogAudi
         where.append("AND UPPER(la.funcionalidad.nombre) LIKE UPPER(:nombreFuncionalidad) ");
       }
       if (parametros.get("fecha") != null) {
-        where.append("AND la.fecha = :fecha ");
+        where.append("AND la.fecha BETWEEN :fechaInical AND :fechaFinal ");
       }
     }
     StringBuilder orderBy = new StringBuilder();
@@ -118,7 +118,19 @@ public class LogAuditoriaDAO extends GenericDAO<LogAuditoria> implements LogAudi
         query.setParameter("nombreFuncionalidad", "%" + parametros.get("nombreFuncionalidad") + "%");
       }
       if (parametros.get("fecha") != null) {
-        query.setParameter("fecha", parametros.get("nombreFuncionalidad"));
+        Date fecha = (Date) parametros.get("fecha");
+        Calendar fechaInicial = Calendar.getInstance();
+        fechaInicial.setTime(fecha);
+        fechaInicial.set(Calendar.SECOND, 0);
+        fechaInicial.set(Calendar.MINUTE, 0);
+        fechaInicial.set(Calendar.HOUR, 0);
+        query.setParameter("fechaInical", fechaInicial.getTime());
+        Calendar fechaFinal = Calendar.getInstance();
+        fechaFinal.setTime(fecha);
+        fechaFinal.set(Calendar.SECOND, 59);
+        fechaFinal.set(Calendar.MINUTE, 59);
+        fechaFinal.set(Calendar.HOUR, 23);
+        query.setParameter("fechaFinal", fechaFinal.getTime());
       }
     }
     LOGGER.debug(first + " " + pageSize + " " + jpql.toString());

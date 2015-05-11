@@ -75,7 +75,7 @@ public class LogAuditoriaMB extends UtilMB {
       filtro.put("nombreFuncionalidad", nombreFuncionalidadFlt);
     }
     if (fechaFlt != null) {
-      filtro.put("fecha", nombreUsuarioFlt);
+      filtro.put("fecha", fechaFlt);
     }
   }
 
