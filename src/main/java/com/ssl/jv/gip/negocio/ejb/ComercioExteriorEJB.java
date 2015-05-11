@@ -1409,7 +1409,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
       documentoDAO.update(doc);
 
       LOGGER.debug("Crear log de auditoria");
-      logAuditoria.setTabla(Documento.class.getName());
+      logAuditoria.setTabla("Documentos");
       logAuditoria.setAccion("MOD");
       logAuditoria.setFecha(new Timestamp(System.currentTimeMillis()));
       logAuditoria.setIdRegTabla(documento.getIdDocumento());

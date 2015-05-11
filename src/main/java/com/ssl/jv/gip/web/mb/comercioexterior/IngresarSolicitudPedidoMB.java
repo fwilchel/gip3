@@ -337,7 +337,7 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
     LogAuditoria auditoria = new LogAuditoria();
     auditoria.setIdUsuario(menu.getUsuario().getId());
     auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
-    auditoria.setTabla(Documento.class.getName());
+    auditoria.setTabla("Documentos");
     auditoria.setAccion("CRE");
     auditoria.setCampo(null);
     auditoria.setValorAnterior(null);
