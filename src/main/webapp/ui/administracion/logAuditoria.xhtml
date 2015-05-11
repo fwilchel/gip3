@@ -71,7 +71,7 @@
             widgetVar="tblRegistros" 
             value="#{logAuditoriaMB.listaAuditoria}" 
             rows="10"
-            emptyMessage="#{msg.generalNoDatos}" 
+            emptyMessage="#{msg.generalNoDatos}"
             paginator="true"
             paginatorPosition="bottom"
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -99,97 +99,84 @@
               </div>
             </f:facet>
             <!--  -->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaId}" />
-              </f:facet>
-              <h:outputText value="#{registro.idLog}" />
+            <p:column
+              headerText="#{msg.auditoriaId}">
+              <h:outputText 
+              	value="#{registro.idLog}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaIdUsuario}" />
-              </f:facet>
-              <h:outputText value="#{registro.usuario.id}" />
+            <p:column
+              headerText="#{msg.auditoriaIdUsuario}">
+              <h:outputText 
+              	value="#{registro.usuario.id}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaNomUsuario}" />
-              </f:facet>
-              <h:outputText value="#{registro.usuario.nombre}" />
+            <p:column
+              headerText="#{msg.auditoriaNomUsuario}">
+              <h:outputText 
+              	value="#{registro.usuario.nombre}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaAplUsuario}" />
-              </f:facet>
-              <h:outputText value="#{registro.usuario.apellidos}" />
+            <p:column
+              headerText="#{msg.auditoriaAplUsuario}">
+              <h:outputText 
+              	value="#{registro.usuario.apellidos}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaIdFuncionalidad}" />
-              </f:facet>
-              <h:outputText value="#{registro.funcionalidad.id}" />
+            <p:column
+              headerText="#{msg.auditoriaIdFuncionalidad}">
+              <h:outputText 
+              	value="#{registro.funcionalidad.id}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaNomfuncionalidad}" />
-              </f:facet>
-              <h:outputText value="#{registro.funcionalidad.nombre}" />
+            <p:column
+              headerText="#{msg.auditoriaNomfuncionalidad}">
+              <h:outputText 
+              	value="#{registro.funcionalidad.nombre}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaTabla}" />
-              </f:facet>
-              <h:outputText value="#{registro.tabla}" />
+            <p:column
+              headerText="#{msg.auditoriaTabla}">
+              <h:outputText 
+              	value="#{registro.tabla}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaAccion}" />
-              </f:facet>
-              <h:outputText value="#{registro.accion}" />
+            <p:column
+              headerText="#{msg.auditoriaAccion}">
+              <h:outputText 
+              	value="#{registro.accion}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaIdRegTabla}" />
-              </f:facet>
-              <h:outputText value="#{registro.idRegTabla}" />
+            <p:column
+              headerText="#{msg.auditoriaIdRegTabla}">
+              <h:outputText 
+              	value="#{registro.idRegTabla}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaCampo}" />
-              </f:facet>
-              <h:outputText value="#{registro.campo}" />
+            <p:column
+              headerText="#{msg.auditoriaCampo}">
+              <h:outputText 
+              	value="#{registro.campo}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaValorAnt}" />
-              </f:facet>
-              <h:outputText value="#{registro.valorAnterior}" />
+            <p:column
+              headerText="#{msg.auditoriaValorAnt}">
+              <h:outputText 
+              	value="#{registro.valorAnterior}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaValorNue}" />
-              </f:facet>
-              <h:outputText value="#{registro.valorNuevo}" />
+            <p:column
+              headerText="#{msg.auditoriaValorNue}">
+              <h:outputText 
+              	value="#{registro.valorNuevo}" />
             </p:column>
             <!---->
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="#{msg.auditoriaFecha}" />
-              </f:facet>
-              <h:outputText value="#{registro.fecha}">
+            <p:column
+              headerText="#{msg.auditoriaFecha}">
+              <h:outputText 
+              	value="#{registro.fecha}">
                 <f:convertDateTime 
-                  pattern="dd-MMM-yyyy HH:MM:SS"/>
+                  pattern="yyyy-MM-dd HH:MM:SS"/>
               </h:outputText>
             </p:column>
           </p:dataTable>
