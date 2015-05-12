@@ -95,20 +95,28 @@
               <div align="right">
                 <p:outputPanel>
 
-                  <p:commandButton action="#{productosMB.nuevo}"
-                                   update=":editarDlg" oncomplete="PF('editarDialog').show()"
-                                   title="#{msg.generalAdicionarRegistro}"
-                                   icon="ui-icon-document"
-                                   value="#{msg.generalAdicionarRegistro}" />
+                  <p:commandButton 
+                    action="#{productosMB.nuevo}"
+                    update=":editarDlg" 
+                    oncomplete="PF('editarDialog').show()"
+                    title="#{msg.generalAdicionarRegistro}"
+                    icon="ui-icon-document"
+                    value="#{msg.generalAdicionarRegistro}" />
 
-                  <p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false"  icon="ui-icon-calculator" >
-                    <p:fileDownload value="#{productosMB.reporteExcel}" />
+                  <p:commandButton 
+                    value="#{msg.reporteNivelInventarioExcel}" 
+                    ajax="false" 
+                    onclick="PrimeFaces.monitorDownload(start, stop);"
+                    icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload 
+                      value="#{productosMB.reporteExcel}" />
                   </p:commandButton>
 
-                  <p:commandButton action="introduccion"
-                                   title="#{msg.generalCancelar}" ajax="false"
-                                   icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
-
+                  <p:commandButton 
+                    action="introduccion"
+                    title="#{msg.generalCancelar}" 
+                    ajax="false"
+                    icon="ui-icon-cancel" value="#{msg.generalCancelar}" />
 
                 </p:outputPanel>
               </div>
