@@ -140,9 +140,7 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
     parametrosReporte.put("booking", seleccionado.getNumeroBooking());
     parametrosReporte.put("incotermDespacho", seleccionado.getIncotermDespachoDecripcion());
     parametrosReporte.put("observacion2", seleccionado.getObservacion2());
-    if (seleccionado.getListaLotes() != null) {
-      ds = new JRBeanCollectionDataSource(seleccionado.getListaLotes());
-    }
+    ds = new JRBeanCollectionDataSource(seleccionado.getListaLotes());
     try {
       Hashtable<String, String> parametrosConfiguracionReporte;
       parametrosConfiguracionReporte = new Hashtable<>();
