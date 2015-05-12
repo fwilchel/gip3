@@ -1,109 +1,106 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/ui/templates/general.xhtml">
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/ui/templates/general.xhtml">
 
   <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloConsultarListaEmpaque}::.</ui:define>
 
-  <ui:define name="contenido">
-    <p:spacer height="40"></p:spacer>
-    <h:form prependId="false" id="forma">
-
-      <p:messages id="msgs" showDetail="false" showSummary="true"
-                  globalOnly="false" showIcon="true"></p:messages>
-
-
-
-
-
-
-
-
-
-      <p:tabView id="tabPanel">
-        <p:tab title="#{msg.TituloConsultarListaEmpaque}">
-
-
-          <p:panelGrid columns="2"  styleClass="noBorders">
-
-            <p:outputLabel value="#{msg.IngresarNumLE}" for="codigo"
-                           styleClass="negrita" />
-            <h:inputText value="#{imprimirListaEmpaqueMB.strConsecutivoDocumento}" id="codigo"
-                         required="false" maxlength="10" label="#{msg.buscadorSKU}" />
-            <p:message for="codigo"></p:message>
-
-
-
-            <p:commandButton value="#{msg.documentoEjecutarBusqueda}" icon="ui-icon-search" action="#{imprimirListaEmpaqueMB.consultarDocumento}"
-                             update="tablaDatos">
-            </p:commandButton>
-
-
+  <ui:define 
+    name="contenido">
+    <p:spacer 
+      height="40"/>
+    <h:form 
+      prependId="false" 
+      id="forma">
+      <p:messages 
+        id="msgs" 
+        showDetail="false" 
+        showSummary="true"
+        globalOnly="false" 
+        showIcon="true"/>
+      <p:tabView 
+        id="tabPanel">
+        <p:tab 
+          title="#{msg.TituloConsultarListaEmpaque}">
+          <p:panelGrid 
+            columns="2"  
+            styleClass="noBorders">
+            <p:outputLabel 
+              value="#{msg.IngresarNumLE}" for="codigo"
+              styleClass="negrita" />
+            <h:inputText 
+              value="#{imprimirListaEmpaqueMB.strConsecutivoDocumento}" id="codigo"
+              required="false" maxlength="10" label="#{msg.buscadorSKU}" />
+            <p:message 
+              for="codigo"/>
+            <p:commandButton 
+              value="#{msg.documentoEjecutarBusqueda}" 
+              icon="ui-icon-search" 
+              action="#{imprimirListaEmpaqueMB.consultarDocumento}"
+              update="tablaDatos"/>
           </p:panelGrid>
-
-
-          <p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-                       value="#{imprimirListaEmpaqueMB.listaEmpaqueList}" rows="10"
-                       emptyMessage="#{msg.ConsultarListaEmpaqueNoEncontrados}"
-                       paginator="true" paginatorPosition="bottom"
-                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                       rowsPerPageTemplate="5,10,15">
-
-
-
-
+          <p:dataTable 
+            var="dato" 
+            widgetVar="datoTabla" 
+            id="tablaDatos"
+            value="#{imprimirListaEmpaqueMB.listaEmpaqueList}" 
+            rows="10"
+            emptyMessage="#{msg.ConsultarListaEmpaqueNoEncontrados}"
+            paginator="true" 
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
             <p:column style="width:64px;text-align: center">
-              <p:commandButton oncomplete="PF('editarDialog2').show()"
-                               icon="ui-icon-zoomin"
-                               title="#{msg.TituloProdCE} #{msg.SubTituloCE}"
-                               update=":editarDlg2">
-                <f:setPropertyActionListener value="#{dato}"
-                                             target="#{imprimirListaEmpaqueMB.seleccionado}" />
+              <p:commandButton 
+                oncomplete="PF('editarDialog2').show()"
+                icon="ui-icon-zoomin"
+                title="#{msg.TituloProdCE} #{msg.SubTituloCE}"
+                update=":editarDlg2">
+                <f:setPropertyActionListener 
+                  value="#{dato}"
+                  target="#{imprimirListaEmpaqueMB.seleccionado}" />
               </p:commandButton>
             </p:column>
-
-            <p:column filterBy="#{dato.id}"
-                      headerText="#{msg.CodigoGipSP}"
-                      filterMatchMode="contains" sortBy="#{dato.id}">
+            <p:column 
+              filterBy="#{dato.id}"
+              headerText="#{msg.CodigoGipSP}"
+              filterMatchMode="contains" sortBy="#{dato.id}">
               <h:outputText value="#{dato.id}" />
             </p:column>
-
-            <p:column filterBy="#{dato.consecutivoDocumento}"
-                      headerText="#{msg.reporteFacturasConsecutivo}"
-                      filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
+            <p:column 
+              filterBy="#{dato.consecutivoDocumento}"
+              headerText="#{msg.reporteFacturasConsecutivo}"
+              filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
               <h:outputText value="#{dato.consecutivoDocumento}" />
             </p:column>
-
-            <p:column filterBy="#{dato.fechaGeneracion}"
-                      headerText="#{msg.RequisicionNombreFechaGenerado}"
-                      filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
+            <p:column 
+              filterBy="#{dato.fechaGeneracion}"
+              headerText="#{msg.RequisicionNombreFechaGenerado}"
+              filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
               <h:outputText value="#{dato.fechaGeneracion}">
                 <f:convertDateTime pattern="dd-MMM-yyyy" />
               </h:outputText> 
-
             </p:column>
-
-
-
           </p:dataTable>
-
-
-
         </p:tab>
       </p:tabView>
     </h:form>
 
-
     <p:dialog
       header="#{msg.TituloConsultarListaEmpaque}"
-      widgetVar="editarDialog2" modal="true" showEffect="fade"
-      hideEffect="fade" resizable="false" dynamic="true" id="editarDlg2">
+      widgetVar="editarDialog2" 
+      modal="true" 
+      showEffect="fade"
+      hideEffect="fade" 
+      resizable="false" 
+      dynamic="true" 
+      id="editarDlg2">
       <h:form id="formaDlg2">
         <p:panelGrid columns="8"  styleClass="noBorders" >
-
 
           <p:outputLabel value="#{msg.recibiProductoDcoumento}" for="idDocumento" styleClass="negrita" />
           <h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.idDocumento}" id="idDocumento"/>
@@ -145,13 +142,11 @@
           <p:outputLabel value="#{msg.CantidadContenedores40}"  styleClass="negrita" />
           <h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadContenedores40}" />
 
-
           <p:outputLabel value="#{msg.CantidadEstibas}"  styleClass="negrita" />
           <h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.cantidadEstibas}" /> 
 
           <p:outputLabel value="#{msg.PesoBrutoEstibas}"  styleClass="negrita" />
           <h:inputText disabled="true" styleClass="filas_contenido" value="#{imprimirListaEmpaqueMB.seleccionado2.pesoBrutoEstibas}" />      
-
 
           <p:outputLabel value="#{msg.observacionDocumento}"  styleClass="negrita" />
           <h:inputTextarea styleClass="filas_contenido"  rows="4" cols="40" value="#{imprimirListaEmpaqueMB.seleccionado2.observacionDocumento}" readonly="true" style="border: none;"/>
@@ -159,27 +154,16 @@
           <p:outputLabel value="#{msg.observacionMarcacion2}"  styleClass="negrita" />
           <h:inputTextarea styleClass="filas_contenido"  rows="4" cols="40"  value="#{imprimirListaEmpaqueMB.seleccionado2.observacionMarcacion}" readonly="true" style="border: none;" />
 
-
-
-
-
-
-
           <h:outputLabel  styleClass="negrita"  value="#{msg.generalActivo2}" />   
           <h:selectBooleanCheckbox  value="#{imprimirListaEmpaqueMB.blnActivo}" />
 
         </p:panelGrid>
 
 
-
-        <p:dataTable var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirListaEmpaqueMB.seleccionado2.idDocumento}"
-                     value="#{imprimirListaEmpaqueMB.listaEmpaqueDetalle}"
-                     rendered="#{not empty imprimirListaEmpaqueMB.listaEmpaqueDetalle}">
-
-
-
-
-
+        <p:dataTable 
+          var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirListaEmpaqueMB.seleccionado2.idDocumento}"
+          value="#{imprimirListaEmpaqueMB.listaEmpaqueDetalle}"
+          rendered="#{not empty imprimirListaEmpaqueMB.listaEmpaqueDetalle}">
 
           <p:column headerText="#{msg.TipoLoteOIC}">
             <h:outputText value="#{dato2.descripcionLote}" />
@@ -260,18 +244,12 @@
               </h:outputText>
             </p:column>
 
-
-
-
           </p:summaryRow>
 
         </p:dataTable>
 
-
-
-
-
         <p:spacer height="30"></p:spacer>
+
         <p:panelGrid columns="3">
           <p:dataTable var="lote" widgetVar="loteDoc" id="tablaLotes" sortBy="#{lote.tipoLote}"
                        rendered="#{not empty imprimirListaEmpaqueMB.lotes}" 
@@ -320,12 +298,9 @@
               </h:outputText>
             </p:column>
 
-
-
           </p:dataTable>	
 
         </p:panelGrid>
-
 
         <p:commandButton value="Reporte PDF" ajax="false" icon="ui-icon-document">
           <p:fileDownload value="#{imprimirListaEmpaqueMB.reportePDF}" />

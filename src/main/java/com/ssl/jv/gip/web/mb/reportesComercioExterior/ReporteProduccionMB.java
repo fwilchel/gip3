@@ -15,8 +15,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
 import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -27,13 +25,32 @@ import com.ssl.jv.gip.util.Estado;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
+/**
+ * <p>
+ * Title: GIP
+ * </p>
+ * <p>
+ * Description: GIP
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: Soft Studio Ltda.
+ * </p>
+ *
+ * @author Diego Poveda
+ * @email dpoveda@softstudio.co
+ * @phone 3192594013
+ * @version 1.0
+ */
 @ManagedBean(name = "reporteProduccionCeMB")
 @ViewScoped
 public class ReporteProduccionMB extends UtilMB {
 
   private static final long serialVersionUID = -2245622085667338473L;
   private static final Logger LOGGER = Logger.getLogger(ReporteProduccionMB.class);
-  @EJB
+  @EJB	
   private ReportesComercioExteriorEJBLocal reportesComercioExteriorEJBLocal;
   private Date fechaInicial;
   private Date fechaFinal;
@@ -41,11 +58,8 @@ public class ReporteProduccionMB extends UtilMB {
   private StreamedContent reporteExcel;
 
   public StreamedContent getReporteExcel() {
-    Map<String, Object> parametrosReporte = new HashMap<>();
-    SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-    parametrosReporte.put("fecha_inicial", sdf.format(fechaInicial));
-    parametrosReporte.put("fecha_final", sdf.format(fechaFinal));
-    List<ReporteProduccionDTO> registros = new ArrayList<>();
+    LOGGER.trace("Metodo: <<getReporteExcel>>");
+    List<ReporteProduccionDTO> registros = new ArrayList<>();	
     try {
       Map<String, Object> parametrosConsulta = new HashMap<>();
       parametrosConsulta.put("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
@@ -57,14 +71,19 @@ public class ReporteProduccionMB extends UtilMB {
     } catch (Exception e) {
       LOGGER.error(e.getMessage());
     }
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(registros);
+    Map<String, Object> parametrosReporte = new HashMap<>();
+    SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+    parametrosReporte.put("fechaInicial", sdf.format(fechaInicial));
+    parametrosReporte.put("fechaFinal", sdf.format(fechaFinal));
+    parametrosReporte.put("datos", registros);
     try {
       Hashtable<String, String> parametrosConfigReporte = new Hashtable<>();
-      parametrosConfigReporte.put("tipo", "xls");
-      String nombreReporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_PCE.jasper");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfigReporte, nombreReporte, null, null, null, parametrosReporte, ds);
-      reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "Reporte_PCE.xls");
+      parametrosConfigReporte.put("tipo", "jxls");
+      String nombreReporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteProduccion.xls");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfigReporte, nombreReporte, null, null, null, parametrosReporte, null);
+      reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "ReporteProduccion.xls");
     } catch (Exception e) {
+      LOGGER.error(e.getMessage());
       this.addMensajeError(e);
     }
     return reporteExcel;

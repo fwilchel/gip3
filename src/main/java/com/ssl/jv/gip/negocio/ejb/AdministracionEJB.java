@@ -33,6 +33,7 @@ import com.ssl.jv.gip.negocio.dao.ParametroDAOLocal;
 import com.ssl.jv.gip.negocio.dao.RolDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UsuarioDAOLocal;
 import java.util.Map;
+import org.primefaces.model.SortOrder;
 
 /**
  * Session Bean implementation class AdministracionEJB
@@ -171,7 +172,12 @@ public class AdministracionEJB implements AdministracionEJBLocal {
   @Override
   public List<LogAuditoria> consultarLogAuditoria(Map<String, Object> parametros) {
     LOGGER.debug("Metodo: <<consultarLogAuditoria>>");
-    return logAuditoriaDao.buscarPorConsultaNombrada(LogAuditoria.FIND_BY_PARAMETROS, parametros);
-//    return logAuditoriaDao.consultarLogAuditoria(parametros);
+    return logAuditoriaDao.consultarLogAuditoria(parametros);
+  }
+
+  @Override
+  public Object[] consultarLogAuditoria(Map<String, Object> parametros, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count) {
+    LOGGER.debug("Metodo: <<consultarLogAuditoria>>");
+    return logAuditoriaDao.consultarLogAuditoria(parametros, first, pageSize, sortField, sortOrder, count);
   }
 }

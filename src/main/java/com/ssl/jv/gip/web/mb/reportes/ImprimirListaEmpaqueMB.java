@@ -204,7 +204,7 @@ public class ImprimirListaEmpaqueMB extends UtilMB {
   }
 
   public List<Documento> consultarDocumento() {
-    Map<String, Object> parametros = new HashMap<String, Object>();
+    Map<String, Object> parametros = new HashMap<>();
 
     // Se Define la cadena de busqueda del nombre segun lo ingresado en el
     // campo de Consecutivo Pedido. 

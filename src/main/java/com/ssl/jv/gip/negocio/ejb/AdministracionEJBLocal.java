@@ -10,9 +10,11 @@ import com.ssl.jv.gip.jpa.pojo.HistorialContrasena;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
+import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.Rol;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 import java.util.Map;
+import org.primefaces.model.SortOrder;
 
 @Local
 public interface AdministracionEJBLocal {
@@ -51,9 +53,21 @@ public interface AdministracionEJBLocal {
   public List<Ciudad> getCiudadesByIdPais(String idPais);
 
   /**
-   * 
+   *
    * @param parametros
-   * @return 
+   * @return
    */
   List<LogAuditoria> consultarLogAuditoria(Map<String, Object> parametros);
+
+  /**
+   *
+   * @param parametros
+   * @param first
+   * @param pageSize
+   * @param sortField
+   * @param sortOrder
+   * @param count
+   * @return
+   */
+  Object[] consultarLogAuditoria(Map<String, Object> parametros, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count);
 }

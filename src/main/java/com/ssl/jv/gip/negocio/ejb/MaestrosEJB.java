@@ -593,7 +593,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
     try {
       pEntidad = clienteDao.add(pEntidad);
       LOGGER.debug("Crear log de auditoria");
-      auditoria.setTabla(Cliente.class.getName());
+      auditoria.setTabla("Cliente");
       auditoria.setAccion("CRE");
       auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
       auditoria.setIdRegTabla(pEntidad.getId());
@@ -611,7 +611,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
     try {
       clienteDao.update(pEntidad);
       LOGGER.debug("Crear log de auditoria");
-      auditoria.setTabla(Cliente.class.getName());
+      auditoria.setTabla("Cliente");
       auditoria.setAccion("MOD");
       auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
       auditoria.setIdRegTabla(pEntidad.getId());
@@ -1260,7 +1260,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
     LOGGER.trace("Metodo: <<crearProductosXClientes>>");
     productoClienteDAO.add(pxc);
     LOGGER.debug("Crear log de auditoria");
-    auditoria.setTabla(ProductosXCliente.class.getName());
+    auditoria.setTabla("ProductosXCliente");
     auditoria.setAccion("CRE");
     auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
     auditoria.setIdRegTabla(pxc.getId());
@@ -1273,7 +1273,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
     LOGGER.trace("Metodo: <<modificarProductosXClientes>>");
     productoClienteDAO.update(pxcNew);
     LOGGER.debug("Crear log de auditoria");
-    auditoria.setTabla(ProductosXCliente.class.getName());
+    auditoria.setTabla("ProductosXCliente");
     auditoria.setAccion("MOD");
     auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
     auditoria.setIdRegTabla(pxcNew.getId());
