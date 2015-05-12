@@ -5,6 +5,25 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * <p>
+ * Title: GIP
+ * </p>
+ * <p>
+ * Description: GIP
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * <p>
+ * Company: Soft Studio Ltda.
+ * </p>
+ *
+ * @author Diego Poveda
+ * @email dpoveda@softstudio.co
+ * @phone 3192594013
+ * @version 1.0
+ */
 @Entity
 public class ReporteProduccionDTO implements Serializable {
 
