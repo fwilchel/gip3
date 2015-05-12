@@ -7,6 +7,10 @@ import javax.persistence.Id;
 @Entity
 public class ProductosInformeTiendaLineaDTO implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   public static final String PRODUCTOS_POR_LISTA_EMPAQUE = "SELECT row_number() over() as id,tl.descripcion as descripcionLote, documento_x_lotesoic.consecutivo as consecutivoLote, sum(productosxdocumentos.total_peso_neto_item) as pesoNeto, sum(round(round(productosxdocumentos.cantidad_pallets_item/(select sum(cantidad_pallets_item) from productosxdocumentos where id_documento = documentos.id),5) * (documento_x_negociacion.peso_bruto_estibas),5) + (productosxdocumentos.total_peso_bruto_item)) as pesoBruto, sum(productosxdocumentos.cantidad_cajas_item) as numeroCajas, documento_x_lotesoic.aviso as aviso, documento_x_lotesoic.asignacion as asignacion, documento_x_lotesoic.pedido as pedido from productosxdocumentos inner join productos_inventario on productosxdocumentos.id_producto = productos_inventario.id inner join documentos on productosxdocumentos.id_documento = documentos.id inner join documento_x_negociacion on documentos.id = documento_x_negociacion.id_documento inner join productos_inventario_comext pic on pic.id_producto = productos_inventario.id inner join tipo_loteoic tl on pic.id_tipo_loteoic = tl.id inner join documento_x_lotesoic on documento_x_lotesoic.id_tipo_lote = tl.id where documento_x_lotesoic.id_documento = (select doc.id from documentos doc where doc.consecutivo_documento = documentos.observacion_documento) and documentos.id = :idDocumento group by tl.descripcion, documento_x_lotesoic.consecutivo, documento_x_lotesoic.aviso, documento_x_lotesoic.asignacion, documento_x_lotesoic.pedido";
   @Id
   private Long id;
