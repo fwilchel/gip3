@@ -96,8 +96,8 @@ public class GenerarRemisionMB extends UtilMB {
 	try {
 	  setUploadedFile(fileUploadEvent.getFile());
 	  listaProductosXDocumento = ventasFacturacionEJB.consultarProductosXDocumentoValidadosContraArchivo(getDocumentoVDSeleccionado(), getUploadedFile().getContents());
-	} catch (IOException e) {
-	  this.addMensajeError("Error al leer el archivo");
+	} catch (Exception e) {
+	  this.addMensajeError(e.getMessage());
 	}
   }
 
@@ -108,10 +108,11 @@ public class GenerarRemisionMB extends UtilMB {
 	auditoria.setIdUsuario(menu.getUsuario().getId());
 	auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
 	try {
-	  Documento remision = ventasFacturacionEJB.generarConsumoServicios(documentoVDSeleccionado, listaProductosXDocumento, auditoria);
+	  Documento remision = ventasFacturacionEJB.generarRemision(documentoVDSeleccionado, listaProductosXDocumento, auditoria);
 	  LOGGER.debug("Documento generado exitosamente con id: " + remision.getId() + " y consecutivo: " + remision.getConsecutivoDocumento());
-	  addMensajeInfo(formatearCadenaConParametros("VentasCSExito_Crear", language, remision.getId().toString(), remision.getConsecutivoDocumento()));
+	  onConsultEvent();
 	  init();
+	  addMensajeInfo(formatearCadenaConParametros("VentasRMExito_Crear", language, remision.getId().toString(), remision.getConsecutivoDocumento()));
 	} catch (Exception ex) {
 	  addMensajeError("Error");
 	  LOGGER.error("Error");

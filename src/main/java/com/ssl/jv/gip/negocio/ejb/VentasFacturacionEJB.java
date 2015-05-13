@@ -154,18 +154,21 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
   }
 
   @Override
-  public List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente,
-      Long idPuntoVenta) {
+  public List<ProductosXCliente> consultarPorClientePuntoVenta(Long idCliente, Long idPuntoVenta) {
     return productoClienteDAO.consultarPorClientePuntoVenta(idCliente, idPuntoVenta);
   }
 
-  /* (non-Javadoc)
-   * @see com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal#crearVentaDirecta(com.ssl.jv.gip.jpa.pojo.Documento, com.ssl.jv.gip.jpa.pojo.LogAuditoria, java.util.List)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJBLocal#crearVentaDirecta(
+   * com.ssl.jv.gip.jpa.pojo.Documento, com.ssl.jv.gip.jpa.pojo.LogAuditoria,
+   * java.util.List)
    */
   @Override
-  public Documento crearVentaDirecta(Documento ventaDirecta, LogAuditoria auditoria,
-      List<ProductosXDocumento> productos) {
-    //Consultar consecutivo
+  public Documento crearVentaDirecta(Documento ventaDirecta, LogAuditoria auditoria, List<ProductosXDocumento> productos) {
+    // Consultar consecutivo
     StringBuilder strConsecutivo = new StringBuilder();
     TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK((long) ConstantesTipoDocumento.VENTA_DIRECTA);
 
@@ -177,12 +180,11 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       strConsecutivo.append(tipoDocumento.getAbreviatura() + ubicacionDestino.getEmpresa().getId());
     }
 
-    ventaDirecta.setConsecutivoDocumento(strConsecutivo.toString() + "-"
-        + this.documentoDAO.consultarProximoValorSecuencia(strConsecutivo.toString() + "_seq"));
+    ventaDirecta.setConsecutivoDocumento(strConsecutivo.toString() + "-" + this.documentoDAO.consultarProximoValorSecuencia(strConsecutivo.toString() + "_seq"));
     ventaDirecta = (Documento) this.documentoDAO.add(ventaDirecta);
-//		auditoria.setIdRegTabla(ventaDirecta.getId());
-//		auditoria.setValorNuevo(ventaDirecta.getConsecutivoDocumento());
-//		this.logAuditoriaDAO.add(auditoria);
+    // auditoria.setIdRegTabla(ventaDirecta.getId());
+    // auditoria.setValorNuevo(ventaDirecta.getConsecutivoDocumento());
+    // this.logAuditoriaDAO.add(auditoria);
     for (ProductosXDocumento pxd : productos) {
       pxd.getId().setIdDocumento(ventaDirecta.getId());
       this.productoXDocumentoDAO.add(pxd);
@@ -228,84 +230,93 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     ordenDespacho.setConsecutivoDocumento(ventaDirecta.getConsecutivoDocumento());
     ordenDespacho.setObservacionDocumento(ventaDirecta.getConsecutivoDocumento());
 
-//    //TODO: se debe obtener la secuencia para orden despacho [select nextval('od1_seq') AS SEQ]
-//    Long secuenciaOrdenDespacho = 78965L;
-//    StringBuilder logRespuesta = new StringBuilder();
-//    StringBuilder logStatus = new StringBuilder();
-//    //el cargue por defecto es exitoso, pero si al guno de los productos no se creo en SAP, pasa a falso
-//    boolean cargueExitoso = true;
-//    // Objetos que se deben enviar a SAP
-//    ZcaStPedidosCompra[] compra = new ZcaStPedidosCompra[listaProductosXDocumento.size()];
-//    ZcaStPedidosCompraRta[] rta = new ZcaStPedidosCompraRta[listaProductosXDocumento.size()];
-//    int index = 0;
-//    for (ProductosXDocumento pxd : listaProductosXDocumento) {
-//      compra[index] = new ZcaStPedidosCompra();
-//      compra[index].setAlmacen("A1");
-//      compra[index].setCantidad(pxd.getCantidad1());
-//      compra[index].setEvento("CREAR");
-//      compra[index].setOrigen("GIP");
-//      compra[index].setProceso("S");
-//      compra[index].setPrecio(new BigDecimal(0));
-//      compra[index].setFechaDoc(Utilidad.formatearFecha(new Date(), "yyyy.MM.dd"));
-//      compra[index].setFechaEntrega(Utilidad.formatearFecha(pxd.getFechaEntrega(), "yyyy.MM.dd"));
-//      compra[index].setHoraEntrega(Utilidad.formatearFecha(new Date(), "HH:mm:ss"));
-//      compra[index].setPedidoExt("G" + secuenciaOrdenDespacho);
-//      compra[index].setInterlocutor(ventaDirecta.getPuntoVenta().getCodDespachoSap());
-//      compra[index].setMaterial(pxd.getProductosInventario().getSku());
-//      index++;
-//    }
-//    rta[0] = new ZcaStPedidosCompraRta();
-//    rta[0].setOrint("");
-//    rta[0].setBukrs("");
-//    rta[0].setCantidad(null);
-//    rta[0].setEbeln("");
-//    rta[0].setEvento("");
-//    rta[0].setFechaDoc("");
-//    rta[0].setFechaEntrega("");
-//    rta[0].setFechaProceso("");
-//    rta[0].setHoraEntrega("");
-//    rta[0].setHoraProceso("");
-//    rta[0].setInterlocutor("");
-//    rta[0].setMaterial("");
-//    rta[0].setPedidoExt("");
-//    rta[0].setRespuesta("");
-//    rta[0].setStatu("");
-//    rta[0].setType("");
-//    TableOfZcaStPedidosCompraHolder compraHolder = new TableOfZcaStPedidosCompraHolder(compra);
-//    TableOfZcaStPedidosCompraRtaHolder rtaHolder = new TableOfZcaStPedidosCompraRtaHolder(rta);
-//    try {
-//      LOGGER.debug("Envia la informacion para crear ventaDirecta en SAP");
-//      proxy.zmmInterfazIcgCreaPedido(compraHolder, rtaHolder);
-//      if (rtaHolder.value != null && rtaHolder.value.length > 0) {
-//        for (ZcaStPedidosCompraRta value : rtaHolder.value) {
-//          LOGGER.debug("Respuesta: " + value.getRespuesta());
-//          LOGGER.debug("Estado: " + value.getStatu());
-//          switch (value.getStatu()) {
-//            case "ER":
-//              cargueExitoso = false;
-//              logRespuesta.append("Log: Error cargue Orden Despacho a SAP: Respuesta: ");
-//              logRespuesta.append(value.getRespuesta());
-//              logRespuesta.append(" || ");
-//              logStatus.append("Estado: ");
-//              logStatus.append(value.getStatu());
-//              logStatus.append(" || ");
-//              LOGGER.debug(logRespuesta.toString());
-//              LOGGER.debug(logStatus.toString());
-//              break;
-//            case "OK":
-//              logRespuesta.append("Respuesta: ");
-//              logRespuesta.append(value.getRespuesta());
-//              logRespuesta.append(" || ");
-//              logStatus.append("Estado: ");
-//              logStatus.append(value.getStatu());
-//              logStatus.append(" || ");
-//              LOGGER.debug(logRespuesta.toString());
-//              LOGGER.debug(logStatus.toString());
-//              ordenDespacho.setObservacion2(logRespuesta.toString());
-//              break;
-//          }
-//        }
-//        if (cargueExitoso) {
+    // //TODO: se debe obtener la secuencia para orden despacho [select
+    // nextval('od1_seq') AS SEQ]
+    // Long secuenciaOrdenDespacho = 78965L;
+    // StringBuilder logRespuesta = new StringBuilder();
+    // StringBuilder logStatus = new StringBuilder();
+    // //el cargue por defecto es exitoso, pero si al guno de los productos no
+    // se creo en SAP, pasa a falso
+    // boolean cargueExitoso = true;
+    // // Objetos que se deben enviar a SAP
+    // ZcaStPedidosCompra[] compra = new
+    // ZcaStPedidosCompra[listaProductosXDocumento.size()];
+    // ZcaStPedidosCompraRta[] rta = new
+    // ZcaStPedidosCompraRta[listaProductosXDocumento.size()];
+    // int index = 0;
+    // for (ProductosXDocumento pxd : listaProductosXDocumento) {
+    // compra[index] = new ZcaStPedidosCompra();
+    // compra[index].setAlmacen("A1");
+    // compra[index].setCantidad(pxd.getCantidad1());
+    // compra[index].setEvento("CREAR");
+    // compra[index].setOrigen("GIP");
+    // compra[index].setProceso("S");
+    // compra[index].setPrecio(new BigDecimal(0));
+    // compra[index].setFechaDoc(Utilidad.formatearFecha(new Date(),
+    // "yyyy.MM.dd"));
+    // compra[index].setFechaEntrega(Utilidad.formatearFecha(pxd.getFechaEntrega(),
+    // "yyyy.MM.dd"));
+    // compra[index].setHoraEntrega(Utilidad.formatearFecha(new Date(),
+    // "HH:mm:ss"));
+    // compra[index].setPedidoExt("G" + secuenciaOrdenDespacho);
+    // compra[index].setInterlocutor(ventaDirecta.getPuntoVenta().getCodDespachoSap());
+    // compra[index].setMaterial(pxd.getProductosInventario().getSku());
+    // index++;
+    // }
+    // rta[0] = new ZcaStPedidosCompraRta();
+    // rta[0].setOrint("");
+    // rta[0].setBukrs("");
+    // rta[0].setCantidad(null);
+    // rta[0].setEbeln("");
+    // rta[0].setEvento("");
+    // rta[0].setFechaDoc("");
+    // rta[0].setFechaEntrega("");
+    // rta[0].setFechaProceso("");
+    // rta[0].setHoraEntrega("");
+    // rta[0].setHoraProceso("");
+    // rta[0].setInterlocutor("");
+    // rta[0].setMaterial("");
+    // rta[0].setPedidoExt("");
+    // rta[0].setRespuesta("");
+    // rta[0].setStatu("");
+    // rta[0].setType("");
+    // TableOfZcaStPedidosCompraHolder compraHolder = new
+    // TableOfZcaStPedidosCompraHolder(compra);
+    // TableOfZcaStPedidosCompraRtaHolder rtaHolder = new
+    // TableOfZcaStPedidosCompraRtaHolder(rta);
+    // try {
+    // LOGGER.debug("Envia la informacion para crear ventaDirecta en SAP");
+    // proxy.zmmInterfazIcgCreaPedido(compraHolder, rtaHolder);
+    // if (rtaHolder.value != null && rtaHolder.value.length > 0) {
+    // for (ZcaStPedidosCompraRta value : rtaHolder.value) {
+    // LOGGER.debug("Respuesta: " + value.getRespuesta());
+    // LOGGER.debug("Estado: " + value.getStatu());
+    // switch (value.getStatu()) {
+    // case "ER":
+    // cargueExitoso = false;
+    // logRespuesta.append("Log: Error cargue Orden Despacho a SAP: Respuesta: ");
+    // logRespuesta.append(value.getRespuesta());
+    // logRespuesta.append(" || ");
+    // logStatus.append("Estado: ");
+    // logStatus.append(value.getStatu());
+    // logStatus.append(" || ");
+    // LOGGER.debug(logRespuesta.toString());
+    // LOGGER.debug(logStatus.toString());
+    // break;
+    // case "OK":
+    // logRespuesta.append("Respuesta: ");
+    // logRespuesta.append(value.getRespuesta());
+    // logRespuesta.append(" || ");
+    // logStatus.append("Estado: ");
+    // logStatus.append(value.getStatu());
+    // logStatus.append(" || ");
+    // LOGGER.debug(logRespuesta.toString());
+    // LOGGER.debug(logStatus.toString());
+    // ordenDespacho.setObservacion2(logRespuesta.toString());
+    // break;
+    // }
+    // }
+    // if (cargueExitoso) {
     LOGGER.debug("Crear la orden de despacho");
     ordenDespacho = documentoDAO.add(ordenDespacho);
     LOGGER.debug("Orden de despacho creada exitosamente con e id: " + ordenDespacho.getId());
@@ -326,17 +337,17 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     parametros.put("id", (long) ventaDirecta.getId());
     documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_Y_OBSERVACION, parametros);
     LOGGER.debug("Venta directa actualizada");
-//        } else {
-//          // restabecer la secuencia.
-//          //mensage de error
-//          //forward = "errorGenerarOrdenDespacho";
-//        }
-//      }
-//    } catch (Exception ex) {
-//      // restabecer la secuencia.
-//      //mensage de error
-//      //forward = "errorGenerarOrdenDespacho";
-//    }
+    // } else {
+    // // restabecer la secuencia.
+    // //mensage de error
+    // //forward = "errorGenerarOrdenDespacho";
+    // }
+    // }
+    // } catch (Exception ex) {
+    // // restabecer la secuencia.
+    // //mensage de error
+    // //forward = "errorGenerarOrdenDespacho";
+    // }
     return ordenDespacho;
   }
 
@@ -524,18 +535,15 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     return documentoDAO.buscarPorConsultaNombrada(ProductosXDocumento.FIND_BY_DOCUMENTO_ORDER_BY_SKU, parametros);
   }
 
-  
-  
   public List<ReporteVentaDTO> consultarReporteVentasFE(Map<String, Object> parametros) {
-	    // TODO Auto-generated method stub
-	    return documentoDAO.consultarReporteVentasFE(parametros);
-	  }
-
+    // TODO Auto-generated method stub
+    return documentoDAO.consultarReporteVentasFE(parametros);
+  }
 
   @Override
   public Documento generarConsumoServicios(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria) {
     LOGGER.trace("Metodo: <<generarFactura>>");
-    LOGGER.debug("Crear factura");
+    LOGGER.debug("Crear documento consumo servicios");
     // tipo de documento y estado
     Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
     EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
@@ -548,7 +556,9 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     ventaDirecta.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.EXTERNA));
     ventaDirecta.setDescuentoCliente(new BigDecimal(0.0));
     ventaDirecta.setSitioEntrega("CS");
-    ventaDirecta.setNumeroFactura("0");// TODO: revisar esto, pq aunque en la db esta por defecto "0", al parecer no lo está tomando.
+    ventaDirecta.setNumeroFactura("0");// TODO: revisar esto, pq aunque en la db
+    // esta por defecto "0", al parecer no lo
+    // está tomando.
     StringBuilder secuencia = new StringBuilder();
     if (ventaDirecta.getConsecutivoDocumento() == null || ventaDirecta.getConsecutivoDocumento().isEmpty() || ventaDirecta.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
       TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento());
@@ -633,77 +643,44 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       listPXDFromFile = new ArrayList<>();
       int numLinea = 0;
       String line;
-      DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
       while ((line = reader.readLine()) != null) {
-        if (numLinea != 0) { // obviamos la primera linea
-          if (!line.isEmpty()) {
-            String[] values = line.split("\\|");
-            if (values.length != 13) {
-              messageError = "Error de estructura en la línea " + numLinea;
-              errorInFile = true;
-              break;
-            }
-            if (values[0].trim().isEmpty()) {
-              messageError = "Error de datos en la línea " + numLinea;
-              errorInFile = true;
-              break;
-            }
-            ProductosXDocumento pxd;
-            try {
-              pxd = new ProductosXDocumento();
-              pxd.setProductosInventario(new ProductosInventario());
-              pxd.setMoneda(new Moneda());
-              if (values[0] == null) {
-                errorInFile = true;
-              } else {
-                // necesario validar si el sku existe en db y traer el id
-                String sku = values[0].trim();
-                Map<String, Object> parametros = new HashMap<>();
-                parametros.put("sku", sku);
-                Object id = productoInventarioDao.buscarRegistroPorConsultaNativa("SELECT p.id FROM productos_inventario AS p WHERE p.sku = :sku", parametros);
-                if (id != null) {
-                  pxd.getProductosInventario().setId(Long.parseLong(id.toString()));
-                  pxd.getProductosInventario().setSku(sku);
-                } else {
-                  errorInFile = true;
-                }
-              }
-              if (values[7] == null) {
-                errorInFile = true;
-              } else {
-                // necesario validar si el id existe en db
-                String id = values[7].trim();
-                Map<String, Object> parametros = new HashMap<>();
-                parametros.put("id", id);
-                Object count = productoInventarioDao.buscarRegistroPorConsultaNativa("SELECT COUNT(m.id) FROM monedas AS m WHERE m.id = :id", parametros);
-                if (count != null && Integer.parseInt(count.toString()) > 0) {
-                  pxd.getMoneda().setId(id);
-                } else {
-                  errorInFile = true;
-                }
-              }
-              if (values[8] == null) {
-                errorInFile = true;
-              } else {
-                pxd.setIva(new BigDecimal(values[8].trim()));
-              }
-              if (values[9] == null) {
-                errorInFile = true;
-              } else {
-                pxd.setDescuentoxproducto(new BigDecimal(values[9].trim()));
-              }
-              if (values[10] == null) {
-                errorInFile = true;
-              } else {
-                pxd.setOtrosDescuentos(new BigDecimal(values[10].trim()));
-              }
-            } catch (Exception e) {
-              messageError = "Error de datos en la línea " + numLinea;
-              errorInFile = true;
-              break;
-            }
-            listPXDFromFile.add(pxd);
+        if (!line.isEmpty()) {
+          String[] values = line.split("\\|");
+          if (values.length != 3) {
+            messageError = "Error de estructura en la línea " + numLinea;
+            errorInFile = true;
+            break;
           }
+          if (values[0].trim().isEmpty() || values[1].trim().isEmpty() || values[2].trim().isEmpty()) {
+            messageError = "Error de datos en la línea " + numLinea;
+            errorInFile = true;
+            break;
+          }
+          ProductosXDocumento pxd;
+          try {
+            pxd = new ProductosXDocumento();
+            pxd.setProductosInventario(new ProductosInventario());
+            if (values[0] == null) {
+              errorInFile = true;
+            } else {
+              pxd.getProductosInventario().setSku(values[0].trim());
+            }
+            if (values[1] == null) {
+              errorInFile = true;
+            } else {
+              pxd.setCantidad1(new BigDecimal(values[1].trim()));
+            }
+            if (values[2] == null) {
+              errorInFile = true;
+            } else {
+              pxd.setObservacion2(values[2].trim());
+            }
+          } catch (Exception e) {
+            messageError = "Error de datos en la línea " + numLinea;
+            errorInFile = true;
+            break;
+          }
+          listPXDFromFile.add(pxd);
         }
         numLinea++;
       }
@@ -716,29 +693,36 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     }
     errorInFile = false;
     List<ProductosXDocumento> listPXD = productoDocumentoDAO.consultarPorDocumento(documento.getId());
+    Map<String, ProductosXDocumento> productosXDcumento = new HashMap<>();
     for (ProductosXDocumento pxd : listPXD) {
-      boolean existeSKU = false;
-      for (ProductosXDocumento pxdFronFile : listPXDFromFile) {
-        if (pxd.getProductosInventario().getSku().equals(pxdFronFile.getProductosInventario().getSku())) {
-          existeSKU = true;
-          // la cantidad de produstos en el archivo no puede ser superior a la consultada en la db
-          if (pxdFronFile.getCantidad1().compareTo(pxd.getCantidad1()) == 1) {
-            errorInFile = true;
-            messageError = "Error de Cantidades";
-            break;
-          }
-        }
-      }
-      if (!existeSKU) {
+      productosXDcumento.put(pxd.getProductosInventario().getSku(), pxd);
+    }
+    List<ProductosXDocumento> result = null;
+    for (ProductosXDocumento pxdFronFile : listPXDFromFile) {
+      ProductosXDocumento pxd = productosXDcumento.get(pxdFronFile.getProductosInventario().getSku());
+      if (pxd == null) {
         errorInFile = true;
-        messageError = "Error de Cantidades";
+        messageError = "Error de SKUs";
         break;
+      } else {
+        if (pxdFronFile.getCantidad1().compareTo(pxd.getCantidad1()) == 1) {
+          errorInFile = true;
+          messageError = "Error de Cantidades";
+          break;
+        } else {
+          if (result == null) {
+            result = new ArrayList<>();
+          }
+          pxd.setCantidad1(pxdFronFile.getCantidad1());
+          pxd.setObservacion2(pxdFronFile.getObservacion2());
+          result.add(pxd);
+        }
       }
     }
     if (errorInFile) {
       throw new RuntimeException(messageError);
     }
-    return listPXD;
+    return result;
   }
 
   @Override
@@ -756,11 +740,10 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     remision.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.UBICACION_DESTINO_DEFAULT));
     remision.setUbicacionDestino(ventaDirecta.getUbicacionDestino());
     remision.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
-    remision.setFechaEsperadaEntrega(ventaDirecta.getFechaEsperadaEntrega());
-    remision.setFechaEntrega(ventaDirecta.getFechaEntrega());
     remision.setObservacionDocumento(ventaDirecta.getConsecutivoDocumento());
-    // trae codigo Sap del archivo a cargar  ???
+    remision.setObservacion2(listaProductos.get(0).getObservacion2());
     remision.setCliente(ventaDirecta.getCliente());
+    remision.setPuntoVenta(ventaDirecta.getPuntoVenta());
     remision.setDocumentoCliente(ventaDirecta.getDocumentoCliente());
     remision.setSitioEntrega(ventaDirecta.getSitioEntrega());
     remision.setSubtotal(ventaDirecta.getSubtotal());
@@ -768,17 +751,16 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     remision.setValorIva16(ventaDirecta.getValorIva16());
     remision.setValorTotal(ventaDirecta.getValorTotal());
     remision.setValorIva10(ventaDirecta.getValorIva10());
-    remision.setPuntoVenta(ventaDirecta.getPuntoVenta());
     remision.setDescuentoCliente(ventaDirecta.getDescuentoCliente());
-    remision.setObservacion2(ventaDirecta.getObservacion2());
+    remision.setNumeroFactura("0");
     StringBuilder secuencia = new StringBuilder();
-    if (ventaDirecta.getConsecutivoDocumento() == null || ventaDirecta.getConsecutivoDocumento().isEmpty() || ventaDirecta.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
-      TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(ventaDirecta.getEstadosxdocumento().getId().getIdTipoDocumento());
+    if (remision.getConsecutivoDocumento() == null || remision.getConsecutivoDocumento().isEmpty() || remision.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
+      TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(remision.getEstadosxdocumento().getId().getIdTipoDocumento());
       secuencia.append(tipoDocumento.getAbreviatura());
-      if (ventaDirecta.getUbicacionDestino() != null && ventaDirecta.getUbicacionDestino().getId() == -1) {
+      if (remision.getUbicacionDestino() != null && remision.getUbicacionDestino().getId() == -1) {
         secuencia.append(ventaDirecta.getUbicacionOrigen().getEmpresa().getId());
       } else {
-        Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(ventaDirecta.getUbicacionDestino().getId());
+        Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(remision.getUbicacionDestino().getId());
         secuencia.append(ubicacionDestino.getEmpresa().getId());
       }
       Long valorSecuencia = documentoDAO.consultarProximoValorSecuencia(secuencia.toString().concat("_SEQ"));
@@ -797,8 +779,15 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     auditoria.setAccion("CRE");
     auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
     auditoria.setIdRegTabla(remision.getId());
+    auditoria.setValorNuevo(remision.getConsecutivoDocumento());
     auditoria = logAuditoriaDAO.add(auditoria);
     LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
+    LOGGER.debug("Actualizar estado de la vd con id: " + ventaDirecta.getId());
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("id_estado", (long) ConstantesDocumento.REMISIONADA);
+    parametros.put("id", (long) ventaDirecta.getId());
+    documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
+    LOGGER.debug("VD actualizada exitosamente");
     LOGGER.debug("Crear los productos para la remision");
     for (ProductosXDocumento pxd : listaProductos) {
       ProductosXDocumentoPK productosXDocumentoPK = new ProductosXDocumentoPK();
@@ -844,14 +833,6 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       LOGGER.debug("Movimiento de salida creado con id: " + movimientoSalida.getId());
     }
     LOGGER.debug("Movimientos creados exitosamente");
-    LOGGER.debug("Actualizar estado de la vd con id: " + ventaDirecta.getId());
-    Map<String, Object> parametros = new HashMap<>();
-    parametros.put("id_estado", (long) ConstantesDocumento.REMISIONADA);
-    parametros.put("id", (long) ventaDirecta.getId());
-    documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
-    LOGGER.debug("VD actualizada exitosamente");
-    remision.getCliente().getCiudad();
-    remision.getPuntoVenta();
     return remision;
   }
 
