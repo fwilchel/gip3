@@ -214,7 +214,7 @@ public class GenerarCostosLogisticosMB extends UtilMB {
     for (CostoLogisticoDTO cl : datos) {
       //System.out.println(cl);
       //if (cl!=null && cl.getId()!=null){
-      GrupoCostoLogistico g = new GrupoCostoLogistico(cl.getId().getCategoria());;
+      GrupoCostoLogistico g = new GrupoCostoLogistico(cl.getId().getCategoria());
       int pos = this.costos.indexOf(g);
       if (pos == -1) {
         g.addCosto(cl);
@@ -446,7 +446,8 @@ public class GenerarCostosLogisticosMB extends UtilMB {
       for (GrupoCostoLogistico g : this.costos) {
         for (CostoLogisticoDTO cl : g.getCostos()) {
           if (cl.getId().getTipo().equals(new Integer(6))) {
-            cl.getId().setValor(valorTotal.add(new BigDecimal(valorFob)).multiply(cl.getId().getCantidad()).doubleValue() / 100);
+        	Double valor=valorTotal.add(new BigDecimal(valorFob)).multiply(cl.getId().getCantidad()).doubleValue() / 100;
+            cl.getId().setValor(valor<cl.getId().getValorMinimo()?cl.getId().getValorMinimo():valor);
           }
         }
       }
