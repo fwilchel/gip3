@@ -1,6 +1,5 @@
 package com.ssl.jv.gip.web.mb.ventas;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -97,7 +96,21 @@ public class GenerarRemisionMB extends UtilMB {
 	  setUploadedFile(fileUploadEvent.getFile());
 	  listaProductosXDocumento = ventasFacturacionEJB.consultarProductosXDocumentoValidadosContraArchivo(getDocumentoVDSeleccionado(), getUploadedFile().getContents());
 	} catch (Exception e) {
-	  this.addMensajeError(e.getMessage());
+	  if (e.getCause().toString().contains("Error en el archivo")){
+		addMensajeError("Error en el archivo");
+	  }
+	  if (e.getCause().toString().contains("Error de estructura en la línea")){
+		addMensajeError("Error de estructura del archivo");
+	  }
+	  if (e.getCause().toString().contains("Error de datos en la línea")){
+		addMensajeError("Error de datos");
+	  }
+	  if (e.getCause().toString().contains("Error de SKUs")){
+		addMensajeError("Error - En el archivo existen SKUs inexistentes en la VD.");
+	  }
+	  if (e.getCause().toString().contains("Error de Cantidades")){
+		addMensajeError("Error - En el archivo existen cantidades mayores a las existentes en la VD.");
+	  }
 	}
   }
 
@@ -110,12 +123,13 @@ public class GenerarRemisionMB extends UtilMB {
 	try {
 	  Documento remision = ventasFacturacionEJB.generarRemision(documentoVDSeleccionado, listaProductosXDocumento, auditoria);
 	  LOGGER.debug("Documento generado exitosamente con id: " + remision.getId() + " y consecutivo: " + remision.getConsecutivoDocumento());
+	  addMensajeInfo(formatearCadenaConParametros("VentasRMExito_Crear", language, remision.getId().toString(), remision.getConsecutivoDocumento()));
 	  onConsultEvent();
 	  init();
-	  addMensajeInfo(formatearCadenaConParametros("VentasRMExito_Crear", language, remision.getId().toString(), remision.getConsecutivoDocumento()));
+	  reset();
 	} catch (Exception ex) {
-	  addMensajeError("Error");
-	  LOGGER.error("Error");
+	  addMensajeError("No fue posible generar la Remisión");
+	  LOGGER.error("No fue posible generar la Remisión");
 	}
   }
 
