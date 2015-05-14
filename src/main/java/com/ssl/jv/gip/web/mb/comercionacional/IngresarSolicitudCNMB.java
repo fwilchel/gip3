@@ -73,6 +73,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
 	// TODO: de donde obtengo el punto de venta
 	setCliente(new Cliente(1L));
 	this.consultarProductosXCliente();
+	this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
   }
 
   public void consultarProductosXCliente() {
@@ -89,18 +90,27 @@ public class IngresarSolicitudCNMB extends UtilMB {
 	  }
 	}
   }
+  
+  public String obtenerMensajeConfirmacion(ProductosXDocumento pxd){
+	LOGGER.trace("Metodo: <<obtenerMensajeConfirmacion>>");
+	if (pxd == null) {
+	  return "";
+	}
+    return this.formatearCadenaConParametros("ispcnMsgConfirm", language, pxd.getProductosInventario().getSku(), pxd.getCantidad1().toString());
+  }
 
   public void agregarProducto(ProductosXDocumento pxd) {
 	LOGGER.trace("Metodo: <<agregarProducto>>");
-	if (getProductosXDocumentoSeleccionados() == null) {
-	  setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
-	}
 	getProductosXDocumentoSeleccionados().add(pxd);
   }
 
   public void validarCantidad(ProductosXDocumento pxd) {
 	LOGGER.trace("Metodo: <<validarCantidad>>");
-	getProductosXDocumentoSeleccionados().remove(pxd);
+  }
+  
+  public void verPedido(){
+	LOGGER.trace("Metodo: <<verPedido>>");
+    this.modo = Modo.GENERAR;
   }
 
   public void removerProductoXCliente(ProductosXDocumento pxd) {
@@ -119,7 +129,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
 
   public void volver() {
 	LOGGER.trace("Metodo: <<volver>>");
-	this.reset();
+	this.init();
   }
 
   private void reset() {
@@ -127,7 +137,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
 	modo = Modo.LISTAR;
 	setSolicitud(null);
 	setProductosXDocumento(null);
-	setProductosXDocumentoSeleccionados(null);
+	getProductosXDocumentoSeleccionados().clear();
   }
 
   public boolean isModoListar() {

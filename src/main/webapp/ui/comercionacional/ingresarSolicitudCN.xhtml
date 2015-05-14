@@ -47,6 +47,15 @@
               <div 
                 align="right">
                 <p:outputPanel>
+                  <p:commandButton 
+                    value="[#{ingresarSolicitudCNMB.productosXDocumentoSeleccionados.size()}]"
+                    title="Pedido" 
+                    action="#{ingresarSolicitudCNMB.verPedido()}"
+                    immediate="true"
+                    icon="ui-icon-cart"
+                    update=":pnlTab" />
+                  <p:spacer 
+                    width="30"/>			
                   <h:outputText 
                     value="#{msg.generalBuscarTodosCampos}: " />
                   <p:inputText 
@@ -55,8 +64,7 @@
                     style="width:150px"
                     placeholder="#{msg.generalPalabrasBuscar}" />
                   <p:spacer 
-                    width="30">
-                  </p:spacer>				
+                    width="30"/>			
                   <p:commandButton 
                     action="introduccion" 
                     title="#{msg.generalCancelar}" 
@@ -67,7 +75,8 @@
               </div>
             </f:facet>
             <p:column
-              headerText="#{msg.ispcnTblColSKU}">
+              headerText="#{msg.ispcnTblColSKU}"
+              style="width:40px;">
               <h:outputText 
                 value="#{registro.productosInventario.sku}" />
             </p:column>
@@ -77,22 +86,61 @@
                 value="#{registro.productosInventario.nombre}" />
             </p:column>
             <p:column
-              headerText="#{msg.ispcnTblColUnidad}">
+              headerText="#{msg.ispcnTblColUnidad}"
+              style="width:200px;">
             </p:column>
             <p:column
-              headerText="#{msg.ispcnTblColCantidad}">
-              <h:outputText 
-                value="#{registro.cantidad1}" />
+              headerText="#{msg.ispcnTblColCantidad}"
+              style="width:90px;">
+              <p:inputText 
+                id="cantidadRequerida"
+                value="#{registro.cantidad1}" 
+                label="#{msg.ispcnTblColCantidad}"
+                required="true"
+                maxlength="7"
+                size="10" 
+                converter="javax.faces.Integer"
+                converterMessage="#{msg.generalSoloNumerosEntero}"
+                style="text-align:right;">
+                <p:ajax 
+                  event="blur"
+                  listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}"/>
+                <f:validateLongRange 
+                  minimum="1" 
+                  maximum="9999999" />
+              </p:inputText>
+              <p:message 
+                for="cantidadRequerida" />
             </p:column>
             <p:column 
               style="width:32px;text-align: center">
               <p:commandButton 
                 icon="ui-icon-cart" 
                 title="#{msg.ispcnBtnAgregarProducto}"
-                action="#{ingresarSolicitudCNMB.agregarProducto(pxd)}"
-                update=":pnlTab"/>
+                actionListener="#{ingresarSolicitudCNMB.agregarProducto(registro)}"
+                process="@this, cantidadRequerida" 
+                update="tblRegistros"/>
             </p:column>
           </p:dataTable>
+          <p:dialog
+            id="confirm"
+            widgetVar="confirm"
+            header="#{msg.generalConfirmacion}"
+            modal="true"
+            resizable="false"
+            showEffect="fade" 
+            hideEffect="explode">
+            <p:commandButton 
+              value="#{msg.generalSI}" 
+              type="button" 
+              styleClass="ui-confirmdialog-yes" 
+              icon="ui-icon-check" />
+            <p:commandButton 
+              value="#{msg.generalNO}" 
+              type="button" 
+              styleClass="ui-confirmdialog-no" 
+              icon="ui-icon-close" />
+          </p:dialog>
         </h:form>
         <h:form
           id="detailFrm"
@@ -103,10 +151,11 @@
             <p:dataTable 
               id="tblDetalle"
               value="#{ingresarSolicitudCNMB.productosXDocumentoSeleccionados}" 
-              var="producto" 
+              var="registro" 
               emptyMessage="#{msg.generalNoDatos}" >
               <p:column
-                headerText="#{msg.ispcnTblColSKU}">
+                headerText="#{msg.ispcnTblColSKU}"
+                style="width:40px;">
                 <h:outputText 
                   value="#{registro.productosInventario.sku}" />
               </p:column>
@@ -116,12 +165,31 @@
                   value="#{registro.productosInventario.nombre}" />
               </p:column>
               <p:column
-                headerText="#{msg.ispcnTblColUnidad}">
+                headerText="#{msg.ispcnTblColUnidad}"
+                style="width:200px;">
               </p:column>
               <p:column
-                headerText="#{msg.ispcnTblColCantidad}">
-                <h:outputText 
-                  value="#{registro.cantidad1}" />
+                headerText="#{msg.ispcnTblColCantidad}"
+                style="width:90px;">
+                <p:inputText 
+                  id="cantidadRequerida"
+                  value="#{registro.cantidad1}" 
+                  label="#{msg.ispcnTblColCantidad}"
+                  required="true"
+                  maxlength="7"
+                  size="10" 
+                  converter="javax.faces.Integer"
+                  converterMessage="#{msg.generalSoloNumerosEntero}"
+                  style="text-align:right;">
+                  <p:ajax 
+                    event="blur"
+                    listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}"/>
+                  <f:validateLongRange 
+                    minimum="1" 
+                    maximum="9999999" />
+                </p:inputText>
+                <p:message 
+                  for="cantidadRequerida" />
               </p:column>
               <p:column 
                 style="width:32px;text-align: center">
@@ -135,7 +203,9 @@
                 <p:commandButton 
                   icon="ui-icon-trash" 
                   title="#{msg.ispcnBtnRemoverProducto}"
-                  update=":pnlTab"/>
+                  actionListener="#{ingresarSolicitudCNMB.removerProductoXCliente(registro)}"
+                  immediate="true"
+                  update="tblDetalle :pnlTab:detailFrm:btnIngresar"/>
               </p:column>
             </p:dataTable>
             <!-- botones -->
@@ -143,7 +213,7 @@
               name="footer">
               <!-- ingresar solicitud -->
               <p:commandButton 
-                id="btnGenerar"
+                id="btnIngresar"
                 value="#{msg.ispcnBtnIngresarSolicitud}" 
                 icon="ui-icon-document"
                 update=":pnlTab"
