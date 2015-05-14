@@ -33,9 +33,10 @@ public interface ComercioNacionalEJBLocal {
   /**
    *
    * @param idCliente
+   * @param idPuntoVenta
    * @return
    */
-  List<ProductosXCliente> consultarProductosXCliente(Long idCliente);
+  List<ProductosXCliente> consultarProductosXCliente(Long idCliente, Long idPuntoVenta);
 
   /**
    *

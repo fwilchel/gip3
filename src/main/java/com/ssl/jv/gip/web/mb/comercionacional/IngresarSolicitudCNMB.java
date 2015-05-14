@@ -14,8 +14,10 @@ import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.ejb.ComercioNacionalEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
@@ -59,6 +61,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
   @EJB
   private ComercioNacionalEJBLocal comercioNacionalEJB;
   private Cliente cliente;
+  private PuntoVenta puntoVenta;
   private Documento solicitud;
   private List<ProductosXDocumento> productosXDocumento;
   private List<ProductosXDocumento> productosXDocumentoSeleccionados;
@@ -71,14 +74,17 @@ public class IngresarSolicitudCNMB extends UtilMB {
 	Usuario usuario = menuMB.getUsuario();
 	// TODO: como obtengo el cliente desde el usuario?
 	// TODO: de donde obtengo el punto de venta
-	setCliente(new Cliente(1L));
+	cliente = new Cliente(1L);
+    puntoVenta = new PuntoVenta(1L);
 	this.consultarProductosXCliente();
-	this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
+	if (getProductosXDocumentoSeleccionados() == null){
+		this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
+	}
   }
 
   public void consultarProductosXCliente() {
 	LOGGER.trace("Metodo: <<consultarProductosXCliente>>");
-	List<ProductosXCliente> pxcs = getComercioNacionalEJB().consultarProductosXCliente(getCliente().getId());
+	List<ProductosXCliente> pxcs = getComercioNacionalEJB().consultarProductosXCliente(cliente.getId(), puntoVenta.getId());
 	if (pxcs != null) {
 	  for (ProductosXCliente pxc : pxcs) {
 		if (getProductosXDocumento() == null) {
@@ -120,6 +126,19 @@ public class IngresarSolicitudCNMB extends UtilMB {
 
   public void ingresarSolicitudComercioNacional() {
 	LOGGER.trace("Metodo: <<ingresarSolicitudComercioNacional>>");
+    // auditoria
+    LogAuditoria auditoria = new LogAuditoria();
+    auditoria.setIdUsuario(menuMB.getUsuario().getId());
+    auditoria.setIdFuncionalidad(menuMB.getIdOpcionActual());
+    try {
+      solicitud = comercioNacionalEJB.ingresarSolicitudComercioNacional(solicitud, productosXDocumento, auditoria);
+      LOGGER.debug("Documento generado exitosamente con id: " + solicitud.getId() + " y consecutivo: " + solicitud.getConsecutivoDocumento());
+      addMensajeInfo(formatearCadenaConParametros("ispcnMsgSucces", language, solicitud.getConsecutivoDocumento()));
+      reset();
+    } catch (Exception ex) {
+      addMensajeError(AplicacionMB.getMessage("ispcnMsgFail", language));
+      LOGGER.error(AplicacionMB.getMessage("ispcnMsgFail", language));
+    }
   }
 
   public StreamedContent generarReporte() {
@@ -181,21 +200,6 @@ public class IngresarSolicitudCNMB extends UtilMB {
    */
   public void setComercioNacionalEJB(ComercioNacionalEJBLocal comercioNacionalEJB) {
 	this.comercioNacionalEJB = comercioNacionalEJB;
-  }
-
-  /**
-   * @return the cliente
-   */
-  public Cliente getCliente() {
-	return cliente;
-  }
-
-  /**
-   * @param cliente
-   *          the cliente to set
-   */
-  public void setCliente(Cliente cliente) {
-	this.cliente = cliente;
   }
 
   /**
