@@ -379,6 +379,11 @@
       <from-outcome>generar_remision</from-outcome>
       <to-view-id>/ui/ventas/generarRemision.xhtml</to-view-id>
     </navigation-case>
+    <!-- comercio vacional -->
+    <navigation-case>
+      <from-outcome>ingresar_solicitud_cn</from-outcome>
+      <to-view-id>/ui/comercionacional/ingresarSolicitudCN.xhtml</to-view-id>
+    </navigation-case>
   </navigation-rule>
 
   <!-- converter>
