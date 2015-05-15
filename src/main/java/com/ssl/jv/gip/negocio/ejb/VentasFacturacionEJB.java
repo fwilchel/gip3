@@ -213,15 +213,20 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
   }
 
   @Override
-  public Documento generarOrdenDespacho(Documento ventaDirecta, List<ProductosXDocumento> listaProductosXDocumento) {
+  public String generarOrdenDespacho(Documento ventaDirecta, List<ProductosXDocumento> listaProductosXDocumento) {
     LOGGER.trace("Metodo: <<generarOrdenDespacho>>");
     LOGGER.debug("Crea el objeto ordenDespacho");
     
     System.out.println("Metodo: <<generarOrdenDespacho>> " );
     System.out.println("Crea el objeto ordenDespacho " );
+    System.out.println("VentaDirecta:"+ventaDirecta.getConsecutivoDocumento());
     
-    Documento ordenDespacho = new Documento();
-    ordenDespacho.setFechaEsperadaEntrega(ventaDirecta.getFechaEsperadaEntrega());
+    String StrPedidoSAP="";
+    
+    
+    //Documento ordenDespacho = new Documento();
+   
+    /*ordenDespacho.setFechaEsperadaEntrega(ventaDirecta.getFechaEsperadaEntrega());
     ordenDespacho.setFechaEntrega(ventaDirecta.getFechaEntrega());
     ordenDespacho.setSitioEntrega(ventaDirecta.getSitioEntrega());
     ordenDespacho.setDocumentoCliente(ventaDirecta.getDocumentoCliente());
@@ -238,12 +243,13 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     ordenDespacho.setPuntoVenta(ventaDirecta.getPuntoVenta());
     ordenDespacho.setConsecutivoDocumento(ventaDirecta.getConsecutivoDocumento());
     ordenDespacho.setObservacionDocumento(ventaDirecta.getConsecutivoDocumento());
+    */
 
 //    //TODO: se debe obtener la secuencia para orden despacho [select nextval('od1_seq') AS SEQ]
     
-    consultarSecuenciaDocumentoOD(ordenDespacho);
+    //consultarSecuenciaDocumentoOD(ordenDespacho);
     
-    Long secuenciaOrdenDespacho = 78965L;
+    //Long secuenciaOrdenDespacho = 78965L;
     
     
     
@@ -274,14 +280,15 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       compra[index].setFechaDoc(formatoFecha.format(new Date()));
       compra[index].setFechaEntrega(formatoFecha.format(pxd.getFechaEntrega()));
       compra[index].setHoraEntrega(formatoHora.format(new Date()));
-      //compra[index].setPedidoExt("G" + secuenciaOrdenDespacho);
-      compra[index].setPedidoExt("G" + "OD1-30776");
+      compra[index].setPedidoExt("G" + ventaDirecta.getConsecutivoDocumento());
+      //compra[index].setPedidoExt("G" + "OD1-30776");
       compra[index].setInterlocutor(ventaDirecta.getPuntoVenta().getCodDespachoSap());
       compra[index].setMaterial(pxd.getProductosInventario().getSku());
       
-      System.out.println("secuencia: "+secuenciaOrdenDespacho);
-      System.out.println("prod"+ pxd.getProductosInventario().getSku());
-      System.out.println("fecha"+ formatoFecha.format(new Date()));
+      //System.out.println("secuencia: "+ventaDirecta.getConsecutivoDocumento());
+      //System.out.println("prod"+ pxd.getProductosInventario().getSku());
+      //System.out.println("fecha"+ formatoFecha.format(new Date()));
+      
       
       
       index++;
@@ -311,18 +318,41 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       proxy.zmmInterfazIcgCreaPedido(compraHolder, rtaHolder);
       
       
+      
       if (rtaHolder.value != null && rtaHolder.value.length > 0) {
+    	  
+    	 int intInicioRta=rtaHolder.value[0].getRespuesta().lastIndexOf(':');
+   	     int intTamanoRta=rtaHolder.value[0].getRespuesta().length();
+   	     //System.out.print("pedido sap:"+rtaHolder.value[0].getRespuesta().substring(intInicioRta,intTamanoRta));
+	     StrPedidoSAP=rtaHolder.value[0].getRespuesta().substring(intInicioRta+1,intTamanoRta).trim();
+	     System.out.print("pedido sap:"+StrPedidoSAP);
+         
         for (ZcaStPedidosCompraRta value : rtaHolder.value) {
           LOGGER.debug("Respuesta: " + value.getRespuesta());
           LOGGER.debug("Estado: " + value.getStatu());
           
-           System.out.println("Respuesta: "+ value.getRespuesta());
-		   System.out.println("Estado: "+ value.getStatu());
+           //System.out.println("Respuesta: "+ value.getRespuesta());
+		   //System.out.println("Estado: "+ value.getStatu());
+		   //System.out.println("inf0"+rtaHolder.value[0].getPedidoExt());
+		   //System.out.println("inf1"+rtaHolder.value[0].getOrint());
+		   
+		   
+		   //int found = value.getRespuesta().indexOf("pedido SAP:");
+		   
+		  //int intInicioRta=value.getRespuesta().lastIndexOf(':');
+	   	  //int intTamanoRta=value.getRespuesta().length();
+		   
+		   //System.out.print("Found Last Index :" );
+		   //System.out.println(value.getRespuesta().lastIndexOf( ':' ));
+		   //System.out.println("Respuesta: "+ found );
+		   
+		   
 		   
           switch (value.getStatu()) {
+          
             case "ER":
               cargueExitoso = false;
-              logRespuesta.append("Log: Error cargue Orden Despacho a SAP: Respuesta: ");
+              logRespuesta.append("Error creacion pedido SAP:");
              logRespuesta.append(value.getRespuesta());
               logRespuesta.append(" || ");
               logStatus.append("Estado: ");
@@ -330,8 +360,13 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
               logStatus.append(" || ");
               LOGGER.debug(logRespuesta.toString());
               LOGGER.debug(logStatus.toString());
+              
+              System.out.println("Loger Rta: "+logRespuesta.toString());
+              System.out.println("Loger status: "+logStatus.toString());
+              
               break;
             case "OK":
+            	cargueExitoso = true;
               logRespuesta.append("Respuesta: ");
               logRespuesta.append(value.getRespuesta());
               logRespuesta.append(" || ");
@@ -340,12 +375,25 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
               logStatus.append(" || ");
               LOGGER.debug(logRespuesta.toString());
               LOGGER.debug(logStatus.toString());
-              ordenDespacho.setObservacion2(logRespuesta.toString());
+              //ordenDespacho.setObservacion2(logRespuesta.toString());
+              
+              //System.out.println("Loger Rta: "+logRespuesta.toString());
+              //System.out.println("Loger status: "+logStatus.toString());
+              
+              /*Loger Rta: 
+              Respuesta: 
+              Para Origen: GIP 
+              Almacen: A1 
+              Proceso: S 
+              Sociedad: TERC
+              Pedido: GVD1-37342 Se ha Creado de manera satisfactoria el pedido SAP: 4600049388 || 
+              */
+              
               break;
           }
         }
         if (cargueExitoso) {
-    LOGGER.debug("Crear la orden de despacho");
+    /*LOGGER.debug("Crear la orden de despacho");
     ordenDespacho = documentoDAO.add(ordenDespacho);
     LOGGER.debug("Orden de despacho creada exitosamente con e id: " + ordenDespacho.getId());
     LOGGER.debug("Crea los productos relacionados a la orden de despacho");
@@ -358,10 +406,13 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
       LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
     }
     LOGGER.debug("Productos creados satisfactoriamente");
+    */
+        	
+        	 System.out.println("cargueExitoso");
     LOGGER.debug("Actualizar la venta directa");
     Map<String, Object> parametros = new HashMap<>();
     parametros.put("estado", (long) ConstantesDocumento.DESPACHADO);
-    parametros.put("observacionDocumento", ordenDespacho.getId().toString());
+    parametros.put("observacionDocumento", StrPedidoSAP);
     parametros.put("id", (long) ventaDirecta.getId());
     documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_Y_OBSERVACION, parametros);
     LOGGER.debug("Venta directa actualizada");
@@ -380,11 +431,11 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 			 
 		  ex.printStackTrace();
 	   ex.getMessage();
-	   System.out.println("Log: Error cargue Orden Despacho a SAP: "+ex.getMessage());
-	   
+	   System.out.println("Error creacion pedido SAP: "+ex.getMessage());
+	   logRespuesta.append("Error creacion pedido SAP: "+ex.getMessage());
     	
     }
-    return ordenDespacho;
+    return logRespuesta.toString();
   }
 
   @Override
@@ -903,7 +954,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
   }
   
   
-  public Long consultarSecuenciaDocumentoOD(Documento ordendespacho)
+  /*public Long consultarSecuenciaDocumentoOD(Documento ordendespacho)
   {
   
   //Consultar consecutivo
@@ -928,6 +979,6 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
   
   
 return secuencia;
-}
+}*/
   
 }

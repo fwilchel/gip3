@@ -202,9 +202,17 @@ public class GenerarOrdenDespachoMB extends UtilMB {
   public void generarOrdenDespacho() {
     LOGGER.debug("Metodo: <<generarOrdenDespacho>>");
     try {
-      ventasFacturacionEJB.generarOrdenDespacho(ventaDirectaSeleccionada, listaProductosXVentaDirecta);
-      this.addMensajeInfo(AplicacionMB.getMessage("godMsgExito", language));
+    	
+      String logRespuesta=ventasFacturacionEJB.generarOrdenDespacho(ventaDirectaSeleccionada, listaProductosXVentaDirecta);
+      System.out.println("logRespuesta:"+logRespuesta);
+      
+      this.addMensajeInfo(logRespuesta);
+      //this.addMensajeInfo(AplicacionMB.getMessage("godMsgExito", language));
+      
       consultarListaVentasDirectas();
+      
+      
+      
     } catch (Exception ex) {
       this.addMensajeError(AplicacionMB.getMessage("godMsgError", language));
     }

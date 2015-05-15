@@ -82,7 +82,7 @@ public interface VentasFacturacionEJBLocal {
    * @param documento
    * @param listaProductosXDocumento
    */
-  Documento generarOrdenDespacho(Documento documento, List<ProductosXDocumento> listaProductosXDocumento);
+  String generarOrdenDespacho(Documento documento, List<ProductosXDocumento> listaProductosXDocumento);
 
   /**
    * Metodo que consulta los documentos que son ordenes de despacho por observacion.
