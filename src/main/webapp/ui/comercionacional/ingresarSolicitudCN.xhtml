@@ -104,9 +104,10 @@
                 converter="javax.faces.Integer"
                 converterMessage="#{msg.generalSoloNumerosEntero}"
                 style="text-align:right;">
-                <p:ajax 
-                  event="blur"
-                  listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}"/>
+<!--                 <p:ajax  -->
+<!--                   event="blur" -->
+<!--                   listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}" -->
+<!--                   process="@this, cantidadRequerida"/> -->
                 <f:validateLongRange 
                   minimum="1" 
                   maximum="9999999" />

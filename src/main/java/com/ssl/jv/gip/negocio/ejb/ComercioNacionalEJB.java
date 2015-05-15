@@ -65,48 +65,36 @@ public class ComercioNacionalEJB implements ComercioNacionalEJBLocal {
   public Documento ingresarSolicitudComercioNacional(Documento solicitud, List<ProductosXDocumento> productosXDocumento, LogAuditoria auditoria) {
     LOGGER.trace("Metodo: <<ingresarSolicitudComercioNacional>>");
     LOGGER.debug("Crear solicitud");
-    // tipo de documento y estado
     Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
     EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
-    estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.PENDIENTE_POR_RECIBIR);
-    estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.REMISION);
+    estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.ACTIVO);
+    estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.VENTA_DIRECTA);
     estadosxdocumento.setId(estadosxdocumentoPK);
     solicitud.setEstadosxdocumento(estadosxdocumento);
-    solicitud.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.UBICACION_DESTINO_DEFAULT));
-    solicitud.setUbicacionDestino(null);
     solicitud.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
-    solicitud.setObservacionDocumento(null);
-    solicitud.setObservacion2(null);
-    solicitud.setCliente(null);
-    solicitud.setPuntoVenta(null);
-    solicitud.setDocumentoCliente(null);
-    solicitud.setSitioEntrega(null);
-    solicitud.setSubtotal(null);
-    solicitud.setDescuento(null);
-    solicitud.setValorIva16(null);
-    solicitud.setValorTotal(null);
-    solicitud.setValorIva10(null);
-    solicitud.setDescuentoCliente(null);
+    solicitud.setFechaEntrega(new Timestamp(System.currentTimeMillis()));//TODO: q valor deberia ir
+    solicitud.setFechaEsperadaEntrega(new Timestamp(System.currentTimeMillis()));//TODO: q valor deberia ir
+    solicitud.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.EXTERNA));//TODO: validar q si sea esta la ubicacion
+    solicitud.setUbicacionDestino(null);//TODO: q valor deberia ir
+    solicitud.setObservacionDocumento(null);//TODO: q valor deberia ir
+    solicitud.setDocumentoCliente(null);//TODO: q valor deberia ir
     solicitud.setNumeroFactura("0");
+    // obtener consecutivo documento
     StringBuilder secuencia = new StringBuilder();
-    if (solicitud.getConsecutivoDocumento() == null || solicitud.getConsecutivoDocumento().isEmpty() || solicitud.getConsecutivoDocumento().substring(0, 2).equals("OD")) {
-      TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(solicitud.getEstadosxdocumento().getId().getIdTipoDocumento());
-      secuencia.append(tipoDocumento.getAbreviatura());
-      if (solicitud.getUbicacionDestino() != null && solicitud.getUbicacionDestino().getId() == -1) {
-        secuencia.append(solicitud.getUbicacionOrigen().getEmpresa().getId());
-      } else {
-        Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(solicitud.getUbicacionDestino().getId());
-        secuencia.append(ubicacionDestino.getEmpresa().getId());
-      }
-      Long valorSecuencia = documentoDAO.consultarProximoValorSecuencia(secuencia.toString().concat("_SEQ"));
-      secuencia.append("-");
-      secuencia.append(valorSecuencia);
-      String consecutivoDocumento = secuencia.toString();
-      solicitud.setConsecutivoDocumento(consecutivoDocumento);
+    TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(solicitud.getEstadosxdocumento().getId().getIdTipoDocumento());
+    secuencia.append(tipoDocumento.getAbreviatura());
+    if (solicitud.getUbicacionDestino() != null && solicitud.getUbicacionDestino().getId().equals(ConstantesUbicacion.EXTERNA)) {
+      Ubicacion ubicacionOrigen = ubicacionDAOLocal.findByPK(solicitud.getUbicacionOrigen().getId());
+      secuencia.append(ubicacionOrigen.getEmpresa().getId());
     } else {
-      // el usuario ha introducido un consecutivo manualmente
-      solicitud.setConsecutivoDocumento(solicitud.getConsecutivoDocumento());
+      Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(solicitud.getUbicacionDestino().getId());
+      secuencia.append(ubicacionDestino.getEmpresa().getId());
     }
+    Long valorSecuencia = documentoDAO.consultarProximoValorSecuencia(secuencia.toString().concat("_SEQ"));
+    secuencia.append("-");
+    secuencia.append(valorSecuencia);
+    String consecutivoDocumento = secuencia.toString();
+    solicitud.setConsecutivoDocumento(consecutivoDocumento);
     solicitud = (Documento) documentoDAO.add(solicitud);
     LOGGER.debug("Remision creada con id: " + solicitud.getId());
     LOGGER.debug("Crear log de auditoria");
@@ -125,19 +113,16 @@ public class ComercioNacionalEJB implements ComercioNacionalEJBLocal {
       pxd.setId(productosXDocumentoPK);
       pxd.setInformacion(Boolean.FALSE);
       pxd.setCalidad(Boolean.FALSE);
-      pxd.setFechaEstimadaEntrega(new Timestamp(System.currentTimeMillis()));
-      pxd.setFechaEntrega(new Timestamp(System.currentTimeMillis()));
+      pxd.setFechaEstimadaEntrega(solicitud.getFechaEsperadaEntrega());
+      pxd.setFechaEntrega(solicitud.getFechaEntrega());
       pxd.setMoneda(new Moneda("COP"));
       pxd.setCantidad2(BigDecimal.ZERO);
       pxd.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
       pxd.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
-      pxd.setValorUnitarioUsd(BigDecimal.ZERO);
-      pxd.setValorUnitatrioMl(BigDecimal.ZERO);
       pxd = productoXDocumentoDAO.add(pxd);
       LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
     }
     LOGGER.debug("Productos creados exitosamente");
     return solicitud;
   }
-
 }

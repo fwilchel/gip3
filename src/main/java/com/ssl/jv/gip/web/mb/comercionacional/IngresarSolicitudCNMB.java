@@ -72,13 +72,16 @@ public class IngresarSolicitudCNMB extends UtilMB {
 	LOGGER.trace("Metodo: <<init>>");
 	this.modo = Modo.LISTAR;
 	Usuario usuario = menuMB.getUsuario();
+	if (solicitud == null) {
+	  solicitud = new Documento();
+	}
 	// TODO: como obtengo el cliente desde el usuario?
-	// TODO: de donde obtengo el punto de venta
 	cliente = new Cliente(1L);
-    puntoVenta = new PuntoVenta(1L);
+	// TODO: de donde obtengo el punto de venta
+	puntoVenta = new PuntoVenta(1L);
 	this.consultarProductosXCliente();
-	if (getProductosXDocumentoSeleccionados() == null){
-		this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
+	if (getProductosXDocumentoSeleccionados() == null) {
+	  this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
 	}
   }
 
@@ -92,17 +95,23 @@ public class IngresarSolicitudCNMB extends UtilMB {
 		}
 		ProductosXDocumento pxd = new ProductosXDocumento();
 		pxd.setProductosInventario(pxc.getProductosInventario());
+		pxd.setDescuentoxproducto(pxc.getDescuentoxproducto());
+		pxd.setIva(pxc.getIva());
+		pxd.setOtrosDescuentos(pxc.getOtrosDescuentos());
+		pxd.setValorUnitatrioMl(pxc.getPrecioMl());
+		pxd.setValorUnitarioUsd(pxc.getPrecioUsd());
+		pxd.setUnidade(pxc.getProductosInventario().getUnidadVenta());
 		getProductosXDocumento().add(pxd);
 	  }
 	}
   }
-  
-  public String obtenerMensajeConfirmacion(ProductosXDocumento pxd){
+
+  public String obtenerMensajeConfirmacion(ProductosXDocumento pxd) {
 	LOGGER.trace("Metodo: <<obtenerMensajeConfirmacion>>");
 	if (pxd == null) {
 	  return "";
 	}
-    return this.formatearCadenaConParametros("ispcnMsgConfirm", language, pxd.getProductosInventario().getSku(), pxd.getCantidad1().toString());
+	return this.formatearCadenaConParametros("ispcnMsgConfirm", language, pxd.getProductosInventario().getSku(), pxd.getCantidad1().toString());
   }
 
   public void agregarProducto(ProductosXDocumento pxd) {
@@ -113,10 +122,10 @@ public class IngresarSolicitudCNMB extends UtilMB {
   public void validarCantidad(ProductosXDocumento pxd) {
 	LOGGER.trace("Metodo: <<validarCantidad>>");
   }
-  
-  public void verPedido(){
+
+  public void verPedido() {
 	LOGGER.trace("Metodo: <<verPedido>>");
-    this.modo = Modo.GENERAR;
+	this.modo = Modo.GENERAR;
   }
 
   public void removerProductoXCliente(ProductosXDocumento pxd) {
@@ -126,19 +135,22 @@ public class IngresarSolicitudCNMB extends UtilMB {
 
   public void ingresarSolicitudComercioNacional() {
 	LOGGER.trace("Metodo: <<ingresarSolicitudComercioNacional>>");
-    // auditoria
-    LogAuditoria auditoria = new LogAuditoria();
-    auditoria.setIdUsuario(menuMB.getUsuario().getId());
-    auditoria.setIdFuncionalidad(menuMB.getIdOpcionActual());
-    try {
-      solicitud = comercioNacionalEJB.ingresarSolicitudComercioNacional(solicitud, productosXDocumento, auditoria);
-      LOGGER.debug("Documento generado exitosamente con id: " + solicitud.getId() + " y consecutivo: " + solicitud.getConsecutivoDocumento());
-      addMensajeInfo(formatearCadenaConParametros("ispcnMsgSucces", language, solicitud.getConsecutivoDocumento()));
-      reset();
-    } catch (Exception ex) {
-      addMensajeError(AplicacionMB.getMessage("ispcnMsgFail", language));
-      LOGGER.error(AplicacionMB.getMessage("ispcnMsgFail", language));
-    }
+	// auditoria
+	LogAuditoria auditoria = new LogAuditoria();
+	auditoria.setIdUsuario(menuMB.getUsuario().getId());
+	auditoria.setIdFuncionalidad(menuMB.getIdOpcionActual());
+	try {
+	  solicitud.setCliente(cliente);
+	  solicitud.setPuntoVenta(puntoVenta);
+	  solicitud.setDescuentoCliente(cliente.getDescuentoCliente());
+	  solicitud = comercioNacionalEJB.ingresarSolicitudComercioNacional(solicitud, productosXDocumento, auditoria);
+	  LOGGER.debug("Documento generado exitosamente con id: " + solicitud.getId() + " y consecutivo: " + solicitud.getConsecutivoDocumento());
+	  addMensajeInfo(formatearCadenaConParametros("ispcnMsgSucces", language, solicitud.getConsecutivoDocumento()));
+	  reset();
+	} catch (Exception ex) {
+	  addMensajeError(AplicacionMB.getMessage("ispcnMsgFail", language));
+	  LOGGER.error(ex.getCause());
+	}
   }
 
   public StreamedContent generarReporte() {
