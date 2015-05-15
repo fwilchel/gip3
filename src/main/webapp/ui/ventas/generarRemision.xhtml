@@ -233,8 +233,24 @@
                   var="producto" 
                   emptyMessage="#{msg.generalNoDatos}" >
                   <p:column
-                    headerText="#{msg.buscadorPxCIdProducto}">
-                    <h:outputText value="#{producto.productosInventario.id}" />
+                    headerText="#{msg.buscadorCodigoProducto}">
+                    <h:outputText 
+                      value="#{producto.productosInventario.sku}" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.ReporteProductoNombre}">
+                    <h:outputText 
+                      value="#{producto.productosInventario.nombre}"/>
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.despachoCantidadADespachar}">
+                    <h:outputText 
+                      value="#{producto.cantidad1}" />
+                  </p:column>
+                  <p:column
+                    headerText="#{msg.ventasRemisionsap}">
+                    <h:outputText 
+                      value="#{producto.observacion2}" />
                   </p:column>
                 </p:dataTable>
               </div>
@@ -247,12 +263,12 @@
                 id="btnGenerar"
                 value="#{msg.VentasGenerarRemision}" 
                 icon="ui-icon-document"
-                update=":pnlTab:forma:msgs :pnlTab:forma:pnlGroup"
+                update=":pnlTab"
                 actionListener="#{generarRemisionMB.generarRemision()}"
                 disabled="#{empty generarRemisionMB.listaProductosXDocumento}"/>
               <!-- volver -->
               <p:commandButton 
-                value="volver a la lista" 
+                value="Volver a la lista" 
                 styleClass="ui-confirmdialog-no" 
                 icon="ui-icon-close" 
                 update=":pnlTab"
@@ -293,7 +309,7 @@
                 uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}"
                 cancelLabel="#{msg.generalCancelar}"
                 invalidFileMessage="#{msg.maestroProductosXClienteArchivoNoValido}"
-                update=":pnlTab:forma:msgs :pnlTab:formaDetalle:tblDetalle"/>
+                update=":pnlTab:forma:msgs :pnlTab:formaDetalle:tblDetalle  :pnlTab:formaDetalle:btnGenerar"/>
             </p:outputPanel>
             <p:commandButton 
               value="#{msg.generalCancelar}" 

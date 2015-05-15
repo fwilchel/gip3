@@ -18,22 +18,16 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
-import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
-import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
-import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
@@ -45,7 +39,6 @@ import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-import com.ssl.jv.gip.web.util.Modo;
 import com.ssl.jv.gip.web.util.Utilidad;
 
 /**
@@ -99,15 +92,15 @@ public class IngresarVentaDirectaMB extends UtilMB {
 
   private List<ProductosXCliente> listaProductosXCliente;
 
-  private List<ProductoPorClienteDTO> listaProductosXClienteDTO = new ArrayList<ProductoPorClienteDTO>();
+  private List<ProductoPorClienteDTO> listaProductosXClienteDTO = new ArrayList<>();
 
-  private List<ProductoPorClienteDTO> listaProductosXClienteSeleccionadosDTO = new ArrayList<ProductoPorClienteDTO>();
+  private List<ProductoPorClienteDTO> listaProductosXClienteSeleccionadosDTO = new ArrayList<>();
 
   private List<Ubicacion> listaUbicaciones;
 
   private List<Cliente> listaClientes;
 
-  private List<PuntoVenta> listaPuntoVenta = new ArrayList<PuntoVenta>();
+  private List<PuntoVenta> listaPuntoVenta = new ArrayList<>();
 
   private Date fechaActual;
 
@@ -186,7 +179,7 @@ public class IngresarVentaDirectaMB extends UtilMB {
     auditoria.setAccion("CRE");
     auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
 
-    List<ProductosXDocumento> productos = new ArrayList<ProductosXDocumento>();
+    List<ProductosXDocumento> productos = new ArrayList<>();
 
     for (ProductoPorClienteDTO pxc : this.listaProductosXClienteSeleccionadosDTO) {
 
@@ -236,8 +229,8 @@ public class IngresarVentaDirectaMB extends UtilMB {
    */
   public void consultarProductosXCliente() {
     try {
-      listaProductosXClienteDTO = new ArrayList<ProductoPorClienteDTO>();
-      listaProductosXClienteSeleccionadosDTO = new ArrayList<ProductoPorClienteDTO>();
+      listaProductosXClienteDTO = new ArrayList<>();
+      listaProductosXClienteSeleccionadosDTO = new ArrayList<>();
 
       this.listaProductosXCliente = ventasFacturacionEJBLocal.consultarPorClientePuntoVenta(intIdCliente, intIdPuntoVenta);
 
@@ -286,14 +279,14 @@ public class IngresarVentaDirectaMB extends UtilMB {
    * Cancelar.
    */
   public void cancelar() {
-    listaProductosXClienteDTO = new ArrayList<ProductoPorClienteDTO>();
-    listaProductosXClienteSeleccionadosDTO = new ArrayList<ProductoPorClienteDTO>();
+    listaProductosXClienteDTO = new ArrayList<>();
+    listaProductosXClienteSeleccionadosDTO = new ArrayList<>();
     intIdCliente = null;
     intIdPuntoVenta = null;
     intUbicacion = null;
     consecutivoDocumento = "";
     strDocumentoCliente = "";
-    listaPuntoVenta = new ArrayList<PuntoVenta>();
+    listaPuntoVenta = new ArrayList<>();
 
   }
 
@@ -381,7 +374,7 @@ public class IngresarVentaDirectaMB extends UtilMB {
     if (intIdCliente != null) {
       listaPuntoVenta = maestrosEJBLocal.consultarPuntoEntregaPorCliente(intIdCliente);
     } else {
-      listaPuntoVenta = new ArrayList<PuntoVenta>();
+      listaPuntoVenta = new ArrayList<>();
     }
   }
 
