@@ -35,10 +35,6 @@ public class Estadosxdocumento implements Serializable {
   @OneToMany(mappedBy = "estadosxdocumento")
   private List<Documento> documentos;
 
-  // bi-directional many-to-one association to Documento2
-  @OneToMany(mappedBy = "estadosxdocumento")
-  private List<Documento2> documentos2s;
-
   public Estadosxdocumento() {
   }
 
@@ -70,28 +66,6 @@ public class Estadosxdocumento implements Serializable {
     documento.setEstadosxdocumento(null);
 
     return documento;
-  }
-
-  public List<Documento2> getDocumentos2s() {
-    return this.documentos2s;
-  }
-
-  public void setDocumentos2s(List<Documento2> documentos2s) {
-    this.documentos2s = documentos2s;
-  }
-
-  public Documento2 addDocumentos2(Documento2 documentos2) {
-    getDocumentos2s().add(documentos2);
-    documentos2.setEstadosxdocumento(this);
-
-    return documentos2;
-  }
-
-  public Documento2 removeDocumentos2(Documento2 documentos2) {
-    getDocumentos2s().remove(documentos2);
-    documentos2.setEstadosxdocumento(null);
-
-    return documentos2;
   }
 
   public Estado getEstado() {

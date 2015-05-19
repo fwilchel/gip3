@@ -29,10 +29,6 @@ public class BodegasLogica implements Serializable {
   @Column(name = "tipo_bodega")
   private String tipoBodega;
 
-  // bi-directional many-to-one association to Conteo
-  @OneToMany(mappedBy = "bodegasLogica")
-  private List<Conteo> conteos;
-
   // bi-directional many-to-one association to MovimientosInventario
   @OneToMany(mappedBy = "bodegasLogica1")
   private List<MovimientosInventario> movimientosInventarios1;
@@ -52,10 +48,6 @@ public class BodegasLogica implements Serializable {
   // bi-directional many-to-one association to Saldo
   @OneToMany(mappedBy = "bodegasLogica")
   private List<Saldo> saldos;
-
-  // bi-directional many-to-one association to SaldosFranquicia
-  @OneToMany(mappedBy = "bodegasLogica")
-  private List<SaldosFranquicia> saldosFranquicias;
 
   public BodegasLogica() {
   }
@@ -86,28 +78,6 @@ public class BodegasLogica implements Serializable {
 
   public void setTipoBodega(String tipoBodega) {
     this.tipoBodega = tipoBodega;
-  }
-
-  public List<Conteo> getConteos() {
-    return this.conteos;
-  }
-
-  public void setConteos(List<Conteo> conteos) {
-    this.conteos = conteos;
-  }
-
-  public Conteo addConteo(Conteo conteo) {
-    getConteos().add(conteo);
-    conteo.setBodegasLogica(this);
-
-    return conteo;
-  }
-
-  public Conteo removeConteo(Conteo conteo) {
-    getConteos().remove(conteo);
-    conteo.setBodegasLogica(null);
-
-    return conteo;
   }
 
   public List<MovimientosInventario> getMovimientosInventarios1() {
@@ -231,29 +201,4 @@ public class BodegasLogica implements Serializable {
 
     return saldo;
   }
-
-  public List<SaldosFranquicia> getSaldosFranquicias() {
-    return this.saldosFranquicias;
-  }
-
-  public void setSaldosFranquicias(List<SaldosFranquicia> saldosFranquicias) {
-    this.saldosFranquicias = saldosFranquicias;
-  }
-
-  public SaldosFranquicia addSaldosFranquicia(
-      SaldosFranquicia saldosFranquicia) {
-    getSaldosFranquicias().add(saldosFranquicia);
-    saldosFranquicia.setBodegasLogica(this);
-
-    return saldosFranquicia;
-  }
-
-  public SaldosFranquicia removeSaldosFranquicia(
-      SaldosFranquicia saldosFranquicia) {
-    getSaldosFranquicias().remove(saldosFranquicia);
-    saldosFranquicia.setBodegasLogica(null);
-
-    return saldosFranquicia;
-  }
-
 }

@@ -33,14 +33,6 @@ public class Moneda implements Serializable {
 
   private String nombre;
 
-  // bi-directional many-to-one association to CostoVenta
-  @OneToMany(mappedBy = "moneda", fetch = FetchType.LAZY)
-  private List<CostoVenta> costoVentas;
-
-  // bi-directional many-to-one association to Costo
-  @OneToMany(mappedBy = "moneda", fetch = FetchType.LAZY)
-  private List<Costo> costos;
-
   // bi-directional many-to-one association to Empresa
   @OneToMany(mappedBy = "moneda", fetch = FetchType.LAZY)
   private List<Empresa> empresas;
@@ -60,18 +52,6 @@ public class Moneda implements Serializable {
   // bi-directional many-to-one association to ProductosXDocumento
   @OneToMany(mappedBy = "moneda", fetch = FetchType.LAZY)
   private List<ProductosXDocumento> productosxdocumentos;
-
-  // bi-directional many-to-one association to ProductosXProveedor
-  @OneToMany(mappedBy = "moneda", fetch = FetchType.LAZY)
-  private List<ProductosXProveedor> productosxproveedors;
-
-	// bi-directional many-to-one association to TempCosto
-	/*
-   * @OneToMany(mappedBy="moneda") private List<TempCosto> tempCostos;
-   */
-  // bi-directional many-to-one association to Venta
-  @OneToMany(mappedBy = "moneda", fetch = FetchType.LAZY)
-  private List<Venta> ventas;
 
   public Moneda() {
   }
@@ -94,50 +74,6 @@ public class Moneda implements Serializable {
 
   public void setNombre(String nombre) {
     this.nombre = nombre;
-  }
-
-  public List<CostoVenta> getCostoVentas() {
-    return this.costoVentas;
-  }
-
-  public void setCostoVentas(List<CostoVenta> costoVentas) {
-    this.costoVentas = costoVentas;
-  }
-
-  public CostoVenta addCostoVenta(CostoVenta costoVenta) {
-    getCostoVentas().add(costoVenta);
-    costoVenta.setMoneda(this);
-
-    return costoVenta;
-  }
-
-  public CostoVenta removeCostoVenta(CostoVenta costoVenta) {
-    getCostoVentas().remove(costoVenta);
-    costoVenta.setMoneda(null);
-
-    return costoVenta;
-  }
-
-  public List<Costo> getCostos() {
-    return this.costos;
-  }
-
-  public void setCostos(List<Costo> costos) {
-    this.costos = costos;
-  }
-
-  public Costo addCosto(Costo costo) {
-    getCostos().add(costo);
-    costo.setMoneda(this);
-
-    return costo;
-  }
-
-  public Costo removeCosto(Costo costo) {
-    getCostos().remove(costo);
-    costo.setMoneda(null);
-
-    return costo;
   }
 
   public List<Empresa> getEmpresas() {
@@ -257,68 +193,4 @@ public class Moneda implements Serializable {
 
     return productosxdocumento;
   }
-
-  public List<ProductosXProveedor> getProductosxproveedors() {
-    return this.productosxproveedors;
-  }
-
-  public void setProductosxproveedors(
-      List<ProductosXProveedor> productosxproveedors) {
-    this.productosxproveedors = productosxproveedors;
-  }
-
-  public ProductosXProveedor addProductosxproveedor(
-      ProductosXProveedor productosxproveedor) {
-    getProductosxproveedors().add(productosxproveedor);
-    productosxproveedor.setMoneda(this);
-
-    return productosxproveedor;
-  }
-
-  public ProductosXProveedor removeProductosxproveedor(
-      ProductosXProveedor productosxproveedor) {
-    getProductosxproveedors().remove(productosxproveedor);
-    productosxproveedor.setMoneda(null);
-
-    return productosxproveedor;
-  }
-
-  /*
-   * public List<TempCosto> getTempCostos() { return this.tempCostos; }
-   * 
-   * public void setTempCostos(List<TempCosto> tempCostos) { this.tempCostos =
-   * tempCostos; }
-   * 
-   * public TempCosto addTempCosto(TempCosto tempCosto) {
-   * getTempCostos().add(tempCosto); tempCosto.setMoneda(this);
-   * 
-   * return tempCosto; }
-   * 
-   * public TempCosto removeTempCosto(TempCosto tempCosto) {
-   * getTempCostos().remove(tempCosto); tempCosto.setMoneda(null);
-   * 
-   * return tempCosto; }
-   */
-  public List<Venta> getVentas() {
-    return this.ventas;
-  }
-
-  public void setVentas(List<Venta> ventas) {
-    this.ventas = ventas;
-  }
-
-  public Venta addVenta(Venta venta) {
-    getVentas().add(venta);
-    venta.setMoneda(this);
-
-    return venta;
-  }
-
-  public Venta removeVenta(Venta venta) {
-    getVentas().remove(venta);
-    venta.setMoneda(null);
-
-    return venta;
-  }
-
 }

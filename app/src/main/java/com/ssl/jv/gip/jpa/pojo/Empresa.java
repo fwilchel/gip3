@@ -19,18 +19,10 @@ public class Empresa implements Serializable {
 
   private String nombre;
 
-  //bi-directional many-to-one association to Costo
-  @OneToMany(mappedBy = "empresa")
-  private List<Costo> costos;
-
   //bi-directional many-to-one association to Moneda
   @ManyToOne
   @JoinColumn(name = "id_ml")
   private Moneda moneda;
-
-  //bi-directional many-to-one association to HistorialCosto
-  @OneToMany(mappedBy = "empresa")
-  private List<HistorialCosto> historialCostos;
 
 	//bi-directional many-to-one association to TempCosto
 	/*@OneToMany(mappedBy="empresa")
@@ -58,28 +50,6 @@ public class Empresa implements Serializable {
     this.nombre = nombre;
   }
 
-  public List<Costo> getCostos() {
-    return this.costos;
-  }
-
-  public void setCostos(List<Costo> costos) {
-    this.costos = costos;
-  }
-
-  public Costo addCosto(Costo costo) {
-    getCostos().add(costo);
-    costo.setEmpresa(this);
-
-    return costo;
-  }
-
-  public Costo removeCosto(Costo costo) {
-    getCostos().remove(costo);
-    costo.setEmpresa(null);
-
-    return costo;
-  }
-
   public Moneda getMoneda() {
     return this.moneda;
   }
@@ -88,49 +58,6 @@ public class Empresa implements Serializable {
     this.moneda = moneda;
   }
 
-  public List<HistorialCosto> getHistorialCostos() {
-    return this.historialCostos;
-  }
-
-  public void setHistorialCostos(List<HistorialCosto> historialCostos) {
-    this.historialCostos = historialCostos;
-  }
-
-  public HistorialCosto addHistorialCosto(HistorialCosto historialCosto) {
-    getHistorialCostos().add(historialCosto);
-    historialCosto.setEmpresa(this);
-
-    return historialCosto;
-  }
-
-  public HistorialCosto removeHistorialCosto(HistorialCosto historialCosto) {
-    getHistorialCostos().remove(historialCosto);
-    historialCosto.setEmpresa(null);
-
-    return historialCosto;
-  }
-
-  /*public List<TempCosto> getTempCostos() {
-   return this.tempCostos;
-   }
-
-   public void setTempCostos(List<TempCosto> tempCostos) {
-   this.tempCostos = tempCostos;
-   }
-
-   public TempCosto addTempCosto(TempCosto tempCosto) {
-   getTempCostos().add(tempCosto);
-   tempCosto.setEmpresa(this);
-
-   return tempCosto;
-   }
-
-   public TempCosto removeTempCosto(TempCosto tempCosto) {
-   getTempCostos().remove(tempCosto);
-   tempCosto.setEmpresa(null);
-
-   return tempCosto;
-   }*/
   public List<Ubicacion> getUbicaciones() {
     return this.ubicaciones;
   }

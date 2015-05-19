@@ -38,10 +38,6 @@ public class Pais implements Serializable, Comparable<Object> {
   @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
   private List<Region> regiones;
 
-  //bi-directional many-to-one association to TipoConteo
-  @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
-  private List<TipoConteo> tipoConteos;
-
   //bi-directional many-to-one association to Usuario
   @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
   private List<Usuario> usuarios;
@@ -119,28 +115,6 @@ public class Pais implements Serializable, Comparable<Object> {
     regione.setPais(null);
 
     return regione;
-  }
-
-  public List<TipoConteo> getTipoConteos() {
-    return this.tipoConteos;
-  }
-
-  public void setTipoConteos(List<TipoConteo> tipoConteos) {
-    this.tipoConteos = tipoConteos;
-  }
-
-  public TipoConteo addTipoConteo(TipoConteo tipoConteo) {
-    getTipoConteos().add(tipoConteo);
-    tipoConteo.setPais(this);
-
-    return tipoConteo;
-  }
-
-  public TipoConteo removeTipoConteo(TipoConteo tipoConteo) {
-    getTipoConteos().remove(tipoConteo);
-    tipoConteo.setPais(null);
-
-    return tipoConteo;
   }
 
   public List<Usuario> getUsuarios() {

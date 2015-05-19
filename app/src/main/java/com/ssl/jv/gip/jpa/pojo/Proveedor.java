@@ -51,18 +51,6 @@ public class Proveedor implements Serializable {
   @OneToMany(mappedBy = "proveedore")
   private List<Documento> documentos;
 
-  //bi-directional many-to-one association to Documento2
-  @OneToMany(mappedBy = "proveedore")
-  private List<Documento2> documentos2s;
-
-  //bi-directional many-to-one association to ProductosXProveedor
-  @OneToMany(mappedBy = "proveedore")
-  private List<ProductosXProveedor> productosxproveedors;
-
-  //bi-directional many-to-one association to ProveedorXCiudad
-  @OneToMany(mappedBy = "proveedore")
-  private List<ProveedorXCiudad> proveedorxciudads;
-
   public Proveedor() {
   }
 
@@ -199,71 +187,4 @@ public class Proveedor implements Serializable {
 
     return documento;
   }
-
-  public List<Documento2> getDocumentos2s() {
-    return this.documentos2s;
-  }
-
-  public void setDocumentos2s(List<Documento2> documentos2s) {
-    this.documentos2s = documentos2s;
-  }
-
-  public Documento2 addDocumentos2(Documento2 documentos2) {
-    getDocumentos2s().add(documentos2);
-    documentos2.setProveedore(this);
-
-    return documentos2;
-  }
-
-  public Documento2 removeDocumentos2(Documento2 documentos2) {
-    getDocumentos2s().remove(documentos2);
-    documentos2.setProveedore(null);
-
-    return documentos2;
-  }
-
-  public List<ProductosXProveedor> getProductosxproveedors() {
-    return this.productosxproveedors;
-  }
-
-  public void setProductosxproveedors(List<ProductosXProveedor> productosxproveedors) {
-    this.productosxproveedors = productosxproveedors;
-  }
-
-  public ProductosXProveedor addProductosxproveedor(ProductosXProveedor productosxproveedor) {
-    getProductosxproveedors().add(productosxproveedor);
-    productosxproveedor.setProveedore(this);
-
-    return productosxproveedor;
-  }
-
-  public ProductosXProveedor removeProductosxproveedor(ProductosXProveedor productosxproveedor) {
-    getProductosxproveedors().remove(productosxproveedor);
-    productosxproveedor.setProveedore(null);
-
-    return productosxproveedor;
-  }
-
-  public List<ProveedorXCiudad> getProveedorxciudads() {
-    return this.proveedorxciudads;
-  }
-
-  public void setProveedorxciudads(List<ProveedorXCiudad> proveedorxciudads) {
-    this.proveedorxciudads = proveedorxciudads;
-  }
-
-  public ProveedorXCiudad addProveedorxciudad(ProveedorXCiudad proveedorxciudad) {
-    getProveedorxciudads().add(proveedorxciudad);
-    proveedorxciudad.setProveedore(this);
-
-    return proveedorxciudad;
-  }
-
-  public ProveedorXCiudad removeProveedorxciudad(ProveedorXCiudad proveedorxciudad) {
-    getProveedorxciudads().remove(proveedorxciudad);
-    proveedorxciudad.setProveedore(null);
-
-    return proveedorxciudad;
-  }
-
 }

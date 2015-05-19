@@ -34,14 +34,6 @@ public class CategoriasInventario implements Serializable {
   @OneToMany(mappedBy = "categoriasInventario", fetch = FetchType.LAZY)
   private List<CategoriasInventario> categoriasInventarios;
 
-  //bi-directional many-to-one association to CostoVenta
-  @OneToMany(mappedBy = "categoriasInventario", fetch = FetchType.LAZY)
-  private List<CostoVenta> costoVentas;
-
-  //bi-directional many-to-one association to EstandarConteo
-  @OneToMany(mappedBy = "categoriasInventario", fetch = FetchType.LAZY)
-  private List<EstandarConteo> estandarConteos;
-
   //bi-directional many-to-one association to EstandarPedido
   //@OneToMany(mappedBy="categoriasInventario")
   //private List<EstandarPedido> estandarPedidos;
@@ -106,71 +98,6 @@ public class CategoriasInventario implements Serializable {
     return categoriasInventario;
   }
 
-  public List<CostoVenta> getCostoVentas() {
-    return this.costoVentas;
-  }
-
-  public void setCostoVentas(List<CostoVenta> costoVentas) {
-    this.costoVentas = costoVentas;
-  }
-
-  public CostoVenta addCostoVenta(CostoVenta costoVenta) {
-    getCostoVentas().add(costoVenta);
-    costoVenta.setCategoriasInventario(this);
-
-    return costoVenta;
-  }
-
-  public CostoVenta removeCostoVenta(CostoVenta costoVenta) {
-    getCostoVentas().remove(costoVenta);
-    costoVenta.setCategoriasInventario(null);
-
-    return costoVenta;
-  }
-
-  public List<EstandarConteo> getEstandarConteos() {
-    return this.estandarConteos;
-  }
-
-  public void setEstandarConteos(List<EstandarConteo> estandarConteos) {
-    this.estandarConteos = estandarConteos;
-  }
-
-  public EstandarConteo addEstandarConteo(EstandarConteo estandarConteo) {
-    getEstandarConteos().add(estandarConteo);
-    estandarConteo.setCategoriasInventario(this);
-
-    return estandarConteo;
-  }
-
-  public EstandarConteo removeEstandarConteo(EstandarConteo estandarConteo) {
-    getEstandarConteos().remove(estandarConteo);
-    estandarConteo.setCategoriasInventario(null);
-
-    return estandarConteo;
-  }
-
-  /*public List<EstandarPedido> getEstandarPedidos() {
-   return this.estandarPedidos;
-   }
-
-   public void setEstandarPedidos(List<EstandarPedido> estandarPedidos) {
-   this.estandarPedidos = estandarPedidos;
-   }
-
-   public EstandarPedido addEstandarPedido(EstandarPedido estandarPedido) {
-   getEstandarPedidos().add(estandarPedido);
-   estandarPedido.setCategoriasInventario(this);
-
-   return estandarPedido;
-   }
-
-   public EstandarPedido removeEstandarPedido(EstandarPedido estandarPedido) {
-   getEstandarPedidos().remove(estandarPedido);
-   estandarPedido.setCategoriasInventario(null);
-
-   return estandarPedido;
-   }*/
   public List<ProductosInventario> getProductosInventarios() {
     return this.productosInventarios;
   }
