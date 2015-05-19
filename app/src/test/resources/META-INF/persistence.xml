@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+             xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="
+        http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="primary-test"
+                    transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+    <class>com.ssl.jv.gip.jpa.pojo.AgenciaCarga</class>
+    <class>com.ssl.jv.gip.jpa.pojo.AgenteAduana</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Aprobacion</class>
+    <class>com.ssl.jv.gip.jpa.pojo.BodegasLogica</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Categoria</class>
+    <class>com.ssl.jv.gip.jpa.pojo.CategoriasInventario</class>
+    <class>com.ssl.jv.gip.jpa.pojo.CategoriasReceta</class>
+    <class>com.ssl.jv.gip.jpa.pojo.CierreInventario</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Ciudad</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Cliente</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextC</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextCategoriaProducto</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextDirectorio</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextDirectorioXCliente</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextDirectorioXClientePK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextFormatoNovedade</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextItemc</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextRole</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextSlideshow</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextUserRole</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextUserRolePK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComextUsuario</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ComidaEmpleado</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Consignacion</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ConsignacionPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Conteo</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Conteo2</class>
+    <class>com.ssl.jv.gip.jpa.pojo.CostoVenta</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Costo</class>
+    <class>com.ssl.jv.gip.jpa.pojo.CuentaContable</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Departamento</class>
+    <class>com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic</class>
+    <class>com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoicPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion</class>
+    <class>com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Documento</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Documento2</class>
+    <class>com.ssl.jv.gip.jpa.pojo.EanMicro</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Empresa</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Estado</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Estadosxdocumento</class>
+    <class>com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.EstandarConteo</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ExportFx</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ExportFxPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.FactsCurrencyConversion</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Funcionalidad</class>
+    <class>com.ssl.jv.gip.jpa.pojo.GastoPublicidad</class>
+    <class>com.ssl.jv.gip.jpa.pojo.HistorialCierre</class>
+    <class>com.ssl.jv.gip.jpa.pojo.HistorialContrasena</class>
+    <class>com.ssl.jv.gip.jpa.pojo.HistorialContrasenaPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.HistorialCosto</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Insumo</class>
+    <class>com.ssl.jv.gip.jpa.pojo.LogAuditoria</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Maxfecha</class>
+    <class>com.ssl.jv.gip.jpa.pojo.MaxfechaPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.MetodoPago</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Moneda</class>
+    <class>com.ssl.jv.gip.jpa.pojo.MovimientosInventario</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Muestrasxlote</class>
+    <class>com.ssl.jv.gip.jpa.pojo.NivelInventarioxubicacion</class>
+    <class>com.ssl.jv.gip.jpa.pojo.NivelInventarioxubicacionPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.NivelInventarioxubicacionTemp</class>
+    <class>com.ssl.jv.gip.jpa.pojo.NivelInventarioxubicacionTempPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Pais</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Permiso</class>
+    <class>com.ssl.jv.gip.jpa.pojo.PgaDiagram</class>
+    <class>com.ssl.jv.gip.jpa.pojo.PgaForm</class>
+    <class>com.ssl.jv.gip.jpa.pojo.PgaGraph</class>
+    <class>com.ssl.jv.gip.jpa.pojo.PgaImage</class>
+    <class>com.ssl.jv.gip.jpa.pojo.PgaLayout</class>
+    <class>com.ssl.jv.gip.jpa.pojo.PgaQuery</class>
+    <class>com.ssl.jv.gip.jpa.pojo.PgaReport</class>
+    <class>com.ssl.jv.gip.jpa.pojo.PgaScript</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosInventario</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosXClienteComextPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosXCliente</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosXClientePK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosXDocumento</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosXProveedor</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosXReceta</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProductosXRecetaPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Proveedor</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProveedorXCiudad</class>
+    <class>com.ssl.jv.gip.jpa.pojo.ProveedorXCiudadPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.PuntoVenta</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Receta</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Region</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Rol</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Saldo</class>
+    <class>com.ssl.jv.gip.jpa.pojo.SaldoPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.SaldosFranquicia</class>
+    <class>com.ssl.jv.gip.jpa.pojo.SaldosFranquiciaPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.TerminoIncoterm</class>
+    <class>com.ssl.jv.gip.jpa.pojo.TerminosTransporte</class>
+    <class>com.ssl.jv.gip.jpa.pojo.TipoCanal</class>
+    <class>com.ssl.jv.gip.jpa.pojo.TipoConteo</class>
+    <class>com.ssl.jv.gip.jpa.pojo.TipoDevolucion</class>
+    <class>com.ssl.jv.gip.jpa.pojo.TipoDocumento</class>
+    <class>com.ssl.jv.gip.jpa.pojo.TipoLoteoic</class>
+    <class>com.ssl.jv.gip.jpa.pojo.TipoMovimiento</class>
+    <class>com.ssl.jv.gip.jpa.pojo.TipoPrecio</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Ubicacion</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Unidad</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Usuario</class>
+    <class>com.ssl.jv.gip.jpa.pojo.UsuariosXGeografia</class>
+    <class>com.ssl.jv.gip.jpa.pojo.UsuariosXGeografiaPK</class>
+    <class>com.ssl.jv.gip.jpa.pojo.Venta</class>
+    <class>com.ssl.jv.gip.jpa.pojo.VentaPK</class>
+		
+		
+    <properties>
+      <property name="hibernate.show_sql" value="true" />
+      <property name="hibernate.format_sql" value="true" />
+      <property name="hibernate.connection.url"
+                value="jdbc:postgresql://localhost/GIP" />
+      <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+      <property name="hibernate.connection.username" value="postgres" />
+      <property name="hibernate.connection.password" value="lukitas" />
+    </properties>
+  </persistence-unit>
+</persistence>

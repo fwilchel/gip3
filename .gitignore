@@ -1,7 +1,9 @@
-.classpath
-target/**
-.settings/**
-/target/
-.project
-bin/**
-.metadata/**
+/*.*~
+/app/*.*~
+/app/target/
+/app/.settings/
+/app/faces-config.NavData
+/app/nb-configuration.xml
+/app/.classpath
+/app/.project
+/db/*.*~

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:misc="http://java.sun.com/jsf/composite/misc"
+  template="/ui/templates/general.xhtml">
+
+  <ui:define 
+    name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.
+  </ui:define>
+
+  <ui:define 
+    name="contenido">
+
+    <p:spacer 
+      height="40"/>
+
+    <h:form 
+      id="formListado"
+      prependId="false" >
+
+      <p:messages 
+        id="msgs" />
+
+      <p:tabView 
+        id="pnlTab">
+        <p:tab 
+          title="#{msg.tituloConsumoServicio}">
+
+          <p:panel>
+            <p:panel
+              id="pnlFltFechas">
+              <p:panelGrid
+                columns="3"
+                styleClass="noBorders">
+                <h:outputLabel 
+                  for="filtroFechaInicial" 
+                  value="#{msg.grvceFltLblFechaInicial}" 
+                  styleClass="negrita"/>
+                <p:calendar 
+                  id="filtroFechaInicial" 
+                  value="#{imprimirReporteVentasFEMB.filtroFechaInicial}"
+                  label="#{msg.grvceFltLblFechaInicial}"
+                  required="true"
+                  pattern="yyyy-MM-dd"/>
+                <p:message
+                  for="filtroFechaInicial"/>
+                <h:outputLabel 
+                  for="filtroFechaFinal" 
+                  value="#{msg.grvceFltLblFechaFinal}" 
+                  styleClass="negrita"/>
+                <p:calendar 
+                  id="filtroFechaFinal" 
+                  value="#{imprimirReporteVentasFEMB.filtroFechaFinal}"
+                  label="#{msg.grvceFltLblFechaFinal}"
+                  required="true"
+                  pattern="yyyy-MM-dd"/>
+                <p:message
+                  for="filtroFechaFinal"/>
+              </p:panelGrid>
+            </p:panel>
+
+
+
+
+            <p:spacer 
+              height="40"/>
+
+            <p:dataTable 
+              id="tblClientesSeleccionados"
+              var="clienteSeleccionado" 
+              widgetVar="tblClientesSeleccionados" 
+              value="#{generarReporteVentasCE.listaClientesSeleccionados}" 
+              rows="10"
+              emptyMessage="#{msg.generalNoDatos}" 
+              paginator="true"
+              paginatorPosition="bottom"
+              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+              rowsPerPageTemplate="5,10,15">
+              <f:facet 
+                name="header">
+                <div 
+                  align="right">
+                  <p:outputPanel>
+                    <p:commandButton
+                      value="#{msg.grvceFltBtnBuscarClientes}"
+                      oncomplete="PF('dlgSeleccionarClientes').show()"
+                      update=":dlgSeleccionarClientes"
+                      process="@this"/>
+                  </p:outputPanel>
+                </div>
+              </f:facet>
+              <!-- codigo gip -->
+              <p:column   
+                headerText="#{msg.grvceTblClienteClmCodigoGip}">
+                <h:outputText 
+                  value="#{clienteSeleccionado.id}" />
+              </p:column>
+              <!-- Nit -->
+              <p:column 
+                headerText="#{msg.grvceTblClienteClmNit}">
+                <h:outputText 
+                  value="#{clienteSeleccionado.nit}" />
+              </p:column>
+              <!-- Nombre -->
+              <p:column 
+                headerText="#{msg.grvceTblClienteClmNombre}">
+                <h:outputText 
+                  value="#{clienteSeleccionado.nombre}" />
+              </p:column>
+            </p:dataTable>
+
+            <p:spacer 
+              height="40"/>
+
+            <p:dataTable 
+              id="tblProductosSeleccionados"
+              var="productosSeleccionado" 
+              widgetVar="tblProductosSeleccionados" 
+              value="#{generarReporteVentasCE.listaProductosSeleccionados}" 
+              rows="10"
+              emptyMessage="#{msg.generalNoDatos}" 
+              paginator="true"
+              paginatorPosition="bottom"
+              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+              rowsPerPageTemplate="5,10,15">
+              <f:facet 
+                name="header">
+                <div 
+                  align="right">
+                  <p:outputPanel>
+                    <p:commandButton
+                      value="#{msg.grvceFltBtnBuscarProductos}"
+                      oncomplete="PF('dlgSeleccionarProductos').show()"
+                      update=":dlgSeleccionarProductos"
+                      process="@this"/>
+                  </p:outputPanel>
+                </div>
+              </f:facet>
+              <!-- sku -->
+              <p:column   
+                headerText="#{msg.grvceTblProductoClmSKU}">
+                <h:outputText 
+                  value="#{productosSeleccionado.sku}" />
+              </p:column>
+              <!-- Nombre -->
+              <p:column 
+                headerText="#{msg.grvceTblProductoClmNombre}">
+                <h:outputText 
+                  value="#{productosSeleccionado.nombre}" />
+              </p:column>
+            </p:dataTable>
+
+            <p:spacer 
+              height="40"/>
+
+            <f:facet
+              name="footer">
+              <!-- Generar Reporte Ventas CE -->
+              <p:commandButton 
+                value="#{msg.generarReporteCS}" 
+                ajax="false" 
+                icon="ui-icon-document"
+                process="@this, pnlFltFechas">
+                <p:fileDownload 
+                  value="#{imprimirReporteVentasFEMB.reporteXLS}" />
+              </p:commandButton>
+            </f:facet>
+
+          </p:panel>
+
+        </p:tab>
+      </p:tabView>
+
+    </h:form>
+
+    <p:dialog 
+      id="dlgSeleccionarClientes" 
+      widgetVar="dlgSeleccionarClientes" 
+      header="#{msg.grvceFltClientesTitle}" 
+      resizable="false" 
+      showEffect="clip" 
+      hideEffect="clip"
+      modal="true">
+      <h:form
+        id="formSeleccionarClientes"
+        prependId="false">
+        <p:panel 
+          id="pnlSeleccionarClientes">
+          <p:panel
+            id="pnlFltClientes">
+            <p:panelGrid
+              columns="2">
+              <h:outputLabel 
+                for="filtroNombreCliente" 
+                value="#{msg.grvceFltClientesLblNombre}" 
+                styleClass="negrita"/>
+              <p:inputText 
+                id="filtroNombreCliente" 
+                value="#{generarReporteVentasCE.filtroNombreCliente}"/>
+              <f:facet
+                name="footer">
+                <p:commandButton
+                  value="#{msg.grvceFltClientesBtnConsultarClientesActivos}"
+                  actionListener="#{generarReporteVentasCE.buscarClientes()}"
+                  update="tblClientes"
+                  process="pnlFltClientes"/>
+              </f:facet>
+            </p:panelGrid>
+          </p:panel>
+          <p:dataTable 
+            id="tblClientes"
+            var="cliente" 
+            widgetVar="tblClientes" 
+            value="#{generarReporteVentasCE.listaClientes}" 
+            selection="#{generarReporteVentasCE.listaClientesSeleccionados}" 
+            rowKey="#{cliente.id}" 
+            rows="10"
+            emptyMessage="#{msg.generalNoDatos}" 
+            paginator="true"
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
+            <f:facet 
+              name="header">
+              <div 
+                align="right">
+                <p:outputPanel>
+                  <h:outputText 
+                    value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText 
+                    id="globalFilter"
+                    onkeyup="PF('tblClientes').filter()" 
+                    style="width:150px"
+                    placeholder="#{msg.generalPalabrasBuscar}" />
+                </p:outputPanel>
+              </div>
+            </f:facet>
+            <!-- opcion de anular el registro -->
+            <p:column 
+              selectionMode="multiple" 
+              style="width:16px;text-align:center"/>
+            <!-- codigo gip -->
+            <p:column   
+              headerText="#{msg.grvceTblClienteClmCodigoGip}"
+              sortBy="#{cliente.id}"
+              filterBy="#{cliente.id}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{cliente.id}" />
+            </p:column>
+            <!-- Nit -->
+            <p:column 
+              headerText="#{msg.grvceTblClienteClmNit}"
+              sortBy="#{cliente.nit}"
+              filterBy="#{cliente.nit}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{cliente.nit}" />
+            </p:column>
+            <!-- Nombre -->
+            <p:column 
+              headerText="#{msg.grvceTblClienteClmNombre}"
+              sortBy="#{cliente.nombre}"
+              filterBy="#{cliente.nombre}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{cliente.nombre}" />
+            </p:column>
+          </p:dataTable>
+          <f:facet
+            name="footer">
+            <!-- Generar reporte -->
+            <p:commandButton 
+              value="#{msg.grvceFltClientesBtnAsignarClientesSeleccionados}" 
+              styleClass="ui-confirmdialog-yes" 
+              icon="ui-icon-check" 
+              actionListener="#{generarReporteVentasCE.asignarClientesSeleccionados()}"
+              oncomplete="PF('dlgSeleccionarClientes').hide()"
+              update=":formListado:pnlTab:tblClientesSeleccionados"/>
+            <!-- Cancelar -->
+            <p:commandButton 
+              value="#{msg.generalCerrar}" 
+              styleClass="ui-confirmdialog-no" 
+              icon="ui-icon-close" 
+              immediate="true"
+              ajax="false"
+              oncomplete="PF('dlgSeleccionarClientes').hide()"
+              update=":formListado:pnlTab:tblClientesSeleccionados"/>
+          </f:facet>
+        </p:panel>
+      </h:form>          
+    </p:dialog>
+
+    <p:dialog 
+      id="dlgSeleccionarProductos" 
+      widgetVar="dlgSeleccionarProductos" 
+      header="#{msg.grvceFltProductosTitle}" 
+      resizable="false" 
+      showEffect="clip" 
+      hideEffect="clip"
+      modal="true">
+      <h:form
+        id="formSeleccionarProductos"
+        prependId="false">
+        <p:panel 
+          id="pnlFiltroProductos">
+          <p:panel
+            id="pnlFltProductos">
+            <p:panelGrid
+              columns="2">
+              <h:outputLabel 
+                for="filtroSKUProducto" 
+                value="#{msg.grvceFltProductosLblSKU}" 
+                styleClass="negrita"/>
+              <p:inputText 
+                id="filtroSKUProducto" 
+                value="#{generarReporteVentasCE.filtroSKUProducto}"/>
+              <h:outputLabel 
+                for="filtroNombreProducto" 
+                value="#{msg.grvceFltProductosLblNombre}" 
+                styleClass="negrita"/>
+              <p:inputText 
+                id="filtroNombreProducto" 
+                value="#{generarReporteVentasCE.filtroNombreProducto}"/>
+              <f:facet
+                name="footer">
+                <p:commandButton
+                  value="#{msg.grvceFltProductosBtnConsultarProductosActivos}"
+                  actionListener="#{generarReporteVentasCE.buscarProductos()}"
+                  update="tblProductos"
+                  process="pnlFltProductos"/>
+              </f:facet>
+            </p:panelGrid>
+          </p:panel>
+          <p:dataTable 
+            id="tblProductos"
+            var="producto" 
+            widgetVar="tblProductos" 
+            value="#{generarReporteVentasCE.listaProductosLazyModel}" 
+            sortField="id"
+            sortMode="single" 
+            lazy="true"
+            selection="#{generarReporteVentasCE.listaProductosSeleccionados}" 
+            rowKey="#{producto.id}" 
+            rows="10"
+            emptyMessage="#{msg.generalNoDatos}" 
+            paginator="true"
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
+            <f:facet 
+              name="header">
+              <div 
+                align="right">
+                <p:outputPanel>
+                  <h:outputText 
+                    value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:inputText 
+                    id="globalFilter"
+                    onkeyup="PF('tblProductos').filter()" 
+                    style="width:150px"
+                    placeholder="#{msg.generalPalabrasBuscar}" />
+                </p:outputPanel>
+              </div>
+            </f:facet>
+            <!-- opcion de anular el registro -->
+            <p:column 
+              selectionMode="multiple" 
+              style="width:16px;text-align:center"/>
+            <!-- SKU -->
+            <p:column   
+              headerText="#{msg.grvceTblProductoClmSKU}"
+              sortBy="#{producto.sku}"
+              filterBy="#{producto.sku}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{producto.sku}" />
+            </p:column>
+            <!-- Nombre -->
+            <p:column 
+              headerText="#{msg.grvceTblProductoClmNombre}"
+              sortBy="#{producto.nombre}"
+              filterBy="#{producto.nombre}"
+              filterMatchMode="contains">
+              <h:outputText 
+                value="#{producto.nombre}" />
+            </p:column>
+          </p:dataTable>
+          <f:facet
+            name="footer">
+            <!-- asignar productos seleccionados -->
+            <p:commandButton 
+              value="#{msg.grvceFltProductosBtnAsignarProductosSeleccionados}" 
+              styleClass="ui-confirmdialog-yes" 
+              icon="ui-icon-check" 
+              actionListener="#{generarReporteVentasCE.asignarProductosSeleccionados()}"
+              oncomplete="PF('dlgSeleccionarProductos').hide()"
+              update=":formListado:pnlTab:tblProductosSeleccionados"/>
+            <!-- Cancelar -->
+            <p:commandButton 
+              value="#{msg.generalCerrar}" 
+              styleClass="ui-confirmdialog-no" 
+              icon="ui-icon-close" 
+              immediate="true"
+              ajax="false"
+              oncomplete="PF('dlgSeleccionarProductos').hide()"
+              update=":formListado:pnlTab:tblProductosSeleccionados"/>
+          </f:facet>
+        </p:panel>
+      </h:form>          
+    </p:dialog>
+
+  </ui:define>
+
+</ui:composition>
