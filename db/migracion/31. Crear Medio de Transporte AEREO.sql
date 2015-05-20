@@ -1,0 +1,1 @@
+insert into medio_transporte values(3,'Aereo',true)

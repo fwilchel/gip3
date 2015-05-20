@@ -1,0 +1,1 @@
+ALTER TABLE categorias_costos_logisticos add constraint categorias_costos_logisticos_orden_unique UNIQUE(orden)

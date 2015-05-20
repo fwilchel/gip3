@@ -1,0 +1,1 @@
+select *, count(1) from comext_directorio_x_cliente group by 1,2 order by 3 desc
