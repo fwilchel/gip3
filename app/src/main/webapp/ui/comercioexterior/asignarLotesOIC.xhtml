@@ -149,7 +149,7 @@
 
     <p:outputLabel value="#{msg.TerminoIncotermSP}"
                            for="terminoIncoterm" styleClass="negrita" />
-            <p:outputLabel  value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).terminoIncoterm.descripcion}"
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacion.terminoIncoterm.descripcion}"
                          id="terminoIncoterm" label="#{msg.TerminoIncotermSP}" disabled="true"/>
     
         
@@ -157,7 +157,7 @@
          
           <p:outputLabel value="#{msg.LugarIncoterm}"
                            for="lugarIncoterm" styleClass="negrita" />
-            <p:outputLabel value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).lugarIncoterm}"
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacion.lugarIncoterm}"
                          id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true"/>
           
 
@@ -171,19 +171,19 @@
             
                      <p:outputLabel value="#{msg.CantidadContenedores20}"
                            for="cantidadContenedores20" styleClass="negrita" />
-            <p:outputLabel value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe20}"
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacion.cantidadContenedoresDe20}"
                          id="cantidadContenedores20" label="#{msg.CantidadContenedores20}" disabled="true"/>
 
             <p:outputLabel value="#{msg.CantidadContenedores40}"
                            for="cantidadContenedores40" styleClass="negrita" />
-            <p:outputLabel value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadContenedoresDe40}"
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacion.cantidadContenedoresDe40}"
                          id="cantidadContenedores40" label="#{msg.LugarIncoterm}" disabled="true"/>
             
             
             
       <p:outputLabel value="#{msg.DiasVigenciaFP}"
                            for="diasVigencia" styleClass="negrita" />
-            <p:outputLabel value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacions.get(0).cantidadDiasVigencia}"
+            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacion.cantidadDiasVigencia}"
                          id="diasVigencia" label="#{msg.DiasVigenciaFP}" disabled="true"  />
             
             

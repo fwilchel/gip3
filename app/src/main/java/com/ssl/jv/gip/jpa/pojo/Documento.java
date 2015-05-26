@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,9 +23,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * The persistent class for the documentos database table.
@@ -155,15 +153,13 @@ public class Documento implements Serializable {
   private BigDecimal valorTotal;
 
   // bi-directional many-to-one association to DocumentoXLotesoic
-  @OneToMany(mappedBy = "documento")
-  @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToMany(mappedBy = "documento", fetch=FetchType.LAZY)
   private List<DocumentoXLotesoic> documentoXLotesoics;
 
   // bi-directional many-to-one association to DocumentoXNegociacion
-  @OneToMany(mappedBy = "documento")
-  @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToMany(mappedBy = "documento", fetch=FetchType.LAZY)
   private List<DocumentoXNegociacion> documentoXNegociacions;
-
+  
   // bi-directional many-to-one association to Estadosxdocumento
   @ManyToOne
   @JoinColumns({
@@ -535,4 +531,10 @@ public class Documento implements Serializable {
     }
     return true;
   }
+  
+  @Transient
+  public DocumentoXNegociacion getDocumentoXNegociacion(){
+	  return  this.documentoXNegociacions.get(0);
+  }
+  
 }
