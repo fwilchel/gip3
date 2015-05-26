@@ -74,7 +74,7 @@ public class SecurityFilter implements Filter {
           // TODO : Validar permiso a la opci�n de men�
           chain.doFilter(request, responseWrapper);
         }
-      }
+      } 
     } catch (ViewExpiredException g) {
       HttpSession session = req.getSession(false);
       if (session != null) {
