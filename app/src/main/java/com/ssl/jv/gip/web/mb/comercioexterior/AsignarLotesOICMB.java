@@ -245,6 +245,19 @@ public class AsignarLotesOICMB extends UtilMB {
       this.totalCantidadTendidos += p.getTotalCajasTendido().doubleValue();
       this.totalCantidadPallets += p.getTotalCajasPallet().doubleValue();
     }
+    
+    System.out.println("doc0:"+this.documentoSeleccionado.getId());
+    System.out.println("doc1:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getTerminoIncoterm().getDescripcion());
+    System.out.println("doc2:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm());
+    System.out.println("doc3:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe20());
+    System.out.println("doc4:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe40());
+    System.out.println("doc5:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadDiasVigencia());
+    System.out.println("doc6:"+this.documentoSeleccionado.getCliente().getContacto());
+    System.out.println("doc7:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm());
+    
+
+    
+    
     /*
      totalCostos = 0;
      if (this.documentoSeleccionado.getDocumentoXNegociacions() != null && this.documentoSeleccionado.getDocumentoXNegociacions().size() > 0) {
