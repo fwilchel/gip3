@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -17,6 +18,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.persistence.PersistenceException;
 
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
@@ -40,8 +42,6 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.Numero_a_Letra_Ingles;
 import com.ssl.jv.gip.web.util.Modo;
-import java.util.Arrays;
-import javax.persistence.PersistenceException;
 
 /**
  * The Class ReImprimirFacturaExpoMB.
@@ -210,16 +210,13 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     }
 
     List<DocumentoXLotesoic> docxLotesOic = this.reportesComercioExteriorEJBLocal.consultarPorConsecutivoDocumento(strFacturaProforma);
-    Hashtable Lotes = new Hashtable();
+    Map<Long, String> lotesMap = new HashMap<>();
     for (DocumentoXLotesoic lotes : docxLotesOic) {
-
-      Lotes.put(lotes.getTipoLoteoic().getId(), lotes.getConsecutivo());
-
+      lotesMap.put(lotes.getTipoLoteoic().getId(), lotes.getConsecutivo());
       System.out.println("Consecutivo lote:" + lotes.getConsecutivo());
       System.out.println("Id lote:" + lotes.getTipoLoteoic().getId());
-
     }
-
+    
     List<ReporteReimprimirFacturaDTO> reporteDTOS = new ArrayList<>();
     for (ProductosXDocumento prod : listaProductosDocumento) {
       ReporteReimprimirFacturaDTO registro = new ReporteReimprimirFacturaDTO();
@@ -237,17 +234,12 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
       registro.setUnidadNombre(prod.getUnidade().getNombre());
       registro.setTipoLoteOICDesc(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDescripcion());
       String consecDocxlote = "";
-      //List<DocumentoXLotesoic> docxLotesOic = this.reportesComercioExteriorEJBLocal.consultarPorConsecutivoDocumento(this.seleccionado.getConsecutivoDocumento());
       System.out.println("loteOIC_ID" + prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId());
+      System.out.println("loteOIC_consecutivo:" + lotesMap.get(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId()));
 
-      System.out.println("loteOIC_consecutivo:" + Lotes.get(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId()));
-
-      /*if (docxLotesOic != null && !docxLotesOic.isEmpty()) {
-       consecDocxlote = docxLotesOic.get(0).getConsecutivo();
-       }*/
-      //registro.setDocxLoteOICConsec(consecDocxlote);
-      registro.setDocxLoteOICConsec(Lotes.get(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId()).toString());
-
+      if (prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId() != null){
+          registro.setDocxLoteOICConsec(lotesMap.get(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId()));
+      }
       registro.setValorUnitarioUSD(prod.getValorUnitarioUsd().doubleValue());
       registro.setTotalCajasPallet(prod.getCantidadPalletsItem().doubleValue());
       reporteDTOS.add(registro);
