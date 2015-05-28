@@ -12,9 +12,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.ssl.jv.gip</groupId>
   <artifactId>app</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>gip-app</name>
 

@@ -1724,6 +1724,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros) {
     LOGGER.trace("Metodo: <<consultarDocumentosReporteVentasCE>>");
     String sql = DocumentoReporteVentasCEDTO.LISTADO_DOCUMENTOS_REPORTE_VENTAS_CE;
+    
+    
+    System.out.println("reporte vta CE: "+sql);
     boolean buscarPorClientes = false;
     boolean buscarPorProductos = false;
     if (parametros.get("idsClientes") != null) {
@@ -2121,6 +2124,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
       query = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " + "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " + "JOIN FETCH d.documentoXNegociacions dxn " + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " + "JOIN FETCH c.metodoPago mp "
           + "WHERE (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id in( :estado,:estado2)" + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + " AND dxn.solicitudCafe = :solicitudCafe ) "
           + " ORDER BY d.id DESC";
+      
 
       //+ "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id= :estado " + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " + " AND dxn.solicitudCafe = :solicitudCafe "
       /*select d.id ,d.consecutivo_documento,d.documento_cliente,d.fecha_generacion ,c.nombre , dxn.solicitud_cafe ,d.id_estado
@@ -2128,6 +2132,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
        inner join clientes c on c.id=d.id_cliente 
        where id_tipo_documento=22 and id_estado in (15,14) and dxn.solicitud_cafe=true  ORDER BY d.id DESC
        */
+      
+      System.out.println("query sp: " + query);
+      
       listado = em.createQuery(query).setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO).setParameter("estado", (long) ConstantesDocumento.APROBADA).setParameter("solicitudCafe", true).setParameter("consecutivo", consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento + "%").setParameter("estado2", (long) ConstantesDocumento.VERIFICADO).getResultList();
     } catch (Exception e) {
       LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");

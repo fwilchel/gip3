@@ -145,15 +145,30 @@
             <p:inputText value="#{asignarLotesMB.documentoSeleccionado.cliente.contacto}" size="30"
                          id="clienteContacto" label="#{msg.maestroContactoAgente}" disabled="true"/>
 
+
+
             <p:outputLabel value="#{msg.TerminoIncotermSP}"
                            for="terminoIncoterm" styleClass="negrita" />
             <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacion.terminoIncoterm.descripcion}"
                          id="terminoIncoterm" label="#{msg.TerminoIncotermSP}" disabled="true"/>
 
+
+
+
             <p:outputLabel value="#{msg.LugarIncoterm}"
                            for="lugarIncoterm" styleClass="negrita" />
             <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacion.lugarIncoterm}"
                          id="lugarIncoterm" label="#{msg.LugarIncoterm}" disabled="true"/>
+
+
+            <p:outputLabel value="#{msg.FechaDespacho}"
+                           for="fechaDespacho" styleClass="negrita" />
+            <h:outputText 
+              value="#{asignarLotesMB.documentoSeleccionado.fechaEsperadaEntrega}"
+              id="fechaDespacho" >
+              <f:convertDateTime pattern="dd-MMM-yyyy"/>
+            </h:outputText>
+
 
             <p:outputLabel value="#{msg.CantidadContenedores20}"
                            for="cantidadContenedores20" styleClass="negrita" />
@@ -165,17 +180,14 @@
             <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacion.cantidadContenedoresDe40}"
                          id="cantidadContenedores40" label="#{msg.LugarIncoterm}" disabled="true"/>
 
-            <p:outputLabel value="#{msg.FechaDespacho}"
-                           for="fechaDespacho" styleClass="negrita" />
-            <p:inputText value="#{asignarLotesMB.documentoSeleccionado.fechaEsperadaEntrega}"
-                         id="fechaDespacho" label="#{msg.FechaDespacho}" disabled="true">
-              <f:convertDateTime pattern="dd-MMM-yyyy"/>
-            </p:inputText>
+
 
             <p:outputLabel value="#{msg.DiasVigenciaFP}"
                            for="diasVigencia" styleClass="negrita" />
             <p:inputText value="#{asignarLotesMB.documentoSeleccionado.documentoXNegociacion.cantidadDiasVigencia}"
                          id="diasVigencia" label="#{msg.DiasVigenciaFP}" disabled="true"  />
+
+
 
           </p:panelGrid>
 

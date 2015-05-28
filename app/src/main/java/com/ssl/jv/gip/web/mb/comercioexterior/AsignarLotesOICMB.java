@@ -237,14 +237,27 @@ public class AsignarLotesOICMB extends UtilMB {
     this.totalCantidadTendidos = 0;
     this.totalCantidadPallets = 0;
     for (ProductoAsignarLoteOICDTO p : productos) {
-      this.totalCantidad += p.getCantidad().doubleValue();
-      this.totalValorTotal += p.getValorTotal().doubleValue();
-      this.totalPesoNeto += p.getTotalPesoNeto().doubleValue();
-      this.totalPesoBruto += p.getTotalPesoBruto().doubleValue();
-      this.totalCantidadCajas += p.getTotalCajas().doubleValue();
-      this.totalCantidadTendidos += p.getTotalCajasTendido().doubleValue();
-      this.totalCantidadPallets += p.getTotalCajasPallet().doubleValue();
+      this.totalCantidad += p.getCantidad() == null ? 0 : p.getCantidad().doubleValue();
+      this.totalValorTotal += p.getValorTotal() == null ? 0 : p.getValorTotal().doubleValue();
+      this.totalPesoNeto += p.getTotalPesoNeto() == null ? 0 : p.getTotalPesoNeto().doubleValue();
+      this.totalPesoBruto += p.getTotalPesoBruto() == null ? 0 : p.getTotalPesoBruto().doubleValue();
+      this.totalCantidadCajas += p.getTotalCajas() == null ? 0 : p.getTotalCajas().doubleValue();
+      this.totalCantidadTendidos += p.getTotalCajasTendido() == null ? 0 : p.getTotalCajasTendido().doubleValue();
+      this.totalCantidadPallets += p.getTotalCajasPallet() == null ? 0 : p.getTotalCajasPallet().doubleValue();
     }
+    
+    System.out.println("doc0:"+this.documentoSeleccionado.getId());
+    System.out.println("doc1:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getTerminoIncoterm().getDescripcion());
+    System.out.println("doc2:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm());
+    System.out.println("doc3:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe20());
+    System.out.println("doc4:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe40());
+    System.out.println("doc5:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadDiasVigencia());
+    System.out.println("doc6:"+this.documentoSeleccionado.getCliente().getContacto());
+    System.out.println("doc7:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm());
+    
+
+    
+    
     /*
      totalCostos = 0;
      if (this.documentoSeleccionado.getDocumentoXNegociacions() != null && this.documentoSeleccionado.getDocumentoXNegociacions().size() > 0) {
@@ -267,24 +280,25 @@ public class AsignarLotesOICMB extends UtilMB {
 
   public String asignarLotes() {
     List<DocumentoXLotesoic> lista = new ArrayList<DocumentoXLotesoic>();
-    for (ProductoLoteAsignarLoteOICDTO lote : this.lotes) {
-      DocumentoXLotesoic docLote = new DocumentoXLotesoic();
-
-      docLote.setDocumento(this.documentoSeleccionado);
-      docLote.setTipoLoteoic(new TipoLoteoic());
-
-      docLote.setId(new DocumentoXLotesoicPK());
-      docLote.getId().setIdDocumento(this.documentoSeleccionado.getId());
-      docLote.getId().setIdTipoLote(lote.getTipoLote().longValue());
-
-      docLote.getTipoLoteoic().setId(lote.getTipoLote().longValue());
-      docLote.setFecha(new Timestamp(System.currentTimeMillis()));
-      docLote.setTotalCantidad(lote.getTotalCantidad());
-      docLote.setTotalCajas(lote.getTotalCajas());
-      docLote.setTotalPesoNeto(lote.getTotalPesoNeto());
-      docLote.setContribucion(new BigDecimal(0));
-      docLote.setDex(new BigDecimal(0));
-      lista.add(docLote);
+    if (lotes != null && !lotes.isEmpty()) {
+        for (ProductoLoteAsignarLoteOICDTO lote : this.lotes) {
+        	if (lote != null) {
+                DocumentoXLotesoic docLote = new DocumentoXLotesoic();
+                docLote.setDocumento(this.documentoSeleccionado);
+                docLote.setTipoLoteoic(new TipoLoteoic());
+                docLote.setId(new DocumentoXLotesoicPK());
+                docLote.getId().setIdDocumento(this.documentoSeleccionado.getId());
+                docLote.getId().setIdTipoLote(lote.getTipoLote() == null ? null : lote.getTipoLote().longValue());
+                docLote.getTipoLoteoic().setId(lote.getTipoLote() == null ? null : lote.getTipoLote().longValue());
+                docLote.setFecha(new Timestamp(System.currentTimeMillis()));
+                docLote.setTotalCantidad(lote.getTotalCantidad());
+                docLote.setTotalCajas(lote.getTotalCajas());
+                docLote.setTotalPesoNeto(lote.getTotalPesoNeto());
+                docLote.setContribucion(new BigDecimal(0));
+                docLote.setDex(new BigDecimal(0));
+                lista.add(docLote);
+        	}
+          }
     }
     documentoSeleccionado.getEstadosxdocumento().getId().setIdEstado((long) ConstantesDocumento.ASIGNADA);
     lista = this.comercioEjb.guardarLotes(lista, this.documentoSeleccionado);

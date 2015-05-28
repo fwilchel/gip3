@@ -48,10 +48,13 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
       + "(CASE WHEN (SELECT documento_x_lotesoic.consecutivo || ';' || tipo_loteoic.descripcion  || ';' ||documento_x_lotesoic.contribucion || ';' ||documento_x_lotesoic.dex AS cadena FROM documento_x_lotesoic INNER JOIN tipo_loteoic ON tipo_loteoic.id = documento_x_lotesoic.id_tipo_lote INNER JOIN productos_inventario_comext ON productos_inventario_comext.id_tipo_loteoic = documento_x_lotesoic.id_tipo_lote WHERE documento_x_lotesoic.id_documento = (SELECT id FROM documentos doc2 WHERE doc2.consecutivo_documento = (SELECT observacion_documento FROM documentos doc WHERE doc.consecutivo_documento=documentos.observacion_documento)) and productos_inventario_comext.id_producto = productos_inventario.id) IS NULL THEN 'MERCADEO;MERCADEO' ELSE (SELECT documento_x_lotesoic.consecutivo || ';' || tipo_loteoic.descripcion || ';' ||documento_x_lotesoic.contribucion || ';' ||documento_x_lotesoic.dex AS cadena FROM documento_x_lotesoic INNER JOIN tipo_loteoic ON tipo_loteoic.id = documento_x_lotesoic.id_tipo_lote INNER JOIN productos_inventario_comext ON productos_inventario_comext.id_tipo_loteoic = documento_x_lotesoic.id_tipo_lote WHERE documento_x_lotesoic.id_documento = (SELECT id FROM documentos doc2 WHERE doc2.consecutivo_documento = (SELECT observacion_documento FROM documentos doc WHERE doc.consecutivo_documento=documentos.observacion_documento)) AND productos_inventario_comext.id_producto = productos_inventario.id) END) AS lote, "
       + "terminos_transporte.numero_contenedor AS numeroContenedor, "
       + "terminos_transporte.numero_booking AS numBooking, "
-      + "productos_inventario_comext.posicion_arancelaria AS posicionArancelaria "
+      + "productos_inventario_comext.posicion_arancelaria AS posicionArancelaria, "
+      + "ubicaciones.nombre as canal  , me.descripcion as modalidadembarque ,terminos_transporte.id as idTerminoTransporte "
       + "FROM documentos "
       + "LEFT OUTER JOIN terminos_transporte_x_documento ttxd ON documentos.id= ttxd.id_documento "
-      + "LEFT JOIN terminos_transporte ON ttxd.id_terminos_transporte=terminos_transporte.id, "
+      + "LEFT OUTER JOIN ubicaciones on documentos.id_ubicacion_origen =ubicaciones.id "  
+      + "LEFT JOIN terminos_transporte ON ttxd.id_terminos_transporte=terminos_transporte.id "
+      + "LEFT OUTER JOIN modalidad_embarque me ON  terminos_transporte.id_modalidad_embarque=me.id ," 
       + "clientes, "
       + "productosxdocumentos, "
       + "productos_inventario, "
@@ -99,8 +102,12 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
   private String numeroContenedor;
   private String numBooking;
   private String posicionArancelaria;
+  private String canal;
+  private String modalidadembarque;
+  private String idTerminoTransporte;
 
-  /**
+
+/**
    * @return the id
    */
   public Long getId() {
@@ -489,5 +496,49 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
   public void setPosicionArancelaria(String posicionArancelaria) {
     this.posicionArancelaria = posicionArancelaria;
   }
+  
+  
+  /**
+ * @return the canal
+ */
+public String getCanal() {
+	return canal;
+}
+
+/**
+ * @param canal the canal to set
+ */
+public void setCanal(String canal) {
+	this.canal = canal;
+}
+
+/**
+ * @return the modalidadembarque
+ */
+public String getModalidadembarque() {
+	return modalidadembarque;
+}
+
+/**
+ * @param modalidadembarque the modalidadembarque to set
+ */
+public void setModalidadembarque(String modalidadembarque) {
+	this.modalidadembarque = modalidadembarque;
+}
+
+/**
+ * @return the idTerminoTransporte
+ */
+public String getIdTerminoTransporte() {
+	return idTerminoTransporte;
+}
+
+/**
+ * @param idTerminoTransporte the idTerminoTransporte to set
+ */
+public void setIdTerminoTransporte(String idTerminoTransporte) {
+	this.idTerminoTransporte = idTerminoTransporte;
+}
+
 
 }
