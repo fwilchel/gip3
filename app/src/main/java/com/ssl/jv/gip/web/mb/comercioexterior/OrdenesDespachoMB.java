@@ -83,23 +83,21 @@ public class OrdenesDespachoMB extends UtilMB {
   }
 
   public void consultarOrdenDeDespacho() {
-    productos = comercioEjb.consultarProductoPorDocumentoOrdenDespacho(seleccionado.getId(), seleccionado.getCliente().getId(), seleccionado.getDocumentoXNegociacions().get(0).getSolicitudCafe());
+    productos = comercioEjb.consultarProductoPorDocumentoOrdenDespacho(seleccionado.getId(), seleccionado.getCliente().getId(), seleccionado.getDocumentoXNegociacion().getSolicitudCafe());
     totalCantidad = 0;
     totalCantidadCajas = 0;
     totalCantidadPorEmbalaje = 0;
     muestrasFITOANTICO = 0;
     muestrasCalidades = 0;
     for (ProductoODDTO p : productos) {
-      p.setCantidadCajas(p.getCantidad().divide(p.getCantidadPorEmbalaje(), 2, RoundingMode.HALF_UP));
-      this.totalCantidad += p.getCantidad().doubleValue();
-      this.totalCantidadCajas += p.getCantidadCajas().doubleValue();
-      this.totalCantidadPorEmbalaje += p.getCantidadPorEmbalaje().doubleValue();
-      this.muestrasCalidades += p.getMuestrasCalidades().doubleValue();
-      this.muestrasFITOANTICO += p.getMuestrasFITOYANTICO().doubleValue();
-
-      //p.getConsecutivoLote()
-      //p.getDescripcionLote()
-      //p.getSku()
+      if (p.getCantidad() != null && p.getCantidadPorEmbalaje() != null) {
+        p.setCantidadCajas(p.getCantidad().divide(p.getCantidadPorEmbalaje(), 2, RoundingMode.HALF_UP));
+      }
+      this.totalCantidad += p.getCantidad() == null ? 0 : p.getCantidad().doubleValue();
+      this.totalCantidadCajas += p.getCantidadCajas() == null ? 0 : p.getCantidadCajas().doubleValue();
+      this.totalCantidadPorEmbalaje += p.getCantidadPorEmbalaje() == null ? 0 : p.getCantidadPorEmbalaje().doubleValue();
+      this.muestrasCalidades += p.getMuestrasCalidades() == null ? 0 : p.getMuestrasCalidades().doubleValue();
+      this.muestrasFITOANTICO += p.getMuestrasFITOYANTICO() == null ? 0 : p.getMuestrasFITOYANTICO().doubleValue();
     }
   }
 
@@ -120,7 +118,7 @@ public class OrdenesDespachoMB extends UtilMB {
     parametros.put("fechaCargue", seleccionado.getFechaEntrega() != null ? formatoFecha.format(seleccionado.getFechaEntrega()) : null);
     parametros.put("solicitud", seleccionado.getObservacionDocumento());
     parametros.put("observacionDoc", seleccionado.getObservacion2());
-    parametros.put("observacionMar", seleccionado.getDocumentoXNegociacions().get(0).getObservacionesMarcacion2());
+    parametros.put("observacionMar", seleccionado.getDocumentoXNegociacion().getObservacionesMarcacion2());
     parametros.put("despacho", seleccionado.getSitioEntrega());
     parametros.put("totalCantidad", totalCantidad);
     parametros.put("totalUnidadXEmbalaje", totalCantidadPorEmbalaje);

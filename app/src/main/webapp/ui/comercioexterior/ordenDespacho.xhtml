@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/ui/templates/general.xhtml">
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/ui/templates/general.xhtml">
 
   <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroUbicacionesTituloFrame}::.</ui:define>
 
@@ -178,19 +179,26 @@
               id="observacionDelDocumento" label="#{msg.observacionDocumento}"
               disabled="true" />
 
-            <p:outputLabel value="#{msg.cegodLblCObservacionMarcacion}"
-                           for="observacionMarcacion" styleClass="negrita" />
-            <h:inputText
-              value="#{ordenesDespachoMB.seleccionado.documentoXNegociacions.get(0).observacionesMarcacion2}"
-              id="observacionMarcacion" label="#{msg.cegodLblCObservacionMarcacion}"
-              disabled="true">
-            </h:inputText>
-
-            <p:outputLabel value="#{msg.Despacho}" for="despachadoEn"
-                           styleClass="negrita" />
+            <p:outputLabel 
+              value="#{msg.cegodLblCObservacionMarcacion}"
+              for="observacionMarcacion" 
+              styleClass="negrita" />
             <p:inputText
+              value="#{ordenesDespachoMB.seleccionado.documentoXNegociacion.observacionesMarcacion2}"
+              id="observacionMarcacion" 
+              label="#{msg.cegodLblCObservacionMarcacion}"
+              disabled="true">
+            </p:inputText>
+
+            <p:outputLabel 
+              value="#{msg.Despacho}" 
+              for="despachadoEn"
+              styleClass="negrita" />
+            <p:inputText
+              id="despachadoEn" 
               value="#{ordenesDespachoMB.seleccionado.sitioEntrega}"
-              id="despachadoEn" label="#{msg.LugarIncoterm}" required="true" />
+              label="#{msg.Despacho}"
+              disabled="true"/>
 
             <p:outputLabel value="#{msg.FechaCargue}" for="fechaCargue"
                            styleClass="negrita" />
