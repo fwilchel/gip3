@@ -62,11 +62,11 @@ public class ReporteProduccionMB extends UtilMB {
     List<ReporteProduccionDTO> registros = new ArrayList<>();
     try {
       Map<String, Object> parametrosConsulta = new HashMap<>();
-      parametrosConsulta.put("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
+      parametrosConsulta.put("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
       parametrosConsulta.put("fechaInicial", fechaInicial);
       parametrosConsulta.put("fechaFinal", fechaFinal);
       parametrosConsulta.put("solicitudCafe", esSolicitudCafe);
-      parametrosConsulta.put("estado", Estado.IMPRESO.getCodigo());
+      parametrosConsulta.put("estado", Estado.APROBADA.getCodigo());
       registros = reportesComercioExteriorEJBLocal.consultarProductosReporteProduccion(parametrosConsulta);
     } catch (Exception e) {
       LOGGER.error(e.getMessage());
