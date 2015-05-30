@@ -19,9 +19,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
@@ -29,9 +27,6 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
-import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
-import com.ssl.jv.gip.jpa.pojo.Ubicacion;
-import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
@@ -288,10 +283,10 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
    * @return the string
    */
   public String consultarSolicitudPedido() {
-    dblValorFOB = seleccionado.getCostoEntrega();
-    dblValorFletes = seleccionado.getCostoFlete();
-    dblValorSeguro = seleccionado.getCostoSeguro();
-    dblValorOtrosGastos = seleccionado.getOtrosGastos();
+    dblValorFOB = seleccionado.getCostoEntrega()==null?new BigDecimal(0):seleccionado.getCostoEntrega();
+    dblValorFletes = seleccionado.getCostoFlete()==null?new BigDecimal(0):seleccionado.getCostoFlete();
+    dblValorSeguro = seleccionado.getCostoSeguro()==null?new BigDecimal(0):seleccionado.getCostoSeguro();
+    dblValorOtrosGastos = seleccionado.getOtrosGastos()==null?new BigDecimal(0):seleccionado.getOtrosGastos();
     dblTotalValorT = dblValorFletes.add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
     dblValorTotalNeg = seleccionado.getValorTotalDocumento().add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
     //Consultar la lista inconterm poor cliente
