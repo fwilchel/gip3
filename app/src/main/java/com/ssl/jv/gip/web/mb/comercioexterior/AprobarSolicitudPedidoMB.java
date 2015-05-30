@@ -1,45 +1,23 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-
-import com.ssl.jv.gip.jpa.pojo.Cliente;
-import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
-import com.ssl.jv.gip.jpa.pojo.Ubicacion;
-import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
-import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
-import com.ssl.jv.gip.web.mb.util.Numero_a_Letra_Ingles;
 
 /**
  * The Class AprobarSolicitudPedidoMB.
