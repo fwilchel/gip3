@@ -19,9 +19,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
@@ -29,9 +27,6 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
-import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
-import com.ssl.jv.gip.jpa.pojo.Ubicacion;
-import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
