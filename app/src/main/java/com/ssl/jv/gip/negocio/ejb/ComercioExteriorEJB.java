@@ -1671,7 +1671,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 		if (fp != null) {
 		  LOGGER.debug("Actualizar el estado de la factura fp");
 		  parametros = new HashMap<>();
-		  if (documento.getDocumentoXNegociacions().get(0).getSolicitudCafe()) {
+		  if (documento.getDocumentoXNegociacion().getSolicitudCafe()) {
 			parametros.put("id_estado", (long) ConstantesDocumento.ASIGNADA);
 		  } else {
 			parametros.put("id_estado", (long) ConstantesDocumento.APROBADA);
