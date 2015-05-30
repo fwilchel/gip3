@@ -71,7 +71,6 @@ public class LugarIncotermMB extends UtilMB {
     } else {
       this.maestroEjb.actualizarLugarIncoterm(this.seleccionado);
     }
-
     this.addMensajeInfo("LugarIncoterm almacenado exitosamente");
   }
 

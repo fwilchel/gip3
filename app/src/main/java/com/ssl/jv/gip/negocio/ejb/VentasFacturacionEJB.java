@@ -2,9 +2,14 @@ package com.ssl.jv.gip.negocio.ejb;
 
 import static com.ssl.jv.gip.web.util.SecurityFilter.LOGGER;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,28 +60,12 @@ import com.ssl.jv.gip.web.mb.util.ConstantesInventario;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
 /**
  * Session Bean implementation class VentasFacturacionEJB
  */
 @Stateless
 @LocalBean
 public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
-
-  /**
-   * Default constructor.
-   */
-  public VentasFacturacionEJB() {
-    // TODO Auto-generated constructor stub
-
-    proxy = new ZVI_MM_EXT_SAP_PEDIDOProxy();
-  }
 
   @EJB
   private DocumentoDAOLocal documentoDAO;
@@ -252,6 +241,8 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     //el cargue por defecto es exitoso, pero si al guno de los productos no se creo en SAP, pasa a falso
     boolean cargueExitoso = true;
 //    // Objetos que se deben enviar a SAP
+
+    proxy = new ZVI_MM_EXT_SAP_PEDIDOProxy();
 
     System.out.println("Tamano prod" + listaProductosXDocumento.size());
     ZcaStPedidosCompra[] compra = new ZcaStPedidosCompra[listaProductosXDocumento.size()];

@@ -677,13 +677,17 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
 
     parametros.put("valorLetras", valorLetrasIngles);
 
-    Calendar Calendario = Calendar.getInstance();
-    Calendario.setTimeInMillis(seleccionado.getFechaGeneracion().getTime());
-    Integer intCantidadDiasVigencia = seleccionado.getCantidadDiasVigencia();
-    Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
-    Timestamp tmsFecha = new Timestamp(Calendario.getTimeInMillis());
-    String fechaStringVigencia = ft.format(tmsFecha);
-    parametros.put("fechaVigencia", fechaStringVigencia);
+    if (seleccionado.getFechaGeneracion() != null){
+      Calendar Calendario = Calendar.getInstance();
+      Calendario.setTimeInMillis(seleccionado.getFechaGeneracion().getTime());
+      Integer intCantidadDiasVigencia = seleccionado.getCantidadDiasVigencia();
+      if (intCantidadDiasVigencia != null){
+        Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
+        Timestamp tmsFecha = new Timestamp(Calendario.getTimeInMillis());
+        String fechaStringVigencia = ft.format(tmsFecha);
+        parametros.put("fechaVigencia", fechaStringVigencia);
+      }
+    }
 
     Cliente cliente = comercioEjb.consultarClientePorId(seleccionado.getClientesId());
 
