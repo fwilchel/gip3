@@ -108,7 +108,8 @@
                   <p:commandButton 
                     value="#{msg.reporteNivelInventarioExcel}"
                     ajax="false"
-                    icon="ui-icon-document"
+                    onclick="PrimeFaces.monitorDownload(start, stop);"
+                    icon="ui-icon-arrowthick-1-s"
                     disabled="#{empty productosClienteMB.listaProductosXClientes}">
                     <p:fileDownload 
                       value="#{productosClienteMB.onGenerateEcxelEvent()}" />
