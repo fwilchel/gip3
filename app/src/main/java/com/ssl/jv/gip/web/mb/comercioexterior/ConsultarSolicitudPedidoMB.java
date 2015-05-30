@@ -288,10 +288,10 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
    * @return the string
    */
   public String consultarSolicitudPedido() {
-    dblValorFOB = seleccionado.getCostoEntrega();
-    dblValorFletes = seleccionado.getCostoFlete();
-    dblValorSeguro = seleccionado.getCostoSeguro();
-    dblValorOtrosGastos = seleccionado.getOtrosGastos();
+    dblValorFOB = seleccionado.getCostoEntrega()==null?new BigDecimal(0):seleccionado.getCostoEntrega();
+    dblValorFletes = seleccionado.getCostoFlete()==null?new BigDecimal(0):seleccionado.getCostoFlete();
+    dblValorSeguro = seleccionado.getCostoSeguro()==null?new BigDecimal(0):seleccionado.getCostoSeguro();
+    dblValorOtrosGastos = seleccionado.getOtrosGastos()==null?new BigDecimal(0):seleccionado.getOtrosGastos();
     dblTotalValorT = dblValorFletes.add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
     dblValorTotalNeg = seleccionado.getValorTotalDocumento().add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
     //Consultar la lista inconterm poor cliente
