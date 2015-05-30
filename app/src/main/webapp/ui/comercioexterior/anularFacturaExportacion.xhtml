@@ -32,7 +32,8 @@
           <p:spacer width="30"></p:spacer>
 
           <p:commandButton value="#{msg.documentoEjecutarBusqueda}"
-                           update="tabPanel" action="#{anularFacturaExportacionMB.buscarDocumentos}" />
+                           update="tabPanel" 
+                           actionListener="#{anularFacturaExportacionMB.buscarDocumentos}" />
 
           <p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
                        value="#{anularFacturaExportacionMB.documentos}" rows="10"

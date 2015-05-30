@@ -48,9 +48,8 @@ public class AnularFacturaExportacionMB extends UtilMB {
     currentTimeStamp = new Timestamp(System.currentTimeMillis());
   }
 
-  public String buscarDocumentos() {
+  public void buscarDocumentos() {
     documentos = comercioExteriorEJB.consultarFacturasDeExportacionEstado(consecutivoDocumento);
-    return null;
   }
 
   public void anularFactura() {
