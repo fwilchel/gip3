@@ -94,24 +94,20 @@
             <p:column
               headerText="#{msg.ispcnTblColCantidad}"
               style="width:90px;">
-              <p:inputText 
+              <p:spinner 
                 id="cantidadRequerida"
                 value="#{registro.cantidad1}" 
                 label="#{msg.ispcnTblColCantidad}"
+                stepFactor="#{registro.productosInventario.unidadMinimaDespachoXTendido}"
+                min="#{registro.productosInventario.unidadMinimaDespachoXTendido}"
+                max="9999999"
                 required="true"
-                maxlength="7"
-                size="10" 
-                converter="javax.faces.Integer"
-                converterMessage="#{msg.generalSoloNumerosEntero}"
+                size="7" 
                 style="text-align:right;">
-                <!--                 <p:ajax  -->
-                <!--                   event="blur" -->
-                <!--                   listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}" -->
-                <!--                   process="@this, cantidadRequerida"/> -->
-                <f:validateLongRange 
-                  minimum="1" 
-                  maximum="9999999" />
-              </p:inputText>
+                	<p:ajax 
+                	  update=":pnlTab:msgsFrm"
+                	  listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}"/>
+                </p:spinner>
               <p:message 
                 for="cantidadRequerida" />
             </p:column>
@@ -208,23 +204,20 @@
               <p:column
                 headerText="#{msg.ispcnTblColCantidad}"
                 style="width:90px;">
-                <p:inputText 
+                <p:spinner 
                   id="cantidadRequerida"
                   value="#{registro.cantidad1}" 
                   label="#{msg.ispcnTblColCantidad}"
+                  stepFactor="#{registro.productosInventario.unidadMinimaDespachoXTendido}"
+                  min="#{registro.productosInventario.unidadMinimaDespachoXTendido}"
+                  max="9999999"
                   required="true"
-                  maxlength="7"
-                  size="10" 
-                  converter="javax.faces.Integer"
-                  converterMessage="#{msg.generalSoloNumerosEntero}"
+                  size="7" 
                   style="text-align:right;">
-                  <p:ajax 
-                    event="blur"
-                    listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}"/>
-                  <f:validateLongRange 
-                    minimum="1" 
-                    maximum="9999999" />
-                </p:inputText>
+                	<p:ajax 
+                	  update=":pnlTab:msgsFrm"
+                	  listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}"/>
+                </p:spinner>
                 <p:message 
                   for="cantidadRequerida" />
               </p:column>

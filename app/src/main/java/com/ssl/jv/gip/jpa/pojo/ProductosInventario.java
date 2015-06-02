@@ -147,7 +147,7 @@ public class ProductosInventario implements Serializable {
   private List<Saldo> saldos;
 
   @Column(name = "unidad_min_despacho_x_tendido")
-  private Integer unidadMinimaDespachoXTendido;
+  private BigDecimal unidadMinimaDespachoXTendido;
   
   @Transient
   private boolean incluido;
@@ -455,14 +455,14 @@ public class ProductosInventario implements Serializable {
   /**
    * @return the unidadMinimaDespachoXTendido
    */
-  public Integer getUnidadMinimaDespachoXTendido() {
+  public BigDecimal getUnidadMinimaDespachoXTendido() {
     return unidadMinimaDespachoXTendido;
   }
 
   /**
    * @param unidadMinimaDespachoXTendido the unidadMinimaDespachoXTendido to set
    */
-  public void setUnidadMinimaDespachoXTendido(Integer unidadMinimaDespachoXTendido) {
+  public void setUnidadMinimaDespachoXTendido(BigDecimal unidadMinimaDespachoXTendido) {
     this.unidadMinimaDespachoXTendido = unidadMinimaDespachoXTendido;
   }
 
