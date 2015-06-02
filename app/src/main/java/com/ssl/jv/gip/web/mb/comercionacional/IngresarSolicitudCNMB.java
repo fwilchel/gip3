@@ -117,6 +117,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
   public void agregarProducto(ProductosXDocumento pxd) {
     LOGGER.trace("Metodo: <<agregarProducto>>");
     getProductosXDocumentoSeleccionados().add(pxd);
+    getProductosXDocumento().remove(pxd);
   }
 
   public void validarCantidad(ProductosXDocumento pxd) {
@@ -131,6 +132,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
   public void removerProductoXCliente(ProductosXDocumento pxd) {
     LOGGER.trace("Metodo: <<removerProductoXCliente>>");
     getProductosXDocumentoSeleccionados().remove(pxd);
+    getProductosXDocumento().add(pxd);
   }
 
   public void ingresarSolicitudComercioNacional() {
@@ -142,7 +144,6 @@ public class IngresarSolicitudCNMB extends UtilMB {
     try {
       solicitud.setCliente(cliente);
       solicitud.setPuntoVenta(puntoVenta);
-      solicitud.setDescuentoCliente(cliente.getDescuentoCliente());
       solicitud = comercioNacionalEJB.ingresarSolicitudComercioNacional(solicitud, productosXDocumento, auditoria);
       LOGGER.debug("Documento generado exitosamente con id: " + solicitud.getId() + " y consecutivo: " + solicitud.getConsecutivoDocumento());
       addMensajeInfo(formatearCadenaConParametros("ispcnMsgSucces", language, solicitud.getConsecutivoDocumento()));

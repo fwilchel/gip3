@@ -151,6 +151,38 @@
           rendered="#{ingresarSolicitudCNMB.modoGenerar}">
           <p:panel 
             id="pnlPrincipalDetalle">
+            <p:panelGrid
+              columns="3"
+              styleClass="noBorders">
+              <!--fechaEntrega-->
+              <p:outputLabel 
+                for="fechaEntrega"
+                value="#{msg.RequisicionNombreFechaEsperada}" 
+                styleClass="negrita" />
+              <p:calendar 
+                id="fechaEntrega" 
+                value="#{ingresarSolicitudCNMB.solicitud.fechaEntrega}"
+                required="true" 
+                pattern="yyyy-MM-dd"
+                label="#{msg.RequisicionNombreFechaEsperada}">
+              </p:calendar>
+              <p:message 
+                for="fechaEntrega"/>
+              <!--observacionDocumento-->
+              <p:outputLabel 
+                for="observacionDocumento"
+                value="#{msg.RequisicionNombreFechaEsperada}" 
+                styleClass="negrita" />
+              <p:calendar 
+                id="observacionDocumento" 
+                value="#{ingresarSolicitudCNMB.solicitud.observacionDocumento}"
+                required="false" 
+                pattern="yyyy-MM-dd"
+                label="#{msg.RequisicionNombreFechaEsperada}">
+              </p:calendar>
+              <p:message 
+                for="observacionDocumento"/>
+            </p:panelGrid>
             <p:dataTable 
               id="tblDetalle"
               value="#{ingresarSolicitudCNMB.productosXDocumentoSeleccionados}" 
@@ -195,13 +227,6 @@
                 </p:inputText>
                 <p:message 
                   for="cantidadRequerida" />
-              </p:column>
-              <p:column 
-                style="width:32px;text-align: center">
-                <p:commandButton 
-                  icon="ui-icon-refresh" 
-                  title="#{msg.ispcnBtnActualizarProducto}"
-                  update=":pnlTab"/>
               </p:column>
               <p:column 
                 style="width:32px;text-align: center">

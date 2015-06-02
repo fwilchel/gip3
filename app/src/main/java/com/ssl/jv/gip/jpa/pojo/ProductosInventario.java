@@ -146,11 +146,9 @@ public class ProductosInventario implements Serializable {
   @OneToMany(mappedBy = "productosInventario", fetch = FetchType.LAZY)
   private List<Saldo> saldos;
 
-  // bi-directional many-to-one association to TempCosto
-	/*
-   * @OneToMany(mappedBy="productosInventario") private List<TempCosto>
-   * tempCostos;
-   */
+  @Column(name = "unidad_min_despacho_x_tendido")
+  private Integer unidadMinimaDespachoXTendido;
+  
   @Transient
   private boolean incluido;
 
@@ -452,6 +450,20 @@ public class ProductosInventario implements Serializable {
     saldo.setProductosInventario(null);
 
     return saldo;
+  }
+
+  /**
+   * @return the unidadMinimaDespachoXTendido
+   */
+  public Integer getUnidadMinimaDespachoXTendido() {
+    return unidadMinimaDespachoXTendido;
+  }
+
+  /**
+   * @param unidadMinimaDespachoXTendido the unidadMinimaDespachoXTendido to set
+   */
+  public void setUnidadMinimaDespachoXTendido(Integer unidadMinimaDespachoXTendido) {
+    this.unidadMinimaDespachoXTendido = unidadMinimaDespachoXTendido;
   }
 
   public boolean isIncluido() {

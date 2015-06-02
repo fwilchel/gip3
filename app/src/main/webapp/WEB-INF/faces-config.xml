@@ -381,8 +381,8 @@
     </navigation-case>
     <!-- comercio vacional -->
     <navigation-case>
-      <from-outcome>ingresar_solicitud_cn</from-outcome>
-      <to-view-id>/ui/comercionacional/ingresarSolicitudCN.xhtml</to-view-id>
+      <from-outcome>ingresar_solicitud_pedido_cn</from-outcome>
+      <to-view-id>/ui/comercionacional/ingresarSolicitudPedido.xhtml</to-view-id>
     </navigation-case>
   </navigation-rule>
 
