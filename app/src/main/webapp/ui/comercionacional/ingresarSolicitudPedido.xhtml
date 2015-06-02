@@ -6,12 +6,12 @@
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:p="http://primefaces.org/ui"
   xmlns:misc="http://java.sun.com/jsf/composite/misc"
-  template="/ui/templates/general.xhtml">
+  template="/resources/cn/template/template.xhtml">
   <ui:define 
     name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.
   </ui:define>
   <ui:define 
-    name="contenido">
+    name="content">
     <p:spacer 
       height="40"/>
     <p:tabView 
@@ -93,7 +93,7 @@
             </p:column>
             <p:column
               headerText="#{msg.ispcnTblColCantidad}"
-              style="width:90px;">
+              style="width:100px;">
               <p:spinner 
                 id="cantidadRequerida"
                 value="#{registro.cantidad1}" 
@@ -102,12 +102,13 @@
                 min="#{registro.productosInventario.unidadMinimaDespachoXTendido}"
                 max="9999999"
                 required="true"
-                size="7" 
+                size="6" 
+                maxlength="7"
                 style="text-align:right;">
-                	<p:ajax 
-                	  update=":pnlTab:msgsFrm"
-                	  listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}"/>
-                </p:spinner>
+                <p:ajax 
+                  update=":pnlTab:msgsFrm"
+                  listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}"/>
+              </p:spinner>
               <p:message 
                 for="cantidadRequerida" />
             </p:column>
@@ -203,7 +204,7 @@
               </p:column>
               <p:column
                 headerText="#{msg.ispcnTblColCantidad}"
-                style="width:90px;">
+                style="width:100px;">
                 <p:spinner 
                   id="cantidadRequerida"
                   value="#{registro.cantidad1}" 
@@ -212,11 +213,12 @@
                   min="#{registro.productosInventario.unidadMinimaDespachoXTendido}"
                   max="9999999"
                   required="true"
-                  size="7" 
+                  size="6" 
+                  maxlength="7"
                   style="text-align:right;">
-                	<p:ajax 
-                	  update=":pnlTab:msgsFrm"
-                	  listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}"/>
+                  <p:ajax 
+                    update=":pnlTab:msgsFrm"
+                    listener="#{ingresarSolicitudCNMB.validarCantidad(registro)}"/>
                 </p:spinner>
                 <p:message 
                   for="cantidadRequerida" />

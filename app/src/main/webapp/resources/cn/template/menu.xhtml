@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<ui:composition
+  xmlns="http://www.w3.org/1999/xhtml" 
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:h="http://java.sun.com/jsf/html">
+  <h:form 
+    id="frmNav" 
+    prependId="false">
+    <p:menubar 
+      id="mbNav" 
+      model="#{menuMB.modelo}">
+    </p:menubar>
+  </h:form>
+  <h:form
+    id="frmGrowl"
+    prependId="false">
+    <p:growl 
+      id="growl" 
+      showDetail="true"/>
+  </h:form>
+  <h:form
+    id="frmMessage"
+    prependId="false">
+    <p:messages
+      id="messages"
+      showDetail="true"
+      globalOnly="true"/>
+  </h:form>
+</ui:composition>

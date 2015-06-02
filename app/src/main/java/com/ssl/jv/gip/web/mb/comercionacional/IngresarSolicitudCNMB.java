@@ -141,8 +141,8 @@ public class IngresarSolicitudCNMB extends UtilMB {
 		// error, no puede ser menor q la unidad minima x tendido
 		  addMensajeError("Error, la cantidad no puede ser menor a la sugerida");
 	  } else {
-		BigDecimal resultado = pxd.getCantidad1().divide(pxd.getProductosInventario().getUnidadMinimaDespachoXTendido(), 2, RoundingMode.HALF_UP); 
-		if (resultado.compareTo(new BigDecimal(BigInteger.ZERO)) != 0){
+		int modulo = pxd.getCantidad1().intValue() % pxd.getProductosInventario().getUnidadMinimaDespachoXTendido().intValue(); 
+		if (modulo != 0){
 		  // error, la cantidad no es multiplo de la unidad minima x tendido
 		  addMensajeError("Error, la cantidad debe ser multiplo de la cantidad sugerida");
 		}
