@@ -71,12 +71,10 @@ public class ComercioNacionalEJB implements ComercioNacionalEJBLocal {
     estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.VENTA_DIRECTA);
     estadosxdocumento.setId(estadosxdocumentoPK);
     solicitud.setEstadosxdocumento(estadosxdocumento);
-    solicitud.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
-//    solicitud.setFechaEntrega(new Timestamp(System.currentTimeMillis()));//TODO: q valor deberia ir
-    solicitud.setFechaEsperadaEntrega(solicitud.getFechaEntrega());//TODO: q valor deberia ir
-    solicitud.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.EXTERNA));//TODO: validar q si sea esta la ubicacion
-    solicitud.setUbicacionDestino(null);//TODO: q valor deberia ir
-    solicitud.setDocumentoCliente(null);//TODO: q valor deberia ir
+    solicitud.setFechaGeneracion(null);
+    solicitud.setUbicacionOrigen(null);
+    solicitud.setUbicacionDestino(null);
+    solicitud.setDocumentoCliente(null);
     solicitud.setNumeroFactura("0");
     solicitud.setDescuentoCliente(solicitud.getCliente().getDescuentoCliente());
     // obtener consecutivo documento

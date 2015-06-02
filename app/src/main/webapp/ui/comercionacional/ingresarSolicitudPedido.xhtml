@@ -157,31 +157,31 @@
               <!--fechaEntrega-->
               <p:outputLabel 
                 for="fechaEntrega"
-                value="#{msg.RequisicionNombreFechaEsperada}" 
+                value="#{msg.documentoFechaEntrega}" 
                 styleClass="negrita" />
               <p:calendar 
                 id="fechaEntrega" 
                 value="#{ingresarSolicitudCNMB.solicitud.fechaEntrega}"
                 required="true" 
                 pattern="yyyy-MM-dd"
-                label="#{msg.RequisicionNombreFechaEsperada}">
+                label="#{msg.documentoFechaEntrega}">
               </p:calendar>
               <p:message 
                 for="fechaEntrega"/>
-              <!--observacionDocumento-->
+              <!--fechaEsperadaEntrega-->
               <p:outputLabel 
-                for="observacionDocumento"
-                value="#{msg.RequisicionNombreFechaEsperada}" 
+                for="fechaEsperadaEntrega"
+                value="#{msg.documentoFechaEsperadaEntrega}" 
                 styleClass="negrita" />
               <p:calendar 
-                id="observacionDocumento" 
-                value="#{ingresarSolicitudCNMB.solicitud.observacionDocumento}"
-                required="false" 
+                id="fechaEsperadaEntrega" 
+                value="#{ingresarSolicitudCNMB.solicitud.fechaEsperadaEntrega}"
+                required="true" 
                 pattern="yyyy-MM-dd"
-                label="#{msg.RequisicionNombreFechaEsperada}">
+                label="#{msg.documentoFechaEsperadaEntrega}">
               </p:calendar>
               <p:message 
-                for="observacionDocumento"/>
+                for="fechaEsperadaEntrega"/>
             </p:panelGrid>
             <p:dataTable 
               id="tblDetalle"
