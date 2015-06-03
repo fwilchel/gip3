@@ -1,8 +1,6 @@
 package com.ssl.jv.gip.web.mb.comercionacional;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +9,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
 
 import org.apache.log4j.Logger;
 import org.primefaces.model.StreamedContent;
@@ -73,216 +70,211 @@ public class IngresarSolicitudCNMB extends UtilMB {
 
   @PostConstruct
   public void init() {
-	LOGGER.trace("Metodo: <<init>>");
-	this.modo = Modo.LISTAR;
-	Usuario usuario = menuMB.getUsuario();
-	if (solicitud == null) {
-	  solicitud = new Documento();
-	}
-	// TODO: como obtengo el cliente desde el usuario?
-	cliente = new Cliente(1L);
-	// TODO: de donde obtengo el punto de venta
-	puntoVenta = new PuntoVenta(1L);
-	this.consultarProductosXCliente();
-	if (getProductosXDocumentoSeleccionados() == null) {
-	  this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
-	}
+    LOGGER.trace("Metodo: <<init>>");
+    this.modo = Modo.LISTAR;
+    Usuario usuario = menuMB.getUsuario();
+    if (solicitud == null) {
+      solicitud = new Documento();
+    }
+    // TODO: como obtengo el cliente desde el usuario?
+    cliente = new Cliente(1L);
+    // TODO: de donde obtengo el punto de venta
+    puntoVenta = new PuntoVenta(1L);
+    this.consultarProductosXCliente();
+    if (getProductosXDocumentoSeleccionados() == null) {
+      this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
+    }
   }
 
   public void consultarProductosXCliente() {
-	LOGGER.trace("Metodo: <<consultarProductosXCliente>>");
-	List<ProductosXCliente> pxcs = getComercioNacionalEJB().consultarProductosXCliente(cliente.getId(), puntoVenta.getId());
-	if (pxcs != null) {
-	  for (ProductosXCliente pxc : pxcs) {
-		if (getProductosXDocumento() == null) {
-		  setProductosXDocumento(new ArrayList<ProductosXDocumento>());
-		}
-		ProductosXDocumento pxd = new ProductosXDocumento();
-		pxd.setProductosInventario(pxc.getProductosInventario());
-		pxd.setDescuentoxproducto(pxc.getDescuentoxproducto());
-		pxd.setIva(pxc.getIva());
-		pxd.setOtrosDescuentos(pxc.getOtrosDescuentos());
-		pxd.setValorUnitatrioMl(pxc.getPrecioMl());
-		pxd.setValorUnitarioUsd(pxc.getPrecioUsd());
-		pxd.setUnidade(pxc.getProductosInventario().getUnidadVenta());
-		if (pxc.getProductosInventario().getUnidadMinimaDespachoXTendido() == null) {
-		  pxc.getProductosInventario().setUnidadMinimaDespachoXTendido(new BigDecimal(6));
-		}
-		pxd.setCantidad1(pxc.getProductosInventario().getUnidadMinimaDespachoXTendido());
-		getProductosXDocumento().add(pxd);
-	  }
-	}
+    LOGGER.trace("Metodo: <<consultarProductosXCliente>>");
+    List<ProductosXCliente> pxcs = getComercioNacionalEJB().consultarProductosXCliente(cliente.getId(), puntoVenta.getId());
+    if (pxcs != null) {
+      for (ProductosXCliente pxc : pxcs) {
+        if (getProductosXDocumento() == null) {
+          setProductosXDocumento(new ArrayList<ProductosXDocumento>());
+        }
+        ProductosXDocumento pxd = new ProductosXDocumento();
+        pxd.setProductosInventario(pxc.getProductosInventario());
+        pxd.setDescuentoxproducto(pxc.getDescuentoxproducto());
+        pxd.setIva(pxc.getIva());
+        pxd.setOtrosDescuentos(pxc.getOtrosDescuentos());
+        pxd.setValorUnitatrioMl(pxc.getPrecioMl());
+        pxd.setValorUnitarioUsd(pxc.getPrecioUsd());
+        pxd.setUnidade(pxc.getProductosInventario().getUnidadVenta());
+        if (pxc.getProductosInventario().getUnidadMinimaDespachoXTendido() == null) {
+          pxc.getProductosInventario().setUnidadMinimaDespachoXTendido(new BigDecimal(6));
+        }
+        pxd.setCantidad1(pxc.getProductosInventario().getUnidadMinimaDespachoXTendido());
+        getProductosXDocumento().add(pxd);
+      }
+    }
   }
 
   public String obtenerMensajeConfirmacion(ProductosXDocumento pxd) {
-	LOGGER.trace("Metodo: <<obtenerMensajeConfirmacion>>");
-	if (pxd == null) {
-	  return "";
-	}
-	return this.formatearCadenaConParametros("ispcnMsgConfirm", language, pxd.getProductosInventario().getSku(), pxd.getCantidad1().toString());
+    LOGGER.trace("Metodo: <<obtenerMensajeConfirmacion>>");
+    if (pxd == null) {
+      return "";
+    }
+    return this.formatearCadenaConParametros("ispcnMsgConfirm", language, pxd.getProductosInventario().getSku(), pxd.getCantidad1().toString());
   }
 
   public void agregarProducto(ProductosXDocumento pxd) {
-	LOGGER.trace("Metodo: <<agregarProducto>>");
-	getProductosXDocumentoSeleccionados().add(pxd);
-	getProductosXDocumento().remove(pxd);
+    LOGGER.trace("Metodo: <<agregarProducto>>");
+    getProductosXDocumentoSeleccionados().add(pxd);
+    getProductosXDocumento().remove(pxd);
   }
 
   public void validarCantidad(ProductosXDocumento pxd) {
-	LOGGER.trace("Metodo: <<validarCantidad>>");
-	if (pxd.getCantidad1() == null) {
-	  // error, no puede ser null
-	  addMensajeError("Error, la cantidad no puede ser nula");
-	} else {
-	  if (pxd.getProductosInventario().getUnidadMinimaDespachoXTendido() == null) {
-		pxd.getProductosInventario().setUnidadMinimaDespachoXTendido(new BigDecimal(1));
-	  }
-	  if (pxd.getCantidad1().intValue() < pxd.getProductosInventario().getUnidadMinimaDespachoXTendido().intValue()) {
-		// error, no puede ser menor q la unidad minima x tendido
-		  addMensajeError("Error, la cantidad no puede ser menor a la sugerida");
-	  } else {
-		int modulo = pxd.getCantidad1().intValue() % pxd.getProductosInventario().getUnidadMinimaDespachoXTendido().intValue(); 
-		if (modulo != 0){
-		  // error, la cantidad no es multiplo de la unidad minima x tendido
-		  addMensajeError("Error, la cantidad debe ser multiplo de la cantidad sugerida");
-		}
-	  }
-	}
+    LOGGER.trace("Metodo: <<validarCantidad>>");
+    if (pxd.getCantidad1() == null) {
+      // error, no puede ser null
+      addMensajeError("Error, la cantidad no puede ser nula");
+    } else {
+      if (pxd.getProductosInventario().getUnidadMinimaDespachoXTendido() == null) {
+        pxd.getProductosInventario().setUnidadMinimaDespachoXTendido(new BigDecimal(1));
+      }
+      if (pxd.getCantidad1().intValue() < pxd.getProductosInventario().getUnidadMinimaDespachoXTendido().intValue()) {
+        // error, no puede ser menor q la unidad minima x tendido
+        addMensajeError("Error, la cantidad no puede ser menor a la sugerida");
+      } else {
+        int modulo = pxd.getCantidad1().intValue() % pxd.getProductosInventario().getUnidadMinimaDespachoXTendido().intValue();
+        if (modulo != 0) {
+          // error, la cantidad no es multiplo de la unidad minima x tendido
+          addMensajeError("Error, la cantidad debe ser multiplo de la cantidad sugerida");
+          pxd.setCantidad1(pxd.getProductosInventario().getUnidadMinimaDespachoXTendido());
+        }
+      }
+    }
   }
 
   public void verPedido() {
-	LOGGER.trace("Metodo: <<verPedido>>");
-	this.modo = Modo.GENERAR;
+    LOGGER.trace("Metodo: <<verPedido>>");
+    this.modo = Modo.GENERAR;
   }
 
   public void removerProductoXCliente(ProductosXDocumento pxd) {
-	LOGGER.trace("Metodo: <<removerProductoXCliente>>");
-	getProductosXDocumentoSeleccionados().remove(pxd);
-	getProductosXDocumento().add(pxd);
+    LOGGER.trace("Metodo: <<removerProductoXCliente>>");
+    getProductosXDocumentoSeleccionados().remove(pxd);
+    getProductosXDocumento().add(pxd);
   }
 
   public void ingresarSolicitudComercioNacional() {
-	LOGGER.trace("Metodo: <<ingresarSolicitudComercioNacional>>");
-	// auditoria
-	LogAuditoria auditoria = new LogAuditoria();
-	auditoria.setIdUsuario(menuMB.getUsuario().getId());
-	auditoria.setIdFuncionalidad(menuMB.getIdOpcionActual());
-	try {
-	  solicitud.setCliente(cliente);
-	  solicitud.setPuntoVenta(puntoVenta);
-	  solicitud = comercioNacionalEJB.ingresarSolicitudComercioNacional(solicitud, productosXDocumento, auditoria);
-	  LOGGER.debug("Documento generado exitosamente con id: " + solicitud.getId() + " y consecutivo: " + solicitud.getConsecutivoDocumento());
-	  addMensajeInfo(formatearCadenaConParametros("ispcnMsgSucces", language, solicitud.getConsecutivoDocumento()));
-	  reset();
-	} catch (Exception ex) {
-	  addMensajeError(AplicacionMB.getMessage("ispcnMsgFail", language));
-	  LOGGER.error(ex.getCause());
-	}
+    LOGGER.trace("Metodo: <<ingresarSolicitudComercioNacional>>");
+    // auditoria
+    LogAuditoria auditoria = new LogAuditoria();
+    auditoria.setIdUsuario(menuMB.getUsuario().getId());
+    auditoria.setIdFuncionalidad(menuMB.getIdOpcionActual());
+    try {
+      solicitud.setCliente(cliente);
+      solicitud.setPuntoVenta(puntoVenta);
+      solicitud = comercioNacionalEJB.ingresarSolicitudComercioNacional(solicitud, productosXDocumento, auditoria);
+      LOGGER.debug("Documento generado exitosamente con id: " + solicitud.getId() + " y consecutivo: " + solicitud.getConsecutivoDocumento());
+      addMensajeInfo(formatearCadenaConParametros("ispcnMsgSucces", language, solicitud.getConsecutivoDocumento()));
+      reset();
+    } catch (Exception ex) {
+      addMensajeError(AplicacionMB.getMessage("ispcnMsgFail", language));
+      LOGGER.error(ex.getCause());
+    }
   }
 
   public StreamedContent generarReporte() {
-	LOGGER.trace("Metodo: <<generarReporte>>");
-	return null;
+    LOGGER.trace("Metodo: <<generarReporte>>");
+    return null;
   }
 
   public void volver() {
-	LOGGER.trace("Metodo: <<volver>>");
-	this.init();
+    LOGGER.trace("Metodo: <<volver>>");
+    this.init();
   }
 
   private void reset() {
-	LOGGER.trace("Metodo: <<reset>>");
-	modo = Modo.LISTAR;
-	setSolicitud(null);
-	setProductosXDocumento(null);
-	getProductosXDocumentoSeleccionados().clear();
+    LOGGER.trace("Metodo: <<reset>>");
+    modo = Modo.LISTAR;
+    setSolicitud(null);
+    setProductosXDocumento(null);
+    getProductosXDocumentoSeleccionados().clear();
   }
 
   public boolean isModoListar() {
-	return modo.equals(Modo.LISTAR);
+    return modo.equals(Modo.LISTAR);
   }
 
   public boolean isModoGenerar() {
-	return modo.equals(Modo.GENERAR);
+    return modo.equals(Modo.GENERAR);
   }
 
   public boolean isModoConfirmacion() {
-	return modo.equals(Modo.CONFIRMACION);
+    return modo.equals(Modo.CONFIRMACION);
   }
 
   /**
-   * @param appMB
-   *          the appMB to set
+   * @param appMB the appMB to set
    */
   public void setAppMB(AplicacionMB appMB) {
-	this.appMB = appMB;
+    this.appMB = appMB;
   }
 
   /**
-   * @param menuMB
-   *          the menuMB to set
+   * @param menuMB the menuMB to set
    */
   public void setMenuMB(MenuMB menuMB) {
-	this.menuMB = menuMB;
+    this.menuMB = menuMB;
   }
 
   /**
    * @return the comercioNacionalEJB
    */
   public ComercioNacionalEJBLocal getComercioNacionalEJB() {
-	return comercioNacionalEJB;
+    return comercioNacionalEJB;
   }
 
   /**
-   * @param comercioNacionalEJB
-   *          the comercioNacionalEJB to set
+   * @param comercioNacionalEJB the comercioNacionalEJB to set
    */
   public void setComercioNacionalEJB(ComercioNacionalEJBLocal comercioNacionalEJB) {
-	this.comercioNacionalEJB = comercioNacionalEJB;
+    this.comercioNacionalEJB = comercioNacionalEJB;
   }
 
   /**
    * @return the solicitud
    */
   public Documento getSolicitud() {
-	return solicitud;
+    return solicitud;
   }
 
   /**
-   * @param solicitud
-   *          the solicitud to set
+   * @param solicitud the solicitud to set
    */
   public void setSolicitud(Documento solicitud) {
-	this.solicitud = solicitud;
+    this.solicitud = solicitud;
   }
 
   /**
    * @return the productosXDocumento
    */
   public List<ProductosXDocumento> getProductosXDocumento() {
-	return productosXDocumento;
+    return productosXDocumento;
   }
 
   /**
-   * @param productosXDocumento
-   *          the productosXDocumento to set
+   * @param productosXDocumento the productosXDocumento to set
    */
   public void setProductosXDocumento(List<ProductosXDocumento> productosXDocumento) {
-	this.productosXDocumento = productosXDocumento;
+    this.productosXDocumento = productosXDocumento;
   }
 
   /**
    * @return the productosXDocumentoSeleccionados
    */
   public List<ProductosXDocumento> getProductosXDocumentoSeleccionados() {
-	return productosXDocumentoSeleccionados;
+    return productosXDocumentoSeleccionados;
   }
 
   /**
-   * @param productosXDocumentoSeleccionados
-   *          the productosXDocumentoSeleccionados to set
+   * @param productosXDocumentoSeleccionados the productosXDocumentoSeleccionados to set
    */
   public void setProductosXDocumentoSeleccionados(List<ProductosXDocumento> productosXDocumentoSeleccionados) {
-	this.productosXDocumentoSeleccionados = productosXDocumentoSeleccionados;
+    this.productosXDocumentoSeleccionados = productosXDocumentoSeleccionados;
   }
 }
