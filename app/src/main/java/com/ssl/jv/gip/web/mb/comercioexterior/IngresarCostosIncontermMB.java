@@ -81,7 +81,7 @@ public class IngresarCostosIncontermMB extends UtilMB {
    */
   @PostConstruct
   public void init() {
-    listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosCostosInconterm();
+	listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosCostosInconterm();
   }
 
   /**
@@ -89,9 +89,9 @@ public class IngresarCostosIncontermMB extends UtilMB {
    */
   public void refrescarTotales() {
 
-    dblValorFOB = dblValorCostoLogistico.add(dblValorCostoEtiquetas);
+	dblValorFOB = dblValorCostoLogistico.add(dblValorCostoEtiquetas);
 
-    dblValorTotalNeg = dblTotalValorT.add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
+	dblValorTotalNeg = dblTotalValorT.add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
 
   }
 
@@ -101,16 +101,17 @@ public class IngresarCostosIncontermMB extends UtilMB {
    * @return the seleccionado
    */
   public DocumentoIncontermDTO getSeleccionado() {
-    return seleccionado;
+	return seleccionado;
   }
 
   /**
    * Sets the seleccionado.
    *
-   * @param seleccionado the new seleccionado
+   * @param seleccionado
+   *          the new seleccionado
    */
   public void setSeleccionado(DocumentoIncontermDTO seleccionado) {
-    this.seleccionado = seleccionado;
+	this.seleccionado = seleccionado;
   }
 
   /**
@@ -119,30 +120,30 @@ public class IngresarCostosIncontermMB extends UtilMB {
    * @return the string
    */
   public String consultarSolicitudPedido() {
-    dblTotalValorT = seleccionado.getValorTotalDocumento() == null ? new BigDecimal(0) : seleccionado.getValorTotalDocumento();
-    this.dblValorCostoLogistico = seleccionado.getCostoEntrega() == null ? new BigDecimal(0) : seleccionado.getCostoEntrega();
-    dblValorFOB = seleccionado.getCostoEntrega() == null ? new BigDecimal(0) : seleccionado.getCostoEntrega();
-    dblValorFletes = seleccionado.getCostoFlete() == null ? new BigDecimal(0) : seleccionado.getCostoFlete();
-    dblValorSeguro = seleccionado.getCostoSeguro() == null ? new BigDecimal(0) : seleccionado.getCostoSeguro();
-    dblValorOtrosGastos = seleccionado.getOtrosGastos() == null ? new BigDecimal(0) : seleccionado.getOtrosGastos();
-    dblValorTotalNeg = dblTotalValorT.add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
+	dblTotalValorT = seleccionado.getValorTotalDocumento() == null ? new BigDecimal(0) : seleccionado.getValorTotalDocumento();
+	this.dblValorCostoLogistico = seleccionado.getCostoEntrega() == null ? new BigDecimal(0) : seleccionado.getCostoEntrega();
+	dblValorFOB = seleccionado.getCostoEntrega() == null ? new BigDecimal(0) : seleccionado.getCostoEntrega();
+	dblValorFletes = seleccionado.getCostoFlete() == null ? new BigDecimal(0) : seleccionado.getCostoFlete();
+	dblValorSeguro = seleccionado.getCostoSeguro() == null ? new BigDecimal(0) : seleccionado.getCostoSeguro();
+	dblValorOtrosGastos = seleccionado.getOtrosGastos() == null ? new BigDecimal(0) : seleccionado.getOtrosGastos();
+	dblValorTotalNeg = dblTotalValorT.add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
 
-    return "";
+	return "";
   }
 
   /**
    * Guardar ajustes pedido.
    */
   public void guardarAjustesPedido() {
-    seleccionado.setCostoEntrega(dblValorFOB);
-    seleccionado.setCostoFlete(dblValorFletes);
-    seleccionado.setCostoSeguro(dblValorSeguro);
-    seleccionado.setOtrosGastos(dblValorOtrosGastos);
+	seleccionado.setCostoEntrega(dblValorFOB);
+	seleccionado.setCostoFlete(dblValorFletes);
+	seleccionado.setCostoSeguro(dblValorSeguro);
+	seleccionado.setOtrosGastos(dblValorOtrosGastos);
 
-    comercioEjb.actualizarDocumentoPorNegociacion(seleccionado);
+	comercioEjb.actualizarDocumentoPorNegociacion(seleccionado);
 
-    this.addMensajeInfo("Se actualizaron los costos exitosamente");
-    listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosCostosInconterm();
+	this.addMensajeInfo("Se actualizaron los costos exitosamente");
+	listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosCostosInconterm();
 
   }
 
@@ -152,16 +153,17 @@ public class IngresarCostosIncontermMB extends UtilMB {
    * @return the lista documentos
    */
   public ArrayList<DocumentoIncontermDTO> getListaDocumentos() {
-    return listaDocumentos;
+	return listaDocumentos;
   }
 
   /**
    * Sets the lista documentos.
    *
-   * @param listaDocumentos the new lista documentos
+   * @param listaDocumentos
+   *          the new lista documentos
    */
   public void setListaDocumentos(ArrayList<DocumentoIncontermDTO> listaDocumentos) {
-    this.listaDocumentos = listaDocumentos;
+	this.listaDocumentos = listaDocumentos;
   }
 
   /**
@@ -170,16 +172,17 @@ public class IngresarCostosIncontermMB extends UtilMB {
    * @return the dbl valor total neg
    */
   public BigDecimal getDblValorTotalNeg() {
-    return dblValorTotalNeg;
+	return dblValorTotalNeg;
   }
 
   /**
    * Sets the dbl valor total neg.
    *
-   * @param dblValorTotalNeg the new dbl valor total neg
+   * @param dblValorTotalNeg
+   *          the new dbl valor total neg
    */
   public void setDblValorTotalNeg(BigDecimal dblValorTotalNeg) {
-    this.dblValorTotalNeg = dblValorTotalNeg;
+	this.dblValorTotalNeg = dblValorTotalNeg;
   }
 
   /**
@@ -188,16 +191,17 @@ public class IngresarCostosIncontermMB extends UtilMB {
    * @return the dbl valor fob
    */
   public BigDecimal getDblValorFOB() {
-    return dblValorFOB;
+	return dblValorFOB;
   }
 
   /**
    * Sets the dbl valor fob.
    *
-   * @param dblValorFOB the new dbl valor fob
+   * @param dblValorFOB
+   *          the new dbl valor fob
    */
   public void setDblValorFOB(BigDecimal dblValorFOB) {
-    this.dblValorFOB = dblValorFOB;
+	this.dblValorFOB = dblValorFOB;
   }
 
   /**
@@ -206,16 +210,17 @@ public class IngresarCostosIncontermMB extends UtilMB {
    * @return the dbl valor fletes
    */
   public BigDecimal getDblValorFletes() {
-    return dblValorFletes;
+	return dblValorFletes;
   }
 
   /**
    * Sets the dbl valor fletes.
    *
-   * @param dblValorFletes the new dbl valor fletes
+   * @param dblValorFletes
+   *          the new dbl valor fletes
    */
   public void setDblValorFletes(BigDecimal dblValorFletes) {
-    this.dblValorFletes = dblValorFletes;
+	this.dblValorFletes = dblValorFletes;
   }
 
   /**
@@ -224,16 +229,17 @@ public class IngresarCostosIncontermMB extends UtilMB {
    * @return the dbl valor seguro
    */
   public BigDecimal getDblValorSeguro() {
-    return dblValorSeguro;
+	return dblValorSeguro;
   }
 
   /**
    * Sets the dbl valor seguro.
    *
-   * @param dblValorSeguro the new dbl valor seguro
+   * @param dblValorSeguro
+   *          the new dbl valor seguro
    */
   public void setDblValorSeguro(BigDecimal dblValorSeguro) {
-    this.dblValorSeguro = dblValorSeguro;
+	this.dblValorSeguro = dblValorSeguro;
   }
 
   /**
@@ -242,16 +248,17 @@ public class IngresarCostosIncontermMB extends UtilMB {
    * @return the dbl valor otros gastos
    */
   public BigDecimal getDblValorOtrosGastos() {
-    return dblValorOtrosGastos;
+	return dblValorOtrosGastos;
   }
 
   /**
    * Sets the dbl valor otros gastos.
    *
-   * @param dblValorOtrosGastos the new dbl valor otros gastos
+   * @param dblValorOtrosGastos
+   *          the new dbl valor otros gastos
    */
   public void setDblValorOtrosGastos(BigDecimal dblValorOtrosGastos) {
-    this.dblValorOtrosGastos = dblValorOtrosGastos;
+	this.dblValorOtrosGastos = dblValorOtrosGastos;
   }
 
   /**
@@ -260,32 +267,36 @@ public class IngresarCostosIncontermMB extends UtilMB {
    * @return the dbl total valor t
    */
   public BigDecimal getDblTotalValorT() {
-    return dblTotalValorT;
+	return dblTotalValorT;
   }
 
   /**
    * Sets the dbl total valor t.
    *
-   * @param dblTotalValorT the new dbl total valor t
+   * @param dblTotalValorT
+   *          the new dbl total valor t
    */
   public void setDblTotalValorT(BigDecimal dblTotalValorT) {
-    this.dblTotalValorT = dblTotalValorT;
+	this.dblTotalValorT = dblTotalValorT;
   }
 
   public BigDecimal getDblValorCostoLogistico() {
-    return dblValorCostoLogistico;
+	return dblValorCostoLogistico;
   }
 
   public void setDblValorCostoLogistico(BigDecimal dblValorCostoLogistico) {
-    this.dblValorCostoLogistico = dblValorCostoLogistico;
+	this.dblValorCostoLogistico = dblValorCostoLogistico;
   }
 
   public BigDecimal getDblValorCostoEtiquetas() {
-    return dblValorCostoEtiquetas;
+	if (dblValorCostoEtiquetas == null) {
+	  dblValorCostoEtiquetas = new BigDecimal(0);
+	}
+	return dblValorCostoEtiquetas;
   }
 
   public void setDblValorCostoEtiquetas(BigDecimal dblValorCostoEtiquetas) {
-    this.dblValorCostoEtiquetas = dblValorCostoEtiquetas;
+	this.dblValorCostoEtiquetas = dblValorCostoEtiquetas;
   }
 
 }
