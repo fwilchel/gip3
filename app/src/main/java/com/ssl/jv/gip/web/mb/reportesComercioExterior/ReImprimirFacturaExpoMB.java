@@ -124,12 +124,12 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     String strFacturaProforma = "";
     this.seleccionado.setDocumentoXNegociacions(this.reportesComercioExteriorEJBLocal.consultarDocumentoXNegociacionxDocumento(this.seleccionado.getId()));
     if (this.seleccionado.getDocumentoXNegociacions() != null && !this.seleccionado.getDocumentoXNegociacions().isEmpty()) {
-      intCantidadDiasVigencia = this.seleccionado.getDocumentoXNegociacions().get(0).getCantidadDiasVigencia();
-      strNombreIncoterm = this.seleccionado.getDocumentoXNegociacions().get(0).getTerminoIncoterm().getDescripcion();
-      strLugarIncoterm = this.seleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm();
-      cantidadEstibas = this.seleccionado.getDocumentoXNegociacions().get(0).getCantidadEstibas();
-      pesoBrutoEstibas = this.seleccionado.getDocumentoXNegociacions().get(0).getPesoBrutoEstibas();
-      strObservacionMarcacion2 = this.seleccionado.getDocumentoXNegociacions().get(0).getObservacionesMarcacion2();
+      intCantidadDiasVigencia = this.seleccionado.getDocumentoXNegociacion().getCantidadDiasVigencia();
+      strNombreIncoterm = this.seleccionado.getDocumentoXNegociacion().getTerminoIncoterm().getDescripcion();
+      strLugarIncoterm = this.seleccionado.getDocumentoXNegociacion().getLugarIncoterm();
+      cantidadEstibas = this.seleccionado.getDocumentoXNegociacion().getCantidadEstibas();
+      pesoBrutoEstibas = this.seleccionado.getDocumentoXNegociacion().getPesoBrutoEstibas();
+      strObservacionMarcacion2 = this.seleccionado.getDocumentoXNegociacion().getObservacionesMarcacion2();
     }
     Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
     tmsFecha = new Timestamp(Calendario.getTimeInMillis());
@@ -171,7 +171,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     parametros.put("qEstibas", cantidadEstibas.doubleValue());
     parametros.put("PesoBrutoEstibas", pesoBrutoEstibas.doubleValue());
     parametros.put("descripcion_envio", strObservacionMarcacion2);
-    if (this.seleccionado.getEstadosxdocumento().getEstado().getId().equals(Estado.ANULADO)) {
+    if (this.seleccionado.getEstadosxdocumento().getEstado().getId().longValue() == Estado.ANULADO.getCodigo()) {
       parametros.put("anulada", "ANULADA");
     } else {
       parametros.put("anulada", "");
@@ -205,8 +205,14 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     }
 
     if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()) {
-      parametros.put("solicitud", this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento()));
-      strFacturaProforma = this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento());
+      try {
+        strFacturaProforma = this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento());
+        parametros.put("solicitud", strFacturaProforma);
+      } catch (Exception ex){
+    	strFacturaProforma = null;
+    	parametros.put("solicitud", null);
+    	LOGGER.error(ex.getMessage());
+      }
     }
 
     List<DocumentoXLotesoic> docxLotesOic = this.reportesComercioExteriorEJBLocal.consultarPorConsecutivoDocumento(strFacturaProforma);
