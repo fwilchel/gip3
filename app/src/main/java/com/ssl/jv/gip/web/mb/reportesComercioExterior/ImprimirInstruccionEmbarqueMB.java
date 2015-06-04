@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.negocio.dto.InstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -12,6 +14,7 @@ import org.apache.log4j.Logger;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -19,9 +22,12 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -105,11 +111,21 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
    * @return
    */
   public StreamedContent imprimirInstruccionEmbarque() {
+	  StreamedContent reportePDF = null;  
+	  
+	  try {
     LOGGER.debug("Metodo: <<imprimirInstruccionEmbarque>>");
-    StreamedContent reportePDF = null;
-    Map<String, Object> parametrosReporte = new HashMap<>();
-    JRBeanCollectionDataSource ds = null;
+    
+    
+    
+    Map<String, Object> parametrosReporte = new HashMap<String, Object>();
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(seleccionado.getListaLotes());
+    
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    
+    
+     
+    
     parametrosReporte.put("consecutivosSPs", seleccionado.getConsecutivoSPs());
     parametrosReporte.put("mesEmbarque", seleccionado.getMesEmbarque());
     parametrosReporte.put("sociedad1", seleccionado.getAgenteAduana1Nombre());
@@ -140,16 +156,27 @@ public class ImprimirInstruccionEmbarqueMB extends UtilMB {
     parametrosReporte.put("booking", seleccionado.getNumeroBooking());
     parametrosReporte.put("incotermDespacho", seleccionado.getIncotermDespachoDecripcion());
     parametrosReporte.put("observacion2", seleccionado.getObservacion2());
-    ds = new JRBeanCollectionDataSource(seleccionado.getListaLotes());
-    try {
-      Hashtable<String, String> parametrosConfiguracionReporte;
-      parametrosConfiguracionReporte = new Hashtable<>();
+    
+    
+    
+    
+      Hashtable<String, String> parametrosConfiguracionReporte = new Hashtable<String, String>();
+      //parametrosConfiguracionReporte = new Hashtable<String, String>();
       parametrosConfiguracionReporte.put("tipo", "pdf");
       String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_IE.jasper");
       ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reporte, null, null, null, parametrosReporte, ds);
-      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "Reporte_IE.pdf");
+      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "Report_IE.pdf");
+      
+      
+
+
+      
+      
+      
     } catch (Exception e) {
-      this.addMensajeError(e);
+    	LOGGER.error(e);
+    	this.addMensajeError(e);
+      
     }
     return reportePDF;
   }

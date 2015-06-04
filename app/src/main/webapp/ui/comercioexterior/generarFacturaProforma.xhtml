@@ -189,7 +189,7 @@
           </p:panelGrid>
 
           <p:dataTable var="producto" widgetVar="productoDoc"
-                       id="tablaProductos" sortBy="#{producto.idCliente}"
+                       id="tablaProductos" sortBy="#{producto.idDocumento}"
                        rendered="#{not empty generarFacturaPFMB.productos}"
                        value="#{generarFacturaPFMB.productos}">
 

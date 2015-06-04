@@ -33,4 +33,7 @@ public interface ReportesEJBLocal {
 
   public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSKU(
       String sku, boolean ultimoSaldo);
+
+public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumento(
+		Long idDocumento);
 }
