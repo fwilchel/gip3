@@ -27,7 +27,7 @@ public class ProductoGenerarFacturaPFDTO implements Serializable {
   private BigDecimal valorTotal;
   private BigDecimal totalPesoNeto;
   private BigDecimal totalPesoBruto;
-  private BigInteger idCliente;
+  //private BigInteger idCliente;
   private BigDecimal cajasPorPallets;
   private BigInteger idUnidad;
   private BigDecimal totalCajas;
@@ -40,8 +40,10 @@ public class ProductoGenerarFacturaPFDTO implements Serializable {
   private BigDecimal pesoNetoEmbalaje;
   private BigDecimal pesoBrutoEmbalaje;
   private Boolean controlStock;
+  private Long idDocumento;
 
-  public ProductoGenerarFacturaPFDTO() {
+
+public ProductoGenerarFacturaPFDTO() {
 
   }
 
@@ -170,13 +172,14 @@ public class ProductoGenerarFacturaPFDTO implements Serializable {
     this.totalPesoBruto = totalPesoBruto;
   }
 
-  public BigInteger getIdCliente() {
+ /* public BigInteger getIdCliente() {
     return idCliente;
   }
 
   public void setIdCliente(BigInteger idCliente) {
     this.idCliente = idCliente;
-  }
+  }*/
+  
 
   public BigDecimal getCajasPorPallets() {
     return cajasPorPallets;
@@ -273,5 +276,20 @@ public class ProductoGenerarFacturaPFDTO implements Serializable {
   public void setControlStock(Boolean controlStock) {
     this.controlStock = controlStock;
   }
+  
+  /**
+ * @return the idDocumento
+ */
+public Long getIdDocumento() {
+	return idDocumento;
+}
+
+/**
+ * @param idDocumento the idDocumento to set
+ */
+public void setIdDocumento(Long idDocumento) {
+	this.idDocumento = idDocumento;
+}
+
 
 }

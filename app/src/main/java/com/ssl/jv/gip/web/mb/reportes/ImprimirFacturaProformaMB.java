@@ -141,9 +141,13 @@ public class ImprimirFacturaProformaMB extends UtilMB {
       }
 
       productosXDocumentos = reportesEJBLocal
-          .consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
-              seleccionado.getId(), seleccionado.getCliente()
-              .getId());
+          //.consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
+            //  seleccionado.getId(), seleccionado.getCliente()
+              //.getId());
+    		 .consultarProductosXDocumentosFacturaProformaPorDocumento(seleccionado.getId());
+    				 
+    		  
+    		  
 
       for (ProductosXDocumento productosXDocumento : productosXDocumentos) {
         totalCantidad = totalCantidad.add(productosXDocumento

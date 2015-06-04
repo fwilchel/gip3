@@ -180,6 +180,9 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
               sumCafe = sumCafe.add(lote.getTotalCajas());
             }
           }
+          
+         
+          
         }
         documento.setConsecutivoSPs(consecutivoSPs.toString());
         documento.setConsecutivo(consecutivo.toString());

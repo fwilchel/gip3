@@ -141,6 +141,8 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
       Long idDocumento, Long idCliente) {
     Query query = em
         .createNamedQuery(ProductosXDocumento.FIND_BY_DOCUMENTO_AND_CLIENTE);
+    		
+    		    		
     query.setParameter("idDocumento", idDocumento);
     query.setParameter("idCliente", idCliente);
     return query.getResultList();

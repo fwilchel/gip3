@@ -59,4 +59,6 @@ public interface ProductoClienteComercioExteriorDAOLocal extends IGenericDAO<Pro
 
   public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(
       Long idDocumento, Long idCliente);
+  
+  
 }

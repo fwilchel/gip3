@@ -97,4 +97,13 @@ public class ReportesEJB implements ReportesEJBLocal {
     return movimientosInventarioComextDAOLocal.consultarPorSKU(sku,
         ultimoSaldo);
   }
+  
+  
+  
+  @Override
+  public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumento(
+      Long idDocumento) {
+    return productosXDocumentoDAOLocal.consultarPorDocumento(
+        idDocumento);
+  }
 }
