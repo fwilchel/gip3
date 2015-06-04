@@ -255,6 +255,7 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
           dto.setControlStock(false);
           dto.setObservaciones("N/A");
           this.addMensajeError("SKUs inexistentes en el maestro productoxcliente");
+          errorValidacion = true;
         } else {
           dto.setSeleccionado(true);
           dto.setDesactivado(false);
