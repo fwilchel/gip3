@@ -278,6 +278,7 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
           ProductosXClienteComext pcce = this.comercioEjb.consultarPorClienteSku(this.idCliente, sku);
           if (pcce == null) {
             dto.setObservaciones("N/A");
+            errorValidacion = true;
           }
         }
         if (pi != null && pi.getProductosInventarioComext() != null && pi.getProductosInventarioComext().getTipoLoteoic() != null) {
