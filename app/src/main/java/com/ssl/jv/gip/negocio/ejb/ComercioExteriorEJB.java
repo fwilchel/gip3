@@ -1710,4 +1710,13 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	documentoXLoteDAO.addConsecutivoLoteOIC_FP(documento);
 	// return lista;
   }
+
+  @Override
+  public Documento consultarFX(Long id) {
+	LOGGER.trace("metodo: consultarFX()");
+	Map<String, Object> parametros;
+	parametros = new HashMap<>();
+	parametros.put("id", id);	
+	return documentoDAO.buscarRegistroPorConsultaNombrada(Documento.BUSCAR_DOCUMENTO_FX_REIMPRIMIR_BY_ID, parametros);
+  }
 }

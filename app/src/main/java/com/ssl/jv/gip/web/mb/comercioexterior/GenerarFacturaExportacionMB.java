@@ -54,6 +54,7 @@ import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.Numero_a_Letra_Ingles;
 import com.ssl.jv.gip.web.util.Modo;
 import com.ssl.jv.gip.web.util.Utilidad;
+
 import javax.persistence.PersistenceException;
 
 /**
@@ -331,6 +332,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 
       productos.add(productoDocumento);
     }
+    
     facturaGenerada = this.comercioExteriorEJBLocal.crearFacturaExportacion(facturaGenerada, auditoria, dxn, productos, this.seleccionado);
 
     String mensaje = AplicacionMB.getMessage("VentasFXExito_Crear", language);
@@ -465,15 +467,13 @@ public class GenerarFacturaExportacionMB extends UtilMB {
       // this.reportesComercioExteriorEJBLocal.consultarMuestrasPorCantidad(this.seleccionado.getDocumentoXLotesoics().get(0).getTotalCantidad());
       this.listaProductoTotales = comercioExteriorEJBLocal.consultarProductoPorDocumentoLoteAsignarLotesOIC(this.seleccionado.getId(), this.seleccionado.getCliente().getId());
 
-      if (this.seleccionado.getDocumentoXNegociacions() != null && !this.seleccionado.getDocumentoXNegociacions().isEmpty()) {
-        this.totalCostoEntrega = this.seleccionado.getDocumentoXNegociacions().get(0).getCostoEntrega();
-        this.totalCostoSeguro = this.seleccionado.getDocumentoXNegociacions().get(0).getCostoSeguro();
-        this.totalCostoFlete = this.seleccionado.getDocumentoXNegociacions().get(0).getCostoFlete();
-        this.totalOtrosGastos = this.seleccionado.getDocumentoXNegociacions().get(0).getOtrosGastos();
-
+      if (this.seleccionado.getDocumentoXNegociacion() != null) {
+        this.totalCostoEntrega = this.seleccionado.getDocumentoXNegociacion().getCostoEntrega();
+        this.totalCostoSeguro = this.seleccionado.getDocumentoXNegociacion().getCostoSeguro();
+        this.totalCostoFlete = this.seleccionado.getDocumentoXNegociacion().getCostoFlete();
+        this.totalOtrosGastos = this.seleccionado.getDocumentoXNegociacion().getOtrosGastos();
         this.totalCostos = totalCostoEntrega.add(totalCostoSeguro).add(totalCostoFlete).add(totalOtrosGastos);
-
-        this.totalPallets = this.seleccionado.getDocumentoXNegociacions().get(0).getTotalPallets();
+        this.totalPallets = this.seleccionado.getDocumentoXNegociacion().getTotalPallets();
       }
 
       this.totalValorNeg = this.totalValorTotal.add(totalCostos);
@@ -507,34 +507,36 @@ public class GenerarFacturaExportacionMB extends UtilMB {
     /**
      * ********** Llenado de parametros ************
      */
+    facturaGenerada = comercioExteriorEJBLocal.consultarFX(facturaGenerada.getId());
+    listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumento(facturaGenerada.getId());
     SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
-    String fechaStringGeneracion = ft.format(this.seleccionado.getFechaGeneracion());
+    String fechaStringGeneracion = ft.format(this.facturaGenerada.getFechaGeneracion());
     Calendar Calendario = Calendar.getInstance();
-    Calendario.setTimeInMillis(this.seleccionado.getFechaGeneracion().getTime());
+    Calendario.setTimeInMillis(this.facturaGenerada.getFechaGeneracion().getTime());
     Integer intCantidadDiasVigencia = 0;
     String strNombreIncoterm = "";
     String strLugarIncoterm = "";
     Integer cantidadEstibas = 0;
     Integer pesoBrutoEstibas = 0;
     String strObservacionMarcacion2 = "";
-    if (this.seleccionado.getDocumentoXNegociacions() != null && !this.seleccionado.getDocumentoXNegociacions().isEmpty()) {
-      intCantidadDiasVigencia = this.seleccionado.getDocumentoXNegociacions().get(0).getCantidadDiasVigencia();
-      strNombreIncoterm = this.seleccionado.getDocumentoXNegociacions().get(0).getTerminoIncoterm().getDescripcion();
-      strLugarIncoterm = this.seleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm();
-      cantidadEstibas = this.seleccionado.getDocumentoXNegociacions().get(0).getCantidadEstibas();
-      pesoBrutoEstibas = this.seleccionado.getDocumentoXNegociacions().get(0).getPesoBrutoEstibas();
-      strObservacionMarcacion2 = this.seleccionado.getDocumentoXNegociacions().get(0).getObservacionesMarcacion2();
+    if (this.facturaGenerada.getDocumentoXNegociacion() != null) {
+      intCantidadDiasVigencia = this.facturaGenerada.getDocumentoXNegociacion().getCantidadDiasVigencia();
+      strNombreIncoterm = this.facturaGenerada.getDocumentoXNegociacion().getTerminoIncoterm().getDescripcion();
+      strLugarIncoterm = this.facturaGenerada.getDocumentoXNegociacion().getLugarIncoterm();
+      cantidadEstibas = this.facturaGenerada.getDocumentoXNegociacion().getCantidadEstibas();
+      pesoBrutoEstibas = this.facturaGenerada.getDocumentoXNegociacion().getPesoBrutoEstibas();
+      strObservacionMarcacion2 = this.facturaGenerada.getDocumentoXNegociacion().getObservacionesMarcacion2();
     }
     Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
     tmsFecha = new Timestamp(Calendario.getTimeInMillis());
     String fechaStringVigencia = ft.format(tmsFecha);
-    Cliente cliente = seleccionado.getCliente();
+    Cliente cliente = facturaGenerada.getCliente();
     try {
-      cliente = comunEJB.consultarCliente(seleccionado.getCliente().getId(), Cliente.BUSCAR_CLIENTE_FETCH_CIUDAD_AND_METODO_PAGO);
+      cliente = comunEJB.consultarCliente(facturaGenerada.getCliente().getId(), Cliente.BUSCAR_CLIENTE_FETCH_CIUDAD_AND_METODO_PAGO);
     } catch (PersistenceException ex) {
       LOGGER.debug("Cliente no encontrado", ex);
     }
-    String fechaStringDespacho = ft.format(this.seleccionado.getFechaEsperadaEntrega());
+    String fechaStringDespacho = ft.format(this.facturaGenerada.getFechaEsperadaEntrega());
     BigDecimal dblValorTotalNeg = this.totalValorNeg.multiply(new BigDecimal(100)).divide(new BigDecimal(100));
     Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
     String valorLetrasIngles = NumLetraIng.convert(dblValorTotalNeg.doubleValue());
@@ -544,9 +546,9 @@ public class GenerarFacturaExportacionMB extends UtilMB {
     parametros.put("direccion", cliente.getDireccion());
     parametros.put("telefono", cliente.getTelefono());
     parametros.put("contacto", cliente.getContacto());
-    parametros.put("documento", this.seleccionado.getDocumentoCliente());
+    parametros.put("documento", this.facturaGenerada.getDocumentoCliente());
     parametros.put("fecha", fechaStringGeneracion);
-    parametros.put("numFactura", this.seleccionado.getConsecutivoDocumento());
+    parametros.put("numFactura", this.facturaGenerada.getConsecutivoDocumento());
     parametros.put("tipoImp", "ORIGINAL");
     parametros.put("fechaVigencia", fechaStringVigencia);
     parametros.put("fechaDespacho", fechaStringDespacho);
@@ -562,7 +564,6 @@ public class GenerarFacturaExportacionMB extends UtilMB {
     parametros.put("incoterm", strNombreIncoterm);
     parametros.put("lugarIncoterm", "(" + strLugarIncoterm + ")");
     parametros.put("valorLetras", valorLetrasIngles);
-    parametros.put("solicitud", this.seleccionado.getConsecutivoDocumento());
     parametros.put("qEstibas", cantidadEstibas.doubleValue());
     parametros.put("PesoBrutoEstibas", pesoBrutoEstibas.doubleValue());
     parametros.put("descripcion_envio", this.strDescripcion);
@@ -571,6 +572,18 @@ public class GenerarFacturaExportacionMB extends UtilMB {
       parametros.put("metodoPago", cliente.getMetodoPago() == null ? "" : cliente.getMetodoPago().getDescripcionIngles());
     } else {
       parametros.put("metodoPago", cliente.getMetodoPago() == null ? "" : cliente.getMetodoPago().getDescripcion());
+    }
+    parametros.put("solicitud", facturaGenerada.getObservacionDocumento());
+    if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()) {
+      String consecutivoFP;
+      try {
+        consecutivoFP = this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento());
+        parametros.put("solicitud", consecutivoFP);
+      } catch (Exception ex){
+    	consecutivoFP = null;
+    	parametros.put("solicitud", null);
+    	LOGGER.error(ex.getMessage());
+      }
     }
     if (cliente.getModoFactura() == 1) {
       String productoIngles;
