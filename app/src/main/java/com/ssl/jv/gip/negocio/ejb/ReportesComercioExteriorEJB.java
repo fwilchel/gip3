@@ -276,5 +276,11 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
       return documentoDAO.buscarRegistroPorConsultaNativa(Documento.BUSCAR_CONSECUTIVO_ORDEN_FACTURA_FX, parametros);
     }
   }
+  
+  
+  @Override
+  public List<ProductosXDocumento> consultarProductosPorDocumentoReporte(Long id) {
+    return productosXDocumentoDAO.consultarPorDocumento(id);
+  }
 
 }

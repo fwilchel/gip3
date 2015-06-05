@@ -184,7 +184,9 @@ public class ReporteDocumentosMB extends UtilMB {
    */
   public String consultarSolicitudPedido() {
     //Consultar la lista inconterm poor cliente
-    listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumento(seleccionado.getIdDocumento());
+    listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumentoReporte(seleccionado.getIdDocumento());
+    
+
     return "";
   }
 

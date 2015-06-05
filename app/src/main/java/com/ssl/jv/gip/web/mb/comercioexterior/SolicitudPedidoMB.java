@@ -323,6 +323,9 @@ public class SolicitudPedidoMB extends UtilMB {
     seleccionado.setTotalPesoBruto(valorPesoBrutoT);
     seleccionado.setTotalTendidos(valorCajasTendidoT);
     seleccionado.setTotalPallets(valorCajasPalletT);
+    seleccionado.setCantidadContenedores20(seleccionado.getCantidadContenedores20());
+    seleccionado.setCantidadContenedores40(seleccionado.getCantidadContenedores40());
+    seleccionado.setLugarIncoterm(seleccionado.getLugarIncoterm());    
 
     comercioEjb.guardarSolicitudPedido(seleccionado, listaSolicitudPedido);
 

@@ -160,4 +160,6 @@ public interface ReportesComercioExteriorEJBLocal {
    */
   String consultarConsecutivoOrdenFacturaFX(Long id);
 
+List<ProductosXDocumento> consultarProductosPorDocumentoReporte(Long id);
+
 }

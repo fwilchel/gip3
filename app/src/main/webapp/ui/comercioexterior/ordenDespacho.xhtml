@@ -213,7 +213,7 @@
           <p:dataTable var="producto" widgetVar="productoDoc"
                        id="tablaProductos"
                        rendered="#{not empty ordenesDespachoMB.productos}"
-                       sortBy="#{producto.id}"
+                       sortBy="#{ordenesDespachoMB.seleccionado.id}"
                        value="#{ordenesDespachoMB.productos}">
 
             <p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
