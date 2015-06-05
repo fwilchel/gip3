@@ -13,6 +13,7 @@ import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.Proveedor;
+import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
@@ -106,4 +107,11 @@ public interface ComunEJBLocal {
    */
   List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
 
+
+  /**
+   *
+   * @param idUsuario
+   * @return
+   */
+  PuntoVenta consultarPuntoVentaPorUsuario(String idUsuario);
 }

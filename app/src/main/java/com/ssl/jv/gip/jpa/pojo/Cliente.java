@@ -138,6 +138,10 @@ public class Cliente implements Serializable, Comparable {
   @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
   private List<PuntoVenta> puntoVentas;
 
+  @ManyToOne
+  @JoinColumn(name = "ubicacion")
+  private Ubicacion ubicacion;
+
   public Cliente() {
   }
 
@@ -408,4 +412,17 @@ public class Cliente implements Serializable, Comparable {
     return this.nombre.toUpperCase().compareTo(((Cliente) o).getNombre().toUpperCase());
   }
 
+  /**
+   * @return the ubicacion
+   */
+  public Ubicacion getUbicacion() {
+    return ubicacion;
+  }
+
+  /**
+   * @param ubicacion the ubicacion to set
+   */
+  public void setUbicacion(Ubicacion ubicacion) {
+    this.ubicacion = ubicacion;
+  }
 }

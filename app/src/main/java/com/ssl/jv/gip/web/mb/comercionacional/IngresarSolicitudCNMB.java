@@ -21,6 +21,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.ejb.ComercioNacionalEJBLocal;
+import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
@@ -61,6 +62,8 @@ public class IngresarSolicitudCNMB extends UtilMB {
   private final Integer language = AplicacionMB.SPANISH;
   @EJB
   private ComercioNacionalEJBLocal comercioNacionalEJB;
+  @EJB
+  private ComunEJBLocal comunEJB;
   private Cliente cliente;
   private PuntoVenta puntoVenta;
   private Documento solicitud;
@@ -76,13 +79,24 @@ public class IngresarSolicitudCNMB extends UtilMB {
     if (solicitud == null) {
       solicitud = new Documento();
     }
-    // TODO: como obtengo el cliente desde el usuario?
-    cliente = new Cliente(1L);
-    // TODO: de donde obtengo el punto de venta
-    puntoVenta = new PuntoVenta(1L);
-    this.consultarProductosXCliente();
-    if (getProductosXDocumentoSeleccionados() == null) {
-      this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
+    try {
+//      puntoVenta = comunEJB.consultarPuntoVentaPorUsuario(usuario.getId());
+      puntoVenta = new PuntoVenta(1L);
+      if (puntoVenta != null) {
+//        cliente = puntoVenta.getCliente();
+        cliente = new Cliente(1L);
+        this.consultarProductosXCliente();
+        if (getProductosXDocumentoSeleccionados() == null) {
+          this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
+        }
+      }
+    } catch (Exception ex) {
+      LOGGER.error(ex.getMessage());
+      addMensajeError("El usuario no tiene asociado un punto de venta.");
+    } finally {
+      if (getProductosXDocumentoSeleccionados() == null) {
+        this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
+      }
     }
   }
 
@@ -168,7 +182,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
     try {
       solicitud.setCliente(cliente);
       solicitud.setPuntoVenta(puntoVenta);
-      solicitud = comercioNacionalEJB.ingresarSolicitudComercioNacional(solicitud, productosXDocumento, auditoria);
+      solicitud = comercioNacionalEJB.ingresarSolicitudComercioNacional(solicitud, productosXDocumentoSeleccionados, auditoria);
       LOGGER.debug("Documento generado exitosamente con id: " + solicitud.getId() + " y consecutivo: " + solicitud.getConsecutivoDocumento());
       addMensajeInfo(formatearCadenaConParametros("ispcnMsgSucces", language, solicitud.getConsecutivoDocumento()));
       reset();

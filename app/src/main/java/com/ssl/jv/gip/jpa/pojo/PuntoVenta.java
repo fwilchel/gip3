@@ -12,12 +12,15 @@ import javax.persistence.*;
 @Table(name = "punto_venta")
 @NamedQueries({
   @NamedQuery(name = "PuntoVenta.findAll", query = "SELECT p FROM PuntoVenta p"),
-  @NamedQuery(name = "PuntoVenta.findByCliente", query = "SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente")})
+  @NamedQuery(name = "PuntoVenta.findByCliente", query = "SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente"),
+  @NamedQuery(name = PuntoVenta.FIND_BY_USUARIO, query = "SELECT p FROM PuntoVenta p WHERE p.usuario.id = :idUsuario")
+})
 public class PuntoVenta implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   public static final String FIND_BY_OBSERVACION_DOCUMENTO = "Documento.findByObservacionDocumento";
+  public static final String FIND_BY_USUARIO = "PuntoVenta.findByUsuario";
   @Id
   @SequenceGenerator(name = "punto_venta_id_seq1", sequenceName = "punto_venta_id_seq1", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "punto_venta_id_seq1")
@@ -46,6 +49,10 @@ public class PuntoVenta implements Serializable {
   @ManyToOne
   @JoinColumn(name = "id_cliente")
   private Cliente cliente;
+
+  @ManyToOne
+  @JoinColumn(name = "usuario")
+  private Usuario usuario;
 
   public PuntoVenta() {
   }
@@ -126,4 +133,17 @@ public class PuntoVenta implements Serializable {
     this.cliente = cliente;
   }
 
+  /**
+   * @return the usuario
+   */
+  public Usuario getUsuario() {
+    return usuario;
+  }
+
+  /**
+   * @param usuario the usuario to set
+   */
+  public void setUsuario(Usuario usuario) {
+    this.usuario = usuario;
+  }
 }

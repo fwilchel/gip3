@@ -16,6 +16,7 @@ import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.Proveedor;
+import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
@@ -29,6 +30,7 @@ import com.ssl.jv.gip.negocio.dao.PaisDAO;
 import com.ssl.jv.gip.negocio.dao.ParametroDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProveedorDAOLocal;
+import com.ssl.jv.gip.negocio.dao.PuntoVentaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.RegionDAO;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
@@ -85,6 +87,9 @@ public class ComunEJB implements ComunEJBLocal {
 
   @EJB
   private ProductoInventarioDAOLocal productoDAO;
+  
+  @EJB
+  private PuntoVentaDAOLocal puntoVentaDAO; 
 
   /**
    * Default constructor.
@@ -257,5 +262,16 @@ public class ComunEJB implements ComunEJBLocal {
       throw new IllegalArgumentException();
     }
     return ubicacionDao.consultarUbicacionesPorUsuario(idUsuario);
+  }
+
+  @Override
+  public PuntoVenta consultarPuntoVentaPorUsuario(String idUsuario) {
+    LOGGER.trace("Metodo: <<consultarPuntoVentaPorUsuario>>");
+    if (idUsuario == null || idUsuario.isEmpty()) {
+      throw new IllegalArgumentException();
+    }
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("idUsuario", idUsuario);
+    return puntoVentaDAO.buscarRegistroPorConsultaNombrada(PuntoVenta.FIND_BY_USUARIO, parametros);
   }
 }
