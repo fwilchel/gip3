@@ -693,7 +693,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	  aud.setIdUsuario(auditoria.getIdUsuario());
 	  aud.setIdRegTabla(mic.getId());
 	  aud.setIdFuncionalidad(auditoria.getIdFuncionalidad());
-	  aud.setTabla(MovimientosInventarioComext.class.getName());
+	  aud.setTabla("movimientos_inventario_comext");
 	  aud.setAccion("CRE");
 	  aud.setCampo(null);
 	  aud.setValorAnterior(null);
