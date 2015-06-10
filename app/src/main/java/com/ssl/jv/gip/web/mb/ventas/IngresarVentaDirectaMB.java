@@ -40,6 +40,10 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Utilidad;
+import java.io.IOException;
+import javax.ejb.EJBTransactionRolledbackException;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  * The Class IngresarVentaDirectaMB.
@@ -122,6 +126,7 @@ public class IngresarVentaDirectaMB extends UtilMB {
    * The str descripcion.
    */
   private String strDescripcion;
+  private UploadedFile uploadedFile;
 
   /**
    * Inits the.
@@ -275,6 +280,27 @@ public class IngresarVentaDirectaMB extends UtilMB {
     }
   }
 
+  public void handleFileUpload(FileUploadEvent fileUploadEvent) {
+    LOGGER.trace("Metodo: <<handleFileUpload>>");
+//    try {
+//      setUploadedFile(fileUploadEvent.getFile());
+//      maestrosEJB.crearProductosXClientesDesdeArchivo(getUploadedFile().getContents());
+//      this.init();
+//      this.addMensajeInfo(AplicacionMB.getMessage("MaestroProductoXClienteExitoPaginaBoton", language));
+//    } catch (IOException e) {
+//      this.addMensajeError("Error al leer el archivo");
+//    } catch (EJBTransactionRolledbackException e) {
+//      if (this.isException(e, "itemsproductosxcliente_pkey")) {
+//        this.addMensajeError(AplicacionMB.getMessage("MaestroProductosXClienteErrorPaginaBoton", language));
+//      } else {
+//        this.addMensajeError(AplicacionMB.getMessage("MaestroProductosXClienteErrorPaginaBoton", language));
+//      }
+//      LOGGER.error(e);
+//    } catch (RuntimeException re) {
+//      this.addMensajeError(re.getMessage());
+//    }
+  }
+
   /**
    * Cancelar.
    */
@@ -306,15 +332,6 @@ public class IngresarVentaDirectaMB extends UtilMB {
    */
   public void setLanguage(Integer language) {
     this.language = language;
-  }
-
-  /**
-   * Gets the fecha actual.
-   *
-   * @return the fecha actual
-   */
-  public Date getFechaActual() {
-    return fechaActual;
   }
 
   /**
@@ -488,6 +505,20 @@ public class IngresarVentaDirectaMB extends UtilMB {
 
   public void setListaProductosXClienteSeleccionadosDTO(List<ProductoPorClienteDTO> listaProductosXClienteSeleccionadosDTO) {
     this.listaProductosXClienteSeleccionadosDTO = listaProductosXClienteSeleccionadosDTO;
+  }
+
+  /**
+   * @return the uploadedFile
+   */
+  public UploadedFile getUploadedFile() {
+    return uploadedFile;
+  }
+
+  /**
+   * @param uploadedFile the uploadedFile to set
+   */
+  public void setUploadedFile(UploadedFile uploadedFile) {
+    this.uploadedFile = uploadedFile;
   }
 
 }

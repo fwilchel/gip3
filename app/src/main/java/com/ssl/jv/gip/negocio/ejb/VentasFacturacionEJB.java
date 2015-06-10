@@ -834,6 +834,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 	  productosXDcumento.put(pxd.getProductosInventario().getSku(), pxd);
 	}
 	List<ProductosXDocumento> result = null;
+	ProductosXDocumento pxdNew;
 	for (ProductosXDocumento pxdFronFile : listPXDFromFile) {
 	  ProductosXDocumento pxd = productosXDcumento.get(pxdFronFile.getProductosInventario().getSku());
 	  if (pxd == null) {
@@ -849,9 +850,12 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 		  if (result == null) {
 			result = new ArrayList<>();
 		  }
-		  pxd.setCantidad1(pxdFronFile.getCantidad1());
-		  pxd.setObservacion2(pxdFronFile.getObservacion2());
-		  result.add(pxd);
+		  pxdNew = new ProductosXDocumento();
+		  pxdNew.setProductosInventario(pxd.getProductosInventario());
+		  pxdNew.setCantidad1(pxdFronFile.getCantidad1());
+		  pxdNew.setObservacion2(pxdFronFile.getObservacion2());
+		  pxdNew.setUnidade(pxd.getUnidade());
+		  result.add(pxdNew);
 		}
 	  }
 	}
@@ -894,7 +898,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 	  TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(remision.getEstadosxdocumento().getId().getIdTipoDocumento());
 	  secuencia.append(tipoDocumento.getAbreviatura());
 	  if (remision.getUbicacionDestino() != null && remision.getUbicacionDestino().getId() == -1) {
-		secuencia.append(ventaDirecta.getUbicacionOrigen().getEmpresa().getId());
+		secuencia.append(remision.getUbicacionOrigen().getEmpresa().getId());
 	  } else {
 		Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(remision.getUbicacionDestino().getId());
 		secuencia.append(ubicacionDestino.getEmpresa().getId());
