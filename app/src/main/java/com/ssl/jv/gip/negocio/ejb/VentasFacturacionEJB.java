@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +27,7 @@ import mc_style.functions.soap.sap.document.sap_com.holders.TableOfZcaStPedidosC
 import mc_style.functions.soap.sap.document.sap_com.holders.TableOfZcaStPedidosCompraRtaHolder;
 
 import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
@@ -37,15 +39,18 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
+import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.TipoMovimiento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.LogAuditoriaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.PuntoVentaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
@@ -96,6 +101,12 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 
   @EJB
   private ProductoInventarioDAOLocal productoInventarioDao;
+
+  @EJB
+  private ClienteDAOLocal clienteDAO;
+
+  @EJB
+  private PuntoVentaDAOLocal puntoVentaDAO;
 
   /**
    * Proxy para conexion con SAP
@@ -974,6 +985,140 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 	}
 	LOGGER.debug("Movimientos creados exitosamente");
 	return remision;
+  }
+
+  @Override
+  public Documento cargarProductosVDDesdeArchivo(byte[] archivo) throws IOException {
+	LOGGER.debug("Metodo: <<cargarProductosVDDesdeArchivo>>");
+	Documento ventaDirecta = new Documento();
+	boolean errorInFile = false;
+	String messageError = null;
+	try (BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(archivo)))) {
+	  int numLinea = 0;
+	  String line;
+	  ventaDirecta.setProductosXDocumento(new ArrayList<ProductosXDocumento>());
+	  ProductosXDocumento pxd;
+	  DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	  while ((line = reader.readLine()) != null) {
+		if (!line.isEmpty()) {
+		  String[] values = line.split("\\|");
+		  if (values.length != 8) {
+			messageError = "Error de estructura en la línea " + numLinea + ", el número de columnas del archivo no coincide.";
+			errorInFile = true;
+			throw new RuntimeException(messageError);
+		  }
+		  if (values[0].trim().isEmpty() || values[1].trim().isEmpty() || values[2].trim().isEmpty() || values[3].trim().isEmpty() || values[4].trim().isEmpty() || values[5].trim().isEmpty() || values[6].trim().isEmpty() || values[7].trim().isEmpty()) {
+			messageError = "Error de datos en la línea " + numLinea + ", alguna de las columnas viene vacia.";
+			errorInFile = true;
+			throw new RuntimeException(messageError);
+		  }
+		  try {
+			pxd = new ProductosXDocumento();
+			// orden compra cliente
+			if (values[0] == null) {
+			  errorInFile = true;
+			} else {
+			  if (ventaDirecta.getDocumentoCliente() == null) {
+				ventaDirecta.setDocumentoCliente(values[0].trim());
+			  }
+			}
+			// ean cliente
+			if (values[1] == null) {
+			  errorInFile = true;
+			} else {
+			  if (ventaDirecta.getCliente() == null) {
+				try {
+				  Map<String, Object> parametros = new HashMap<>();
+				  Long codigoBarrasCliente = Long.parseLong(values[1].trim());
+				  parametros.put("codigoBarras", codigoBarrasCliente);
+				  ventaDirecta.setCliente((Cliente) clienteDAO.buscarRegistroPorConsultaNombrada(Cliente.CLIENTE_FIND_BY_CODIGO_BARRAS, parametros));
+				} catch (Exception ex) {
+				  messageError = "Error de datos en la línea " + numLinea + ", sin coincidencia para el cliente.";
+				  errorInFile = true;
+				  throw new RuntimeException(messageError);
+				}
+			  }
+			}
+			// fecha min
+			if (values[2] == null) {
+			  errorInFile = true;
+			} else {
+			  if (ventaDirecta.getFechaEntrega() == null) {
+				ventaDirecta.setFechaEntrega(new Timestamp(format.parse(values[2].trim()).getTime()));
+			  }
+			}
+			// fecha max entrega
+			if (values[3] == null) {
+			  errorInFile = true;
+			} else {
+			  if (ventaDirecta.getFechaEntrega() == null) {
+				ventaDirecta.setFechaEsperadaEntrega(new Timestamp(format.parse(values[3].trim()).getTime()));
+			  }
+			}
+			// ean producto
+			if (values[4] == null) {
+			  errorInFile = true;
+			} else {
+			  try {
+				Map<String, Object> parametros = new HashMap<>();
+				Long codigoBarrasProducto = Long.parseLong(values[4].trim());
+				parametros.put("codigoBarrasUv", codigoBarrasProducto);
+				pxd.setProductosInventario((ProductosInventario) productoInventarioDao.buscarRegistroPorConsultaNombrada(ProductosInventario.BUSCAR_PRODUCTOS_X_CODIGO_BARRAS_UV, parametros));
+			  } catch (Exception ex) {
+				messageError = "Error de datos en la línea " + numLinea + ", sin coincidencia para el producto.";
+				errorInFile = true;
+				throw new RuntimeException(messageError);
+			  }
+			  // cantidad
+			  if (values[5] == null) {
+				errorInFile = true;
+			  } else {
+				pxd.setCantidad1(new BigDecimal(values[5].trim()));
+			  }
+			  // precio
+			  if (values[6] == null) {
+				errorInFile = true;
+			  } else {
+				pxd.setValorTotal(new BigDecimal(values[6].trim()));
+			  }
+			  // ean punto de venta
+			  if (values[7] == null) {
+				errorInFile = true;
+			  } else {
+				if (ventaDirecta.getPuntoVenta() == null) {
+				  try {
+					Map<String, Object> parametros = new HashMap<>();
+					Long codigoBarrasPuntoVenta = Long.parseLong(values[7].trim());
+					parametros.put("codigoBarras", codigoBarrasPuntoVenta);
+					ventaDirecta.setPuntoVenta((PuntoVenta) puntoVentaDAO.buscarRegistroPorConsultaNombrada(PuntoVenta.FIND_BY_CODIGO_BARRAS, parametros));
+				  } catch (Exception ex) {
+					messageError = "Error de datos en la línea " + numLinea + ", sin coincidencia para el punto de venta.";
+					errorInFile = true;
+					throw new RuntimeException(messageError);
+				  }
+				}
+			  }
+			  ventaDirecta.getProductosXDocumento().add(pxd);
+			}
+		  } catch (Exception e) {
+			messageError = "Error de datos en la línea " + numLinea;
+			errorInFile = true;
+			break;
+		  }
+		}
+		numLinea++;
+	  }
+	} catch (IOException ex) {
+	  messageError = "Error en el archivo";
+	  throw ex;
+	} finally {
+	  // liberar recursos
+	}
+	if (errorInFile) {
+	  throw new RuntimeException(messageError);
+	}
+	errorInFile = false;
+	return ventaDirecta;
   }
 
   /*

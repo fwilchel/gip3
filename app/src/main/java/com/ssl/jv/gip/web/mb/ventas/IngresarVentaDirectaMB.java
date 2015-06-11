@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.web.mb.ventas;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
@@ -40,10 +43,6 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Utilidad;
-import java.io.IOException;
-import javax.ejb.EJBTransactionRolledbackException;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
 
 /**
  * The Class IngresarVentaDirectaMB.
@@ -106,8 +105,6 @@ public class IngresarVentaDirectaMB extends UtilMB {
 
   private List<PuntoVenta> listaPuntoVenta = new ArrayList<>();
 
-  private Date fechaActual;
-
   private Date fechaEntrega;
 
   private Date fechaEsperadaEntrega;
@@ -127,6 +124,7 @@ public class IngresarVentaDirectaMB extends UtilMB {
    */
   private String strDescripcion;
   private UploadedFile uploadedFile;
+  private boolean fromFile;
 
   /**
    * Inits the.
@@ -135,7 +133,6 @@ public class IngresarVentaDirectaMB extends UtilMB {
   public void init() {
 
     try {
-      fechaActual = new Date();
       Calendar fecha = new GregorianCalendar();
       int diaActual = fecha.get(Calendar.DAY_OF_MONTH);
       int diaEntrega = diaActual + 2;
@@ -233,6 +230,7 @@ public class IngresarVentaDirectaMB extends UtilMB {
    * Consultar facturas exportacion.
    */
   public void consultarProductosXCliente() {
+	fromFile = false;
     try {
       listaProductosXClienteDTO = new ArrayList<>();
       listaProductosXClienteSeleccionadosDTO = new ArrayList<>();
@@ -282,23 +280,16 @@ public class IngresarVentaDirectaMB extends UtilMB {
 
   public void handleFileUpload(FileUploadEvent fileUploadEvent) {
     LOGGER.trace("Metodo: <<handleFileUpload>>");
-//    try {
-//      setUploadedFile(fileUploadEvent.getFile());
-//      maestrosEJB.crearProductosXClientesDesdeArchivo(getUploadedFile().getContents());
-//      this.init();
-//      this.addMensajeInfo(AplicacionMB.getMessage("MaestroProductoXClienteExitoPaginaBoton", language));
-//    } catch (IOException e) {
-//      this.addMensajeError("Error al leer el archivo");
-//    } catch (EJBTransactionRolledbackException e) {
-//      if (this.isException(e, "itemsproductosxcliente_pkey")) {
-//        this.addMensajeError(AplicacionMB.getMessage("MaestroProductosXClienteErrorPaginaBoton", language));
-//      } else {
-//        this.addMensajeError(AplicacionMB.getMessage("MaestroProductosXClienteErrorPaginaBoton", language));
-//      }
-//      LOGGER.error(e);
-//    } catch (RuntimeException re) {
-//      this.addMensajeError(re.getMessage());
-//    }
+	fromFile = false;
+    try {
+      setUploadedFile(fileUploadEvent.getFile());
+      Documento ventaDirecta = ventasFacturacionEJBLocal.cargarProductosVDDesdeArchivo(getUploadedFile().getContents());
+      fromFile = true;
+    } catch (IOException e) {
+      this.addMensajeError("Error al leer el archivo");
+    } catch (RuntimeException re) {
+      this.addMensajeError(re.getMessage());
+    }
   }
 
   /**
@@ -332,15 +323,6 @@ public class IngresarVentaDirectaMB extends UtilMB {
    */
   public void setLanguage(Integer language) {
     this.language = language;
-  }
-
-  /**
-   * Sets the fecha actual.
-   *
-   * @param fechaActual the new fecha actual
-   */
-  public void setFechaActual(Date fechaActual) {
-    this.fechaActual = fechaActual;
   }
 
   /**

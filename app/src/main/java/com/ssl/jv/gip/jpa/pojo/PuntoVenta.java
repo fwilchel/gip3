@@ -13,7 +13,8 @@ import javax.persistence.*;
 @NamedQueries({
   @NamedQuery(name = "PuntoVenta.findAll", query = "SELECT p FROM PuntoVenta p"),
   @NamedQuery(name = "PuntoVenta.findByCliente", query = "SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente"),
-  @NamedQuery(name = PuntoVenta.FIND_BY_USUARIO, query = "SELECT p FROM PuntoVenta p WHERE p.usuario.id = :idUsuario")
+  @NamedQuery(name = PuntoVenta.FIND_BY_USUARIO, query = "SELECT p FROM PuntoVenta p WHERE p.usuario.id = :idUsuario"),
+  @NamedQuery(name = PuntoVenta.FIND_BY_CODIGO_BARRAS, query = "SELECT p FROM PuntoVenta p WHERE p.codigoBarras = :codigoBarras")
 })
 public class PuntoVenta implements Serializable {
 
@@ -21,6 +22,7 @@ public class PuntoVenta implements Serializable {
 
   public static final String FIND_BY_OBSERVACION_DOCUMENTO = "Documento.findByObservacionDocumento";
   public static final String FIND_BY_USUARIO = "PuntoVenta.findByUsuario";
+  public static final String FIND_BY_CODIGO_BARRAS = "PuntoVenta.findByCodigoBarras";
   @Id
   @SequenceGenerator(name = "punto_venta_id_seq1", sequenceName = "punto_venta_id_seq1", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "punto_venta_id_seq1")

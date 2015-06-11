@@ -189,6 +189,8 @@ public class Documento implements Serializable {
   // bi-directional many-to-many association to TerminosTransporte
   @ManyToMany(mappedBy = "documentos")
   private List<TerminosTransporte> terminosTransportes;
+  @Transient
+  private List<ProductosXDocumento> productosXDocumento;
 
   @Transient
   private String numeroFacturaEspecial;
@@ -535,6 +537,20 @@ public class Documento implements Serializable {
   @Transient
   public DocumentoXNegociacion getDocumentoXNegociacion(){
 	  return  this.documentoXNegociacions.get(0);
+  }
+
+  /**
+   * @return the productosXDocumento
+   */
+  public List<ProductosXDocumento> getProductosXDocumento() {
+	return productosXDocumento;
+  }
+
+  /**
+   * @param productosXDocumento the productosXDocumento to set
+   */
+  public void setProductosXDocumento(List<ProductosXDocumento> productosXDocumento) {
+	this.productosXDocumento = productosXDocumento;
   }
   
 }
