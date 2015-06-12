@@ -14,6 +14,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -21,6 +22,8 @@ import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ComextRequerimientoExportacionDAO;
+import com.ssl.jv.gip.negocio.dao.ComextRequerimientoExportacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
@@ -67,6 +70,11 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 
   @EJB
   private DocumentoLotesOICDAOLocal documentoLotesOICDAO;
+  
+  
+  @EJB
+  private ComextRequerimientoExportacionDAOLocal  comextRequerimientoExportacionDAO;
+  
 
   /**
    * Default constructor.
@@ -282,5 +290,12 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   public List<ProductosXDocumento> consultarProductosPorDocumentoReporte(Long id) {
     return productosXDocumentoDAO.consultarPorDocumento(id);
   }
+
+@Override
+public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion(
+		Map<String, Object> parametros) {
+	// TODO Auto-generated method stub
+	return comextRequerimientoExportacionDAO.buscarRegistroPorConsultaNombrada(ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO,parametros);
+}
 
 }

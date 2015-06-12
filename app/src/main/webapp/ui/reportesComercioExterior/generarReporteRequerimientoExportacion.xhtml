@@ -89,17 +89,12 @@
               </div>
             </f:facet>
 
-            <p:column style="width:32px;text-align: center">
-              <p:commandButton 
-                oncomplete="PF('reImprimirDialog').show()"
-                icon="ui-icon-info" title="#{msg.generalConsultar}"
-                update=":reimprimirDlg">
-                <f:setPropertyActionListener 
-                  value="#{facturaExpo}"
-                  target="#{reimprimirFacturaExpoMB.seleccionado}" />
-              </p:commandButton>
-            </p:column>
-
+           
+           
+           
+           
+           
+           
             <p:column 
               filterBy="#{ReqExpo.id}" style="width:100px"
               headerText="#{msg.CodigoGipSP}" filterMatchMode="contains"

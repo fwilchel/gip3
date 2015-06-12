@@ -463,26 +463,21 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.zipcodebi = zipcodebi;
 	}
 
+	/*public List<RequerimientosXDocumento> getRequerimientosXDocumentos() {
+		return this.requerimientosXDocumentos;
+	}
+
+	public void setRequerimientosXDocumentos(List<RequerimientosXDocumento> requerimientosXDocumentos) {
+		this.requerimientosXDocumentos = requerimientosXDocumentos;
+	}
+
+
 	public List<Reqxproducto> getReqxproductos() {
 		return this.reqxproductos;
-	}
+	}*/
 
 	public void setReqxproductos(List<Reqxproducto> reqxproductos) {
 		this.reqxproductos = reqxproductos;
-	}
-
-	public Reqxproducto addReqxproducto(Reqxproducto reqxproducto) {
-		getReqxproductos().add(reqxproducto);
-		reqxproducto.setComextRequerimientoexportacion(this);
-
-		return reqxproducto;
-	}
-
-	public Reqxproducto removeReqxproducto(Reqxproducto reqxproducto) {
-		getReqxproductos().remove(reqxproducto);
-		reqxproducto.setComextRequerimientoexportacion(null);
-
-		return reqxproducto;
 	}
 
 }

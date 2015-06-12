@@ -1,6 +1,6 @@
 package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
-import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,23 +10,32 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.apache.log4j.Logger;
+
 import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
+import com.ssl.jv.gip.web.mb.UtilMB;
 
 
 
 @ManagedBean(name = "generarReporteRequerimientoExportacionMB")
 @ViewScoped
-public class GenerarReporteRequerimientoExportacionMB {
+public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 	
-	 @EJB
-	  private List<ComextRequerimientoexportacion> listaRequerimientoExportacion;
-	  
-	 
-	  private ReportesComercioExteriorEJBLocal reportesComercioExteriorEJBLocal;
-	
-	  private int filtroConsecutivoDocumento;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -252500691354376469L;
 
+	private static final Logger LOGGER = Logger.getLogger(GenerarReporteRequerimientoExportacionMB.class);
+	
+	 
+	 
+	  
+	 @EJB
+	  private ReportesComercioExteriorEJBLocal reportesComercioExteriorEJBLocal;
+	  private int filtroConsecutivoDocumento;
+	  private List<ComextRequerimientoexportacion> listaRequerimientoExportacion;
 
 
 
@@ -54,21 +63,24 @@ public class GenerarReporteRequerimientoExportacionMB {
 	      //parametros.put("idDocumento", (long) 17L);
 	      
 	        System.out.println("id_documento:"+filtroConsecutivoDocumento);
-	      listaRequerimientoExportacion = this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacion(parametros);
 	      
 	      
-	      System.out.println("tamaño_doc:"+ listaRequerimientoExportacion.size());
+	      this.listaRequerimientoExportacion=(this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacion(parametros));
+	     
+	      System.out.println("tamao lista:"+listaRequerimientoExportacion.size());
 	      
 	      //items = this.maestrosEjb.consultarItemsCostosLogisticos();
 	      
 	      
 	    } catch (Exception e) {
-	      //LOGGER.error(e);
-	      //this.addMensajeError(e);
+	      LOGGER.error(e);
+	      this.addMensajeError(e);
 	    }
 	  }
 	  
 		
+		
+
 		/**
 		 * @return the filtroConsecutivoDocumento
 		 */
@@ -83,21 +95,19 @@ public class GenerarReporteRequerimientoExportacionMB {
 			this.filtroConsecutivoDocumento = filtroConsecutivoDocumento;
 		}
 
-		/**
-		 * @return the listaRequerimientoExportacion
-		 */
+		
 		public List<ComextRequerimientoexportacion> getListaRequerimientoExportacion() {
 			return listaRequerimientoExportacion;
 		}
 
-		/**
-		 * @param listaRequerimientoExportacion the listaRequerimientoExportacion to set
-		 */
+	
 		public void setListaRequerimientoExportacion(
 				List<ComextRequerimientoexportacion> listaRequerimientoExportacion) {
 			this.listaRequerimientoExportacion = listaRequerimientoExportacion;
 		}
-	  
+
+	
+
 		
 
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -161,5 +162,7 @@ public interface ReportesComercioExteriorEJBLocal {
   String consultarConsecutivoOrdenFacturaFX(Long id);
 
 List<ProductosXDocumento> consultarProductosPorDocumentoReporte(Long id);
+
+List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion(Map<String, Object> parametros);
 
 }

@@ -183,8 +183,8 @@ public class GenerarFacturaMB extends UtilMB {
     } else {
       setMostrarDialogo(true);
       // lista de productos para el documento de VD relacionado a la remision
-      Documento documentoRelacionado = maestrosEJB.consultarDocumentoPorConsecutivo(getRemisionSeleccionada().getObservacionDocumento());
-      List<ProductosXDocumento> listaSugrenciasConsultadas = ventasFacturacionEJB.consultarProductosPorDocumento(documentoRelacionado.getId());
+      Documento ventaDirecta = maestrosEJB.consultarDocumentoPorConsecutivo(getRemisionSeleccionada().getObservacionDocumento());
+      List<ProductosXDocumento> listaSugrenciasConsultadas = ventasFacturacionEJB.consultarProductosPorDocumento(ventaDirecta.getId());
       // lista de productos para la remision seleccionada
       List<ProductosXDocumento> listaCantidadesRemision = ventasFacturacionEJB.consultarProductosPorDocumento(remisionSeleccionada.getId());
       listaProductosXRemision = new ArrayList<>();
@@ -195,7 +195,7 @@ public class GenerarFacturaMB extends UtilMB {
             BigDecimal valorUnitatrioMl = pxd.getValorUnitatrioMl();
             BigDecimal cantidad = pxdqty.getCantidad1();
             BigDecimal descuentoProducto = pxd.getDescuentoxproducto();
-            BigDecimal descuentoCliente = documentoRelacionado.getCliente().getDescuentoCliente();
+            BigDecimal descuentoCliente = ventaDirecta.getCliente().getDescuentoCliente();
             BigDecimal desc = ((valorUnitatrioMl.multiply(cantidad)).multiply((descuentoProducto.divide(new BigDecimal(100)))));
             BigDecimal valorTotal = ((valorUnitatrioMl.multiply(cantidad)).subtract(desc));
             BigDecimal descCliente = (valorTotal.multiply(descuentoCliente.divide(new BigDecimal(100))));
@@ -217,6 +217,7 @@ public class GenerarFacturaMB extends UtilMB {
             } else {
               p.setObservacion2("blank");
             }
+            p.setCantidadVD(pxd.getCantidad1());
             // agregar a la lista
             listaProductosXRemision.add(p);
             // totales
