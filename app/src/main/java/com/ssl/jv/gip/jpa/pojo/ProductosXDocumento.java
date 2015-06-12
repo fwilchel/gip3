@@ -14,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the productosxdocumentos database table.
@@ -127,6 +128,9 @@ public class ProductosXDocumento implements Serializable {
   @ManyToOne
   @JoinColumn(name = "id_unidades")
   private Unidad unidade;
+  
+  @Transient
+  private BigDecimal cantidadVD;
 
   public ProductosXDocumento() {
   }
@@ -345,6 +349,20 @@ public class ProductosXDocumento implements Serializable {
 
   public void setUnidade(Unidad unidade) {
     this.unidade = unidade;
+  }
+
+  /**
+   * @return the cantidadVD
+   */
+  public BigDecimal getCantidadVD() {
+    return cantidadVD;
+  }
+
+  /**
+   * @param cantidadVD the cantidadVD to set
+   */
+  public void setCantidadVD(BigDecimal cantidadVD) {
+    this.cantidadVD = cantidadVD;
   }
 
 }
