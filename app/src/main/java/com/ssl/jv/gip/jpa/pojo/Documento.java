@@ -24,6 +24,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.ssl.jv.gip.negocio.dto.ProductoPorClienteDTO;
+
 /**
  * The persistent class for the documentos database table.
  *
@@ -189,8 +191,9 @@ public class Documento implements Serializable {
   // bi-directional many-to-many association to TerminosTransporte
   @ManyToMany(mappedBy = "documentos")
   private List<TerminosTransporte> terminosTransportes;
+  
   @Transient
-  private List<ProductosXDocumento> productosXDocumento;
+  private List<ProductoPorClienteDTO> productosPorClienteDTO;
 
   @Transient
   private String numeroFacturaEspecial;
@@ -540,17 +543,17 @@ public class Documento implements Serializable {
   }
 
   /**
-   * @return the productosXDocumento
+   * @return the productosPorClienteDTO
    */
-  public List<ProductosXDocumento> getProductosXDocumento() {
-	return productosXDocumento;
+  public List<ProductoPorClienteDTO> getProductosPorClienteDTO() {
+	return productosPorClienteDTO;
   }
 
   /**
-   * @param productosXDocumento the productosXDocumento to set
+   * @param productosPorClienteDTO the productosPorClienteDTO to set
    */
-  public void setProductosXDocumento(List<ProductosXDocumento> productosXDocumento) {
-	this.productosXDocumento = productosXDocumento;
+  public void setProductosPorClienteDTO(List<ProductoPorClienteDTO> productosPorClienteDTO) {
+	this.productosPorClienteDTO = productosPorClienteDTO;
   }
-  
+
 }

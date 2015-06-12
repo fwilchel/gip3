@@ -13,6 +13,7 @@ public class ProductoPorClienteDTO implements Serializable {
   private Long idProducto;
   private String sku;
   private String nombre;
+  private Long codigoBarrasProducto;
   private BigDecimal cantidadUno;
   private BigDecimal precioMl;
   private BigDecimal precioUsd;
@@ -21,8 +22,11 @@ public class ProductoPorClienteDTO implements Serializable {
   private BigDecimal otrosDescuentos;
   private BigDecimal descuentoCliente;
   private Long idUnidad;
-
   private Boolean seleccionado;
+  private String estilo;
+  private String pxc;
+  private boolean error;
+  private String msgValidacion;
 
   public Long getIdProducto() {
     return idProducto;
@@ -54,6 +58,20 @@ public class ProductoPorClienteDTO implements Serializable {
 
   public void setNombre(String nombre) {
     this.nombre = nombre;
+  }
+
+  /**
+   * @return the codigoBarrasProducto
+   */
+  public Long getCodigoBarrasProducto() {
+    return codigoBarrasProducto;
+  }
+
+  /**
+   * @param codigoBarrasProducto the codigoBarrasProducto to set
+   */
+  public void setCodigoBarrasProducto(Long codigoBarrasProducto) {
+    this.codigoBarrasProducto = codigoBarrasProducto;
   }
 
   public BigDecimal getCantidadUno() {
@@ -118,6 +136,62 @@ public class ProductoPorClienteDTO implements Serializable {
 
   public void setPrecioUsd(BigDecimal precioUsd) {
     this.precioUsd = precioUsd;
+  }
+
+  /**
+   * @return the estilo
+   */
+  public String getEstilo() {
+    return estilo;
+  }
+
+  /**
+   * @param estilo the estilo to set
+   */
+  public void setEstilo(String estilo) {
+    this.estilo = estilo;
+  }
+
+  /**
+   * @return the pxc
+   */
+  public String getPxc() {
+    return pxc;
+  }
+
+  /**
+   * @param pxc the pxc to set
+   */
+  public void setPxc(String pxc) {
+    this.pxc = pxc;
+  }
+
+  /**
+   * @return the error
+   */
+  public boolean isError() {
+    return error;
+  }
+
+  /**
+   * @param error the error to set
+   */
+  public void setError(boolean error) {
+    this.error = error;
+  }
+
+  /**
+   * @return the msgValidacion
+   */
+  public String getMsgValidacion() {
+    return msgValidacion;
+  }
+
+  /**
+   * @param msgValidacion the msgValidacion to set
+   */
+  public void setMsgValidacion(String msgValidacion) {
+    this.msgValidacion = msgValidacion;
   }
 
 }

@@ -55,76 +55,56 @@ public class IngresarVentaDirectaMB extends UtilMB {
    * The Constant serialVersionUID.
    */
   private static final long serialVersionUID = 5093870535116322203L;
-
   /**
    * The Constant LOGGER.
    */
   private static final Logger LOGGER = Logger.getLogger(IngresarVentaDirectaMB.class);
-
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
-
   /**
    * The reportes comercio exterior ejb local.
    */
   @EJB
   private ReportesComercioExteriorEJBLocal reportesComercioExteriorEJBLocal;
-
   /**
    * The reportes ejb local.
    */
   @EJB
   private ReportesEJBLocal reportesEJBLocal;
-
   /**
    * The comercio exterior ejb local.
    */
   @EJB
   private ComercioExteriorEJBLocal comercioExteriorEJBLocal;
-
   @EJB
   private MaestrosEJBLocal maestrosEJBLocal;
-
   @EJB
   private VentasFacturacionEJBLocal ventasFacturacionEJBLocal;
-
   /**
    * The language.
    */
   private Integer language = AplicacionMB.SPANISH;
-
   private List<ProductosXCliente> listaProductosXCliente;
-
   private List<ProductoPorClienteDTO> listaProductosXClienteDTO = new ArrayList<>();
-
   private List<ProductoPorClienteDTO> listaProductosXClienteSeleccionadosDTO = new ArrayList<>();
-
   private List<Ubicacion> listaUbicaciones;
-
   private List<Cliente> listaClientes;
-
   private List<PuntoVenta> listaPuntoVenta = new ArrayList<>();
-
   private Date fechaEntrega;
-
   private Date fechaEsperadaEntrega;
-
   private String strDocumentoCliente;
-
   private Long intUbicacion;
-
   private Long intIdCliente;
-
   private Long intIdPuntoVenta;
-
   private String consecutivoDocumento;
-
   /**
    * The str descripcion.
    */
   private String strDescripcion;
   private UploadedFile uploadedFile;
   private boolean fromFile;
+  private boolean mostrarDlg;
+  private boolean errorsInFile;
 
   /**
    * Inits the.
@@ -165,15 +145,12 @@ public class IngresarVentaDirectaMB extends UtilMB {
     documento.setCliente(cliente);
     documento.setPuntoVenta(new PuntoVenta(intIdPuntoVenta));
     documento.setDocumentoCliente(this.strDocumentoCliente);
-
     if (listaProductosXClienteSeleccionadosDTO != null && !listaProductosXClienteSeleccionadosDTO.isEmpty()) {
       documento.setDescuentoCliente(listaProductosXClienteSeleccionadosDTO.get(0).getDescuentoCliente());
     }
-
     documento.setFechaEntrega(this.fechaEntrega);
     documento.setFechaEsperadaEntrega(this.fechaEsperadaEntrega);
     documento.setNumeroFactura("0");
-
     LogAuditoria auditoria = new LogAuditoria();
     auditoria.setIdUsuario(menu.getUsuario().getId());
     auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
@@ -230,13 +207,12 @@ public class IngresarVentaDirectaMB extends UtilMB {
    * Consultar facturas exportacion.
    */
   public void consultarProductosXCliente() {
-	fromFile = false;
+    setFromFile(false);
+    setErrorsInFile(false);
     try {
       listaProductosXClienteDTO = new ArrayList<>();
       listaProductosXClienteSeleccionadosDTO = new ArrayList<>();
-
       this.listaProductosXCliente = ventasFacturacionEJBLocal.consultarPorClientePuntoVenta(intIdCliente, intIdPuntoVenta);
-
       if (listaProductosXCliente != null && !listaProductosXCliente.isEmpty()) {
         for (ProductosXCliente producto : listaProductosXCliente) {
           ProductoPorClienteDTO productoDTO = new ProductoPorClienteDTO();
@@ -254,7 +230,6 @@ public class IngresarVentaDirectaMB extends UtilMB {
           productoDTO.setPrecioUsd(producto.getPrecioUsd());
           listaProductosXClienteDTO.add(productoDTO);
         }
-
       }
     } catch (Exception e) {
       LOGGER.error(e);
@@ -278,13 +253,45 @@ public class IngresarVentaDirectaMB extends UtilMB {
     }
   }
 
+  public void openDlgEvent() {
+    LOGGER.trace("Metodo: <<openDlgEvent>>");
+    mostrarDlg = true;
+  }
+
+  public void closeDlgEvent() {
+    LOGGER.trace("Metodo: <<closeDlgEvent>>");
+    mostrarDlg = false;
+  }
+
+  public void cancelLoadFileEvent() {
+    LOGGER.trace("Metodo: <<cancelLoadFileEvent>>");
+    fromFile = false;
+    cancelar();
+  }
+
   public void handleFileUpload(FileUploadEvent fileUploadEvent) {
     LOGGER.trace("Metodo: <<handleFileUpload>>");
-	fromFile = false;
     try {
       setUploadedFile(fileUploadEvent.getFile());
       Documento ventaDirecta = ventasFacturacionEJBLocal.cargarProductosVDDesdeArchivo(getUploadedFile().getContents());
-      fromFile = true;
+      setErrorsInFile(false);
+      setFromFile(true);
+      setFechaEntrega(ventaDirecta.getFechaEntrega());
+      setFechaEsperadaEntrega(ventaDirecta.getFechaEsperadaEntrega());
+      setStrDocumentoCliente(ventaDirecta.getDocumentoCliente());
+      setIntIdCliente(ventaDirecta.getCliente().getId());
+      cargarPuntosVenta();
+      setIntIdPuntoVenta(ventaDirecta.getPuntoVenta().getId());
+      listaProductosXClienteDTO = ventaDirecta.getProductosPorClienteDTO();
+      if (listaProductosXClienteDTO != null && !listaProductosXClienteDTO.isEmpty()) {
+        for (ProductoPorClienteDTO pxcDTO : listaProductosXClienteDTO) {
+          if (pxcDTO.isError()) {
+            addMensajeError(pxcDTO.getMsgValidacion());
+            setErrorsInFile(true);
+          }
+        }
+      }
+      listaProductosXClienteSeleccionadosDTO = new ArrayList<>();
     } catch (IOException e) {
       this.addMensajeError("Error al leer el archivo");
     } catch (RuntimeException re) {
@@ -304,7 +311,7 @@ public class IngresarVentaDirectaMB extends UtilMB {
     consecutivoDocumento = "";
     strDocumentoCliente = "";
     listaPuntoVenta = new ArrayList<>();
-
+    errorsInFile = false;
   }
 
   /**
@@ -501,6 +508,48 @@ public class IngresarVentaDirectaMB extends UtilMB {
    */
   public void setUploadedFile(UploadedFile uploadedFile) {
     this.uploadedFile = uploadedFile;
+  }
+
+  /**
+   * @return the fromFile
+   */
+  public boolean isFromFile() {
+    return fromFile;
+  }
+
+  /**
+   * @param fromFile the fromFile to set
+   */
+  public void setFromFile(boolean fromFile) {
+    this.fromFile = fromFile;
+  }
+
+  /**
+   * @return the mostrarDlg
+   */
+  public boolean isMostrarDlg() {
+    return mostrarDlg;
+  }
+
+  /**
+   * @param mostrarDlg the mostrarDlg to set
+   */
+  public void setMostrarDlg(boolean mostrarDlg) {
+    this.mostrarDlg = mostrarDlg;
+  }
+
+  /**
+   * @return the errorsInFile
+   */
+  public boolean isErrorsInFile() {
+    return errorsInFile;
+  }
+
+  /**
+   * @param errorsInFile the errorsInFile to set
+   */
+  public void setErrorsInFile(boolean errorsInFile) {
+    this.errorsInFile = errorsInFile;
   }
 
 }
