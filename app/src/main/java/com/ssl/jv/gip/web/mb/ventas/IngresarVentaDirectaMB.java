@@ -265,7 +265,6 @@ public class IngresarVentaDirectaMB extends UtilMB {
 
   public void cancelLoadFileEvent() {
     LOGGER.trace("Metodo: <<cancelLoadFileEvent>>");
-    fromFile = false;
     cancelar();
   }
 
@@ -311,6 +310,7 @@ public class IngresarVentaDirectaMB extends UtilMB {
     consecutivoDocumento = "";
     strDocumentoCliente = "";
     listaPuntoVenta = new ArrayList<>();
+    fromFile = false;
     errorsInFile = false;
   }
 

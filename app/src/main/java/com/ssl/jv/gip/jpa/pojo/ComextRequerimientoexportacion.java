@@ -457,40 +457,12 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.requerimientosXDocumentos = requerimientosXDocumentos;
 	}
 
-	public RequerimientosXDocumento addRequerimientosXDocumento(RequerimientosXDocumento requerimientosXDocumento) {
-		getRequerimientosXDocumentos().add(requerimientosXDocumento);
-		requerimientosXDocumento.setComextRequerimientoexportacion(this);
-
-		return requerimientosXDocumento;
-	}
-
-	public RequerimientosXDocumento removeRequerimientosXDocumento(RequerimientosXDocumento requerimientosXDocumento) {
-		getRequerimientosXDocumentos().remove(requerimientosXDocumento);
-		requerimientosXDocumento.setComextRequerimientoexportacion(null);
-
-		return requerimientosXDocumento;
-	}
-
 	public List<Reqxproducto> getReqxproductos() {
 		return this.reqxproductos;
 	}
 
 	public void setReqxproductos(List<Reqxproducto> reqxproductos) {
 		this.reqxproductos = reqxproductos;
-	}
-
-	public Reqxproducto addReqxproducto(Reqxproducto reqxproducto) {
-		getReqxproductos().add(reqxproducto);
-		reqxproducto.setComextRequerimientoexportacion(this);
-
-		return reqxproducto;
-	}
-
-	public Reqxproducto removeReqxproducto(Reqxproducto reqxproducto) {
-		getReqxproductos().remove(reqxproducto);
-		reqxproducto.setComextRequerimientoexportacion(null);
-
-		return reqxproducto;
 	}
 
 }
