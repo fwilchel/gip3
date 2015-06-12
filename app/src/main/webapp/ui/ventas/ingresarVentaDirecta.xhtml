@@ -10,22 +10,36 @@
   <ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.ventasTituloGenerarVD}::.</ui:define>
 
   <ui:define name="contenido">
+
     <p:spacer height="40"></p:spacer>
+
     <h:form prependId="false" id="forma">
 
-      <p:messages id="msgs" showDetail="false" showSummary="true"
-                  globalOnly="true" showIcon="true"></p:messages>
+      <p:messages 
+        id="msgs" 
+        showDetail="false" 
+        showSummary="true"
+        globalOnly="true" 
+        showIcon="true"/>
 
-      <p:tabView id="tabPanel">
-        <p:tab title="#{msg.ventasTituloGenerarVD}">
+      <p:tabView 
+        id="tabPanel">
+        <p:tab 
+          title="#{msg.ventasTituloGenerarVD}">
 
-          <p:panelGrid columns="3" columnClasses="label,value">
+          <p:panelGrid 
+            columns="3" 
+            columnClasses="label,value">
 
-            <p:outputLabel value="#{msg.RequisicionNombrFechaSistema}"
-                           for="fechaactual" styleClass="negrita" />
-            <h:outputText value="#{ingresarVentaDirectaMB.fechaActual}"
-                          id="fechaactual">
-              <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss" />
+            <p:outputLabel 
+              value="#{msg.RequisicionNombrFechaSistema}"
+              for="fechaactual" 
+              styleClass="negrita" />
+            <h:outputText 
+              value="#{ingresarVentaDirectaMB.fechaActual}"
+              id="fechaactual">
+              <f:convertDateTime 
+                pattern="dd-MMM-yyyy HH:mm:ss" />
             </h:outputText>
 
           </p:panelGrid>
@@ -35,83 +49,140 @@
             columnClasses="label,value"
             id="panelDatos">
 
-            <p:outputLabel value="#{msg.RequisicionNombreFechaEsperada}"
-                           for="fechaEsperada" styleClass="negrita" />
-            <p:calendar value="#{ingresarVentaDirectaMB.fechaEntrega}"
-                        id="fechaEsperada" required="true" pattern="yyyy-MM-dd">
+            <p:outputLabel 
+              value="#{msg.RequisicionNombreFechaEsperada}"
+              for="fechaEsperada" 
+              styleClass="negrita" />
+            <p:calendar 
+              value="#{ingresarVentaDirectaMB.fechaEntrega}"
+              id="fechaEsperada" 
+              required="true" 
+              pattern="yyyy-MM-dd"
+              disabled="#{ingresarVentaDirectaMB.fromFile}">
             </p:calendar>
-            <p:message for="fechaEsperada"></p:message>
+            <p:message 
+              for="fechaEsperada"/>
 
             <p:outputLabel
               value="#{msg.RequisicionNombreFechaEsperadaEntrega}"
-              for="fechaEsperadaEntrega" styleClass="negrita" />
-            <p:calendar value="#{ingresarVentaDirectaMB.fechaEsperadaEntrega}"
-                        id="fechaEsperadaEntrega" required="true" pattern="yyyy-MM-dd">
+              for="fechaEsperadaEntrega" 
+              styleClass="negrita" />
+            <p:calendar 
+              value="#{ingresarVentaDirectaMB.fechaEsperadaEntrega}"
+              id="fechaEsperadaEntrega" 
+              required="true" 
+              pattern="yyyy-MM-dd"
+              disabled="#{ingresarVentaDirectaMB.fromFile}">
             </p:calendar>
-            <p:message for="fechaEsperadaEntrega"></p:message>
+            <p:message 
+              for="fechaEsperadaEntrega"/>
 
-            <p:outputLabel value="#{msg.VentasDocumentoCliente}"
-                           for="doccliente" styleClass="negrita" />
-            <p:inputText value="#{ingresarVentaDirectaMB.strDocumentoCliente}"
-                         id="doccliente" required="true"
-                         label="#{msg.VentasDocumentoCliente}" />
-            <p:message for="doccliente"></p:message>
+            <p:outputLabel 
+              value="#{msg.VentasDocumentoCliente}"
+              for="doccliente" 
+              styleClass="negrita" />
+            <p:inputText 
+              value="#{ingresarVentaDirectaMB.strDocumentoCliente}"
+              id="doccliente" 
+              required="true"
+              label="#{msg.VentasDocumentoCliente}" 
+              disabled="#{ingresarVentaDirectaMB.fromFile}"/>
+            <p:message 
+              for="doccliente"/>
 
-            <p:outputLabel value="#{msg.maestroCreModNomCliProductoXCliente}"
-                           for="selectidcli" styleClass="negrita" />
-            <p:selectOneMenu id="selectidcli" required="true"
-                             value="#{ingresarVentaDirectaMB.intIdCliente}"
-                             label="#{msg.maestroCreModNomCliProductoXCliente}">
-              <f:selectItem id="item1" itemLabel="" itemValue="" />
-              <f:selectItems value="#{ingresarVentaDirectaMB.listaClientes}"
-                             var="cliente" itemValue="#{cliente.id}"
-                             itemLabel="#{cliente.nombre}" />
-              <p:ajax listener="#{ingresarVentaDirectaMB.cargarPuntosVenta}"
-                      update="selectidpv" process="@this" />
+            <p:outputLabel 
+              value="#{msg.maestroCreModNomCliProductoXCliente}"
+              for="selectidcli" 
+              styleClass="negrita" />
+            <p:selectOneMenu 
+              id="selectidcli" 
+              required="true"
+              value="#{ingresarVentaDirectaMB.intIdCliente}"
+              label="#{msg.maestroCreModNomCliProductoXCliente}"
+              disabled="#{ingresarVentaDirectaMB.fromFile}">
+              <f:selectItem 
+                id="item1" 
+                itemLabel="" 
+                itemValue="" />
+              <f:selectItems 
+                value="#{ingresarVentaDirectaMB.listaClientes}"
+                var="cliente" 
+                itemValue="#{cliente.id}"
+                itemLabel="#{cliente.nombre}" />
+              <p:ajax 
+                listener="#{ingresarVentaDirectaMB.cargarPuntosVenta}"
+                update="selectidpv" 
+                process="@this" />
             </p:selectOneMenu>
-            <p:message for="selectidcli"></p:message>
+            <p:message 
+              for="selectidcli"/>
 
-            <p:outputLabel value="#{msg.maestroCreModNomPVProductoXCliente}"
-                           for="selectidpv" styleClass="negrita" />
-            <p:selectOneMenu id="selectidpv"
-                             value="#{ingresarVentaDirectaMB.intIdPuntoVenta}"
-                             label="#{msg.maestroCreModNomPVProductoXCliente}">
-              <f:selectItems value="#{ingresarVentaDirectaMB.listaPuntoVenta}"
-                             var="puntov" itemValue="#{puntov.id}"
-                             itemLabel="#{puntov.nombre}" />
+            <p:outputLabel 
+              value="#{msg.maestroCreModNomPVProductoXCliente}"
+              for="selectidpv" 
+              styleClass="negrita" />
+            <p:selectOneMenu 
+              id="selectidpv"
+              value="#{ingresarVentaDirectaMB.intIdPuntoVenta}"
+              label="#{msg.maestroCreModNomPVProductoXCliente}"
+              disabled="#{ingresarVentaDirectaMB.fromFile}">
+              <f:selectItems 
+                value="#{ingresarVentaDirectaMB.listaPuntoVenta}"
+                var="puntov" 
+                itemValue="#{puntov.id}"
+                itemLabel="#{puntov.nombre}" />
             </p:selectOneMenu>
-            <p:message for="selectidpv"></p:message>
+            <p:message 
+              for="selectidpv"/>
 
-            <p:outputLabel value="#{msg.movimientoUbicacionOrigen}"
-                           for="idUbicacion" styleClass="negrita" />
-            <p:selectOneMenu id="idUbicacion"
-                             value="#{ingresarVentaDirectaMB.intUbicacion}"
-                             label="#{msg.movimientoUbicacionOrigen}">
-              <f:selectItems value="#{ingresarVentaDirectaMB.listaUbicaciones}"
-                             var="ubicacion" itemValue="#{ubicacion.id}"
-                             itemLabel="#{ubicacion.nombre}" />
+            <p:outputLabel 
+              value="#{msg.movimientoUbicacionOrigen}"
+              for="idUbicacion" 
+              styleClass="negrita" />
+            <p:selectOneMenu 
+              id="idUbicacion"
+              value="#{ingresarVentaDirectaMB.intUbicacion}"
+              label="#{msg.movimientoUbicacionOrigen}">
+              <f:selectItems 
+                value="#{ingresarVentaDirectaMB.listaUbicaciones}"
+                var="ubicacion" itemValue="#{ubicacion.id}"
+                itemLabel="#{ubicacion.nombre}" />
             </p:selectOneMenu>
-            <p:message for="idUbicacion"></p:message>
+            <p:message 
+              for="idUbicacion"/>
 
           </p:panelGrid>
 
-          <p:spacer height="10"></p:spacer>
+          <p:spacer height="10"/>
+
           <p:panelGrid 
             columns="2">
+            <!-- cargar archivo -->
+            <p:commandButton 
+              actionListener="#{ingresarVentaDirectaMB.openDlgEvent}"
+              icon="ui-icon-document" 
+              value="#{msg.fileupload_button}" 
+              immediate="true"
+              update=":dlgUploadFile"/>
+            <!-- cancelar cargar archivo -->
+            <p:commandButton 
+              actionListener="#{ingresarVentaDirectaMB.cancelLoadFileEvent}"
+              icon="ui-icon-document" 
+              value="#{msg.generalCancelar}" 
+              immediate="true"
+              update=":forma"
+              rendered="#{ingresarVentaDirectaMB.fromFile}"/>
+            <!-- consultar -->
             <p:commandButton 
               value="#{msg.comprasConsultarBoton}"
               icon="ui-icon-disk"
               actionListener="#{ingresarVentaDirectaMB.consultarProductosXCliente}"
-              update=":forma:tabPanel">
+              update=":forma:tabPanel"
+              rendered="#{!ingresarVentaDirectaMB.fromFile}">
             </p:commandButton>
-            <!-- cargar archivo -->
-            <p:commandButton 
-              onclick="PF('dlgUploadFileWV').show();"
-              icon="ui-icon-document" 
-              value="#{msg.fileupload_button}" 
-              type="button"/>
           </p:panelGrid>
-          <p:spacer height="10"></p:spacer>
+
+          <p:spacer height="10"/>
 
           <p:dataTable 
             var="dato" 
@@ -126,11 +197,15 @@
             rowsPerPageTemplate="5,10,15">
 
             <p:column headerText="#{msg.comprasProductoSKU}">
-              <h:outputText value="#{dato.sku}" />
+              <h:outputText 
+                value="#{dato.sku}" 
+                styleClass="#{dato.estilo}" />
             </p:column>
 
             <p:column headerText="#{msg.buscadorNombreProducto}">
-              <h:outputText value="#{dato.nombre}" />
+              <h:outputText 
+                value="#{dato.nombre}"
+                styleClass="#{dato.estilo}" />
             </p:column>
 
             <p:column headerText="#{msg.buscadorIncluirProducto}">
@@ -145,16 +220,17 @@
             <p:commandButton
               value="#{msg.buscadorInsertarProductoSeleccionado}"
               action="#{ingresarVentaDirectaMB.seleccionarProductos}"
-              update=":forma:tabPanel" process=":forma:tabPanel"></p:commandButton>
+              update=":forma:tabPanel" 
+              process=":forma:tabPanel"
+              disabled="#{ingresarVentaDirectaMB.errorsInFile}"/>
           </p:panelGrid>
+
           <p:spacer height="10"></p:spacer>
 
           <p:dataTable 
             var="seleccionado" 
             widgetVar="productosExpoTabla"
             id="tablaSeleccionados" 
-            scrollable="true" 
-            scrollWidth="1000px"
             value="#{ingresarVentaDirectaMB.listaProductosXClienteSeleccionadosDTO}"
             rows="10" 
             emptyMessage="#{msg.generalNoDatos}" 
@@ -220,55 +296,61 @@
               value="#{msg.VentasGenerarVD}"
               icon="ui-icon-disk"
               action="#{ingresarVentaDirectaMB.crearVentaDirecta}"
-              update=":forma:tabPanel,:forma:msgs">
+              update=":forma:tabPanel,:forma:msgs"
+              disabled="#{empty ingresarVentaDirectaMB.listaProductosXClienteSeleccionadosDTO}">
             </p:commandButton>
           </p:panelGrid>
 
         </p:tab>
-        <p:dialog  
-          id="dlgUploadFile"
-          widgetVar="dlgUploadFileWV"
-          header="#{msg.fileupload_button}" 
-          modal="true" 
-          showEffect="fade" 
-          hideEffect="fade" 
-          resizable="false"
-          dynamic="true"
-          width="640"
-          height="220">
-          <h:form 
-            id="formaDlgUploadFile" 
-            enctype="multipart/form-data">
-            <p:messages 
-              id="msgsDlgUploadFile" 
-              showDetail="false" 
-              showSummary="true"
-              globalOnly="true" 
-              showIcon="true"/>
-            <p:outputPanel>
-              <p:fileUpload 
-                id="fileUpload"
-                fileUploadListener="#{ingresarVentaDirectaMB.handleFileUpload}"
-                mode="advanced" 
-                dragDropSupport="false" 
-                sizeLimit="200000" 
-                allowTypes="/(\.|\/)(txt)$/"
-                oncomplete="PF('dlgUploadFileWV').hide();"
-                uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}"
-                cancelLabel="#{msg.generalCancelar}"
-                invalidFileMessage="#{msg.maestroProductosXClienteArchivoNoValido}"
-                update=":pnlTab:forma:msgs"/>
-            </p:outputPanel>
-            <p:commandButton 
-              value="#{msg.generalCancelar}" 
-              process="@this"
-              oncomplete="PF('dlgUploadFileWV').hide();" 
-              icon="ui-icon-cancel">
-            </p:commandButton>
-          </h:form>
-        </p:dialog>
       </p:tabView>
     </h:form>
+    <p:dialog  
+      id="dlgUploadFile"
+      widgetVar="dlgUploadFileWV"
+      header="#{msg.fileupload_button}" 
+      modal="true" 
+      showEffect="fade" 
+      hideEffect="fade" 
+      resizable="false"
+      dynamic="true"
+      width="640"
+      height="220"
+      visible="#{ingresarVentaDirectaMB.mostrarDlg}">
+      <p:ajax 
+        event="close" 
+        update=":forma:tabPanel" 
+        listener="#{ingresarVentaDirectaMB.closeDlgEvent}" />
+      <h:form 
+        id="formaDlgUploadFile" 
+        enctype="multipart/form-data">
+        <p:messages 
+          id="msgsDlgUploadFile" 
+          showDetail="false" 
+          showSummary="true"
+          globalOnly="true" 
+          showIcon="true"/>
+        <p:outputPanel>
+          <p:fileUpload 
+            id="fileUpload"
+            fileUploadListener="#{ingresarVentaDirectaMB.handleFileUpload}"
+            mode="advanced" 
+            dragDropSupport="false" 
+            sizeLimit="200000" 
+            allowTypes="/(\.|\/)(txt)$/"
+            oncomplete="PF('dlgUploadFileWV').hide();"
+            uploadLabel="#{msg.maestroProductosXClienteCargarArchivo}"
+            cancelLabel="#{msg.generalCancelar}"
+            invalidFileMessage="#{msg.maestroProductosXClienteArchivoNoValido}"
+            update=":forma"/>
+        </p:outputPanel>
+        <p:commandButton 
+          value="#{msg.generalCancelar}" 
+          process="@this"
+          oncomplete="PF('dlgUploadFileWV').hide();" 
+          icon="ui-icon-cancel">
+        </p:commandButton>
+      </h:form>
+    </p:dialog>
 
   </ui:define>
 

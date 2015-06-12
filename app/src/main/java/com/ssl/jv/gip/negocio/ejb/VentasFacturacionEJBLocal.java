@@ -1,5 +1,6 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXCliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
-import java.io.IOException;
+import com.ssl.jv.gip.negocio.dto.ProductoPorClienteDTO;
 
 @Local
 public interface VentasFacturacionEJBLocal {
@@ -152,4 +153,12 @@ public interface VentasFacturacionEJBLocal {
    * @return
    */
   Documento generarRemision(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, LogAuditoria auditoria);
+  
+  /**
+   *
+   * @param archivo
+   * @return
+   * @throws IOException
+   */
+  Documento cargarProductosVDDesdeArchivo(byte[] archivo) throws IOException;
 }
