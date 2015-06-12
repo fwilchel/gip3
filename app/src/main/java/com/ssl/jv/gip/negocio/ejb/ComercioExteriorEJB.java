@@ -1544,7 +1544,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	this.liquidacionCostoLogisticoDAO.add(lcl);
 	int cuantos = 0;
 	for (DocumentoCostosLogisticosDTO d : documentos) {
-	  cuantos += this.documentoDAO.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(fob), d.getValorTotalDocumento().divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(fletes), d.getValorTotalDocumento().divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(seguros));
+	  cuantos += this.documentoDAO.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().add(d.getEtiquetas()).divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(fob), d.getValorTotalDocumento().add(d.getEtiquetas()).divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(fletes), d.getValorTotalDocumento().add(d.getEtiquetas()).divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(seguros));
 	}
 	return cuantos;
   }

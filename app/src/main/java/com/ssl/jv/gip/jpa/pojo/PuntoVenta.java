@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NamedQueries({
   @NamedQuery(name = "PuntoVenta.findAll", query = "SELECT p FROM PuntoVenta p"),
   @NamedQuery(name = "PuntoVenta.findByCliente", query = "SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente"),
-  @NamedQuery(name = PuntoVenta.FIND_BY_USUARIO, query = "SELECT p FROM PuntoVenta p WHERE p.usuario.id = :idUsuario"),
+  @NamedQuery(name = PuntoVenta.FIND_BY_USUARIO, query = "SELECT p FROM PuntoVenta p JOIN FETCH p.cliente JOIN FETCH p.ubicacion WHERE p.usuario.id = :idUsuario"),
   @NamedQuery(name = PuntoVenta.FIND_BY_CODIGO_BARRAS, query = "SELECT p FROM PuntoVenta p WHERE p.codigoBarras = :codigoBarras")
 })
 public class PuntoVenta implements Serializable {
@@ -55,6 +55,10 @@ public class PuntoVenta implements Serializable {
   @ManyToOne
   @JoinColumn(name = "usuario")
   private Usuario usuario;
+
+  @ManyToOne
+  @JoinColumn(name = "ubicacion")
+  private Ubicacion ubicacion;
 
   public PuntoVenta() {
   }
@@ -147,5 +151,19 @@ public class PuntoVenta implements Serializable {
    */
   public void setUsuario(Usuario usuario) {
     this.usuario = usuario;
+  }
+
+  /**
+   * @return the ubicacion
+   */
+  public Ubicacion getUbicacion() {
+    return ubicacion;
+  }
+
+  /**
+   * @param ubicacion the ubicacion to set
+   */
+  public void setUbicacion(Ubicacion ubicacion) {
+    this.ubicacion = ubicacion;
   }
 }
