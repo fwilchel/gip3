@@ -39,7 +39,10 @@ import com.ssl.jv.gip.web.mb.UtilMB;
  * <p>
  * Description: GIP</p>
  *
- * <p>
+ * <p> El valor FOB del final toma todos los items seleccionados cuya categoria sume en valor fob
+ * Los items cuyo valor es un % sobre el valor fob, solo toma los items seleccionados con baseFOB
+ * Al momento de generar no se tienen en cuenta las etiquetas para distribuir en las solicitudes costos 
+ * Al momento de guardar la distribucion de costos si tiene en cuenta las etiquetas
  * Copyright: Copyright (c) 2014</p>
  *
  * <p>
@@ -448,7 +451,7 @@ public class GenerarCostosLogisticosMB extends UtilMB {
       for (GrupoCostoLogistico g : this.costos) {
         for (CostoLogisticoDTO cl : g.getCostos()) {
           if (cl.isSeleccionado() && cl.getId().getBaseFob()) {
-            valorFob += cl.getId().getValor();
+            valorFob += Math.max(cl.getId().getValor(), cl.getId().getValorMinimo());
           }
         }
       }
