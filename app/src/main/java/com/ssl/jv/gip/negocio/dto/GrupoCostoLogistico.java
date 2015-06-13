@@ -87,7 +87,7 @@ public class GrupoCostoLogistico implements Comparable {
   public BigDecimal getTotalFOB() {
     BigDecimal v = new BigDecimal(0);
     for (CostoLogisticoDTO c : this.costos) {
-      if (c.isSeleccionado() && c.getId().getBaseFob()) {
+      if (c.isSeleccionado() && c.getId().getCampoAcumula().equals(ECampoAcumula.FOB.name())) {
         v = v.add(new BigDecimal(c.getId().getValor()));
       }
     }
