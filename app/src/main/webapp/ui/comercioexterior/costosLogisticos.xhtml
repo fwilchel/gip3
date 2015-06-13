@@ -167,10 +167,11 @@
                   <p:column headerText="Item">
                     <h:outputText value="#{costo.id.item}" />
                   </p:column>
-                  <p:column headerText="Descripciï¿½n">
+                  <p:column headerText="Descripción">
+					<p:selectBooleanCheckbox value="#{costo.id.baseFob}" disabled="true"></p:selectBooleanCheckbox>                   
                     <h:outputText value="#{costo.id.descripcion}" />
                   </p:column>
-                  <p:column headerText="#{msg.costosLogisticosConsecutivo}">
+                  <p:column headerText="Documento">
                     <h:outputText value="#{costo.id.consecutivoDocumento}" />
                   </p:column>
                   <p:column headerText="Cantidad" styleClass="derecha">
@@ -178,7 +179,7 @@
                       <f:convertNumber type="number" groupingUsed="true" minFractionDigits="3" maxFractionDigits="3" pattern="#,##0.00"/>
                     </h:outputText>
                   </p:column>
-                  <p:column headerText="Valor Mï¿½nimo" styleClass="derecha">
+                  <p:column headerText="Valor Mínimo" styleClass="derecha">
                     <h:outputText value="#{costo.id.valorMinimo}" />
                   </p:column>
                   <p:column headerText="Valor" styleClass="derecha">
