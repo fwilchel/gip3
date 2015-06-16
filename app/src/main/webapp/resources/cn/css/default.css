@@ -1,0 +1,375 @@
+#contenedor {
+  width:100%;
+  height: auto;
+  margin:auto;
+  text-align:left;
+}
+
+#logoJV {
+  float:left;
+  margin:20px 0px 0px 200px;
+}
+
+#contenidoMenor {
+  width: 90%;
+}
+
+#logoJV2 {
+  float:left;
+  margin:12px 0px 0px 100px;
+}
+
+#tituloSistema {
+  margin:20px 450px 0px 0px;
+}
+
+#tablaUsuario {
+  padding: 3px;
+  border: 2px solid;
+  border-color: #7B2827;
+  background: #EFDCC5; 
+  border-radius: 5px;
+  float:right;
+  margin:-40px 130px 0px 0px;
+  font-family: "Myriad Pro Regular";
+  font-size: 12pt;
+  color:#7B2827;
+  font: bold;	
+  font-weight: bold;	
+}
+
+#tablaPerfil{
+  padding: 3px;
+  border: 2px solid;
+  border-color: #7B2827;
+  background: #EFDCC5; 
+  border-radius: 5px;
+  float:right;
+  margin:10px 130px 0px 0px;
+  font-family: "Myriad Pro Regular";
+  font-size: 12pt;
+  color:#7B2827;
+  font: bold;	
+  font-weight: bold;	
+}
+
+#blancoIzq {
+  float:left;
+  position: relative;
+  margin:100px 0px 0px 100px;
+}
+
+#blancoDer{
+  float:right;
+  position: relative;
+  margin:100px 100px 0px 0px;
+}
+
+#paquetes {
+  float:right;
+  margin:0px 200px 0px 0px;
+}
+
+#salir {
+  float:right;
+  margin:-30px 50px 0px 0px;
+}
+
+#lona {
+  background-image: url("../images/lona.jpg");
+  background-repeat: repeat-x;
+  width: 637px;
+  height: 384px;
+  float: center;
+}
+
+#bienvenido{
+  float: top;
+  margin:30px 0px 0px 0px;	
+}
+
+.izquierda{
+  text-align: left;
+}
+
+.derecha{
+  text-align: right;
+}
+
+.centro{
+  text-align: center;
+}
+
+.encabezadoLogin {
+  background-image: url("../images/fondo.encabezado.png");
+  background-repeat: repeat-x;
+  height:220px;
+  font-size: 22;
+}
+
+.encabezado{
+  background-image: url("../images/fondo.encabezado2.png");
+  background-repeat: repeat-x;
+  height:159px;
+  font-size: 22;
+}
+
+.tablas {
+  background-image: url("../images/tabla.jpg");
+}
+
+.fondo{
+  background-image: url("../images/fondo.png");
+  background-repeat: repeat;
+}
+
+.fondoContenido{
+  background-image: url("../images/fondo.png");
+  background-repeat: repeat;
+  vertical-align: top;
+}
+
+.textoCafe{
+  font: bold;
+  font-weight: bold;	
+  font-family: "Myriad Pro Regular";
+  font-size: 12pt;
+  color:#41281B;
+}
+
+.textoVinotinto{
+  font: bold;
+  font-weight: bold;	
+  font-family: "Myriad Pro Regular";
+  font-size: 12pt;
+  color:#771B22;
+}
+
+.textoBlanco{
+  font: bold;
+  font-weight: bold;	
+  font-family: "Myriad Pro Regular";
+  font-size: 13pt;
+  color:#FFFFFF;
+  vertical-align: bottom;
+}
+
+negrita{
+  font: bold;
+  font-weight: bold;
+}
+
+.negrita{
+  font: bold;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Myriad Pro Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Regular'), url('../fonts/MYRIADPRO-REGULAR.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Myriad Pro Condensed';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Condensed'), url('../fonts/MYRIADPRO-COND.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Myriad Pro Semibold Italic';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Semibold Italic'), url('../fonts/MYRIADPRO-SEMIBOLDIT.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Myriad Pro Semibold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Semibold'), url('../fonts/MYRIADPRO-SEMIBOLD.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Myriad Pro Condensed Italic';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Condensed Italic'), url('../fonts/MYRIADPRO-CONDIT.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Myriad Pro Bold Italic';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Bold Italic'), url('../fonts/MYRIADPRO-BOLDIT.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Myriad Pro Bold Condensed Italic';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Bold Condensed Italic'), url('../fonts/MYRIADPRO-BOLDCONDIT.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Myriad Pro Bold Condensed';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Bold Condensed'), url('../fonts/MYRIADPRO-BOLDCOND.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Myriad Pro Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Myriad Pro Bold'), url('../fonts/MYRIADPRO-BOLD.woff') format('woff');
+}
+
+.noBorders tr, .noBorders td {
+  background: none !important;
+  border: none !important;
+} 
+
+.label {
+  font: bold;
+  font-weight: bold;
+  text-align: left !important;
+}
+
+.filas_contenido{
+  font-size:12px;
+}
+
+.filas_contenido_numero {
+  font-size:12px;
+  text-align: right !important;
+}
+
+.rojoNegrita{
+  color:red;
+  font-weight:bold	
+}
+
+.verdeNegrita{
+  color:green;
+  font-weight:bold	
+}
+
+.naranjaNegrita{
+  color:orange;
+  font-weight:bold	
+}
+
+.ui-widget {
+  font-size: 75%;
+}
+
+.themeMenu {
+  overflow: auto;
+  height: 300px;
+  width: 200px;
+}
+
+.ui-layout-north {
+  z-index: 20 !important;
+  overflow: visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+  overflow: visible !important;
+}
+
+body{
+  font: 62.5% "Trebuchet MS", sans-serif;
+}
+
+.ui-widget {
+  font-size: 80%;
+}
+
+.ui-state-default {
+  font-size: 80%;
+}
+
+.ui-column-title {
+  font-size: 90%;
+}
+
+.ui-widget-content {
+  font-size: 85%;
+}
+
+.ui-submenu-link {
+  margin-left: 20px;
+  border-right-style: dashed;
+  border-width: 2;
+}
+
+.label{
+  font-size: 100%;
+  font: bold;
+  font-weight: bold;
+}
+
+.ui-inputfield{
+  font-size: 100%;
+}
+
+.ui-selectonemenu-list-item{
+  font-size: 140%;
+}
+
+.demoHeaders {
+  margin-top: 2em;
+}
+
+#dialog-link {
+  padding: .4em 1em .4em 20px;
+  text-decoration: none;
+  position: relative;
+}
+
+#dialog-link span.ui-icon {
+  margin: 0 5px 0 0;
+  position: absolute;
+  left: .2em;
+  top: 50%;
+  margin-top: -8px;
+}
+
+#icons {
+  margin: 0;
+  padding: 0;
+}
+
+#icons li {
+  margin: 2px;
+  position: relative;
+  padding: 4px 0;
+  cursor: pointer;
+  float: left;
+  list-style: none;
+}
+
+#icons span.ui-icon {
+  float: left;
+  margin: 0 4px;
+}
+
+.fakewindowcontain .ui-widget-overlay {
+  position: absolute;
+}
+
+select {
+  width: 200px;
+}

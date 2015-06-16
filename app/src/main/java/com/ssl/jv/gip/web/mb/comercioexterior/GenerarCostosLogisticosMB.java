@@ -39,7 +39,10 @@ import com.ssl.jv.gip.web.mb.UtilMB;
  * <p>
  * Description: GIP</p>
  *
- * <p>
+ * <p> El valor FOB del final toma todos los items seleccionados cuya categoria sume en valor fob
+ * Los items cuyo valor es un % sobre el valor fob, solo toma los items seleccionados con baseFOB
+ * Al momento de generar no se tienen en cuenta las etiquetas para distribuir en las solicitudes costos 
+ * Al momento de guardar la distribucion de costos si tiene en cuenta las etiquetas
  * Copyright: Copyright (c) 2014</p>
  *
  * <p>
@@ -189,7 +192,7 @@ public class GenerarCostosLogisticosMB extends UtilMB {
       this.addMensajeError(AplicacionMB.getMessage("costosLogisticosTipoContenedorRepetido", language));
       return;
     }
-    BigDecimal valorTotal = this.getValorDocumentos();
+    BigDecimal valorTotal = this.getValorDocumentos1();
     List<Long> documentos = new ArrayList<Long>();
     for (DocumentoCostosLogisticosDTO r : this.solicitudes) {
       if (r.getSeleccionada()) {
@@ -209,11 +212,8 @@ public class GenerarCostosLogisticosMB extends UtilMB {
     }
     List<CostoLogisticoDTO> datos = this.comercioEjb.generarCostosLogisticos(cliente, documentos, timt1, puertoNal, puertoInternal, this.trm.getId(), this.pais, this.tipoContenedor1, this.cantidad1, this.tipoContenedor2, this.cantidad2, valorTotal);
 
-    //System.out.println("Cuantos "+datos.size());
     this.costos = new ArrayList<GrupoCostoLogistico>();
     for (CostoLogisticoDTO cl : datos) {
-      //System.out.println(cl);
-      //if (cl!=null && cl.getId()!=null){
       GrupoCostoLogistico g = new GrupoCostoLogistico(cl.getId().getCategoria());
       int pos = this.costos.indexOf(g);
       if (pos == -1) {
@@ -223,7 +223,6 @@ public class GenerarCostosLogisticosMB extends UtilMB {
         g = this.costos.get(pos);
         g.addCosto(cl);
       }
-      //}
     }
     this.recalcular();
   }
@@ -333,6 +332,12 @@ public class GenerarCostosLogisticosMB extends UtilMB {
         v = v.add(g.getTotalFOB());
       }
     }
+    
+    for (DocumentoCostosLogisticosDTO d:this.solicitudes){
+    	if (d.getSeleccionada()){
+    		v=v.add(d.getEtiquetas());
+    	}
+    }
     return v;
   }
 
@@ -356,18 +361,28 @@ public class GenerarCostosLogisticosMB extends UtilMB {
     return v;
   }
 
-  public BigDecimal getValorDocumentos() {
+  public BigDecimal getValorDocumentos1() {
     BigDecimal valorTotal = new BigDecimal(0);
     for (DocumentoCostosLogisticosDTO d : this.solicitudes) {
       if (d.getSeleccionada()) {
-        valorTotal = valorTotal.add(d.getValorTotalDocumento()).add(d.getEtiquetas());
+        valorTotal = valorTotal.add(d.getValorTotalDocumento());
       }
     }
     return valorTotal;
   }
 
+  public BigDecimal getValorDocumentos2() {
+	    BigDecimal valorTotal = new BigDecimal(0);
+	    for (DocumentoCostosLogisticosDTO d : this.solicitudes) {
+	      if (d.getSeleccionada()) {
+	        valorTotal = valorTotal.add(d.getValorTotalDocumento()).add(d.getEtiquetas());
+	      }
+	    }
+	    return valorTotal;
+	  }
+
   public void guardar() {
-    BigDecimal valorTotal = this.getValorDocumentos();
+    BigDecimal valorTotal = this.getValorDocumentos2();
     BigDecimal fob = this.getTotalFOB();
     BigDecimal fletes = this.getTotalFletes();
     BigDecimal seguros = this.getTotalSeguros();
@@ -431,22 +446,29 @@ public class GenerarCostosLogisticosMB extends UtilMB {
   }
 
   public void recalcular() {
-    BigDecimal valorTotal = this.getValorDocumentos();
     Double valorFob = new Double(0);
     if (this.costos != null) {
       for (GrupoCostoLogistico g : this.costos) {
         for (CostoLogisticoDTO cl : g.getCostos()) {
-          if (cl.isSeleccionado() && !cl.getId().getTipo().equals(new Integer(6))) {
-            valorFob += cl.getId().getValor();
+          if (cl.isSeleccionado() && cl.getId().getBaseFob()) {
+            valorFob += Math.max(cl.getId().getValor(), cl.getId().getValorMinimo());
           }
         }
       }
     }
+    if (this.solicitudes!=null){
+    	for (DocumentoCostosLogisticosDTO d:this.solicitudes){
+    		if (d.getSeleccionada()){
+    			valorFob+=d.getEtiquetas().doubleValue();
+    		}
+    	}
+    }
+    
     if (this.costos != null) {
       for (GrupoCostoLogistico g : this.costos) {
         for (CostoLogisticoDTO cl : g.getCostos()) {
           if (cl.getId().getTipo().equals(new Integer(6))) {
-            Double valor = valorTotal.add(new BigDecimal(valorFob)).multiply(cl.getId().getCantidad()).doubleValue() / 100;
+            Double valor = new BigDecimal(valorFob).multiply(cl.getId().getCantidad()).doubleValue() / 100;
             cl.getId().setValor(valor < cl.getId().getValorMinimo() ? cl.getId().getValorMinimo() : valor);
           }
         }
