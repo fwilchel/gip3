@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<web-app 
+  version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
   <context-param>
     <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
     <param-value>true</param-value>
@@ -115,7 +116,7 @@
     <location>/ui/error/error.jsf</location>
   </error-page>
   <error-page> 
-  	<exception-type>javax.faces.application.ViewExpiredException</exception-type> 
-  	<location>/ui/login.jsf</location> 
+    <exception-type>javax.faces.application.ViewExpiredException</exception-type> 
+    <location>/ui/login.jsf</location> 
   </error-page>
 </web-app>

@@ -9,9 +9,11 @@
   <f:view>
     <h:head>
       <title><ui:insert name="title">.:: SOC ::.</ui:insert></title>
-      <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/images/favicon.png" />
+      <link rel="shortcut icon" type="image/png" href="../images/favicon.png" />
       <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
       <h:outputStylesheet library="cn" name="css/default.css"/>
+      <h:outputStylesheet library="cn" name="css/jquery-ui.css"/>
+      <h:outputScript library="cn" name="js/jquery-ui.js" />
       <f:loadBundle basename="com.ssl.jv.gip.web.mb.MessageResources_es" var="msg"/> 
     </h:head>
     <h:body>

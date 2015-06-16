@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/ui/templates/general.xhtml">
-
-  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::Introducci�n::.</ui:define>
-
-  <ui:define name="contenido">
-    <p:spacer height="40"></p:spacer>
-    <h:form prependId="false" >
-      <h:panelGrid columns="1" width="800" style="text-align:left">
-        <p:spacer height="200"></p:spacer>
-        <p:galleria value="#{aplicacionMB.images}" var="image" panelWidth="1006" panelHeight="321" showCaption="false">
-          <p:graphicImage name="#{image}" />
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/resources/default/template/general.xhtml">
+  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::Introducción::.</ui:define>
+  <ui:define 
+    name="contenido">
+    <p:spacer 
+      height="40"/>
+    <h:form 
+      prependId="false" >
+      <h:panelGrid 
+        columns="1" 
+        width="800" 
+        style="text-align:left">
+        <p:spacer 
+          height="10"/>
+        <p:galleria 
+          value="#{aplicacionMB.images}" 
+          var="image" 
+          panelWidth="1006" 
+          panelHeight="321" 
+          showCaption="false">
+          <p:graphicImage 
+            name="#{image}" />
         </p:galleria>
-
-
-
       </h:panelGrid>
     </h:form>
-
   </ui:define>
-
 </ui:composition>
-

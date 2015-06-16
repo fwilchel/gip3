@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:misc="http://java.sun.com/jsf/composite/misc"
-                template="/ui/templates/general.xhtml">
+                template="/resources/default/template/general.xhtml">
 
   <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroClienteInicio}::.</ui:define>
 
@@ -434,7 +434,7 @@
                        value="#{clienteMB.listaTerminosIncoterm}"
                        selection="#{clienteMB.listaTerminosIncotermSeleccionados}"
                        rowKey="#{termino.id}" style="margin-bottom:0;width:500px">
-            <f:facet name="header">Términos Incoterm</f:facet>
+            <f:facet name="header">Tï¿½rminos Incoterm</f:facet>
             <p:column selectionMode="multiple"
                       style="width:16px;text-align:center" />
             <p:column headerText="#{msg.buscadorCodigoIncoterm}">
