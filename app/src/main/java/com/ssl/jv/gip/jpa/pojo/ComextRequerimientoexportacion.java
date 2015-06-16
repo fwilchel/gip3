@@ -469,12 +469,12 @@ public class ComextRequerimientoexportacion implements Serializable {
 
 	public void setRequerimientosXDocumentos(List<RequerimientosXDocumento> requerimientosXDocumentos) {
 		this.requerimientosXDocumentos = requerimientosXDocumentos;
-	}
+	}*/
 
 
 	public List<Reqxproducto> getReqxproductos() {
 		return this.reqxproductos;
-	}*/
+	}
 
 	public void setReqxproductos(List<Reqxproducto> reqxproductos) {
 		this.reqxproductos = reqxproductos;

@@ -295,7 +295,11 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion(
 		Map<String, Object> parametros) {
 	// TODO Auto-generated method stub
-	return comextRequerimientoExportacionDAO.buscarRegistroPorConsultaNombrada(ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO,parametros);
+	return comextRequerimientoExportacionDAO.buscarPorConsultaNombrada(ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO,parametros);
 }
+
+
+
+
 
 }
