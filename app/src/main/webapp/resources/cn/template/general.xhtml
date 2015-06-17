@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui">
+
+  <f:view 
+    contentType="text/html">
+
+    <h:head>
+
+      <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/default/images/favicon.png" />
+      </f:facet>
+
+      <title><ui:insert name="title">.:: SOC ::.</ui:insert></title>
+
+      <link 
+        href="#{request.contextPath}/resources/default/css/gip.css" 
+        rel="stylesheet"
+        type="text/css" />
+      <link 
+        href="#{request.contextPath}/resources/default/css/jquery-ui.css" 
+        rel="stylesheet" />
+      <script 
+        src="#{request.contextPath}/resources/default/js/jquery-ui.js"/>
+
+      <f:loadBundle 
+        basename="com.ssl.jv.gip.web.mb.MessageResources_es" 
+        var="msg"/> 
+
+      <style 
+        type="text/css">
+        body{
+          font: 62.5% "Trebuchet MS", sans-serif;
+        }
+        .ui-widget {
+          font-size: 80%;
+        }
+        .ui-state-default {
+          font-size: 80%;
+        }
+        .ui-column-title {
+          font-size: 90%;
+        }
+        .ui-widget-content {
+          font-size: 85%;
+        }
+        .ui-submenu-link {
+          margin-left: 20px;
+          border-right-style: dashed;
+          border-width: 2;
+        }
+        .label{
+          font-size: 100%;
+          font: bold;
+          font-weight: bold;
+        }
+        .ui-inputfield{
+          font-size: 100%;
+        }
+        .ui-selectonemenu-list-item{
+          font-size: 140%;
+        }
+        .demoHeaders {
+          margin-top: 2em;
+        }
+        #dialog-link {
+          padding: .4em 1em .4em 20px;
+          text-decoration: none;
+          position: relative;
+        }
+        #dialog-link span.ui-icon {
+          margin: 0 5px 0 0;
+          position: absolute;
+          left: .2em;
+          top: 50%;
+          margin-top: -8px;
+        }
+        #icons {
+          margin: 0;
+          padding: 0;
+        }
+        #icons li {
+          margin: 2px;
+          position: relative;
+          padding: 4px 0;
+          cursor: pointer;
+          float: left;
+          list-style: none;
+        }
+        #icons span.ui-icon {
+          float: left;
+          margin: 0 4px;
+        }
+        .fakewindowcontain .ui-widget-overlay {
+          position: absolute;
+        }
+        select {
+          width: 200px;
+        }
+      </style>
+
+    </h:head>
+
+    <p:dialog 
+      modal="true" 
+      widgetVar="statusDialog" 
+      header="Procesando..." 
+      draggable="false" 
+      closable="false" 
+      resizable="false">
+      <p:graphicImage 
+        name="cn/images/ajaxloadingbar.gif" />
+    </p:dialog>
+
+    <p:ajaxStatus 
+      onstart="PF('statusDialog').show()" 
+      onsuccess="PF('statusDialog').hide()" />
+
+    <h:body>
+
+      <p:growl 
+        id="msg" 
+        showDetail="false" 
+        showSummary="true" />
+
+      <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
+        <tr class="encabezado">
+          <td>
+            <div id="logoJV2">
+              <img 
+                src="#{request.contextPath}/resources/default/images/Juan Valdez JV Beige.png"
+                alt="Juan Valdez" 
+                width="377" 
+                height="63" />
+            </div>
+            <div id="tituloSistema" align="center">
+              <img 
+                src="#{request.contextPath}/resources/default/images/SOC2.png"
+                alt="Juan Valdez" 
+                width="341" 
+                height="16" />
+            </div>
+            <div id="salir">
+              <h:form>
+                <p:commandLink 
+                  id="salir" 
+                  action="#{menuMB.salir}" 
+                  ajax="false" >
+                  <img 
+                    src="#{request.contextPath}/resources/default/images/Salir.png" 
+                    alt="Salir"
+                    width="27" 
+                    height="43" />
+                </p:commandLink>
+              </h:form>
+            </div>
+            <div id="tablaUsuario">
+              <table width="300" height="30">
+                <tr>
+                  <td>Usuario: #{menuMB.usuario.nombre} #{menuMB.usuario.apellidos}</td>
+                </tr>
+              </table>
+            </div>
+            <div id="tablaPerfil">
+              <table width="300" height="50" >
+                <tr>
+                  <td>Perfil: #{menuMB.usuario.role.nombre}</td>
+                </tr>
+                <tr>
+                  <td>Ambiente: #{aplicacionMB.ambiente} - #{aplicacionMB.version}</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr class="fondo">
+          <td>
+            <h:form>
+              <p:menubar 
+                model="#{menuMB.modelo}"
+                id="mb1" >
+              </p:menubar>
+            </h:form>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img 
+              src="#{request.contextPath}/resources/default/images/LineaCompleta.png"
+              alt="Linea" 
+              width="100%" 
+              height="5" />
+          </td>
+        </tr>
+        <tr height="100%" class="fondoContenido">
+          <td align="center">
+            <div id="contenidoMenor" align="center">
+              <ui:insert 
+                name="contenido"/>
+            </div>
+          </td>
+        </tr>
+        <tr class="fondo">
+          <td>
+            <img 
+              src="#{request.contextPath}/resources/default/images/LineaCompleta.png"
+              alt="Linea" 
+              width="100%" 
+              height="5" />
+          </td>
+        </tr>
+        <tr class="fondo">
+          <td height="50">
+            <div class="textoVinotinto" align="center">Juan Valdez ® 
+              Procafecol S.A. © Copyright - Todos los Derechos Reservados. Juan
+              Valdez es una marca registrada por la Federación Nacional de
+              Cafeteros de Colombia - Fondo Nacional del Café</div>
+          </td>
+        </tr>
+      </table>
+
+      <script 
+        type="text/javascript">
+          function start() {
+            PF('statusDialog').show();
+          }
+
+          function stop() {
+            PF('statusDialog').hide();
+          }
+      </script>
+
+    </h:body>
+
+  </f:view>
+</html>

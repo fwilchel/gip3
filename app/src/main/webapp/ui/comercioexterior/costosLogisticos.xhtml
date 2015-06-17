@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/ui/templates/general.xhtml">
+                template="/resources/default/template/general.xhtml">
 
   <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.costosLogisticosTitulo}::.</ui:define>
 
@@ -145,10 +145,10 @@
                   <p:row>
                     <p:column  headerText="Incluido" style="width:40px" width="40" />
                     <p:column  headerText="Item" />
-                    <p:column  headerText="Descripción" />
+                    <p:column  headerText="DescripciÃ³n" />
                     <p:column  headerText="Documento" style="width:100px" width="100"/>
                     <p:column  headerText="Cantidad" style="width:100px" width="100"/>
-                    <p:column  headerText="Valor Mínimo" style="width:100px" width="100"/>
+                    <p:column  headerText="Valor MÃ­nimo" style="width:100px" width="100"/>
                     <p:column  headerText="Valor" style="width:100px" width="100"/>
                   </p:row>
                 </p:columnGroup>
@@ -167,7 +167,7 @@
                   <p:column headerText="Item">
                     <h:outputText value="#{costo.id.item}" />
                   </p:column>
-                  <p:column headerText="Descripción">
+                  <p:column headerText="Descripciï¿½n">
 					<p:selectBooleanCheckbox value="#{costo.id.baseFob}" disabled="true"></p:selectBooleanCheckbox>                   
                     <h:outputText value="#{costo.id.descripcion}" />
                   </p:column>
@@ -179,7 +179,7 @@
                       <f:convertNumber type="number" groupingUsed="true" minFractionDigits="3" maxFractionDigits="3" pattern="#,##0.00"/>
                     </h:outputText>
                   </p:column>
-                  <p:column headerText="Valor Mínimo" styleClass="derecha">
+                  <p:column headerText="Valor Mï¿½nimo" styleClass="derecha">
                     <h:outputText value="#{costo.id.valorMinimo}" />
                   </p:column>
                   <p:column headerText="Valor" styleClass="derecha">
