@@ -1,7 +1,10 @@
 package com.ssl.jv.gip.negocio.dao;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+
 
 
 
@@ -13,13 +16,12 @@ import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 public class ComextRequerimientoExportacionDAO  extends GenericDAO<ComextRequerimientoexportacion> implements  ComextRequerimientoExportacionDAOLocal {
 
 	
-	
-	 public ComextRequerimientoExportacionDAO () {
+	public ComextRequerimientoExportacionDAO () {
 		    this.persistentClass = ComextRequerimientoexportacion.class;
 		  }
 	 
 	 
-	 
+
 	 
 /*	 @Override
 	  public FacturaDirectaDTO consultarRequerimientoExportacion(String strConsecutivoDocumento) {

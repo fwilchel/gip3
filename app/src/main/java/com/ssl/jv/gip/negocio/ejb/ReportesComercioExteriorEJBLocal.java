@@ -163,6 +163,14 @@ public interface ReportesComercioExteriorEJBLocal {
 
 List<ProductosXDocumento> consultarProductosPorDocumentoReporte(Long id);
 
-List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion(Map<String, Object> parametros);
+//List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionConsecutivo(Map<String, Object> parametros);
+
+List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion();
+
+List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionConsecutivo(
+		Long id);
+
+ComextRequerimientoexportacion consultarComextRequerimientoExportacionDetalle(
+		Long id);
 
 }

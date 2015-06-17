@@ -48,7 +48,7 @@
                 id="filtroConsecutivoDocumento" 
                 value="#{generarReporteRequerimientoExportacionMB.filtroConsecutivoDocumento}" 
                 maxlength="40" 
-                label="#{msg.IngresarNumFX}"/>
+                label="#{msg.reporteRequerimientoExportacion_Consecutivo}"/>
               <p:message
                 for="filtroConsecutivoDocumento"/>
               <f:facet
@@ -89,8 +89,20 @@
               </div>
             </f:facet>
 
+           <p:column style="width:64px;text-align: center">
+              <p:commandButton 
+                oncomplete="PF('reqExpoDialog').show()"
+                icon="ui-icon-zoomin" title="#{msg.generalConsultar}"
+                update=":reqExpoDialog">
+                 <f:setPropertyActionListener 
+                  value="#{ReqExpo}"
+                  target="#{generarReporteRequerimientoExportacionMB.seleccionado}" />
+               
+              </p:commandButton>
+            </p:column>
            
-           
+        
+        
            
            
            
@@ -104,27 +116,252 @@
 
             <p:column 
               filterBy="#{ReqExpo.fecha}"
-              style="width:100px" headerText="#{msg.ConsecutivoFP}"
+              style="width:100px" headerText="#{msg.reporteRequerimientoExportacion_Fecha}"
               filterMatchMode="contains"
               sortBy="#{ReqExpo.fecha}">
               <h:outputText value="#{ReqExpo.fecha}" />
             </p:column>
 
             <p:column 
-              filterBy="#{ReqExpo.estado}"
+              filterBy="#{ReqExpo.modalidadembarque}"
               style="width:100px"
-              headerText="#{msg.RequisicionNombreFechaGenerado}"
+              headerText="#{msg.reporteRequerimientoExportacion_ModalidadEmbarque}"
               filterMatchMode="contains"
-              sortBy="#{ReqExpo.estado}">
-              <h:outputText value="#{ReqExpo.estado}">
-                <f:convertDateTime pattern="dd-MMM-yyyy" />
-              </h:outputText>
+              sortBy="#{ReqExpo.modalidadembarque}">
+              <h:outputText value="#{ReqExpo.modalidadembarque}"/>
+              
+            </p:column>
+            
+            
+            <p:column 
+              filterBy="#{ReqExpo.fechasolicitud}"
+              style="width:100px" headerText="#{msg.reporteRequerimientoExportacion_FechaSolicitud}"
+              filterMatchMode="contains"
+              sortBy="#{ReqExpo.fechasolicitud}">
+              <h:outputText value="#{ReqExpo.fechasolicitud}" />
+            </p:column>
+            
+            <p:column 
+              filterBy="#{ReqExpo.estadoNombre}"
+              style="width:100px" headerText="#{msg.reporteRequerimientoExportacion_Estado}"
+              filterMatchMode="contains"
+              sortBy="#{ReqExpo.estadoNombre}">
+              <h:outputText value="#{ReqExpo.estadoNombre}" />
             </p:column>
 
           </p:dataTable>
         </p:tab>
       </p:tabView>
     </h:form>
+
+
+
+
+
+
+
+
+
+
+<p:dialog header="#{msg.Titulo2ConsultarRequerimientoExportacion}"
+                widgetVar="reqExpoDialog" modal="true" showEffect="fade"
+              hideEffect="fade" resizable="false" dynamic="true" id="reqExpoDialog" width="100%"  height="100%" >
+      <h:form id="formaDlg">
+      
+
+          <p:messages id="msgs2" showDetail="false" showSummary="true"
+                      globalOnly="true" showIcon="true"></p:messages>
+                      
+               
+               
+         
+               
+               
+               <p:tabView id="SubTabPanel1">
+        <p:tab title="#{msg.reporteRequerimientoExportacion_DatosDespacho}">
+
+                    
+          <p:panelGrid columns="4"  style="width:100%" 
+            rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"
+                       columnClasses="label,value">
+
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Id}"
+                           styleClass="negrita" />
+                           
+            <h:outputText value="#{generarReporteRequerimientoExportacionMB.seleccionado.id}" />
+
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_ModalidadEmbarque}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.modalidadembarque}" />
+
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_FechaDespacho}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.fechasolicitud}">
+             <f:convertDateTime pattern="dd-MMM-yyyy" />
+            </h:outputText>
+            
+             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoSalida}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.puertosalida}" />
+            
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoLlegada}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.puertollegada}" />
+            
+             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_TipoContenedor}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.tipocontenedores}" />
+            
+                     
+
+    </p:panelGrid>
+     </p:tab>
+    </p:tabView>
+    
+    
+        <p:tabView id="SubTabPanel2">
+        <p:tab title="#{msg.reporteRequerimientoExportacion_DatosNegociacion}">
+         <p:panelGrid columns="4" style="width:100%" 
+            rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"
+                       columnClasses="label,value">
+
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_TerminoIncoterms}"
+                           styleClass="negrita" />
+                           
+            <h:outputText value="#{generarReporteRequerimientoExportacionMB.seleccionado.terminoincoterm}" />
+
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Flete}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.flete}" />
+
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_EmisionBL}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.emisionbi}">
+             <f:convertDateTime pattern="dd-MMM-yyyy" />
+            </h:outputText>
+            
+             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Direccion}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.direccionentregabi}" />
+            
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_ZipCode}"
+                           styleClass="negrita" />
+							<h:outputText
+								value="#{generarReporteRequerimientoExportacionMB.seleccionado.zipcodebi}" />
+
+			<p:outputLabel value="#{msg.reporteRequerimientoExportacion_Contacto}"
+             styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.contactobi}" />
+            
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_TelefonoEmail}"
+             styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.telefonoemailbi}" />
+                     
+    </p:panelGrid>
+      </p:tab>
+    </p:tabView>
+    
+    
+         
+               <p:tabView id="SubTabPanel3">
+        <p:tab title="#{msg.reporteRequerimientoExportacion_DatosAgenciamiento}">
+    
+     
+         <p:panelGrid columns="2" style="width:100%" 
+            rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"
+                       columnClasses="label,value">
+
+			<p:panel header="#{msg.reporteRequerimientoExportacion_ServiceContract}" style="margin-bottom:32px">   
+ 			<p:panelGrid columns="2" style="width:100%"  rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"  columnClasses="label,value">
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_ServiceContract}" styleClass="negrita" />
+            <h:outputText value="#{generarReporteRequerimientoExportacionMB.seleccionado.servicecontract}" />
+            </p:panelGrid>
+            </p:panel>
+
+
+			<p:panel header="#{msg.reporteRequerimientoExportacion_AgenciaCarga}" style="margin-bottom:32px">   
+ 			<p:panelGrid columns="2" style="width:100%"  rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"  columnClasses="label,value">
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_RazonSocial}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.darazonsocial}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Contacto}"  styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.dacontacto}"/>
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_TelefonoEmail}"  styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.datelefonoemail}"/>
+            </p:panelGrid>
+            </p:panel>
+            
+            
+            <p:panel header="#{msg.reporteRequerimientoExportacion_Consignatario}"   >   
+ 			<p:panelGrid columns="2" style="width:100%"  rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"  columnClasses="label,value">
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_RazonSocial}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.crazonsocial}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Nit}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.cnit}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Direccion}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.cdireccion}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Telefono}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.ctelefono}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_CiudadPais}"  styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.cciudadpais}"/>
+            </p:panelGrid>
+            </p:panel>
+          
+          
+          
+             
+      
+             <p:panel header="#{msg.reporteRequerimientoExportacion_Notificado}"   >    
+ 			<p:panelGrid columns="2" style="width:100%"  rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"  columnClasses="label,value">
+ 			<p:outputLabel value="#{msg.reporteRequerimientoExportacion_RazonSocial}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.nrazonsocial}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Nit}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.nnit}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Direccion}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.ndireccion}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Telefono}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.ntelefono}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_CiudadPais}"  styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.nciudadpais}"/>
+            </p:panelGrid>
+            </p:panel>
+            
+            
+             <p:panel header="#{msg.reporteRequerimientoExportacion_DatosNacionalizacion}"   >    
+ 			<p:panelGrid columns="2" style="width:100%"  rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"  columnClasses="label,value">
+ 			<p:outputLabel value="#{msg.reporteRequerimientoExportacion_danopciones}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.danopciones}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_dancual}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.dancual}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_danobservaciones}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.danobservaciones}" />
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_danobscuales}" styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.danobscuales}" />
+            
+            </p:panelGrid>
+            </p:panel>
+            
+            
+
+          
+        
+    </p:panelGrid>
+     </p:tab>
+    </p:tabView>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </h:form>
+    </p:dialog>
 
     
 

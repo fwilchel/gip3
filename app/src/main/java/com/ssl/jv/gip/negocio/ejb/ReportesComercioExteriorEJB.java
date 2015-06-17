@@ -292,14 +292,45 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   }
 
 @Override
-public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion(
-		Map<String, Object> parametros) {
+public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionConsecutivo(Long id) {
 	// TODO Auto-generated method stub
+	  LOGGER.debug("Metodo: <<consultarRequerimientoExportacion>>");
+	    if (id == null) {
+	      throw new IllegalArgumentException("El parametro <<idDocumento>> es requerido");
+	    } else {
+	      Map<String, Object> parametros = new HashMap<>();
+	      parametros.put("id", id);
+	    
 	return comextRequerimientoExportacionDAO.buscarPorConsultaNombrada(ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO,parametros);
+	    }
 }
 
 
+@Override
+public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion() {
+	// TODO Auto-generated method stub
+	return comextRequerimientoExportacionDAO.buscarPorConsultaNombrada(ComextRequerimientoexportacion.FIND_ALL,null);
+	//return comextRequerimientoExportacionDAO.findAll();
+}
 
+
+@Override
+public ComextRequerimientoexportacion consultarComextRequerimientoExportacionDetalle(Long id) {
+	// TODO Auto-generated method stub
+	  LOGGER.debug("Metodo: <<consultarRequerimientoExportacion>>");
+	    if (id == null) {
+	      throw new IllegalArgumentException("El parametro <<idDocumento>> es requerido");
+	    } else {
+	      Map<String, Object> parametros = new HashMap<>();
+	      parametros.put("id", id);
+	    
+	return comextRequerimientoExportacionDAO.buscarRegistroPorConsultaNombrada(ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO,parametros);
+	
+	
+	  //return documentoDAO.buscarRegistroPorConsultaNombrada(Documento.BUSCAR_DOCUMENTO_FX_REIMPRIMIR_BY_ID, parametros);
+	
+	    }
+}
 
 
 }

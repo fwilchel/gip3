@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import javax.faces.bean.ViewScoped;
 import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
+import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.UtilMB;
 
@@ -26,17 +29,17 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 	 * 
 	 */
 	private static final long serialVersionUID = -252500691354376469L;
-
 	private static final Logger LOGGER = Logger.getLogger(GenerarReporteRequerimientoExportacionMB.class);
+	
 	
 	 
 	 
 	  
 	 @EJB
 	  private ReportesComercioExteriorEJBLocal reportesComercioExteriorEJBLocal;
-	  private int filtroConsecutivoDocumento;
+	  private Long filtroConsecutivoDocumento;
 	  private List<ComextRequerimientoexportacion> listaRequerimientoExportacion;
-
+	  private ComextRequerimientoexportacion seleccionado;
 
 
 
@@ -46,7 +49,7 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 
 	  public void consultarRequerimientoExportacion() {
 	    try {
-	      Map<String, Object> parametros = new HashMap<>();
+	     // Map<String, Object> parametros = new HashMap<>();
 	     // parametros.put("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
 	      //parametros.put("estado", Arrays.asList(Estado.IMPRESO.getCodigo(), Estado.ANULADO.getCodigo()));
 	      /*if (filtroConsecutivoDocumento == null || filtroConsecutivoDocumento.isEmpty()) {
@@ -55,7 +58,7 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 	        //parametros.put("id", "%" + filtroConsecutivoDocumento + "%");
 	      
 	      System.out.println("id_documento:"+filtroConsecutivoDocumento);
-	        parametros.put("id", filtroConsecutivoDocumento);
+	       // parametros.put("id", filtroConsecutivoDocumento);
 	        //this.listaFacturasExportacion = this.reportesComercioExteriorEJBLocal.consultarFacturasExportacionReimprimir(parametros);
 	      //}
 	      //long idDocumento=17L;
@@ -64,13 +67,18 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 	      
 	        System.out.println("id_documento:"+filtroConsecutivoDocumento);
 	      
-	      
-	      this.listaRequerimientoExportacion=(this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacion(parametros));
-	     
-	      System.out.println("tamao lista:"+listaRequerimientoExportacion.size());
-	      
-	      //items = this.maestrosEjb.consultarItemsCostosLogisticos();
-	      
+	        if (filtroConsecutivoDocumento == null || filtroConsecutivoDocumento == 0) {
+	        
+	        	this.listaRequerimientoExportacion=(this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacion());
+	        	
+	        	//this.listaRequerimientoExportacion=ComextRequerimientoexportacion.FIND_ALL();
+	        	
+	        }
+	        else
+	        {
+	         this.listaRequerimientoExportacion=(this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionConsecutivo(filtroConsecutivoDocumento));
+	        }
+	        
 	      
 	    } catch (Exception e) {
 	      LOGGER.error(e);
@@ -78,20 +86,35 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 	    }
 	  }
 	  
-		
+	  
+	  public ComextRequerimientoexportacion getSeleccionado() {
+		  System.out.println("consecutivo get:"+seleccionado.getId());
+		    return seleccionado;
+		  }
+
+		  public void setSeleccionado(ComextRequerimientoexportacion seleccionado) {
+		   // this.seleccionado = (ComextRequerimientoexportacion) reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionConsecutivo(this.seleccionado.getId());
+			  
+			  System.out.println("consecutivo set:"+seleccionado.getId());
+			  
+		    this.seleccionado = reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionDetalle(seleccionado.getId());
+		  }
+	  
+	  
+		  
 		
 
 		/**
 		 * @return the filtroConsecutivoDocumento
 		 */
-		public int getFiltroConsecutivoDocumento() {
+		public Long getFiltroConsecutivoDocumento() {
 			return filtroConsecutivoDocumento;
 		}
 
 		/**
 		 * @param filtroConsecutivoDocumento the filtroConsecutivoDocumento to set
 		 */
-		public void setFiltroConsecutivoDocumento(int filtroConsecutivoDocumento) {
+		public void setFiltroConsecutivoDocumento(Long filtroConsecutivoDocumento) {
 			this.filtroConsecutivoDocumento = filtroConsecutivoDocumento;
 		}
 

@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.ssl.jv.gip.util.EstadoRequerimientoExportacion;
+import com.ssl.jv.gip.util.TipoItemCostoLogistico;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -35,7 +38,7 @@ public class ComextRequerimientoexportacion implements Serializable {
 	@Id
 	@SequenceGenerator(name="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR", sequenceName="COMEXT_REQUERIMIENTOEXPORTACION_ID_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR")
-	private Integer id;
+	private Long id;
 
 	private String cciudadpais;
 
@@ -127,11 +130,11 @@ public class ComextRequerimientoexportacion implements Serializable {
 	public ComextRequerimientoexportacion() {
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -479,5 +482,17 @@ public class ComextRequerimientoexportacion implements Serializable {
 	public void setReqxproductos(List<Reqxproducto> reqxproductos) {
 		this.reqxproductos = reqxproductos;
 	}
+	
+	
+	
+	 @Transient
+	  public String getEstadoNombre() {
+	    for (EstadoRequerimientoExportacion i : EstadoRequerimientoExportacion.values()) {
+	      if (i.getCodigo().equals(this.estado)) {
+	        return i.getNombre();
+	      }
+	    }
+	    return null;
+	  }
 
 }
