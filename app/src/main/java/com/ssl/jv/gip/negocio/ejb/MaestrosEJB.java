@@ -593,14 +593,16 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
   @Override
   public Cliente crearCliente(Cliente pEntidad, LogAuditoria auditoria) {
     try {
+      pEntidad.setUsuario(auditoria.getIdUsuario());
+      pEntidad.setFuncionalidad(auditoria.getIdFuncionalidad());
       pEntidad = clienteDao.add(pEntidad);
-      LOGGER.debug("Crear log de auditoria");
-      auditoria.setTabla("Cliente");
-      auditoria.setAccion("CRE");
-      auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
-      auditoria.setIdRegTabla(pEntidad.getId());
-      auditoria = logAuditoriaDAO.add(auditoria);
-      LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
+//      LOGGER.debug("Crear log de auditoria");
+//      auditoria.setTabla("Cliente");
+//      auditoria.setAccion("CRE");
+//      auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+//      auditoria.setIdRegTabla(pEntidad.getId());
+//      auditoria = logAuditoriaDAO.add(auditoria);
+//      LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
       return pEntidad;
     } catch (Exception e) {
       LOGGER.error(e + " Error creando clientes");
@@ -611,14 +613,16 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
   @Override
   public Cliente actualizarCliente(Cliente pEntidad, LogAuditoria auditoria) {
     try {
+      pEntidad.setUsuario(auditoria.getIdUsuario());
+      pEntidad.setFuncionalidad(auditoria.getIdFuncionalidad());
       clienteDao.update(pEntidad);
-      LOGGER.debug("Crear log de auditoria");
-      auditoria.setTabla("Cliente");
-      auditoria.setAccion("MOD");
-      auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
-      auditoria.setIdRegTabla(pEntidad.getId());
-      auditoria = logAuditoriaDAO.add(auditoria);
-      LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
+//      LOGGER.debug("Crear log de auditoria");
+//      auditoria.setTabla("Cliente");
+//      auditoria.setAccion("MOD");
+//      auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+//      auditoria.setIdRegTabla(pEntidad.getId());
+//      auditoria = logAuditoriaDAO.add(auditoria);
+//      LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
       return pEntidad;
     } catch (Exception e) {
       LOGGER.error(e + " Error creando clientes");

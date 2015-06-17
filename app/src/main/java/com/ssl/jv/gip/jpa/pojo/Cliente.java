@@ -140,6 +140,12 @@ public class Cliente implements Serializable, Comparable {
   // bi-directional many-to-one association to PuntoVenta
   @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
   private List<PuntoVenta> puntoVentas;
+  
+  @Column(name = "id_usuario")
+  private String usuario;
+  
+  @Column(name = "id_funcionalidad")
+  private Long funcionalidad;
 
   public Cliente() {
   }
@@ -409,5 +415,33 @@ public class Cliente implements Serializable, Comparable {
   @Override
   public int compareTo(Object o) {
     return this.nombre.toUpperCase().compareTo(((Cliente) o).getNombre().toUpperCase());
+  }
+
+  /**
+   * @return the usuario
+   */
+  public String getUsuario() {
+    return usuario;
+  }
+
+  /**
+   * @param usuario the usuario to set
+   */
+  public void setUsuario(String usuario) {
+    this.usuario = usuario;
+  }
+
+  /**
+   * @return the funcionalidad
+   */
+  public Long getFuncionalidad() {
+    return funcionalidad;
+  }
+
+  /**
+   * @param funcionalidad the funcionalidad to set
+   */
+  public void setFuncionalidad(Long funcionalidad) {
+    this.funcionalidad = funcionalidad;
   }
 }
