@@ -177,7 +177,7 @@ public class DocumentoCostosLogisticosDTO implements Serializable {
   private String observacionesMarcacion2;
 
   @Transient
-  private Boolean seleccionada;
+  private Boolean seleccionada=false;
 
   @Transient
   private BigDecimal etiquetas;
