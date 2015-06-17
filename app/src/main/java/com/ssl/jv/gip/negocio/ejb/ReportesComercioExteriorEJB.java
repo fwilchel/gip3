@@ -236,6 +236,9 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
     LOGGER.debug("Metodo: <<consultarDocumentosReporteCintaTestigoMagnetica>>");
     return documentoDAO.consultarDocumentosReporteCintaTestigoMagnetica(parametros);
   }
+  
+  
+  
 
   @Override
   public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(String consecutivoDocumento) {

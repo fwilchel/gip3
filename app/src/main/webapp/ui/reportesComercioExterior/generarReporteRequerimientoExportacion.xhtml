@@ -7,7 +7,8 @@
   xmlns:p="http://primefaces.org/ui"
   xmlns:misc="http://java.sun.com/jsf/composite/misc"
   template="/ui/templates/general.xhtml">
-
+  
+  
   <ui:define name="title">.::Interfaz entre ICG y SAP::. .::#{msg.TituloConsultarRequerimientoExportacion}::.</ui:define>
 
   <ui:define name="contenido">
@@ -165,7 +166,7 @@
 
 <p:dialog header="#{msg.Titulo2ConsultarRequerimientoExportacion}"
                 widgetVar="reqExpoDialog" modal="true" showEffect="fade"
-              hideEffect="fade" resizable="false" dynamic="true" id="reqExpoDialog" width="100%"  height="100%" >
+              hideEffect="fade" resizable="false" dynamic="true" id="reqExpoDialog" width="500"  height="100%" >
       <h:form id="formaDlg">
       
 
@@ -181,7 +182,7 @@
         <p:tab title="#{msg.reporteRequerimientoExportacion_DatosDespacho}">
 
                     
-          <p:panelGrid columns="4"  style="width:100%" 
+          <p:panelGrid columns="2"  style="width:100%" 
             rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"
                        columnClasses="label,value">
 
@@ -221,7 +222,7 @@
     
         <p:tabView id="SubTabPanel2">
         <p:tab title="#{msg.reporteRequerimientoExportacion_DatosNegociacion}">
-         <p:panelGrid columns="4" style="width:100%" 
+         <p:panelGrid columns="2" style="width:100%" 
             rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"
                        columnClasses="label,value">
 
@@ -350,7 +351,47 @@
 
 
 
+     
+               <p:tabView id="SubTabPanel4">
+        <p:tab title="#{msg.reporteRequerimientoExportacion_MarcacionEspecial}">
 
+                    
+          <p:panelGrid columns="2"  style="width:100%" 
+            rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"
+                       columnClasses="label,value">
+
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Id}"
+                           styleClass="negrita" />
+                           
+            <h:outputText value="#{generarReporteRequerimientoExportacionMB.seleccionado.id}" />
+
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_ModalidadEmbarque}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.modalidadembarque}" />
+
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_FechaDespacho}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.fechasolicitud}">
+             <f:convertDateTime pattern="dd-MMM-yyyy" />
+            </h:outputText>
+            
+             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoSalida}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.puertosalida}" />
+            
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoLlegada}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.puertollegada}" />
+            
+             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_TipoContenedor}"
+                           styleClass="negrita" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.tipocontenedores}" />
+            
+                     
+
+    </p:panelGrid>
+     </p:tab>
+    </p:tabView>
 
 
 

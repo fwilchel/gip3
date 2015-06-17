@@ -1,6 +1,9 @@
 package com.ssl.jv.gip.negocio.dao;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -8,7 +11,11 @@ import javax.ejb.Stateless;
 
 
 
+
+
+
 import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
+import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
 
 
 @Stateless
@@ -20,6 +27,30 @@ public class ComextRequerimientoExportacionDAO  extends GenericDAO<ComextRequeri
 		    this.persistentClass = ComextRequerimientoexportacion.class;
 		  }
 	 
+	
+	
+	  @Override
+	  public List<ComextRequerimientoexportacionDTO> consultarMarcacionEspecial(Long id) {
+
+	   
+	    System.out.println("id" + id);
+	   
+
+	    List<ComextRequerimientoexportacionDTO> lista = new ArrayList<ComextRequerimientoexportacionDTO>();
+	    String query = "";
+
+	    query = "select d.consecutivo_documento as consecutivoDocumento, pi.sku,pi.nombre as nombreProducto , rxp.mcajamaster as cajamaster" 
++ " ,rxp.mpallet as pallet ,rxp.tienemarcacion as observacion  ,rxp.observaciones from reqxproducto rxp inner join productos_inventario pi on rxp.producto=pi.id"
++ " inner join documentos d on d.id=rxp.documento"
++ " where requerimiento=:consecutivoDocumento";
+
+	    lista = em.createNativeQuery(query, ComextRequerimientoexportacionDTO.class).setParameter("consecutivoDocumento", id).getResultList();
+
+	    System.out.println("query: " + query);
+
+	    return lista;
+
+	  }
 	 
 
 	 

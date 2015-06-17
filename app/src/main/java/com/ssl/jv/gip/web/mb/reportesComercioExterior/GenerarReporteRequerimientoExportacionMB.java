@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.UtilMB;
 
@@ -40,6 +41,8 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 	  private Long filtroConsecutivoDocumento;
 	  private List<ComextRequerimientoexportacion> listaRequerimientoExportacion;
 	  private ComextRequerimientoexportacion seleccionado;
+	  
+	  private List<ComextRequerimientoexportacionDTO> listaMarcacionEspecial;
 
 
 
@@ -49,30 +52,11 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 
 	  public void consultarRequerimientoExportacion() {
 	    try {
-	     // Map<String, Object> parametros = new HashMap<>();
-	     // parametros.put("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
-	      //parametros.put("estado", Arrays.asList(Estado.IMPRESO.getCodigo(), Estado.ANULADO.getCodigo()));
-	      /*if (filtroConsecutivoDocumento == null || filtroConsecutivoDocumento.isEmpty()) {
-	        parametros.put("id", "%");
-	      } else {*/
-	        //parametros.put("id", "%" + filtroConsecutivoDocumento + "%");
-	      
-	      System.out.println("id_documento:"+filtroConsecutivoDocumento);
-	       // parametros.put("id", filtroConsecutivoDocumento);
-	        //this.listaFacturasExportacion = this.reportesComercioExteriorEJBLocal.consultarFacturasExportacionReimprimir(parametros);
-	      //}
-	      //long idDocumento=17L;
-	      
-	      //parametros.put("idDocumento", (long) 17L);
-	      
+	        System.out.println("id_documento:"+filtroConsecutivoDocumento);
 	        System.out.println("id_documento:"+filtroConsecutivoDocumento);
 	      
 	        if (filtroConsecutivoDocumento == null || filtroConsecutivoDocumento == 0) {
-	        
 	        	this.listaRequerimientoExportacion=(this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacion());
-	        	
-	        	//this.listaRequerimientoExportacion=ComextRequerimientoexportacion.FIND_ALL();
-	        	
 	        }
 	        else
 	        {
@@ -93,11 +77,11 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 		  }
 
 		  public void setSeleccionado(ComextRequerimientoexportacion seleccionado) {
-		   // this.seleccionado = (ComextRequerimientoexportacion) reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionConsecutivo(this.seleccionado.getId());
-			  
+		     
 			  System.out.println("consecutivo set:"+seleccionado.getId());
 			  
 		    this.seleccionado = reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionDetalle(seleccionado.getId());
+		    //this.listaMarcacionEspecial=reportesComercioExteriorEJBLocal.
 		  }
 	  
 	  
@@ -127,6 +111,21 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 		public void setListaRequerimientoExportacion(
 				List<ComextRequerimientoexportacion> listaRequerimientoExportacion) {
 			this.listaRequerimientoExportacion = listaRequerimientoExportacion;
+		}
+
+		/**
+		 * @return the listaMarcacionEspecial
+		 */
+		public List<ComextRequerimientoexportacionDTO> getListaMarcacionEspecial() {
+			return listaMarcacionEspecial;
+		}
+
+		/**
+		 * @param listaMarcacionEspecial the listaMarcacionEspecial to set
+		 */
+		public void setListaMarcacionEspecial(
+				List<ComextRequerimientoexportacionDTO> listaMarcacionEspecial) {
+			this.listaMarcacionEspecial = listaMarcacionEspecial;
 		}
 
 	
