@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "punto_venta")
 @NamedQueries({
+  @NamedQuery(name = PuntoVenta.FIND_BY_ID, query = "SELECT p FROM PuntoVenta p JOIN FETCH p.cliente JOIN FETCH p.ubicacion WHERE p.id = :id"),
   @NamedQuery(name = "PuntoVenta.findAll", query = "SELECT p FROM PuntoVenta p"),
   @NamedQuery(name = "PuntoVenta.findByCliente", query = "SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente"),
   @NamedQuery(name = PuntoVenta.FIND_BY_USUARIO, query = "SELECT p FROM PuntoVenta p JOIN FETCH p.cliente JOIN FETCH p.ubicacion WHERE p.usuario.id = :idUsuario"),
@@ -20,6 +21,7 @@ public class PuntoVenta implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  public static final String FIND_BY_ID = "PuntoVenta.findByID";
   public static final String FIND_BY_OBSERVACION_DOCUMENTO = "Documento.findByObservacionDocumento";
   public static final String FIND_BY_USUARIO = "PuntoVenta.findByUsuario";
   public static final String FIND_BY_CODIGO_BARRAS = "PuntoVenta.findByCodigoBarras";

@@ -2,6 +2,7 @@ package com.ssl.jv.gip.negocio.ejb;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +37,10 @@ import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -273,5 +276,16 @@ public class ComunEJB implements ComunEJBLocal {
     Map<String, Object> parametros = new HashMap<>();
     parametros.put("idUsuario", idUsuario);
     return puntoVentaDAO.buscarRegistroPorConsultaNombrada(PuntoVenta.FIND_BY_USUARIO, parametros);
+  }
+
+  @Override
+  public PuntoVenta consultarPuntoVenta(Long id) {
+    LOGGER.trace("Metodo: <<consultarPuntoVenta>>");
+    if (id == null) {
+      throw new IllegalArgumentException();
+    }
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("id", id);
+    return puntoVentaDAO.buscarRegistroPorConsultaNombrada(PuntoVenta.FIND_BY_ID, parametros);
   }
 }

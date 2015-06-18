@@ -81,10 +81,8 @@ public class IngresarSolicitudCNMB extends UtilMB {
     }
     try {
       puntoVenta = comunEJB.consultarPuntoVentaPorUsuario(usuario.getId());
-//      puntoVenta = new PuntoVenta(1L);
       if (puntoVenta != null) {
         cliente = puntoVenta.getCliente();
-//        cliente = new Cliente(1L);
         this.consultarProductosXCliente();
         if (getProductosXDocumentoSeleccionados() == null) {
           this.setProductosXDocumentoSeleccionados(new ArrayList<ProductosXDocumento>());
@@ -205,7 +203,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
   private void reset() {
     LOGGER.trace("Metodo: <<reset>>");
     modo = Modo.LISTAR;
-    setSolicitud(null);
+    setSolicitud(new Documento());
     setProductosXDocumento(null);
     getProductosXDocumentoSeleccionados().clear();
     consultarProductosXCliente();
