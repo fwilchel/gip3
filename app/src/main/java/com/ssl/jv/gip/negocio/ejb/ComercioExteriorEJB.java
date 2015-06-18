@@ -811,9 +811,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	return null;
   }
 
-  public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado) {
+  public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado, LogAuditoria auditoria) {
 	try {
-	  documentoDAO.cambiarEstadoFacturaProforma(listado);
+	  documentoDAO.cambiarEstadoFacturaProforma(listado, auditoria);
 	} catch (Exception e) {
 	  LOGGER.error(e + "Error cambiando estado factura proforma");
 	}
@@ -1408,13 +1408,15 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	  doc.getEstadosxdocumento().setEstado(estado);
 	  documentoDAO.update(doc);
 
-	  LOGGER.debug("Crear log de auditoria");
-	  logAuditoria.setTabla("Documentos");
-	  logAuditoria.setAccion("MOD");
-	  logAuditoria.setFecha(new Timestamp(System.currentTimeMillis()));
-	  logAuditoria.setIdRegTabla(documento.getIdDocumento());
-	  logAuditoria = logAuditoriaDAO.add(logAuditoria);
-	  LOGGER.debug("Log de auditoria creado con id: " + logAuditoria.getIdLog());
+//	  LOGGER.debug("Crear log de auditoria");
+//	  logAuditoria.setTabla("Documentos");
+//	  logAuditoria.setAccion("MOD");
+//	  logAuditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+//	  logAuditoria.setIdRegTabla(documento.getIdDocumento());
+//      logAuditoria.setValorAnterior(doc.getEstadosxdocumento().getEstado().getId().toString());
+//      logAuditoria.setValorNuevo(estadoAuditoria);
+//	  logAuditoria = logAuditoriaDAO.add(logAuditoria);
+//	  LOGGER.debug("Log de auditoria creado con id: " + logAuditoria.getIdLog());
 
 	  List<DocumentoXNegociacion> documentosXNegociaciones = documentoXNegociacionDAO.consultarDocumentoXNegociacionPorIdDocumento(documento.getIdDocumento());
 	  if (documentosXNegociaciones != null) {

@@ -114,4 +114,11 @@ public interface ComunEJBLocal {
    * @return
    */
   PuntoVenta consultarPuntoVentaPorUsuario(String idUsuario);
+
+  /**
+   *
+   * @param ids
+   * @return
+   */
+  PuntoVenta consultarPuntoVenta(Long id);
 }

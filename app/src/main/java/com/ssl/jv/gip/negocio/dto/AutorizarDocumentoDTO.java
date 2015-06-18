@@ -1,9 +1,7 @@
 package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
-import java.sql.Timestamp;
 
 /**
  * The Class DocumentoIncontermDTO.
@@ -33,6 +31,8 @@ public class AutorizarDocumentoDTO implements Serializable {
   private boolean seleccionado;
 
   private String documentoCliente;
+  
+  private Long estado;
 
   public Long getIdDocumento() {
     return idDocumento;
@@ -72,6 +72,20 @@ public class AutorizarDocumentoDTO implements Serializable {
 
   public void setDocumentoCliente(String documentoCliente) {
     this.documentoCliente = documentoCliente;
+  }
+
+  /**
+   * @return the estado
+   */
+  public Long getEstado() {
+    return estado;
+  }
+
+  /**
+   * @param estado the estado to set
+   */
+  public void setEstado(Long estado) {
+    this.estado = estado;
   }
 
 }

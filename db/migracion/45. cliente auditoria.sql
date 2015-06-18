@@ -34,3 +34,7 @@ CREATE OR  REPLACE FUNCTION fn_modified_func() RETURNS TRIGGER AS $body$
 	END;
 $body$
 LANGUAGE plpgsql; 
+
+CREATE TRIGGER tg_if_modified_trg_clientes
+ AFTER INSERT OR UPDATE OR DELETE ON clientes
+ FOR EACH ROW EXECUTE PROCEDURE fn_modified_func();
