@@ -1,9 +1,7 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,30 +9,15 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.ActionEvent;
 
 import org.apache.log4j.Logger;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
-import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
-import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
-import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
-import com.ssl.jv.gip.jpa.pojo.Moneda;
-import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
-import com.ssl.jv.gip.jpa.pojo.Ubicacion;
-import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
-import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-import com.ssl.jv.gip.web.util.Utilidad;
 
 @ManagedBean(name = "autorizarFacturaPFMB")
 @SessionScoped
@@ -103,7 +86,12 @@ public class AutorizarFacturaPFMB extends UtilMB {
 
       if (listado.size() > 0) {
 
-        comercioEjb.cambiarEstadoFacturaProforma(listado);
+        // auditoria
+        LogAuditoria auditoria = new LogAuditoria();
+        auditoria.setIdUsuario(menu.getUsuario().getId());
+        auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
+
+        comercioEjb.cambiarEstadoFacturaProforma(listado, auditoria);
 
         String mensaje = AplicacionMB.getMessage("PedidoExitoPaginaBoton", language);
 

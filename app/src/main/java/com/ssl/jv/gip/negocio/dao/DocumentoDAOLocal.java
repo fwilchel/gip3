@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.CintaMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.ComprobanteInformeDiarioDTO;
@@ -107,7 +108,7 @@ public interface DocumentoDAOLocal extends IGenericDAO<Documento> {
 
   public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
 
-  public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
+  public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado, LogAuditoria auditoria);
 
   public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(Map<String, Object> parametros);
 

@@ -246,7 +246,7 @@ public interface ComercioExteriorEJBLocal {
 
   public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
 
-  public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado);
+  public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado, LogAuditoria auditoria);
 
   /**
    *
