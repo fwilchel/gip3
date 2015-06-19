@@ -16,7 +16,9 @@ import org.apache.log4j.Logger;
 import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.dao.ComextRequerimientoExportacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.UtilMB;
 
@@ -43,6 +45,9 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 	  private ComextRequerimientoexportacion seleccionado;
 	  
 	  private List<ComextRequerimientoexportacionDTO> listaMarcacionEspecial;
+	  
+	  @EJB
+	  private ComextRequerimientoExportacionDAOLocal comextRequerimientoExportacionDAOLocal; 
 
 
 
@@ -60,7 +65,7 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 	        }
 	        else
 	        {
-	         this.listaRequerimientoExportacion=(this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionConsecutivo(filtroConsecutivoDocumento));
+	         this.listaRequerimientoExportacion=this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionConsecutivo(filtroConsecutivoDocumento);
 	        }
 	        
 	      
@@ -81,7 +86,19 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 			  System.out.println("consecutivo set:"+seleccionado.getId());
 			  
 		    this.seleccionado = reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionDetalle(seleccionado.getId());
-		    //this.listaMarcacionEspecial=reportesComercioExteriorEJBLocal.
+		    listaMarcacionEspecial= reportesComercioExteriorEJBLocal.consultarMarcacionEspecial(seleccionado.getId());
+		    
+		    System.out.println("ingresa a for:");
+ for (ComextRequerimientoexportacionDTO produ : listaMarcacionEspecial) {
+	 System.out.println("sku1");
+		    	System.out.println("sku:"+ produ.getSku().toString());
+		        
+		      }
+		    
+ 
+
+ 
+		    		
 		  }
 	  
 	  

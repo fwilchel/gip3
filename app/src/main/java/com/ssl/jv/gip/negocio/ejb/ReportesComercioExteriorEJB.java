@@ -31,6 +31,8 @@ import com.ssl.jv.gip.negocio.dao.MuestrasXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal;
+import com.ssl.jv.gip.negocio.dto.ComextFormatoNovedadesDTO;
+import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
 import com.ssl.jv.gip.negocio.dto.CuentaContableComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
@@ -334,6 +336,11 @@ public ComextRequerimientoexportacion consultarComextRequerimientoExportacionDet
 	
 	    }
 }
+
+
+public List<ComextRequerimientoexportacionDTO> consultarMarcacionEspecial(Long id) {
+    return comextRequerimientoExportacionDAO.consultarMarcacionEspecial(id);
+  }
 
 
 }

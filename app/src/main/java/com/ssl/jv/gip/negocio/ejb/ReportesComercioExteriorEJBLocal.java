@@ -14,6 +14,7 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
 import com.ssl.jv.gip.negocio.dto.CuentaContableComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
@@ -171,6 +172,9 @@ List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionCons
 		Long id);
 
 ComextRequerimientoexportacion consultarComextRequerimientoExportacionDetalle(
+		Long id);
+
+public List<ComextRequerimientoexportacionDTO> consultarMarcacionEspecial(
 		Long id);
 
 }
