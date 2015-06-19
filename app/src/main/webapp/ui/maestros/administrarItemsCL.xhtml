@@ -433,12 +433,12 @@
 
             <p:outputLabel value="#{msg.rangosCLdesde}" for="desde"
                            styleClass="negrita" />
-            <p:inputText value="#{itemsCLMB.seleccionado2.desde}" size="10" id="desde" required="true" label="msg.rangosCLdesde" maxlength="10" />
+            <p:inputText value="#{itemsCLMB.seleccionado2.desde}" size="10" id="desde" required="true" label="#{msg.rangosCLdesde}" maxlength="10" />
             <p:message for="desde"></p:message>
             
             <p:outputLabel value="#{msg.rangosCLhasta}" for="hasta"
                            styleClass="negrita" />
-            <p:inputText value="#{itemsCLMB.seleccionado2.hasta}" size="10" id="hasta" required="true" label="msg.rangosCLhasta" maxlength="10"/>
+            <p:inputText value="#{itemsCLMB.seleccionado2.hasta}" size="10" id="hasta" required="true" label="#{msg.rangosCLhasta}" maxlength="10"/>
             <p:message for="hasta"></p:message>
             
             <p:outputLabel value="#{msg.rangosCLunidad}" for="unidad"
@@ -450,12 +450,12 @@
             
             <p:outputLabel value="#{msg.rangosCLvalor}" for="valor"
                            styleClass="negrita" />
-            <p:inputText value="#{itemsCLMB.seleccionado2.valor}" size="10" id="valor" required="true" label="msg.rangosCLvalor" maxlength="10"/>
+            <p:inputText value="#{itemsCLMB.seleccionado2.valor}" size="10" id="valor" required="true" label="#{msg.rangosCLvalor}" maxlength="10"/>
             <p:message for="valor"></p:message>
 
             <p:outputLabel value="#{msg.rangosCLmoneda}" for="moneda"
                            styleClass="negrita" />
-            <p:selectOneMenu value="#{itemsCLMB.seleccionado2.moneda.id}" style="width:90px" id="moneda">
+            <p:selectOneMenu value="#{itemsCLMB.seleccionado2.moneda.id}" style="width:90px" id="moneda" required="true">
                 <f:selectItem itemLabel="" itemValue="" />
             	<f:selectItems value="#{itemsCLMB.monedas}" var="moneda"
                                      itemLabel="#{moneda.id}" itemValue="#{moneda.id}" />
@@ -464,7 +464,7 @@
             
             
             <p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
-                             action="#{itemsCLMB.guardarRango}" update=":formaDlg:registroDetalle, msgs2"></p:commandButton>
+                             action="#{itemsCLMB.guardarRango}" update=":formaRangoDlg:registroDetalle, :formaDlg:registroDetalle, msgs2"></p:commandButton>
             <p:commandButton value="#{msg.generalCancelar}" process="@this"
                              oncomplete="PF('editarRangoDialog').hide();" icon="ui-icon-cancel">
               <p:resetInput target="registroDetalle" />
