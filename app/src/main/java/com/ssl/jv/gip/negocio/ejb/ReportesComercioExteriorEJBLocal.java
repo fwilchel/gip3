@@ -7,12 +7,14 @@ import java.util.Map;
 import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
 import com.ssl.jv.gip.negocio.dto.CuentaContableComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
@@ -161,5 +163,18 @@ public interface ReportesComercioExteriorEJBLocal {
   String consultarConsecutivoOrdenFacturaFX(Long id);
 
 List<ProductosXDocumento> consultarProductosPorDocumentoReporte(Long id);
+
+//List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionConsecutivo(Map<String, Object> parametros);
+
+List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion();
+
+List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionConsecutivo(
+		Long id);
+
+ComextRequerimientoexportacion consultarComextRequerimientoExportacionDetalle(
+		Long id);
+
+public List<ComextRequerimientoexportacionDTO> consultarMarcacionEspecial(
+		Long id);
 
 }

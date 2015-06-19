@@ -14,6 +14,8 @@ public class Reqxproducto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="REQXPRODUCTO_ID_GENERATOR", sequenceName="REQXPRODUCTO_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="REQXPRODUCTO_ID_GENERATOR")
 	private Integer id;
 
 	private Long documento;
@@ -31,7 +33,7 @@ public class Reqxproducto implements Serializable {
 	private Boolean tienemarcacion;
 
 	//bi-directional many-to-one association to ComextRequerimientoexportacion
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="requerimiento")
 	private ComextRequerimientoexportacion comextRequerimientoexportacion;
 

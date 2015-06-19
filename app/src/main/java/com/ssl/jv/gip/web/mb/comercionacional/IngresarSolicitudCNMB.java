@@ -115,7 +115,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
         pxd.setValorUnitarioUsd(pxc.getPrecioUsd());
         pxd.setUnidade(pxc.getProductosInventario().getUnidadVenta());
         if (pxc.getProductosInventario().getUnidadMinimaDespachoXTendido() == null) {
-          pxc.getProductosInventario().setUnidadMinimaDespachoXTendido(new BigDecimal(6));
+          pxc.getProductosInventario().setUnidadMinimaDespachoXTendido(new BigDecimal(1));
         }
         pxd.setCantidad1(pxc.getProductosInventario().getUnidadMinimaDespachoXTendido());
         getProductosXDocumento().add(pxd);

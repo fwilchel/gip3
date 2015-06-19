@@ -1,7 +1,12 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.ssl.jv.gip.util.EstadoRequerimientoExportacion;
+import com.ssl.jv.gip.util.TipoItemCostoLogistico;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -12,12 +17,28 @@ import java.util.List;
  */
 @Entity
 @Table(name="comext_requerimientoexportacion")
-@NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c")
+//@NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c")
+
+
+@NamedQueries({
+	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c"),
+	  @NamedQuery(name="ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.id = :id")})
+	   
+//select * from comext_requerimientoexportacion where TO_CHAR(id, '9999')  LIKE '%%'
+//UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) 
+
 public class ComextRequerimientoexportacion implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	
+	
+	  public static final String FIND_ALL = "ComextRequerimientoexportacion.findAll";
+	  public static final String BUSCAR_DOCUMENTO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO";
+	  
 	@Id
-	private Integer id;
+	@SequenceGenerator(name="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR", sequenceName="COMEXT_REQUERIMIENTOEXPORTACION_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR")
+	private Long id;
 
 	private String cciudadpais;
 
@@ -102,10 +123,6 @@ public class ComextRequerimientoexportacion implements Serializable {
 
 	private String zipcodebi;
 
-	//bi-directional many-to-one association to RequerimientosXDocumento
-	@OneToMany(mappedBy="comextRequerimientoexportacion")
-	private List<RequerimientosXDocumento> requerimientosXDocumentos;
-
 	//bi-directional many-to-one association to Reqxproducto
 	@OneToMany(mappedBy="comextRequerimientoexportacion")
 	private List<Reqxproducto> reqxproductos;
@@ -113,11 +130,11 @@ public class ComextRequerimientoexportacion implements Serializable {
 	public ComextRequerimientoexportacion() {
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -449,13 +466,14 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.zipcodebi = zipcodebi;
 	}
 
-	public List<RequerimientosXDocumento> getRequerimientosXDocumentos() {
+	/*public List<RequerimientosXDocumento> getRequerimientosXDocumentos() {
 		return this.requerimientosXDocumentos;
 	}
 
 	public void setRequerimientosXDocumentos(List<RequerimientosXDocumento> requerimientosXDocumentos) {
 		this.requerimientosXDocumentos = requerimientosXDocumentos;
-	}
+	}*/
+
 
 	public List<Reqxproducto> getReqxproductos() {
 		return this.reqxproductos;
@@ -464,5 +482,17 @@ public class ComextRequerimientoexportacion implements Serializable {
 	public void setReqxproductos(List<Reqxproducto> reqxproductos) {
 		this.reqxproductos = reqxproductos;
 	}
+	
+	
+	
+	 @Transient
+	  public String getEstadoNombre() {
+	    for (EstadoRequerimientoExportacion i : EstadoRequerimientoExportacion.values()) {
+	      if (i.getCodigo().equals(this.estado)) {
+	        return i.getNombre();
+	      }
+	    }
+	    return null;
+	  }
 
 }

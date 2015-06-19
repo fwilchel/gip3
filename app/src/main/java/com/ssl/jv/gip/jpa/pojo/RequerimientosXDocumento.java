@@ -16,6 +16,9 @@ public class RequerimientosXDocumento implements Serializable {
   @EmbeddedId
   private RequerimientosXDocumentoPK id;
 
+
+
+
   // bi-directional many-to-one association to ComextRequerimientoexportacion
   @ManyToOne
   @JoinColumn(name = "requerimientoexportacion_id", insertable = false, updatable = false)
@@ -23,6 +26,7 @@ public class RequerimientosXDocumento implements Serializable {
 
   public RequerimientosXDocumento() {
   }
+
 
   public RequerimientosXDocumentoPK getId() {
 	return this.id;
@@ -39,5 +43,6 @@ public class RequerimientosXDocumento implements Serializable {
   public void setComextRequerimientoexportacion(ComextRequerimientoexportacion comextRequerimientoexportacion) {
 	this.comextRequerimientoexportacion = comextRequerimientoexportacion;
   }
+
 
 }

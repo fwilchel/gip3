@@ -243,10 +243,28 @@
 
 
 
+
+            <p:outputLabel 
+              value="#{msg.documentoUnidadMinimaDespachoXTendido}"
+              for="ciudad" 
+              styleClass="negrita" />
+            <p:selectOneMenu 
+              id="cliente"
+              value="#{puntoEntregaMB.seleccionado.usuario.id}"
+              label="#{msg.documentoUnidadMinimaDespachoXTendido}">
+              <f:selectItem 
+                itemLabel="#{msg.generalSinSeleccionar}"
+                itemValue="" />
+              <f:selectItems 
+                value="#{puntoEntregaMB.listaClientes}" 
+                var="usuario"
+                itemValue="#{usuario.id}" 
+                itemLabel="#{usuario.nombre}" />
+            </p:selectOneMenu>
+            <p:message 
+              for="cliente"/>
+
           </p:panelGrid>
-
-
-
 
           <p:panelGrid columns="3" columnClasses="label,value">
 
