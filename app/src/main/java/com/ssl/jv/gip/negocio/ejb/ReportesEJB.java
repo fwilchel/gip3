@@ -1,15 +1,21 @@
 package com.ssl.jv.gip.negocio.ejb;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import com.ssl.jv.gip.jpa.pojo.CategoriaCostoLogistico;
+import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.ComextFormatoNovedadesDAO;
+import com.ssl.jv.gip.negocio.dao.ComextRequerimientoExportacionDAO;
+import com.ssl.jv.gip.negocio.dao.ComextRequerimientoExportacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CuentaContableDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.MovimientosInventarioComextDAOLocal;
@@ -26,7 +32,9 @@ import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 @LocalBean
 public class ReportesEJB implements ReportesEJBLocal {
 
-  @EJB
+ 
+
+ @EJB
   private ComextFormatoNovedadesDAO comextFormatoNovedadesDAO;
 
   @EJB
@@ -40,6 +48,9 @@ public class ReportesEJB implements ReportesEJBLocal {
 
   @EJB
   private MovimientosInventarioComextDAOLocal movimientosInventarioComextDAOLocal;
+  
+  @EJB
+  private ComextRequerimientoExportacionDAOLocal comextRequerimientoExportacionDAOLocal;
 
   /**
    * Default constructor.
@@ -106,4 +117,11 @@ public class ReportesEJB implements ReportesEJBLocal {
     return productosXDocumentoDAOLocal.consultarPorDocumento(
         idDocumento);
   }
+  
+  
+
+  
+
+ 
+  
 }

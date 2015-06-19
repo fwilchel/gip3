@@ -14,6 +14,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -21,6 +22,8 @@ import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ComextRequerimientoExportacionDAO;
+import com.ssl.jv.gip.negocio.dao.ComextRequerimientoExportacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXNegociacionDAOLocal;
@@ -28,6 +31,8 @@ import com.ssl.jv.gip.negocio.dao.MuestrasXLoteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAO;
 import com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal;
+import com.ssl.jv.gip.negocio.dto.ComextFormatoNovedadesDTO;
+import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
 import com.ssl.jv.gip.negocio.dto.CuentaContableComprobanteInformeDiarioDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoCintaTestigoMagneticaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
@@ -67,6 +72,11 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
 
   @EJB
   private DocumentoLotesOICDAOLocal documentoLotesOICDAO;
+  
+  
+  @EJB
+  private ComextRequerimientoExportacionDAOLocal  comextRequerimientoExportacionDAO;
+  
 
   /**
    * Default constructor.
@@ -228,6 +238,9 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
     LOGGER.debug("Metodo: <<consultarDocumentosReporteCintaTestigoMagnetica>>");
     return documentoDAO.consultarDocumentosReporteCintaTestigoMagnetica(parametros);
   }
+  
+  
+  
 
   @Override
   public List<DocumentoXLotesoic> consultarPorConsecutivoDocumento(String consecutivoDocumento) {
@@ -282,5 +295,52 @@ public class ReportesComercioExteriorEJB implements ReportesComercioExteriorEJBL
   public List<ProductosXDocumento> consultarProductosPorDocumentoReporte(Long id) {
     return productosXDocumentoDAO.consultarPorDocumento(id);
   }
+
+@Override
+public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionConsecutivo(Long id) {
+	// TODO Auto-generated method stub
+	  LOGGER.debug("Metodo: <<consultarRequerimientoExportacion>>");
+	    if (id == null) {
+	      throw new IllegalArgumentException("El parametro <<idDocumento>> es requerido");
+	    } else {
+	      Map<String, Object> parametros = new HashMap<>();
+	      parametros.put("id", id);
+	    
+	return comextRequerimientoExportacionDAO.buscarPorConsultaNombrada(ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO,parametros);
+	    }
+}
+
+
+@Override
+public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion() {
+	// TODO Auto-generated method stub
+	return comextRequerimientoExportacionDAO.buscarPorConsultaNombrada(ComextRequerimientoexportacion.FIND_ALL,null);
+	//return comextRequerimientoExportacionDAO.findAll();
+}
+
+
+@Override
+public ComextRequerimientoexportacion consultarComextRequerimientoExportacionDetalle(Long id) {
+	// TODO Auto-generated method stub
+	  LOGGER.debug("Metodo: <<consultarRequerimientoExportacion>>");
+	    if (id == null) {
+	      throw new IllegalArgumentException("El parametro <<idDocumento>> es requerido");
+	    } else {
+	      Map<String, Object> parametros = new HashMap<>();
+	      parametros.put("id", id);
+	    
+	return comextRequerimientoExportacionDAO.buscarRegistroPorConsultaNombrada(ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO,parametros);
+	
+	
+	  //return documentoDAO.buscarRegistroPorConsultaNombrada(Documento.BUSCAR_DOCUMENTO_FX_REIMPRIMIR_BY_ID, parametros);
+	
+	    }
+}
+
+
+public List<ComextRequerimientoexportacionDTO> consultarMarcacionEspecial(Long id) {
+    return comextRequerimientoExportacionDAO.consultarMarcacionEspecial(id);
+  }
+
 
 }

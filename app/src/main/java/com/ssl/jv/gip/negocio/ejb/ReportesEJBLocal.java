@@ -1,9 +1,11 @@
 package com.ssl.jv.gip.negocio.ejb;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
+import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
@@ -36,4 +38,10 @@ public interface ReportesEJBLocal {
 
 public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumento(
 		Long idDocumento);
+
+//public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion(Map<String, Object> parametros);
+
+
+
+
 }
