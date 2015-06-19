@@ -356,31 +356,57 @@
    <h4>#{msg.reporteRequerimientoExportacion_MarcacionEspecial}</h4>
                     
         
- <p:panelGrid columns="3">
-     <p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2" sortBy="#{dato.sku}"
+ 
+     <p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
                        rendered="#{not empty generarReporteRequerimientoExportacionMB.listaMarcacionEspecial}" 
-                       value="#{generarReporteRequerimientoExportacionMB.listaMarcacionEspecial}" >
+                       value="#{generarReporteRequerimientoExportacionMB.listaMarcacionEspecial}" tableStyle="width:auto" >
                
-                       
-            
-            <p:column headerText="#{msg.reporteRequerimientoExportacion_Id}"
+             <p:column headerText="#{msg.reporteRequerimientoExportacion_Id}"
                       sortBy="#{dato.consecutivodocumento}">
               <h:outputText value="#{dato.consecutivodocumento}" />
-            </p:column>
+             </p:column>
             
             <p:column headerText="#{msg.imprimirFacturaProforma_SKU}"
                       sortBy="#{dato.sku}">
               <h:outputText value="#{dato.sku}" />
-            </p:column>
+             </p:column>
 
- <p:column headerText="#{msg.imprimirFacturaProforma_NombreDelproducto}"
+             <p:column headerText="#{msg.imprimirFacturaProforma_NombreDelproducto}"
                       sortBy="#{dato.nombreproducto}">
               <h:outputText value="#{dato.nombreproducto}" />
             </p:column>
+            
+            <p:column headerText="#{msg.reporteRequerimientoExportacion_CajaMaster}"
+                      sortBy="#{dato.cajamaster}">
+               <p:selectBooleanCheckbox value="#{dato.cajamaster}" disabled = "true" />
+            </p:column>
+            <p:column headerText="#{msg.reporteRequerimientoExportacion_Pallet}"
+                      sortBy="#{dato.pallet}">
+               <p:selectBooleanCheckbox value="#{dato.pallet}" disabled = "true" />
+            </p:column>
+            
+             <p:column headerText="#{msg.reporteRequerimientoExportacion_Observaciones}"
+                      sortBy="#{dato.observacion}">
+             
+               <p:selectBooleanCheckbox value="#{dato.observacion}" disabled = "true" />
+                
+            </p:column>
+            
+            <p:column headerText="#{msg.reporteRequerimientoExportacion_Observaciones}"
+                      sortBy="#{dato.observaciones}">
+                
+                <h:inputTextarea styleClass="filas_contenido"  rows="4" cols="40" value="#{dato.observaciones}" readonly="true" style="border: none;"/>
+            </p:column>
+
+
+
+
+
+
 
   </p:dataTable>
 
-  </p:panelGrid>
+
 
 
 
