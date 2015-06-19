@@ -317,6 +317,18 @@
             </p:selectOneMenu>
             <p:message for="cuentaContable"></p:message>
 
+            <p:outputLabel 
+              for="unidadMinimaDespachoXTendido" 
+              value="#{msg.documentoUnidadMinimaDespachoXTendido}"
+              styleClass="negrita" />
+            <h:inputText 
+              id="unidadMinimaDespachoXTendido" 
+              value="#{productosMB.seleccionado.unidadMinimaDespachoXTendido}"
+              required="false"
+              label="#{msg.documentoUnidadMinimaDespachoXTendido}" />
+            <p:message 
+              for="unidadMinimaDespachoXTendido"/>
+
             <p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
                              action="#{productosMB.guardar}"
                              update=":formaDlg:registroDetalle, :forma:tabPanel:tablaRegistros"></p:commandButton>
