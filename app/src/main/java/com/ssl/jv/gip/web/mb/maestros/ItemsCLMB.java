@@ -2,7 +2,6 @@ package com.ssl.jv.gip.web.mb.maestros;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,8 +13,6 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
-import org.primefaces.event.RowEditEvent;
-
 import com.ssl.jv.gip.jpa.pojo.CategoriaCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.ItemCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
@@ -76,8 +73,9 @@ public class ItemsCLMB extends UtilMB {
 
   private Integer language = AplicacionMB.SPANISH;
   private List<SelectItem> tipos;
-
+  private boolean nuevoRango=false;
   private List<Unidad> unidades;
+
 
   public ItemsCLMB() {
 
@@ -87,11 +85,11 @@ public class ItemsCLMB extends UtilMB {
   public void init() {
     items = this.maestrosEjb.consultarItemsCostosLogisticos();
     tipos = new ArrayList<SelectItem>();
+    unidades=this.maestrosEjb.consultarUnidades();
     for (TipoItemCostoLogistico i : TipoItemCostoLogistico.values()) {
       tipos.add(new SelectItem(i.getId(), i.getDescripcion()));
     }
     categorias = this.maestrosEjb.consultarCategoriasCostosLogisticos();
-    unidades = this.maestrosEjb.consultarUnidades();
     monedas = this.maestrosEjb.consultarMonedas();
   }
 
@@ -224,19 +222,15 @@ public class ItemsCLMB extends UtilMB {
     return unidades;
   }
 
-  public void setUnidades(List<Unidad> unidades) {
-    this.unidades = unidades;
-  }
-
   public String adicionarRango() {
-    RangoCostoLogistico r = new RangoCostoLogistico();
-    r.setUnidad(this.unidades.get(0));
-    r.setItemCostoLogistico(this.seleccionado);
-    r.setMoneda(new Moneda());
+	 this.nuevoRango=true;
+	 this.seleccionado2 = new RangoCostoLogistico();
+	 this.seleccionado2.setUnidad(new Unidad());
+	 this.seleccionado2.setItemCostoLogistico(this.seleccionado);
+	 this.seleccionado2.setMoneda(new Moneda());
     if (this.seleccionado.getRangoCostoLogisticos() == null) {
       this.seleccionado.setRangoCostoLogisticos(new ArrayList<RangoCostoLogistico>());
     }
-    this.seleccionado.getRangoCostoLogisticos().add(r);
     return null;
   }
 
@@ -251,28 +245,6 @@ public class ItemsCLMB extends UtilMB {
     return null;
   }
 
-  public void onRowEdit(RowEditEvent event) {
-    RangoCostoLogistico rcl = (RangoCostoLogistico) event.getObject();
-    for (Unidad u : this.unidades) {
-      if (u.getId().equals(rcl.getUnidad().getId())) {
-        rcl.setUnidad(u);
-        break;
-      }
-    }
-    if (rcl.getMoneda() != null && rcl.getMoneda().getId() != null) {
-      for (Moneda m : this.monedas) {
-        if (m.getId().equals(rcl.getMoneda().getId())) {
-          rcl.setMoneda(m);
-          break;
-        }
-      }
-    }
-
-  }
-
-  public void onRowCancel(RowEditEvent event) {
-  }
-
   public RangoCostoLogistico getSeleccionado2() {
     return seleccionado2;
   }
@@ -282,6 +254,10 @@ public class ItemsCLMB extends UtilMB {
     if (this.seleccionado2.getMoneda() == null) {
       this.seleccionado2.setMoneda(new Moneda());
     }
+    if (this.seleccionado2.getUnidad()==null){
+    	this.seleccionado2.setUnidad(new Unidad());
+    }
+    this.nuevoRango=false;
   }
 
   public List<Moneda> getMonedas() {
@@ -301,6 +277,20 @@ public class ItemsCLMB extends UtilMB {
         break;
       }
     }
+  }
+  
+  public void guardarRango(){
+	  for (Unidad u:this.getUnidades()){
+		  if (u.getId().equals(this.seleccionado2.getUnidad().getId())){
+			  this.seleccionado2.getUnidad().setAbreviacion(u.getAbreviacion());
+			  this.seleccionado2.getUnidad().setNombre(u.getNombre());
+			  break;
+		  }
+	  }
+	  if (this.nuevoRango)
+		  this.seleccionado.addRangoCostoLogistico(this.seleccionado2);
+	  this.nuevoRango=false;
+	  this.addMensajeInfo("Rango guardado en el Item, debe Guardar el Item");
   }
 
 }

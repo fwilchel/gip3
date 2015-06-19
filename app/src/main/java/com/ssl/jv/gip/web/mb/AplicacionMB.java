@@ -13,7 +13,9 @@ import javax.faces.model.SelectItem;
 
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Pais;
+import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.ejb.AdministracionEJB;
+import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.web.util.Parametro;
 
 @ManagedBean(name = "aplicacionMB")
@@ -26,6 +28,7 @@ public class AplicacionMB {
   public static final Integer SPANISH = 1;
   public static final Integer ENGLISH = 2;
   private List<Pais> paises;
+  private List<Unidad> unidades;  
   private static final List<String> images;
 
   private String ambiente;
@@ -40,6 +43,9 @@ public class AplicacionMB {
 
   @EJB
   private static AdministracionEJB admonEjb;
+  
+  @EJB
+  private MaestrosEJBLocal maestrosEjb;  
 
   static {
     images = new ArrayList<String>();
@@ -59,6 +65,8 @@ public class AplicacionMB {
   @PostConstruct
   public void init() {
     paises = admonEjb.consultarPaises();
+    unidades = maestrosEjb.consultarUnidades();
+    
     Collections.sort(paises);
     ambiente = admonEjb.encontrarParametro(Parametro.AMBIENTE.getId()).getValor();
     version = admonEjb.encontrarParametro(Parametro.VERSION.getId()).getValor();
@@ -187,6 +195,14 @@ public class AplicacionMB {
   public static List<Ciudad> getCiudadesList(String idPais) {
     return admonEjb.getCiudadesByIdPais(idPais);
   }
+
+public List<Unidad> getUnidades() {
+	return unidades;
+}
+
+public void setUnidades(List<Unidad> unidades) {
+	this.unidades = unidades;
+}
 
 //	/**
 //	 * Metodo que retorna el listado de paises

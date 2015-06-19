@@ -244,86 +244,44 @@
           <p:panelGrid columns="1"
                        rendered="#{itemsCLMB.seleccionado.tipo eq 7}" style="width:430px">
 
-            <p:commandButton value="#{msg.itemsCLAdicionarRango}"
-                             update="rangos" action="#{itemsCLMB.adicionarRango}"></p:commandButton>
+            <p:commandButton value="#{msg.itemsCLAdicionarRango}" oncomplete="PF('editarRangoDialog').show()"
+                               update=":editarRangoDlg" action="#{itemsCLMB.adicionarRango}"></p:commandButton>
 
-            <p:dataTable id="rangos" var="rango"
+            <p:dataTable id="rangos" var="rango" 
                          value="#{itemsCLMB.seleccionado.rangoCostoLogisticos}"
-                         editable="true" style="margin-bottom:20px" emptyMessage="">
-
-              <p:ajax event="rowEdit" listener="#{itemsCLMB.onRowEdit}"
-                      update=":forma:tabPanel:tablaRegistros" process="@form"
-                      immediate="true" />
-              <p:ajax event="rowEditCancel" listener="#{itemsCLMB.onRowCancel}" />
+                          style="margin-bottom:20px" emptyMessage="">
 
               <p:column headerText="#{msg.rangosCLdesde}" style="width:100px">
-                <p:cellEditor>
-                  <f:facet name="output">
-                    <h:outputText value="#{rango.desde}" />
-                  </f:facet>
-                  <f:facet name="input">
-                    <p:inputText value="#{rango.desde}" size="10" />
-                  </f:facet>
-                </p:cellEditor>
+              	<h:outputText value="#{rango.desde}" />
               </p:column>
 
               <p:column headerText="#{msg.rangosCLhasta}" style="width:100px">
-                <p:cellEditor>
-                  <f:facet name="output">
-                    <h:outputText value="#{rango.hasta}" />
-                  </f:facet>
-                  <f:facet name="input">
-                    <p:inputText value="#{rango.hasta}" size="10" />
-                  </f:facet>
-                </p:cellEditor>
+              	<h:outputText value="#{rango.hasta}" />
               </p:column>
 
               <p:column headerText="#{msg.rangosCLunidad}" style="width:100px">
-                <p:cellEditor>
-                  <f:facet name="output">
-                    <h:outputText value="#{rango.unidad.abreviacion}" />
-                  </f:facet>
-                  <f:facet name="input">
-                    <h:selectOneMenu value="#{rango.unidad.id}" style="width:90px">
-                      <f:selectItems value="#{itemsCLMB.unidades}" var="unidad"
-                                     itemLabel="#{unidad.nombre}" itemValue="#{unidad.id}" />
-                    </h:selectOneMenu>
-                  </f:facet>
-                </p:cellEditor>
+              	<h:outputText value="#{rango.unidad.abreviacion}" />
               </p:column>
 
               <p:column headerText="#{msg.rangosCLvalor}" style="width:100px">
-                <p:cellEditor>
-                  <f:facet name="output">
-                    <h:outputText value="#{rango.valor}" />
-                  </f:facet>
-                  <f:facet name="input">
-                    <p:inputText value="#{rango.valor}" size="10" />
-                  </f:facet>
-                </p:cellEditor>
+              	<h:outputText value="#{rango.valor}" />
               </p:column>
 
               <p:column headerText="#{msg.rangosCLmoneda}" style="width:100px">
-                <p:cellEditor>
-                  <f:facet name="output">
-                    <h:outputText value="#{rango.moneda.id}" />
-                  </f:facet>
-                  <f:facet name="input">
-                    <h:selectOneMenu id="moneda2" value="#{rango.moneda.id}"
-                                     label="#{msg.rangosCLmoneda}" style="width:90px">
-                      <f:selectItem itemLabel="" itemValue="" />
-                      <f:selectItems value="#{itemsCLMB.monedas}" var="moneda"
-                                     itemLabel="#{moneda.id}" itemValue="#{moneda.id}" />
-                    </h:selectOneMenu>
-                  </f:facet>
-                </p:cellEditor>
+              	<h:outputText value="#{rango.moneda.id}" />
               </p:column>
 
 
 
 
-              <p:column style="width:32px">
-                <p:rowEditor />
+              <p:column style="width:70px">
+              	<p:commandButton oncomplete="PF('editarRangoDialog').show()"
+                               icon="ui-icon-pencil" title="#{msg.generalEditar}"
+                               update=":editarRangoDlg">
+                <f:setPropertyActionListener value="#{rango}"
+                                             target="#{itemsCLMB.seleccionado2}" />
+              </p:commandButton>
+              
                 <p:commandButton icon="ui-icon-close"
                                  action="#{itemsCLMB.eliminarRango}"
                                  title="#{msg.itemsCLEliminarRango}" update="rangos">
@@ -461,6 +419,63 @@
       </h:form>
     </p:dialog>
 
+	<p:dialog style="overflow:auto"
+              header="EDITAR RANGO"
+              widgetVar="editarRangoDialog" modal="true" showEffect="fade"
+              hideEffect="fade" resizable="false" dynamic="true" id="editarRangoDlg">
+      <h:form id="formaRangoDlg">
+        <p:outputPanel id="registroDetalle" style="text-align:center;">
+
+          <p:messages id="msgs2" showDetail="false" showSummary="true"
+                      globalOnly="true" showIcon="true"></p:messages>
+
+          <p:panelGrid columns="3" columnClasses="label,value">
+
+            <p:outputLabel value="#{msg.rangosCLdesde}" for="desde"
+                           styleClass="negrita" />
+            <p:inputText value="#{itemsCLMB.seleccionado2.desde}" size="10" id="desde" required="true" label="msg.rangosCLdesde" />
+            <p:message for="desde"></p:message>
+            
+            <p:outputLabel value="#{msg.rangosCLhasta}" for="hasta"
+                           styleClass="negrita" />
+            <p:inputText value="#{itemsCLMB.seleccionado2.hasta}" size="10" id="hasta" required="true" label="msg.rangosCLhasta" />
+            <p:message for="hasta"></p:message>
+            
+            <p:outputLabel value="#{msg.rangosCLunidad}" for="unidad"
+                           styleClass="negrita" />
+            <p:selectOneMenu value="#{itemsCLMB.seleccionado2.unidad.id}" style="width:90px" id="unidad">
+            	<f:selectItems value="#{itemsCLMB.unidades}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad.id}" />
+            </p:selectOneMenu>
+            <p:message for="unidad"></p:message>
+            
+            <p:outputLabel value="#{msg.rangosCLvalor}" for="valor"
+                           styleClass="negrita" />
+            <p:inputText value="#{itemsCLMB.seleccionado2.valor}" size="10" id="valor" required="true" label="msg.rangosCLvalor" />
+            <p:message for="valor"></p:message>
+
+            <p:outputLabel value="#{msg.rangosCLmoneda}" for="moneda"
+                           styleClass="negrita" />
+            <p:selectOneMenu value="#{itemsCLMB.seleccionado2.moneda.id}" style="width:90px" id="moneda">
+                <f:selectItem itemLabel="" itemValue="" />
+            	<f:selectItems value="#{itemsCLMB.monedas}" var="moneda"
+                                     itemLabel="#{moneda.id}" itemValue="#{moneda.id}" />
+            </p:selectOneMenu>
+            <p:message for="moneda"></p:message>
+            
+            
+            <p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
+                             action="#{itemsCLMB.guardarRango}" update=":formaDlg:registroDetalle, msgs2"></p:commandButton>
+            <p:commandButton value="#{msg.generalCancelar}" process="@this"
+                             oncomplete="PF('editarRangoDialog').hide();" icon="ui-icon-cancel">
+              <p:resetInput target="registroDetalle" />
+            </p:commandButton>
+
+		</p:panelGrid>
+		
+			
+		</p:outputPanel>
+		</h:form>
+		</p:dialog>
   </ui:define>
 
 </ui:composition>

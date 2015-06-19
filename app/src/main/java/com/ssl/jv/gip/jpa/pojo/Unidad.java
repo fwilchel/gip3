@@ -51,6 +51,12 @@ public class Unidad implements Serializable, Comparable {
 
   public Unidad() {
   }
+  
+  public Unidad(Long id, String nombre, String abreviacion){
+	  this.id=id;
+	  this.nombre=nombre;
+	  this.abreviacion=abreviacion;
+  }
 
   public Unidad(Long id) {
     this.id = id;
