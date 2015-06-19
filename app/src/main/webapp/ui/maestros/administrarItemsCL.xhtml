@@ -433,12 +433,12 @@
 
             <p:outputLabel value="#{msg.rangosCLdesde}" for="desde"
                            styleClass="negrita" />
-            <p:inputText value="#{itemsCLMB.seleccionado2.desde}" size="10" id="desde" required="true" label="msg.rangosCLdesde" />
+            <p:inputText value="#{itemsCLMB.seleccionado2.desde}" size="10" id="desde" required="true" label="msg.rangosCLdesde" maxlength="10" />
             <p:message for="desde"></p:message>
             
             <p:outputLabel value="#{msg.rangosCLhasta}" for="hasta"
                            styleClass="negrita" />
-            <p:inputText value="#{itemsCLMB.seleccionado2.hasta}" size="10" id="hasta" required="true" label="msg.rangosCLhasta" />
+            <p:inputText value="#{itemsCLMB.seleccionado2.hasta}" size="10" id="hasta" required="true" label="msg.rangosCLhasta" maxlength="10"/>
             <p:message for="hasta"></p:message>
             
             <p:outputLabel value="#{msg.rangosCLunidad}" for="unidad"
@@ -450,7 +450,7 @@
             
             <p:outputLabel value="#{msg.rangosCLvalor}" for="valor"
                            styleClass="negrita" />
-            <p:inputText value="#{itemsCLMB.seleccionado2.valor}" size="10" id="valor" required="true" label="msg.rangosCLvalor" />
+            <p:inputText value="#{itemsCLMB.seleccionado2.valor}" size="10" id="valor" required="true" label="msg.rangosCLvalor" maxlength="10"/>
             <p:message for="valor"></p:message>
 
             <p:outputLabel value="#{msg.rangosCLmoneda}" for="moneda"
