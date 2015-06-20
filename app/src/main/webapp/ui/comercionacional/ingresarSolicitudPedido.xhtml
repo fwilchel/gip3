@@ -165,20 +165,18 @@
               </p:calendar>
               <p:message 
                 for="fechaEntrega"/>
-              <!--fechaEsperadaEntrega-->
+              <!--documentoCliente-->
               <p:outputLabel 
-                for="fechaEsperadaEntrega"
-                value="#{msg.documentoFechaEsperadaEntrega}" 
+                for="documentoCliente"
+                value="#{msg.documentoOrdenCompra}" 
                 styleClass="negrita" />
-              <p:calendar 
-                id="fechaEsperadaEntrega" 
-                value="#{ingresarSolicitudCNMB.solicitud.fechaEsperadaEntrega}"
-                required="true" 
-                pattern="yyyy-MM-dd"
-                label="#{msg.documentoFechaEsperadaEntrega}">
-              </p:calendar>
+              <p:inputText 
+                id="documentoCliente" 
+                value="#{ingresarSolicitudCNMB.solicitud.documentoCliente}"
+                required="false"
+                label="#{msg.documentoOrdenCompra}"/>
               <p:message 
-                for="fechaEsperadaEntrega"/>
+                for="documentoCliente"/>
             </p:panelGrid>
             <p:dataTable 
               id="tblDetalle"
