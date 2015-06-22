@@ -7,48 +7,105 @@
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:p="http://primefaces.org/ui"
   xmlns:misc="http://java.sun.com/jsf/composite/misc"
-  template="/resources/default/template/login.xhtml">
+  template="/resources/#{menuMB.tema}/template/login.xhtml">
 
-  <ui:define name="title">
+  <ui:define 
+    name="title">
     .:: SOC ::. .::Login::.
   </ui:define>
 
-  <ui:define name="contenido">
+  <ui:define 
+    name="contenido">
 
-    <tr>
-      <td>
-        <div align="center">
-          <table>
-            <tr>
-              <td class="textoCafe"> <p:outputLabel for="emailTxt" value="#{msg.loginIdentificacion}"></p:outputLabel></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><p:inputText value="#{loginMB.email}" required="true" id="emailTxt" validatorMessage="#{msg.generalCorreoInvalido}" size="40">
-                  <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" for="emailTxt" />
-                </p:inputText></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td class="textoCafe"><p:outputLabel for="contrasenaTxt" value="#{msg.loginContrasena}"></p:outputLabel></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><p:inputText value="#{loginMB.password}" required="true" id="contrasenaTxt" size="40" type="password"/></td>
-              <td class="textoVinotinto"><a href="#{request.contextPath}/ui/recordarContrasena.jsf">#{msg.loginRecordarContrasena}</a></td>
-            </tr>
+    <h:form
+      id="frmLogin"
+      prependId="false">
+      <input 
+        type="hidden" 
+        name="tema" 
+        value="default"/>
+      <table border="0" width="100%" height="100%">
+        <tr>
+          <td>
+            <div align="center" id="bienvenido">
+              <img 
+                src="#{request.contextPath}/resources/default/images/Bienvenido.png"
+                alt="Bienvenido" 
+                width="369" 
+                height="100" />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div align="center">
+              <table>
+                <tr>
+                  <td class="textoCafe"> 
+                    <p:outputLabel 
+                      for="emailTxt" 
+                      value="#{msg.loginIdentificacion}"/>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <p:inputText 
+                      value="#{loginMB.email}" 
+                      required="true" 
+                      id="emailTxt" 
+                      validatorMessage="#{msg.generalCorreoInvalido}" 
+                      size="40">
+                      <f:validateRegex 
+                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" 
+                        for="emailTxt" />
+                    </p:inputText>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="textoCafe">
+                    <p:outputLabel 
+                      for="contrasenaTxt" 
+                      value="#{msg.loginContrasena}"/>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <p:inputText 
+                      value="#{loginMB.password}" 
+                      required="true" 
+                      id="contrasenaTxt" 
+                      size="40" 
+                      type="password"/>
+                  </td>
+                  <td class="textoVinotinto">
+                    <a href="#{request.contextPath}/ui/recordarContrasena.jsf">#{msg.loginRecordarContrasena}</a>
+                  </td>
+                </tr>
 
-          </table>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div align="center">
-          <p:commandButton value="#{msg.loginIngresar}" styleClass="textoCafe" action="#{loginMB.ingresar}" ajax="false" update=":growl"></p:commandButton>
-        </div>
-      </td>
-    </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div align="center">
+              <p:commandButton 
+                value="#{msg.loginIngresar}" 
+                styleClass="textoCafe" 
+                action="#{loginMB.ingresar}" 
+                ajax="false" 
+                update=":growl"/>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+      </table>
+    </h:form>
 
   </ui:define>
 

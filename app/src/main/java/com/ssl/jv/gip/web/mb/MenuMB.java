@@ -38,6 +38,7 @@ public class MenuMB extends UtilMB {
   private List<Funcionalidad> opciones;
   private Integer language = AplicacionMB.SPANISH;
   private Long idOpcionActual;
+  private String tema = "default";
 
   public MenuMB() {
 
@@ -145,13 +146,13 @@ public class MenuMB extends UtilMB {
   public static MethodExpression createAction(String actionExpression, Class<?> returnType) {
     FacesContext context = FacesContext.getCurrentInstance();
     return context.getApplication().getExpressionFactory()
-        .createMethodExpression(context.getELContext(), actionExpression, returnType, new Class[0]);
+            .createMethodExpression(context.getELContext(), actionExpression, returnType, new Class[0]);
   }
 
   public static MethodExpressionActionListener createActionListener(String actionListenerExpression) {
     FacesContext context = FacesContext.getCurrentInstance();
     return new MethodExpressionActionListener(context.getApplication().getExpressionFactory()
-        .createMethodExpression(context.getELContext(), actionListenerExpression, null, new Class[]{ActionEvent.class}));
+            .createMethodExpression(context.getELContext(), actionListenerExpression, null, new Class[]{ActionEvent.class}));
   }
 
   public String ingresoOpcion() {
@@ -241,6 +242,20 @@ public class MenuMB extends UtilMB {
 
       return buscarSuperClaseAbstract(superClase.getSuperclass());
     }
+  }
+
+  /**
+   * @return the tema
+   */
+  public String getTema() {
+    return tema;
+  }
+
+  /**
+   * @param tema the tema to set
+   */
+  public void setTema(String tema) {
+    this.tema = tema;
   }
 
 }

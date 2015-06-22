@@ -12,15 +12,18 @@
     <h:head>
 
       <f:facet name="first">
-        <title><ui:insert name="title">.:: SOC ::.</ui:insert></title>
-        <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/default/images/favicon.png" />
+        <title>
+          <ui:insert 
+            name="title">.:: SOC ::.</ui:insert>
+        </title>
+        <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/cn/images/favicon.png" />
       </f:facet>
 
       <link 
-        href="#{request.contextPath}/resources/default/css/gip.css" 
+        href="#{request.contextPath}/resources/cn/css/gip.css" 
         rel="stylesheet"
         type="text/css" />
-      
+
       <style 
         type="text/css">
         .ui-widget {
@@ -57,12 +60,15 @@
         <tr class="encabezadoLogin">
           <td>
             <div id="logoJV">
-              <img src="#{request.contextPath}/resources/default/images/Juan Valdez JV Beige.png"
+              <img src="#{request.contextPath}/resources/cn/images/Juan Valdez JV Beige.png"
                    alt="Juan Valdez" width="671" height="113" />
             </div>
             <div id="paquetes">
-              <img src="#{request.contextPath}/resources/default/images/Imagen Circular.png"
-                   alt="Productos" width="160" height="160" />
+              <img 
+                src="#{request.contextPath}/resources/cn/images/Imagen Circular.png"
+                alt="Productos" 
+                width="160" 
+                height="160" />
             </div>
           </td>
         </tr>
@@ -70,23 +76,8 @@
           <td>
             <div align="center">
               <div id="lona">
-                <h:form>
-                  <table border="0" width="100%" height="100%">
-                    <tr>
-                      <td>
-                        <div align="center" id="bienvenido">
-                          <img src="#{request.contextPath}/resources/default/images/Bienvenido.png"
-                               alt="Bienvenido" width="369" height="100" />
-                        </div>
-                      </td>
-                    </tr>
-                    <ui:insert 
-                      name="contenido"/>
-                    <tr>
-                      <td></td>
-                    </tr>
-                  </table>
-                </h:form>
+                <ui:insert 
+                  name="contenido"/>
               </div>
             </div>
             <div class="textoBlanco" id="blancoIzq">(SOC) Sales Other of Channels</div>
