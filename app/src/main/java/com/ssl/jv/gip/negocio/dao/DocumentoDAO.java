@@ -20,6 +20,7 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import org.primefaces.model.SortOrder;
 
+import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventario;
@@ -2216,4 +2217,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     return lista;
 
   }
+  
+  
+ 
 }

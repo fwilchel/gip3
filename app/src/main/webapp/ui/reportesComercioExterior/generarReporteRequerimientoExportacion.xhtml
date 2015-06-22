@@ -157,7 +157,7 @@
 
 <p:dialog header="#{msg.Titulo2ConsultarRequerimientoExportacion}"
                 widgetVar="reqExpoDialog" modal="true" showEffect="fade"
-              hideEffect="fade" resizable="false" dynamic="true" id="reqExpoDialog" width="700"  height="100%" >
+              hideEffect="fade" resizable="false" dynamic="true" id="reqExpoDialog" width="800"  height="100%" >
       <h:form id="formaDlg">
       
 
@@ -193,7 +193,15 @@
             
              <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoSalida}"
                            styleClass="negrita" />
-            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.puertosalida}" />
+            
+            
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.agenteAduana.lugarEntrega}" /> 
+            
+              
+           
+            
+            
+            
             
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoLlegada}"
                            styleClass="negrita" />
@@ -398,14 +406,20 @@
                 <h:inputTextarea styleClass="filas_contenido"  rows="4" cols="40" value="#{dato.observaciones}" readonly="true" style="border: none;"/>
             </p:column>
 
-
-
-
-
-
-
   </p:dataTable>
 
+
+          <p:panelGrid columns="1"
+                       rendered="#{not empty generarReporteRequerimientoExportacionMB.seleccionado}"
+                       columnClasses="label,value">
+
+            <p:commandButton value="Reporte PDF" ajax="false"
+                             icon="ui-icon-document">
+              <p:fileDownload value="#{generarReporteRequerimientoExportacionMB.reportePDF}" />
+            </p:commandButton>
+
+
+          </p:panelGrid>
 
 
 

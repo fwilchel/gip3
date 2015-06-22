@@ -40,6 +40,7 @@ import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -1720,5 +1721,19 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	parametros = new HashMap<>();
 	parametros.put("id", id);	
 	return documentoDAO.buscarRegistroPorConsultaNombrada(Documento.BUSCAR_DOCUMENTO_FX_REIMPRIMIR_BY_ID, parametros);
+  }
+  
+  
+  @Override
+  public List<Documento> consultarDocumentosSolicitudPedidoRE(Map<String, Object> parametros) {
+	//List<ComextRequerimientoexportacion> listado = new ArrayList<ComextRequerimientoexportacion>();
+
+	//try {
+	  return documentoDAO.buscarPorConsultaNombrada(Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO, parametros);
+	//} catch (Exception e) {
+
+	//}
+
+	//return listado;
   }
 }

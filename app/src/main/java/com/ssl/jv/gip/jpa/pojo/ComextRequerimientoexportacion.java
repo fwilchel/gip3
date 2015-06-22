@@ -21,9 +21,12 @@ import java.util.List;
 
 
 @NamedQueries({
-	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c"),
+	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c LEFT OUTER JOIN FETCH c.agenteAduana"),
 	  @NamedQuery(name="ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.id = :id")})
 	   
+
+
+
 //select * from comext_requerimientoexportacion where TO_CHAR(id, '9999')  LIKE '%%'
 //UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) 
 
@@ -109,7 +112,7 @@ public class ComextRequerimientoexportacion implements Serializable {
 
 	private String puertollegada;
 
-	private Long puertosalida;
+	//private Long puertosalida;
 
 	private String servicecontract;
 
@@ -126,6 +129,15 @@ public class ComextRequerimientoexportacion implements Serializable {
 	//bi-directional many-to-one association to Reqxproducto
 	@OneToMany(mappedBy="comextRequerimientoexportacion")
 	private List<Reqxproducto> reqxproductos;
+	
+	
+	
+	// bi-directional many-to-one association to AgenteAduana
+	  @ManyToOne(fetch = FetchType.EAGER)
+	  @JoinColumn(name = "puertosalida")
+	  private AgenteAduana agenteAduana;
+
+	
 
 	public ComextRequerimientoexportacion() {
 	}
@@ -410,13 +422,13 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.puertollegada = puertollegada;
 	}
 
-	public Long getPuertosalida() {
+	/*public Long getPuertosalida() {
 		return this.puertosalida;
 	}
 
 	public void setPuertosalida(Long puertosalida) {
 		this.puertosalida = puertosalida;
-	}
+	}*/
 
 	public String getServicecontract() {
 		return this.servicecontract;
@@ -494,5 +506,20 @@ public class ComextRequerimientoexportacion implements Serializable {
 	    }
 	    return null;
 	  }
+
+	/**
+	 * @return the agenteAduana
+	 */
+	public AgenteAduana getAgenteAduana() {
+		return agenteAduana;
+	}
+
+	/**
+	 * @param agenteAduana the agenteAduana to set
+	 */
+	public void setAgenteAduana(AgenteAduana agenteAduana) {
+		this.agenteAduana = agenteAduana;
+	}
+
 
 }

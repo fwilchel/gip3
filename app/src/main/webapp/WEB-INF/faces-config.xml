@@ -394,7 +394,11 @@
       <from-outcome>listado_Reporte_Requerimiento_Exportacion</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/generarReporteRequerimientoExportacion.xhtml</to-view-id>
     </navigation-case>
-    
+       <!-- Generar Comercio Exterior / Generar_Reporte_Requerimiento_Exportacion -->
+    <navigation-case>
+      <from-outcome>generarRequerimientoExportacion</from-outcome>
+      <to-view-id>/ui/comercioexterior/generarRequerimientoExportacion.xhtml</to-view-id>
+    </navigation-case>
     
   </navigation-rule>
 

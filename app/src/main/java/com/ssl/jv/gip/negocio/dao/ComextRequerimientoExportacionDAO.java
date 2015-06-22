@@ -3,22 +3,8 @@ package com.ssl.jv.gip.negocio.dao;
 
 
 import java.util.List;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-
-
-
-
-
-
-
-
-
-
-
-
-
 import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
 
@@ -52,20 +38,8 @@ public class ComextRequerimientoExportacionDAO  extends GenericDAO<ComextRequeri
 
 	    List<ComextRequerimientoexportacionDTO> listado  = em.createNativeQuery(query, ComextRequerimientoexportacionDTO.class).setParameter("consecutivoDocumento", id).getResultList();
 	    
-	   // List<DocumentoCostosLogisticosDTO> listado = em.createNativeQuery(sql, DocumentoCostosLogisticosDTO.class).getResultList();
 	  
-	    System.out.println("queryReqExp1: " + query);
-	    
-	    
-	    System.out.println("queryReqExp2: " + listado.size());
-	    
-	    
-	    for (ComextRequerimientoexportacionDTO produ : listado) {
-	        
-	    	System.out.println("sku:"+ produ.getSku());
-	        
-	      }
-	    
+	  	    
 
 	    return listado;
 

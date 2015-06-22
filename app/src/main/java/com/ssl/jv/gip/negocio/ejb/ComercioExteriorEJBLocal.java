@@ -350,4 +350,6 @@ public interface ComercioExteriorEJBLocal {
   
   Documento consultarFX(Long id);
 
+  public List<Documento> consultarDocumentosSolicitudPedidoRE(Map<String, Object> parametros);
+
 }
