@@ -5,6 +5,8 @@ import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.jpa.pojo.Usuario;
+
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -16,8 +18,10 @@ import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
@@ -57,6 +61,9 @@ public class ComunMB extends UtilMB {
   private MenuMB menu;
 
   public List<Cliente> obtenerListaClientes(String idUsuario) {
+	if (idUsuario == null) {
+	  return null;
+	}
     return maestrosEJB.consultarClientesActivosPorUsuario(idUsuario);
   }
 
@@ -65,11 +72,21 @@ public class ComunMB extends UtilMB {
   }
 
   public List<PuntoVenta> obtenerListaPuntosVenta(Long idCliente) {
+	if (idCliente == null) {
+	  return null;
+	}
     return maestrosEJB.consultarPuntoEntregaPorCliente(idCliente);
   }
 
   public List<Ubicacion> obtenerListaUbicaciones(String idCliente) {
+	if (idCliente == null) {
+	  return null;
+	}
     return comunEJB.consultarUbicacionesPorUsuario(idCliente);
+  }
+
+  public List<Usuario> obtenerListaUsuariosActivos() {
+    return comunEJB.consultarUsuariosActivos();
   }
 
   public List<SelectItem> obtenerListaCategoriasInventarios() {

@@ -2,6 +2,7 @@ package com.ssl.jv.gip.negocio.ejb;
 
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
+
 import java.util.List;
 
 import javax.ejb.Local;
@@ -18,6 +19,7 @@ import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
+import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 
 /**
@@ -121,4 +123,10 @@ public interface ComunEJBLocal {
    * @return
    */
   PuntoVenta consultarPuntoVenta(Long id);
+  
+  /**
+   * 
+   * @return
+   */
+  List<Usuario> consultarUsuariosActivos();
 }

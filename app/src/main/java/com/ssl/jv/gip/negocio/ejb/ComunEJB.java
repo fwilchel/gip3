@@ -22,6 +22,7 @@ import com.ssl.jv.gip.jpa.pojo.Region;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
+import com.ssl.jv.gip.jpa.pojo.Usuario;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.EmpresaDAO;
@@ -36,6 +37,7 @@ import com.ssl.jv.gip.negocio.dao.RegionDAO;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
+import com.ssl.jv.gip.negocio.dao.UsuarioDAOLocal;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 
 import java.util.HashMap;
@@ -93,6 +95,9 @@ public class ComunEJB implements ComunEJBLocal {
   
   @EJB
   private PuntoVentaDAOLocal puntoVentaDAO; 
+  
+  @EJB
+  private UsuarioDAOLocal usuarioDAO; 
 
   /**
    * Default constructor.
@@ -287,5 +292,11 @@ public class ComunEJB implements ComunEJBLocal {
     Map<String, Object> parametros = new HashMap<>();
     parametros.put("id", id);
     return puntoVentaDAO.buscarRegistroPorConsultaNombrada(PuntoVenta.FIND_BY_ID, parametros);
+  }
+
+  @Override
+  public List<Usuario> consultarUsuariosActivos() {
+    LOGGER.trace("Metodo: <<consultarUsuariosActivos>>");
+    return usuarioDAO.buscarPorConsultaNombrada(Usuario.BUSCAR_USUARIOS_ACTIVOS, null);
   }
 }

@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -13,12 +15,15 @@ import java.util.List;
 @Table(name = "usuarios")
 @NamedQueries({
   @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
-  @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email= :email")
+  @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email= :email"),
+  @NamedQuery(name = Usuario.BUSCAR_USUARIOS_ACTIVOS, query = "SELECT u FROM Usuario u WHERE u.activo = true")
 })
 
 public class Usuario implements Serializable {
 
   private static final long serialVersionUID = 1L;
+  
+  public static final String BUSCAR_USUARIOS_ACTIVOS = "Usuario.buscarUsuariosActivos";
 
   @Id
   private String id;
