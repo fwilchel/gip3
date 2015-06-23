@@ -21,14 +21,18 @@ import com.ssl.jv.gip.web.mb.util.ConstantesBodegas;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+
 import org.apache.log4j.Logger;
 
 @Stateless
@@ -58,7 +62,8 @@ public class ComercioNacionalEJB implements ComercioNacionalEJBLocal {
     Map<String, Object> parametros = new HashMap<>();
     parametros.put("idCliente", idCliente);
     parametros.put("idPuntoVenta", idPuntoVenta);
-    return productoClienteDAO.buscarPorConsultaNombrada(ProductosXCliente.NQ_BUSCAR_PRODUCTOS_X_CLIENTE_Y_PUNTO_VENTA_ACTIVOS, parametros);
+    parametros.put("fechaActual", new Timestamp(System.currentTimeMillis()));
+    return productoClienteDAO.buscarPorConsultaNombrada(ProductosXCliente.NQ_BUSCAR_PRODUCTOS_X_CLIENTE_Y_PUNTO_VENTA_ACTIVOS_Y_VIGENTES, parametros);
   }
 
   @Override
