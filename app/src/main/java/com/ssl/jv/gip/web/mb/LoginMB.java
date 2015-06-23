@@ -39,6 +39,14 @@ public class LoginMB extends UtilMB {
   @PostConstruct
   public void init() {
 	this.empresa = 1;
+	
+	System.out.println("URI "+this.getRequestURI());
+	if (this.getRequestURI().indexOf("loginCN")!=-1){
+		this.menu.setTema("cn");
+	}else{
+		this.menu.setTema("default");
+	}
+	
   }
 
   public String ingresar() {

@@ -40,6 +40,7 @@ public class SecurityFilter implements Filter {
       String url = req.getRequestURI();
       if (url.indexOf("javax.faces.resource") != -1
           || url.endsWith("login.jsf")
+          || url.endsWith("loginCN.jsf")
           || url.endsWith("recordarContrasena.jsf")
           || url.endsWith("cambiarContrasena.jsf")
           || (appMB != null && appMB.getDebug())
@@ -71,7 +72,7 @@ public class SecurityFilter implements Filter {
                   + session.getId())
               .forward(request, response);
         } else {
-          // TODO : Validar permiso a la opci�n de men�
+          // TODO : Validar permiso a la opción de menú
           chain.doFilter(request, responseWrapper);
         }
       } 
