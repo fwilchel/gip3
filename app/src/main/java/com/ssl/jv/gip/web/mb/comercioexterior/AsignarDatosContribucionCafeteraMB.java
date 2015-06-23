@@ -22,6 +22,10 @@ import com.ssl.jv.gip.web.util.Modo;
 @SessionScoped
 public class AsignarDatosContribucionCafeteraMB extends UtilMB {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private List<DatoContribucionCafeteraDTO> listado;
   private DatoContribucionCafeteraDTO seleccionado;
 
@@ -39,73 +43,72 @@ public class AsignarDatosContribucionCafeteraMB extends UtilMB {
   @PostConstruct
   public void init() {
 
-    Map<String, Object> parametros = new HashMap<String, Object>();
+	Map<String, Object> parametros = new HashMap<String, Object>();
 
-    parametros.put("tipo", ConstantesTipoDocumento.FACTURA_EXPORTACION);
-    parametros.put("estado", ConstantesDocumento.IMPRESO);
+	parametros.put("tipo", ConstantesTipoDocumento.FACTURA_EXPORTACION);
+	parametros.put("estado", ConstantesDocumento.IMPRESO);
 
-    listado = comercioExteriorEjb.consultarDatosContribucionCafetera(parametros);
+	listado = comercioExteriorEjb.consultarDatosContribucionCafetera(parametros);
   }
 
   public String modificar() {
-    documentosLotes = new ArrayList<DocumentoLotesContribucionCafeteriaDTO>();
+	documentosLotes = new ArrayList<DocumentoLotesContribucionCafeteriaDTO>();
 
-    Map<String, Object> parametros = new HashMap<String, Object>();
-    parametros.put("consecutivo", seleccionado.getConsecutivo());
+	Map<String, Object> parametros = new HashMap<String, Object>();
+	parametros.put("consecutivo", seleccionado.getConsecutivo());
 
-    documentosLotes = comercioExteriorEjb.consultarDocumentoLotesContribucionCafetera(parametros);
-    return "";
+	documentosLotes = comercioExteriorEjb.consultarDocumentoLotesContribucionCafetera(parametros);
+	return "";
   }
 
   public Modo getModo() {
-    return modo;
+	return modo;
   }
 
   public void setModo(Modo modo) {
-    this.modo = modo;
+	this.modo = modo;
   }
 
   public DatoContribucionCafeteraDTO getSeleccionado() {
-    return seleccionado;
+	return seleccionado;
   }
 
   public void setSeleccionado(DatoContribucionCafeteraDTO seleccionado) {
-    this.seleccionado = seleccionado;
-    this.modo = Modo.EDITAR;
+	this.seleccionado = seleccionado;
+	this.modo = Modo.EDITAR;
   }
 
   public void guardar() {
-    try {
-      documentosLotes = comercioExteriorEjb.guardarDocumentoLotesContribucionCafetera(documentosLotes);
-      this.addMensajeInfo("Datos de contribución cafetera asignada exitosamente");
-    } catch (Exception ex) {
-      this.addMensajeError("No se pudieron asignar los datos de contribución cafetera.");
-    }
+	try {
+	  documentosLotes = comercioExteriorEjb.guardarDocumentoLotesContribucionCafetera(documentosLotes);
+	  this.addMensajeInfo("Datos de contribución cafetera asignada exitosamente");
+	} catch (Exception ex) {
+	  this.addMensajeError("No se pudieron asignar los datos de contribución cafetera.");
+	}
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
-      return true;
-    } else {
-      return false;
-    }
+	if (this.modo != null && this.modo.equals(Modo.CREAR)) {
+	  return true;
+	} else {
+	  return false;
+	}
   }
 
   public List<DatoContribucionCafeteraDTO> getListado() {
-    return listado;
+	return listado;
   }
 
   public void setListado(List<DatoContribucionCafeteraDTO> listado) {
-    this.listado = listado;
+	this.listado = listado;
   }
 
   public List<DocumentoLotesContribucionCafeteriaDTO> getDocumentosLotes() {
-    return documentosLotes;
+	return documentosLotes;
   }
 
-  public void setDocumentosLotes(
-      List<DocumentoLotesContribucionCafeteriaDTO> documentosLotes) {
-    this.documentosLotes = documentosLotes;
+  public void setDocumentosLotes(List<DocumentoLotesContribucionCafeteriaDTO> documentosLotes) {
+	this.documentosLotes = documentosLotes;
   }
 
 }
