@@ -272,4 +272,9 @@ public class UtilMB implements Serializable {
   public Date getFechaActual() {
     return new Date();
   }
+  
+  public String getRequestURI() {
+	    HttpServletRequest request = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
+	    return request.getRequestURI();
+  }
 }
