@@ -459,7 +459,7 @@ public class GenerarCostosLogisticosMB extends UtilMB {
     if (this.solicitudes!=null){
     	for (DocumentoCostosLogisticosDTO d:this.solicitudes){
     		if (d.getSeleccionada()){
-    			valorFob+=d.getEtiquetas().doubleValue();
+    			valorFob+=d.getEtiquetas().doubleValue()+d.getValorTotalDocumento().doubleValue();
     		}
     	}
     }
