@@ -16,6 +16,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 import com.ssl.jv.gip.jpa.pojo.Ciudad;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
@@ -39,6 +40,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoPorLotesInstruccionEmbarqueDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoRequerimientoExportacionDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
@@ -350,6 +352,8 @@ public interface ComercioExteriorEJBLocal {
   
   Documento consultarFX(Long id);
 
-  public List<Documento> consultarDocumentosSolicitudPedidoRE(Map<String, Object> parametros);
+  public List<DocumentoRequerimientoExportacionDTO> consultarDocumentosSolicitudPedidoRE(Map<String, Object> parametros);
+
+  public ComextRequerimientoexportacion crearRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion);
 
 }

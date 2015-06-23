@@ -5,11 +5,49 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.ssl.jv.gip.util.EstadoRequerimientoExportacion;
-import com.ssl.jv.gip.util.TipoItemCostoLogistico;
 
-import java.sql.Timestamp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import java.util.List;
-
+import java.util.Date;
 
 /**
  * The persistent class for the comext_requerimientoexportacion database table.
@@ -21,7 +59,9 @@ import java.util.List;
 
 
 @NamedQueries({
-	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c LEFT OUTER JOIN FETCH c.agenteAduana"),
+	  
+	//  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c LEFT OUTER JOIN FETCH c.agenteAduana"),
+	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c"),
 	  @NamedQuery(name="ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.id = :id")})
 	   
 
@@ -31,112 +71,128 @@ import java.util.List;
 //UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) 
 
 public class ComextRequerimientoexportacion implements Serializable {
-	private static final long serialVersionUID = 1L;
+		
 	
 	
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5796988097469664301L;
 	
-	  public static final String FIND_ALL = "ComextRequerimientoexportacion.findAll";
+	public static final String FIND_ALL = "ComextRequerimientoexportacion.findAll";
 	  public static final String BUSCAR_DOCUMENTO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO";
 	  
 	@Id
-	@SequenceGenerator(name="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR", sequenceName="COMEXT_REQUERIMIENTOEXPORTACION_ID_SEQ")
+	@SequenceGenerator(name="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR", sequenceName="comext_requerimientoexportacion_id_seq")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR")
 	private Long id;
 
+	 @Transient
 	private String cciudadpais;
 
+	 @Transient
 	private String cdireccion;
-
+	 @Transient
 	private String cnit;
-
+	 @Transient
 	private String codigo;
-
+	 @Transient
 	private String contactobi;
-
+	 @Transient
 	private String cotradireccion;
-
+	 @Transient
 	private String crazonsocial;
-
+	 @Transient
 	private String ctelefono;
-
+	 @Transient
 	private String dacontacto;
-
+	 @Transient
 	private String dancual;
-
+	 @Transient
 	private String danobscuales;
-
+	 @Transient
 	private Boolean danobservaciones;
-
+	 @Transient
 	private String danopciones;
-
+	 @Transient
 	private String darazonsocial;
-
+	 @Transient
 	private String datelefonoemail;
-
+	 @Transient
 	private String direccionentregabi;
-
+	 @Transient
 	private String emisionbi;
-
+	 @Transient
 	private Boolean enviaraestadireccion;
 
+	@Column(name="estado")
 	private Integer estado;
 
-	private Timestamp fecha;
+	@Column(name="fecha")
+	private Date fecha;
 
-	private Timestamp fechasolicitud;
-
+	@Column(name="fechasolicitud")
+	private Date fechasolicitud;
+	 @Transient
 	private String flete;
-
+	 @Transient
 	private String fomapago;
 
-	@Column(name="id_cliente")
-	private Long idCliente;
-
+	//@Column(name="id_cliente")
+	//private Long idCliente;
+	 @Transient
 	private Boolean marcacionespecial;
-
+	 @Transient
 	private String modalidadembarque;
-
+	 @Transient
 	private String nciudadpais;
-
+	 @Transient
 	private String ndireccion;
-
+	 @Transient
 	private String nnit;
-
+	 @Transient
 	private String nrazonsocial;
-
+	 @Transient
 	private String ntelefono;
-
+	 @Transient
 	private String observacioneaadicionales;
-
+	 @Transient
 	private String otropago;
-
+	 @Transient
 	private String puertollegada;
 
+
 	//private Long puertosalida;
-
+	 @Transient
 	private String servicecontract;
-
+	 @Transient
 	private String telefonoemailbi;
-
+	 @Transient
 	private String terminoincoterm;
-
+	 @Transient
 	private String tipocontenedores;
-
+	 @Transient
 	private String tipoprecio;
-
+	 @Transient
 	private String zipcodebi;
 
 	//bi-directional many-to-one association to Reqxproducto
-	@OneToMany(mappedBy="comextRequerimientoexportacion")
-	private List<Reqxproducto> reqxproductos;
+	//@OneToMany(mappedBy="comextRequerimientoexportacion")
+	//private List<Reqxproducto> reqxproductos;
 	
 	
-	
+	 
 	// bi-directional many-to-one association to AgenteAduana
 	  @ManyToOne(fetch = FetchType.EAGER)
 	  @JoinColumn(name = "puertosalida")
 	  private AgenteAduana agenteAduana;
 
+	  
+	// bi-directional many-to-one association to Clientes
+		  @ManyToOne(fetch = FetchType.EAGER)
+		  @JoinColumn(name = "id_cliente")
+		  private Cliente idCliente;
+	 
 	
 
 	public ComextRequerimientoexportacion() {
@@ -302,21 +358,7 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.estado = estado;
 	}
 
-	public Timestamp getFecha() {
-		return this.fecha;
-	}
-
-	public void setFecha(Timestamp fecha) {
-		this.fecha = fecha;
-	}
-
-	public Timestamp getFechasolicitud() {
-		return this.fechasolicitud;
-	}
-
-	public void setFechasolicitud(Timestamp fechasolicitud) {
-		this.fechasolicitud = fechasolicitud;
-	}
+	
 
 	public String getFlete() {
 		return this.flete;
@@ -334,13 +376,13 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.fomapago = fomapago;
 	}
 
-	public Long getIdCliente() {
+	/*public Long getIdCliente() {
 		return this.idCliente;
 	}
 
 	public void setIdCliente(Long idCliente) {
 		this.idCliente = idCliente;
-	}
+	}*/
 
 	public Boolean getMarcacionespecial() {
 		return this.marcacionespecial;
@@ -487,13 +529,13 @@ public class ComextRequerimientoexportacion implements Serializable {
 	}*/
 
 
-	public List<Reqxproducto> getReqxproductos() {
+	/*public List<Reqxproducto> getReqxproductos() {
 		return this.reqxproductos;
 	}
 
 	public void setReqxproductos(List<Reqxproducto> reqxproductos) {
 		this.reqxproductos = reqxproductos;
-	}
+	}*/
 	
 	
 	
@@ -506,20 +548,70 @@ public class ComextRequerimientoexportacion implements Serializable {
 	    }
 	    return null;
 	  }
+	 
 
-	/**
-	 * @return the agenteAduana
-	 */
 	public AgenteAduana getAgenteAduana() {
 		return agenteAduana;
 	}
 
-	/**
-	 * @param agenteAduana the agenteAduana to set
-	 */
+	
 	public void setAgenteAduana(AgenteAduana agenteAduana) {
 		this.agenteAduana = agenteAduana;
 	}
 
+	/**
+	 * @return the fecha
+	 */
+	public Date getFecha() {
+		return fecha;
+	}
+
+	/**
+	 * @param fecha the fecha to set
+	 */
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	/**
+	 * @return the fechasolicitud
+	 */
+	public Date getFechasolicitud() {
+		return fechasolicitud;
+	}
+
+	/**
+	 * @param fechasolicitud the fechasolicitud to set
+	 */
+	public void setFechasolicitud(Date fechasolicitud) {
+		this.fechasolicitud = fechasolicitud;
+	}
+/*
+	
+	public Long getPuertosalida() {
+		return puertosalida;
+	}
+
+	
+	public void setPuertosalida(Long puertosalida) {
+		this.puertosalida = puertosalida;
+	}
+*/
+
+	/**
+	 * @return the idCliente
+	 */
+	public Cliente getIdCliente() {
+		return idCliente;
+	}
+
+	/**
+	 * @param idCliente the idCliente to set
+	 */
+	public void setIdCliente(Cliente idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	
 
 }

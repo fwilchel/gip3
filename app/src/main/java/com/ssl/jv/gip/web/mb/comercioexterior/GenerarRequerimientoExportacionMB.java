@@ -1,7 +1,9 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +17,16 @@ import javax.faces.bean.SessionScoped;
 
 import javax.faces.event.ActionEvent;
 
+import org.apache.log4j.Logger;
+
+import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
+import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoRequerimientoExportacionDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
+import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
+import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
@@ -33,6 +42,8 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	 * 
 	 */
 	private static final long serialVersionUID = 1427581635726894782L;
+	
+	private static final Logger LOGGER = Logger.getLogger(GenerarRequerimientoExportacionMB.class);
 
 	/**
 	   * The comercio ejb.
@@ -40,14 +51,24 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	  @EJB
 	  private ComercioExteriorEJB comercioEjb;
 	  
+	  
+	  @EJB
+	  private ComercioExteriorEJBLocal comercioExteriorEJBLocal;
+	  
 	  /**
 	   * The lista documentos.
 	   */
-	  private List<Documento> listaDocumentos = new ArrayList<Documento>();
+	  private List<DocumentoRequerimientoExportacionDTO> listaDocumentos = new ArrayList<DocumentoRequerimientoExportacionDTO>();
 	  
-	  private boolean generarRequerimiento;
+	  private Integer language = AplicacionMB.SPANISH;
 	
 	  private boolean seleccionado;
+	  private boolean generarRequerimiento;
+	  
+	  private Date dateFechaDespacho;
+	  
+	  ComextRequerimientoexportacion comextRequerimientoexportacion;
+	  
 	
 	 @PostConstruct
 	  public void init() {
@@ -57,6 +78,8 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		 Map<String, Object> parametros = new HashMap<String, Object>();
 		 parametros.put("idTipoDocumento", (long)ConstantesTipoDocumento.SOLICITUD_PEDIDO);
   	     parametros.put("idEstado", (long) ConstantesDocumento.VERIFICADO);
+  	     parametros.put("documentoCliente","Cargue Manual");
+  	     
   	     listaDocumentos = comercioEjb.consultarDocumentosSolicitudPedidoRE(parametros);
   	     
   	   
@@ -67,8 +90,16 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	 
 	 public void consultarSolicitud(ActionEvent ae) {
 		 
-		 
-		   for (Documento dto : listaDocumentos) {
+		 generarRequerimiento = true;
+		   for (DocumentoRequerimientoExportacionDTO dto : listaDocumentos) {
+			   
+			   if (dto.isSeleccionado()) {
+				   
+				   System.out.println("doc"+dto.getConsecutivoDocumento());
+
+
+		           // seleccionados.add(dto);
+		          }
 			   
 			   
 		   }
@@ -77,11 +108,46 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	 }
 	 
 	 
+	 
+	 public void guardarRequerimientoExportacion(ActionEvent ae) {
+
+		    try {
+		    	
+		    	
+		    	
+		    	comextRequerimientoexportacion = new ComextRequerimientoexportacion();
+		    	Cliente cliente =new Cliente();
+		    	cliente.setId((long)137);
+		    	
+		    	
+		    	comextRequerimientoexportacion.setIdCliente(cliente);
+		    	comextRequerimientoexportacion.setFecha(this.dateFechaDespacho);
+		    	comextRequerimientoexportacion.setFechasolicitud(this.dateFechaDespacho);
+		    	comextRequerimientoexportacion.setEstado(0);
+		    	
+		    	AgenteAduana agenteAduana =new AgenteAduana();
+		    	
+		    	agenteAduana.setId((long) 1);
+		    	
+		    	comextRequerimientoexportacion.setAgenteAduana(agenteAduana);
+		    	
+		    	 comercioExteriorEJBLocal.crearRequerimientoExportacion(comextRequerimientoexportacion);
+		    	
+		    	
+		 
+	 } catch (Exception e) {
+	      LOGGER.error(e);
+	      this.addMensajeError(AplicacionMB.getMessage("RequerimientoExportacionError_Crear", language));
+	    }
+		    
+	 }
+	 
+	 
 
 	/**
 	 * @return the listaDocumentos
 	 */
-	public List<Documento> getListaDocumentos() {
+	public List<DocumentoRequerimientoExportacionDTO> getListaDocumentos() {
 		return listaDocumentos;
 	}
 
@@ -89,7 +155,7 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	/**
 	 * @param listaDocumentos the listaDocumentos to set
 	 */
-	public void setListaDocumentos(List<Documento> listaDocumentos) {
+	public void setListaDocumentos(List<DocumentoRequerimientoExportacionDTO> listaDocumentos) {
 		this.listaDocumentos = listaDocumentos;
 	}
 
@@ -107,6 +173,22 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	 */
 	public void setGenerarRequerimiento(boolean generarRequerimiento) {
 		this.generarRequerimiento = generarRequerimiento;
+	}
+
+
+	/**
+	 * @return the dateFechaDespacho
+	 */
+	public Date getDateFechaDespacho() {
+		return dateFechaDespacho;
+	}
+
+
+	/**
+	 * @param dateFechaDespacho the dateFechaDespacho to set
+	 */
+	public void setDateFechaDespacho(Date dateFechaDespacho) {
+		this.dateFechaDespacho = dateFechaDespacho;
 	}
 
 }

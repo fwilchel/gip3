@@ -36,6 +36,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoRecibirDevolucionDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoRequerimientoExportacionDTO;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
@@ -2215,6 +2216,36 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     System.out.println("query ventas" + lista.size());
 
     return lista;
+
+  }
+  
+  
+  @Override
+  public List<DocumentoRequerimientoExportacionDTO> consultarDocumentosRE(Map<String, Object> parametros) {
+
+ /*   String sql = "SELECT documentos.id idDocumento, " + "documentos.consecutivo_documento consecutivoDocumento, " + "documentos.fecha_esperada_entrega fechaEsperadaEntrega, " + "documentos.id_ubicacion_origen idUbicacionOrigen, " + "documentos.id_ubicacion_destino idUbicacionDestino, " + "documentos.id_tipo_documento idTipoDocumento, " + "documentos.fecha_generacion fechaGeneracion, " + "documentos.fecha_entrega fechaEntrega, " + "documentos.id_proveedor idProveedor, "
+            + "documentos.id_estado idEstado, " + "documentos.documento_cliente documentoCliente, " + "documentos.id_cliente idCliente, " + "clientes.nombre as clientesNombre, " + "clientes.direccion as clientesDireccion, " + "clientes.telefono as clientesTelefono, " + "clientes.contacto as clientesContacto, " + "Documento_x_Negociacion.id_termino_incoterm idTerminoIncoterm, " + "termino_incoterm.descripcion as descripcionTerminoIncoterm, " + "documentos.valor_total as valorTotalDocumento, "
+            + "Documento_x_Negociacion.costo_entrega costoEntrega, " + "Documento_x_Negociacion.costo_flete costoFlete, " + "Documento_x_Negociacion.costo_seguro costoSeguro, " + "Documento_x_Negociacion.otros_gastos otrosGastos, " + "Documento_x_Negociacion.cantidad_contenedores_de_20 as cantidadContenedores20, " + "Documento_x_Negociacion.cantidad_contenedores_de_40 as cantidadContenedores40, " + "ciudades.nombre as ciudadNombre, " + "Documento_x_Negociacion.lugar_incoterm as lugarIncoterm, "
+            + "estados.nombre as estadoNombre, " + "Documento_x_Negociacion.solicitud_cafe solicitudCafe, " + "documentos.observacion_documento observacionDocumento, " + "Documento_x_Negociacion.observaciones_marcacion_2 observacionesMarcacion2 " + "FROM documentos, clientes, Documento_x_Negociacion, termino_incoterm, ciudades,estados " + "WHERE documentos.id_cliente= '" + idCliente + "' AND documentos.id_cliente = clientes.id  " + "AND documentos.id=Documento_x_Negociacion.id_documento   "
+            + "AND Documento_x_Negociacion.id_termino_incoterm=termino_incoterm.id   " + "AND clientes.id_ciudad=ciudades.id  	" + "AND documentos.id_estado=estados.id  " + "AND documentos.id_tipo_documento=22  " + "AND documentos.id_estado IN (16, 15,14)  "
+            + "AND documentos.consecutivo_documento not in (select documentos.observacion_documento from documentos where documentos.observacion_documento  in (SELECT documentos.consecutivo_documento from documentos where  documentos.id_tipo_documento= 22  and documentos.id_estado IN (16, 15,14) ))   " + "ORDER BY documentos.id DESC ";
+ */   
+    
+    String sql = "select d.id as idDocumento ,d.consecutivo_documento as consecutivoDocumento ,d.fecha_generacion as fechaGeneracion,c.nombre as clienteNombre, e.nombre as estadoNombre ,d.documento_cliente as documentoCliente , false as seleccionado" 
+    +" from documentos d inner join clientes c on d.id_cliente=c.id"
+    +" inner join estados e on e.id=d.id_estado"  
+    +" where d.id_tipo_documento= :idTipoDocumento and d.id_estado=:idEstado and d.documento_cliente= :documentoCliente order by d.id desc";
+    
+    long tipoDoc = (long) parametros.get("idTipoDocumento");
+    long estadoDoc = (long) parametros.get("idEstado");
+    String documentoCliente = (String) parametros.get("documentoCliente");
+    
+	 parametros.put("idTipoDocumento", (long)ConstantesTipoDocumento.SOLICITUD_PEDIDO);
+	     parametros.put("idEstado", (long) ConstantesDocumento.VERIFICADO);
+	     parametros.put("documentoCliente","Cargue Manual");
+ 
+    List<DocumentoRequerimientoExportacionDTO> listado = em.createNativeQuery(sql, DocumentoRequerimientoExportacionDTO.class).setParameter("idTipoDocumento", tipoDoc).setParameter("idEstado", estadoDoc).setParameter("idEstado", estadoDoc).setParameter("documentoCliente", documentoCliente).getResultList();
+    return listado;
 
   }
   

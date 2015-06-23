@@ -36,9 +36,9 @@
                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                        rowsPerPageTemplate="5,10,15">
 
-            <p:column filterBy="#{doc.id}" headerText="#{msg.CodigoGipSP}"
-                      filterMatchMode="contains" sortBy="#{doc.id}">
-              <h:outputText value="#{doc.id}" />
+            <p:column filterBy="#{doc.idDocumento}" headerText="#{msg.CodigoGipSP}"
+                      filterMatchMode="contains" sortBy="#{doc.idDocumento}">
+              <h:outputText value="#{doc.idDocumento}" />
             </p:column>
 
             <p:column filterBy="#{doc.consecutivoDocumento}"
@@ -55,19 +55,85 @@
               </h:outputText>
             </p:column>
 
+			 <p:column filterBy="#{doc.clienteNombre}"
+                      headerText="#{msg.NombreClienteSP}" filterMatchMode="contains"
+                      sortBy="#{doc.clienteNombre}">
+              <h:outputText value="#{doc.clienteNombre}" />
+            </p:column>
+            
+             <p:column filterBy="#{doc.estadoNombre}"
+                      headerText="#{msg.EstadoSP}" filterMatchMode="contains"
+                      sortBy="#{doc.estadoNombre}">
+              <h:outputText value="#{doc.estadoNombre}" />
+            </p:column>
+
+
             <p:column headerText="#{msg.buscadorIncluirSolicitudPedido}">
-              <p:selectBooleanCheckbox value="false"></p:selectBooleanCheckbox>
+              <p:selectBooleanCheckbox value="#{doc.seleccionado}"></p:selectBooleanCheckbox>
             </p:column>
 
           </p:dataTable>
           
-                           <p:commandButton value="#{msg.BotonCrearInstruccionEmb}"
+                           <p:commandButton value="#{msg.BotonCrearRE}"
                            update="tabPanel"
                            rendered="#{not empty generarRequerimientoExportacionMB.listaDocumentos}"
                            actionListener="#{generarRequerimientoExportacionMB.consultarSolicitud}" />
-
+        </p:tab>
+        
+        
+        
           
 
+        <p:tab title="#{msg.TituloGenerarRequerimientoExportacion}"
+               rendered="#{generarRequerimientoExportacionMB.generarRequerimiento}">
+        
+        
+        
+        
+        <p:spacer height="20px"></p:spacer>
+        
+        
+        
+                           <h4>#{msg.reporteRequerimientoExportacion_DatosDespacho}</h4>  
+          <p:panelGrid columns="2"  style="width:100%" 
+                       columnClasses="label,value">
+
+            
+                           
+           
+           
+           
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_ModalidadEmbarque}"
+                           styleClass="negrita" />
+           
+           
+           
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_FechaDespacho}"
+                           styleClass="negrita" />
+           
+           <p:calendar id="dateFechaDespacho"
+                        value="#{generarRequerimientoExportacionMB.dateFechaDespacho}"
+                        pattern="yyyy-MM-dd" required="true">
+            </p:calendar>
+            <p:message for="dateFechaDespacho" styleClass="error" />
+           
+            
+             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoSalida}"
+                           styleClass="negrita" />
+            
+           
+            <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoLlegada}"  styleClass="negrita" />
+            
+             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_TipoContenedor}"
+                           styleClass="negrita" />
+            
+                     
+
+    </p:panelGrid>
+    
+     <p:commandButton value="#{msg.BotonGuardarIE}" update="tabPanel"
+                           actionListener="#{generarRequerimientoExportacionMB.guardarRequerimientoExportacion}" />
+        
         </p:tab>
 
 

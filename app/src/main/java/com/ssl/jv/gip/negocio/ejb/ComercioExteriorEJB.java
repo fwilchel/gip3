@@ -66,6 +66,7 @@ import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dao.AgenteAduanaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.CiudadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ClienteDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ComextRequerimientoExportacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoLotesOICDAOLocal;
 import com.ssl.jv.gip.negocio.dao.DocumentoXLoteDAOLocal;
@@ -94,6 +95,7 @@ import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoInstruccionEmbarqueDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoLotesContribucionCafeteriaDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoPorLotesInstruccionEmbarqueDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoRequerimientoExportacionDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
@@ -122,6 +124,8 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
    * The Constant LOGGER.
    */
   private static final Logger LOGGER = Logger.getLogger(ComercioExteriorEJB.class);
+
+
 
   @EJB
   private TerminoIncotermDAOLocal terminoIncotermDAO;
@@ -203,6 +207,12 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @EJB
   private MuestrasXLoteDAOLocal muestrasxloteDAO;
+  
+  
+  @EJB
+  private ComextRequerimientoExportacionDAOLocal comextRequerimientoExportacionDAO;
+  
+  
 
   /**
    * Default constructor.
@@ -1725,15 +1735,38 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   
   
   @Override
-  public List<Documento> consultarDocumentosSolicitudPedidoRE(Map<String, Object> parametros) {
-	//List<ComextRequerimientoexportacion> listado = new ArrayList<ComextRequerimientoexportacion>();
-
-	//try {
-	  return documentoDAO.buscarPorConsultaNombrada(Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO, parametros);
-	//} catch (Exception e) {
-
-	//}
-
-	//return listado;
+  public List<DocumentoRequerimientoExportacionDTO> consultarDocumentosSolicitudPedidoRE(Map<String, Object> parametros) {
+	  return documentoDAO.consultarDocumentosRE(parametros);
   }
+  
+  @Override
+  //public Documento crearRequerimientoExportacion(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, Documento original) {
+  public ComextRequerimientoexportacion crearRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion) {
+	  comextRequerimientoexportacion.setId(this.comextRequerimientoExportacionDAO.consultarProximoValorSecuencia("comext_requerimientoexportacion_id_seq"));
+	  
+	  System.out.println("id:"+comextRequerimientoexportacion.getId());
+	  System.out.println("fecha:"+comextRequerimientoexportacion.getFecha());
+	  System.out.println("fecha_solicitud:"+comextRequerimientoexportacion.getFechasolicitud());
+	  System.out.println("cliente:"+comextRequerimientoexportacion.getIdCliente());
+	  System.out.println("cliente:"+comextRequerimientoexportacion.getAgenteAduana().getId());
+	  
+	  
+	  //comextRequerimientoexportacion =comextRequerimientoExportacionDAO.add(comextRequerimientoexportacion);
+	  //comextRequerimientoExportacionDAO.update(comextRequerimientoexportacion);
+	  
+	  comextRequerimientoExportacionDAO.add(comextRequerimientoexportacion);
+	  
+	 /* terminosTransporte.setModalidadEmbarque(modalidadEmbarqueDAO.findByPK(terminosTransporte.getModalidadEmbarque().getId()));
+		terminosTransporte.setTerminoIncoterm(terminoIncotermDAO.findByPK(terminosTransporte.getTerminoIncoterm().getId()));
+		terminosTransporte.setCiudade(ciudadDAO.findByPK(terminosTransporte.getCiudade().getId()));
+
+		return terminosTransporteDAO.add(terminosTransporte);
+	  */
+	  
+	  //documento = (Documento) this.documentoDAO.add(documento);
+	
+	  
+	return null;
+  }
+  
 }

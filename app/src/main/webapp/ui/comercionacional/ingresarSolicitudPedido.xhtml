@@ -6,7 +6,7 @@
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:p="http://primefaces.org/ui"
   xmlns:misc="http://java.sun.com/jsf/composite/misc"
-  template="/resources/cn/template/general.xhtml">
+  template="/resources/#{menuMB.tema}/template/general.xhtml">
   <ui:define 
     name="title">.::Interfaz entre ICG y SAP::. .::#{msg.UsuarioAdminUsuariosTitulo}::.
   </ui:define>
@@ -165,20 +165,18 @@
               </p:calendar>
               <p:message 
                 for="fechaEntrega"/>
-              <!--fechaEsperadaEntrega-->
+              <!--documentoCliente-->
               <p:outputLabel 
-                for="fechaEsperadaEntrega"
-                value="#{msg.documentoFechaEsperadaEntrega}" 
+                for="documentoCliente"
+                value="#{msg.documentoOrdenCompra}" 
                 styleClass="negrita" />
-              <p:calendar 
-                id="fechaEsperadaEntrega" 
-                value="#{ingresarSolicitudCNMB.solicitud.fechaEsperadaEntrega}"
-                required="true" 
-                pattern="yyyy-MM-dd"
-                label="#{msg.documentoFechaEsperadaEntrega}">
-              </p:calendar>
+              <p:inputText 
+                id="documentoCliente" 
+                value="#{ingresarSolicitudCNMB.solicitud.documentoCliente}"
+                required="false"
+                label="#{msg.documentoOrdenCompra}"/>
               <p:message 
-                for="fechaEsperadaEntrega"/>
+                for="documentoCliente"/>
             </p:panelGrid>
             <p:dataTable 
               id="tblDetalle"
