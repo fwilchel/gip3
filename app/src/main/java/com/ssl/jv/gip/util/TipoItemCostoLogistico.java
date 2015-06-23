@@ -6,7 +6,7 @@ public enum TipoItemCostoLogistico {
   MULTIPLICA_CONTENEDORES_20(1, "Multiplica por contenedores de 20"),
   MULTIPLICA_CONTENEDORES_40(2, "Multiplica por contenedores de 40"),
   MULTIPLICA_PALLET(3, "Multiplica por Pallets"),
-  MULTIPLICA_CATEGORIA(4, "Multiplica por Cantidad de Solicitudes"),
+  MULTIPLICA_CATEGORIA(4, "Multiplica por Cantidad de Solicitudes de pedido"),
   MULTIPLICA_SAES(5, "Multiplica por Numero SAE (Cantidad lotes OIC)"),
   MULTIPLICA_FOB(6, "Porcentaje por el FOB"),
   POR_RANGOS(7, "Segun rangos de peso"),

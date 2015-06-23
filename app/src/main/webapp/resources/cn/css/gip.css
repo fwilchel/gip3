@@ -103,14 +103,14 @@
 .encabezadoLogin {
   background-image: url("../images/FondoEncabezado.png");
   background-repeat: repeat-x;
-  height:220px;
+  height:141px;
   font-size: 22;
 }
 
 .encabezado{
   background-image: url("../images/FondoEncabezado2.png");
   background-repeat: repeat-x;
-  height:159px;
+  height:141px;
   font-size: 22;
 }
 
