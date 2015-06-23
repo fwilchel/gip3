@@ -72,7 +72,7 @@ public class ComercioNacionalEJB implements ComercioNacionalEJBLocal {
     estadosxdocumento.setId(estadosxdocumentoPK);
     solicitud.setEstadosxdocumento(estadosxdocumento);
     solicitud.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
-    solicitud.setFechaEsperadaEntrega(solicitud.getFechaEsperadaEntrega());
+    solicitud.setFechaEsperadaEntrega(solicitud.getFechaEntrega());
     solicitud.setUbicacionOrigen(solicitud.getPuntoVenta().getUbicacion() == null ? new Ubicacion(1L) : solicitud.getPuntoVenta().getUbicacion());
     solicitud.setUbicacionDestino(solicitud.getPuntoVenta().getUbicacion() == null ? new Ubicacion(1L) : solicitud.getPuntoVenta().getUbicacion());
     solicitud.setNumeroFactura("0");
