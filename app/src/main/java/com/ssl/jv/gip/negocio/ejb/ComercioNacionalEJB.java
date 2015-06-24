@@ -24,7 +24,6 @@ import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
