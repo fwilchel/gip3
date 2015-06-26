@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @NamedQueries(value = {
   @NamedQuery(name = "ProductosXCliente.findAll", query = "SELECT p FROM ProductosXCliente p"),
   @NamedQuery(name = "ProductosXCliente.findByClientePuntoVenta", query = "SELECT p FROM ProductosXCliente p JOIN FETCH p.productosInventario pi JOIN FETCH pi.unidadVenta uv WHERE p.pk.idCliente= :idCliente AND p.pk.idPuntoVenta= :idPuntoVenta AND p.vigente = true AND pi.desactivado = true AND p.activo = true ORDER BY pi.sku"),
-  @NamedQuery(name = ProductosXCliente.NQ_BUSCAR_PRODUCTOS_X_CLIENTE_Y_PUNTO_VENTA_ACTIVOS_Y_VIGENTES, query = "SELECT pxc FROM ProductosXCliente pxc JOIN FETCH pxc.cliente JOIN FETCH pxc.moneda JOIN FETCH pxc.productosInventario pi JOIN FETCH pi.unidadReceta JOIN FETCH pxc.puntoVenta WHERE pxc.cliente.id = :idCliente AND pxc.puntoVenta.id = :idPuntoVenta AND pxc.activo = true AND :fechaActual BETWEEN pxc.fechaInicialVigencia and pxc.fechaFinalVigencia ORDER BY pxc.productosInventario.sku"),
+  @NamedQuery(name = ProductosXCliente.NQ_BUSCAR_PRODUCTOS_X_CLIENTE_Y_PUNTO_VENTA_ACTIVOS_Y_VIGENTES, query = "SELECT pxc FROM ProductosXCliente pxc JOIN FETCH pxc.productosInventario pi JOIN FETCH pi.unidadReceta WHERE pxc.cliente.id = :idCliente AND pxc.puntoVenta.id = :idPuntoVenta AND pxc.activo = true AND :fechaActual BETWEEN pxc.fechaInicialVigencia and pxc.fechaFinalVigencia ORDER BY pxc.productosInventario.sku"),
   @NamedQuery(name = ProductosXCliente.BUSCAR_POR_PRODUCTO_POR_CLIENTE_Y_PUNTO_VENTA, query = "SELECT pxc FROM ProductosXCliente pxc WHERE pxc.productosInventario.id = :idProducto AND pxc.cliente.id = :idCliente AND pxc.puntoVenta.id = :idPuntoVenta AND pxc.activo = true AND pxc.vigente = true")
 })
 public class ProductosXCliente implements Serializable {
@@ -46,16 +46,16 @@ public class ProductosXCliente implements Serializable {
   @Column(name = "precio_usd")
   private BigDecimal precioUsd;
   private Boolean vigente;
-  @ManyToOne(optional = false)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "id_producto", referencedColumnName = "id", insertable = false, updatable = false)
   private ProductosInventario productosInventario;
-  @ManyToOne(optional = false)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "id_cliente", referencedColumnName = "id", insertable = false, updatable = false)
   private Cliente cliente;
-  @ManyToOne(optional = false)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "id_punto_venta", referencedColumnName = "id", insertable = false, updatable = false)
   private PuntoVenta puntoVenta;
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_ml")
   private Moneda moneda;
 

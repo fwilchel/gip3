@@ -46,6 +46,8 @@ import com.ssl.jv.gip.util.EstadoRequerimientoExportacion;
 
 
 
+
+
 import java.util.List;
 import java.util.Date;
 
@@ -60,8 +62,8 @@ import java.util.Date;
 
 @NamedQueries({
 	  
-	//  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c LEFT OUTER JOIN FETCH c.agenteAduana"),
-	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c"),
+	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c "),
+	 // @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c"),
 	  @NamedQuery(name="ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.id = :id")})
 	   
 
@@ -83,10 +85,15 @@ public class ComextRequerimientoexportacion implements Serializable {
 	  public static final String BUSCAR_DOCUMENTO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO";
 	  
 	@Id
-	@SequenceGenerator(name="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR", sequenceName="comext_requerimientoexportacion_id_seq")
+	@SequenceGenerator(name="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR", sequenceName="comext_requerimientoexportacion_id_seq" , allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR")
 	private Long id;
 
+	
+	
+	
+	
+	
 	 @Transient
 	private String cciudadpais;
 
@@ -133,6 +140,15 @@ public class ComextRequerimientoexportacion implements Serializable {
 
 	@Column(name="fechasolicitud")
 	private Date fechasolicitud;
+	
+	private String puertosalida;
+	
+	private int modalidadembarque;
+	
+	private String tipocontenedores;
+	
+	private String terminoincoterm;
+	
 	 @Transient
 	private String flete;
 	 @Transient
@@ -142,8 +158,8 @@ public class ComextRequerimientoexportacion implements Serializable {
 	//private Long idCliente;
 	 @Transient
 	private Boolean marcacionespecial;
-	 @Transient
-	private String modalidadembarque;
+	 
+	
 	 @Transient
 	private String nciudadpais;
 	 @Transient
@@ -162,15 +178,14 @@ public class ComextRequerimientoexportacion implements Serializable {
 	private String puertollegada;
 
 
-	//private Long puertosalida;
+	
 	 @Transient
 	private String servicecontract;
 	 @Transient
 	private String telefonoemailbi;
-	 @Transient
-	private String terminoincoterm;
-	 @Transient
-	private String tipocontenedores;
+	
+	
+	
 	 @Transient
 	private String tipoprecio;
 	 @Transient
@@ -183,9 +198,9 @@ public class ComextRequerimientoexportacion implements Serializable {
 	
 	 
 	// bi-directional many-to-one association to AgenteAduana
-	  @ManyToOne(fetch = FetchType.EAGER)
-	  @JoinColumn(name = "puertosalida")
-	  private AgenteAduana agenteAduana;
+	//  @ManyToOne(fetch = FetchType.EAGER)
+	//  @JoinColumn(name = "puertosalida")
+	//  private AgenteAduana agenteAduana;
 
 	  
 	// bi-directional many-to-one association to Clientes
@@ -392,13 +407,7 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.marcacionespecial = marcacionespecial;
 	}
 
-	public String getModalidadembarque() {
-		return this.modalidadembarque;
-	}
-
-	public void setModalidadembarque(String modalidadembarque) {
-		this.modalidadembarque = modalidadembarque;
-	}
+	
 
 	public String getNciudadpais() {
 		return this.nciudadpais;
@@ -550,14 +559,14 @@ public class ComextRequerimientoexportacion implements Serializable {
 	  }
 	 
 
-	public AgenteAduana getAgenteAduana() {
+	/*public AgenteAduana getAgenteAduana() {
 		return agenteAduana;
 	}
 
 	
 	public void setAgenteAduana(AgenteAduana agenteAduana) {
 		this.agenteAduana = agenteAduana;
-	}
+	}*/
 
 	/**
 	 * @return the fecha
@@ -610,6 +619,34 @@ public class ComextRequerimientoexportacion implements Serializable {
 	 */
 	public void setIdCliente(Cliente idCliente) {
 		this.idCliente = idCliente;
+	}
+
+	/**
+	 * @return the puertosalida
+	 */
+	public String getPuertosalida() {
+		return puertosalida;
+	}
+
+	/**
+	 * @param puertosalida the puertosalida to set
+	 */
+	public void setPuertosalida(String puertosalida) {
+		this.puertosalida = puertosalida;
+	}
+
+	/**
+	 * @return the modalidadembarque
+	 */
+	public int getModalidadembarque() {
+		return modalidadembarque;
+	}
+
+	/**
+	 * @param modalidadembarque the modalidadembarque to set
+	 */
+	public void setModalidadembarque(int modalidadembarque) {
+		this.modalidadembarque = modalidadembarque;
 	}
 
 	

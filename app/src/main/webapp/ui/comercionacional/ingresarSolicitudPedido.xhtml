@@ -33,7 +33,7 @@
           rendered="#{ingresarSolicitudCNMB.modoListar}">
           <p:dataTable 
             id="tblRegistros"
-            widgetVar="tblRegistros" 
+            widgetVar="wvRegistros" 
             var="registro" 
             value="#{ingresarSolicitudCNMB.productosXDocumento}" 
             rows="10"
@@ -56,15 +56,6 @@
                     update=":pnlTab" />
                   <p:spacer 
                     width="30"/>			
-                  <h:outputText 
-                    value="#{msg.generalBuscarTodosCampos}: " />
-                  <p:inputText 
-                    id="globalFilter"
-                    onkeyup="PF('tblRegistros').filter()" 
-                    style="width:150px"
-                    placeholder="#{msg.generalPalabrasBuscar}" />
-                  <p:spacer 
-                    width="30"/>			
                   <p:commandButton 
                     action="introduccion" 
                     title="#{msg.generalCancelar}" 
@@ -76,17 +67,26 @@
             </f:facet>
             <p:column
               headerText="#{msg.ispcnTblColSKU}"
-              style="width:40px;">
+              sortBy="#{registro.productosInventario.sku}"
+              filterBy="#{registro.productosInventario.sku}"
+              filterMatchMode="contains"
+              style="width:100px;">
               <h:outputText 
                 value="#{registro.productosInventario.sku}" />
             </p:column>
             <p:column
-              headerText="#{msg.ispcnTblColDescripcion}">
+              headerText="#{msg.ispcnTblColDescripcion}"
+              sortBy="#{registro.productosInventario.nombre}"
+              filterBy="#{registro.productosInventario.nombre}"
+              filterMatchMode="contains">
               <h:outputText 
                 value="#{registro.productosInventario.nombre}" />
             </p:column>
             <p:column
               headerText="#{msg.ispcnTblColUnidad}"
+              sortBy="#{registro.productosInventario.unidadReceta.nombre}"
+              filterBy="#{registro.productosInventario.unidadReceta.nombre}"
+              filterMatchMode="contains"
               style="width:200px;">
               <h:outputText 
                 value="#{registro.productosInventario.unidadReceta.nombre}" />

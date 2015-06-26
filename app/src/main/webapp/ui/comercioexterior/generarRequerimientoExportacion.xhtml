@@ -93,18 +93,36 @@
         <p:spacer height="20px"></p:spacer>
         
         
-        
+       
                            <h4>#{msg.reporteRequerimientoExportacion_DatosDespacho}</h4>  
-          <p:panelGrid columns="2"  style="width:100%" 
+          <p:panelGrid columns="6"  style="width:100%" 
                        columnClasses="label,value">
-
-            
-                           
-           
-           
            
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_ModalidadEmbarque}"
                            styleClass="negrita" />
+           <p:selectOneMenu id="busquedaModoEmbar"  required="true"
+                           value="#{generarRequerimientoExportacionMB.idModalidadEmbarque}">
+            <f:selectItem 
+              itemLabel="#{msg.generalSinSeleccionar}" />
+            <f:selectItems
+              value="#{generarRequerimientoExportacionMB.listaModalidadEmbarque}" var="ModoEmbar"
+              itemLabel="#{ModoEmbar.descripcion}" itemValue="#{ModoEmbar.id}" />
+          </p:selectOneMenu>
+          <p:message for="busquedaModoEmbar" styleClass="error" />
+           
+           
+              <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoSalida}"
+                           styleClass="negrita" />
+                           
+                            
+            <p:selectOneMenu id="puertoNal" required="true" value="#{generarRequerimientoExportacionMB.puertoNal}" 
+                             label="#{msg.costosLogisticosPuertoNal}">
+              <f:selectItem itemLabel="" itemValue="" />
+              <f:selectItems value="#{generarRequerimientoExportacionMB.puertosNacionales}"  />
+            </p:selectOneMenu>
+            <p:message for="puertoNal"></p:message>
+            
+           
            
            
            
@@ -118,20 +136,58 @@
             <p:message for="dateFechaDespacho" styleClass="error" />
            
             
-             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoSalida}"
-                           styleClass="negrita" />
+            
             
            
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_PuertoLlegada}"  styleClass="negrita" />
+             <p:inputText id="puertollegada" value="#{generarRequerimientoExportacionMB.puertoLlegada}" />
+             <p:message for="puertollegada"></p:message>
+            
             
              <p:outputLabel value="#{msg.reporteRequerimientoExportacion_TipoContenedor}"
                            styleClass="negrita" />
+                            
+                           
+                               <p:selectOneMenu   id="busquedaTipoContenedor"  required="true" value="#{generarRequerimientoExportacionMB.tipoContenedor}">
+                                 <f:selectItem itemLabel="" itemValue="" />
+                  <f:selectItems value="#{generarRequerimientoExportacionMB.tipoContenedores}"/>
+                </p:selectOneMenu>
+                <p:message for="busquedaTipoContenedor" styleClass="error" />
             
                      
 
     </p:panelGrid>
     
-     <p:commandButton value="#{msg.BotonGuardarIE}" update="tabPanel"
+    
+      <p:spacer height="20px"></p:spacer>
+        
+        
+        
+          <h4>#{msg.reporteRequerimientoExportacion_DatosNegociacion}</h4>  
+          <p:panelGrid columns="6"  style="width:100%" columnClasses="label,value">
+                       
+                         <p:outputLabel value="#{msg.reporteRequerimientoExportacion_TerminoIncoterms}" styleClass="negrita" />
+                            <p:selectOneMenu id="intIdIncotermDespacho" value="#{generarRequerimientoExportacionMB.incotermDespacho}" required="true">
+            	   		  <f:selectItems  value="#{generarRequerimientoExportacionMB.listaIncotermDespacho}" />
+            	   		  <p:ajax process="@this" update="flete" listener="#{generarRequerimientoExportacionMB.listener}" />
+            				</p:selectOneMenu>   
+            				<p:message id="intIdIncotermDespachoError" for="intIdIncotermDespacho" />
+            				
+            				  <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Flete}" styleClass="negrita" />
+            				  <p:selectOneRadio id="flete" value="#{generarRequerimientoExportacionMB.flete}" disabled="true" >  
+              
+            
+             <f:selectItems  value="#{generarRequerimientoExportacionMB.listaFlete}" />
+             
+        </p:selectOneRadio>  
+            				  
+
+    
+     </p:panelGrid>
+    
+    
+    
+     <p:commandButton value="#{msg.BotonCrearRE}" update="tabPanel"
                            actionListener="#{generarRequerimientoExportacionMB.guardarRequerimientoExportacion}" />
         
         </p:tab>

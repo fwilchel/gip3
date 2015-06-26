@@ -21,6 +21,7 @@ import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
 
 import com.ssl.jv.gip.jpa.pojo.Funcionalidad;
+import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
 
 @ManagedBean(name = "menuMB")
@@ -33,6 +34,7 @@ public class MenuMB extends UtilMB {
    */
   private static final long serialVersionUID = -7266340433347174042L;
   private Usuario usuario;
+  private PuntoVenta puntoVenta;
   private MenuModel modelo;
   private String opcionActual;
   private List<Funcionalidad> opciones;
@@ -66,6 +68,20 @@ public class MenuMB extends UtilMB {
 
   public void setUsuario(Usuario usuario) {
     this.usuario = usuario;
+  }
+
+  /**
+   * @return the puntoVenta
+   */
+  public PuntoVenta getPuntoVenta() {
+    return puntoVenta;
+  }
+
+  /**
+   * @param puntoVenta the puntoVenta to set
+   */
+  public void setPuntoVenta(PuntoVenta puntoVenta) {
+    this.puntoVenta = puntoVenta;
   }
 
   public String getOpcionActual() {
@@ -198,7 +214,10 @@ public class MenuMB extends UtilMB {
     if (usuario != null) {
       LOGGER.info("Client IP address=|" + remoteAddr + " |Identificacion=|" + usuario.getEmail() + " |Autenticación|sesión cerrada correctamente");
     }
-    return "salir";
+    if (this.tema!=null && this.tema.equals("cn"))
+    	return "salirCN";
+    else
+    	return "salir";
 
   }
 

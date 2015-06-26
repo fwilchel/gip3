@@ -131,7 +131,7 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 			    parametros.put("documento", this.seleccionado.getId());
 			    parametros.put("fechaSolicitud", fechaStringSolicitud);
 			    parametros.put("modalidadEmbarque", this.seleccionado.getModalidadembarque());
-			    parametros.put("puertoSalida",    this.seleccionado.getAgenteAduana().getLugarEntrega());
+			    parametros.put("puertoSalida",    this.seleccionado.getPuertosalida());
 			    parametros.put("tipoContenedor",    this.seleccionado.getTipocontenedores());
 			    parametros.put("terminoIncoterm",    this.seleccionado.getTerminoincoterm());
 			    parametros.put("flete",    this.seleccionado.getFlete());
@@ -192,8 +192,8 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 			    
 			    System.out.println("documento:"+ this.seleccionado.getId());
 			    System.out.println("fecha:"+ this.seleccionado.getFechasolicitud());
-			    System.out.println("ID AGENTE ADUANA:"+  this.seleccionado.getAgenteAduana().getId());
-			    System.out.println("AGENTE ADUANA:"+  this.seleccionado.getAgenteAduana().getLugarEntrega());
+			    //System.out.println("ID AGENTE ADUANA:"+  this.seleccionado.getAgenteAduana().getId());
+			    //System.out.println("AGENTE ADUANA:"+  this.seleccionado.getAgenteAduana().getLugarEntrega());
 			    
 			    
 			  /*  listaAgentesAduana = new ArrayList<AgenteAduana>(); 

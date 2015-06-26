@@ -7,7 +7,7 @@
 
 #logoJV {
   float:left;
-  margin:20px 0px 0px 200px;
+  margin:-1px 0px 0px 100px;
 }
 
 #contenidoMenor {
@@ -16,7 +16,7 @@
 
 #logoJV2 {
   float:left;
-  margin:12px 0px 0px 100px;
+  margin:0px 0px 0px 100px;
 }
 
 #tituloSistema {
@@ -30,7 +30,7 @@
   background: #EFDCC5; 
   border-radius: 5px;
   float:right;
-  margin:-40px 130px 0px 0px;
+  margin:5px 130px 0px 0px;
   font-family: "Myriad Pro Regular";
   font-size: 12pt;
   color:#7B2827;
@@ -45,7 +45,7 @@
   background: #EFDCC5; 
   border-radius: 5px;
   float:right;
-  margin:10px 130px 0px 0px;
+  margin:60px -310px 0px 0px;
   font-family: "Myriad Pro Regular";
   font-size: 12pt;
   color:#7B2827;
@@ -66,26 +66,26 @@
 }
 
 #paquetes {
-  float:right;
-  margin:0px 200px 0px 0px;
+  float: right;
+  margin:20px 400px 0px 0px;
 }
 
 #salir {
   float:right;
-  margin:-30px 50px 0px 0px;
+  margin:20px 50px 0px 0px;
 }
 
 #lona {
   background-image: url("../images/Lona.jpg");
   background-repeat: repeat-x;
-  width: 637px;
+  width: 568px;
   height: 384px;
   float: center;
 }
 
 #bienvenido{
   float: top;
-  margin:30px 0px 0px 0px;	
+  margin:80px 0px 0px 0px;	
 }
 
 .izquierda{
@@ -103,14 +103,14 @@
 .encabezadoLogin {
   background-image: url("../images/FondoEncabezado.png");
   background-repeat: repeat-x;
-  height:141px;
+  height:188px;
   font-size: 22;
 }
 
 .encabezado{
   background-image: url("../images/FondoEncabezado2.png");
   background-repeat: repeat-x;
-  height:141px;
+  height:194px;
   font-size: 22;
 }
 

@@ -1742,13 +1742,13 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   @Override
   //public Documento crearRequerimientoExportacion(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, Documento original) {
   public ComextRequerimientoexportacion crearRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion) {
-	  comextRequerimientoexportacion.setId(this.comextRequerimientoExportacionDAO.consultarProximoValorSecuencia("comext_requerimientoexportacion_id_seq"));
+	 // comextRequerimientoexportacion.setId(this.comextRequerimientoExportacionDAO.consultarProximoValorSecuencia("comext_requerimientoexportacion_id_seq"));
 	  
 	  System.out.println("id:"+comextRequerimientoexportacion.getId());
 	  System.out.println("fecha:"+comextRequerimientoexportacion.getFecha());
 	  System.out.println("fecha_solicitud:"+comextRequerimientoexportacion.getFechasolicitud());
 	  System.out.println("cliente:"+comextRequerimientoexportacion.getIdCliente());
-	  System.out.println("cliente:"+comextRequerimientoexportacion.getAgenteAduana().getId());
+	 // System.out.println("cliente:"+comextRequerimientoexportacion.getAgenteAduana().getId());
 	  
 	  
 	  //comextRequerimientoexportacion =comextRequerimientoExportacionDAO.add(comextRequerimientoexportacion);
