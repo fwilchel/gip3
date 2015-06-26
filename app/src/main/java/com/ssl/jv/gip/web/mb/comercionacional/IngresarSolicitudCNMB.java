@@ -277,7 +277,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
     this.productosXDocumento = productosXDocumento;
   }
 
-  /**
+	  /**
    * @return the productosXDocumentoSeleccionados
    */
   public List<ProductosXDocumento> getProductosXDocumentoSeleccionados() {
