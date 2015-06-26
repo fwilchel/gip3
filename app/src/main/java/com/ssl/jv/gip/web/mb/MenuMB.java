@@ -214,7 +214,10 @@ public class MenuMB extends UtilMB {
     if (usuario != null) {
       LOGGER.info("Client IP address=|" + remoteAddr + " |Identificacion=|" + usuario.getEmail() + " |Autenticación|sesión cerrada correctamente");
     }
-    return "salir";
+    if (this.tema!=null && this.tema.equals("cn"))
+    	return "salirCN";
+    else
+    	return "salir";
 
   }
 
