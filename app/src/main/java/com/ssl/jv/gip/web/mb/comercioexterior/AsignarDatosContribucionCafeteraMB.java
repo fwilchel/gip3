@@ -43,7 +43,7 @@ public class AsignarDatosContribucionCafeteraMB extends UtilMB {
   @PostConstruct
   public void init() {
 
-	Map<String, Object> parametros = new HashMap<String, Object>();
+	Map<String, Object> parametros = new HashMap<>();
 
 	parametros.put("tipo", ConstantesTipoDocumento.FACTURA_EXPORTACION);
 	parametros.put("estado", ConstantesDocumento.IMPRESO);
@@ -52,9 +52,9 @@ public class AsignarDatosContribucionCafeteraMB extends UtilMB {
   }
 
   public String modificar() {
-	documentosLotes = new ArrayList<DocumentoLotesContribucionCafeteriaDTO>();
+	documentosLotes = new ArrayList<>();
 
-	Map<String, Object> parametros = new HashMap<String, Object>();
+	Map<String, Object> parametros = new HashMap<>();
 	parametros.put("consecutivo", seleccionado.getConsecutivo());
 
 	documentosLotes = comercioExteriorEjb.consultarDocumentoLotesContribucionCafetera(parametros);
