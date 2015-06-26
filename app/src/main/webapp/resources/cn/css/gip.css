@@ -7,7 +7,7 @@
 
 #logoJV {
   float:left;
-  margin:20px 0px 0px 200px;
+  margin:-1px 0px 0px 100px;
 }
 
 #contenidoMenor {
@@ -66,8 +66,8 @@
 }
 
 #paquetes {
-  float:right;
-  margin:0px 200px 0px 0px;
+  float: right;
+  margin:20px 400px 0px 0px;
 }
 
 #salir {
@@ -78,14 +78,14 @@
 #lona {
   background-image: url("../images/Lona.jpg");
   background-repeat: repeat-x;
-  width: 637px;
+  width: 568px;
   height: 384px;
   float: center;
 }
 
 #bienvenido{
   float: top;
-  margin:30px 0px 0px 0px;	
+  margin:80px 0px 0px 0px;	
 }
 
 .izquierda{
@@ -103,14 +103,14 @@
 .encabezadoLogin {
   background-image: url("../images/FondoEncabezado.png");
   background-repeat: repeat-x;
-  height:141px;
+  height:188px;
   font-size: 22;
 }
 
 .encabezado{
   background-image: url("../images/FondoEncabezado2.png");
   background-repeat: repeat-x;
-  height:141px;
+  height:188px;
   font-size: 22;
 }
 
