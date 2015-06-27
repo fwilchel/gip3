@@ -114,14 +114,18 @@
             </p:column>
 
             <p:column headerText="#{msg.CampoContribucion}">
-              <p:inputText id="contriM" value="#{datoM.contribucion}"
-                           required="true" maxlength="10" size="10" />
+              <p:inputText 
+                id="contriM" value="#{datoM.contribucion}"
+                required="true" maxlength="10" size="10" 
+                label="#{msg.CampoContribucion}"/>
               <p:message for="contriM"></p:message>
             </p:column>
 
             <p:column headerText="#{msg.CampoDex}">
-              <p:inputText id="dexM" value="#{datoM.dex}" required="true"
-                           maxlength="10" size="10" />
+              <p:inputText 
+                id="dexM" value="#{datoM.dex}" required="true"
+                maxlength="10" size="10"
+                label="#{msg.CampoDex}"/>
               <p:message for="dexM"></p:message>
             </p:column>
 

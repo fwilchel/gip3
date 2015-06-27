@@ -25,9 +25,10 @@ public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic> impleme
     this.persistentClass = DocumentoXLotesoic.class;
   }
 
+  @Override
   public List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(Map<String, Object> parametros) {
 
-    List<DocumentoLotesContribucionCafeteriaDTO> lista = new ArrayList<DocumentoLotesContribucionCafeteriaDTO>();
+    List<DocumentoLotesContribucionCafeteriaDTO> lista = new ArrayList<>();
 
     String sql = "";
 
@@ -61,7 +62,7 @@ public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic> impleme
 
         dto.setIdDocumento(objs[0] != null ? Long.parseLong(objs[0].toString()) : null);
         dto.setDescripcion(objs[1] != null ? objs[1].toString() : null);
-        dto.setConsecutivo(objs[2] != null ? objs[2].toString() : "0");
+        dto.setConsecutivo(objs[2] != null ? objs[2].toString() : null);
         dto.setContribucion(objs[3] != null ? BigDecimal.valueOf(Double.parseDouble(objs[3].toString())) : null);
         dto.setDex(objs[4] != null ? BigDecimal.valueOf(Double.parseDouble(objs[4].toString())) : null);
         dto.setTipoLoteId(objs[5] != null ? Long.parseLong(objs[5].toString()) : null);
@@ -76,30 +77,51 @@ public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic> impleme
 
   @Override
   public List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(List<DocumentoLotesContribucionCafeteriaDTO> documentos) {
-
     if (documentos != null) {
-      for (DocumentoLotesContribucionCafeteriaDTO dto : documentos) {
+      Long idTipoLote = documentos.get(0).getTipoLoteId();
+      Long idDocumento = documentos.get(0).getIdDocumento();
+      String consecutivo = documentos.get(0).getConsecutivo();
+      if (idTipoLote != 5L) {
+        for (DocumentoLotesContribucionCafeteriaDTO dto : documentos) {
+          DocumentoXLotesoicPK pk = new DocumentoXLotesoicPK();
+          pk.setIdDocumento(dto.getIdDocumento());
+          pk.setIdTipoLote(dto.getTipoLoteId());
+
+          DocumentoXLotesoic entity = new DocumentoXLotesoic();
+          entity.setId(pk);
+
+          entity = em.find(DocumentoXLotesoic.class, pk);
+
+          if (entity == null) {
+            throw new IllegalArgumentException();
+          } else {
+            entity.setContribucion(dto.getContribucion());
+            entity.setDex(dto.getDex());
+            em.merge(entity);
+          }
+        }
+      } else if (idTipoLote == 5L && (consecutivo == null || consecutivo.isEmpty())) {
+        // adicionar 
+      } else if (idTipoLote == 5L && (consecutivo != null && consecutivo.contentEquals("0"))) {
         DocumentoXLotesoicPK pk = new DocumentoXLotesoicPK();
-        pk.setIdDocumento(dto.getIdDocumento());
-        pk.setIdTipoLote(dto.getTipoLoteId());
+        pk.setIdDocumento(idDocumento);
+        pk.setIdTipoLote(idTipoLote);
 
         DocumentoXLotesoic entity = new DocumentoXLotesoic();
         entity.setId(pk);
 
         entity = em.find(DocumentoXLotesoic.class, pk);
 
-        if (entity == null) {
-          throw new IllegalArgumentException();
-        } else {
-          entity.setContribucion(dto.getContribucion());
-          entity.setDex(dto.getDex());
-          em.merge(entity);
-        }
+//        if (entity == null) {
+//          throw new IllegalArgumentException();
+//        } else {
+//          entity.setContribucion(dto.getContribucion());
+//          entity.setDex(dto.getDex());
+//          em.merge(entity);
+//        }
       }
     }
-
     return documentos;
-
   }
 
   @SuppressWarnings("unchecked")

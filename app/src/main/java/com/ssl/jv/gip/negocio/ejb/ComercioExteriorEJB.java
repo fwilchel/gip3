@@ -223,15 +223,20 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   /**
    * Default constructor.
+   * @param parametros
+   * @return 
    */
+  @Override
   public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(Map<String, Object> parametros) {
 	return documentoDAO.consultarDatosContribucionCafetera(parametros);
   }
 
+  @Override
   public List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(Map<String, Object> parametros) {
 	return documentoLotesOICDAO.consultarDocumentoLotesContribucionCafetera(parametros);
   }
 
+  @Override
   public List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(List<DocumentoLotesContribucionCafeteriaDTO> documentos) {
 	return documentoLotesOICDAO.guardarDocumentoLotesContribucionCafetera(documentos);
   }
