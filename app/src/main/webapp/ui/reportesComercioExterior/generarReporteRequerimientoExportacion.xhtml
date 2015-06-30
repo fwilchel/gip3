@@ -129,7 +129,7 @@
               headerText="#{msg.reporteRequerimientoExportacion_ModalidadEmbarque}"
               filterMatchMode="contains"
               sortBy="#{ReqExpo.modalidadembarque}">
-              <h:outputText value="#{ReqExpo.modalidadembarque}"/>
+              <h:outputText value="#{ReqExpo.modalidadembarque.descripcion}"/>
               
             </p:column>
             
@@ -183,7 +183,7 @@
 
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_ModalidadEmbarque}"
                            styleClass="negrita" />
-            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.modalidadembarque}" />
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.modalidadembarque.descripcion}" />
 
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_FechaDespacho}"
                            styleClass="negrita" />
@@ -195,7 +195,7 @@
                            styleClass="negrita" />
             
             
-            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.agenteAduana.lugarEntrega}" /> 
+            <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.puertosalida}" /> 
             
               
            

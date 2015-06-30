@@ -62,7 +62,7 @@ import java.util.Date;
 
 @NamedQueries({
 	  
-	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c "),
+	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c JOIN FETCH c.modalidadembarque "),
 	 // @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c"),
 	  @NamedQuery(name="ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.id = :id")})
 	   
@@ -82,7 +82,7 @@ public class ComextRequerimientoexportacion implements Serializable {
 	private static final long serialVersionUID = -5796988097469664301L;
 	
 	public static final String FIND_ALL = "ComextRequerimientoexportacion.findAll";
-	  public static final String BUSCAR_DOCUMENTO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO";
+	public static final String BUSCAR_DOCUMENTO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO";
 	  
 	@Id
 	@SequenceGenerator(name="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR", sequenceName="comext_requerimientoexportacion_id_seq" , allocationSize = 1)
@@ -94,40 +94,40 @@ public class ComextRequerimientoexportacion implements Serializable {
 	
 	
 	
-	 @Transient
+	
 	private String cciudadpais;
 
-	 @Transient
+	
 	private String cdireccion;
-	 @Transient
+	
 	private String cnit;
 	 @Transient
 	private String codigo;
-	 @Transient
+	 
 	private String contactobi;
 	 @Transient
 	private String cotradireccion;
-	 @Transient
+	 
 	private String crazonsocial;
-	 @Transient
+	 
 	private String ctelefono;
-	 @Transient
+	 
 	private String dacontacto;
-	 @Transient
+	 
 	private String dancual;
-	 @Transient
+	 
 	private String danobscuales;
-	 @Transient
+	 
 	private Boolean danobservaciones;
-	 @Transient
+	 
 	private String danopciones;
-	 @Transient
+	 
 	private String darazonsocial;
-	 @Transient
+	 
 	private String datelefonoemail;
-	 @Transient
+	 
 	private String direccionentregabi;
-	 @Transient
+	 
 	private String emisionbi;
 	 @Transient
 	private Boolean enviaraestadireccion;
@@ -143,13 +143,20 @@ public class ComextRequerimientoexportacion implements Serializable {
 	
 	private String puertosalida;
 	
-	private int modalidadembarque;
+	//private int modalidadembarque;
 	
 	private String tipocontenedores;
 	
 	private String terminoincoterm;
 	
-	 @Transient
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "modalidadembarque")
+	private ModalidadEmbarque modalidadembarque;
+	
+    
+	
+	
+	 
 	private String flete;
 	 @Transient
 	private String fomapago;
@@ -160,35 +167,35 @@ public class ComextRequerimientoexportacion implements Serializable {
 	private Boolean marcacionespecial;
 	 
 	
-	 @Transient
+	 
 	private String nciudadpais;
-	 @Transient
+	 
 	private String ndireccion;
-	 @Transient
+	 
 	private String nnit;
-	 @Transient
+	 
 	private String nrazonsocial;
-	 @Transient
+	 
 	private String ntelefono;
 	 @Transient
 	private String observacioneaadicionales;
 	 @Transient
 	private String otropago;
-	 @Transient
+	 
 	private String puertollegada;
 
 
 	
-	 @Transient
+	 
 	private String servicecontract;
-	 @Transient
+	 
 	private String telefonoemailbi;
 	
 	
 	
 	 @Transient
 	private String tipoprecio;
-	 @Transient
+	 
 	private String zipcodebi;
 
 	//bi-directional many-to-one association to Reqxproducto
@@ -638,17 +645,26 @@ public class ComextRequerimientoexportacion implements Serializable {
 	/**
 	 * @return the modalidadembarque
 	 */
-	public int getModalidadembarque() {
+	public ModalidadEmbarque getModalidadembarque() {
 		return modalidadembarque;
 	}
 
 	/**
 	 * @param modalidadembarque the modalidadembarque to set
 	 */
-	public void setModalidadembarque(int modalidadembarque) {
+	public void setModalidadembarque(ModalidadEmbarque modalidadembarque) {
 		this.modalidadembarque = modalidadembarque;
 	}
 
+/*	public int getModalidadembarque() {
+		return modalidadembarque;
+	}
+
+	public void setModalidadembarque(int modalidadembarque) {
+		this.modalidadembarque = modalidadembarque;
+	}*/
+
+	
 	
 
 }

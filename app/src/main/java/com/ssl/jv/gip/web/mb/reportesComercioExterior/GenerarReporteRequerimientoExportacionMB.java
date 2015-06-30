@@ -130,7 +130,9 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 			    
 			    parametros.put("documento", this.seleccionado.getId());
 			    parametros.put("fechaSolicitud", fechaStringSolicitud);
-			    parametros.put("modalidadEmbarque", this.seleccionado.getModalidadembarque());
+			    
+			    parametros.put("modalidadEmbarque", this.seleccionado.getModalidadembarque().getDescripcion());
+			    
 			    parametros.put("puertoSalida",    this.seleccionado.getPuertosalida());
 			    parametros.put("tipoContenedor",    this.seleccionado.getTipocontenedores());
 			    parametros.put("terminoIncoterm",    this.seleccionado.getTerminoincoterm());
