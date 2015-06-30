@@ -3,7 +3,6 @@ package com.ssl.jv.gip.web.mb.devoluciones;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,21 +18,16 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.BodegasLogica;
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
-import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
-import com.ssl.jv.gip.jpa.pojo.Pais;
-import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Unidad;
-import com.ssl.jv.gip.negocio.dto.FiltroProductoDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoDevolucionDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoPorClienteDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.negocio.ejb.DevolucionesEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
@@ -42,6 +36,15 @@ import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+import javax.faces.context.FacesContext;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 @ManagedBean(name = "devolucionClienteTiendaMB")
 @ViewScoped
@@ -52,8 +55,7 @@ public class DevolucionClienteTiendaMB extends UtilMB {
    */
   private static final long serialVersionUID = -4547719350295240598L;
 
-  private static final Logger LOGGER = Logger
-      .getLogger(DevolucionClienteTiendaMB.class);
+  private static final Logger LOGGER = Logger.getLogger(DevolucionClienteTiendaMB.class);
 
   @EJB
   private DevolucionesEJBLocal devolucionesEJBLocal;
@@ -73,8 +75,6 @@ public class DevolucionClienteTiendaMB extends UtilMB {
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
 
-  private Date fechaActual;
-
   private List<CategoriasInventario> listaCategorias;
 
   private List<ProductoDevolucionDTO> listaProductos;
@@ -83,7 +83,9 @@ public class DevolucionClienteTiendaMB extends UtilMB {
 
   private List<Ubicacion> listaUbicaciones;
 
-  private Long ubicacionSeleccionada;
+  private Map<Long, Ubicacion> ubicaciones;
+
+  private Ubicacion ubicacionSeleccionada;
 
   private List<SelectItem> categoriasInventarios;
 
@@ -93,25 +95,41 @@ public class DevolucionClienteTiendaMB extends UtilMB {
   @PostConstruct
   public void init() {
     this.cargarCategoriasInventario();
+    this.cargarListaUbicaciones();
+    this.ubicacionSeleccionada = new Ubicacion();
+  }
+
+  private void cargarListaUbicaciones() {
+    LOGGER.debug("Metodo: <<cargarListaUbicaciones>>");
     this.listaUbicaciones = devolucionesEJBLocal.consultarUbicacionesOrdenadas();
-    fechaActual = new Date();
+    if (listaUbicaciones != null) {
+      ubicaciones = new HashMap<>();
+      for (Ubicacion ubicacion : getListaUbicaciones()) {
+        ubicaciones.put(ubicacion.getId(), ubicacion);
+      }
+    }
+  }
+
+  public void onUbicacionChange() {
+    if (ubicacionSeleccionada != null) {
+      ubicacionSeleccionada = ubicaciones.get(ubicacionSeleccionada.getId());
+    }
   }
 
   public void consultarProductos() {
     List<Ubicacion> ubicacionesUsuario = comercioEjb.consultarUbicacionesPorUsuario(menu.getUsuario().getId());
-    List<Long> idsUbicacion = new ArrayList<Long>();
+    List<Long> idsUbicacion = new ArrayList<>();
 
     for (Ubicacion ubicacion : ubicacionesUsuario) {
       idsUbicacion.add(ubicacion.getId());
-
     }
 
-    List<Ubicacion> ubicaciones = devolucionesEJBLocal.consultarPorIds(idsUbicacion);
+    List<Ubicacion> ubicacionesPorIds = devolucionesEJBLocal.consultarPorIds(idsUbicacion);
 
-    List<String> paises = new ArrayList<String>();
+    List<String> paises = new ArrayList<>();
     boolean todosPaises = false;
 
-    for (Ubicacion ubicacion : ubicaciones) {
+    for (Ubicacion ubicacion : ubicacionesPorIds) {
 
       if (ubicacion.getRegione().getPais().getId().equals("PAISES_TODOS")) {
         todosPaises = true;
@@ -130,7 +148,7 @@ public class DevolucionClienteTiendaMB extends UtilMB {
   }
 
   public void seleccionarProductos() {
-    this.listaProductosSeleccionados = new ArrayList<ProductoDevolucionDTO>();
+    this.listaProductosSeleccionados = new ArrayList<>();
     for (ProductoDevolucionDTO prod : listaProductos) {
       if (prod.isIncluido()) {
         this.listaProductosSeleccionados.add(prod);
@@ -152,7 +170,7 @@ public class DevolucionClienteTiendaMB extends UtilMB {
       //documento.setObservacionDocumento(this.consecutivoDocumento);
       documento.setUbicacionDestino(new Ubicacion());
       documento.setUbicacionOrigen(new Ubicacion());
-      documento.getUbicacionDestino().setId(this.ubicacionSeleccionada);
+      documento.getUbicacionDestino().setId(this.ubicacionSeleccionada.getId());
       documento.getUbicacionOrigen().setId(com.ssl.jv.gip.util.Ubicacion.EXTERNA.getCodigo());
       documento.setNumeroFactura("0");
 
@@ -163,7 +181,7 @@ public class DevolucionClienteTiendaMB extends UtilMB {
       auditoria.setAccion("CRE");
       auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
 
-      List<ProductosXDocumento> productos = new ArrayList<ProductosXDocumento>();
+      List<ProductosXDocumento> productos = new ArrayList<>();
 
       for (ProductoDevolucionDTO pxc : this.listaProductosSeleccionados) {
         if (pxc.isIncluido()) {
@@ -174,8 +192,8 @@ public class DevolucionClienteTiendaMB extends UtilMB {
           ProductosXDocumento productoDocumento = new ProductosXDocumento();
           productoDocumento.setInformacion(false);
           productoDocumento.setCalidad(false);
-          productoDocumento.setFechaEstimadaEntrega(fechaActual);
-          productoDocumento.setFechaEntrega(fechaActual);
+          productoDocumento.setFechaEstimadaEntrega(getFechaActual());
+          productoDocumento.setFechaEntrega(getFechaActual());
           productoDocumento.setCantidad2(BigDecimal.ZERO);
           productoDocumento.setBodegasLogica1(bodega);
           productoDocumento.setBodegasLogica2(bodega);
@@ -202,36 +220,51 @@ public class DevolucionClienteTiendaMB extends UtilMB {
 
       this.addMensajeInfo("La mercancía ha sido recibida satisfactoriamente");
 
-      this.listaProductos = new ArrayList<ProductoDevolucionDTO>();
-      this.listaProductosSeleccionados = new ArrayList<ProductoDevolucionDTO>();
+      this.listaProductos = new ArrayList<>();
+      this.listaProductosSeleccionados = new ArrayList<>();
     } catch (Exception e) {
       LOGGER.error(e);
       this.addMensajeError("Ha ocurrido un error guardando la devolución.");
     }
+  }
 
+  public StreamedContent generarVistaPrevia() {
+    LOGGER.debug("Metodo: <<generarVistaPrevia>>");
+    StreamedContent reporte = null;
+    Map<String, Object> parametrosReporte = new HashMap<>();
+    parametrosReporte.put("fechaGeneracion", getFechaActual());
+    parametrosReporte.put("tiendaOrigen", ubicacionSeleccionada.getNombre());
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaProductosSeleccionados, false);
+    try {
+      Hashtable<String, String> parametrosConfiguracionReporte;
+      parametrosConfiguracionReporte = new Hashtable<>();
+      parametrosConfiguracionReporte.put("tipo", "pdf");
+      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/DevolucionMercanciaClienteTienda.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, ds);
+      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", "DevolucionMercanciaClienteTienda.pdf");
+    } catch (Exception e) {
+      this.addMensajeError("Problemas al generar el reporte");
+    }
+    return reporte;
   }
 
   private void cargarCategoriasInventario() {
-    List<CategoriasInventario> categorias = maestrosEjb
-        .consultarCategoriasInventarios();
+    List<CategoriasInventario> categorias = maestrosEjb.consultarCategoriasInventarios();
     SelectItemGroup group = null;
-    categoriasInventarios = new ArrayList<SelectItem>();
+    categoriasInventarios = new ArrayList<>();
     for (CategoriasInventario categoriasInventario : categorias) {
       group = new SelectItemGroup(categoriasInventario.getNombre());
-      group.setSelectItems(getSelectItems(categoriasInventario
-          .getCategoriasInventarios()));
+      group.setSelectItems(getSelectItems(categoriasInventario.getCategoriasInventarios()));
       categoriasInventarios.add(group);
     }
 
   }
 
-  private SelectItem[] getSelectItems(
-      List<CategoriasInventario> categoriasInventarios) {
-    List<SelectItem> items = new ArrayList<SelectItem>();
+  private SelectItem[] getSelectItems(List<CategoriasInventario> categoriasInventarios) {
+    List<SelectItem> items = new ArrayList<>();
     SelectItem item = null;
     for (CategoriasInventario categoriasInventario : categoriasInventarios) {
-      item = new SelectItem(categoriasInventario.getNombre(),
-          categoriasInventario.getNombre());
+      item = new SelectItem(categoriasInventario.getNombre(), categoriasInventario.getNombre());
       items.add(item);
     }
     return items.toArray(new SelectItem[categoriasInventarios.size()]);
@@ -243,14 +276,6 @@ public class DevolucionClienteTiendaMB extends UtilMB {
 
   public void setListaCategorias(List<CategoriasInventario> listaCategorias) {
     this.listaCategorias = listaCategorias;
-  }
-
-  public Date getFechaActual() {
-    return fechaActual;
-  }
-
-  public void setFechaActual(Date fechaActual) {
-    this.fechaActual = fechaActual;
   }
 
   public List<ProductoDevolucionDTO> getListaProductos() {
@@ -269,11 +294,11 @@ public class DevolucionClienteTiendaMB extends UtilMB {
     this.listaUbicaciones = listaUbicaciones;
   }
 
-  public Long getUbicacionSeleccionada() {
+  public Ubicacion getUbicacionSeleccionada() {
     return ubicacionSeleccionada;
   }
 
-  public void setUbicacionSeleccionada(Long ubicacionSeleccionada) {
+  public void setUbicacionSeleccionada(Ubicacion ubicacionSeleccionada) {
     this.ubicacionSeleccionada = ubicacionSeleccionada;
   }
 
@@ -297,8 +322,7 @@ public class DevolucionClienteTiendaMB extends UtilMB {
     return listaProductosSeleccionados;
   }
 
-  public void setListaProductosSeleccionados(
-      List<ProductoDevolucionDTO> listaProductosSeleccionados) {
+  public void setListaProductosSeleccionados(List<ProductoDevolucionDTO> listaProductosSeleccionados) {
     this.listaProductosSeleccionados = listaProductosSeleccionados;
   }
 
