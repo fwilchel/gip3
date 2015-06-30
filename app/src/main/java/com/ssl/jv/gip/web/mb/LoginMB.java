@@ -53,7 +53,11 @@ public class LoginMB extends UtilMB {
   }
 
   public String ingresar() {
-
+	  if (this.getRequestURI().contains("loginCN")) {
+	      this.menu.setTema("cn");
+	    } else {
+	      this.menu.setTema("default");
+	    }
     int NUMERO_MAX_LOGIN = 3;
 
     String remoteAddr = this.getRemoteAddress();

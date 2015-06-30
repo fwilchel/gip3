@@ -24,7 +24,7 @@
           <p:messages 
             id="msgs"
             showIcon="true"
-            autoUpdate="false"/>
+            autoUpdate="true"/>
         </h:form>
         <!--  -->
         <h:form
@@ -68,28 +68,30 @@
             <p:column
               headerText="#{msg.ispcnTblColSKU}"
               sortBy="#{registro.productosInventario.sku}"
-              filterBy="#{registro.productosInventario.sku}"
-              filterMatchMode="contains"
               style="width:100px;">
               <h:outputText 
                 value="#{registro.productosInventario.sku}" />
             </p:column>
             <p:column
               headerText="#{msg.ispcnTblColDescripcion}"
-              sortBy="#{registro.productosInventario.nombre}"
-              filterBy="#{registro.productosInventario.nombre}"
-              filterMatchMode="contains">
+              sortBy="#{registro.productosInventario.nombre}">
               <h:outputText 
                 value="#{registro.productosInventario.nombre}" />
             </p:column>
             <p:column
               headerText="#{msg.ispcnTblColUnidad}"
               sortBy="#{registro.productosInventario.unidadReceta.nombre}"
-              filterBy="#{registro.productosInventario.unidadReceta.nombre}"
-              filterMatchMode="contains"
               style="width:200px;">
               <h:outputText 
                 value="#{registro.productosInventario.unidadReceta.nombre}" />
+            </p:column>
+            <p:column
+              headerText="#{msg.ispcnTblColSubArticulos}"
+              sortBy="#{registro.productosInventario.unidadMinimaDespachoXTendido}"
+              style="width:100px;">
+              <h:outputText 
+                value="#{registro.productosInventario.unidadMinimaDespachoXTendido}" 
+                style="text-align:right;"/>
             </p:column>
             <p:column
               headerText="#{msg.ispcnTblColCantidad}"
@@ -102,7 +104,7 @@
                 min="#{registro.productosInventario.unidadMinimaDespachoXTendido}"
                 max="9999999"
                 required="true"
-                size="6" 
+                size="10" 
                 maxlength="7"
                 style="text-align:right;">
                 <p:ajax 
@@ -211,7 +213,7 @@
                   min="#{registro.productosInventario.unidadMinimaDespachoXTendido}"
                   max="9999999"
                   required="true"
-                  size="6" 
+                  size="10" 
                   maxlength="7"
                   style="text-align:right;">
                   <p:ajax 
@@ -234,6 +236,13 @@
             <!-- botones -->
             <f:facet
               name="footer">
+              <!-- volver -->
+              <p:commandButton 
+                value="#{msg.ispcnVolver}" 
+                icon="ui-icon-circle-arrow-w" 
+                update=":pnlTab"
+                immediate="true"
+                actionListener="#{ingresarSolicitudCNMB.volver()}"/>
               <!-- ingresar solicitud -->
               <p:commandButton 
                 id="btnIngresar"
@@ -242,13 +251,6 @@
                 update=":pnlTab"
                 actionListener="#{ingresarSolicitudCNMB.ingresarSolicitudComercioNacional()}"
                 disabled="#{empty ingresarSolicitudCNMB.productosXDocumentoSeleccionados}"/>
-              <!-- volver -->
-              <p:commandButton 
-                value="#{msg.ispcnVolver}" 
-                icon="ui-icon-circle-arrow-w" 
-                update=":pnlTab"
-                immediate="true"
-                actionListener="#{ingresarSolicitudCNMB.volver()}"/>
             </f:facet>
           </p:panel>
         </h:form>         

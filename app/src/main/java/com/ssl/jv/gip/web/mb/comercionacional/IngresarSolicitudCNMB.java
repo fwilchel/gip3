@@ -135,6 +135,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
     LOGGER.trace("Metodo: <<agregarProducto>>");
     getProductosXDocumentoSeleccionados().add(pxd);
     getProductosXDocumento().remove(pxd);
+    addMensajeInfo("El producto con SKU " + pxd.getProductosInventario().getSku() + " - " + pxd.getProductosInventario().getNombre() + ", se a agregado a la lista de productos de la solicitud.");
   }
 
   public void validarCantidad(ProductosXDocumento pxd) {
@@ -169,6 +170,7 @@ public class IngresarSolicitudCNMB extends UtilMB {
     LOGGER.trace("Metodo: <<removerProductoXCliente>>");
     getProductosXDocumentoSeleccionados().remove(pxd);
     getProductosXDocumento().add(pxd);
+    addMensajeInfo("El producto con SKU " + pxd.getProductosInventario().getSku() + " - " + pxd.getProductosInventario().getNombre() + ", se a eliminado de la lista de productos de la solicitud.");
   }
 
   public void ingresarSolicitudComercioNacional() {
