@@ -2,12 +2,8 @@ package com.ssl.jv.gip.web.mb.maestros;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -18,22 +14,11 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -46,7 +31,6 @@ import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
-import com.ssl.jv.gip.web.mb.util.exportarExcel;
 
 @ManagedBean(name = "maestroInventarioMB")
 @SessionScoped
@@ -77,7 +61,7 @@ public class ListadoMaestroInventarioMB extends UtilMB {
     filtro.setCategoriasInventario(new CategoriasInventario());
     filtro.setDesactivado(true);
     List<CategoriasInventario> categorias = maestrosEjb.consultarCategoriasInventario();
-    this.categorias = new ArrayList<SelectItem>();
+    this.categorias = new ArrayList<>();
     for (CategoriasInventario ci : categorias) {
       SelectItemGroup sig = new SelectItemGroup(ci.getNombre());
       this.categorias.add(sig);
@@ -164,10 +148,10 @@ public class ListadoMaestroInventarioMB extends UtilMB {
       Long cuantos = (Long) rta[0];
       rta = maestrosEjb.consultarProductos(filtro, 0, cuantos.intValue(), campoOrden, orden, false);
       List<ProductosInventario> datos = (List<ProductosInventario>) rta[1];
-      Hashtable<String, String> parametrosR = new Hashtable<String, String>();
+      Hashtable<String, String> parametrosR = new Hashtable<>();
       parametrosR.put("tipo", "jxls");
 
-      Map<String, Object> parametrosReporte = new HashMap<String, Object>();
+      Map<String, Object> parametrosReporte = new HashMap<>();
       parametrosReporte.put("datos", datos);
 
       if (this.filtro.getPais() != null && this.filtro.getPais().getId() != null) {
@@ -213,7 +197,7 @@ public class ListadoMaestroInventarioMB extends UtilMB {
      *
      */
     private static final long serialVersionUID = 283497341126330045L;
-    private List<ProductosInventario> datos = null;
+    private List<ProductosInventario> datos;
 
     @Override
     public Object getRowKey(ProductosInventario pi) {
@@ -228,10 +212,6 @@ public class ListadoMaestroInventarioMB extends UtilMB {
         }
       }
       return null;
-    }
-
-    public List<ProductosInventario> getDatos() {
-      return datos;
     }
 
     @Override

@@ -552,18 +552,22 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
   }
 
   @SuppressWarnings("unchecked")
+  @Override
   public List<CuentaContable> consultarCuentasContables() {
     return (List<CuentaContable>) this.cuentaContableDao.findAll();
   }
 
+  @Override
   public void actualizarProductoInventario(ProductosInventario pi) {
     this.productoInventarioDao.update(pi);
   }
 
+  @Override
   public void crearProductoInventario(ProductosInventario pi) {
     this.productoInventarioDao.add(pi);
   }
 
+  @Override
   public Object[] consultarProductos(ProductosInventario pi, int first, int pageSize, String sortField, SortOrder sortOrder, boolean count) {
     return this.productoInventarioDao.consultar(pi, first, pageSize, sortField, sortOrder, count);
   }

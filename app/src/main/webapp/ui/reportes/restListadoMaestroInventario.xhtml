@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/resources/#{menuMB.tema}/template/general.xhtml">
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/resources/#{menuMB.tema}/template/general.xhtml">
 
   <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroInventarioInicio}::.</ui:define>
 
@@ -64,12 +65,19 @@
             </p:selectOneMenu>
             <p:message for="activo"></p:message>
 
-            <p:commandButton value="#{msg.buscadorConsultarProducto}"
-                             icon="ui-icon-search" oncomplete="PF('registrosTabla').getPaginator().setPage(0)"
-                             action="#{maestroInventarioMB.loadProductos}" process="@this"
-                             update="tablaRegistros,:forma:msgs"/>
-            <p:commandButton value="#{msg.reporteNivelInventarioExcel}" ajax="false"  icon="ui-icon-calculator">
-              <p:fileDownload value="#{maestroInventarioMB.reporteExcel}" />
+            <p:commandButton 
+              value="#{msg.buscadorConsultarProducto}"
+              icon="ui-icon-search" 
+              oncomplete="PF('registrosTabla').getPaginator().setPage(0)"
+              actionListener="#{maestroInventarioMB.loadProductos()}" 
+              update="tablaRegistros,:forma:msgs"/>
+            <p:commandButton 
+              value="#{msg.reporteNivelInventarioExcel}" 
+              ajax="false"  
+              onclick="PrimeFaces.monitorDownload(start, stop);"
+              icon="ui-icon-calculator">
+              <p:fileDownload 
+                value="#{maestroInventarioMB.reporteExcel}" />
             </p:commandButton>
 
           </p:panelGrid>
@@ -81,7 +89,7 @@
                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                        rowsPerPageTemplate="5,10,15">
 
-            <p:column headerText="Acci�n">
+            <p:column headerText="Acción">
               <p:commandButton  icon="ui-icon-search" process="@this"
                                 oncomplete="PF('editarDialog').show()"
                                 update=":formaDlg">
