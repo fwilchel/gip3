@@ -8,15 +8,20 @@ import javax.faces.validator.ValidatorException;
 
 public class ValidadorPositivos implements Validator {
 
-  public void validate(FacesContext context, UIComponent component,
-      Object value) {
+  /**
+   *
+   * @param context
+   * @param component
+   * @param value
+   */
+  @Override
+  public void validate(FacesContext context, UIComponent component, Object value) {
 
     Double d = new Double(value.toString());
 
     if (d <= 0) {
 
-      FacesMessage msg = new FacesMessage("Error de validación:",
-          "El número debe ser mayor a cero");
+      FacesMessage msg = new FacesMessage("Error de validación:", "El número debe ser mayor a cero");
       msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 
       throw new ValidatorException(msg);

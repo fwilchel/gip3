@@ -1,7 +1,6 @@
 package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class ProductoDevolucionDTO implements Serializable {
 
@@ -30,9 +29,7 @@ public class ProductoDevolucionDTO implements Serializable {
 
   private boolean incluido;
 
-  public ProductoDevolucionDTO(Long id, String sku, String nombre,
-      Long categoriasInventarioId, String categoriasInventarioNombre, String unidadNombre, Long unidadId) {
-    super();
+  public ProductoDevolucionDTO(Long id, String sku, String nombre, Long categoriasInventarioId, String categoriasInventarioNombre, String unidadNombre, Long unidadId) {
     this.id = id;
     this.sku = sku;
     this.nombre = nombre;
