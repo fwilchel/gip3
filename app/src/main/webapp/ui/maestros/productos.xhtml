@@ -108,8 +108,9 @@
                     ajax="false" 
                     onclick="PrimeFaces.monitorDownload(start, stop);"
                     icon="ui-icon-arrowthick-1-s">
-                    <p:fileDownload contentDisposition="inline"
-                                    value="#{productosMB.reporteExcel}" />
+                    <p:fileDownload 
+                      contentDisposition="inline"
+                      value="#{productosMB.reporteExcel}" />
                   </p:commandButton>
 
                   <p:commandButton 
