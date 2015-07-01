@@ -268,13 +268,10 @@
             <p:inputText   value="#{generarRequerimientoExportacionMB.ctelefono}" />
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_CiudadPais}"  styleClass="negrita" />
             <p:inputText   value="#{generarRequerimientoExportacionMB.cciudadpais}"/>
-            <p:selectBooleanCheckbox value="##{generarRequerimientoExportacionMB.cciudadpais}" />
-                   
-                    <p:outputLabel value="¿A esta dirección deben enviarse los documentos de Exportación? De lo contrario  favor diligenciela:" style="display: block; width: 200px;"/>						
- 
-   <p:outputLabel value="" styleClass="negrita" />
- <p:inputTextarea rows="5" cols="30" completeMethod="#{generarRequerimientoExportacionMB.cciudadpais}" queryDelay="750" minQueryLength="4" />
             
+                   
+            <p:outputLabel value="¿A esta dirección deben enviarse los documentos de Exportación? De lo contrario  favor diligenciela:" style="display: block; width: 200px;"/>						
+            <p:inputTextarea rows="5" cols="30" value="#{generarRequerimientoExportacionMB.cotradireccion}" queryDelay="750" minQueryLength="4" />
             </p:panelGrid>
             </p:fieldset>
             
@@ -328,6 +325,8 @@
             <p:inputText  value="#{generarRequerimientoExportacionMB.danobscuales}" />
             
             </p:panelGrid>
+
+
 
 
 

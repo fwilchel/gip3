@@ -113,6 +113,7 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	  private String cdireccion="";
 	  private String ctelefono="";
 	  private String cciudadpais="";
+	  private String cotradireccion="";
 	  
 	  
 	  private Boolean estadoservicecontract=true;
@@ -129,13 +130,15 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	  
 	  
 	  private List<SelectItem> listaCertificado= new ArrayList<SelectItem>();
-	  private String Certificado;
+	  //private String[] certificado;
 	  private String dancual;
 	  //private String danobservaciones;
 	  private String danobscuales;
 	  private Boolean danobservaciones;
 	  
-	  private String danopciones;
+	  private List<String> certificado;
+	  
+	  //private String danopciones;
 	  
 	  //boolean needsSuboptions = false;//getter
 	  
@@ -362,9 +365,10 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		    	
 		    	comextRequerimientoexportacion.setDancual(dancual);
 		    	comextRequerimientoexportacion.setDanobservaciones(danobservaciones);
-		    	comextRequerimientoexportacion.setDanopciones(danopciones);
+		    	comextRequerimientoexportacion.setDanopciones(certificado.toString());
+		   	    comextRequerimientoexportacion.setDanobscuales(danobscuales);
 		   	  
-		   	  
+		    	
 		    	
 
 		   	  
@@ -1046,19 +1050,7 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		this.nciudadpais = nciudadpais;
 	}
 
-	/**
-	 * @return the certificado
-	 */
-	public String getCertificado() {
-		return Certificado;
-	}
-
-	/**
-	 * @param certificado the certificado to set
-	 */
-	public void setCertificado(String certificado) {
-		Certificado = certificado;
-	}
+	
 
 	/**
 	 * @return the dancual
@@ -1090,19 +1082,7 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		this.danobscuales = danobscuales;
 	}
 
-	/**
-	 * @return the danOpciones
-	 */
-	public String getDanopciones() {
-		return danopciones;
-	}
-
-	/**
-	 * @param danOpciones the danOpciones to set
-	 */
-	public void setDanopciones(String danopciones) {
-		this.danopciones = danopciones;
-	}
+	
 
 	/**
 	 * @return the danobservaciones
@@ -1116,6 +1096,36 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	 */
 	public void setDanobservaciones(Boolean danobservaciones) {
 		this.danobservaciones = danobservaciones;
+	}
+
+	
+
+	/**
+	 * @return the cotradireccion
+	 */
+	public String getCotradireccion() {
+		return cotradireccion;
+	}
+
+	/**
+	 * @param cotradireccion the cotradireccion to set
+	 */
+	public void setCotradireccion(String cotradireccion) {
+		this.cotradireccion = cotradireccion;
+	}
+
+	/**
+	 * @return the certificado
+	 */
+	public List<String> getCertificado() {
+		return certificado;
+	}
+
+	/**
+	 * @param certificado the certificado to set
+	 */
+	public void setCertificado(List<String> certificado) {
+		this.certificado = certificado;
 	}
 
 
