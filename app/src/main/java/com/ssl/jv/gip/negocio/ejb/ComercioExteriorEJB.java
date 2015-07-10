@@ -57,6 +57,7 @@ import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
+import com.ssl.jv.gip.jpa.pojo.Reqxproducto;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
@@ -83,11 +84,14 @@ import com.ssl.jv.gip.negocio.dao.PaisDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoClienteComercioExteriorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ReqxproductoDAO;
+import com.ssl.jv.gip.negocio.dao.ReqxproductoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminoIncotermDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TerminosTransporteDAOLocal;
 import com.ssl.jv.gip.negocio.dao.TipoDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
 import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
@@ -212,6 +216,8 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   @EJB
   private ComextRequerimientoExportacionDAOLocal comextRequerimientoExportacionDAO;
   
+  @EJB
+  private ReqxproductoDAOLocal reqxproductoDAO;
   
 
   /**
@@ -1745,33 +1751,50 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
   
   @Override
-  //public Documento crearRequerimientoExportacion(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, Documento original) {
-  public ComextRequerimientoexportacion crearRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion) {
-	 // comextRequerimientoexportacion.setId(this.comextRequerimientoExportacionDAO.consultarProximoValorSecuencia("comext_requerimientoexportacion_id_seq"));
+    public ComextRequerimientoexportacion crearRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion) {
 	  
 	  System.out.println("id:"+comextRequerimientoexportacion.getId());
 	  System.out.println("fecha:"+comextRequerimientoexportacion.getFecha());
 	  System.out.println("fecha_solicitud:"+comextRequerimientoexportacion.getFechasolicitud());
-	  System.out.println("cliente:"+comextRequerimientoexportacion.getIdCliente());
-	 // System.out.println("cliente:"+comextRequerimientoexportacion.getAgenteAduana().getId());
-	  
-	  
-	  //comextRequerimientoexportacion =comextRequerimientoExportacionDAO.add(comextRequerimientoexportacion);
-	  //comextRequerimientoExportacionDAO.update(comextRequerimientoexportacion);
-	  
+	  System.out.println("cliente:"+comextRequerimientoexportacion.getIdcliente());
 	  comextRequerimientoExportacionDAO.add(comextRequerimientoexportacion);
 	  
-	 /* terminosTransporte.setModalidadEmbarque(modalidadEmbarqueDAO.findByPK(terminosTransporte.getModalidadEmbarque().getId()));
-		terminosTransporte.setTerminoIncoterm(terminoIncotermDAO.findByPK(terminosTransporte.getTerminoIncoterm().getId()));
-		terminosTransporte.setCiudade(ciudadDAO.findByPK(terminosTransporte.getCiudade().getId()));
-
-		return terminosTransporteDAO.add(terminosTransporte);
-	  */
 	  
-	  //documento = (Documento) this.documentoDAO.add(documento);
+	return comextRequerimientoexportacion;
+  }
+  
+  @Override
+  public void crearReqxprod(List<ComextRequerimientoexportacionDTO> productos ,long idrequerimiento , boolean selectedMarcacionEspecial){
+	  
+
+	  for (ComextRequerimientoexportacionDTO rxp : productos) {
+		 // pxd.getId().setIdDocumento(documento.getId());
+		  Reqxproducto reqxprod = new Reqxproducto();
+		  reqxprod.setDocumento(rxp.getIddocumento());
+		  reqxprod.setProducto(rxp.getIdproducto());
+		  reqxprod.setIdrequerimiento(idrequerimiento);
+		  
+		  reqxprod.setMcajamaster(rxp.getCajamaster());
+		  reqxprod.setMpallet(rxp.getPallet());
+		  reqxprod.setMproducto(rxp.getProducto());
+		  reqxprod.setObservaciones(rxp.getObservaciones());
+		  reqxprod.setTienemarcacion(selectedMarcacionEspecial);
+		  
+		  reqxproductoDAO.add(reqxprod);
+		}
+	  
 	
 	  
-	return null;
+	 
+	  
   }
+  
+  @Override
+  public List<ComextRequerimientoexportacionDTO> crearMarcacionEspecial(String id){
+	  
+	  return comextRequerimientoExportacionDAO.crearMarcacionEspecial(id);
+	  
+  }
+  
   
 }

@@ -43,7 +43,7 @@
               <!--filtroConsecutivoDocumento-->
               <p:outputLabel 
                 for="filtroConsecutivoDocumento" 
-                value="#{msg.IngresarNumFX}" 
+                value="#{msg.reporteRequerimientoExportacion_IngresarNumRE}" 
                 styleClass="label"/>
               <p:inputText 
                 id="filtroConsecutivoDocumento" 
@@ -356,12 +356,24 @@
             
             </p:panelGrid>
            
+<p:spacer height="30"></p:spacer>
 
+   <h4>#{msg.reporteRequerimientoExportacion_DatosCliente}</h4>
+   
+    <p:panelGrid columns="2" style="width:100%"   columnClasses="label,value">
+    <p:outputLabel value="#{msg.reporteRequerimientoExportacion_TipoPrecio}" styleClass="negrita" />
+     <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.tipoprecio.nombre}" />
+ 	
+ 	
+ 	<p:outputLabel value="#{msg.reporteRequerimientoExportacion_FormaPago}" styleClass="negrita" />
+     <h:outputText  value="#{generarReporteRequerimientoExportacionMB.seleccionado.metodopago.descripcion}" />	     
+        	
+     </p:panelGrid>   
 
      
       <p:spacer height="30"></p:spacer>
 
-   <h4>#{msg.reporteRequerimientoExportacion_MarcacionEspecial}</h4>
+   <h4>#{msg.reporteRequerimientoExportacion_TituloMarcacionEspecial}</h4>
                     
         
  
@@ -393,10 +405,10 @@
                <p:selectBooleanCheckbox value="#{dato.pallet}" disabled = "true" />
             </p:column>
             
-             <p:column headerText="#{msg.reporteRequerimientoExportacion_Observaciones}"
-                      sortBy="#{dato.observacion}">
+             <p:column headerText="#{msg.reporteRequerimientoExportacion_Producto}"
+                      sortBy="#{dato.producto}">
              
-               <p:selectBooleanCheckbox value="#{dato.observacion}" disabled = "true" />
+               <p:selectBooleanCheckbox value="#{dato.producto}" disabled = "true" />
                 
             </p:column>
             
@@ -407,6 +419,11 @@
             </p:column>
 
   </p:dataTable>
+
+
+  
+
+
 
 
           <p:panelGrid columns="1"

@@ -2242,7 +2242,8 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
      + "AND Documento_x_Negociacion.id_termino_incoterm=termino_incoterm.id   " + "AND clientes.id_ciudad=ciudades.id  	" + "AND documentos.id_estado=estados.id  " + "AND documentos.id_tipo_documento=22  " + "AND documentos.id_estado IN (16, 15,14)  "
      + "AND documentos.consecutivo_documento not in (select documentos.observacion_documento from documentos where documentos.observacion_documento  in (SELECT documentos.consecutivo_documento from documentos where  documentos.id_tipo_documento= 22  and documentos.id_estado IN (16, 15,14) ))   " + "ORDER BY documentos.id DESC ";
      */
-    String sql = "select d.id as idDocumento ,d.consecutivo_documento as consecutivoDocumento ,d.fecha_generacion as fechaGeneracion,c.nombre as clienteNombre, e.nombre as estadoNombre ,d.documento_cliente as documentoCliente , false as seleccionado"
+    String sql = "select d.id as idDocumento ,d.consecutivo_documento as consecutivoDocumento ,d.fecha_generacion as fechaGeneracion,c.nombre as clienteNombre, e.nombre as estadoNombre ,d.documento_cliente as documentoCliente ,"
+    		+ " false as seleccionado , d.id_cliente as idCliente ,c.id_tipo_precio as idTipoPrecio, c.id_metodo_pago as idMetodoPago"
             + " from documentos d inner join clientes c on d.id_cliente=c.id"
             + " inner join estados e on e.id=d.id_estado"
             + " where d.id_tipo_documento= :idTipoDocumento and d.id_estado=:idEstado and d.documento_cliente= :documentoCliente order by d.id desc";
@@ -2257,6 +2258,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
     List<DocumentoRequerimientoExportacionDTO> listado = em.createNativeQuery(sql, DocumentoRequerimientoExportacionDTO.class).setParameter("idTipoDocumento", tipoDoc).setParameter("idEstado", estadoDoc).setParameter("idEstado", estadoDoc).setParameter("documentoCliente", documentoCliente).getResultList();
     return listado;
+    
+    
+   
 
   }
 

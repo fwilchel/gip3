@@ -48,6 +48,7 @@ import com.ssl.jv.gip.util.EstadoRequerimientoExportacion;
 
 
 
+
 import java.util.List;
 import java.util.Date;
 
@@ -57,20 +58,16 @@ import java.util.Date;
  */
 @Entity
 @Table(name="comext_requerimientoexportacion")
-//@NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c")
 
 
 @NamedQueries({
 	  
-	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c JOIN FETCH c.modalidadembarque "),
-	 // @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c"),
+	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c order by id desc"),
 	  @NamedQuery(name="ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.id = :id")})
 	   
 
 
 
-//select * from comext_requerimientoexportacion where TO_CHAR(id, '9999')  LIKE '%%'
-//UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) 
 
 public class ComextRequerimientoexportacion implements Serializable {
 		
@@ -89,10 +86,6 @@ public class ComextRequerimientoexportacion implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR")
 	private Long id;
 
-	
-	
-	
-	
 	
 	
 	private String cciudadpais;
@@ -122,6 +115,10 @@ public class ComextRequerimientoexportacion implements Serializable {
 	 
 	private String danopciones;
 	 
+	
+	// private List<String> danopciones;
+	
+	
 	private String darazonsocial;
 	 
 	private String datelefonoemail;
@@ -156,13 +153,27 @@ public class ComextRequerimientoexportacion implements Serializable {
     
 	
 	
+	//@Column(name="id_tipo_precio")
+	//private Long idtipoprecio;
+	
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_tipo_precio")
+	private TipoPrecio tipoprecio;
+	
+	
+	//@Column(name="id_metodo_pago")
+	//private Long idmetodopago;
+	
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_metodo_pago")
+	private MetodoPago metodopago;
 	 
 	private String flete;
 	 @Transient
 	private String fomapago;
 
-	//@Column(name="id_cliente")
-	//private Long idCliente;
 	 @Transient
 	private Boolean marcacionespecial;
 	 
@@ -184,8 +195,6 @@ public class ComextRequerimientoexportacion implements Serializable {
 	 
 	private String puertollegada;
 
-
-	
 	 
 	private String servicecontract;
 	 
@@ -193,10 +202,14 @@ public class ComextRequerimientoexportacion implements Serializable {
 	
 	
 	
-	 @Transient
-	private String tipoprecio;
+	
+	
+	
 	 
 	private String zipcodebi;
+	
+	@Column(name="id_cliente")
+	private Long idcliente;
 
 	//bi-directional many-to-one association to Reqxproducto
 	//@OneToMany(mappedBy="comextRequerimientoexportacion")
@@ -211,9 +224,9 @@ public class ComextRequerimientoexportacion implements Serializable {
 
 	  
 	// bi-directional many-to-one association to Clientes
-		  @ManyToOne(fetch = FetchType.EAGER)
-		  @JoinColumn(name = "id_cliente")
-		  private Cliente idCliente;
+	//	  @ManyToOne(fetch = FetchType.EAGER)
+//		  @JoinColumn(name = "id_cliente")
+//		  private Cliente idCliente;
 	 
 	
 
@@ -324,14 +337,7 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.danobservaciones = danobservaciones;
 	}
 
-	public String getDanopciones() {
-		return this.danopciones;
-	}
-
-	public void setDanopciones(String danopciones) {
-		this.danopciones = danopciones;
-	}
-
+	
 	public String getDarazonsocial() {
 		return this.darazonsocial;
 	}
@@ -520,13 +526,7 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.tipocontenedores = tipocontenedores;
 	}
 
-	public String getTipoprecio() {
-		return this.tipoprecio;
-	}
-
-	public void setTipoprecio(String tipoprecio) {
-		this.tipoprecio = tipoprecio;
-	}
+	
 
 	public String getZipcodebi() {
 		return this.zipcodebi;
@@ -614,20 +614,7 @@ public class ComextRequerimientoexportacion implements Serializable {
 	}
 */
 
-	/**
-	 * @return the idCliente
-	 */
-	public Cliente getIdCliente() {
-		return idCliente;
-	}
-
-	/**
-	 * @param idCliente the idCliente to set
-	 */
-	public void setIdCliente(Cliente idCliente) {
-		this.idCliente = idCliente;
-	}
-
+	
 	/**
 	 * @return the puertosalida
 	 */
@@ -656,6 +643,66 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.modalidadembarque = modalidadembarque;
 	}
 
+/*	public Long getIdtipoprecio() {
+		return idtipoprecio;
+	}
+
+	public void setIdtipoprecio(Long idtipoprecio) {
+		this.idtipoprecio = idtipoprecio;
+	}
+*/
+	/*public Long getIdmetodopago() {
+		return idmetodopago;
+	}
+
+	public void setIdmetodopago(Long idmetodopago) {
+		this.idmetodopago = idmetodopago;
+	}*/
+
+	/**
+	 * @return the idcliente
+	 */
+	public Long getIdcliente() {
+		return idcliente;
+	}
+
+	/**
+	 * @param idcliente the idcliente to set
+	 */
+	public void setIdcliente(Long idcliente) {
+		this.idcliente = idcliente;
+	}
+
+	/**
+	 * @return the tipoprecio
+	 */
+	public TipoPrecio getTipoprecio() {
+		return tipoprecio;
+	}
+
+	/**
+	 * @param tipoprecio the tipoprecio to set
+	 */
+	public void setTipoprecio(TipoPrecio tipoprecio) {
+		this.tipoprecio = tipoprecio;
+	}
+
+	/**
+	 * @return the metodopago
+	 */
+	public MetodoPago getMetodopago() {
+		return metodopago;
+	}
+
+	/**
+	 * @param metodopago the metodopago to set
+	 */
+	public void setMetodopago(MetodoPago metodopago) {
+		this.metodopago = metodopago;
+	}
+
+	
+
 /*	public int getModalidadembarque() {
 		return modalidadembarque;
 	}
@@ -664,6 +711,13 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.modalidadembarque = modalidadembarque;
 	}*/
 
+	public String getDanopciones() {
+		return this.danopciones;
+	}
+
+	public void setDanopciones(String danopciones) {
+		this.danopciones = danopciones;
+	}
 	
 	
 

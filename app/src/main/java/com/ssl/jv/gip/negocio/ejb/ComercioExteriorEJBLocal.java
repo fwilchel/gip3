@@ -28,11 +28,13 @@ import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.jpa.pojo.Reqxproducto;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.AutorizarDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
 import com.ssl.jv.gip.negocio.dto.CostoLogisticoDTO;
 import com.ssl.jv.gip.negocio.dto.DatoContribucionCafeteraDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoCostosLogisticosDTO;
@@ -355,5 +357,11 @@ public interface ComercioExteriorEJBLocal {
   public List<DocumentoRequerimientoExportacionDTO> consultarDocumentosSolicitudPedidoRE(Map<String, Object> parametros);
 
   public ComextRequerimientoexportacion crearRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion);
+
+    public List<ComextRequerimientoexportacionDTO> crearMarcacionEspecial(String id);
+
+  public void crearReqxprod(List<ComextRequerimientoexportacionDTO> productos, long idrequerimiento, boolean selectedMarcacionEspecial);
+
+
 
 }

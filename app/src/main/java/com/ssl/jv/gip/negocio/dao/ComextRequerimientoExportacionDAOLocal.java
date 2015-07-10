@@ -12,7 +12,9 @@ import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
 public interface ComextRequerimientoExportacionDAOLocal extends IGenericDAO<ComextRequerimientoexportacion>{
 
 	List<ComextRequerimientoexportacionDTO> consultarMarcacionEspecial(Long id);
+	
+	
+public List<ComextRequerimientoexportacionDTO> crearMarcacionEspecial(String id);
 
 	
-
 }

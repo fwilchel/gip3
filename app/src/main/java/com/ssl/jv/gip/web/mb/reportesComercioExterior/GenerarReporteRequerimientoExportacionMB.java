@@ -85,8 +85,6 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 
 	  public void consultarRequerimientoExportacion() {
 	    try {
-	     //   System.out.println("id_documento:"+filtroConsecutivoDocumento);
-	      //  System.out.println("id_documento:"+filtroConsecutivoDocumento);
 	      
 	        if (filtroConsecutivoDocumento == null || filtroConsecutivoDocumento == 0) {
 	        	this.listaRequerimientoExportacion=(this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacion());
@@ -166,6 +164,9 @@ public class GenerarReporteRequerimientoExportacionMB extends UtilMB{
 			    
 			    parametros.put("Danopciones",    this.seleccionado.getDanopciones());
 			    parametros.put("Dacual",    this.seleccionado.getDancual());
+			    
+			    parametros.put("MetodoPago",    this.seleccionado.getMetodopago().getDescripcion());
+			    parametros.put("TipoPrecio",    this.seleccionado.getTipoprecio().getNombre());
 			    
 			    
 			    String Observacion=""; 

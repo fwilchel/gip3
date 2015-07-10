@@ -22,8 +22,15 @@ public class ComextRequerimientoexportacionDTO implements Serializable {
 	private String nombreproducto;
 	private Boolean cajamaster;
 	private Boolean pallet;
-	private Boolean observacion;
+	private Boolean producto;
 	private String observaciones;
+	
+	private long idproducto;
+	private long iddocumento;
+	private Boolean tienemarcacion;
+	
+	
+	
 	/**
 	 * @return the consecutivodocumento
 	 */
@@ -84,18 +91,7 @@ public class ComextRequerimientoexportacionDTO implements Serializable {
 	public void setPallet(Boolean pallet) {
 		this.pallet = pallet;
 	}
-	/**
-	 * @return the observacion
-	 */
-	public Boolean getObservacion() {
-		return observacion;
-	}
-	/**
-	 * @param observacion the observacion to set
-	 */
-	public void setObservacion(Boolean observacion) {
-		this.observacion = observacion;
-	}
+	
 	/**
 	 * @return the observaciones
 	 */
@@ -126,7 +122,55 @@ public class ComextRequerimientoexportacionDTO implements Serializable {
 	public void setId(BigInteger id) {
 		this.id = id;
 	}
-	
+	/**
+	 * @return the producto
+	 */
+	public Boolean getProducto() {
+		return producto;
+	}
+	/**
+	 * @param producto the producto to set
+	 */
+	public void setProducto(Boolean producto) {
+		this.producto = producto;
+	}
+	/**
+	 * @return the idproducto
+	 */
+	public long getIdproducto() {
+		return idproducto;
+	}
+	/**
+	 * @param idproducto the idproducto to set
+	 */
+	public void setIdproducto(long idproducto) {
+		this.idproducto = idproducto;
+	}
+	/**
+	 * @return the iddocumento
+	 */
+	public long getIddocumento() {
+		return iddocumento;
+	}
+	/**
+	 * @param iddocumento the iddocumento to set
+	 */
+	public void setIddocumento(long iddocumento) {
+		this.iddocumento = iddocumento;
+	}
+	/**
+	 * @return the tienemarcacion
+	 */
+	public Boolean getTienemarcacion() {
+		return tienemarcacion;
+	}
+	/**
+	 * @param tienemarcacion the tienemarcacion to set
+	 */
+	public void setTienemarcacion(Boolean tienemarcacion) {
+		this.tienemarcacion = tienemarcacion;
+	}
+
 
 	
 	}

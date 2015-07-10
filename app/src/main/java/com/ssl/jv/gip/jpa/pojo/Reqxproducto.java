@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -11,13 +12,23 @@ import javax.persistence.*;
 @Entity
 @NamedQuery(name="Reqxproducto.findAll", query="SELECT r FROM Reqxproducto r")
 public class Reqxproducto implements Serializable {
-	private static final long serialVersionUID = 1L;
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5024941745608481367L;
+
+
+
+
 
 	@Id
-	@SequenceGenerator(name="REQXPRODUCTO_ID_GENERATOR", sequenceName="REQXPRODUCTO_ID_SEQ")
+	@SequenceGenerator(name="REQXPRODUCTO_ID_GENERATOR", sequenceName="reqxproducto_id_seq" , allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="REQXPRODUCTO_ID_GENERATOR")
 	private Integer id;
-
+	
+	
 	private Long documento;
 
 	private Boolean mcajamaster;
@@ -32,10 +43,16 @@ public class Reqxproducto implements Serializable {
 
 	private Boolean tienemarcacion;
 
+	@Column(name="requerimiento")
+	private Long idrequerimiento;
+	
+	
+	
+	
 	//bi-directional many-to-one association to ComextRequerimientoexportacion
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="requerimiento")
-	private ComextRequerimientoexportacion comextRequerimientoexportacion;
+	//@ManyToOne(fetch=FetchType.LAZY)
+	//@JoinColumn(name="requerimiento")
+	//private ComextRequerimientoexportacion comextRequerimientoexportacion;
 
 	public Reqxproducto() {
 	}
@@ -104,12 +121,26 @@ public class Reqxproducto implements Serializable {
 		this.tienemarcacion = tienemarcacion;
 	}
 
-	public ComextRequerimientoexportacion getComextRequerimientoexportacion() {
+	/*public ComextRequerimientoexportacion getComextRequerimientoexportacion() {
 		return this.comextRequerimientoexportacion;
 	}
 
 	public void setComextRequerimientoexportacion(ComextRequerimientoexportacion comextRequerimientoexportacion) {
 		this.comextRequerimientoexportacion = comextRequerimientoexportacion;
+	}*/
+
+	/**
+	 * @return the idrequerimiento
+	 */
+	public Long getIdrequerimiento() {
+		return idrequerimiento;
+	}
+
+	/**
+	 * @param idrequerimiento the idrequerimiento to set
+	 */
+	public void setIdrequerimiento(Long idrequerimiento) {
+		this.idrequerimiento = idrequerimiento;
 	}
 
 }

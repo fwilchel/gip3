@@ -69,21 +69,23 @@
 
 
             <p:column headerText="#{msg.buscadorIncluirSolicitudPedido}">
-              <p:selectBooleanCheckbox value="#{doc.seleccionado}"></p:selectBooleanCheckbox>
+              <p:selectBooleanCheckbox id="box" value="#{doc.seleccionado}">
+              <p:ajax   process="@form"  update=":forma:tabPanel:cnfButton" listener="#{generarRequerimientoExportacionMB.consultarCliente}"/>
+              </p:selectBooleanCheckbox>
             </p:column>
 
           </p:dataTable>
           
-                           <p:commandButton value="#{msg.BotonCrearRE}"
-                           update="tabPanel"
-                           rendered="#{not empty generarRequerimientoExportacionMB.listaDocumentos}"
+                           <p:commandButton id="cnfButton"  value="#{msg.BotonCrearRE}"
+                            update="tabPanel"
+                            rendered="#{not empty generarRequerimientoExportacionMB.listaDocumentos}"
+                            disabled="#{generarRequerimientoExportacionMB.deshabilitado}"
                            actionListener="#{generarRequerimientoExportacionMB.consultarSolicitud}" />
         </p:tab>
         
         
 
-     
-       
+
        
        
        
@@ -172,7 +174,7 @@
                             <p:selectOneMenu id="intIdIncotermDespacho" value="#{generarRequerimientoExportacionMB.incotermDespacho}" required="true">
                             <f:selectItem    itemLabel="#{msg.generalSinSeleccionar}" />
             	   		  <f:selectItems  value="#{generarRequerimientoExportacionMB.listaIncotermDespacho}" />
-            	   		  <p:ajax process="@form" update="flete,puertollegada,puertoNal,direccionEntrega,zipCode,contacto,telefonoEmail,servicecontract,darazonsocial,dacontacto,datelefonoemail" listener="#{generarRequerimientoExportacionMB.listener}" />
+            	   		  <p:ajax process="@form" update="flete,puertollegada,puertoNal,direccionEntrega,zipCode,contacto,telefonoEmail,servicecontract,darazonsocial,dacontacto,datelefonoemail" listener="#{generarRequerimientoExportacionMB.terminoIncoterms}" />
             				</p:selectOneMenu>   
             				<p:message id="intIdIncotermDespachoError" for="intIdIncotermDespacho" />
             				
@@ -232,9 +234,10 @@
          <p:panelGrid columns="2" style="width:100%"    columnClasses="label,value">
 
 			
- 			<p:panelGrid columns="2" style="width:100%"   >
+ 			<p:panelGrid columns="3" style="width:100%"   >
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_ServiceContract}" styleClass="negrita" />
-            <p:inputText id="servicecontract" value="#{generarRequerimientoExportacionMB.servicecontract}" disabled="#{generarRequerimientoExportacionMB.estadoservicecontract}"/>
+            <p:inputText id="servicecontract" value="#{generarRequerimientoExportacionMB.servicecontract}" disabled="#{generarRequerimientoExportacionMB.estadoservicecontract}" required="true"/>
+            <p:message  for="servicecontract" /> 
             </p:panelGrid>
             
             
@@ -243,13 +246,16 @@
               <p:fieldset  legend="#{msg.reporteRequerimientoExportacion_AgenciaCarga}" style="margin-bottom:20px align:left">
            
 		   
- 			<p:panelGrid columns="2"   style="width:100%"  >
+ 			<p:panelGrid columns="3"   style="width:100%"  >
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_RazonSocial}" styleClass="negrita" />
-             <p:inputText   id="darazonsocial" value="#{generarRequerimientoExportacionMB.darazonsocial}" disabled="#{generarRequerimientoExportacionMB.estadodarazonsocial}" />
+             <p:inputText   id="darazonsocial" value="#{generarRequerimientoExportacionMB.darazonsocial}" disabled="#{generarRequerimientoExportacionMB.estadodarazonsocial}"  required="true" />
+             <p:message  for="darazonsocial" />
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_Contacto}"  styleClass="negrita" />
-             <p:inputText  id="dacontacto" value="#{generarRequerimientoExportacionMB.dacontacto}" disabled="#{generarRequerimientoExportacionMB.estadodacontacto}"/>
+             <p:inputText  id="dacontacto" value="#{generarRequerimientoExportacionMB.dacontacto}" disabled="#{generarRequerimientoExportacionMB.estadodacontacto}"  required="true"/>
+                <p:message  for="dacontacto" />
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_TelefonoEmail}"  styleClass="negrita" />
-             <p:inputText  id="datelefonoemail" value="#{generarRequerimientoExportacionMB.datelefonoemail}" disabled="#{generarRequerimientoExportacionMB.estadodatelefonoemail}"/>
+             <p:inputText  id="datelefonoemail" value="#{generarRequerimientoExportacionMB.datelefonoemail}" disabled="#{generarRequerimientoExportacionMB.estadodatelefonoemail}"  required="true"/>
+             <p:message  for="datelefonoemail" />
             </p:panelGrid>
             </p:fieldset>
             
@@ -303,10 +309,6 @@
      <h4>#{msg.reporteRequerimientoExportacion_DatosNacionalizacion}</h4>
      
      
-    
-
-
-
   <p:panelGrid columns="2" style="width:100%"   columnClasses="label,value">
  			<p:outputLabel value="#{msg.reporteRequerimientoExportacion_danopciones}" styleClass="negrita" />
  			 <p:selectManyCheckbox id="certificado" value="#{generarRequerimientoExportacionMB.certificado}" layout="grid" columns="1">
@@ -317,26 +319,91 @@
             <p:inputText value="#{generarRequerimientoExportacionMB.dancual}" />
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_danobservaciones}" styleClass="negrita" />
            
-            <p:selectOneRadio id="observacion" value="#{generarRequerimientoExportacionMB.danobservaciones}">
+            <p:selectOneRadio id="observacion" value="#{generarRequerimientoExportacionMB.danobservaciones}"  required="true">
             <f:selectItem itemLabel="Si" itemValue="true"/>
             <f:selectItem itemLabel="No" itemValue="false" />
         </p:selectOneRadio>
+         <p:message  for="observacion" />  
         <p:outputLabel value="#{msg.reporteRequerimientoExportacion_danobscuales}" styleClass="negrita" />
             <p:inputText  value="#{generarRequerimientoExportacionMB.danobscuales}" />
             
             </p:panelGrid>
 
+  <p:spacer height="30"></p:spacer>
+
+   <h4>#{msg.reporteRequerimientoExportacion_TituloMarcacionEspecial}</h4>
+   
+    <p:panelGrid columns="9" style="width:100%"   columnClasses="label,value">
+   <p:outputLabel value="#{msg.reporteRequerimientoExportacion_MarcacionEspecial}" styleClass="negrita" />
+ 		     <p:selectBooleanCheckbox id="MarcacionEspecial" value="#{generarRequerimientoExportacionMB.selectedMarcacionEspecial}">
+            <p:ajax update="tablaDatos2,panelGrid1" listener="#{generarRequerimientoExportacionMB.consultarReqxproducto()}" />
+        </p:selectBooleanCheckbox>
+        	<p:message  for="MarcacionEspecial" />
+        	<p:outputLabel value="" styleClass="negrita" />
+        	<p:outputLabel value="" styleClass="negrita" />
+        	<p:outputLabel value="" styleClass="negrita" />
+        	<p:outputLabel value="" styleClass="negrita" />
+        	<p:outputLabel value="" styleClass="negrita" />
+        	<p:outputLabel value="" styleClass="negrita" />
+        	
+     </p:panelGrid>                
+        
+      <p:panelGrid id="panelGrid1" columns="1" style="width:100%"   columnClasses="label,value" >
+     <p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
+                       rendered="#{not empty generarRequerimientoExportacionMB.listareqxproducto}" 
+                       value="#{generarRequerimientoExportacionMB.listareqxproducto}" tableStyle="width:auto" >
+               
+             <p:column headerText="#{msg.reporteRequerimientoExportacion_Id}"
+                      sortBy="#{dato.consecutivodocumento}">
+              <h:outputText value="#{dato.consecutivodocumento}" />
+             </p:column>
+            
+            <p:column headerText="#{msg.imprimirFacturaProforma_SKU}"
+                      sortBy="#{dato.sku}">
+              <h:outputText value="#{dato.sku}" />
+             </p:column>
+
+             <p:column headerText="#{msg.imprimirFacturaProforma_NombreDelproducto}"
+                      sortBy="#{dato.nombreproducto}">
+              <h:outputText value="#{dato.nombreproducto}" />
+            </p:column>
+            
+            <p:column headerText="#{msg.reporteRequerimientoExportacion_CajaMaster}"
+                      sortBy="#{dato.cajamaster}">
+               <p:selectBooleanCheckbox value="#{dato.cajamaster}"  />
+            </p:column>
+            <p:column headerText="#{msg.reporteRequerimientoExportacion_Pallet}"
+                      sortBy="#{dato.pallet}">
+               <p:selectBooleanCheckbox value="#{dato.pallet}"  />
+            </p:column>
+            
+             <p:column headerText="#{msg.reporteRequerimientoExportacion_Producto}"
+                                   sortBy="#{dato.producto}">
+             
+               <p:selectBooleanCheckbox value="#{dato.producto}"  />
+                
+            </p:column>
+            
+            <p:column headerText="#{msg.reporteRequerimientoExportacion_Observaciones}"
+                      sortBy="#{dato.observaciones}">
+                
+                <h:inputTextarea styleClass="filas_contenido"  rows="4" cols="40" value="#{dato.observaciones}"  style="border: none;"/>
+            </p:column>
+
+  </p:dataTable>
+
+</p:panelGrid>  
 
 
 
+  
 
     
      <p:commandButton value="#{msg.BotonCrearRE}" update="tabPanel"
                            actionListener="#{generarRequerimientoExportacionMB.guardarRequerimientoExportacion}" />
         
         
-        
-        
+      
       
         
         </p:tab>

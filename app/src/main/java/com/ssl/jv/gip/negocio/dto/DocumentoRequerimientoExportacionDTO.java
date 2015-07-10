@@ -2,6 +2,7 @@ package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -41,6 +42,12 @@ public class DocumentoRequerimientoExportacionDTO implements Serializable {
 	  private String clienteNombre;
 	  
 	  private String estadoNombre;
+	  
+	  private Long idCliente;
+	  
+	  private Long idTipoPrecio;
+	  
+	  private Long idMetodoPago;
 
 	/**
 	 * @return the idDocumento
@@ -144,6 +151,48 @@ public class DocumentoRequerimientoExportacionDTO implements Serializable {
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	/**
+	 * @return the idCliente
+	 */
+	public Long getIdCliente() {
+		return idCliente;
+	}
+
+	/**
+	 * @param idCliente the idCliente to set
+	 */
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	/**
+	 * @return the idTipoPrecio
+	 */
+	public Long getIdTipoPrecio() {
+		return idTipoPrecio;
+	}
+
+	/**
+	 * @param idTipoPrecio the idTipoPrecio to set
+	 */
+	public void setIdTipoPrecio(Long idTipoPrecio) {
+		this.idTipoPrecio = idTipoPrecio;
+	}
+
+	/**
+	 * @return the idMetodoPago
+	 */
+	public Long getIdMetodoPago() {
+		return idMetodoPago;
+	}
+
+	/**
+	 * @param idMetodoPago the idMetodoPago to set
+	 */
+	public void setIdMetodoPago(Long idMetodoPago) {
+		this.idMetodoPago = idMetodoPago;
 	}
 
 }
