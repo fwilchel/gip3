@@ -156,18 +156,27 @@
 
                 <p:subTable var="costo" value="#{grupo.costos}">
                   <f:facet name="header">
+                  	
                     <h:outputText value="#{grupo.categoria}" />
                   </f:facet>
 
                   <p:column headerText="Incluido"  >
+
+                    <p:commandButton rendered="#{costo.primero}" value="¥" actionListener="#{generarCLMB.probar(grupo.categoria)}" update=":forma:tabPanel:panelCostos" process="@form"  >
+                  	</p:commandButton>
+                  	
                     <p:selectBooleanCheckbox value="#{costo.seleccionado}">
                       <p:ajax update=":forma:tabPanel:panelCostos" process="@form" listener="#{generarCLMB.recalcular}" immediate="true" event="change" />
                     </p:selectBooleanCheckbox>
+                    
+
+                                        
+                    
                   </p:column>	        	
                   <p:column headerText="Item">
                     <h:outputText value="#{costo.id.item}" />
                   </p:column>
-                  <p:column headerText="Descripci�n">
+                  <p:column headerText="Descripción">
 					<p:selectBooleanCheckbox value="#{costo.id.baseFob}" disabled="true"></p:selectBooleanCheckbox>                   
                     <h:outputText value="#{costo.id.descripcion}" />
                   </p:column>
@@ -179,7 +188,7 @@
                       <f:convertNumber type="number" groupingUsed="true" minFractionDigits="3" maxFractionDigits="3" pattern="#,##0.00"/>
                     </h:outputText>
                   </p:column>
-                  <p:column headerText="Valor M�nimo" styleClass="derecha">
+                  <p:column headerText="Valor Mínimo" styleClass="derecha">
                     <h:outputText value="#{costo.id.valorMinimo}" />
                   </p:column>
                   <p:column headerText="Valor" styleClass="derecha">

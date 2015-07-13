@@ -5,12 +5,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIOutput;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
@@ -77,6 +82,7 @@ public class GenerarCostosLogisticosMB extends UtilMB {
   private Integer tipoContenedor1;
   private Integer tipoContenedor2;
   private List<SelectItem> tipoContenedores = new ArrayList<SelectItem>();
+  
 
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
@@ -218,9 +224,11 @@ public class GenerarCostosLogisticosMB extends UtilMB {
       int pos = this.costos.indexOf(g);
       if (pos == -1) {
         g.addCosto(cl);
+        cl.setPrimero(true);
         this.costos.add(g);
       } else {
         g = this.costos.get(pos);
+        cl.setPrimero(false);
         g.addCosto(cl);
       }
     }
@@ -475,4 +483,16 @@ public class GenerarCostosLogisticosMB extends UtilMB {
       }
     }
   }
+  
+  	public void probar(String categoria){
+  		for (GrupoCostoLogistico grupo: this.costos){
+  			if (grupo.getCategoria().equals(categoria)){
+  				grupo.setSeleccionado(!grupo.getSeleccionado());
+  				for (CostoLogisticoDTO c:grupo.getCostos()){
+  					c.setSeleccionado(grupo.getSeleccionado());
+  				}
+  				break;
+  			}
+  		}
+  	}
 }
