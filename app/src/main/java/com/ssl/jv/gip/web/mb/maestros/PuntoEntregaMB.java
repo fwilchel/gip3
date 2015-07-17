@@ -130,44 +130,59 @@ public class PuntoEntregaMB extends UtilMB {
 
   }
 
+  private void initEdit() {
+	if (seleccionado.getCiudade() == null) {
+	  seleccionado.setCiudade(new Ciudad());
+	}
+	if (seleccionado.getCliente() == null) {
+	  seleccionado.setCliente(new Cliente());
+	}
+	if (seleccionado.getUsuario() == null) {
+	  seleccionado.setUsuario(new Usuario());
+	}
+	if (seleccionado.getUbicacion() == null) {
+	  seleccionado.setUbicacion(new Ubicacion());
+	}
+  }
+
   public void nuevo() {
 	seleccionado = new PuntoVenta();
-
-	seleccionado.setCiudade(new Ciudad());
-	seleccionado.setCliente(new Cliente());
-	seleccionado.setUsuario(new Usuario());
-	seleccionado.setUbicacion(new Ubicacion());
 	this.modo = Modo.CREAR;
+	this.initEdit();
   }
 
   public void guardar() {
 	try {
+	  if (this.seleccionado.getUbicacion() == null || this.seleccionado.getUbicacion().getId() == null || this.seleccionado.getUbicacion().getId() == 0L) {
+		this.seleccionado.setUbicacion(null);
+	  }
 
 	  if (this.modo.equals(Modo.CREAR)) {
 		this.seleccionado = this.servicio.crearPuntoVenta(this.seleccionado);
 		if (this.puntoVenta == null) {
 		  this.puntoVenta = new ArrayList<PuntoVenta>();
 		}
-		puntoVenta = servicio.consultarPuntoEntrega();
 		this.nuevo();
 	  } else {
 		this.servicio.actualizarPuntoVenta(this.seleccionado);
-		puntoVenta = servicio.consultarPuntoEntrega();
 	  }
+
+	  puntoVenta = servicio.consultarPuntoEntrega();
 
 	  this.addMensajeInfo("Punto Venta almacenado exitosamente");
 
 	} catch (EJBTransactionRolledbackException e) {
-	  /*
-	   * if (this.isException(e,
-	   * "dist_termino_incoterm_x_medio_transporte_key")){
-	   * this.addMensajeError(AplicacionMB
-	   * .getMessage("maestroTerminoIncotermMedioTransUnique", language)); }
-	   */
+	  if (this.isException(e, "punto_venta_usuario_unique")) {
+		this.addMensajeError("Este usuario ya fue asignado a otro Punto");
+	  } else {
+		this.addMensajeError("Error al guardar el registro");
+	  }
 	  LOGGER.error(e);
 	} catch (Exception e) {
 	  this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
 	  LOGGER.error(e);
+	} finally {
+	  this.initEdit();
 	}
 
   }
@@ -196,12 +211,7 @@ public class PuntoEntregaMB extends UtilMB {
 	this.seleccionado = seleccionado;
 	this.modo = Modo.EDITAR;
 	this.isEditar = true;
-	if (seleccionado.getUsuario() == null) {
-	  seleccionado.setUsuario(new Usuario());
-	}
-	if (seleccionado.getUbicacion() == null) {
-	  seleccionado.setUbicacion(new Ubicacion());
-	}
+	this.initEdit();
   }
 
   public List<Cliente> getListaClientes() {

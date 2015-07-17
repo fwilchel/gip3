@@ -382,7 +382,7 @@
                 itemLabel="#{msg.generalSinSeleccionar}"
                 noSelectionOption="true" />
               <f:selectItems 
-                value="#{comunMB.obtenerListaUbicaciones(puntoEntregaMB.seleccionado.cliente.id)}" 
+                value="#{comunMB.obtenerListaUbicaciones(menuMB.usuario.id)}" 
                 var="ubicacion"
                 itemValue="#{ubicacion.id}" 
                 itemLabel="#{ubicacion.nombre}" />
