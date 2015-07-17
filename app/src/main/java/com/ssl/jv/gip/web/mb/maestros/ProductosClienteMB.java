@@ -255,7 +255,7 @@ public class ProductosClienteMB extends UtilMB {
       this.addMensajeError("Error al leer el archivo");
     } catch (EJBTransactionRolledbackException e) {
       if (this.isException(e, "itemsproductosxcliente_pkey")) {
-        this.addMensajeError(AplicacionMB.getMessage("MaestroProductosXClienteErrorPaginaBoton", language));
+        this.addMensajeError("Ese producto ya se ha configurado para ese Punto del Venta de ese Cliente");
       } else {
         this.addMensajeError(AplicacionMB.getMessage("MaestroProductosXClienteErrorPaginaBoton", language));
       }
