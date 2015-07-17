@@ -38,6 +38,8 @@ public class SecurityFilter implements Filter {
       AplicacionMB appMB = (AplicacionMB) this.filterConfig
           .getServletContext().getAttribute("aplicacionMB");
       String url = req.getRequestURI();
+      System.out.println(url);
+      LOGGER.debug(url);      
       if (url.indexOf("javax.faces.resource") != -1
           || url.endsWith("login.jsf")
           || url.endsWith("loginCN.jsf")
@@ -50,8 +52,10 @@ public class SecurityFilter implements Filter {
 
         chain.doFilter(request, responseWrapper);
       } else {
-        LOGGER.debug(url);
+
         HttpSession session = req.getSession(false);
+        LOGGER.debug(session);
+        System.out.println(session);
         if (session == null
             || session.getAttribute("menuMB") == null
             || ((MenuMB) session.getAttribute("menuMB"))

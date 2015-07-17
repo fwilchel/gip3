@@ -11,6 +11,8 @@ public class CostoLogisticoDTO {
   private CostoLogisticoDTOPK id;
   @Transient
   private boolean seleccionado = true;
+  @Transient 
+  private boolean primero;
 
   public CostoLogisticoDTOPK getId() {
     return id;
@@ -33,5 +35,13 @@ public class CostoLogisticoDTO {
     return "CostoLogisticoDTO [id=" + id + ", seleccionado=" + seleccionado
         + "]";
   }
+
+	public boolean isPrimero() {
+		return primero;
+	}
+	
+	public void setPrimero(boolean primero) {
+		this.primero = primero;
+	}
 
 }

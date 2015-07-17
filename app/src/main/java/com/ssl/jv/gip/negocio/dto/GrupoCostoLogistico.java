@@ -10,6 +10,7 @@ public class GrupoCostoLogistico implements Comparable {
 
   private String categoria;
   private List<CostoLogisticoDTO> costos = new ArrayList<CostoLogisticoDTO>();
+  private Boolean seleccionado = true;
 
   public GrupoCostoLogistico(String categoria) {
     super();
@@ -113,5 +114,13 @@ public class GrupoCostoLogistico implements Comparable {
     }
     return v;
   }
+
+	public Boolean getSeleccionado() {
+		return seleccionado;
+	}
+	
+	public void setSeleccionado(Boolean seleccionado) {
+		this.seleccionado = seleccionado;
+	}
 
 }
