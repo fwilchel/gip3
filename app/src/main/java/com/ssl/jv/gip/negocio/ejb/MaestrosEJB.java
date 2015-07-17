@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.negocio.ejb;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1100,149 +1101,165 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	  int numLinea = 0;
 	  String line;
 	  DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-	  while ((line = reader.readLine()) != null) {
-		if (numLinea != 0) { // obviamos la primera linea
-		  if (!line.isEmpty()) {
-			String[] values = line.split("\\|");
-			if (values.length != 13) {
-			  message = "Error de estructura en la línea " + numLinea;
-			  error = true;
-			  break;
-			}
-			if (values[0].trim().isEmpty()) {
-			  message = "Error de datos en la línea " + numLinea;
-			  error = true;
-			  break;
-			}
-			ProductosXCliente pxc;
-			try {
-			  pxc = new ProductosXCliente();
-			  pxc.setProductosInventario(new ProductosInventario());
-			  pxc.setCliente(new Cliente());
-			  pxc.setPuntoVenta(new PuntoVenta());
-			  pxc.setMoneda(new Moneda());
-			  if (values[0] == null) {
-				error = true;
-			  } else {
-				// necesario validar si el sku existe en db y traer el id
-				String sku = values[0].trim();
-				Map<String, Object> parametros = new HashMap<>();
-				parametros.put("sku", sku);
-				Object id = productoInventarioDao.buscarRegistroPorConsultaNativa("SELECT p.id FROM productos_inventario AS p WHERE p.sku = :sku", parametros);
-				if (id != null) {
-				  pxc.getProductosInventario().setId(Long.parseLong(id.toString()));
-				  pxc.getProductosInventario().setSku(sku);
-				} else {
-				  error = true;
-				}
-			  }
-			  if (values[1] == null) {
-				error = true;
-			  } else {
-				// necesario validar si el id existe en db
-				Long id = Long.parseLong(values[1].trim());
-				Map<String, Object> parametros = new HashMap<>();
-				parametros.put("id", id);
-				Object count = productoInventarioDao.buscarRegistroPorConsultaNativa("SELECT COUNT(c.id) FROM clientes AS c WHERE c.id = :id", parametros);
-				if (count != null && Integer.parseInt(count.toString()) > 0) {
-				  pxc.getCliente().setId(id);
-				} else {
-				  error = true;
-				}
-			  }
-			  if (values[2] == null) {
-				error = true;
-			  } else {
-				pxc.setPrecioMl(new BigDecimal(values[2].trim()));
-			  }
-			  if (values[3] == null) {
-				error = true;
-			  } else {
-				try {
-				  pxc.setFechaInicialVigencia(new Timestamp(format.parse(values[3].trim()).getTime()));
-				} catch (ParseException ex) {
-				  error = true;
-				  break;
-				}
-			  }
-			  if (values[4] == null) {
-				error = true;
-			  } else {
-				try {
-				  pxc.setFechaFinalVigencia(new Timestamp(format.parse(values[4].trim()).getTime()));
-				} catch (ParseException ex) {
-				  error = true;
-				  break;
-				}
-			  }
-			  if (values[5] == null) {
-				error = true;
-			  } else {
-				pxc.setVigente(Boolean.parseBoolean(values[5].trim()));
-			  }
-			  if (values[6] == null) {
-				// al parecer este valor no es requerido
-			  } else {
-				pxc.setPrecioUsd(new BigDecimal(values[6].trim()));
-			  }
-			  if (values[7] == null) {
-				error = true;
-			  } else {
-				// necesario validar si el id existe en db
-				String id = values[7].trim();
-				Map<String, Object> parametros = new HashMap<>();
-				parametros.put("id", id);
-				Object count = productoInventarioDao.buscarRegistroPorConsultaNativa("SELECT COUNT(m.id) FROM monedas AS m WHERE m.id = :id", parametros);
-				if (count != null && Integer.parseInt(count.toString()) > 0) {
-				  pxc.getMoneda().setId(id);
-				} else {
-				  error = true;
-				}
-			  }
-			  if (values[8] == null) {
-				error = true;
-			  } else {
-				pxc.setIva(new BigDecimal(values[8].trim()));
-			  }
-			  if (values[9] == null) {
-				error = true;
-			  } else {
-				pxc.setDescuentoxproducto(new BigDecimal(values[9].trim()));
-			  }
-			  if (values[10] == null) {
-				error = true;
-			  } else {
-				pxc.setOtrosDescuentos(new BigDecimal(values[10].trim()));
-			  }
-			  if (values[11] == null) {
-				error = true;
-			  } else {
-				// necesario validar si el id existe en db
-				Long id = Long.parseLong(values[11].trim());
-				Map<String, Object> parametros = new HashMap<>();
-				parametros.put("id", id);
-				Object count = productoInventarioDao.buscarRegistroPorConsultaNativa("SELECT COUNT(pv.id) FROM punto_venta AS pv WHERE pv.id = :id", parametros);
-				if (count != null && Integer.parseInt(count.toString()) > 0) {
-				  pxc.getPuntoVenta().setId(id);
-				} else {
-				  error = true;
-				}
-			  }
-			  if (values[12] == null) {
-				error = true;
-			  } else {
-				pxc.setActivo(Boolean.parseBoolean(values[12].trim()));
-			  }
-			} catch (Exception e) {
-			  message = "Error de datos en la línea " + numLinea;
-			  error = true;
-			  break;
-			}
-			listaPXC.add(pxc);
-		  }
+	  List<Object[]> productos = productoInventarioDao.buscarPorConsultaNativa("SELECT sku, id FROM productos_inventario", null);
+	  Map<String, Long> productosMap = new HashMap<>();
+	  if (productos != null) {
+		for (Object[] producto : productos) {
+		  productosMap.put(producto[0].toString(), Long.parseLong(producto[1].toString()));
 		}
-		numLinea++;
 	  }
+	  List<BigInteger> clientes = productoInventarioDao.buscarPorConsultaNativa("SELECT id FROM clientes", null);
+	  Map<String, BigInteger> clientesMap = new HashMap<>();
+	  if (clientes != null) {
+		for (BigInteger id : clientes) {
+		  clientesMap.put(id.toString(), id);
+		}
+	  }
+	  List<String> monedas = productoInventarioDao.buscarPorConsultaNativa("SELECT id FROM monedas", null);
+	  Map<String, String> monedasMap = new HashMap<>();
+	  if (monedas != null) {
+		for (String id : monedas) {
+		  monedasMap.put(id, id);
+		}
+	  }
+	  List<BigInteger> puntosVenta = productoInventarioDao.buscarPorConsultaNativa("SELECT id FROM punto_venta", null);
+	  Map<String, BigInteger> puntosVentaMap = new HashMap<>();
+	  if (puntosVenta != null) {
+		for (BigInteger id : puntosVenta) {
+		  puntosVentaMap.put(id.toString(), id);
+		}
+	  }
+	  while ((line = reader.readLine()) != null) {
+		// if (numLinea != 0) { // obviamos la primera linea
+		if (!line.isEmpty()) {
+		  String[] values = line.split("\\|");
+		  if (values.length != 13) {
+			message = "Error de estructura en la línea " + numLinea;
+			error = true;
+			break;
+		  }
+		  if (values[0].trim().isEmpty()) {
+			message = "Error de datos en la línea " + numLinea;
+			error = true;
+			break;
+		  }
+		  ProductosXCliente pxc;
+		  try {
+			pxc = new ProductosXCliente();
+			pxc.setProductosInventario(new ProductosInventario());
+			pxc.setCliente(new Cliente());
+			pxc.setPuntoVenta(new PuntoVenta());
+			pxc.setMoneda(new Moneda());
+			if (values[0] == null) {
+			  error = true;
+			} else {
+			  // necesario validar si el sku existe en db y traer el id
+			  String sku = values[0].trim();
+			  if (productosMap.containsKey(sku)) {
+				pxc.getProductosInventario().setId(productosMap.get(sku));
+				pxc.getProductosInventario().setSku(sku);
+			  } else {
+				error = true;
+			  }
+			}
+			if (values[1] == null) {
+			  error = true;
+			} else {
+			  // necesario validar si el id existe en db
+			  Long id = Long.parseLong(values[1].trim());
+			  if (clientesMap.containsKey(id.toString())) {
+				pxc.getCliente().setId(id);
+			  } else {
+				error = true;
+			  }
+			}
+			if (values[2] == null) {
+			  error = true;
+			} else {
+			  pxc.setPrecioMl(new BigDecimal(values[2].trim()));
+			}
+			if (values[3] == null) {
+			  error = true;
+			} else {
+			  try {
+				pxc.setFechaInicialVigencia(new Timestamp(format.parse(values[3].trim()).getTime()));
+			  } catch (ParseException ex) {
+				error = true;
+				break;
+			  }
+			}
+			if (values[4] == null) {
+			  error = true;
+			} else {
+			  try {
+				pxc.setFechaFinalVigencia(new Timestamp(format.parse(values[4].trim()).getTime()));
+			  } catch (ParseException ex) {
+				error = true;
+				break;
+			  }
+			}
+			if (values[5] == null) {
+			  error = true;
+			} else {
+			  pxc.setVigente(Boolean.parseBoolean(values[5].trim()));
+			}
+			if (values[6] == null) {
+			  // al parecer este valor no es requerido
+			} else {
+			  pxc.setPrecioUsd(new BigDecimal(values[6].trim()));
+			}
+			if (values[7] == null) {
+			  error = true;
+			} else {
+			  // necesario validar si el id existe en db
+			  String id = values[7].trim();
+			  if (monedasMap.containsKey(id)) {
+				pxc.getMoneda().setId(id);
+			  } else {
+				error = true;
+			  }
+			}
+			if (values[8] == null) {
+			  error = true;
+			} else {
+			  pxc.setIva(new BigDecimal(values[8].trim()));
+			}
+			if (values[9] == null) {
+			  error = true;
+			} else {
+			  pxc.setDescuentoxproducto(new BigDecimal(values[9].trim()));
+			}
+			if (values[10] == null) {
+			  error = true;
+			} else {
+			  pxc.setOtrosDescuentos(new BigDecimal(values[10].trim()));
+			}
+			if (values[11] == null) {
+			  error = true;
+			} else {
+			  // necesario validar si el id existe en db
+			  Long id = Long.parseLong(values[11].trim());
+			  if (puntosVentaMap.containsKey(id.toString())) {
+				pxc.getPuntoVenta().setId(id);
+			  } else {
+				error = true;
+			  }
+			}
+			if (values[12] == null) {
+			  error = true;
+			} else {
+			  pxc.setActivo(Boolean.parseBoolean(values[12].trim()));
+			}
+		  } catch (Exception e) {
+			message = "Error de datos en la línea " + numLinea;
+			error = true;
+			break;
+		  }
+		  listaPXC.add(pxc);
+		}
+	  }
+	  numLinea++;
+	  // }
 	} catch (IOException ex) {
 	  message = "Error en el archivo";
 	  throw ex;
@@ -1257,7 +1274,18 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		pk.setIdProducto(pxc.getProductosInventario().getId());
 		pk.setIdPuntoVenta(pxc.getPuntoVenta().getId());
 		pxc.setPk(pk);
-		productoClienteDAO.add(pxc);
+		try {
+		  Map<String, Object> parametros = new HashMap<>();
+		  parametros.put("idCliente", pxc.getCliente().getId());
+		  parametros.put("idProducto", pxc.getProductosInventario().getId());
+		  parametros.put("idPuntoVenta", pxc.getPuntoVenta().getId());
+		  ProductosXCliente pxcOld = productoClienteDAO.buscarRegistroPorConsultaJPQL("SELECT pxc FROM ProductosXCliente pxc WHERE pxc.productosInventario.id = :idProducto AND pxc.cliente.id = :idCliente AND pxc.puntoVenta.id = :idPuntoVenta", parametros);
+		  pxcOld.setPrecioMl(pxc.getPrecioMl());
+		  pxcOld.setPrecioUsd(pxc.getPrecioUsd());
+		  productoClienteDAO.update(pxcOld);
+		} catch (Exception ex) {
+		  productoClienteDAO.add(pxc);
+		}	
 	  }
 	}
   }

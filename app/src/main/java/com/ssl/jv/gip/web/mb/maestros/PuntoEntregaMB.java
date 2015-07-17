@@ -156,6 +156,9 @@ public class PuntoEntregaMB extends UtilMB {
 
   public void guardar() {
 	try {
+	  if (this.seleccionado.getUsuario() == null || this.seleccionado.getUsuario().getId() == null || this.seleccionado.getUsuario().getId().isEmpty()) {
+		this.seleccionado.setUsuario(null);
+	  }
 	  if (this.seleccionado.getUbicacion() == null || this.seleccionado.getUbicacion().getId() == null || this.seleccionado.getUbicacion().getId() == 0L) {
 		this.seleccionado.setUbicacion(null);
 	  }
@@ -165,7 +168,6 @@ public class PuntoEntregaMB extends UtilMB {
 		if (this.puntoVenta == null) {
 		  this.puntoVenta = new ArrayList<PuntoVenta>();
 		}
-		this.nuevo();
 	  } else {
 		this.servicio.actualizarPuntoVenta(this.seleccionado);
 	  }
@@ -175,7 +177,9 @@ public class PuntoEntregaMB extends UtilMB {
 	  this.addMensajeInfo("Punto Venta almacenado exitosamente");
 
 	} catch (EJBTransactionRolledbackException e) {
-	  if (this.isException(e, "punto_venta_usuario_unique")) {
+	  if (this.isException(e, "punto_venta_pkey")) {
+		this.addMensajeError("Ya existe un punto con esta llave");
+	  } else if (this.isException(e, "punto_venta_usuario_unique")) {
 		this.addMensajeError("Este usuario ya fue asignado a otro Punto");
 	  } else {
 		this.addMensajeError("Error al guardar el registro");
