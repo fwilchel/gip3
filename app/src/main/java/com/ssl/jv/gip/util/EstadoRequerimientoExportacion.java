@@ -2,7 +2,7 @@ package com.ssl.jv.gip.util;
 
 public enum EstadoRequerimientoExportacion {
 	
-	Nodiligenciado(0, "No diligenciado"), EsperandoAprobacion(1, "Activo"), Aprobado(2,"Aprobado");
+	Nodiligenciado(0, "No diligenciado"), EsperandoAprobacion(1, "Activo"), Aprobado(15,"Aprobado");
 
 		  private Integer codigo;
 		  private String nombre;

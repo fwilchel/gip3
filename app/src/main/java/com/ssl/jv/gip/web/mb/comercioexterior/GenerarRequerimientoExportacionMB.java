@@ -147,7 +147,9 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	  private String danobscuales;
 	  private Boolean danobservaciones;
 	  
-	  private List<String> certificado;
+	  private String[]  danopciones;
+	  
+	  //private List<String> danopciones;
 	  
 	  private boolean deshabilitado = true;
 	  
@@ -201,7 +203,7 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		  if (incotermDespacho.equals("FOB") || incotermDespacho.equals("FCA") || incotermDespacho.equals("EXW"))
 		  {		  
 			  
-			  flete="A Cobrar";
+			  flete="cobrar";
 			  
 			  estadoPuertoLlegada=true;
 			  estadoPuertoSalida=false;
@@ -218,7 +220,7 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	      }
 		  else
 		  {
-			  flete="Prepagado";
+			  flete="prepagado";
 		      estadoPuertoLlegada=false;
 		      estadoPuertoSalida=true;
 		      puertoNal="Sin seleccionar";
@@ -305,12 +307,12 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		   this.puertosNacionales = this.comercioEjb.consultarPuertosNacionales();
 		   
 		   
-		    this.tipoContenedores.add(new SelectItem("20", "20"));
-		    this.tipoContenedores.add(new SelectItem("40", "40"));
+		    this.tipoContenedores.add(new SelectItem("veinte", "20"));
+		    this.tipoContenedores.add(new SelectItem("cuarenta", "40"));
 		    this.tipoContenedores.add(new SelectItem("Carga Suelta", "Carga Suelta"));
 		   
-		    this.listaFlete.add(new SelectItem("A Cobrar", "A Cobrar"));
-		    this.listaFlete.add(new SelectItem("Prepagado", "Prepagado"));
+		    this.listaFlete.add(new SelectItem("cobrar", "cobrar"));
+		    this.listaFlete.add(new SelectItem("prepagado", "prepagado"));
 		    
 		    this.listaEmision.add(new SelectItem("Origen", "Origen"));
 		    this.listaEmision.add(new SelectItem("Destino", "Destino"));
@@ -399,10 +401,23 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		    	
 		    	comextRequerimientoexportacion.setDancual(dancual);
 		    	comextRequerimientoexportacion.setDanobservaciones(danobservaciones);
-		    	comextRequerimientoexportacion.setDanopciones(certificado.toString());
+		    	comextRequerimientoexportacion.setCotradireccion(cotradireccion);
+		    	
+		    	//comextRequerimientoexportacion.setDanopciones(certificado.toString());
+		    	
+		    	//String[] array = (danopciones.toArray(new String[(danopciones.size()]);
+		    	String campo="[";
+		    	for (String s:this.danopciones){
+		    		campo+='"'+s+'"'+",";
+		    	}
+		    	if (this.danopciones.length>0)
+		    		campo=campo.substring(0, campo.length()-1);
+		    	campo+="]";
+		    	comextRequerimientoexportacion.setDanopciones(campo);
 		    	
 		   	    comextRequerimientoexportacion.setDanobscuales(danobscuales);
 		   	  
+		   	    
 		    	
 		    	
 
@@ -410,7 +425,7 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		   	  
 		    	
 		   	 RequerimientoExportacionGenerado= comercioExteriorEJBLocal.crearRequerimientoExportacion(comextRequerimientoexportacion);
-		   	generarRequerimiento = false;	 
+		   	 generarRequerimiento = false;	 
 		   	
 		    	 
 		    	 String mensaje = AplicacionMB.getMessage("RequerimientoExportacionExito_Crear", language);
@@ -428,17 +443,18 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		    	    	listareqxproducto =comercioEjb.crearMarcacionEspecial(strDocs);
 		    	    }
 		    	    
-		    	    for (ComextRequerimientoexportacionDTO rxp : listareqxproducto) {
+		    	  /*  for (ComextRequerimientoexportacionDTO rxp : listareqxproducto) {
 		    	    	
 		    	    	
 		    	    	 System.out.println("rxp"+rxp.getSku()+"--"+rxp.getCajamaster()+"--"+rxp.getObservaciones());
 		    	    }
-		    	
+		    	*/
 		    	    
 		    	    
 		    	  //graba en la base de datos tabla reqxproducto el lista de productos asociados con el requerimiento de exportacion
 		          comercioExteriorEJBLocal.crearReqxprod(listareqxproducto ,RequerimientoExportacionGenerado.getId() ,selectedMarcacionEspecial);
 		          
+		          comercioExteriorEJBLocal.crearRequerimientoxdocumento(listaDocumentos,RequerimientoExportacionGenerado.getId() );
 		          
 		          
 		          listareqxproducto =  new ArrayList<ComextRequerimientoexportacionDTO>();
@@ -1269,26 +1285,9 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		this.cotradireccion = cotradireccion;
 	}
 
-	/**
-	 * @return the certificado
-	 */
-	public List<String> getCertificado() {
-		return certificado;
-	}
+	
 
-	/**
-	 * @param certificado the certificado to set
-	 */
-	public void setCertificado(List<String> certificado) {
-		this.certificado = certificado;
-	}
-
-	/**
-	 * @return the deshabilitado
-	 */
-	public boolean isDeshabilitado() {
-		return deshabilitado;
-	}
+	
 
 	/**
 	 * @param deshabilitado the deshabilitado to set
@@ -1411,6 +1410,33 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	public void setStrDocs(String strDocs) {
 		this.strDocs = strDocs;
 	}
+
+	
+
+	/**
+	 * @return the deshabilitado
+	 */
+	public boolean isDeshabilitado() {
+		return deshabilitado;
+	}
+
+	/**
+	 * @return the danopciones
+	 */
+	public String[] getDanopciones() {
+		return danopciones;
+	}
+
+	/**
+	 * @param danopciones the danopciones to set
+	 */
+	public void setDanopciones(String[] danopciones) {
+		this.danopciones = danopciones;
+	}
+
+	
+
+	
 	
 	
 }

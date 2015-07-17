@@ -15,8 +15,10 @@ public class ComextRequerimientoexportacionDTO implements Serializable {
 	private static final long serialVersionUID = 7683662012688100031L;
 	
 	  @Id
-	  private BigInteger id;
+	  private Long id;
+	  //private BigInteger id;
 	
+	  
 	private String consecutivodocumento;
 	private String sku;
 	private String nombreproducto;
@@ -110,18 +112,7 @@ public class ComextRequerimientoexportacionDTO implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	/**
-	 * @return the id
-	 */
-	public BigInteger getId() {
-		return id;
-	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(BigInteger id) {
-		this.id = id;
-	}
+	
 	/**
 	 * @return the producto
 	 */
@@ -169,6 +160,18 @@ public class ComextRequerimientoexportacionDTO implements Serializable {
 	 */
 	public void setTienemarcacion(Boolean tienemarcacion) {
 		this.tienemarcacion = tienemarcacion;
+	}
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 

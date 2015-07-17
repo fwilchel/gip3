@@ -48,6 +48,9 @@ public class DocumentoRequerimientoExportacionDTO implements Serializable {
 	  private Long idTipoPrecio;
 	  
 	  private Long idMetodoPago;
+	  
+
+	   private Long idEstado;
 
 	/**
 	 * @return the idDocumento
@@ -193,6 +196,20 @@ public class DocumentoRequerimientoExportacionDTO implements Serializable {
 	 */
 	public void setIdMetodoPago(Long idMetodoPago) {
 		this.idMetodoPago = idMetodoPago;
+	}
+
+	/**
+	 * @return the idEstado
+	 */
+	public Long getIdEstado() {
+		return idEstado;
+	}
+
+	/**
+	 * @param idEstado the idEstado to set
+	 */
+	public void setIdEstado(Long idEstado) {
+		this.idEstado = idEstado;
 	}
 
 }

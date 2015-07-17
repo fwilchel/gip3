@@ -26,7 +26,7 @@ public class Reqxproducto implements Serializable {
 	@Id
 	@SequenceGenerator(name="REQXPRODUCTO_ID_GENERATOR", sequenceName="reqxproducto_id_seq" , allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="REQXPRODUCTO_ID_GENERATOR")
-	private Integer id;
+	private Long id;
 	
 	
 	private Long documento;
@@ -57,13 +57,13 @@ public class Reqxproducto implements Serializable {
 	public Reqxproducto() {
 	}
 
-	public Integer getId() {
+	/*public Integer getId() {
 		return this.id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
+	}*/
 
 	public Long getDocumento() {
 		return this.documento;
@@ -141,6 +141,20 @@ public class Reqxproducto implements Serializable {
 	 */
 	public void setIdrequerimiento(Long idrequerimiento) {
 		this.idrequerimiento = idrequerimiento;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

@@ -212,8 +212,16 @@ public class IngresarVentaDirectaMB extends UtilMB {
     try {
       listaProductosXClienteDTO = new ArrayList<>();
       listaProductosXClienteSeleccionadosDTO = new ArrayList<>();
+      
+      System.out.println("cli y punto"+intIdCliente+":"+intIdPuntoVenta);
+      
       this.listaProductosXCliente = ventasFacturacionEJBLocal.consultarPorClientePuntoVenta(intIdCliente, intIdPuntoVenta);
-      if (listaProductosXCliente != null && !listaProductosXCliente.isEmpty()) {
+      
+      System.out.println("listapxc: "+listaProductosXCliente.size());
+      
+     // if (listaProductosXCliente != null && !listaProductosXCliente.isEmpty()) {
+      
+      if (listaProductosXCliente != null) {
         for (ProductosXCliente producto : listaProductosXCliente) {
           ProductoPorClienteDTO productoDTO = new ProductoPorClienteDTO();
           productoDTO.setCantidadUno(BigDecimal.ZERO);
@@ -228,9 +236,17 @@ public class IngresarVentaDirectaMB extends UtilMB {
           productoDTO.setIdProducto(producto.getProductosInventario().getId());
           productoDTO.setIdUnidad(producto.getProductosInventario().getUnidadVenta().getId());
           productoDTO.setPrecioUsd(producto.getPrecioUsd());
+          System.out.println("listapxc sku "+producto.getProductosInventario().getSku());
+          System.out.println("listapxc precio "+producto.getPrecioMl());
+          System.out.println("listapxc nombre "+producto.getProductosInventario().getNombre());
+          
           listaProductosXClienteDTO.add(productoDTO);
         }
       }
+      
+      System.out.println("listapxcDTO: "+listaProductosXClienteDTO);
+      
+      
     } catch (Exception e) {
       LOGGER.error(e);
       this.addMensajeError(e);

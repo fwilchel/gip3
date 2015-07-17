@@ -205,6 +205,9 @@ public class GenerarOrdenDespachoMB extends UtilMB {
 
       String logRespuesta = ventasFacturacionEJB.generarOrdenDespacho(ventaDirectaSeleccionada, listaProductosXVentaDirecta);
       System.out.println("logRespuesta:" + logRespuesta);
+      
+      
+      //ZVI_MM_EXT_SAP_PEDIDO_ServiceLocator.0
 
       this.addMensajeInfo(logRespuesta);
       //this.addMensajeInfo(AplicacionMB.getMessage("godMsgExito", language));

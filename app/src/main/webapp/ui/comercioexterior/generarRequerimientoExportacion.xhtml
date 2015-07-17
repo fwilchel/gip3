@@ -311,7 +311,7 @@
      
   <p:panelGrid columns="2" style="width:100%"   columnClasses="label,value">
  			<p:outputLabel value="#{msg.reporteRequerimientoExportacion_danopciones}" styleClass="negrita" />
- 			 <p:selectManyCheckbox id="certificado" value="#{generarRequerimientoExportacionMB.certificado}" layout="grid" columns="1">
+ 			 <p:selectManyCheckbox id="certificado" value="#{generarRequerimientoExportacionMB.danopciones}" layout="grid" columns="1">
         <f:selectItems value="#{generarRequerimientoExportacionMB.listaCertificado}" var="certificado" itemLabel="#{certificado}" itemValue="#{certificado}" />
     </p:selectManyCheckbox>
             

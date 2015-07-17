@@ -1,16 +1,17 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
 
-import java.sql.Timestamp;
+//import java.sql.Timestamp;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Hashtable;
+//import java.util.HashMap;
+//import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
+//import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -24,17 +25,24 @@ import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
-import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
-import com.ssl.jv.gip.jpa.pojo.Cliente;
+
+
+
+
+//import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
+//import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
-import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.Estado;
+//import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.MetodoPago;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
-import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.jpa.pojo.Reqxproducto;
+import com.ssl.jv.gip.jpa.pojo.RequerimientosXDocumento;
+//import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+//import com.ssl.jv.gip.jpa.pojo.Reqxproducto;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TipoPrecio;
 import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoRequerimientoExportacionDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
@@ -42,7 +50,7 @@ import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
-import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+//import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Modo;
 import com.ssl.jv.gip.web.util.Utilidad;
 
@@ -74,6 +82,7 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 	  private ComercioExteriorEJB comercioEjb;
 	  
 	  
+	  
 	  @EJB
 	  private ComercioExteriorEJBLocal comercioExteriorEJBLocal;
 	  
@@ -87,14 +96,14 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 	  private Integer language = AplicacionMB.SPANISH;
 	
 	  
-	  private boolean generarRequerimiento;
+	  //private boolean generarRequerimiento;
 	  
 	  private Date dateFechaDespacho;
 	  
 	  ComextRequerimientoexportacion comextRequerimientoexportacion;
 	  
 	  private int idModalidadEmbarque;
-	  private List<String> puertosNacionales;
+	  private List<String> puertosNacionales  = new ArrayList<String>();
 	  private String puertoNal;
 	  private String puertoLlegada;
 	  
@@ -147,7 +156,7 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 	  private String nciudadpais="";
 	  
 	  
-	  private List<SelectItem> listaCertificado= new ArrayList<SelectItem>();
+	  
 	  //private String[] certificado;
 	  private String dancual;
 	  //private String danobservaciones;
@@ -186,22 +195,19 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 	  
 	  private List<ComextRequerimientoexportacionDTO> listaMarcacionEspecial;
 	  
+	  //private String[] certificado;
+	  
+	  
+	  private ArrayList<String> defaultSelectedItems = new ArrayList<String>();
+	  private List<String> listaCertificado= new ArrayList<String>();
+	  
+	  
 	  private List<String> certificado;
-	  
-	  
-	  /**
-	 * @return the listaCertificado
-	 */
-	public List<SelectItem> getListaCertificado() {
-		return listaCertificado;
-	}
 
-	/**
-	 * @param listaCertificado the listaCertificado to set
-	 */
-	public void setListaCertificado(List<SelectItem> listaCertificado) {
-		this.listaCertificado = listaCertificado;
-	}
+	  private List<RequerimientosXDocumento> listaRequerimientoxDocumento;
+	  
+	  
+	
 
 	public void terminoIncoterms() {
 		  
@@ -275,16 +281,7 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 	  
 	 @PostConstruct
 	  public void init() {
-		 
-	/*	 Map<String, Object> parametros = new HashMap<String, Object>();
-		 parametros.put("idTipoDocumento", (long)ConstantesTipoDocumento.SOLICITUD_PEDIDO);
-  	     parametros.put("idEstado", (long) ConstantesDocumento.VERIFICADO);
-  	     parametros.put("documentoCliente","Cargue Manual");
-  	     
-  	     listaDocumentos = comercioEjb.consultarDocumentosSolicitudPedidoRE(parametros);
-  	    
-  	   generarRequerimiento=false;
-  	  */ 
+
 		 
 		 
 		
@@ -295,11 +292,20 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 		    try {
 		      
 		        if (filtroConsecutivoDocumento == null || filtroConsecutivoDocumento == 0) {
-		        	this.listaRequerimientoExportacion=(this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacion());
+		        	//this.listaRequerimientoExportacion=(this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacion());
+		        	
+		        	
+		        	
+		        	this.listaRequerimientoExportacion=(comercioExteriorEJBLocal.consultarComextRequerimientoExportacionEstado(ConstantesDocumento.ACTIVO));
+		        	
+		        	
 		        }
+		        
 		        else
 		        {
-		         this.listaRequerimientoExportacion=this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionConsecutivo(filtroConsecutivoDocumento);
+		         //this.listaRequerimientoExportacion=this.reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionConsecutivo(filtroConsecutivoDocumento);
+		        	this.listaRequerimientoExportacion=(comercioExteriorEJBLocal.consultarComextRequerimientoExportacionEstadoXConsecutivo(ConstantesDocumento.ACTIVO,filtroConsecutivoDocumento));
+		        	
 		        }
 		        
 		      
@@ -318,80 +324,87 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 		    try {
 		    	
 		    	
-		    	 RequerimientoExportacionGenerado = new ComextRequerimientoexportacion();
 		    	
 		    	comextRequerimientoexportacion = new ComextRequerimientoexportacion();
 		    	
-		    	MetodoPago metodopago =new MetodoPago(); 
-		    	metodopago.setId((long) idmetodopago);
-		    	comextRequerimientoexportacion.setMetodopago(metodopago);
-		    	//comextRequerimientoexportacion.setIdtipoprecio(idtipoprecio);
-		    	//comextRequerimientoexportacion.setIdmetodopago(idmetodopago);
 		    	
-		    	TipoPrecio tipoprecio =new TipoPrecio();
-		    	tipoprecio.setId((long) idtipoprecio);
-		    	comextRequerimientoexportacion.setTipoprecio(tipoprecio);
+		    	comextRequerimientoexportacion.setId(seleccionado.getId());
+		    	comextRequerimientoexportacion.setFecha(seleccionado.getFecha());
+		    	comextRequerimientoexportacion.setFechasolicitud(seleccionado.getFechasolicitud());
 		    	
-		    	comextRequerimientoexportacion.setIdcliente(idcliente);
-		    	comextRequerimientoexportacion.setFecha(this.dateFechaDespacho);
-		    	comextRequerimientoexportacion.setFechasolicitud(this.dateFechaDespacho);
-		    	comextRequerimientoexportacion.setEstado(ConstantesDocumento.ACTIVO);
-		    	comextRequerimientoexportacion.setFlete(flete);
-		    	comextRequerimientoexportacion.setPuertosalida(puertoNal);
-		    	comextRequerimientoexportacion.setPuertollegada(puertoLlegada);
+		    	
+		    	comextRequerimientoexportacion.setEstado(seleccionado.getEstado());
+		    	comextRequerimientoexportacion.setFlete(seleccionado.getFlete());
+		    	comextRequerimientoexportacion.setPuertosalida(seleccionado.getPuertosalida());
+		    	comextRequerimientoexportacion.setPuertollegada(seleccionado.getPuertollegada());
 		    	
 		    	ModalidadEmbarque modalidadEmbarque = new ModalidadEmbarque(); 
-		    	modalidadEmbarque.setId((long) idModalidadEmbarque);
+		    	modalidadEmbarque.setId((long) seleccionado.getModalidadembarque().getId());
 		    	
 		    	comextRequerimientoexportacion.setModalidadembarque(modalidadEmbarque);
-		    	comextRequerimientoexportacion.setTipocontenedores(tipoContenedor);
-		    	comextRequerimientoexportacion.setTerminoincoterm(incotermDespacho);
+		    	comextRequerimientoexportacion.setTipocontenedores(seleccionado.getTipocontenedores());
+		    	comextRequerimientoexportacion.setTerminoincoterm(seleccionado.getTerminoincoterm());
 		    	
 		    	 
-		    	comextRequerimientoexportacion.setCciudadpais(cciudadpais);
-		    	comextRequerimientoexportacion.setCdireccion(cdireccion);
-		    	comextRequerimientoexportacion.setCnit(cnit);
-		    	comextRequerimientoexportacion.setCrazonsocial(crazonsocial);
-		    	comextRequerimientoexportacion.setCtelefono(ctelefono);
+		    	comextRequerimientoexportacion.setCciudadpais(seleccionado.getCciudadpais());
+		    	comextRequerimientoexportacion.setCdireccion(seleccionado.getCdireccion());
+		    	comextRequerimientoexportacion.setCnit(seleccionado.getCnit());
+		    	comextRequerimientoexportacion.setCrazonsocial(seleccionado.getCrazonsocial());
+		    	comextRequerimientoexportacion.setCtelefono(seleccionado.getCtelefono());
 		    
 		    	
-		    	comextRequerimientoexportacion.setDacontacto(dacontacto);
+		    	comextRequerimientoexportacion.setDacontacto(seleccionado.getDacontacto());
 		    	//comextRequerimientoexportacion.setDancual(dancual);
 		    	//comextRequerimientoexportacion.setDanobscuales(danobscuales);
 		    	//comextRequerimientoexportacion.setDanobservaciones(danobservaciones);
 		    	//comextRequerimientoexportacion.setDanopciones(danopciones);
-		    	comextRequerimientoexportacion.setDarazonsocial(darazonsocial);
-		    	comextRequerimientoexportacion.setDatelefonoemail(datelefonoemail);
+		    	comextRequerimientoexportacion.setDarazonsocial(seleccionado.getDarazonsocial());
+		    	comextRequerimientoexportacion.setDatelefonoemail(seleccionado.getDatelefonoemail());
 		    	
-		    	comextRequerimientoexportacion.setServicecontract(servicecontract);
+		    	comextRequerimientoexportacion.setServicecontract(seleccionado.getServicecontract());
 		    	
-		    	comextRequerimientoexportacion.setDireccionentregabi(direccionEntrega);
-		    	comextRequerimientoexportacion.setContactobi(contacto);
-		    	comextRequerimientoexportacion.setEmisionbi(emision);
-		    	comextRequerimientoexportacion.setZipcodebi(zipCode);
-		    	comextRequerimientoexportacion.setTelefonoemailbi(telefonoEmail);
+		    	comextRequerimientoexportacion.setDireccionentregabi(seleccionado.getDireccionentregabi());
+		    	comextRequerimientoexportacion.setContactobi(seleccionado.getContactobi());
+		    	comextRequerimientoexportacion.setEmisionbi(seleccionado.getEmisionbi());
+		    	comextRequerimientoexportacion.setZipcodebi(seleccionado.getZipcodebi());
+		    	comextRequerimientoexportacion.setTelefonoemailbi(seleccionado.getTelefonoemailbi());
 		    	
-		    	comextRequerimientoexportacion.setNciudadpais(nciudadpais);
-		    	comextRequerimientoexportacion.setNdireccion(ndireccion);
-		    	comextRequerimientoexportacion.setNnit(nnit);
-		    	comextRequerimientoexportacion.setNrazonsocial(nrazonsocial);
-		    	comextRequerimientoexportacion.setNtelefono(ntelefono);
+		    	comextRequerimientoexportacion.setNciudadpais(seleccionado.getNciudadpais());
+		    	comextRequerimientoexportacion.setNdireccion(seleccionado.getNdireccion());
+		    	comextRequerimientoexportacion.setNnit(seleccionado.getNnit());
+		    	comextRequerimientoexportacion.setNrazonsocial(seleccionado.getNrazonsocial());
+		    	comextRequerimientoexportacion.setNtelefono(seleccionado.getNtelefono());
 		    	
-		    	comextRequerimientoexportacion.setDancual(dancual);
-		    	comextRequerimientoexportacion.setDanobservaciones(danobservaciones);
+		    	comextRequerimientoexportacion.setDancual(seleccionado.getDancual());
+		    	comextRequerimientoexportacion.setDanobservaciones(seleccionado.getDanobservaciones());
 		    	
-		    	//comextRequerimientoexportacion.setDanopciones(danopciones);
+		    	comextRequerimientoexportacion.setCotradireccion(seleccionado.getCotradireccion());
+		    	
+		    	String campo="[";
+		    	for (String s:defaultSelectedItems){
+		    		campo+='"'+s+'"'+",";
+		    	}
+		    	if (defaultSelectedItems.size()>0)
+		    		campo=campo.substring(0, campo.length()-1);
+		    	campo+="]";
+		    	comextRequerimientoexportacion.setDanopciones(campo);
+		    	
+		    	
 		   	    
-		    	comextRequerimientoexportacion.setDanobscuales(danobscuales);
-		   	  
+		    	comextRequerimientoexportacion.setDanobscuales(seleccionado.getDanobscuales());
+		    	
+		    	comextRequerimientoexportacion.setIdcliente(seleccionado.getIdcliente());
+		    	comextRequerimientoexportacion.setTipoprecio(seleccionado.getTipoprecio());
+		    	comextRequerimientoexportacion.setMetodopago(seleccionado.getMetodopago());
 		    	
 		    	
+		    	//System.out.println("puerto salida: "+seleccionado.getPuertosalida());
 
 		   	 
 		   	  
 		    	
-		   	 RequerimientoExportacionGenerado= comercioExteriorEJBLocal.crearRequerimientoExportacion(comextRequerimientoexportacion);
-		   	generarRequerimiento = false;	 
+		   	 RequerimientoExportacionGenerado= comercioExteriorEJBLocal.actualizarRequerimientoExportacion(comextRequerimientoexportacion);
+		   	//generarRequerimiento = false;	 
 		   	
 		    	 
 		    	 String mensaje = AplicacionMB.getMessage("RequerimientoExportacionExito_Crear", language);
@@ -401,75 +414,34 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 
 		    	    this.addMensajeInfo(mensaje);
 		    	
-		    	    System.out.println("tamaño lista reqxprod: "+listareqxproducto.size());
+		    	   // System.out.println("tamaño lista reqxprod: "+listareqxproducto.size());
 		    	    
-		    	    if (listareqxproducto.size()==0 || listareqxproducto.isEmpty())
+		    	    
+		    	  
+		    	    
+		    	   /* if (listareqxproducto.size()==0 || listareqxproducto.isEmpty())
 		    	    {
 		    	    	
 		    	    	listareqxproducto =comercioEjb.crearMarcacionEspecial(strDocs);
-		    	    }
+		    	    }*/
 		    	    
-		    	    for (ComextRequerimientoexportacionDTO rxp : listareqxproducto) {
+		    	   /* for (ComextRequerimientoexportacionDTO rxp : listareqxproducto) {
 		    	    	
 		    	    	
 		    	    	 System.out.println("rxp"+rxp.getSku()+"--"+rxp.getCajamaster()+"--"+rxp.getObservaciones());
-		    	    }
+		    	    }*/
 		    	
 		    	    
-		    	    
+		    	  System.out.println("Ingresa a actualizar reqxprod");
 		    	  //graba en la base de datos tabla reqxproducto el lista de productos asociados con el requerimiento de exportacion
-		          comercioExteriorEJBLocal.crearReqxprod(listareqxproducto ,RequerimientoExportacionGenerado.getId() ,selectedMarcacionEspecial);
+		          comercioExteriorEJBLocal.actualizarReqxprod(listaMarcacionEspecial ,RequerimientoExportacionGenerado.getId() ,true);
 		          
 		          
 		          
-		          listareqxproducto =  new ArrayList<ComextRequerimientoexportacionDTO>();
-		          listaDocumentos = new ArrayList<DocumentoRequerimientoExportacionDTO>();
+		          //listareqxproducto =  new ArrayList<ComextRequerimientoexportacionDTO>();
+		          //listaDocumentos = new ArrayList<DocumentoRequerimientoExportacionDTO>();
 		          
-		          
-		          
-		           emision="";
-		    	   direccionEntrega="";
-		    	  
-		    	  
-		    	  zipCode="";
-		    	  contacto="";
-		    	  telefonoEmail="";
-		    	  
-		    	  servicecontract="";
-		    	  darazonsocial="";
-		    	  dacontacto="";
-		    	  datelefonoemail="";
-		    	  crazonsocial="";
-		    	  cnit="";
-		    	  cdireccion="";
-		    	  ctelefono="";
-		    	  cciudadpais="";
-		    	  cotradireccion="";
-		    	  nrazonsocial="";
-		    	  nnit="";
-		    	  ndireccion="";
-		    	  ntelefono="";
-		    	  nciudadpais="";
-		    	 
-		    	  
-		    	  idtipoprecio=0;
-		    	  
-			    	idmetodopago=0;
-			    	
-			    	idcliente= 0;
-			    	dateFechaDespacho=null;
-			    	
-			    	flete=null;
-			    	puertoNal=null;
-			    	puertoLlegada=null;
-			    	
-			    	idModalidadEmbarque=0;
-			    	
-			    	
-			    	tipoContenedor=null;
-			    	incotermDespacho=null;
-		    	  
-		          
+		       
 		          
 		    	 
 		 
@@ -479,6 +451,41 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 	    }
 		    
 	 }
+	
+	
+	public void aprobarRequerimientoExportacion(ActionEvent ae) {
+
+		//seleccionado.setIdEstado(new Long(ConstantesDocumento.APROBADA));
+	    //System.out.println("REQ_ID: "+seleccionado.getId());
+	    listaRequerimientoxDocumento=this.comercioExteriorEJBLocal.consultarComextRequerimientoExportacionXDocumento(seleccionado.getId());
+	    
+	    
+	     for (RequerimientosXDocumento rxd : listaRequerimientoxDocumento)
+	     {
+    	
+		   	//System.out.println("rxd"+rxd.getId().getDocumentoId()+"--"+rxd.getId().getRequerimientoexportacionId());
+		   	DocumentoIncontermDTO doc = new DocumentoIncontermDTO();
+		   	doc.setIdEstado(new Long(ConstantesDocumento.APROBADA));
+		   	doc.setIdDocumento(rxd.getId().getDocumentoId());
+		   	comercioEjb.actualizarEstadoDocumento(doc);
+		   			   	
+	     }
+	     
+	     this.addMensajeInfo("Se aprobo Requerimiento de Exportacion y  Solicitud de Pedido exitosamente");
+		    
+	    
+	     //listaMarcacionEspecial= reportesComercioExteriorEJBLocal.consultarMarcacionEspecial(seleccionado.getId());
+	     
+	     
+	     
+	     DocumentoRequerimientoExportacionDTO requerimiento = new DocumentoRequerimientoExportacionDTO();
+	     requerimiento.setIdEstado(new Long(ConstantesDocumento.APROBADA));
+	     requerimiento.setIdDocumento(seleccionado.getId());
+	 	comercioEjb.actualizarComextRequerimientoExportacionEstado(requerimiento );
+	}
+	    
+	    
+	
 	
 	
 	
@@ -509,46 +516,7 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 		  }
 	  
 	  
-	  
-	 /* public void consultarCliente() {
-		  Hashtable listaClienteHash = new Hashtable();
-		  
-		    if (listaDocumentos != null && listaDocumentos.size() > 0) {
-				   for (DocumentoRequerimientoExportacionDTO dto : listaDocumentos) {
-					   if (dto.isSeleccionado()) {
-		  
-							  if (listaClienteHash.isEmpty()) {
-									listaClienteHash.put(dto.getIdCliente(), dto.getIdCliente());
-									
-									
-									idcliente= dto.getIdCliente();
-									idtipoprecio= dto.getIdTipoPrecio();
-									idmetodopago=dto.getIdMetodoPago();
-									
-									
-								} else {
-									if (!listaClienteHash.containsKey(dto.getIdCliente())) {
-										listaClienteHash.put(dto.getIdCliente(), dto.getIdCliente());
-									}
-								}
-		  
-					   }
-				   }
-		    }
-		    
-		  
-		  if (listaClienteHash.size()==1)
-		  {
-			  deshabilitado=false;
-			  
-		  }
-		  else
-			  deshabilitado =true;
-		  	
-		  
-		  
-		  
-	  }*/
+	
 	 
 
 	/**
@@ -567,20 +535,7 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 	}
 
 
-	/**
-	 * @return the generarRequerimiento
-	 */
-	public boolean isGenerarRequerimiento() {
-		return generarRequerimiento;
-	}
-
-
-	/**
-	 * @param generarRequerimiento the generarRequerimiento to set
-	 */
-	public void setGenerarRequerimiento(boolean generarRequerimiento) {
-		this.generarRequerimiento = generarRequerimiento;
-	}
+	
 
 
 	/**
@@ -1403,16 +1358,17 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 		  public void setSeleccionado(ComextRequerimientoexportacion seleccionado) {
 		     
 			  
-			  System.out.println("documento: "+seleccionado.getId());
+			  //System.out.println("documento: "+seleccionado.getId());
 			  
 			  tipoContenedores.clear();
 			  listaFlete.clear();
 			  listaEmision.clear();
 			  listaCertificado.clear();
+			  defaultSelectedItems.clear();
+			  listaModalidadEmbarque.clear();
+			  puertosNacionales.clear();
 			  
-			  
-			   listaModalidadEmbarque=comercioEjb.findModalidadEmbarque();
-			   this.puertosNacionales = this.comercioEjb.consultarPuertosNacionales();
+			   
 			   
 			   
 			    
@@ -1420,34 +1376,55 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 		    this.seleccionado = reportesComercioExteriorEJBLocal.consultarComextRequerimientoExportacionDetalle(seleccionado.getId());
 		    listaMarcacionEspecial= reportesComercioExteriorEJBLocal.consultarMarcacionEspecial(seleccionado.getId());
 		    
-		    this.tipoContenedores.add(new SelectItem("20", "20"));
-		    this.tipoContenedores.add(new SelectItem("40", "40"));
+		    
+		    
+		    
+		    
+		    
+		    this.tipoContenedores.add(new SelectItem("veinte", "20"));
+		    this.tipoContenedores.add(new SelectItem("cuarenta", "40"));
 		    this.tipoContenedores.add(new SelectItem("Carga Suelta", "Carga Suelta"));
 		   
-		    this.listaFlete.add(new SelectItem("A Cobrar", "A Cobrar"));
-		    this.listaFlete.add(new SelectItem("Prepagado", "Prepagado"));
+		    this.listaFlete.add(new SelectItem("cobrar", "cobrar"));
+		    this.listaFlete.add(new SelectItem("prepagado", "prepagado"));
 		    
 		    this.listaEmision.add(new SelectItem("Origen", "Origen"));
 		    this.listaEmision.add(new SelectItem("Destino", "Destino"));
 		    
-		    this.listaCertificado.add (new SelectItem("Certificado Origen", "Certificado Origen"));
-		    this.listaCertificado.add (new SelectItem("Certificado Transaccion Organico", "Certificado Transaccion Organico"));
-		    this.listaCertificado.add (new SelectItem("Certificado Libre Venta", "Certificado Libre Venta"));
-		    this.listaCertificado.add (new SelectItem("Apostilla", "Apostilla"));
-		    this.listaCertificado.add (new SelectItem("Otro", "Otro"));
+		    
+		    this.listaCertificado.add ("Certificado Origen");
+		    this.listaCertificado.add ("Certificado Transaccion Organico");
+		    this.listaCertificado.add ("Certificado Libre Venta");
+		    this.listaCertificado.add ("Apostilla");
+		    this.listaCertificado.add ("Otro");
+		    
+		    
+		    listaModalidadEmbarque=comercioEjb.findModalidadEmbarque();
+			this.puertosNacionales = this.comercioEjb.consultarPuertosNacionales();
 		    
 
-		    System.out.println("certificado"+this.seleccionado.getDanopciones());
-			//certificado  = Arrays.asList(this.seleccionado.getDanopciones().split("\\s*,\\s*"));
-			certificado  = Arrays.asList(this.seleccionado.getDanopciones().split("\\s,+"));		
+		    
 			
+		   if (!this.seleccionado.getDanopciones().isEmpty() || !this.seleccionado.getDanopciones().equals(null) || !this.seleccionado.getDanopciones().contains("") || this.seleccionado.getDanopciones()!="")
+		   {
+		   StringTokenizer stt=new StringTokenizer(this.seleccionado.getDanopciones().substring(1, this.seleccionado.getDanopciones().length()-1), ",");
+		   
+		  
+		   while (stt.hasMoreTokens()){
+			   String s = stt.nextToken();
+			   s=s.substring(1, s.length()-1);
+			   //System.out.println("certificado 1:"+ s);
+			   defaultSelectedItems.add(s);
+		   }
+		   }
+		
+		   //if (this.seleccionado.getTipocontenedores()==
+		   
+		   //this.seleccionado.setTipocontenedores(); 
+		   
 		    
-		    
-		    //String [] items = this.seleccionado.getDanopciones().split(",");
-		    //certificado  = Arrays.asList(items);
-		    System.out.println("certificado list:"+ certificado );
-		    
-		    
+		   
+		      
 		  }
 
 		/**
@@ -1492,14 +1469,11 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 		public void setDanopciones(List<String> danopciones) {
 			this.danopciones = danopciones;
 		}
-		
-		
+
 		/**
 		 * @return the certificado
 		 */
 		public List<String> getCertificado() {
-			
-			System.out.println("print certificado: "+certificado);
 			return certificado;
 		}
 
@@ -1507,11 +1481,62 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 		 * @param certificado the certificado to set
 		 */
 		public void setCertificado(List<String> certificado) {
-					
 			this.certificado = certificado;
-			//List<String> items = Arrays.asList(str.split("\\s*,\\s*"));
-			
-			
-			
 		}
+
+		/**
+		 * @return the defaultSelectedItems
+		 */
+		public ArrayList<String> getDefaultSelectedItems() {
+			
+			//SelectItem s1 =  new SelectItem();
+	        //s1.setValue("Apostilla");
+	        //defaultSelectedItems.add(s1);
+			
+			return defaultSelectedItems;
+		}
+
+		/**
+		 * @param defaultSelectedItems the defaultSelectedItems to set
+		 */
+		public void setDefaultSelectedItems(ArrayList<String> defaultSelectedItems) {
+			this.defaultSelectedItems = defaultSelectedItems;
+		}
+
+		/**
+		 * @return the listaCertificado
+		 */
+		public List<String> getListaCertificado() {
+			return listaCertificado;
+		}
+
+		/**
+		 * @param listaCertificado the listaCertificado to set
+		 */
+		public void setListaCertificado(List<String> listaCertificado) {
+			this.listaCertificado = listaCertificado;
+		}
+
+		/**
+		 * @return the listaRequerimientoxDocumento
+		 */
+		public List<RequerimientosXDocumento> getListaRequerimientoxDocumento() {
+			return listaRequerimientoxDocumento;
+		}
+
+		/**
+		 * @param listaRequerimientoxDocumento the listaRequerimientoxDocumento to set
+		 */
+		public void setListaRequerimientoxDocumento(
+				List<RequerimientosXDocumento> listaRequerimientoxDocumento) {
+			this.listaRequerimientoxDocumento = listaRequerimientoxDocumento;
+		}
+
+		
+
+	
+
+		
+		
+		
 }

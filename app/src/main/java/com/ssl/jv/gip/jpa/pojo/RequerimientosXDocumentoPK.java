@@ -16,7 +16,7 @@ public class RequerimientosXDocumentoPK implements Serializable {
   private Long documentoId;
 
   @Column(name = "requerimientoexportacion_id")
-  private Integer requerimientoexportacionId;
+  private Long requerimientoexportacionId;
 
   public RequerimientosXDocumentoPK() {
   }
@@ -29,13 +29,7 @@ public class RequerimientosXDocumentoPK implements Serializable {
 	this.documentoId = documentoId;
   }
 
-  public Integer getRequerimientoexportacionId() {
-	return this.requerimientoexportacionId;
-  }
-
-  public void setRequerimientoexportacionId(Integer requerimientoexportacionId) {
-	this.requerimientoexportacionId = requerimientoexportacionId;
-  }
+ 
 
   public boolean equals(Object other) {
 	if (this == other) {
@@ -56,4 +50,18 @@ public class RequerimientosXDocumentoPK implements Serializable {
 
 	return hash;
   }
+
+/**
+ * @return the requerimientoexportacionId
+ */
+public Long getRequerimientoexportacionId() {
+	return requerimientoexportacionId;
+}
+
+/**
+ * @param requerimientoexportacionId the requerimientoexportacionId to set
+ */
+public void setRequerimientoexportacionId(Long requerimientoexportacionId) {
+	this.requerimientoexportacionId = requerimientoexportacionId;
+}
 }

@@ -49,6 +49,7 @@ import com.ssl.jv.gip.util.EstadoRequerimientoExportacion;
 
 
 
+
 import java.util.List;
 import java.util.Date;
 
@@ -62,9 +63,12 @@ import java.util.Date;
 
 @NamedQueries({
 	  
-	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c order by id desc"),
-	  @NamedQuery(name="ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.id = :id")})
-	   
+	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c  order by id desc"),
+	  @NamedQuery(name="ComextRequerimientoexportacion.FIND_BY_ESTADO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.estado = :idEstado order by id desc"),
+	  @NamedQuery(name="ComextRequerimientoexportacion.FIND_BY_ESTADO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.estado = :idEstado and c.id = :id"),
+	  @NamedQuery(name="ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c  WHERE c.id = :id")})
+	  
+
 
 
 
@@ -80,6 +84,8 @@ public class ComextRequerimientoexportacion implements Serializable {
 	
 	public static final String FIND_ALL = "ComextRequerimientoexportacion.findAll";
 	public static final String BUSCAR_DOCUMENTO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO";
+	public static final String FIND_BY_ESTADO = "ComextRequerimientoexportacion.FIND_BY_ESTADO";
+	public static final String FIND_BY_ESTADO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.FIND_BY_ESTADO_POR_CONSECUTIVO";
 	  
 	@Id
 	@SequenceGenerator(name="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR", sequenceName="comext_requerimientoexportacion_id_seq" , allocationSize = 1)
@@ -98,7 +104,8 @@ public class ComextRequerimientoexportacion implements Serializable {
 	private String codigo;
 	 
 	private String contactobi;
-	 @Transient
+	
+	
 	private String cotradireccion;
 	 
 	private String crazonsocial;
@@ -115,9 +122,6 @@ public class ComextRequerimientoexportacion implements Serializable {
 	 
 	private String danopciones;
 	 
-	
-	// private List<String> danopciones;
-	
 	
 	private String darazonsocial;
 	 
@@ -701,6 +705,22 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.metodopago = metodopago;
 	}
 
+	/**
+	 * @return the danopciones
+	 */
+	public String getDanopciones() {
+		return danopciones;
+	}
+
+	/**
+	 * @param danopciones the danopciones to set
+	 */
+	public void setDanopciones(String danopciones) {
+		this.danopciones = danopciones;
+	}
+
+	
+	
 	
 
 /*	public int getModalidadembarque() {
@@ -711,14 +731,7 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.modalidadembarque = modalidadembarque;
 	}*/
 
-	public String getDanopciones() {
-		return this.danopciones;
-	}
 
-	public void setDanopciones(String danopciones) {
-		this.danopciones = danopciones;
-	}
-	
 	
 
 }

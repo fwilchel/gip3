@@ -138,6 +138,8 @@ public class PuntoEntregaMB extends UtilMB {
 	seleccionado.setUsuario(new Usuario());
 	seleccionado.setUbicacion(new Ubicacion());
 	this.modo = Modo.CREAR;
+	
+	System.out.println("usuario"+seleccionado.getUsuario().getId());
   }
 
   public void guardar() {
@@ -202,6 +204,10 @@ public class PuntoEntregaMB extends UtilMB {
 	if (seleccionado.getUbicacion() == null) {
 	  seleccionado.setUbicacion(new Ubicacion());
 	}
+	
+	
+	
+	
   }
 
   public List<Cliente> getListaClientes() {

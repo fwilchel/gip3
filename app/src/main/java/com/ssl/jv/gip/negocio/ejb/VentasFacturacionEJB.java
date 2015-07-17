@@ -260,11 +260,16 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     // // Objetos que se deben enviar a SAP
 
     proxy = new ZVI_MM_EXT_SAP_PEDIDOProxy();
+    
+    //proxy.getZVI_MM_EXT_SAP_PEDIDO_PortType().
 
-    System.out.println("Tamano prod" + listaProductosXDocumento.size());
+    //System.out.println("Tamano prod" + listaProductosXDocumento.size());
     ZcaStPedidosCompra[] compra = new ZcaStPedidosCompra[listaProductosXDocumento.size()];
     ZcaStPedidosCompraRta[] rta = new ZcaStPedidosCompraRta[listaProductosXDocumento.size()];
     int index = 0;
+    
+    
+    
     for (ProductosXDocumento pxd : listaProductosXDocumento) {
       compra[index] = new ZcaStPedidosCompra();
       compra[index].setAlmacen("A1");
@@ -313,6 +318,8 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
     try {
       LOGGER.debug("Envia la informacion para crear ventaDirecta en SAP");
       System.out.println("Ingreso a Crear documento en SAP --> ");
+      
+      
       proxy.zmmInterfazIcgCreaPedido(compraHolder, rtaHolder);
 
       if (rtaHolder.value != null && rtaHolder.value.length > 0) {

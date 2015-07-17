@@ -28,6 +28,7 @@ import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
+import com.ssl.jv.gip.jpa.pojo.RequerimientosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Reqxproducto;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
@@ -358,9 +359,25 @@ public interface ComercioExteriorEJBLocal {
 
   public ComextRequerimientoexportacion crearRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion);
 
-    public List<ComextRequerimientoexportacionDTO> crearMarcacionEspecial(String id);
+  public List<ComextRequerimientoexportacionDTO> crearMarcacionEspecial(String id);
 
   public void crearReqxprod(List<ComextRequerimientoexportacionDTO> productos, long idrequerimiento, boolean selectedMarcacionEspecial);
+
+  public ComextRequerimientoexportacion actualizarRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion);
+
+ public void crearRequerimientoxdocumento(List<DocumentoRequerimientoExportacionDTO> listaDocumentos,long idrequerimiento);
+
+ public List<RequerimientosXDocumento> consultarComextRequerimientoExportacionXDocumento(Long id);
+
+ //public void actualizarComextRequerimientoExportacionEstado(Long id);
+
+ public void actualizarComextRequerimientoExportacionEstado(DocumentoRequerimientoExportacionDTO requerimiento);
+
+ public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionEstado(Integer idEstado);
+
+List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionEstadoXConsecutivo(Integer idEstado, Long id);
+
+void actualizarReqxprod(List<ComextRequerimientoexportacionDTO> productos,long idrequerimiento, boolean selectedMarcacionEspecial);
 
 
 

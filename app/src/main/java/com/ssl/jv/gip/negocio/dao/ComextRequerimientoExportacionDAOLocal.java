@@ -7,6 +7,7 @@ import javax.ejb.Local;
 
 import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
 import com.ssl.jv.gip.negocio.dto.ComextRequerimientoexportacionDTO;
+import com.ssl.jv.gip.negocio.dto.DocumentoRequerimientoExportacionDTO;
 
 @Local
 public interface ComextRequerimientoExportacionDAOLocal extends IGenericDAO<ComextRequerimientoexportacion>{
@@ -15,6 +16,12 @@ public interface ComextRequerimientoExportacionDAOLocal extends IGenericDAO<Come
 	
 	
 public List<ComextRequerimientoexportacionDTO> crearMarcacionEspecial(String id);
+
+
+public void actualizarEstadoRequerimientoExportacion(DocumentoRequerimientoExportacionDTO requerimiento);
+
+
+
 
 	
 }

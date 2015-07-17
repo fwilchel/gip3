@@ -179,7 +179,7 @@
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_ModalidadEmbarque}"
                            styleClass="negrita" />
            <p:selectOneMenu id="busquedaModoEmbar"  required="true"
-                           value="#{modificarRequerimientoExportacionMB.seleccionado.modalidadembarque}">
+                           value="#{modificarRequerimientoExportacionMB.seleccionado.modalidadembarque.id}">
             <f:selectItems
               value="#{modificarRequerimientoExportacionMB.listaModalidadEmbarque}" var="ModoEmbar"
               itemLabel="#{ModoEmbar.descripcion}" itemValue="#{ModoEmbar.id}" />
@@ -349,7 +349,8 @@
             
                    
             <p:outputLabel value="¿A esta dirección deben enviarse los documentos de Exportación? De lo contrario  favor diligenciela:" style="display: block; width: 200px;"/>						
-            <p:inputTextarea rows="5" cols="30" value="#{modificarRequerimientoExportacionMB.cotradireccion}" queryDelay="750" minQueryLength="4" />
+            <p:inputTextarea id="otradireccion" rows="5" cols="30" value="#{modificarRequerimientoExportacionMB.seleccionado.cotradireccion}" queryDelay="750" minQueryLength="4"  maxlength="100"/>
+             <p:message  for="otradireccion" />
             </p:panelGrid>
             </p:fieldset>
             
@@ -385,11 +386,14 @@
  			<p:outputLabel value="#{msg.reporteRequerimientoExportacion_danopciones}" styleClass="negrita" />
  			
  			
- 			<p:selectManyCheckbox id="certificado" value="#{modificarRequerimientoExportacionMB.certificado}" layout="grid" columns="1">
-        <f:selectItems value="#{modificarRequerimientoExportacionMB.listaCertificado}" />
+ 	
+ 			
+ 			 <p:selectManyCheckbox id="certificado" value="#{modificarRequerimientoExportacionMB.defaultSelectedItems}" layout="grid" columns="1">
+        <f:selectItems value="#{modificarRequerimientoExportacionMB.listaCertificado}" var="certificado" itemLabel="#{certificado}" itemValue="#{certificado}" />
     </p:selectManyCheckbox>
  			
  			
+ 			 
  			
             
             <p:outputLabel value="#{msg.reporteRequerimientoExportacion_dancual}" styleClass="negrita" />
@@ -410,25 +414,12 @@
 
    <h4>#{msg.reporteRequerimientoExportacion_TituloMarcacionEspecial}</h4>
    
-    <p:panelGrid columns="9" style="width:100%"   columnClasses="label,value">
-   <p:outputLabel value="#{msg.reporteRequerimientoExportacion_MarcacionEspecial}" styleClass="negrita" />
- 		     <p:selectBooleanCheckbox id="MarcacionEspecial" value="#{modificarRequerimientoExportacionMB.selectedMarcacionEspecial}">
-            <p:ajax update="tablaDatos2,panelGrid1" listener="#{modificarRequerimientoExportacionMB.consultarReqxproducto()}" />
-        </p:selectBooleanCheckbox>
-        	<p:message  for="MarcacionEspecial" />
-        	<p:outputLabel value="" styleClass="negrita" />
-        	<p:outputLabel value="" styleClass="negrita" />
-        	<p:outputLabel value="" styleClass="negrita" />
-        	<p:outputLabel value="" styleClass="negrita" />
-        	<p:outputLabel value="" styleClass="negrita" />
-        	<p:outputLabel value="" styleClass="negrita" />
-        	
-     </p:panelGrid>                
+               
         
       <p:panelGrid id="panelGrid1" columns="1" style="width:100%"   columnClasses="label,value" >
      <p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
-                       rendered="#{not empty modificarRequerimientoExportacionMB.listareqxproducto}" 
-                       value="#{modificarRequerimientoExportacionMB.listareqxproducto}" tableStyle="width:auto" >
+                       rendered="#{not empty modificarRequerimientoExportacionMB.listaMarcacionEspecial}" 
+                       value="#{modificarRequerimientoExportacionMB.listaMarcacionEspecial}" tableStyle="width:auto" >
                
              <p:column headerText="#{msg.reporteRequerimientoExportacion_Id}"
                       sortBy="#{dato.consecutivodocumento}">
@@ -476,13 +467,16 @@
   
 
     
-     <p:commandButton value="#{msg.BotonCrearRE}" update="formaDlg"
+     <p:commandButton value="#{msg.BotonModificarRE}" update="formaDlg"
                            actionListener="#{modificarRequerimientoExportacionMB.guardarRequerimientoExportacion}" />
         
         
       
-      
+       <p:commandButton value="#{msg.BotonAprobarRE}" update="formaDlg"  icon="ui-icon-disk"
+                           actionListener="#{modificarRequerimientoExportacionMB.aprobarRequerimientoExportacion}" />
         
+        
+      
        
                       
        </h:form>
