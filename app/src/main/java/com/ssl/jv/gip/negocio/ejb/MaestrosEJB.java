@@ -1,17 +1,28 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import org.apache.log4j.Logger;
 import org.primefaces.model.SortOrder;
@@ -81,16 +92,6 @@ import com.ssl.jv.gip.negocio.dao.UbicacionDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioComextFiltroVO;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Session Bean implementation class MaestrosEJB
@@ -1090,6 +1091,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
   }
 
   @Override
+  @TransactionAttribute(TransactionAttributeType.NEVER)
   public void crearProductosXClientesDesdeArchivo(byte[] archivo) throws IOException {
 	LOGGER.debug("Metodo: <<crearProductosXClientesDesdeArchivo>>");
 	List<ProductosXCliente> listaPXC;
