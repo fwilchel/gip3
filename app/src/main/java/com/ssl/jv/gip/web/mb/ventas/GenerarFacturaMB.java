@@ -30,6 +30,7 @@ import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
 import com.ssl.jv.gip.web.mb.util.Numero_a_Letra_Ingles;
+import com.ssl.jv.gip.web.util.Numero_a_Letra;
 import com.ssl.jv.gip.web.util.Utilidad;
 
 import java.io.ByteArrayInputStream;
@@ -401,8 +402,9 @@ public class GenerarFacturaMB extends UtilMB {
 	  parametrosReporte.put("observaciones", "");
 	  parametrosReporte.put("mark", "");
 	}
-	Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
-	parametrosReporte.put("valorTotalEnLetras", NumLetraIng.convert(facturaGenerada.getValorTotal().doubleValue()));
+	
+	Numero_a_Letra NumLetra = new Numero_a_Letra();
+	parametrosReporte.put("valorTotalEnLetras", NumLetra.Convertir(facturaGenerada.getValorTotal().toString(),true));
 	JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(pxds, false);
 	try {
 	  StringBuilder nombreArchivo = new StringBuilder();

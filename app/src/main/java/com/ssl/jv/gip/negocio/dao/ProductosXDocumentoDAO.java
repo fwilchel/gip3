@@ -95,7 +95,8 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
           + " from productosxdocumentos pxd inner join documentos d on pxd.id_documento=d.id"
           + " inner join productos_inventario pi on pi.id=pxd.id_producto"
           + " inner join unidades u on u.id=pi.id_ud"
-          + " where d.consecutivo_documento='" + strConsecutivoDocumento + "'";
+          + " where d.consecutivo_documento='" + strConsecutivoDocumento + "'"
+          + " order by pi.sku";
 
       List<Object[]> listado = em.createNativeQuery(query).getResultList();
 

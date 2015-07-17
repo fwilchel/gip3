@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="a18bf358-73ac-445b-b19b-f0921c907396">
-	<property name="ireport.zoom" value="2.59374246010013"/>
-	<property name="ireport.x" value="830"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="1.6105100000000805"/>
+	<property name="ireport.x" value="161"/>
+	<property name="ireport.y" value="336"/>
 	<property name="ireport.background.image.properties" value="true,true,0.75,-9,-4,0,0,625,796"/>
 	<parameter name="nit" class="java.lang.String"/>
 	<parameter name="direccion" class="java.lang.String"/>
@@ -465,14 +465,14 @@ Bogotá - Colombia]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unidad}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="###0">
 				<reportElement uuid="6f001f0a-5d2d-4b8d-a46f-d100a7a615cc" x="327" y="0" width="50" height="12"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="###0">
 				<reportElement uuid="26d38898-3a33-4d83-87a8-67ef85c4be97" x="271" y="0" width="17" height="12"/>
 				<textElement>
 					<font size="8"/>
