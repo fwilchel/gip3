@@ -50,6 +50,18 @@ public class LiquidacionCostoLogistico implements Serializable {
 
   @Column(name = "tipo_contenedor_2")
   private Integer tipoContenedor2;
+  
+  @Column(name = "valor_fob")
+  private BigDecimal valorFob;
+  
+  @Column(name = "valor_fletes")
+  private BigDecimal valorFletes;
+
+  @Column(name = "valor_seguros")
+  private BigDecimal valorSeguros;
+
+  @Column(name = "valor_total")
+  private BigDecimal valorTotal;
 
   //bi-directional many-to-one association to LiquidacionDocumento
   @OneToMany(mappedBy = "liquidacionCostoLogistico", cascade = CascadeType.PERSIST)
@@ -187,5 +199,37 @@ public class LiquidacionCostoLogistico implements Serializable {
 
     return liquidacionItem;
   }
+
+	public BigDecimal getValorFob() {
+		return valorFob;
+	}
+	
+	public void setValorFob(BigDecimal valorFob) {
+		this.valorFob = valorFob;
+	}
+	
+	public BigDecimal getValorFletes() {
+		return valorFletes;
+	}
+	
+	public void setValorFletes(BigDecimal valorFletes) {
+		this.valorFletes = valorFletes;
+	}
+	
+	public BigDecimal getValorSeguros() {
+		return valorSeguros;
+	}
+	
+	public void setValorSeguros(BigDecimal valorSeguros) {
+		this.valorSeguros = valorSeguros;
+	}
+	
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
+	
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
+	}
 
 }

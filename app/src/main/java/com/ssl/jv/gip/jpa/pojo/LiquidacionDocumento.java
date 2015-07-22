@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "liquidacion_documentos")
-@NamedQuery(name = "LiquidacionDocumento.findAll", query = "SELECT l FROM LiquidacionDocumento l")
+@NamedQuery(name = "LiquidacionDocumento.findAll", query = "SELECT l FROM LiquidacionDocumento l JOIN FETCH l.liquidacionCostoLogistico lcl order by l.consecutivoDocumento DESC")
 public class LiquidacionDocumento implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -30,6 +30,9 @@ public class LiquidacionDocumento implements Serializable {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "liquidacion_id")
   private LiquidacionCostoLogistico liquidacionCostoLogistico;
+  
+  @Transient
+  private Boolean seleccionada;
 
   public LiquidacionDocumento() {
   }
@@ -65,5 +68,13 @@ public class LiquidacionDocumento implements Serializable {
   public void setEtiquetas(BigDecimal etiquetas) {
     this.etiquetas = etiquetas;
   }
+
+	public Boolean getSeleccionada() {
+		return seleccionada;
+	}
+	
+	public void setSeleccionada(Boolean seleccionada) {
+		this.seleccionada = seleccionada;
+	}
 
 }

@@ -405,6 +405,10 @@ public class GenerarCostosLogisticosMB extends UtilMB {
     lcl.setPuertoNal(puertoNal);
     lcl.setTipoContenedor1(tipoContenedor1);
     lcl.setTipoContenedor2(tipoContenedor2);
+    lcl.setValorFob(fob);
+    lcl.setValorFletes(fletes);
+    lcl.setValorSeguros(seguros);
+    lcl.setValorTotal(this.getTotal());
 
     for (GrupoCostoLogistico g : this.costos) {
       for (CostoLogisticoDTO cl : g.getCostos()) {

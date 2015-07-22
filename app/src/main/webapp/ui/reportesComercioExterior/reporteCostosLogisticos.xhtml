@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/#{menuMB.tema}/template/general.xhtml">
+
+	<ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.TituloReporteCostosLogisticos}::.</ui:define>
+
+	<ui:define name="contenido">
+		<p:spacer height="40"></p:spacer>
+		<h:form prependId="false" id="forma">
+
+			<p:messages id="msgs" showDetail="false" showSummary="true"
+				globalOnly="false" showIcon="true"></p:messages>
+
+			<p:tabView id="tabPanel">
+				<p:tab title="#{msg.TituloReporteCostosLogisticos}">
+
+					<p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
+						value="#{reporteCLMB.solicitudes}" rows="10"
+						emptyMessage="#{msg.reporteCostosLogisticosSolicitudesNoEncontradas}"
+						paginator="true" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+
+						<p:column style="width:90px;text-align: center"
+							headerText="#{msg.reporteCostosLogisticosSPSeleccionada}">
+							<p:selectBooleanCheckbox value="#{dato.seleccionada}"></p:selectBooleanCheckbox>
+						</p:column>
+						
+						<p:column headerText="#{msg.reporteCostosLogisticosID}"
+							filterBy="#{dato.liquidacionCostoLogistico.id}">
+							<h:outputText value="#{dato.liquidacionCostoLogistico.id}" />
+						</p:column>
+						
+
+						<p:column headerText="#{msg.reporteCostosLogisticosSP}"
+							filterBy="#{dato.consecutivoDocumento}">
+							<h:outputText value="#{dato.consecutivoDocumento}" />
+						</p:column>
+					</p:dataTable>
+
+					<p:panelGrid columns="1">
+						<p:commandButton process="@form"
+							value="#{msg.reporteCostosLogisticosPDF}" ajax="false"
+							icon="ui-icon-document">
+							<p:fileDownload value="#{reporteCLMB.reportePDF}" />
+						</p:commandButton>
+					</p:panelGrid>
+
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+
