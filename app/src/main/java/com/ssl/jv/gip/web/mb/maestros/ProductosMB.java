@@ -358,7 +358,7 @@ public class ProductosMB extends UtilMB {
 
       parametrosReporte.put("filtro", filtro);
       parametrosReporte.put("fecha", new Date());
-
+      
       String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/maestroInventario.xls");
       ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametrosReporte, null);
       reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "maestroInventario.xls");

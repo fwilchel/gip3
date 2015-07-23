@@ -410,6 +410,11 @@
       <to-view-id>/ui/comercioexterior/modificarRequerimientoExportacion.xhtml</to-view-id>
     </navigation-case>
     
+     <!-- Reportes Comercio Exterior / reporte_costos_logisticos -->
+    <navigation-case>
+      <from-outcome>reporte_costos_logisticos</from-outcome>
+      <to-view-id>/ui/reportesComercioExterior/reporteCostosLogisticos.xhtml</to-view-id>
+    </navigation-case>
     
     
     

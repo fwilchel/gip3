@@ -40,6 +40,7 @@ import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jxls.transformer.XLSTransformer;
 
+import org.apache.commons.jexl2.JexlEngine;
 import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -195,7 +196,13 @@ public class GeneradorReportes {
         exporter.setExporterOutput(new SimpleHtmlExporterOutput(os));
         exporter.exportReport();
       } else if (tipo.equals("jxls")) {
-        XLSTransformer transformer = new XLSTransformer();
+        
+    	JexlEngine engine=new JexlEngine();
+    	engine.setDebug(false);
+    	engine.setLenient(false);
+    	engine.setSilent(true);
+    	XLSTransformer transformer = new XLSTransformer();
+        
         File f = new File(nombreReporte);
         File salida2 = new File("salida" + (int) (Math.random() * 1000000000) + ".xls");
         try {

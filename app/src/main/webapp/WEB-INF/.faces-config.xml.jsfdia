@@ -473,6 +473,12 @@
     PATH="/ui/comercioexterior/modificarRequerimientoExportacion.xhtml"
     TARGET="rules:#ui#comercioexterior#modificarRequerimientoExportacion.xhtml"
     TITLE="modificarRequerimientoExportacion" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="reporte_costos_logisticos::#ui#reportesComercioExterior#reporteCostosLogisticos.xhtml"
+    NAME="output90"
+    PATH="/ui/reportesComercioExterior/reporteCostosLogisticos.xhtml"
+    TARGET="rules:#ui#reportesComercioExterior#reporteCostosLogisticos.xhtml"
+    TITLE="reporte_costos_logisticos" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ui#comercioexterior#asignarLotesOIC.xhtml"
@@ -737,4 +743,8 @@
   NAME="rules:#ui#comercioexterior#modificarRequerimientoExportacion.xhtml"
   PATH="/ui/comercioexterior/modificarRequerimientoExportacion.xhtml"
   SHAPE="304,2993,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#ui#reportesComercioExterior#reporteCostosLogisticos.xhtml"
+  PATH="/ui/reportesComercioExterior/reporteCostosLogisticos.xhtml"
+  SHAPE="304,3025,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
