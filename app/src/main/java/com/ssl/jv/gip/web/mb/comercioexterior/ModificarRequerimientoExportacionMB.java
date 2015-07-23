@@ -319,7 +319,7 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 
 
 
-	public void guardarRequerimientoExportacion(ActionEvent ae) {
+	public void guardarRequerimientoExportacion() {
 
 		    try {
 		    	
@@ -407,12 +407,14 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 		   	//generarRequerimiento = false;	 
 		   	
 		    	 
-		    	 String mensaje = AplicacionMB.getMessage("RequerimientoExportacionExito_Crear", language);
-		    	    String parametros[] = new String[1];
-		    	    parametros[0] = "" + RequerimientoExportacionGenerado.getId();
-		    	    mensaje = Utilidad.stringFormat(mensaje, parametros);
+		    	 //String mensaje = AplicacionMB.getMessage("RequerimientoExportacionExito_Crear", language);
+		    	    //String parametros[] = new String[1];
+		    	    //parametros[0] = "" + RequerimientoExportacionGenerado.getId();
+		    	    //mensaje = Utilidad.stringFormat(mensaje, parametros);
 
-		    	    this.addMensajeInfo(mensaje);
+		    	   // this.addMensajeInfo(mensaje);
+		    	    
+		    	    this.addMensajeInfo("Se modifico el Requerimiento de Exportacion exitosamente");
 		    	
 		    	   // System.out.println("tamaño lista reqxprod: "+listareqxproducto.size());
 		    	    

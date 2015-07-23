@@ -160,11 +160,12 @@
               hideEffect="fade" resizable="false" dynamic="true" id="reqExpoDialog" width="800"  height="100%" >
       
       
-                <p:messages id="msgs2" showDetail="false" showSummary="true"
-                      globalOnly="true" showIcon="true"></p:messages>
-    
 
-                <h:form id="formaDlg">      
+
+                <h:form id="formaDlg">   
+                  <p:outputPanel id="datoDetalle" style="text-align:center;">
+          <p:messages id="msgs2" showDetail="false" showSummary="true"
+                      globalOnly="true" showIcon="true"></p:messages>   
                       
                    
                
@@ -467,18 +468,18 @@
   
 
     
-     <p:commandButton value="#{msg.BotonModificarRE}" update="formaDlg"
-                           actionListener="#{modificarRequerimientoExportacionMB.guardarRequerimientoExportacion}" />
+     <p:commandButton value="#{msg.BotonModificarRE}"  update=":formaDlg:datoDetalle" 
+                           action="#{modificarRequerimientoExportacionMB.guardarRequerimientoExportacion}" />
         
         
       
-       <p:commandButton value="#{msg.BotonAprobarRE}" update="formaDlg"  icon="ui-icon-disk"
+       <p:commandButton value="#{msg.BotonAprobarRE}" update=":formaDlg"  icon="ui-icon-disk"
                            actionListener="#{modificarRequerimientoExportacionMB.aprobarRequerimientoExportacion}" />
         
         
-      
+         
        
-                      
+            </p:outputPanel>          
        </h:form>
              </p:dialog> 
     

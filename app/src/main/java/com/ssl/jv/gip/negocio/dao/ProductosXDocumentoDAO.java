@@ -198,7 +198,7 @@ public class ProductosXDocumentoDAO extends GenericDAO<ProductosXDocumento>
   @Override
   public List<ProductosXDocumento> consultarPorDocumentoConColecciones(Long id) {
     Query query = em
-       .createNamedQuery(ProductosXDocumento.FIND_BY_DOCUMENTO_COLECCIONES);
+       .createNamedQuery(ProductosXDocumento.FIND_PRODUCTOS_BY_DOCUMENTO_CE);
     //.createNamedQuery(ProductosXDocumento.FIND_BY_DOCUMENTO);
     query.setParameter("idDocumento", id);
     return query.getResultList();

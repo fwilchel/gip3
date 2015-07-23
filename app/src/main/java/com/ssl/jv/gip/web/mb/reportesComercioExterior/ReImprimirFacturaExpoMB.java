@@ -232,8 +232,10 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
       registro.setProductoInventarioSku(prod.getProductosInventario().getSku());
       registro.setValorTotal(prod.getValorTotal().doubleValue());
       Double precioUS = 0.0;
-      if (prod.getProductosInventario() != null && prod.getProductosInventario().getProductosxclientes() != null && !prod.getProductosInventario().getProductosxclientes().isEmpty()) {
-        precioUS = prod.getProductosInventario().getProductosxclientes().get(0).getPrecioUsd().doubleValue();
+      
+      
+      if (prod.getProductosInventario() != null && prod.getProductosInventario().getProductosXClienteComexts() != null && !prod.getProductosInventario().getProductosXClienteComexts().isEmpty()) {
+        precioUS = prod.getProductosInventario().getProductosXClienteComexts().get(0).getPrecio().doubleValue();
       }
       registro.setPrecioUSD(precioUS);
       registro.setPosicionArancelaria(prod.getProductosInventario().getProductosInventarioComext().getPosicionArancelaria());
