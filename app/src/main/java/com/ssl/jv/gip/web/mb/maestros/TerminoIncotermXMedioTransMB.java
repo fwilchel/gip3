@@ -50,104 +50,106 @@ public class TerminoIncotermXMedioTransMB extends UtilMB {
 
   @PostConstruct
   public void init() {
-    lista = maestroEjb.consultarTerminoIncotermXMedioTransporte();
-    listaTerminoIncoterm = new ArrayList<TerminoIncoterm>();
-    listaMedioTransporte = new ArrayList<MedioTransporte>();
+	lista = maestroEjb.consultarTerminoIncotermXMedioTransporte();
+	listaTerminoIncoterm = new ArrayList<TerminoIncoterm>();
+	listaMedioTransporte = new ArrayList<MedioTransporte>();
   }
 
   public String modificar() {
 
-    return "";
+	return "";
   }
 
   public void nuevo() {
-    seleccionado = new TerminoIncotermXMedioTransporte();
-    seleccionado.setTerminoIncoterm(new TerminoIncoterm());
-    seleccionado.setMedioTransporte(new MedioTransporte());
-    this.modo = Modo.CREAR;
+	seleccionado = new TerminoIncotermXMedioTransporte();
+	seleccionado.setTerminoIncoterm(new TerminoIncoterm());
+	seleccionado.setMedioTransporte(new MedioTransporte());
+	this.modo = Modo.CREAR;
   }
 
   public void guardar() {
-    try {
-      if (this.modo.equals(Modo.CREAR)) {
-        this.seleccionado = this.maestroEjb.crearTerminoIncotermXMedioTransporte(this.seleccionado);
-        if (this.lista == null) {
-          this.lista = new ArrayList<TerminoIncotermXMedioTransporte>();
-        }
-        lista = maestroEjb.consultarTerminoIncotermXMedioTransporte();
-        this.nuevo();
-      } else {
-        this.maestroEjb.actualizarTerminoIncotermXMedioTransporte(this.seleccionado);
-        lista = maestroEjb.consultarTerminoIncotermXMedioTransporte();
+	try {
+	  if (this.modo.equals(Modo.CREAR)) {
+		this.seleccionado = this.maestroEjb.crearTerminoIncotermXMedioTransporte(this.seleccionado);
+		if (this.lista == null) {
+		  this.lista = new ArrayList<TerminoIncotermXMedioTransporte>();
+		}
+		lista = maestroEjb.consultarTerminoIncotermXMedioTransporte();
+		this.nuevo();
+	  } else {
+		this.maestroEjb.actualizarTerminoIncotermXMedioTransporte(this.seleccionado);
+		lista = maestroEjb.consultarTerminoIncotermXMedioTransporte();
+	  }
+
+	  this.addMensajeInfo("TerminoIncotermXMedioTransporte almacenado exitosamente");
+
+	} catch (EJBTransactionRolledbackException e) {
+	  if (this.isException(e, "termino_incoterm_x_medio_transporte_pkey")) {
+        this.addMensajeError(AplicacionMB.getMessage("generarPK", language));
       }
-
-      this.addMensajeInfo("TerminoIncotermXMedioTransporte almacenado exitosamente");
-
-    } catch (EJBTransactionRolledbackException e) {
-      if (this.isException(e, "dist_termino_incoterm_x_medio_transporte_key")) {
-        this.addMensajeError(AplicacionMB.getMessage("maestroTerminoIncotermMedioTransUnique", language));
-      }
-      LOGGER.error(e);
-    } catch (Exception e) {
-      this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
-      LOGGER.error(e);
-    }
-
+	  if (this.isException(e, "dist_termino_incoterm_x_medio_transporte_key")) {
+		this.addMensajeError(AplicacionMB.getMessage("maestroTerminoIncotermMedioTransUnique", language));
+	  }
+	  LOGGER.error(e);
+	} catch (Exception e) {
+	  this.addMensajeError(AplicacionMB.getMessage("UsuarioErrorPaginaTexto", language));
+	  LOGGER.error(e);
+	}
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
-      return true;
-    } else {
-      return false;
-    }
+	if (this.modo != null && this.modo.equals(Modo.CREAR)) {
+	  return true;
+	} else {
+	  return false;
+	}
   }
 
   public Modo getModo() {
-    return modo;
+	return modo;
   }
 
   public void setModo(Modo modo) {
-    this.modo = modo;
+	this.modo = modo;
   }
 
   public TerminoIncotermXMedioTransporte getSeleccionado() {
-    return seleccionado;
+	return seleccionado;
   }
 
   public void setSeleccionado(TerminoIncotermXMedioTransporte seleccionado) {
-    this.seleccionado = seleccionado;
-    this.modo = Modo.EDITAR;
+	this.seleccionado = seleccionado;
+	this.modo = Modo.EDITAR;
   }
 
   public List<TerminoIncotermXMedioTransporte> getLista() {
-    return lista;
+	return lista;
   }
 
   public void setLista(List<TerminoIncotermXMedioTransporte> lista) {
-    this.lista = lista;
+	this.lista = lista;
   }
 
   public List<TerminoIncoterm> getListaTerminoIncoterm() {
-    if (listaTerminoIncoterm == null || listaTerminoIncoterm.isEmpty()) {
-      listaTerminoIncoterm = maestroEjb.consultarTerminoIncotermActivo();
-    }
-    return listaTerminoIncoterm;
+	if (listaTerminoIncoterm == null || listaTerminoIncoterm.isEmpty()) {
+	  listaTerminoIncoterm = maestroEjb.consultarTerminoIncotermActivo();
+	}
+	return listaTerminoIncoterm;
   }
 
   public void setListaTerminoIncoterm(List<TerminoIncoterm> listaTerminoIncoterm) {
-    this.listaTerminoIncoterm = listaTerminoIncoterm;
+	this.listaTerminoIncoterm = listaTerminoIncoterm;
   }
 
   public List<MedioTransporte> getListaMedioTransporte() {
-    if (listaMedioTransporte == null || listaMedioTransporte.isEmpty()) {
-      listaMedioTransporte = maestroEjb.consultarMedioTransporteActivo();
-    }
-    return listaMedioTransporte;
+	if (listaMedioTransporte == null || listaMedioTransporte.isEmpty()) {
+	  listaMedioTransporte = maestroEjb.consultarMedioTransporteActivo();
+	}
+	return listaMedioTransporte;
   }
 
   public void setListaMedioTransporte(List<MedioTransporte> listaMedioTransporte) {
-    this.listaMedioTransporte = listaMedioTransporte;
+	this.listaMedioTransporte = listaMedioTransporte;
   }
 
 }
