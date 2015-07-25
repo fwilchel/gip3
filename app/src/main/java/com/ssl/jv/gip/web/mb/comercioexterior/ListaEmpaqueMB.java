@@ -96,7 +96,7 @@ public class ListaEmpaqueMB extends UtilMB {
     }
   }
 
-  public void generarListaEmpaque() {
+ /* public void generarListaEmpaque() {
     actualizarTotales();
     BigInteger consecutivoDocumento = comercioEjb.generarListaEmpaque(listaEmpaqueSeleccionada);
     System.out.println("***REGRESA DE LOS INSERT GRANDES");
@@ -108,7 +108,7 @@ public class ListaEmpaqueMB extends UtilMB {
       System.out.println("***REGRESA DE LOS INSERT DE PRODUCTO ");
     }
 
-  }
+  }*/
 
   public Timestamp getCurrentTimeStamp() {
     return currentTimeStamp;
