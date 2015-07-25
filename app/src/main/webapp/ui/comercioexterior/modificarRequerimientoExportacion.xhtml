@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition 
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:h="http://java.sun.com/jsf/html"
@@ -276,8 +276,8 @@
             	  
             	 
             				<p:panelGrid columns="3"  style="width:100%" columnClasses="label,value">
-            				 <h4>EXW Aplica para despachos que no lleven Café</h4>
-            				 <h4>Para embarques Aereos, la Guia Aérea o Air Way Bill sera entregada con la mercaderia.</h4>
+            				 <h4>EXW Aplica para despachos que no lleven Cafï¿½</h4>
+            				 <h4>Para embarques Aereos, la Guia Aï¿½rea o Air Way Bill sera entregada con la mercaderia.</h4>
             			    </p:panelGrid>	  
             				
             				<p:panelGrid columns="6"  style="width:100%" columnClasses="label,value">
@@ -329,7 +329,7 @@
             
             <p:spacer height="20px"></p:spacer>
             
-              <p:fieldset  legend="#{msg.reporteRequerimientoExportacion_AgenciaCarga}" style="margin-bottom:20px align:left">
+              <p:fieldset  legend="#{msg.reporteRequerimientoExportacion_AgenciaCarga}" style="margin-bottom:20px;align:left">
            
 		   
  			<p:panelGrid columns="3"   style="width:100%"  >
@@ -362,7 +362,7 @@
             <p:inputText   value="#{modificarRequerimientoExportacionMB.seleccionado.cciudadpais}"/>
             
                    
-            <p:outputLabel value="¿A esta dirección deben enviarse los documentos de Exportación? De lo contrario  favor diligenciela:" style="display: block; width: 200px;"/>						
+            <p:outputLabel value="Â¿A esta direcciÃ³n deben enviarse los documentos de ExportaciÃ³n? De lo contrario  favor diligenciela:" style="display: block; width: 200px;"/>						
             <p:inputTextarea id="otradireccion" rows="5" cols="30" value="#{modificarRequerimientoExportacionMB.seleccionado.cotradireccion}" queryDelay="750" minQueryLength="4"  maxlength="100"/>
              <p:message  for="otradireccion" />
             </p:panelGrid>
