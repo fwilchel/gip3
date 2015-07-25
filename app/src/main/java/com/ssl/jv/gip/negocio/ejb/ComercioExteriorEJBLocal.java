@@ -212,12 +212,12 @@ public interface ComercioExteriorEJBLocal {
   public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente);
 
   public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento, Long idCliente);
-
+ 
   public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento, Long idCliente);
 
   List<ProductoDTO> consultarProductoPorDocumento(ListaEmpaqueDTO listaEmpaqueDTO);
 
-  BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
+  //public Documento generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
 
   Documento consultarDocumentoPorId(Long pId);
 
@@ -294,7 +294,7 @@ public interface ComercioExteriorEJBLocal {
 
   public String guardarInstruccionEmbarque(List<DocumentoInstruccionEmbarqueDTO> listadoDocumentos, TerminosTransporte terminosTransporte);
 
-  public void generarListaEmpaque(Documento documento, DocumentoXNegociacion documentoXNegociacion, List<ProductoDTO> productoDTOs);
+  public Documento generarListaEmpaque(Documento documento, DocumentoXNegociacion documentoXNegociacion, List<ProductoDTO> productoDTOs);
 
   public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal);
 

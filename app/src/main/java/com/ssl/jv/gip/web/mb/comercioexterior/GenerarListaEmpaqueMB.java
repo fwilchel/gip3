@@ -65,6 +65,8 @@ public class GenerarListaEmpaqueMB extends UtilMB {
   private BigDecimal totalPallets;
   private BigDecimal totalPesoNeto;
   private BigDecimal totalPesoBruto;
+  
+  private Documento listaEmpaqueGenerada;
 
   @PostConstruct
   public void init() {
@@ -156,12 +158,14 @@ public class GenerarListaEmpaqueMB extends UtilMB {
 	String outcome = null;
 	try {
 	  DocumentoXNegociacion documentoXNegociacion = getDocumentoXNegociacion();
-	  comercioExteriorEJBLocal.generarListaEmpaque(seleccionado, documentoXNegociacion, productoDTOs);
+	  listaEmpaqueGenerada=comercioExteriorEJBLocal.generarListaEmpaque(seleccionado, documentoXNegociacion, productoDTOs);
 	  facturasProforma.remove(seleccionado);
 	  consecutivoDocumento = null;
 	  this.modo = Modo.CREAR;
 	  outcome = "listado_LE";
-	  addMensajeInfo(formatearCadenaConParametros("VentasLEExito_Crear", language, seleccionado.getId().toString(), seleccionado.getConsecutivoDocumento()));
+	  //addMensajeInfo(formatearCadenaConParametros("VentasLEExito_Crear", language, seleccionado.getId().toString(), seleccionado.getConsecutivoDocumento()));
+	  
+	  addMensajeInfo(formatearCadenaConParametros("VentasLEExito_Crear", language, listaEmpaqueGenerada.getId().toString(),  listaEmpaqueGenerada.getConsecutivoDocumento()));
 	} catch (Exception e) {
 	  LOGGER.error(e);
 	  Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);

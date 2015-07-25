@@ -109,23 +109,34 @@
            
            
             <p:column 
-              filterBy="#{ReqExpo.id}" style="width:100px"
+              filterBy="#{ReqExpo.id}" style="width:50px"
               headerText="#{msg.CodigoGipSP}" filterMatchMode="contains"
               sortBy="#{ReqExpo.id}">
               <h:outputText value="#{ReqExpo.id}" />
             </p:column>
+            
+            
+             <p:column 
+              filterBy="#{ReqExpo.cliente}"
+              style="width:140px" headerText="#{msg.nomCliente}"
+              filterMatchMode="contains"
+              sortBy="#{ReqExpo.cliente.nombre}">
+              <h:outputText value="#{ReqExpo.cliente.nombre}" />
+            </p:column>
 
             <p:column 
               filterBy="#{ReqExpo.fecha}"
-              style="width:100px" headerText="#{msg.reporteRequerimientoExportacion_Fecha}"
+              style="width:60px" headerText="#{msg.reporteRequerimientoExportacion_Fecha}"
               filterMatchMode="contains"
               sortBy="#{ReqExpo.fecha}">
-              <h:outputText value="#{ReqExpo.fecha}" />
+              <h:outputText value="#{ReqExpo.fecha}" >
+               <f:convertDateTime pattern="dd-MMM-yyyy" />
+               </h:outputText>
             </p:column>
 
             <p:column 
               filterBy="#{ReqExpo.modalidadembarque}"
-              style="width:100px"
+              style="width:80px"
               headerText="#{msg.reporteRequerimientoExportacion_ModalidadEmbarque}"
               filterMatchMode="contains"
               sortBy="#{ReqExpo.modalidadembarque}">
@@ -136,10 +147,12 @@
             
             <p:column 
               filterBy="#{ReqExpo.fechasolicitud}"
-              style="width:100px" headerText="#{msg.reporteRequerimientoExportacion_FechaSolicitud}"
+              style="width:70px" headerText="#{msg.reporteRequerimientoExportacion_FechaSolicitud}"
               filterMatchMode="contains"
               sortBy="#{ReqExpo.fechasolicitud}">
-              <h:outputText value="#{ReqExpo.fechasolicitud}" />
+              <h:outputText value="#{ReqExpo.fechasolicitud}" >
+               <f:convertDateTime pattern="dd-MMM-yyyy" />
+               </h:outputText>
             </p:column>
             
             <p:column 

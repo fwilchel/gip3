@@ -29,6 +29,8 @@ import org.apache.log4j.Logger;
 
 
 
+
+import com.ssl.jv.gip.jpa.pojo.Cliente;
 //import com.ssl.jv.gip.jpa.pojo.AgenteAduana;
 //import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ComextRequerimientoexportacion;
@@ -393,7 +395,10 @@ public class ModificarRequerimientoExportacionMB extends UtilMB{
 		   	    
 		    	comextRequerimientoexportacion.setDanobscuales(seleccionado.getDanobscuales());
 		    	
-		    	comextRequerimientoexportacion.setIdcliente(seleccionado.getIdcliente());
+		    	Cliente cliente =new Cliente();
+		    	cliente.setId(seleccionado.getCliente().getId());
+		    	
+		    	comextRequerimientoexportacion.setCliente(cliente);
 		    	comextRequerimientoexportacion.setTipoprecio(seleccionado.getTipoprecio());
 		    	comextRequerimientoexportacion.setMetodopago(seleccionado.getMetodopago());
 		    	

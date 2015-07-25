@@ -617,10 +617,10 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	return productoClienteComercioExteriorDAO.consultarProductoPorDocumento(listaEmpaqueDTO);
   }
 
-  @Override
-  public BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO) {
+ /* @Override
+  public Documento generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO) {
 	return documentoDAO.generarListaEmpaque(listaEmpaqueDTO);
-  }
+  }*/
 
   @Override
   public void generarListaEmpaque(ProductoDTO productoDTO) {
@@ -698,9 +698,9 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	  this.productoXDocumentoDAO.add(pxd);
 	}
 	actualizarEstadoDocumento(original.getId(), new Long(ConstantesDocumento.CERRADO));
-	for (ProductosXDocumento pxd : productos) {
+	/*for (ProductosXDocumento pxd : productos) {
 	  crearMovimientos(documento, pxd);
-	}
+	}*/
 	return documento;
   }
 
@@ -941,7 +941,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
 
   @Override
-  public void generarListaEmpaque(Documento documento, DocumentoXNegociacion documentoXNegociacion, List<ProductoDTO> productoDTOs) {
+  public Documento generarListaEmpaque(Documento documento, DocumentoXNegociacion documentoXNegociacion, List<ProductoDTO> productoDTOs) {
 
 	Documento listaEmpaque = crearListaEmpaque(documento);
 
@@ -955,7 +955,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	  productoXDocumentoDAO.add(productosXDocumento);
 	}
 
-	Documento ventaDirecta = crearVentaDirecta(listaEmpaque);
+/*	Documento ventaDirecta = crearVentaDirecta(listaEmpaque);
 	List<ProductosXDocumento> productosXDocumentosVentaDirecta = getProductosXDocumentosParaVentaDirecta(productoDTOs);
 	for (ProductosXDocumento productosXDocumento : productosXDocumentosVentaDirecta) {
 	  productosXDocumento.getId().setIdDocumento(ventaDirecta.getId());
@@ -973,7 +973,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
 	listaEmpaque.setSitioEntrega(ventaDirecta.getConsecutivoDocumento() + ";" + remision.getConsecutivoDocumento());
 	documentoDAO.update(listaEmpaque);
-
+*/
 	Documento solicitudPedido = documentoDAO.consultarDocumentoPorConsecutivo(documento.getObservacionDocumento());
 	Estadosxdocumento estadosxdocumentoSP = solicitudPedido.getEstadosxdocumento();
 	EstadosxdocumentoPK idEstDocSP = estadosxdocumentoSP.getId();
@@ -988,6 +988,8 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	estadosxdocumento.setId(idEstadoXDocumento);
 	documento.setEstadosxdocumento(estadosxdocumento);
 	documentoDAO.update(documento);
+	
+	return listaEmpaque;
 
   }
 
@@ -1308,9 +1310,10 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	  }
 	}
 
-	String prefijoConsecutivo = tipoDocumento.getAbreviatura() + ubicacion.getEmpresa().getId();
-	Long valorSecuencia = documentoDAO.consultarProximoValorSecuencia(prefijoConsecutivo + "_seq");
-	listaEmpaque.setConsecutivoDocumento(prefijoConsecutivo + "-" + valorSecuencia);
+	//String prefijoConsecutivo = tipoDocumento.getAbreviatura() + ubicacion.getEmpresa().getId();
+	//Long valorSecuencia = documentoDAO.consultarProximoValorSecuencia(prefijoConsecutivo + "_seq");
+	//listaEmpaque.setConsecutivoDocumento(prefijoConsecutivo + "-" + valorSecuencia);
+	listaEmpaque.setConsecutivoDocumento("LE1-" + this.documentoDAO.consultarProximoValorSecuencia("le1_seq"));
 
 	listaEmpaque.getEstadosxdocumento().setEstado(estadoDAOLocal.findByPK(estadosxdocumento.getId().getIdEstado()));
 

@@ -1076,6 +1076,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     String sqlConsecutivoEmpresa = "select nextval('" + "LE" + prefijoEmpresa + "_seq') AS SEQ";
     BigInteger consecutivoEmpresa = (BigInteger) em.createNativeQuery(sqlConsecutivoEmpresa).getSingleResult();
 
+    
+    
+    
     String sql;
     try {
       sql = "INSERT INTO documentos (consecutivo_documento," + " fecha_esperada_entrega, id_ubicacion_origen, id_ubicacion_destino," + " id_tipo_documento, fecha_generacion," + " id_estado, observacion_documento, id, documento_cliente, " + " sitio_entrega, id_cliente)" + " VALUES ('LE" + prefijoEmpresa + "-" + consecutivoEmpresa.toString() + "','" + listaEmpaqueDTO.getFechaEsperadaEntrega() + "','" + listaEmpaqueDTO.getIdUbicacionOrigen() + "','" + listaEmpaqueDTO.getIdUbicacionDestino()

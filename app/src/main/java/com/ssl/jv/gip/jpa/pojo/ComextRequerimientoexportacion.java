@@ -50,6 +50,7 @@ import com.ssl.jv.gip.util.EstadoRequerimientoExportacion;
 
 
 
+
 import java.util.List;
 import java.util.Date;
 
@@ -212,12 +213,13 @@ public class ComextRequerimientoexportacion implements Serializable {
 	 
 	private String zipcodebi;
 	
-	@Column(name="id_cliente")
-	private Long idcliente;
+	//@Column(name="id_cliente")
+	//private Long idcliente;
 
-	//bi-directional many-to-one association to Reqxproducto
-	//@OneToMany(mappedBy="comextRequerimientoexportacion")
-	//private List<Reqxproducto> reqxproductos;
+	
+	 @ManyToOne
+	  @JoinColumn(name = "id_cliente")
+	  private Cliente cliente;
 	
 	
 	 
@@ -663,19 +665,7 @@ public class ComextRequerimientoexportacion implements Serializable {
 		this.idmetodopago = idmetodopago;
 	}*/
 
-	/**
-	 * @return the idcliente
-	 */
-	public Long getIdcliente() {
-		return idcliente;
-	}
-
-	/**
-	 * @param idcliente the idcliente to set
-	 */
-	public void setIdcliente(Long idcliente) {
-		this.idcliente = idcliente;
-	}
+	
 
 	/**
 	 * @return the tipoprecio
@@ -717,6 +707,20 @@ public class ComextRequerimientoexportacion implements Serializable {
 	 */
 	public void setDanopciones(String danopciones) {
 		this.danopciones = danopciones;
+	}
+
+	/**
+	 * @return the cliente
+	 */
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	/**
+	 * @param cliente the cliente to set
+	 */
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	

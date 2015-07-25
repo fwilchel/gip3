@@ -4,7 +4,9 @@ package com.ssl.jv.gip.web.mb.comercioexterior;
 import java.sql.Timestamp;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -83,6 +85,8 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	  private boolean generarRequerimiento;
 	  
 	  private Date dateFechaDespacho;
+	  
+	  //private Date dateFecha;
 	  
 	  ComextRequerimientoexportacion comextRequerimientoexportacion;
 	  
@@ -354,8 +358,20 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 		    	tipoprecio.setId((long) idtipoprecio);
 		    	comextRequerimientoexportacion.setTipoprecio(tipoprecio);
 		    	
-		    	comextRequerimientoexportacion.setIdcliente(idcliente);
-		    	comextRequerimientoexportacion.setFecha(this.dateFechaDespacho);
+		    	Cliente cliente =new Cliente();
+		    	cliente.setId(idcliente);
+		    	
+		    	String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+				SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+				Calendar c1 = Calendar.getInstance(); // Fecha y Tiempo actual
+				String datatime = sdf.format(c1.getTime());
+
+
+				    	
+		    	
+		    	
+		    	comextRequerimientoexportacion.setCliente(cliente);
+		    	comextRequerimientoexportacion.setFecha(Timestamp.valueOf(datatime));
 		    	comextRequerimientoexportacion.setFechasolicitud(this.dateFechaDespacho);
 		    	comextRequerimientoexportacion.setEstado(ConstantesDocumento.ACTIVO);
 		    	comextRequerimientoexportacion.setFlete(flete);
@@ -1433,6 +1449,8 @@ public class GenerarRequerimientoExportacionMB extends UtilMB{
 	public void setDanopciones(String[] danopciones) {
 		this.danopciones = danopciones;
 	}
+
+	
 
 	
 
