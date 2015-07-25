@@ -11,6 +11,6 @@ ALTER TABLE liquidacion_costo_logistico
    ADD COLUMN valor_total numeric(19,2);   
 
 
-insert into funcionalidades values (146, 'Reporte Costos Logísticos', 'Reporte Costos Logísticos', 110, 'reporte_costos_logisticos', 2);
-insert into permisos values (146, 146, 'T');
-insert into permisos_roles values (146, 1);
+insert into funcionalidades values (149, 'Reporte Costos Logísticos', 'Reporte Costos Logísticos', 110, 'reporte_costos_logisticos', 2);
+insert into permisos values (149, 149, 'T');
+insert into permisos_roles values (149, 1);
