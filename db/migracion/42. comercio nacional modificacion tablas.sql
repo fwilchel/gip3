@@ -15,7 +15,3 @@ ALTER TABLE punto_venta
 ﻿-- para agregar la columna unidad_min_despacho_x_tendido
 ALTER TABLE productos_inventario
   ADD COLUMN unidad_min_despacho_x_tendido numeric(8,0);
-
--- para eliminar la columna ubicacion de clientes
-ALTER TABLE clientes
-  DROP COLUMN ubicacion;
