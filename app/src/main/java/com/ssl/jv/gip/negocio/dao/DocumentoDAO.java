@@ -1701,8 +1701,17 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
         List<Object[]> regExiste = em.createNativeQuery(sql).getResultList();
 
         if (regExiste != null && regExiste.size() > 0) {
-          String sqlModificarFacturaProforma = "UPDATE productosXdocumentos SET total_peso_neto_item = " + dto.getDblTotalPesoNeto() + ", " + "total_peso_bruto_item = " + dto.getDblTotalPesoBruto() + ", " + "valor_unitario_usd = " + dto.getDblPrecioUSD() + ", cantidad1 = " + dto.getDblCantidad1ActualProductoxDocumento() + " , " + "valor_total = " + dto.getDblValorTotalProductoxDocumento() + ", " + "cantidad_cajas_item = " + dto.getDblTotalCajas() + ", cantidad_pallets_item = "
-                  + dto.getDblTotalCajasPallet() + " , " + "cantidad_x_embalaje = " + dto.getDblCantidadXEmbalajeProductoInventarioCE() + " " + "WHERE  id_documento = " + documento.getIdDocumento() + "  AND id_producto = " + dto.getIntIdProductoInventario() + " ";
+          String sqlModificarFacturaProforma = "UPDATE productosXdocumentos SET "
+                  + "total_peso_neto_item = " + dto.getDblTotalPesoNeto() + ", " 
+                  + "total_peso_bruto_item = " + dto.getDblTotalPesoBruto() + ", " 
+                  + "valor_unitario_usd = " + dto.getDblPrecioUSD() + ", "
+                  + "cantidad1 = " + dto.getDblCantidad1ProductoxDocumento() + " , " 
+                  + "valor_total = " + dto.getDblValorTotalProductoxDocumento() + ", " 
+                  + "cantidad_cajas_item = " + dto.getDblTotalCajas() + ", "
+                  + "cantidad_pallets_item = " + dto.getDblTotalCajasPallet() + " , " 
+                  + "cantidad_x_embalaje = " + dto.getDblCantidadXEmbalajeProductoInventarioCE() + " " 
+                  + "WHERE  id_documento = " + documento.getIdDocumento() + " " 
+                  + "AND id_producto = " + dto.getIntIdProductoInventario() + " ";
 
           em.createNativeQuery(sqlModificarFacturaProforma).executeUpdate();
         } else {

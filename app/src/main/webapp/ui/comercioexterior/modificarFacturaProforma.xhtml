@@ -228,13 +228,22 @@
               <h:outputText value="#{producto.strNombreProductoInventario}" />
             </p:column>
 
-            <p:column headerText="#{msg.comprasCantidadSola}">
-              <p:panelGrid columns="1">
-                <p:inputText value="#{producto.dblCantidad1ProductoxDocumento}"
-                             required="true" maxlength="10" size="10" id="cantidadProd1">
-                  <f:convertNumber maxFractionDigits="2" />
-                </p:inputText>
-                <p:message for="cantidadProd1"></p:message>
+            <p:column 
+              headerText="#{msg.comprasCantidadSola}">
+              <p:panelGrid 
+                columns="1">
+                <h:inputText 
+                  id="cantidadProd1" 
+                  value="#{producto.dblCantidad1ProductoxDocumento}"
+                  required="#{producto.blnIncluirBusqueda}" 
+                  maxlength="10" 
+                  size="10">
+                  <f:convertNumber 
+                    maxFractionDigits="2" />
+                </h:inputText>
+                <p:message 
+                  for="cantidadProd1">
+                </p:message>
               </p:panelGrid>
             </p:column>
 
@@ -281,7 +290,13 @@
             </p:column>
 
             <p:column headerText="#{msg.buscadorIncluirProducto}">
-              <p:selectBooleanCheckbox value="#{producto.blnIncluirBusqueda}" />
+              <p:selectBooleanCheckbox 
+                value="#{producto.blnIncluirBusqueda}" 
+                immediate="true">
+                <p:ajax 
+                  update="tablaProductos" 
+                  process="@this"/>
+              </p:selectBooleanCheckbox>
             </p:column>
 
           </p:dataTable>
