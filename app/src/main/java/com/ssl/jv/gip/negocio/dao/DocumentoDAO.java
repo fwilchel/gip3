@@ -978,7 +978,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
               // + " tl.descripcion as DESCRIPCION_LOTE"
               + " case when c.modo_factura=0 then tl.descripcion_ingles when c.modo_factura=1 then tl.descripcion when c.modo_factura=2 then tl.descripcion end as DESCRIPCION_LOTE" + " from productosXdocumentos pxd  " + " LEFT JOIN productos_inventario pi on  pxd.id_producto=pi.id" + " LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=pxd.id_producto" + " LEFT JOIN documentos d on d.id=pxd.id_documento"
               + " LEFT join productos_x_cliente_comext pxc_ce on pxc_ce.id_producto=pxd.id_producto and pxc_ce.id_cliente=d.id_cliente" + " LEFT join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id " + " LEFT join documento_x_lotesoic dxl on dxl.id_documento= " + " (select documentos.id from documentos where documentos.consecutivo_documento=(select documentos.observacion_documento from documentos where documentos.consecutivo_documento='" + strConsecutivoDocumento + "'))"
-              + " and dxl.id_tipo_lote=pi_ce.id_tipo_loteoic" + " LEFT JOIN unidades on unidades.id = pi.id_uv LEFT JOIN clientes c on c.id=d.id_cliente WHERE d.consecutivo_documento='" + strConsecutivoDocumento + "'";
+              + " and dxl.id_tipo_lote=pi_ce.id_tipo_loteoic" + " LEFT JOIN unidades on unidades.id = pi.id_uv LEFT JOIN clientes c on c.id=d.id_cliente WHERE d.consecutivo_documento='" + strConsecutivoDocumento + "' order by tl.id";
 
       List<Object[]> listado = em.createNativeQuery(query).getResultList();
 
