@@ -321,6 +321,8 @@ public class ModificarFacturaProformaMB extends UtilMB {
       yaEsta = false;
     }
     objProducto = null;
+    
+    this.refrescarTotales();
   }
 
   /**
