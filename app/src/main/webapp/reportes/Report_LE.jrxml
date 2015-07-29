@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_LE" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4276114b-889a-4591-ad6e-9ff14295e24b">
 	<property name="ireport.zoom" value="2.196150000000017"/>
-	<property name="ireport.x" value="253"/>
-	<property name="ireport.y" value="1185"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="502"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="false,true,0.75,0,0,0,0,0,0"/>
 	<style name="table">
@@ -932,7 +932,7 @@ Bogotá - Colombia]]></text>
 			<line>
 				<reportElement uuid="5ea876e9-ea74-48b2-afbb-6087c26c53a3" x="587" y="-1" width="1" height="12"/>
 			</line>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement uuid="564d76ea-b1ca-4950-8a0f-e1aadf26a3ee" x="32" y="-1" width="77" height="11"/>
 				<textElement>
 					<font size="5"/>
