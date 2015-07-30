@@ -1044,14 +1044,14 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
             }
             // fecha min
             if (values[2] != null) {
-              if (ventaDirecta.getFechaEntrega() == null) {
-                ventaDirecta.setFechaEntrega(new Timestamp(format.parse(values[2].trim()).getTime()));
+              if (ventaDirecta.getFechaEsperadaEntrega() == null) {
+                ventaDirecta.setFechaEsperadaEntrega(new Timestamp(format.parse(values[2].trim()).getTime()));
               }
             }
             // fecha max entrega
             if (values[3] != null) {
-              if (ventaDirecta.getFechaEsperadaEntrega() == null) {
-                ventaDirecta.setFechaEsperadaEntrega(new Timestamp(format.parse(values[3].trim()).getTime()));
+              if (ventaDirecta.getFechaEntrega() == null) {
+                ventaDirecta.setFechaEntrega(new Timestamp(format.parse(values[3].trim()).getTime()));
               }
             }
             // ean producto

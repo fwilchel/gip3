@@ -962,7 +962,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
        */
 
       String query = "select pi.sku ,"
-              + " case when c.modo_factura=0 then pi_ce.descripcion when c.modo_factura=1 then pi.nombre when c.modo_factura=2 then pi_ce.nombre_prd_proveedor end as nombre_producto,"
+              + " case when c.modo_factura=1 then pi_ce.descripcion when c.modo_factura=2 then pi.nombre when c.modo_factura=3 then pi_ce.nombre_prd_proveedor end as nombre_producto,"
               + " pxd.cantidad1 , pxd.total_peso_neto_item,"
               + " pxd.total_peso_bruto_item ,pxd.cantidad_cajas_item ,  pxd.cantidad_x_embalaje,"
               + " dxl.consecutivo ,"
