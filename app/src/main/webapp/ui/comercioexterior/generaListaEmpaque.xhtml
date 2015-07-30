@@ -95,25 +95,45 @@
               <f:convertDateTime pattern="dd-MMM-yyyy"/>
             </p:inputText>
 
-            <p:outputLabel value="#{msg.generarListaEmpaque_ObservacionDocumento}"
-                           for="observacionDocumento" styleClass="negrita" />
-            <p:inputTextarea value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].descripcion}"
-                             id="observacionDocumento" label="#{msg.generarListaEmpaque_ObservacionDocumento}" disabled="false"/>
+            <p:outputLabel 
+              value="#{msg.generarListaEmpaque_ObservacionDocumento}"
+              for="observacionDocumento" 
+              styleClass="negrita" />
+            <p:inputTextarea 
+              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].descripcion}"
+              id="observacionDocumento" 
+              label="#{msg.generarListaEmpaque_ObservacionDocumento}" 
+              disabled="false"/>
 
-            <p:outputLabel value="#{msg.generarListaEmpaque_ObservacionMarcacion}"
-                           for="observacionMarcacion" styleClass="negrita" />
-            <p:inputTextarea value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].observacionesMarcacion2}"
-                             id="observacionMarcacion" label="#{msg.generarListaEmpaque_ObservacionMarcacion}" disabled="true" />
+            <p:outputLabel 
+              value="#{msg.generarListaEmpaque_ObservacionMarcacion}"
+              for="observacionMarcacion" 
+              styleClass="negrita" />
+            <p:inputTextarea 
+              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].observacionesMarcacion2}"
+              id="observacionMarcacion" 
+              label="#{msg.generarListaEmpaque_ObservacionMarcacion}" 
+              disabled="false" />
 
-            <p:outputLabel value="#{msg.generarListaEmpaque_CantidadEstibas}"
-                           for="cantidadEstibas" styleClass="negrita" />
-            <p:inputText value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].cantidadEstibas}"
-                         id="cantidadEstibas" label="#{msg.generarListaEmpaque_CantidadEstibas}" disabled="true" />
+            <p:outputLabel 
+              value="#{msg.generarListaEmpaque_CantidadEstibas}"
+              for="cantidadEstibas" 
+              styleClass="negrita" />
+            <p:inputText 
+              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].cantidadEstibas}"
+              id="cantidadEstibas" 
+              label="#{msg.generarListaEmpaque_CantidadEstibas}" 
+              disabled="false" />
 
-            <p:outputLabel value="#{msg.generarListaEmpaque_PesoBrutoEstibas}"
-                           for="pesoBrutoEstibas" styleClass="negrita" />
-            <p:inputText value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].pesoBrutoEstibas}"
-                         id="pesoBrutoEstibas" label="#{msg.generarListaEmpaque_PesoBrutoEstibas}"  disabled="true"/>
+            <p:outputLabel 
+              value="#{msg.generarListaEmpaque_PesoBrutoEstibas}"
+              for="pesoBrutoEstibas" 
+              styleClass="negrita" />
+            <p:inputText 
+              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].pesoBrutoEstibas}"
+              id="pesoBrutoEstibas" 
+              label="#{msg.generarListaEmpaque_PesoBrutoEstibas}"  
+              disabled="false"/>
 
             <p:outputLabel value="#{msg.generarListaEmpaque_Canal}"
                            for="canal" styleClass="negrita" />
