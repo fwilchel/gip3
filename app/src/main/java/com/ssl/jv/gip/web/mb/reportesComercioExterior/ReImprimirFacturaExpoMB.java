@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -22,6 +24,7 @@ import javax.persistence.PersistenceException;
 
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -154,6 +157,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     parametros.put("fecha", fechaStringGeneracion);
     parametros.put("numFactura", this.seleccionado.getConsecutivoDocumento());
     parametros.put("tipoImp", "COPY");
+    //parametros.put("tipoImp", "ORIGINAL");
     parametros.put("fechaVigencia", fechaStringVigencia);
     parametros.put("fechaDespacho", fechaStringDespacho);
     parametros.put("totalPesoNeto", this.totalPesoNeto.doubleValue());
@@ -171,6 +175,8 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     parametros.put("qEstibas", cantidadEstibas.doubleValue());
     parametros.put("PesoBrutoEstibas", pesoBrutoEstibas.doubleValue());
     parametros.put("descripcion_envio", strObservacionMarcacion2);
+    parametros.put("loteOIC", "Lote OIC*: Cada transacción de café recibirá una marca de identificación de la Organización Internacional del Café, (Lote OIC) que será exclusiva de la partida de café de que se trate.");
+    
     if (this.seleccionado.getEstadosxdocumento().getEstado().getId().longValue() == Estado.ANULADO.getCodigo()) {
       parametros.put("anulada", "ANULADA");
     } else {
@@ -192,6 +198,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
         produ.getProductosInventario().setNombre(productoIngles);
         produ.getUnidade().setNombre(unidadIngles);
         produ.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().setDescripcion(tipoLoteIngles);
+        parametros.put("loteOIC", "Lote OIC*: Each transaction Coffee receive an identification mark of the International Coffee Organization (ICO Lot) that will be unique to the parcel of coffee concerned.");
       }
     } else if (cliente.getModoFactura() == 3) {
       String productoIngles;
@@ -223,7 +230,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
       System.out.println("Id lote:" + lotes.getTipoLoteoic().getId());
     }
     
-    List<ReporteReimprimirFacturaDTO> reporteDTOS = new ArrayList<>();
+    List<ReporteReimprimirFacturaDTO> reporteDTOS = new ArrayList<ReporteReimprimirFacturaDTO>();
     for (ProductosXDocumento prod : listaProductosDocumento) {
       ReporteReimprimirFacturaDTO registro = new ReporteReimprimirFacturaDTO();
       registro.setProductoInventarioNombre(prod.getProductosInventario().getNombre());
@@ -250,9 +257,20 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
       }
       registro.setValorUnitarioUSD(prod.getValorUnitarioUsd().doubleValue());
       registro.setTotalCajasPallet(prod.getCantidadPalletsItem().doubleValue());
+      
+      
       reporteDTOS.add(registro);
+      
     }
-
+    
+ 
+  		
+  		
+    Collections.sort(reporteDTOS, new ConsecutivoLoteComp() );
+ 
+    
+    
+    
     /*if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()) {
      parametros.put("solicitud", this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento()));
      }*/
@@ -464,5 +482,22 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
   public void setTotalValorNeg(BigDecimal totalValorNeg) {
     this.totalValorNeg = totalValorNeg;
   }
+  
+  class ConsecutivoLoteComp implements Comparator<ReporteReimprimirFacturaDTO>{
+	  
+	    @Override
+	    public int compare(ReporteReimprimirFacturaDTO e1, ReporteReimprimirFacturaDTO e2) {
+	        if(Integer.parseInt(e1.getDocxLoteOICConsec().replace("-", "")) > Integer.parseInt(e2.getDocxLoteOICConsec().replace("-", ""))){
+	            return 1;
+	        } else {
+	            return -1;
+	        }
+	    }
+	}
+	
+
 
 }
+
+
+
