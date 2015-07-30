@@ -235,7 +235,7 @@ public class GenerarFacturaMB extends UtilMB {
 		  }
 		}
 	  }
-	  total = Utilidad.round(subtotal.add(descuento).add(totalIva10).add(totalIva5).add(totalIva16));
+	  total = Utilidad.round(subtotal.subtract(descuento).add(totalIva10).add(totalIva5).add(totalIva16));
 	  LOGGER.debug("Total factura: " + total);
 	}
   }
