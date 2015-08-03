@@ -2,6 +2,7 @@ package com.ssl.jv.gip.negocio.dao;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,14 +68,12 @@ public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic> impleme
 	  BigDecimal dex = documentos.get(0).getDex();
 	  if (idTipoLote != 5L) {
 		for (DocumentoLotesContribucionCafeteriaDTO dto : documentos) {
-		  DocumentoXLotesoicPK pk = new DocumentoXLotesoicPK();
-		  pk.setIdDocumento(dto.getIdDocumento());
-		  pk.setIdTipoLote(dto.getTipoLoteId());
-		  DocumentoXLotesoic entity = new DocumentoXLotesoic();
-		  entity.setId(pk);
-		  entity.setContribucion(dto.getContribucion());
-		  entity.setDex(dto.getDex());
-		  em.merge(entity);
+		  Map<String, Object> parametros = new HashMap<>();
+		  parametros.put("contribucion", dto.getContribucion());
+		  parametros.put("dex", dto.getDex());
+		  parametros.put("id_documento", dto.getIdDocumento());
+		  parametros.put("id_tipo_lote", (long) dto.getTipoLoteId());
+		  ejecutarConsultaNativa("UPDATE documento_x_lotesoic SET contribucion = :contribucion, dex = :dex WHERE id_documento = :id_documento AND id_tipo_lote = :id_tipo_lote", parametros);
 		}
 	  } else if (idTipoLote == 5L && (consecutivo == null || consecutivo.isEmpty())) {
 		// adicionar
@@ -88,15 +87,12 @@ public class DocumentoLotesOICDAO extends GenericDAO<DocumentoXLotesoic> impleme
 		entity.setConsecutivo("0");
 		em.persist(entity);
 	  } else if (idTipoLote == 5L && (consecutivo != null && consecutivo.contentEquals("0"))) {
-		DocumentoXLotesoicPK pk = new DocumentoXLotesoicPK();
-		pk.setIdDocumento(idDocumento);
-		pk.setIdTipoLote(idTipoLote);
-		DocumentoXLotesoic entity = new DocumentoXLotesoic();
-		entity.setId(pk);
-		entity = em.find(DocumentoXLotesoic.class, pk);
-		entity.setContribucion(contribucion);
-		entity.setDex(dex);
-		em.merge(entity);
+		Map<String, Object> parametros = new HashMap<>();
+		parametros.put("contribucion",contribucion);
+		parametros.put("dex", dex);
+		parametros.put("id_documento", idDocumento);
+		parametros.put("id_tipo_lote", idTipoLote);
+		ejecutarConsultaNativa("UPDATE documento_x_lotesoic SET contribucion = :contribucion, dex = :dex WHERE id_documento = :id_documento AND id_tipo_lote = :id_tipo_lote", parametros);
 	  }
 	}
 	return documentos;
