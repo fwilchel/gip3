@@ -694,10 +694,6 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 	  this.productoXDocumentoDAO.add(pxd);
 	}
 	actualizarEstadoDocumento(original.getId(), new Long(ConstantesDocumento.CERRADO));
-	/*
-	 * for (ProductosXDocumento pxd : productos) { crearMovimientos(documento,
-	 * pxd); }
-	 */
 	return documento;
   }
 
