@@ -20,16 +20,13 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.PersistenceException;
 
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.Muestrasxlote;
@@ -92,412 +89,372 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
   }
 
   public void consultarFacturasExportacion() {
-    try {
-      Map<String, Object> parametros = new HashMap<>();
-      parametros.put("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
-      parametros.put("estado", Arrays.asList(Estado.IMPRESO.getCodigo(), Estado.ANULADO.getCodigo()));
-      if (filtroConsecutivoDocumento == null || filtroConsecutivoDocumento.isEmpty()) {
-        parametros.put("consecutivoDocumento", "%");
-      } else {
-        parametros.put("consecutivoDocumento", "%" + filtroConsecutivoDocumento + "%");
-      }
-      this.listaFacturasExportacion = this.reportesComercioExteriorEJBLocal.consultarFacturasExportacionReimprimir(parametros);
-    } catch (Exception e) {
-      LOGGER.error(e);
-      this.addMensajeError(e);
-    }
+	try {
+	  Map<String, Object> parametros = new HashMap<>();
+	  parametros.put("tipoDocumento", (long) ConstantesTipoDocumento.FACTURA_EXPORTACION);
+	  parametros.put("estado", Arrays.asList(Estado.IMPRESO.getCodigo(), Estado.ANULADO.getCodigo()));
+	  if (filtroConsecutivoDocumento == null || filtroConsecutivoDocumento.isEmpty()) {
+		parametros.put("consecutivoDocumento", "%");
+	  } else {
+		parametros.put("consecutivoDocumento", "%" + filtroConsecutivoDocumento + "%");
+	  }
+	  this.listaFacturasExportacion = this.reportesComercioExteriorEJBLocal.consultarFacturasExportacionReimprimir(parametros);
+	} catch (Exception e) {
+	  LOGGER.error(e);
+	  this.addMensajeError(e);
+	}
+  }
+
+  public void setSeleccionado(Documento seleccionado) {
+	this.seleccionado = reportesComercioExteriorEJBLocal.consultarFacturaFXReimprimir(seleccionado.getId());
+	try {
+	  this.totalCantitad1 = BigDecimal.ZERO;
+	  this.totalValorTotal = BigDecimal.ZERO;
+	  this.totalCantidadXEmbalaje = BigDecimal.ZERO;
+	  this.totalCantidadCajas = BigDecimal.ZERO;
+	  this.totalPesoNeto = BigDecimal.ZERO;
+	  this.totalPesoBruto = BigDecimal.ZERO;
+	  listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumento(seleccionado.getId());
+	  for (ProductosXDocumento pr : listaProductosDocumento) {
+		this.totalCantitad1 = this.totalCantitad1.add(pr.getCantidad1());
+		this.totalValorTotal = this.totalValorTotal.add(pr.getValorTotal());
+		this.totalCantidadXEmbalaje = this.totalCantidadXEmbalaje.add(pr.getCantidadXEmbalaje());
+		this.totalCantidadCajas = this.totalCantidadCajas.add(pr.getCantidadCajasItem());
+		this.totalPesoNeto = this.totalPesoNeto.add(pr.getTotalPesoNetoItem());
+		this.totalPesoBruto = this.totalPesoBruto.add(pr.getTotalPesoBrutoItem());
+	  }
+	  this.listaProductoTotales = comercioExteriorEJBLocal.consultarProductoPorDocumentoLoteAsignarLotesOIC(this.seleccionado.getId(), this.seleccionado.getCliente().getId());
+	  if (this.seleccionado.getDocumentoXNegociacions() != null && !this.seleccionado.getDocumentoXNegociacions().isEmpty()) {
+		this.totalCostoEntrega = this.seleccionado.getDocumentoXNegociacions().get(0).getCostoEntrega();
+		this.totalCostoSeguro = this.seleccionado.getDocumentoXNegociacions().get(0).getCostoSeguro();
+		this.totalCostoFlete = this.seleccionado.getDocumentoXNegociacions().get(0).getCostoFlete();
+		this.totalOtrosGastos = this.seleccionado.getDocumentoXNegociacions().get(0).getOtrosGastos();
+		this.totalCostos = totalCostoEntrega.add(totalCostoSeguro).add(totalCostoFlete).add(totalOtrosGastos);
+		this.totalPallets = this.seleccionado.getDocumentoXNegociacions().get(0).getTotalPallets();
+	  }
+	  this.totalValorNeg = this.totalValorTotal.add(totalCostos);
+	} catch (Exception e) {
+	  LOGGER.error("Error al consultar el detalle de la fx");
+	}
   }
 
   public StreamedContent getReportePDF() {
-    Map<String, Object> parametros = new HashMap<String, Object>();
-    Timestamp tmsFecha;
-    /**
-     * ********** Llenado de parametros ************
-     */
-    SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
-    String fechaStringGeneracion = ft.format(this.seleccionado.getFechaGeneracion());
-    Calendar Calendario = Calendar.getInstance();
-    Calendario.setTimeInMillis(this.seleccionado.getFechaGeneracion().getTime());
-    Integer intCantidadDiasVigencia = 0;
-    String strNombreIncoterm = "";
-    String strLugarIncoterm = "";
-    Integer cantidadEstibas = 0;
-    Integer pesoBrutoEstibas = 0;
-    String strObservacionMarcacion2 = "";
-    String strFacturaProforma = "";
-    this.seleccionado.setDocumentoXNegociacions(this.reportesComercioExteriorEJBLocal.consultarDocumentoXNegociacionxDocumento(this.seleccionado.getId()));
-    if (this.seleccionado.getDocumentoXNegociacions() != null && !this.seleccionado.getDocumentoXNegociacions().isEmpty()) {
-      intCantidadDiasVigencia = this.seleccionado.getDocumentoXNegociacion().getCantidadDiasVigencia();
-      strNombreIncoterm = this.seleccionado.getDocumentoXNegociacion().getTerminoIncoterm().getDescripcion();
-      strLugarIncoterm = this.seleccionado.getDocumentoXNegociacion().getLugarIncoterm();
-      cantidadEstibas = this.seleccionado.getDocumentoXNegociacion().getCantidadEstibas();
-      pesoBrutoEstibas = this.seleccionado.getDocumentoXNegociacion().getPesoBrutoEstibas();
-      strObservacionMarcacion2 = this.seleccionado.getDocumentoXNegociacion().getObservacionesMarcacion2();
-    }
-    Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
-    tmsFecha = new Timestamp(Calendario.getTimeInMillis());
-    String fechaStringVigencia = ft.format(tmsFecha);
-    Cliente cliente = seleccionado.getCliente();
-    try {
-      cliente = comunEJB.consultarCliente(seleccionado.getCliente().getId(), Cliente.BUSCAR_CLIENTE_FETCH_CIUDAD_AND_METODO_PAGO);
-    } catch (PersistenceException ex) {
-      LOGGER.debug("Cliente no encontrado", ex);
-    }
-    String fechaStringDespacho = ft.format(this.seleccionado.getFechaEsperadaEntrega());
-    BigDecimal dblValorTotalNeg = this.totalValorNeg.multiply(new BigDecimal(100)).divide(new BigDecimal(100));
-    Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
-    String valorLetrasIngles = NumLetraIng.convert(dblValorTotalNeg.doubleValue());
-    parametros.put("cliente", cliente.getNombre());
-    parametros.put("nit", cliente.getNit());
-    parametros.put("ciudad", cliente.getCiudad().getNombre());
-    parametros.put("direccion", cliente.getDireccion());
-    parametros.put("telefono", cliente.getTelefono());
-    parametros.put("contacto", cliente.getContacto());
-    parametros.put("documento", this.seleccionado.getDocumentoCliente());
-    parametros.put("fecha", fechaStringGeneracion);
-    parametros.put("numFactura", this.seleccionado.getConsecutivoDocumento());
-    parametros.put("tipoImp", "COPY");
-    //parametros.put("tipoImp", "ORIGINAL");
-    parametros.put("fechaVigencia", fechaStringVigencia);
-    parametros.put("fechaDespacho", fechaStringDespacho);
-    parametros.put("totalPesoNeto", this.totalPesoNeto.doubleValue());
-    parametros.put("totalPesoBruto", this.totalPesoBruto.doubleValue());
-    parametros.put("totalCajas", this.totalCantidadCajas.doubleValue());
-    parametros.put("totalPallets", this.totalPallets.doubleValue());
-    parametros.put("costoEntrega", this.totalCostoEntrega.doubleValue());
-    parametros.put("costoSeguro", this.totalCostoSeguro.doubleValue());
-    parametros.put("costoFlete", this.totalCostoFlete.doubleValue());
-    parametros.put("otrosCostos", this.totalOtrosGastos.doubleValue());
-    parametros.put("totalNegociacion", this.totalValorNeg.doubleValue());
-    parametros.put("incoterm", strNombreIncoterm);
-    parametros.put("lugarIncoterm", "(" + strLugarIncoterm + ")");
-    parametros.put("valorLetras", valorLetrasIngles);
-    parametros.put("qEstibas", cantidadEstibas.doubleValue());
-    parametros.put("PesoBrutoEstibas", pesoBrutoEstibas.doubleValue());
-    parametros.put("descripcion_envio", strObservacionMarcacion2);
-    parametros.put("loteOIC", "Lote OIC*: Cada transacción de café recibirá una marca de identificación de la Organización Internacional del Café, (Lote OIC) que será exclusiva de la partida de café de que se trate.");
-    
-    if (this.seleccionado.getEstadosxdocumento().getEstado().getId().longValue() == Estado.ANULADO.getCodigo()) {
-      parametros.put("anulada", "ANULADA");
-    } else {
-      parametros.put("anulada", "");
-    }
-    if (cliente.getModoFactura() == 1) {
-      parametros.put("metodoPago", cliente.getMetodoPago().getDescripcionIngles());
-    } else {
-      parametros.put("metodoPago", cliente.getMetodoPago().getDescripcion());
-    }
-    if (cliente.getModoFactura() == 1) {
-      String productoIngles;
-      String unidadIngles;
-      String tipoLoteIngles;
-      for (ProductosXDocumento produ : this.listaProductosDocumento) {
-        productoIngles = produ.getProductosInventario().getProductosInventarioComext().getDescripcion();
-        unidadIngles = produ.getUnidade().getNombreIngles();
-        tipoLoteIngles = produ.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDescripcionIngles();
-        produ.getProductosInventario().setNombre(productoIngles);
-        produ.getUnidade().setNombre(unidadIngles);
-        produ.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().setDescripcion(tipoLoteIngles);
-        parametros.put("loteOIC", "Lote OIC*: Each transaction Coffee receive an identification mark of the International Coffee Organization (ICO Lot) that will be unique to the parcel of coffee concerned.");
-      }
-    } else if (cliente.getModoFactura() == 3) {
-      String productoIngles;
-      String unidadIngles;
-      for (ProductosXDocumento produ : this.listaProductosDocumento) {
-        productoIngles = produ.getProductosInventario().getProductosInventarioComext().getNombrePrdProveedor();
-        unidadIngles = produ.getUnidade().getNombre();
-        produ.getProductosInventario().setNombre(productoIngles);
-        produ.getUnidade().setNombre(unidadIngles);
-      }
-    }
+	Map<String, Object> parametros = new HashMap<String, Object>();
+	Timestamp tmsFecha;
+	/**
+	 * ********** Llenado de parametros ************
+	 */
+	SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
+	String fechaStringGeneracion = ft.format(this.seleccionado.getFechaGeneracion());
+	Calendar Calendario = Calendar.getInstance();
+	Calendario.setTimeInMillis(this.seleccionado.getFechaGeneracion().getTime());
+	Integer intCantidadDiasVigencia = 0;
+	String strNombreIncoterm = "";
+	String strLugarIncoterm = "";
+	Integer cantidadEstibas = 0;
+	Integer pesoBrutoEstibas = 0;
+	String strObservacionMarcacion2 = "";
+	this.seleccionado.setDocumentoXNegociacions(this.reportesComercioExteriorEJBLocal.consultarDocumentoXNegociacionxDocumento(this.seleccionado.getId()));
+	if (this.seleccionado.getDocumentoXNegociacions() != null && !this.seleccionado.getDocumentoXNegociacions().isEmpty()) {
+	  intCantidadDiasVigencia = this.seleccionado.getDocumentoXNegociacion().getCantidadDiasVigencia();
+	  strNombreIncoterm = this.seleccionado.getDocumentoXNegociacion().getTerminoIncoterm().getDescripcion();
+	  strLugarIncoterm = this.seleccionado.getDocumentoXNegociacion().getLugarIncoterm();
+	  cantidadEstibas = this.seleccionado.getDocumentoXNegociacion().getCantidadEstibas();
+	  pesoBrutoEstibas = this.seleccionado.getDocumentoXNegociacion().getPesoBrutoEstibas();
+	  strObservacionMarcacion2 = this.seleccionado.getDocumentoXNegociacion().getObservacionesMarcacion2();
+	}
+	Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
+	tmsFecha = new Timestamp(Calendario.getTimeInMillis());
+	String fechaStringVigencia = ft.format(tmsFecha);
+	String fechaStringDespacho = ft.format(this.seleccionado.getFechaEsperadaEntrega());
+	BigDecimal dblValorTotalNeg = this.totalValorNeg.multiply(new BigDecimal(100)).divide(new BigDecimal(100));
+	Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
+	String valorLetrasIngles = NumLetraIng.convert(dblValorTotalNeg.doubleValue());
+	parametros.put("cliente", seleccionado.getCliente().getNombre());
+	parametros.put("nit", seleccionado.getCliente().getNit());
+	parametros.put("ciudad", seleccionado.getCliente().getCiudad().getNombre());
+	parametros.put("direccion", seleccionado.getCliente().getDireccion());
+	parametros.put("telefono", seleccionado.getCliente().getTelefono());
+	parametros.put("contacto", seleccionado.getCliente().getContacto());
+	parametros.put("documento", this.seleccionado.getDocumentoCliente());
+	parametros.put("fecha", fechaStringGeneracion);
+	parametros.put("numFactura", this.seleccionado.getConsecutivoDocumento());
+	parametros.put("tipoImp", "COPY");
+	// parametros.put("tipoImp", "ORIGINAL");
+	parametros.put("fechaVigencia", fechaStringVigencia);
+	parametros.put("fechaDespacho", fechaStringDespacho);
+	parametros.put("totalPesoNeto", this.totalPesoNeto.doubleValue());
+	parametros.put("totalPesoBruto", this.totalPesoBruto.doubleValue());
+	parametros.put("totalCajas", this.totalCantidadCajas.doubleValue());
+	parametros.put("totalPallets", this.totalPallets.doubleValue());
+	parametros.put("costoEntrega", this.totalCostoEntrega.doubleValue());
+	parametros.put("costoSeguro", this.totalCostoSeguro.doubleValue());
+	parametros.put("costoFlete", this.totalCostoFlete.doubleValue());
+	parametros.put("otrosCostos", this.totalOtrosGastos.doubleValue());
+	parametros.put("totalNegociacion", this.totalValorNeg.doubleValue());
+	parametros.put("incoterm", strNombreIncoterm);
+	parametros.put("lugarIncoterm", "(" + strLugarIncoterm + ")");
+	parametros.put("valorLetras", valorLetrasIngles);
+	parametros.put("qEstibas", cantidadEstibas.doubleValue());
+	parametros.put("PesoBrutoEstibas", pesoBrutoEstibas.doubleValue());
+	parametros.put("descripcion_envio", strObservacionMarcacion2);
+	parametros.put("loteOIC", "Lote OIC*: Cada transacción de café recibirá una marca de identificación de la Organización Internacional del Café, (Lote OIC) que será exclusiva de la partida de café de que se trate.");
 
-    if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()) {
-      try {
-        strFacturaProforma = this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento());
-        parametros.put("solicitud", strFacturaProforma);
-      } catch (Exception ex){
-    	strFacturaProforma = null;
-    	parametros.put("solicitud", null);
-    	LOGGER.error(ex.getMessage());
-      }
-    }
+	if (this.seleccionado.getEstadosxdocumento().getEstado().getId().longValue() == Estado.ANULADO.getCodigo()) {
+	  parametros.put("anulada", "ANULADA");
+	} else {
+	  parametros.put("anulada", "");
+	}
+	if (seleccionado.getCliente().getModoFactura() == 1) {
+	  parametros.put("metodoPago", seleccionado.getCliente().getMetodoPago().getDescripcionIngles());
+	} else {
+	  parametros.put("metodoPago", seleccionado.getCliente().getMetodoPago().getDescripcion());
+	}
+	if (seleccionado.getCliente().getModoFactura() == 1) {
+	  String productoIngles;
+	  String unidadIngles;
+	  String tipoLoteIngles;
+	  for (ProductosXDocumento produ : this.listaProductosDocumento) {
+		productoIngles = produ.getProductosInventario().getProductosInventarioComext().getDescripcion();
+		unidadIngles = produ.getUnidade().getNombreIngles();
+		tipoLoteIngles = produ.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDescripcionIngles();
+		produ.getProductosInventario().setNombre(productoIngles);
+		produ.getUnidade().setNombre(unidadIngles);
+		produ.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().setDescripcion(tipoLoteIngles);
+		parametros.put("loteOIC", "Lote OIC*: Each transaction Coffee receive an identification mark of the International Coffee Organization (ICO Lot) that will be unique to the parcel of coffee concerned.");
+	  }
+	} else if (seleccionado.getCliente().getModoFactura() == 3) {
+	  String productoIngles;
+	  String unidadIngles;
+	  for (ProductosXDocumento produ : this.listaProductosDocumento) {
+		productoIngles = produ.getProductosInventario().getProductosInventarioComext().getNombrePrdProveedor();
+		unidadIngles = produ.getUnidade().getNombre();
+		produ.getProductosInventario().setNombre(productoIngles);
+		produ.getUnidade().setNombre(unidadIngles);
+	  }
+	}
+	String consecutivoFP = "";
+	if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()) {
+	  try {
+		consecutivoFP = this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento());
+		parametros.put("solicitud", consecutivoFP);
+	  } catch (Exception ex) {
+		consecutivoFP = null;
+		parametros.put("solicitud", null);
+		LOGGER.error(ex.getMessage());
+	  }
+	}
+	List<DocumentoXLotesoic> docxLotesOic = this.reportesComercioExteriorEJBLocal.consultarPorConsecutivoDocumento(consecutivoFP);
+	Map<Long, String> lotesMap = new HashMap<>();
+	for (DocumentoXLotesoic lotes : docxLotesOic) {
+	  lotesMap.put(lotes.getTipoLoteoic().getId(), lotes.getConsecutivo());
+	  System.out.println("Consecutivo lote:" + lotes.getConsecutivo());
+	  System.out.println("Id lote:" + lotes.getTipoLoteoic().getId());
+	}
+	List<ReporteReimprimirFacturaDTO> reporteDTOS = new ArrayList<ReporteReimprimirFacturaDTO>();
+	for (ProductosXDocumento prod : listaProductosDocumento) {
+	  ReporteReimprimirFacturaDTO registro = new ReporteReimprimirFacturaDTO();
+	  registro.setProductoInventarioNombre(prod.getProductosInventario().getNombre());
+	  registro.setCantidad1(prod.getCantidad1().doubleValue());
+	  registro.setTotalPesoNetoItem(prod.getTotalPesoNetoItem().doubleValue());
+	  registro.setProductoInventarioSku(prod.getProductosInventario().getSku());
+	  registro.setValorTotal(prod.getValorTotal().doubleValue());
+	  Double precioUS = 0.0;
 
-    List<DocumentoXLotesoic> docxLotesOic = this.reportesComercioExteriorEJBLocal.consultarPorConsecutivoDocumento(strFacturaProforma);
-    Map<Long, String> lotesMap = new HashMap<>();
-    for (DocumentoXLotesoic lotes : docxLotesOic) {
-      lotesMap.put(lotes.getTipoLoteoic().getId(), lotes.getConsecutivo());
-      System.out.println("Consecutivo lote:" + lotes.getConsecutivo());
-      System.out.println("Id lote:" + lotes.getTipoLoteoic().getId());
-    }
-    
-    List<ReporteReimprimirFacturaDTO> reporteDTOS = new ArrayList<ReporteReimprimirFacturaDTO>();
-    for (ProductosXDocumento prod : listaProductosDocumento) {
-      ReporteReimprimirFacturaDTO registro = new ReporteReimprimirFacturaDTO();
-      registro.setProductoInventarioNombre(prod.getProductosInventario().getNombre());
-      registro.setCantidad1(prod.getCantidad1().doubleValue());
-      registro.setTotalPesoNetoItem(prod.getTotalPesoNetoItem().doubleValue());
-      registro.setProductoInventarioSku(prod.getProductosInventario().getSku());
-      registro.setValorTotal(prod.getValorTotal().doubleValue());
-      Double precioUS = 0.0;
-      
-      
-      if (prod.getProductosInventario() != null && prod.getProductosInventario().getProductosXClienteComexts() != null && !prod.getProductosInventario().getProductosXClienteComexts().isEmpty()) {
-        precioUS = prod.getProductosInventario().getProductosXClienteComexts().get(0).getPrecio().doubleValue();
-      }
-      registro.setPrecioUSD(precioUS);
-      registro.setPosicionArancelaria(prod.getProductosInventario().getProductosInventarioComext().getPosicionArancelaria());
-      registro.setUnidadNombre(prod.getUnidade().getNombre());
-      registro.setTipoLoteOICDesc(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDescripcion());
-      String consecDocxlote = "";
-      System.out.println("loteOIC_ID" + prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId());
-      System.out.println("loteOIC_consecutivo:" + lotesMap.get(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId()));
+	  if (prod.getProductosInventario() != null && prod.getProductosInventario().getProductosXClienteComexts() != null && !prod.getProductosInventario().getProductosXClienteComexts().isEmpty()) {
+		precioUS = prod.getProductosInventario().getProductosXClienteComexts().get(0).getPrecio().doubleValue();
+	  }
+	  registro.setPrecioUSD(precioUS);
+	  registro.setPosicionArancelaria(prod.getProductosInventario().getProductosInventarioComext().getPosicionArancelaria());
+	  registro.setUnidadNombre(prod.getUnidade().getNombre());
+	  registro.setTipoLoteOICDesc(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDescripcion());
+	  String consecDocxlote = "";
+	  System.out.println("loteOIC_ID" + prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId());
+	  System.out.println("loteOIC_consecutivo:" + lotesMap.get(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId()));
 
-      if (prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId() != null){
-          registro.setDocxLoteOICConsec(lotesMap.get(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId()));
-      }
-      registro.setValorUnitarioUSD(prod.getValorUnitarioUsd().doubleValue());
-      registro.setTotalCajasPallet(prod.getCantidadPalletsItem().doubleValue());
-      
-      
-      reporteDTOS.add(registro);
-      
-    }
-    
- 
-  		
-  		
-    Collections.sort(reporteDTOS, new ConsecutivoLoteComp() );
- 
-    
-    
-    
-    /*if (this.listaProductosDocumento != null && !this.listaProductosDocumento.isEmpty()) {
-     parametros.put("solicitud", this.reportesComercioExteriorEJBLocal.consultarConsecutivoOrdenFacturaFX(this.listaProductosDocumento.get(0).getId().getIdDocumento()));
-     }*/
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reporteDTOS);
-    try {
-      Hashtable<String, String> parametrosR = new Hashtable<String, String>();
-      parametrosR.put("tipo", "pdf");
-      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_FX.jasper");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "Report_FX.pdf");
-    } catch (Exception e) {
-      this.addMensajeError(e);
-    }
-    return reportePDF;
+	  if (prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId() != null) {
+		registro.setDocxLoteOICConsec(lotesMap.get(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId()));
+	  }
+	  registro.setValorUnitarioUSD(prod.getValorUnitarioUsd().doubleValue());
+	  registro.setTotalCajasPallet(prod.getCantidadPalletsItem().doubleValue());
+
+	  reporteDTOS.add(registro);
+	}
+	Collections.sort(reporteDTOS);
+	JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reporteDTOS);
+	try {
+	  Hashtable<String, String> parametrosR = new Hashtable<String, String>();
+	  parametrosR.put("tipo", "pdf");
+	  String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_FX.jasper");
+	  ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
+	  reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "Report_FX.pdf");
+	} catch (Exception e) {
+	  this.addMensajeError(e);
+	}
+	return reportePDF;
   }
 
   public List<Documento> getListaFacturasExportacion() {
-    return listaFacturasExportacion;
+	return listaFacturasExportacion;
   }
 
   public void setListaFacturasExportacion(List<Documento> listaFacturasExportacion) {
-    this.listaFacturasExportacion = listaFacturasExportacion;
+	this.listaFacturasExportacion = listaFacturasExportacion;
   }
 
   public Integer getLanguage() {
-    return language;
+	return language;
   }
 
   public void setLanguage(Integer language) {
-    this.language = language;
+	this.language = language;
   }
 
   public Modo getModo() {
-    return modo;
+	return modo;
   }
 
   public void setModo(Modo modo) {
-    this.modo = modo;
+	this.modo = modo;
   }
 
   /**
    * @return the filtroConsecutivoDocumento
    */
   public String getFiltroConsecutivoDocumento() {
-    return filtroConsecutivoDocumento;
+	return filtroConsecutivoDocumento;
   }
 
   /**
-   * @param filtroConsecutivoDocumento the filtroConsecutivoDocumento to set
+   * @param filtroConsecutivoDocumento
+   *          the filtroConsecutivoDocumento to set
    */
   public void setFiltroConsecutivoDocumento(String filtroConsecutivoDocumento) {
-    this.filtroConsecutivoDocumento = filtroConsecutivoDocumento;
+	this.filtroConsecutivoDocumento = filtroConsecutivoDocumento;
   }
 
   public Documento getSeleccionado() {
-    return seleccionado;
-  }
-
-  public void setSeleccionado(Documento seleccionado) {
-    this.seleccionado = reportesComercioExteriorEJBLocal.consultarFacturaFXReimprimir(seleccionado.getId());
-    try {
-      this.totalCantitad1 = BigDecimal.ZERO;
-      this.totalValorTotal = BigDecimal.ZERO;
-      this.totalCantidadXEmbalaje = BigDecimal.ZERO;
-      this.totalCantidadCajas = BigDecimal.ZERO;
-      this.totalPesoNeto = BigDecimal.ZERO;
-      this.totalPesoBruto = BigDecimal.ZERO;
-      listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumento(seleccionado.getId());
-      for (ProductosXDocumento pr : listaProductosDocumento) {
-        this.totalCantitad1 = this.totalCantitad1.add(pr.getCantidad1());
-        this.totalValorTotal = this.totalValorTotal.add(pr.getValorTotal());
-        this.totalCantidadXEmbalaje = this.totalCantidadXEmbalaje.add(pr.getCantidadXEmbalaje());
-        this.totalCantidadCajas = this.totalCantidadCajas.add(pr.getCantidadCajasItem());
-        this.totalPesoNeto = this.totalPesoNeto.add(pr.getTotalPesoNetoItem());
-        this.totalPesoBruto = this.totalPesoBruto.add(pr.getTotalPesoBrutoItem());
-      }
-      // this.listaMuestras =
-      // this.reportesComercioExteriorEJBLocal.consultarMuestrasPorCantidad(this.seleccionado.getDocumentoXLotesoics().get(0).getTotalCantidad());
-      this.listaProductoTotales = comercioExteriorEJBLocal.consultarProductoPorDocumentoLoteAsignarLotesOIC(this.seleccionado.getId(), this.seleccionado.getCliente().getId());
-      if (this.seleccionado.getDocumentoXNegociacions() != null && !this.seleccionado.getDocumentoXNegociacions().isEmpty()) {
-        this.totalCostoEntrega = this.seleccionado.getDocumentoXNegociacions().get(0).getCostoEntrega();
-        this.totalCostoSeguro = this.seleccionado.getDocumentoXNegociacions().get(0).getCostoSeguro();
-        this.totalCostoFlete = this.seleccionado.getDocumentoXNegociacions().get(0).getCostoFlete();
-        this.totalOtrosGastos = this.seleccionado.getDocumentoXNegociacions().get(0).getOtrosGastos();
-        this.totalCostos = totalCostoEntrega.add(totalCostoSeguro).add(totalCostoFlete).add(totalOtrosGastos);
-        this.totalPallets = this.seleccionado.getDocumentoXNegociacions().get(0).getTotalPallets();
-      }
-      this.totalValorNeg = this.totalValorTotal.add(totalCostos);
-    } catch (Exception e) {
-    }
+	return seleccionado;
   }
 
   public List<ProductosXDocumento> getListaProductosDocumento() {
-    return listaProductosDocumento;
+	return listaProductosDocumento;
   }
 
   public void setListaProductosDocumento(List<ProductosXDocumento> listaProductosDocumento) {
-    this.listaProductosDocumento = listaProductosDocumento;
+	this.listaProductosDocumento = listaProductosDocumento;
   }
 
   public BigDecimal getTotalCantitad1() {
-    return totalCantitad1;
+	return totalCantitad1;
   }
 
   public void setTotalCantitad1(BigDecimal totalCantitad1) {
-    this.totalCantitad1 = totalCantitad1;
+	this.totalCantitad1 = totalCantitad1;
   }
 
   public BigDecimal getTotalValorTotal() {
-    return totalValorTotal;
+	return totalValorTotal;
   }
 
   public void setTotalValorTotal(BigDecimal totalValorTotal) {
-    this.totalValorTotal = totalValorTotal;
+	this.totalValorTotal = totalValorTotal;
   }
 
   public BigDecimal getTotalCantidadXEmbalaje() {
-    return totalCantidadXEmbalaje;
+	return totalCantidadXEmbalaje;
   }
 
   public void setTotalCantidadXEmbalaje(BigDecimal totalCantidadXEmbalaje) {
-    this.totalCantidadXEmbalaje = totalCantidadXEmbalaje;
+	this.totalCantidadXEmbalaje = totalCantidadXEmbalaje;
   }
 
   public BigDecimal getTotalCantidadCajas() {
-    return totalCantidadCajas;
+	return totalCantidadCajas;
   }
 
   public void setTotalCantidadCajas(BigDecimal totalCantidadCajas) {
-    this.totalCantidadCajas = totalCantidadCajas;
+	this.totalCantidadCajas = totalCantidadCajas;
   }
 
   public BigDecimal getTotalPesoNeto() {
-    return totalPesoNeto;
+	return totalPesoNeto;
   }
 
   public void setTotalPesoNeto(BigDecimal totalPesoNeto) {
-    this.totalPesoNeto = totalPesoNeto;
+	this.totalPesoNeto = totalPesoNeto;
   }
 
   public BigDecimal getTotalPesoBruto() {
-    return totalPesoBruto;
+	return totalPesoBruto;
   }
 
   public void setTotalPesoBruto(BigDecimal totalPesoBruto) {
-    this.totalPesoBruto = totalPesoBruto;
+	this.totalPesoBruto = totalPesoBruto;
   }
 
   public List<Muestrasxlote> getListaMuestras() {
-    return listaMuestras;
+	return listaMuestras;
   }
 
   public void setListaMuestras(List<Muestrasxlote> listaMuestras) {
-    this.listaMuestras = listaMuestras;
+	this.listaMuestras = listaMuestras;
   }
 
   public List<ProductoLoteAsignarLoteOICDTO> getListaProductoTotales() {
-    return listaProductoTotales;
+	return listaProductoTotales;
   }
 
   public void setListaProductoTotales(List<ProductoLoteAsignarLoteOICDTO> listaProductoTotales) {
-    this.listaProductoTotales = listaProductoTotales;
+	this.listaProductoTotales = listaProductoTotales;
   }
 
   public BigDecimal getTotalCostos() {
-    return totalCostos;
+	return totalCostos;
   }
 
   public void setTotalCostos(BigDecimal totalCostos) {
-    this.totalCostos = totalCostos;
+	this.totalCostos = totalCostos;
   }
 
   public BigDecimal getTotalCostoEntrega() {
-    return totalCostoEntrega;
+	return totalCostoEntrega;
   }
 
   public void setTotalCostoEntrega(BigDecimal totalCostoEntrega) {
-    this.totalCostoEntrega = totalCostoEntrega;
+	this.totalCostoEntrega = totalCostoEntrega;
   }
 
   public BigDecimal getTotalCostoSeguro() {
-    return totalCostoSeguro;
+	return totalCostoSeguro;
   }
 
   public void setTotalCostoSeguro(BigDecimal totalCostoSeguro) {
-    this.totalCostoSeguro = totalCostoSeguro;
+	this.totalCostoSeguro = totalCostoSeguro;
   }
 
   public BigDecimal getTotalCostoFlete() {
-    return totalCostoFlete;
+	return totalCostoFlete;
   }
 
   public void setTotalCostoFlete(BigDecimal totalCostoFlete) {
-    this.totalCostoFlete = totalCostoFlete;
+	this.totalCostoFlete = totalCostoFlete;
   }
 
   public BigDecimal getTotalOtrosGastos() {
-    return totalOtrosGastos;
+	return totalOtrosGastos;
   }
 
   public void setTotalOtrosGastos(BigDecimal totalOtrosGastos) {
-    this.totalOtrosGastos = totalOtrosGastos;
+	this.totalOtrosGastos = totalOtrosGastos;
   }
 
   public BigDecimal getTotalValorNeg() {
-    return totalValorNeg;
+	return totalValorNeg;
   }
 
   public void setTotalValorNeg(BigDecimal totalValorNeg) {
-    this.totalValorNeg = totalValorNeg;
+	this.totalValorNeg = totalValorNeg;
   }
-  
-  class ConsecutivoLoteComp implements Comparator<ReporteReimprimirFacturaDTO>{
-	  
-	    @Override
-	    public int compare(ReporteReimprimirFacturaDTO e1, ReporteReimprimirFacturaDTO e2) {
-	        if(Integer.parseInt(e1.getDocxLoteOICConsec().replace("-", "")) > Integer.parseInt(e2.getDocxLoteOICConsec().replace("-", ""))){
-	            return 1;
-	        } else {
-	            return -1;
-	        }
-	    }
-	}
-	
-
 
 }
-
-
-

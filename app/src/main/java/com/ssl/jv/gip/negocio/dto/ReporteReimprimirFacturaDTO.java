@@ -2,7 +2,7 @@ package com.ssl.jv.gip.negocio.dto;
 
 import java.io.Serializable;
 
-public class ReporteReimprimirFacturaDTO implements Serializable {
+public class ReporteReimprimirFacturaDTO implements Serializable, Comparable<Object> {
 
   /**
    *
@@ -129,4 +129,12 @@ public class ReporteReimprimirFacturaDTO implements Serializable {
     this.totalCajasPallet = totalCajasPallet;
   }
 
+  @Override
+  public int compareTo(Object o) {
+    if (o instanceof ReporteReimprimirFacturaDTO) {
+      ReporteReimprimirFacturaDTO p = (ReporteReimprimirFacturaDTO) o;
+      return this.docxLoteOICConsec.compareTo(p.getDocxLoteOICConsec());
+    }
+    return 0;
+  }
 }
