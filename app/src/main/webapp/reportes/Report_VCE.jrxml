@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_VCE" pageWidth="3500" pageHeight="800" whenNoDataType="AllSectionsNoDetail" columnWidth="3500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="17f40ffc-edc1-4597-91e4-5a99f9567b63">
 	<property name="ireport.zoom" value="1.815000000000028"/>
-	<property name="ireport.x" value="5271"/>
+	<property name="ireport.x" value="2799"/>
 	<property name="ireport.y" value="47"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="false,true,0.75,0,0,0,0,0,0"/>
@@ -1146,28 +1146,28 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{valorUnitatrio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="3659ddc1-f564-412d-b622-8aae3f35a377" style="table" x="1444" y="0" width="124" height="13"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{porcDescuentoXProducto}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement uuid="a5aaad9c-2438-484a-87a5-581026bb1535" style="table" x="1568" y="0" width="68" height="13"/>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="a5aaad9c-2438-484a-87a5-581026bb1535" style="table" x="1569" y="0" width="67" height="13"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="1129a50e-2f6e-474f-b931-6cb433b42756" style="table" x="1636" y="0" width="120" height="13"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{porcDecuentoCliente}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="50a6929b-fb1d-4bec-87d6-e779a221c59e" style="table" x="1756" y="0" width="157" height="13"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
@@ -1181,7 +1181,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="534519af-e23b-48cb-aa28-541d77a8c684" style="table" x="1971" y="0" width="88" height="13"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
@@ -1279,7 +1279,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{canal}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement uuid="83b8388a-f4d1-4294-91dc-2719dfc7fd2d" x="2932" y="0" width="157" height="13"/>
 				<box>
 					<pen lineWidth="1.0"/>
@@ -1291,7 +1291,7 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{modalidadembarque}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement uuid="bccd160d-c631-486b-8dcb-d19532944a98" x="3089" y="0" width="157" height="13"/>
 				<box>
 					<pen lineWidth="1.0"/>
