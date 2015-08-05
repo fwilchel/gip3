@@ -198,7 +198,6 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 	parametros.put("PesoBrutoEstibas", pesoBrutoEstibas.doubleValue());
 	parametros.put("descripcion_envio", strObservacionMarcacion2);
 	parametros.put("loteOIC", "Lote OIC*: Cada transacción de café recibirá una marca de identificación de la Organización Internacional del Café, (Lote OIC) que será exclusiva de la partida de café de que se trate.");
-
 	if (this.seleccionado.getEstadosxdocumento().getEstado().getId().longValue() == Estado.ANULADO.getCodigo()) {
 	  parametros.put("anulada", "ANULADA");
 	} else {
@@ -247,8 +246,6 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 	Map<Long, String> lotesMap = new HashMap<>();
 	for (DocumentoXLotesoic lotes : docxLotesOic) {
 	  lotesMap.put(lotes.getTipoLoteoic().getId(), lotes.getConsecutivo());
-	  System.out.println("Consecutivo lote:" + lotes.getConsecutivo());
-	  System.out.println("Id lote:" + lotes.getTipoLoteoic().getId());
 	}
 	List<ReporteReimprimirFacturaDTO> reporteDTOS = new ArrayList<ReporteReimprimirFacturaDTO>();
 	for (ProductosXDocumento prod : listaProductosDocumento) {
@@ -259,7 +256,6 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 	  registro.setProductoInventarioSku(prod.getProductosInventario().getSku());
 	  registro.setValorTotal(prod.getValorTotal().doubleValue());
 	  Double precioUS = 0.0;
-
 	  if (prod.getProductosInventario() != null && prod.getProductosInventario().getProductosXClienteComexts() != null && !prod.getProductosInventario().getProductosXClienteComexts().isEmpty()) {
 		precioUS = prod.getProductosInventario().getProductosXClienteComexts().get(0).getPrecio().doubleValue();
 	  }
@@ -268,15 +264,11 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 	  registro.setUnidadNombre(prod.getUnidade().getNombre());
 	  registro.setTipoLoteOICDesc(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getDescripcion());
 	  String consecDocxlote = "";
-	  System.out.println("loteOIC_ID" + prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId());
-	  System.out.println("loteOIC_consecutivo:" + lotesMap.get(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId()));
-
 	  if (prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId() != null) {
 		registro.setDocxLoteOICConsec(lotesMap.get(prod.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().getId()));
 	  }
 	  registro.setValorUnitarioUSD(prod.getValorUnitarioUsd().doubleValue());
 	  registro.setTotalCajasPallet(prod.getCantidadPalletsItem().doubleValue());
-
 	  reporteDTOS.add(registro);
 	}
 	Collections.sort(reporteDTOS);
