@@ -441,7 +441,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 	parametros.put("fechaDespacho", fechaStringDespacho);
 	parametros.put("totalPesoNeto", this.totalPesoNeto.doubleValue());
 	parametros.put("totalPesoBruto", this.totalPesoBruto.doubleValue());
-	parametros.put("totalCajas", this.totalValorTotal.doubleValue());
+	parametros.put("totalCajas", this.totalCantidadCajas.doubleValue());
 	parametros.put("totalPallets", this.totalPallets.doubleValue());
 	parametros.put("costoEntrega", this.totalCostoEntrega.doubleValue());
 	parametros.put("costoSeguro", this.totalCostoSeguro.doubleValue());
