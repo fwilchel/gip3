@@ -1277,17 +1277,45 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 		pk.setIdPuntoVenta(pxc.getPuntoVenta().getId());
 		pxc.setPk(pk);
 		try {
-		  Map<String, Object> parametros = new HashMap<>();
-		  parametros.put("idCliente", pxc.getCliente().getId());
-		  parametros.put("idProducto", pxc.getProductosInventario().getId());
-		  parametros.put("idPuntoVenta", pxc.getPuntoVenta().getId());
-		  ProductosXCliente pxcOld = productoClienteDAO.buscarRegistroPorConsultaJPQL("SELECT pxc FROM ProductosXCliente pxc WHERE pxc.productosInventario.id = :idProducto AND pxc.cliente.id = :idCliente AND pxc.puntoVenta.id = :idPuntoVenta", parametros);
-		  pxcOld.setPrecioMl(pxc.getPrecioMl());
-		  pxcOld.setPrecioUsd(pxc.getPrecioUsd());
-		  productoClienteDAO.update(pxcOld);
+		  Map<String, Object> parametros;
+		  Object pxcId;
+		  {
+			parametros = new HashMap<>();
+			parametros.put("idCliente", pxc.getCliente().getId());
+			parametros.put("idProducto", pxc.getProductosInventario().getId());
+			parametros.put("idPuntoVenta", pxc.getPuntoVenta().getId());
+			pxcId = productoClienteDAO.buscarRegistroPorConsultaNativa("SELECT id FROM productosxcliente pxc WHERE pxc.id_producto = :idProducto AND pxc.id_cliente = :idCliente AND pxc.id_punto_venta = :idPuntoVenta", parametros);
+			pxc.setId(new Long(pxcId.toString()));
+		  }
+		  {
+			parametros = new HashMap<>();
+			parametros.put("id", pxc.getId());
+			parametros.put("fecha_inicial_vigencia", pxc.getFechaInicialVigencia());
+			parametros.put("fecha_final_vigencia", pxc.getFechaFinalVigencia());
+			parametros.put("precio_ml", pxc.getPrecioMl());
+			parametros.put("precio_usd", pxc.getPrecioUsd());
+			parametros.put("id_ml", pxc.getMoneda().getId());
+			parametros.put("iva", pxc.getIva());
+			parametros.put("descuentoxproducto", pxc.getDescuentoxproducto());
+			parametros.put("otros_descuentos", pxc.getOtrosDescuentos());
+			parametros.put("activo", pxc.getActivo());
+			productoClienteDAO.ejecutarConsultaNativa(""
+				+ "UPDATE productosxcliente SET "
+				+ "fecha_inicial_vigencia = :fecha_inicial_vigencia, "
+				+ "fecha_final_vigencia = :fecha_final_vigencia, "
+				+ "precio_ml = :precio_ml, "
+				+ "precio_usd = :precio_usd, "
+				+ "id_ml = :id_ml, "
+				+ "iva = :iva, "
+				+ "descuentoxproducto = :descuentoxproducto, "
+				+ "otros_descuentos = :otros_descuentos, "
+				+ "activo = :activo "
+				+ "WHERE id = :id", 
+				parametros);
+		  }
 		} catch (Exception ex) {
 		  productoClienteDAO.add(pxc);
-		}	
+		}
 	  }
 	}
   }
