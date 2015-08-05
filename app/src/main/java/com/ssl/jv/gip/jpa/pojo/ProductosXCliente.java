@@ -14,8 +14,6 @@ import java.sql.Timestamp;
 @Entity
 @NamedQueries(value = {
   @NamedQuery(name = "ProductosXCliente.findAll", query = "SELECT p FROM ProductosXCliente p"),
-
-  
   @NamedQuery(name = "ProductosXCliente.findByClientePuntoVenta", query = "SELECT p FROM ProductosXCliente p JOIN FETCH p.productosInventario pi JOIN FETCH p.cliente c JOIN FETCH pi.unidadVenta uv WHERE p.pk.idCliente= :idCliente AND p.pk.idPuntoVenta= :idPuntoVenta AND p.vigente = true AND pi.desactivado = true AND p.activo = true ORDER BY pi.sku"),
   @NamedQuery(name = ProductosXCliente.NQ_BUSCAR_PRODUCTOS_X_CLIENTE_Y_PUNTO_VENTA_ACTIVOS_Y_VIGENTES, query = "SELECT pxc FROM ProductosXCliente pxc JOIN FETCH pxc.productosInventario pi JOIN FETCH pi.unidadReceta WHERE pxc.cliente.id = :idCliente AND pxc.puntoVenta.id = :idPuntoVenta AND pxc.activo = true AND :fechaActual BETWEEN pxc.fechaInicialVigencia and pxc.fechaFinalVigencia ORDER BY pxc.productosInventario.sku"),
   @NamedQuery(name = ProductosXCliente.BUSCAR_POR_PRODUCTO_POR_CLIENTE_Y_PUNTO_VENTA, query = "SELECT pxc FROM ProductosXCliente pxc WHERE pxc.productosInventario.id = :idProducto AND pxc.cliente.id = :idCliente AND pxc.puntoVenta.id = :idPuntoVenta AND pxc.activo = true AND pxc.vigente = true")
@@ -30,9 +28,6 @@ public class ProductosXCliente implements Serializable {
 
   @EmbeddedId
   private ProductosXClientePK pk;
-  @Id
-  @SequenceGenerator(name = "prodxcliente_id_seq", sequenceName = "productosxcliente_id_seq1", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodxcliente_id_seq")
   private Long id;
   private Boolean activo;
   private BigDecimal descuentoxproducto;

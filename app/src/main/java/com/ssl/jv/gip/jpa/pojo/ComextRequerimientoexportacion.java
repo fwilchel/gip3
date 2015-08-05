@@ -6,736 +6,624 @@ import javax.persistence.*;
 
 import com.ssl.jv.gip.util.EstadoRequerimientoExportacion;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import java.util.List;
 import java.util.Date;
 
 /**
  * The persistent class for the comext_requerimientoexportacion database table.
- * 
+ *
  */
 @Entity
-@Table(name="comext_requerimientoexportacion")
-
+@Table(name = "comext_requerimientoexportacion")
 
 @NamedQueries({
-	  
-	  @NamedQuery(name="ComextRequerimientoexportacion.findAll", query="SELECT c FROM ComextRequerimientoexportacion c  order by id desc"),
-	  @NamedQuery(name="ComextRequerimientoexportacion.FIND_BY_ESTADO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.estado = :idEstado order by id desc"),
-	  @NamedQuery(name="ComextRequerimientoexportacion.FIND_BY_ESTADO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.estado = :idEstado and c.id = :id"),
-	  @NamedQuery(name="ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c  WHERE c.id = :id")})
-	  
-
-
-
-
+  @NamedQuery(name = "ComextRequerimientoexportacion.findAll", query = "SELECT c FROM ComextRequerimientoexportacion c  order by id desc"),
+  @NamedQuery(name = "ComextRequerimientoexportacion.FIND_BY_ESTADO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.estado = :idEstado order by id desc"),
+  @NamedQuery(name = "ComextRequerimientoexportacion.FIND_BY_ESTADO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c WHERE c.estado = :idEstado and c.id = :id"),
+  @NamedQuery(name = "ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO", query = "SELECT c FROM ComextRequerimientoexportacion c  WHERE c.id = :id")})
 
 public class ComextRequerimientoexportacion implements Serializable {
-		
-	
-	
-	  /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5796988097469664301L;
-	
-	public static final String FIND_ALL = "ComextRequerimientoexportacion.findAll";
-	public static final String BUSCAR_DOCUMENTO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO";
-	public static final String FIND_BY_ESTADO = "ComextRequerimientoexportacion.FIND_BY_ESTADO";
-	public static final String FIND_BY_ESTADO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.FIND_BY_ESTADO_POR_CONSECUTIVO";
-	  
-	@Id
-	@SequenceGenerator(name="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR", sequenceName="comext_requerimientoexportacion_id_seq" , allocationSize = 1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR")
-	private Long id;
 
-	
-	
-	private String cciudadpais;
+  /**
+   *
+   */
+  private static final long serialVersionUID = -5796988097469664301L;
 
-	
-	private String cdireccion;
-	
-	private String cnit;
-	 @Transient
-	private String codigo;
-	 
-	private String contactobi;
-	
-	
-	private String cotradireccion;
-	 
-	private String crazonsocial;
-	 
-	private String ctelefono;
-	 
-	private String dacontacto;
-	 
-	private String dancual;
-	 
-	private String danobscuales;
-	 
-	private Boolean danobservaciones;
-	 
-	private String danopciones;
-	 
-	
-	private String darazonsocial;
-	 
-	private String datelefonoemail;
-	 
-	private String direccionentregabi;
-	 
-	private String emisionbi;
-	 @Transient
-	private Boolean enviaraestadireccion;
+  public static final String FIND_ALL = "ComextRequerimientoexportacion.findAll";
+  public static final String BUSCAR_DOCUMENTO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.BUSCAR_DOCUMENTO_POR_CONSECUTIVO";
+  public static final String FIND_BY_ESTADO = "ComextRequerimientoexportacion.FIND_BY_ESTADO";
+  public static final String FIND_BY_ESTADO_POR_CONSECUTIVO = "ComextRequerimientoexportacion.FIND_BY_ESTADO_POR_CONSECUTIVO";
 
-	@Column(name="estado")
-	private Integer estado;
+  @Id
+  @SequenceGenerator(name = "COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR", sequenceName = "comext_requerimientoexportacion_id_seq", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMEXT_REQUERIMIENTOEXPORTACION_ID_GENERATOR")
+  private Long id;
 
-	@Column(name="fecha")
-	private Date fecha;
+  private String cciudadpais;
 
-	@Column(name="fechasolicitud")
-	private Date fechasolicitud;
-	
-	private String puertosalida;
-	
+  private String cdireccion;
+
+  private String cnit;
+  @Transient
+  private String codigo;
+
+  private String contactobi;
+
+  private String cotradireccion;
+
+  private String crazonsocial;
+
+  private String ctelefono;
+
+  private String dacontacto;
+
+  private String dancual;
+
+  private String danobscuales;
+
+  private Boolean danobservaciones;
+
+  private String danopciones;
+
+  private String darazonsocial;
+
+  private String datelefonoemail;
+
+  private String direccionentregabi;
+
+  private String emisionbi;
+  @Transient
+  private Boolean enviaraestadireccion;
+
+  @Column(name = "estado")
+  private Integer estado;
+
+  @Column(name = "fecha")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date fecha;
+
+  @Column(name = "fechasolicitud")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date fechasolicitud;
+
+  private String puertosalida;
+
 	//private int modalidadembarque;
-	
-	private String tipocontenedores;
-	
-	private String terminoincoterm;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "modalidadembarque")
-	private ModalidadEmbarque modalidadembarque;
-	
-    
-	
-	
+  private String tipocontenedores;
+
+  private String terminoincoterm;
+
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "modalidadembarque")
+  private ModalidadEmbarque modalidadembarque;
+
 	//@Column(name="id_tipo_precio")
-	//private Long idtipoprecio;
-	
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_tipo_precio")
-	private TipoPrecio tipoprecio;
-	
-	
+  //private Long idtipoprecio;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "id_tipo_precio")
+  private TipoPrecio tipoprecio;
+
 	//@Column(name="id_metodo_pago")
-	//private Long idmetodopago;
-	
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_metodo_pago")
-	private MetodoPago metodopago;
-	 
-	private String flete;
-	 @Transient
-	private String fomapago;
+  //private Long idmetodopago;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "id_metodo_pago")
+  private MetodoPago metodopago;
 
-	 @Transient
-	private Boolean marcacionespecial;
-	 
-	
-	 
-	private String nciudadpais;
-	 
-	private String ndireccion;
-	 
-	private String nnit;
-	 
-	private String nrazonsocial;
-	 
-	private String ntelefono;
-	 @Transient
-	private String observacioneaadicionales;
-	 @Transient
-	private String otropago;
-	 
-	private String puertollegada;
+  private String flete;
+  @Transient
+  private String fomapago;
 
-	 
-	private String servicecontract;
-	 
-	private String telefonoemailbi;
-	
-	
-	
-	
-	
-	
-	 
-	private String zipcodebi;
-	
+  @Transient
+  private Boolean marcacionespecial;
+
+  private String nciudadpais;
+
+  private String ndireccion;
+
+  private String nnit;
+
+  private String nrazonsocial;
+
+  private String ntelefono;
+  @Transient
+  private String observacioneaadicionales;
+  @Transient
+  private String otropago;
+
+  private String puertollegada;
+
+  private String servicecontract;
+
+  private String telefonoemailbi;
+
+  private String zipcodebi;
+
 	//@Column(name="id_cliente")
-	//private Long idcliente;
+  //private Long idcliente;
+  @ManyToOne
+  @JoinColumn(name = "id_cliente")
+  private Cliente cliente;
 
-	
-	 @ManyToOne
-	  @JoinColumn(name = "id_cliente")
-	  private Cliente cliente;
-	
-	
-	 
 	// bi-directional many-to-one association to AgenteAduana
-	//  @ManyToOne(fetch = FetchType.EAGER)
-	//  @JoinColumn(name = "puertosalida")
-	//  private AgenteAduana agenteAduana;
-
-	  
+  //  @ManyToOne(fetch = FetchType.EAGER)
+  //  @JoinColumn(name = "puertosalida")
+  //  private AgenteAduana agenteAduana;
 	// bi-directional many-to-one association to Clientes
-	//	  @ManyToOne(fetch = FetchType.EAGER)
+  //	  @ManyToOne(fetch = FetchType.EAGER)
 //		  @JoinColumn(name = "id_cliente")
 //		  private Cliente idCliente;
-	 
-	
-
-	public ComextRequerimientoexportacion() {
-	}
-
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getCciudadpais() {
-		return this.cciudadpais;
-	}
-
-	public void setCciudadpais(String cciudadpais) {
-		this.cciudadpais = cciudadpais;
-	}
-
-	public String getCdireccion() {
-		return this.cdireccion;
-	}
-
-	public void setCdireccion(String cdireccion) {
-		this.cdireccion = cdireccion;
-	}
-
-	public String getCnit() {
-		return this.cnit;
-	}
-
-	public void setCnit(String cnit) {
-		this.cnit = cnit;
-	}
-
-	public String getCodigo() {
-		return this.codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
-	public String getContactobi() {
-		return this.contactobi;
-	}
-
-	public void setContactobi(String contactobi) {
-		this.contactobi = contactobi;
-	}
-
-	public String getCotradireccion() {
-		return this.cotradireccion;
-	}
-
-	public void setCotradireccion(String cotradireccion) {
-		this.cotradireccion = cotradireccion;
-	}
-
-	public String getCrazonsocial() {
-		return this.crazonsocial;
-	}
-
-	public void setCrazonsocial(String crazonsocial) {
-		this.crazonsocial = crazonsocial;
-	}
-
-	public String getCtelefono() {
-		return this.ctelefono;
-	}
-
-	public void setCtelefono(String ctelefono) {
-		this.ctelefono = ctelefono;
-	}
-
-	public String getDacontacto() {
-		return this.dacontacto;
-	}
-
-	public void setDacontacto(String dacontacto) {
-		this.dacontacto = dacontacto;
-	}
-
-	public String getDancual() {
-		return this.dancual;
-	}
-
-	public void setDancual(String dancual) {
-		this.dancual = dancual;
-	}
-
-	public String getDanobscuales() {
-		return this.danobscuales;
-	}
-
-	public void setDanobscuales(String danobscuales) {
-		this.danobscuales = danobscuales;
-	}
-
-	public Boolean getDanobservaciones() {
-		return this.danobservaciones;
-	}
-
-	public void setDanobservaciones(Boolean danobservaciones) {
-		this.danobservaciones = danobservaciones;
-	}
-
-	
-	public String getDarazonsocial() {
-		return this.darazonsocial;
-	}
-
-	public void setDarazonsocial(String darazonsocial) {
-		this.darazonsocial = darazonsocial;
-	}
-
-	public String getDatelefonoemail() {
-		return this.datelefonoemail;
-	}
-
-	public void setDatelefonoemail(String datelefonoemail) {
-		this.datelefonoemail = datelefonoemail;
-	}
-
-	public String getDireccionentregabi() {
-		return this.direccionentregabi;
-	}
-
-	public void setDireccionentregabi(String direccionentregabi) {
-		this.direccionentregabi = direccionentregabi;
-	}
-
-	public String getEmisionbi() {
-		return this.emisionbi;
-	}
-
-	public void setEmisionbi(String emisionbi) {
-		this.emisionbi = emisionbi;
-	}
-
-	public Boolean getEnviaraestadireccion() {
-		return this.enviaraestadireccion;
-	}
-
-	public void setEnviaraestadireccion(Boolean enviaraestadireccion) {
-		this.enviaraestadireccion = enviaraestadireccion;
-	}
-
-	public Integer getEstado() {
-		return this.estado;
-	}
-
-	public void setEstado(Integer estado) {
-		this.estado = estado;
-	}
-
-	
-
-	public String getFlete() {
-		return this.flete;
-	}
-
-	public void setFlete(String flete) {
-		this.flete = flete;
-	}
-
-	public String getFomapago() {
-		return this.fomapago;
-	}
-
-	public void setFomapago(String fomapago) {
-		this.fomapago = fomapago;
-	}
-
-	/*public Long getIdCliente() {
-		return this.idCliente;
-	}
-
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
-	}*/
-
-	public Boolean getMarcacionespecial() {
-		return this.marcacionespecial;
-	}
-
-	public void setMarcacionespecial(Boolean marcacionespecial) {
-		this.marcacionespecial = marcacionespecial;
-	}
-
-	
-
-	public String getNciudadpais() {
-		return this.nciudadpais;
-	}
-
-	public void setNciudadpais(String nciudadpais) {
-		this.nciudadpais = nciudadpais;
-	}
-
-	public String getNdireccion() {
-		return this.ndireccion;
-	}
-
-	public void setNdireccion(String ndireccion) {
-		this.ndireccion = ndireccion;
-	}
-
-	public String getNnit() {
-		return this.nnit;
-	}
-
-	public void setNnit(String nnit) {
-		this.nnit = nnit;
-	}
-
-	public String getNrazonsocial() {
-		return this.nrazonsocial;
-	}
-
-	public void setNrazonsocial(String nrazonsocial) {
-		this.nrazonsocial = nrazonsocial;
-	}
-
-	public String getNtelefono() {
-		return this.ntelefono;
-	}
-
-	public void setNtelefono(String ntelefono) {
-		this.ntelefono = ntelefono;
-	}
-
-	public String getObservacioneaadicionales() {
-		return this.observacioneaadicionales;
-	}
-
-	public void setObservacioneaadicionales(String observacioneaadicionales) {
-		this.observacioneaadicionales = observacioneaadicionales;
-	}
-
-	public String getOtropago() {
-		return this.otropago;
-	}
-
-	public void setOtropago(String otropago) {
-		this.otropago = otropago;
-	}
-
-	public String getPuertollegada() {
-		return this.puertollegada;
-	}
-
-	public void setPuertollegada(String puertollegada) {
-		this.puertollegada = puertollegada;
-	}
-
-	/*public Long getPuertosalida() {
-		return this.puertosalida;
-	}
-
-	public void setPuertosalida(Long puertosalida) {
-		this.puertosalida = puertosalida;
-	}*/
-
-	public String getServicecontract() {
-		return this.servicecontract;
-	}
-
-	public void setServicecontract(String servicecontract) {
-		this.servicecontract = servicecontract;
-	}
-
-	public String getTelefonoemailbi() {
-		return this.telefonoemailbi;
-	}
-
-	public void setTelefonoemailbi(String telefonoemailbi) {
-		this.telefonoemailbi = telefonoemailbi;
-	}
-
-	public String getTerminoincoterm() {
-		return this.terminoincoterm;
-	}
-
-	public void setTerminoincoterm(String terminoincoterm) {
-		this.terminoincoterm = terminoincoterm;
-	}
-
-	public String getTipocontenedores() {
-		return this.tipocontenedores;
-	}
-
-	public void setTipocontenedores(String tipocontenedores) {
-		this.tipocontenedores = tipocontenedores;
-	}
-
-	
-
-	public String getZipcodebi() {
-		return this.zipcodebi;
-	}
-
-	public void setZipcodebi(String zipcodebi) {
-		this.zipcodebi = zipcodebi;
-	}
-
-	/*public List<RequerimientosXDocumento> getRequerimientosXDocumentos() {
-		return this.requerimientosXDocumentos;
-	}
-
-	public void setRequerimientosXDocumentos(List<RequerimientosXDocumento> requerimientosXDocumentos) {
-		this.requerimientosXDocumentos = requerimientosXDocumentos;
-	}*/
-
-
-	/*public List<Reqxproducto> getReqxproductos() {
-		return this.reqxproductos;
-	}
-
-	public void setReqxproductos(List<Reqxproducto> reqxproductos) {
-		this.reqxproductos = reqxproductos;
-	}*/
-	
-	
-	
-	 @Transient
-	  public String getEstadoNombre() {
-	    for (EstadoRequerimientoExportacion i : EstadoRequerimientoExportacion.values()) {
-	      if (i.getCodigo().equals(this.estado)) {
-	        return i.getNombre();
-	      }
-	    }
-	    return null;
-	  }
-	 
-
-	/*public AgenteAduana getAgenteAduana() {
-		return agenteAduana;
-	}
+  public ComextRequerimientoexportacion() {
+  }
+
+  public Long getId() {
+    return this.id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public String getCciudadpais() {
+    return this.cciudadpais;
+  }
+
+  public void setCciudadpais(String cciudadpais) {
+    this.cciudadpais = cciudadpais;
+  }
+
+  public String getCdireccion() {
+    return this.cdireccion;
+  }
+
+  public void setCdireccion(String cdireccion) {
+    this.cdireccion = cdireccion;
+  }
+
+  public String getCnit() {
+    return this.cnit;
+  }
+
+  public void setCnit(String cnit) {
+    this.cnit = cnit;
+  }
+
+  public String getCodigo() {
+    return this.codigo;
+  }
+
+  public void setCodigo(String codigo) {
+    this.codigo = codigo;
+  }
+
+  public String getContactobi() {
+    return this.contactobi;
+  }
+
+  public void setContactobi(String contactobi) {
+    this.contactobi = contactobi;
+  }
+
+  public String getCotradireccion() {
+    return this.cotradireccion;
+  }
+
+  public void setCotradireccion(String cotradireccion) {
+    this.cotradireccion = cotradireccion;
+  }
+
+  public String getCrazonsocial() {
+    return this.crazonsocial;
+  }
+
+  public void setCrazonsocial(String crazonsocial) {
+    this.crazonsocial = crazonsocial;
+  }
+
+  public String getCtelefono() {
+    return this.ctelefono;
+  }
+
+  public void setCtelefono(String ctelefono) {
+    this.ctelefono = ctelefono;
+  }
+
+  public String getDacontacto() {
+    return this.dacontacto;
+  }
+
+  public void setDacontacto(String dacontacto) {
+    this.dacontacto = dacontacto;
+  }
+
+  public String getDancual() {
+    return this.dancual;
+  }
+
+  public void setDancual(String dancual) {
+    this.dancual = dancual;
+  }
+
+  public String getDanobscuales() {
+    return this.danobscuales;
+  }
+
+  public void setDanobscuales(String danobscuales) {
+    this.danobscuales = danobscuales;
+  }
+
+  public Boolean getDanobservaciones() {
+    return this.danobservaciones;
+  }
+
+  public void setDanobservaciones(Boolean danobservaciones) {
+    this.danobservaciones = danobservaciones;
+  }
+
+  public String getDarazonsocial() {
+    return this.darazonsocial;
+  }
+
+  public void setDarazonsocial(String darazonsocial) {
+    this.darazonsocial = darazonsocial;
+  }
+
+  public String getDatelefonoemail() {
+    return this.datelefonoemail;
+  }
+
+  public void setDatelefonoemail(String datelefonoemail) {
+    this.datelefonoemail = datelefonoemail;
+  }
+
+  public String getDireccionentregabi() {
+    return this.direccionentregabi;
+  }
+
+  public void setDireccionentregabi(String direccionentregabi) {
+    this.direccionentregabi = direccionentregabi;
+  }
+
+  public String getEmisionbi() {
+    return this.emisionbi;
+  }
+
+  public void setEmisionbi(String emisionbi) {
+    this.emisionbi = emisionbi;
+  }
+
+  public Boolean getEnviaraestadireccion() {
+    return this.enviaraestadireccion;
+  }
+
+  public void setEnviaraestadireccion(Boolean enviaraestadireccion) {
+    this.enviaraestadireccion = enviaraestadireccion;
+  }
+
+  public Integer getEstado() {
+    return this.estado;
+  }
+
+  public void setEstado(Integer estado) {
+    this.estado = estado;
+  }
+
+  public String getFlete() {
+    return this.flete;
+  }
+
+  public void setFlete(String flete) {
+    this.flete = flete;
+  }
+
+  public String getFomapago() {
+    return this.fomapago;
+  }
+
+  public void setFomapago(String fomapago) {
+    this.fomapago = fomapago;
+  }
+
+  /*public Long getIdCliente() {
+   return this.idCliente;
+   }
+
+   public void setIdCliente(Long idCliente) {
+   this.idCliente = idCliente;
+   }*/
+  public Boolean getMarcacionespecial() {
+    return this.marcacionespecial;
+  }
+
+  public void setMarcacionespecial(Boolean marcacionespecial) {
+    this.marcacionespecial = marcacionespecial;
+  }
+
+  public String getNciudadpais() {
+    return this.nciudadpais;
+  }
+
+  public void setNciudadpais(String nciudadpais) {
+    this.nciudadpais = nciudadpais;
+  }
+
+  public String getNdireccion() {
+    return this.ndireccion;
+  }
+
+  public void setNdireccion(String ndireccion) {
+    this.ndireccion = ndireccion;
+  }
+
+  public String getNnit() {
+    return this.nnit;
+  }
+
+  public void setNnit(String nnit) {
+    this.nnit = nnit;
+  }
+
+  public String getNrazonsocial() {
+    return this.nrazonsocial;
+  }
+
+  public void setNrazonsocial(String nrazonsocial) {
+    this.nrazonsocial = nrazonsocial;
+  }
+
+  public String getNtelefono() {
+    return this.ntelefono;
+  }
+
+  public void setNtelefono(String ntelefono) {
+    this.ntelefono = ntelefono;
+  }
+
+  public String getObservacioneaadicionales() {
+    return this.observacioneaadicionales;
+  }
+
+  public void setObservacioneaadicionales(String observacioneaadicionales) {
+    this.observacioneaadicionales = observacioneaadicionales;
+  }
+
+  public String getOtropago() {
+    return this.otropago;
+  }
+
+  public void setOtropago(String otropago) {
+    this.otropago = otropago;
+  }
+
+  public String getPuertollegada() {
+    return this.puertollegada;
+  }
+
+  public void setPuertollegada(String puertollegada) {
+    this.puertollegada = puertollegada;
+  }
+
+  /*public Long getPuertosalida() {
+   return this.puertosalida;
+   }
+
+   public void setPuertosalida(Long puertosalida) {
+   this.puertosalida = puertosalida;
+   }*/
+  public String getServicecontract() {
+    return this.servicecontract;
+  }
+
+  public void setServicecontract(String servicecontract) {
+    this.servicecontract = servicecontract;
+  }
+
+  public String getTelefonoemailbi() {
+    return this.telefonoemailbi;
+  }
+
+  public void setTelefonoemailbi(String telefonoemailbi) {
+    this.telefonoemailbi = telefonoemailbi;
+  }
+
+  public String getTerminoincoterm() {
+    return this.terminoincoterm;
+  }
+
+  public void setTerminoincoterm(String terminoincoterm) {
+    this.terminoincoterm = terminoincoterm;
+  }
+
+  public String getTipocontenedores() {
+    return this.tipocontenedores;
+  }
+
+  public void setTipocontenedores(String tipocontenedores) {
+    this.tipocontenedores = tipocontenedores;
+  }
+
+  public String getZipcodebi() {
+    return this.zipcodebi;
+  }
+
+  public void setZipcodebi(String zipcodebi) {
+    this.zipcodebi = zipcodebi;
+  }
+
+  /*public List<RequerimientosXDocumento> getRequerimientosXDocumentos() {
+   return this.requerimientosXDocumentos;
+   }
+
+   public void setRequerimientosXDocumentos(List<RequerimientosXDocumento> requerimientosXDocumentos) {
+   this.requerimientosXDocumentos = requerimientosXDocumentos;
+   }*/
+  /*public List<Reqxproducto> getReqxproductos() {
+   return this.reqxproductos;
+   }
+
+   public void setReqxproductos(List<Reqxproducto> reqxproductos) {
+   this.reqxproductos = reqxproductos;
+   }*/
+  @Transient
+  public String getEstadoNombre() {
+    for (EstadoRequerimientoExportacion i : EstadoRequerimientoExportacion.values()) {
+      if (i.getCodigo().equals(this.estado)) {
+        return i.getNombre();
+      }
+    }
+    return null;
+  }
+
+
+  /*public AgenteAduana getAgenteAduana() {
+   return agenteAduana;
+   }
 
 	
-	public void setAgenteAduana(AgenteAduana agenteAduana) {
-		this.agenteAduana = agenteAduana;
-	}*/
+   public void setAgenteAduana(AgenteAduana agenteAduana) {
+   this.agenteAduana = agenteAduana;
+   }*/
+  /**
+   * @return the fecha
+   */
+  public Date getFecha() {
+    return fecha;
+  }
 
-	/**
-	 * @return the fecha
-	 */
-	public Date getFecha() {
-		return fecha;
-	}
+  /**
+   * @param fecha the fecha to set
+   */
+  public void setFecha(Date fecha) {
+    this.fecha = fecha;
+  }
 
-	/**
-	 * @param fecha the fecha to set
-	 */
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
+  /**
+   * @return the fechasolicitud
+   */
+  public Date getFechasolicitud() {
+    return fechasolicitud;
+  }
 
-	/**
-	 * @return the fechasolicitud
-	 */
-	public Date getFechasolicitud() {
-		return fechasolicitud;
-	}
-
-	/**
-	 * @param fechasolicitud the fechasolicitud to set
-	 */
-	public void setFechasolicitud(Date fechasolicitud) {
-		this.fechasolicitud = fechasolicitud;
-	}
-/*
+  /**
+   * @param fechasolicitud the fechasolicitud to set
+   */
+  public void setFechasolicitud(Date fechasolicitud) {
+    this.fechasolicitud = fechasolicitud;
+  }
+  /*
 	
-	public Long getPuertosalida() {
-		return puertosalida;
-	}
-
-	
-	public void setPuertosalida(Long puertosalida) {
-		this.puertosalida = puertosalida;
-	}
-*/
+   public Long getPuertosalida() {
+   return puertosalida;
+   }
 
 	
-	/**
-	 * @return the puertosalida
-	 */
-	public String getPuertosalida() {
-		return puertosalida;
-	}
+   public void setPuertosalida(Long puertosalida) {
+   this.puertosalida = puertosalida;
+   }
+   */
 
-	/**
-	 * @param puertosalida the puertosalida to set
-	 */
-	public void setPuertosalida(String puertosalida) {
-		this.puertosalida = puertosalida;
-	}
+  /**
+   * @return the puertosalida
+   */
+  public String getPuertosalida() {
+    return puertosalida;
+  }
 
-	/**
-	 * @return the modalidadembarque
-	 */
-	public ModalidadEmbarque getModalidadembarque() {
-		return modalidadembarque;
-	}
+  /**
+   * @param puertosalida the puertosalida to set
+   */
+  public void setPuertosalida(String puertosalida) {
+    this.puertosalida = puertosalida;
+  }
 
-	/**
-	 * @param modalidadembarque the modalidadembarque to set
-	 */
-	public void setModalidadembarque(ModalidadEmbarque modalidadembarque) {
-		this.modalidadembarque = modalidadembarque;
-	}
+  /**
+   * @return the modalidadembarque
+   */
+  public ModalidadEmbarque getModalidadembarque() {
+    return modalidadembarque;
+  }
 
-/*	public Long getIdtipoprecio() {
-		return idtipoprecio;
-	}
+  /**
+   * @param modalidadembarque the modalidadembarque to set
+   */
+  public void setModalidadembarque(ModalidadEmbarque modalidadembarque) {
+    this.modalidadembarque = modalidadembarque;
+  }
 
-	public void setIdtipoprecio(Long idtipoprecio) {
-		this.idtipoprecio = idtipoprecio;
-	}
-*/
-	/*public Long getIdmetodopago() {
-		return idmetodopago;
-	}
+  /*	public Long getIdtipoprecio() {
+   return idtipoprecio;
+   }
 
-	public void setIdmetodopago(Long idmetodopago) {
-		this.idmetodopago = idmetodopago;
-	}*/
+   public void setIdtipoprecio(Long idtipoprecio) {
+   this.idtipoprecio = idtipoprecio;
+   }
+   */
+  /*public Long getIdmetodopago() {
+   return idmetodopago;
+   }
 
-	
+   public void setIdmetodopago(Long idmetodopago) {
+   this.idmetodopago = idmetodopago;
+   }*/
+  /**
+   * @return the tipoprecio
+   */
+  public TipoPrecio getTipoprecio() {
+    return tipoprecio;
+  }
 
-	/**
-	 * @return the tipoprecio
-	 */
-	public TipoPrecio getTipoprecio() {
-		return tipoprecio;
-	}
+  /**
+   * @param tipoprecio the tipoprecio to set
+   */
+  public void setTipoprecio(TipoPrecio tipoprecio) {
+    this.tipoprecio = tipoprecio;
+  }
 
-	/**
-	 * @param tipoprecio the tipoprecio to set
-	 */
-	public void setTipoprecio(TipoPrecio tipoprecio) {
-		this.tipoprecio = tipoprecio;
-	}
+  /**
+   * @return the metodopago
+   */
+  public MetodoPago getMetodopago() {
+    return metodopago;
+  }
 
-	/**
-	 * @return the metodopago
-	 */
-	public MetodoPago getMetodopago() {
-		return metodopago;
-	}
+  /**
+   * @param metodopago the metodopago to set
+   */
+  public void setMetodopago(MetodoPago metodopago) {
+    this.metodopago = metodopago;
+  }
 
-	/**
-	 * @param metodopago the metodopago to set
-	 */
-	public void setMetodopago(MetodoPago metodopago) {
-		this.metodopago = metodopago;
-	}
+  /**
+   * @return the danopciones
+   */
+  public String getDanopciones() {
+    return danopciones;
+  }
 
-	/**
-	 * @return the danopciones
-	 */
-	public String getDanopciones() {
-		return danopciones;
-	}
+  /**
+   * @param danopciones the danopciones to set
+   */
+  public void setDanopciones(String danopciones) {
+    this.danopciones = danopciones;
+  }
 
-	/**
-	 * @param danopciones the danopciones to set
-	 */
-	public void setDanopciones(String danopciones) {
-		this.danopciones = danopciones;
-	}
+  /**
+   * @return the cliente
+   */
+  public Cliente getCliente() {
+    return cliente;
+  }
 
-	/**
-	 * @return the cliente
-	 */
-	public Cliente getCliente() {
-		return cliente;
-	}
+  /**
+   * @param cliente the cliente to set
+   */
+  public void setCliente(Cliente cliente) {
+    this.cliente = cliente;
+  }
 
-	/**
-	 * @param cliente the cliente to set
-	 */
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+  /*	public int getModalidadembarque() {
+   return modalidadembarque;
+   }
 
-	
-	
-	
-
-/*	public int getModalidadembarque() {
-		return modalidadembarque;
-	}
-
-	public void setModalidadembarque(int modalidadembarque) {
-		this.modalidadembarque = modalidadembarque;
-	}*/
-
-
-	
-
+   public void setModalidadembarque(int modalidadembarque) {
+   this.modalidadembarque = modalidadembarque;
+   }*/
 }
