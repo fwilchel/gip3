@@ -400,8 +400,8 @@ public class GenerarFacturaExportacionMB extends UtilMB {
 	/**
 	 * ********** Llenado de parametros ************
 	 */
-	facturaGenerada = reportesComercioExteriorEJBLocal.consultarFacturaFXReimprimir(seleccionado.getId());
-	listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumento(seleccionado.getId());
+	facturaGenerada = reportesComercioExteriorEJBLocal.consultarFacturaFXReimprimir(facturaGenerada.getId());
+	listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumento(facturaGenerada.getId());
 	SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
 	String fechaStringGeneracion = ft.format(this.facturaGenerada.getFechaGeneracion());
 	Calendar Calendario = Calendar.getInstance();
