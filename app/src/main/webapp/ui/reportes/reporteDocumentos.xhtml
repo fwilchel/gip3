@@ -100,10 +100,18 @@
 
           </p:panelGrid>
 
-          <p:panelGrid columns="1">
-            <p:commandButton value="#{msg.documentoEjecutarBusqueda}"
-                             update="tabPanel"
-                             action="#{reporteDocumentosMB.consultarDocumentos}"></p:commandButton>
+          <p:panelGrid 
+            columns="2">
+            <p:commandButton 
+            	value="#{msg.documentoEjecutarBusqueda}"
+                update="tabPanel"
+                action="#{reporteDocumentosMB.consultarDocumentos}">
+            </p:commandButton>
+            <p:commandButton 
+            	value="#{msg.generalExcel}"
+                update="tabPanel"
+                actionListener="#{reporteDocumentosMB.generarReporteCabecera()}">
+            </p:commandButton>
           </p:panelGrid>
 
 

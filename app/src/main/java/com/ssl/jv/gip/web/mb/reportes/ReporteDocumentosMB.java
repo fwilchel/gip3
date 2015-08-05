@@ -42,12 +42,18 @@ import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.exportarExcel;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import org.primefaces.model.StreamedContent;
 
 /**
  * The Class SolicitudPedidoMB.
@@ -185,9 +191,29 @@ public class ReporteDocumentosMB extends UtilMB {
   public String consultarSolicitudPedido() {
     //Consultar la lista inconterm poor cliente
     listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumentoReporte(seleccionado.getIdDocumento());
-    
-
     return "";
+  }
+
+  /**
+   * 
+   * @return 
+   */
+  public StreamedContent generarReporteCabecera() {
+    LOGGER.trace("Metodo: <<generarReporteCabecera>>");
+    StreamedContent reporte = null;
+    Map<String, Object> parametrosReporte = new HashMap<>();
+//    parametrosReporte.put("datos", getListaProductosXClientes());
+    try {
+      Hashtable<String, String> parametrosConfiguracionReporte;
+      parametrosConfiguracionReporte = new Hashtable<>();
+      parametrosConfiguracionReporte.put("tipo", "jxls");
+      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteDocumentosCabecera.xls");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, null);
+      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "ReporteDocumentosCabecera.xls");
+    } catch (Exception e) {
+      this.addMensajeError("Problemas al generar el reporte");
+    }
+    return reporte;
   }
 
   /**
