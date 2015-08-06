@@ -1,0 +1,1 @@
+SELECT setval('auditoria_id_seq', MAX(id_log)) FROM log_auditoria;
