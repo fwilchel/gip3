@@ -17,6 +17,8 @@ import com.ssl.jv.gip.negocio.dao.MovimientosInventarioComextDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dto.ComextFormatoNovedadesDTO;
 import com.ssl.jv.gip.negocio.dto.CuentaContableDTO;
+import com.ssl.jv.gip.negocio.dto.DetalleDocumentoDTO;
+import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.util.Estado;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 
@@ -45,50 +47,49 @@ public class ReportesEJB implements ReportesEJBLocal {
   @EJB
   private ComextRequerimientoExportacionDAOLocal comextRequerimientoExportacionDAOLocal;
 
-  /**
-   * Default constructor.
-   */
-  public ReportesEJB() {
-	// TODO Auto-generated constructor stub
-  }
-
+  @Override
   public List<ComextFormatoNovedadesDTO> consultarComextFormatoNovedades() {
-	return comextFormatoNovedadesDAO.consultarComextFormatoNovedades();
+    return comextFormatoNovedadesDAO.consultarComextFormatoNovedades();
   }
 
   @Override
   public List<Documento> consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(String consecutivo) {
-	return documentoDAO.consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados((long) ConstantesTipoDocumento.FACTURA_PROFORMA, consecutivo, Estado.ACTIVO.getCodigo(), Estado.APROBADA.getCodigo(), Estado.ASIGNADA.getCodigo());
+    return documentoDAO.consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados((long) ConstantesTipoDocumento.FACTURA_PROFORMA, consecutivo, Estado.ACTIVO.getCodigo(), Estado.APROBADA.getCodigo(), Estado.ASIGNADA.getCodigo());
   }
 
   @Override
   public List<Documento> consultarDocumentosParaGenerarFacturaExportacion(String consecutivoDocumento) {
-	return documentoDAO.consultarDocumentosParaGenerarFacturaExportacion(consecutivoDocumento);
+    return documentoDAO.consultarDocumentosParaGenerarFacturaExportacion(consecutivoDocumento);
   }
 
   @Override
   public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(Long idDocumento, Long idCliente) {
-	return productosXDocumentoDAOLocal.consultarPorDocumentoYCliente(idDocumento, idCliente);
+    return productosXDocumentoDAOLocal.consultarPorDocumentoYCliente(idDocumento, idCliente);
   }
 
   @Override
   public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc, String fechaIni, String fechaFin) {
-	return cuentaContableDAOLocal.consultarReporteFacturasFX(consecDoc, fechaIni, fechaFin);
+    return cuentaContableDAOLocal.consultarReporteFacturasFX(consecDoc, fechaIni, fechaFin);
   }
 
   @Override
   public List<CuentaContableDTO> consultarReporteFacturasFD(String consecDoc, String fechaIni, String fechaFin) {
-	return cuentaContableDAOLocal.consultarReporteFacturasFD(consecDoc, fechaIni, fechaFin);
+    return cuentaContableDAOLocal.consultarReporteFacturasFD(consecDoc, fechaIni, fechaFin);
   }
 
   @Override
   public List<MovimientosInventarioComext> consultarMovimientosInventarioComextsPorSKU(String sku, boolean ultimoSaldo) {
-	return movimientosInventarioComextDAOLocal.consultarPorSKU(sku, ultimoSaldo);
+    return movimientosInventarioComextDAOLocal.consultarPorSKU(sku, ultimoSaldo);
   }
 
   @Override
   public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumento(Long idDocumento) {
-	return productosXDocumentoDAOLocal.consultarPorDocumento(idDocumento);
+    return productosXDocumentoDAOLocal.consultarPorDocumento(idDocumento);
+  }
+
+  @Override
+  public List<DetalleDocumentoDTO> consultarDetalleDocumentos(FiltroConsultaSolicitudDTO filtro) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
 }
