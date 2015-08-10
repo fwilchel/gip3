@@ -271,10 +271,12 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 	  registro.setTotalCajasPallet(prod.getCantidadPalletsItem().doubleValue());
 	  reporteDTOS.add(registro);
 	}
-	Collections.sort(reporteDTOS);
+	if (seleccionado.getDocumentoXNegociacion().getSolicitudCafe()) {
+	  Collections.sort(reporteDTOS);
+	}
 	JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(reporteDTOS);
 	try {
-	  Hashtable<String, String> parametrosR = new Hashtable<String, String>();
+	  Hashtable<String, String> parametrosR = new Hashtable<>();
 	  parametrosR.put("tipo", "pdf");
 	  String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_FX.jasper");
 	  ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
