@@ -1,7 +1,6 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,7 +10,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -32,6 +30,11 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 @ManagedBean(name = "solicitudPedidoMB")
 @ViewScoped
 public class SolicitudPedidoMB extends UtilMB {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   /**
    * The lista documentos.
@@ -157,9 +160,9 @@ public class SolicitudPedidoMB extends UtilMB {
 		  ValorTotal = pxc.getDblCantidad1ProductoxDocumento().multiply(pxc.getDblPrecioUSD());
 
 		  if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
-			ValorPesoNeto = (pxc.getDblPesoNetoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2)).multiply(pxc.getDblCantidad1ProductoxDocumento());
-			ValorPesoBruto = (pxc.getDblPesoBrutoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2)).multiply(pxc.getDblCantidad1ProductoxDocumento());
-			ValorCajas = pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2);
+			ValorPesoNeto = (pxc.getDblPesoNetoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN)).multiply(pxc.getDblCantidad1ProductoxDocumento());
+			ValorPesoBruto = (pxc.getDblPesoBrutoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN)).multiply(pxc.getDblCantidad1ProductoxDocumento());
+			ValorCajas = pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN);
 		  } else {
 			ValorPesoNeto = new BigDecimal(0);
 			ValorPesoBruto = new BigDecimal(0);
@@ -167,7 +170,7 @@ public class SolicitudPedidoMB extends UtilMB {
 		  }
 
 		  if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1 && pxc.getDblCantCajasXTendidoProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
-			ValorCajasTendido = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2)).divide(pxc.getDblCantCajasXTendidoProductoInventarioCE(), 2);
+			ValorCajasTendido = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN)).divide(pxc.getDblCantCajasXTendidoProductoInventarioCE(), 2, RoundingMode.HALF_DOWN);
 		  } else {
 			ValorCajasTendido = new BigDecimal(0);
 		  }
@@ -176,7 +179,7 @@ public class SolicitudPedidoMB extends UtilMB {
 			BigDecimal cantidad1ProductoxDocumento = pxc.getDblCantidad1ProductoxDocumento().setScale(2);
 			BigDecimal cantidadXEmbalajeProductoInventarioCE = pxc.getDblCantidadXEmbalajeProductoInventarioCE().setScale(2);
 			BigDecimal totalCajasXPalletProductoInventarioCE = pxc.getDblTotalCajasXPalletProductoInventarioCE().setScale(2);
-			ValorCajasPallet = cantidad1ProductoxDocumento.divide(cantidadXEmbalajeProductoInventarioCE, 2, RoundingMode.DOWN).divide(totalCajasXPalletProductoInventarioCE, 2, RoundingMode.DOWN);
+			ValorCajasPallet = cantidad1ProductoxDocumento.divide(cantidadXEmbalajeProductoInventarioCE, 2, RoundingMode.HALF_DOWN).divide(totalCajasXPalletProductoInventarioCE, 2, RoundingMode.HALF_DOWN);
 		  } else {
 			ValorCajasPallet = new BigDecimal(0);
 		  }
@@ -265,7 +268,7 @@ public class SolicitudPedidoMB extends UtilMB {
 	listaTerminoInconterm = comercioEjb.consultarListaIncontermPorCliente(seleccionado.getClientesId());
 	listaSolicitudPedido = comercioEjb.consultarListaSolicitudesPedido(seleccionado.getIdDocumento(), seleccionado.getClientesId());
 	listaProductosMostrarUno = new ArrayList<ProductoPorClienteComExtDTO>();
-
+	this.refrescarTotales();
 	return "";
   }
 
