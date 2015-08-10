@@ -23,7 +23,15 @@ public interface ReportesEJBLocal {
 
   public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(Long idDocumento, Long idCliente);
 
+
   public List<CuentaContableDTO> consultarReporteFacturasFX(String consecDoc, String fechaIni, String fechaFin);
+
+
+ public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumento_PICE(	Long idDocumento);
+
+//public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion(Map<String, Object> parametros);
+
+  
 
   public List<CuentaContableDTO> consultarReporteFacturasFD(String consecutivoDocumento, String fechaStringGeneracionInicial, String fechaFinalTmp);
 

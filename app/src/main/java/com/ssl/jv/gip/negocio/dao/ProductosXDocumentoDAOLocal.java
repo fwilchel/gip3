@@ -28,4 +28,6 @@ public interface ProductosXDocumentoDAOLocal extends
 
   public List<ProductoDespacharMercanciaDTO> consultarProductoVentaDirecta(
       String consecutivoDocumento);
+
+  public List<ProductosXDocumento> consultarPorDocumento_PICE(Long id);
 }

@@ -91,5 +91,10 @@ public class ReportesEJB implements ReportesEJBLocal {
   public List<DetalleDocumentoDTO> consultarDetalleDocumentos(FiltroConsultaSolicitudDTO filtro) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
+  
+  @Override
+  public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumento_PICE(Long idDocumento) {
+	return productosXDocumentoDAOLocal.consultarPorDocumento_PICE(idDocumento);
+  }
 
 }
