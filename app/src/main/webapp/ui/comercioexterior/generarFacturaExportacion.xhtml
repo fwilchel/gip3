@@ -464,9 +464,13 @@
               value="#{msg.VentasImprimirFactura}" 
               ajax="false"
               icon="ui-icon-document" 
-              rendered="#{generarFacturaExportacionMB.renderBtnImprimir}">
+              rendered="#{generarFacturaExportacionMB.renderBtnImprimir}"
+              onclick="PrimeFaces.monitorDownload(start, stop)">
               <p:fileDownload 
                 value="#{generarFacturaExportacionMB.reportePDF}" />
+              <p:remoteCommand 
+                name="stop" 
+                update="formaDlg"/>
             </p:commandButton>
 
             <p:commandButton 
@@ -474,13 +478,10 @@
               update=":formaDlg:facturaDetalle,:forma:tabPanel:tabla"
               action="#{generarFacturaExportacionMB.cancelar}"
               oncomplete="PF('reImprimirDialog').hide()" 
-              icon="ui-icon-cancel"/>
-<!--               rendered="#{generarFacturaExportacionMB.renderBtnCerrar}"/> -->
-
+              icon="ui-icon-cancel"
+              rendered="#{generarFacturaExportacionMB.renderBtnCerrar}"/>
 
           </p:panelGrid>
-
-
 
         </p:outputPanel>
       </h:form>
