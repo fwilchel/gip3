@@ -39,6 +39,8 @@ public interface ReportesEJBLocal {
 public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumento(
 		Long idDocumento);
 
+public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumento_PICE(	Long idDocumento);
+
 //public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacion(Map<String, Object> parametros);
 
 

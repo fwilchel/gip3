@@ -90,5 +90,10 @@ public class ReportesEJB implements ReportesEJBLocal {
   public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumento(Long idDocumento) {
 	return productosXDocumentoDAOLocal.consultarPorDocumento(idDocumento);
   }
+  
+  @Override
+  public List<ProductosXDocumento> consultarProductosXDocumentosFacturaProformaPorDocumento_PICE(Long idDocumento) {
+	return productosXDocumentoDAOLocal.consultarPorDocumento_PICE(idDocumento);
+  }
 
 }

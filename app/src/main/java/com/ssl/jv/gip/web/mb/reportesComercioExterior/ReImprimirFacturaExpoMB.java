@@ -179,7 +179,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
 	parametros.put("fecha", fechaStringGeneracion);
 	parametros.put("numFactura", this.seleccionado.getConsecutivoDocumento());
 	parametros.put("tipoImp", "COPY");
-	// parametros.put("tipoImp", "ORIGINAL");
+	//parametros.put("tipoImp", "ORIGINAL");
 	parametros.put("fechaVigencia", fechaStringVigencia);
 	parametros.put("fechaDespacho", fechaStringDespacho);
 	parametros.put("totalPesoNeto", this.totalPesoNeto.doubleValue());
