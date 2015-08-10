@@ -115,9 +115,16 @@
       </p:tabView>
     </h:form>
 
-    <p:dialog header="#{msg.TituloGenerarFX}" widgetVar="reImprimirDialog"
-              modal="true" showEffect="fade" hideEffect="fade" resizable="false"
-              dynamic="true" id="reimprimirDlg">
+    <p:dialog 
+      id="reimprimirDlg"
+      header="#{msg.TituloGenerarFX}" 
+      widgetVar="reImprimirDialog"
+      modal="true" 
+      showEffect="fade" 
+      hideEffect="fade" 
+      resizable="false"
+      dynamic="true" 
+      closable="false">
       <h:form id="formaDlg">
         <p:outputPanel id="facturaDetalle" style="text-align:center;">
 
@@ -437,27 +444,38 @@
 
 
 
-          <p:panelGrid columns="3"
-                       rendered="#{not empty generarFacturaExportacionMB.seleccionado}"
-                       columnClasses="label,value">
+          <p:panelGrid 
+            columns="3"
+            rendered="#{not empty generarFacturaExportacionMB.seleccionado}"
+            columnClasses="label,value">
 
-            <p:commandButton value="#{msg.VentasGenerarFactura}" ajax="true"
-                             icon="ui-icon-disk" id="botonGenerarFactura"
-                             update=":formaDlg:facturaDetalle"
-                             actionListener="#{generarFacturaExportacionMB.crearFacturaExp}"
-                             rendered="#{!generarFacturaExportacionMB.renderImprimirFactura}">
+            <p:commandButton 
+              id="botonGenerarFactura"
+              value="#{msg.VentasGenerarFactura}" 
+              ajax="true"
+              icon="ui-icon-disk" 
+              update=":formaDlg:facturaDetalle"
+              actionListener="#{generarFacturaExportacionMB.crearFacturaExp}"
+              rendered="#{generarFacturaExportacionMB.renderBtnGenerar}">
             </p:commandButton>
 
-            <p:commandButton value="#{msg.VentasImprimirFactura}" ajax="false"
-                             icon="ui-icon-document" id="botonDescargarReporte"
-                             rendered="#{generarFacturaExportacionMB.renderImprimirFactura}">
-              <p:fileDownload value="#{generarFacturaExportacionMB.reportePDF}" />
+            <p:commandButton 
+              id="botonDescargarReporte"
+              value="#{msg.VentasImprimirFactura}" 
+              ajax="false"
+              icon="ui-icon-document" 
+              rendered="#{generarFacturaExportacionMB.renderBtnImprimir}">
+              <p:fileDownload 
+                value="#{generarFacturaExportacionMB.reportePDF}" />
             </p:commandButton>
 
-            <p:commandButton value="#{msg.generalCancelar}"
-                             update=":formaDlg:facturaDetalle,:forma:tabPanel:tabla"
-                             action="#{generarFacturaExportacionMB.cancelar}"
-                             oncomplete="PF('reImprimirDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+            <p:commandButton 
+              value="#{msg.generalCerrar}"
+              update=":formaDlg:facturaDetalle,:forma:tabPanel:tabla"
+              action="#{generarFacturaExportacionMB.cancelar}"
+              oncomplete="PF('reImprimirDialog').hide()" 
+              icon="ui-icon-cancel"/>
+<!--               rendered="#{generarFacturaExportacionMB.renderBtnCerrar}"/> -->
 
 
           </p:panelGrid>
