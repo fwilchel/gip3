@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * <p>
  * Title: InstruccionEmbarqueDTO</p>
@@ -22,12 +25,12 @@ import java.util.Date;
  * @phone 3192594013
  * @version 1.0
  */
+@Entity
 public class DetalleDocumentoDTO implements Serializable {
 
   private static final long serialVersionUID = 5772395465483898864L;
 
-  public static final String DETALLE_DOCUMENTO = "";
-
+  @Id
   private Long id;
   private String consecutivoDocumento;
   private String sku;

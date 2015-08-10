@@ -64,6 +64,10 @@ import org.primefaces.model.StreamedContent;
 @ViewScoped
 public class ReporteDocumentosMB extends UtilMB {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private static final Logger LOGGER = Logger.getLogger(ReporteDocumentosMB.class);
   /**
    * The lista documentos.
@@ -209,7 +213,6 @@ public class ReporteDocumentosMB extends UtilMB {
   public StreamedContent generarReporteCabecera() {
     LOGGER.trace("Metodo: <<generarReporteCabecera>>");
     StreamedContent reporte = null;
-    // TODO : consultar el listado de registros del reporte
     List<DetalleDocumentoDTO> listadoDetallaDocumentos = reportesEJB.consultarDetalleDocumentos(filtro);
     Map<String, Object> parametrosReporte = new HashMap<>();
     parametrosReporte.put("datos", listadoDetallaDocumentos);
@@ -217,9 +220,9 @@ public class ReporteDocumentosMB extends UtilMB {
       Hashtable<String, String> parametrosConfiguracionReporte;
       parametrosConfiguracionReporte = new Hashtable<>();
       parametrosConfiguracionReporte.put("tipo", "jxls");
-      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteDocumentosDetallado.xls");
+      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteDetalleDocumento.xls");
       ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, null);
-      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "ReporteDocumentosDetallado.xls");
+      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "ReporteDetalleDocumento.xls");
     } catch (Exception e) {
       this.addMensajeError("Problemas al generar el reporte");
     }

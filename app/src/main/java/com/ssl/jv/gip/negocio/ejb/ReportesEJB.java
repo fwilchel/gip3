@@ -1,10 +1,16 @@
 package com.ssl.jv.gip.negocio.ejb;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+
+import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
@@ -28,6 +34,8 @@ import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 @Stateless
 @LocalBean
 public class ReportesEJB implements ReportesEJBLocal {
+
+  private static final Logger LOGGER = Logger.getLogger(ReportesEJB	.class);
 
   @EJB
   private ComextFormatoNovedadesDAO comextFormatoNovedadesDAO;
@@ -89,7 +97,39 @@ public class ReportesEJB implements ReportesEJBLocal {
 
   @Override
   public List<DetalleDocumentoDTO> consultarDetalleDocumentos(FiltroConsultaSolicitudDTO filtro) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	LOGGER.debug("Metodo: <<consultarDetalleDocumentos>>");
+	String select = "SELECT row_number() OVER() AS id, doc.consecutivo_documento AS consecutivoDocumento, pi.sku AS sku, pi.nombre AS descripcionProducto, pxd.cantidad1 AS cantidad, e.nombre AS estadoDocumento, td.nombre AS tipoDocumento, doc.fecha_generacion AS fechaGeneracion, ud.nombre AS ubicacionDestino, uo.nombre AS ubicacionOrigen, doc.observacion_documento AS observaciones ";
+	String from = "FROM documentos doc INNER JOIN productosxdocumentos pxd ON doc.id = pxd.id_documento INNER JOIN productos_inventario pi ON pxd.id_producto = pi.id INNER JOIN estados e ON doc.id_estado = e.id INNER JOIN tipo_documento td ON doc.id_tipo_documento = td.id INNER JOIN ubicaciones uo ON doc.id_ubicacion_origen = uo.id INNER JOIN ubicaciones ud ON doc.id_ubicacion_destino = ud.id ";
+    StringBuilder where = new StringBuilder();
+    where.append("WHERE 1 = 1 ");
+    DateFormat df;
+    if (filtro.getConsecutivoDocumento() != null && !filtro.getConsecutivoDocumento().isEmpty()) {
+      where.append(" AND UPPER(doc.consecutivo_documento) LIKE UPPER('%");
+      where.append(filtro.getConsecutivoDocumento());
+      where.append("%')");
+    }
+    if (filtro.getTipoDocumento() != null && filtro.getTipoDocumento().compareTo(new Long(0)) != 0) {
+      where.append(" AND doc.id_tipo_documento = ");
+      where.append(filtro.getTipoDocumento());
+    }
+    if (filtro.getFechaInicio() != null) {
+      df = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+      where.append(" AND doc.fecha_generacion >= '");
+      where.append(df.format(filtro.getFechaInicio()));
+      where.append("'");
+    }
+    if (filtro.getFechaFinal() != null) {
+      df = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+      where.append(" AND doc.fecha_generacion <= '");
+      where.append(df.format(filtro.getFechaFinal()));
+      where.append("'");
+    }
+    if (filtro.getIdEstado() != null && filtro.getIdEstado().compareTo(new Long(0)) != 0) {
+      where.append(" AND d.id_estado = ");
+      where.append(filtro.getIdEstado());
+    }
+    String query = select + from + where.toString();
+    return documentoDAO.buscarPorConsultaNativa(query, DetalleDocumentoDTO.class, null);
   }
   
   @Override

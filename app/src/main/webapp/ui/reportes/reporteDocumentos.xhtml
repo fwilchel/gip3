@@ -58,7 +58,8 @@
             <p:calendar 
               id="filtrofechainicio"
               value="#{reporteDocumentosMB.filtro.fechaInicio}"
-              pattern="yyyy-MM-dd">
+              pattern="yyyy-MM-dd"
+              required="true">
             </p:calendar>
             <p:message 
               for="filtrofechainicio"/>
@@ -70,7 +71,8 @@
             <p:calendar 
               id="filtrofechafin"
               value="#{reporteDocumentosMB.filtro.fechaFinal}"
-              pattern="yyyy-MM-dd">
+              pattern="yyyy-MM-dd"
+              required="true">
             </p:calendar>
             <p:message 
               for="filtrofechafin"/>
@@ -130,25 +132,6 @@
             </p:selectOneMenu>
             <p:message 
               for="selectEstado"/>
-
-            <p:outputLabel 
-              value="#{msg.documentoProveedor}" 
-              for="selectProveedor"
-              styleClass="negrita" />
-            <p:selectOneMenu 
-              id="selectProveedor"
-              value="#{reporteDocumentosMB.filtro.proveedor}"
-              label="#{msg.documentoProveedor}">
-              <f:selectItem 
-                itemLabel="TODOS" />
-              <f:selectItems 
-                value="#{reporteDocumentosMB.listaProveedor}"
-                var="proveedor" 
-                itemValue="#{proveedor.id}"
-                itemLabel="#{proveedor.nombre}" />
-            </p:selectOneMenu>
-            <p:message 
-              for="selectProveedor"/>
           </p:panelGrid>
 
           <p:panelGrid 
@@ -262,9 +245,14 @@
           <p:panelGrid 
             columns="1">
             <p:commandButton 
-              value="#{msg.generalExcel}"
-              update="tabPanel"
-              actionListener="#{reporteDocumentosMB.generarReporteCabecera()}"/>
+              id="btnReporteDetalleDocumentos"
+              value="#{msg.generalExcel}" 
+              ajax="false"
+              icon="ui-icon-document" 
+              onclick="PrimeFaces.monitorDownload(start, stop)">
+              <p:fileDownload 
+                value="#{reporteDocumentosMB.generarReporteCabecera()}" />
+            </p:commandButton>
           </p:panelGrid>
 
         </p:tab>
