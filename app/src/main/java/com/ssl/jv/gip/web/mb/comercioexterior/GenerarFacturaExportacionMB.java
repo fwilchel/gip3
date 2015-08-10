@@ -386,7 +386,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
   /**
    * Metodo que se encarga de enviar la solicitud de poner en estado impreso el documento.
    */
-  public void imprimirFacturaFX() {
+  private void imprimirFacturaFX() {
     LOGGER.trace("Metodo: <<imprimirFacturaFX>>");
     LOGGER.debug("Actuaizar estado de la factura FX");
     comercioExteriorEJBLocal.actualizarEstadoDocumento(facturaGenerada.getId(), new Long(ConstantesDocumento.IMPRESO));
@@ -402,12 +402,11 @@ public class GenerarFacturaExportacionMB extends UtilMB {
    * @return the reporte pdf
    */
   public StreamedContent getReportePDF() {
-    imprimirFacturaFX();
+	// cambiar a estado impreso la fx
+    this.imprimirFacturaFX();
+    // generar el reporte
     Map<String, Object> parametros = new HashMap<>();
     Timestamp tmsFecha;
-    /**
-     * ********** Llenado de parametros ************
-     */
     facturaGenerada = reportesComercioExteriorEJBLocal.consultarFacturaFXReimprimir(facturaGenerada.getId());
     listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumento(facturaGenerada.getId());
     SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
