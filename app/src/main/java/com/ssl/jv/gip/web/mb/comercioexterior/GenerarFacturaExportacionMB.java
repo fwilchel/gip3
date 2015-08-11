@@ -461,6 +461,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
     parametros.put("qEstibas", cantidadEstibas.doubleValue());
     parametros.put("PesoBrutoEstibas", pesoBrutoEstibas.doubleValue());
     parametros.put("descripcion_envio", this.strDescripcion);
+	parametros.put("loteOIC", "Lote OIC*: Cada transacción de café recibirá una marca de identificación de la Organización Internacional del Café, (Lote OIC) que será exclusiva de la partida de café de que se trate.");
     parametros.put("anulada", "");
     if (facturaGenerada.getCliente().getModoFactura() == 1) {
       parametros.put("metodoPago", facturaGenerada.getCliente().getMetodoPago() == null ? "" : facturaGenerada.getCliente().getMetodoPago().getDescripcionIngles());
@@ -478,6 +479,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
         produ.getProductosInventario().setNombre(productoIngles);
         produ.getUnidade().setNombre(unidadIngles);
         produ.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().setDescripcion(tipoLoteIngles);
+		parametros.put("loteOIC", "Lote OIC*: Each transaction Coffee receive an identification mark of the International Coffee Organization (ICO Lot) that will be unique to the parcel of coffee concerned.");
       }
     } else if (facturaGenerada.getCliente().getModoFactura() == 3) {
       String productoIngles;
