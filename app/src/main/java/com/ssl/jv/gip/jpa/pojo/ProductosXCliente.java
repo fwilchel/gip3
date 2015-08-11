@@ -28,6 +28,9 @@ public class ProductosXCliente implements Serializable {
 
   @EmbeddedId
   private ProductosXClientePK pk;
+  @Id
+  @SequenceGenerator(name = "prodxcliente_id_seq", sequenceName = "productosxcliente_id_seq1", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodxcliente_id_seq")
   private Long id;
   private Boolean activo;
   private BigDecimal descuentoxproducto;
