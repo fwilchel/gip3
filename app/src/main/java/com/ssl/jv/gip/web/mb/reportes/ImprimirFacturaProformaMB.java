@@ -144,7 +144,7 @@ public class ImprimirFacturaProformaMB extends UtilMB {
           //.consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
             //  seleccionado.getId(), seleccionado.getCliente()
               //.getId());
-    		 .consultarProductosXDocumentosFacturaProformaPorDocumento(seleccionado.getId());
+    		 .consultarProductosXDocumentosFacturaProformaPorDocumento_PICE(seleccionado.getId());
     				 
     		  
     		  
@@ -253,8 +253,7 @@ public class ImprimirFacturaProformaMB extends UtilMB {
       parametros.put("totalPesoBruto", totalPesoBruto);
       parametros.put("totalCajas", totalCantidadCajas);
       parametros.put("totalPallets", totalCantidadPallets);
-      parametros.put("costoEntrega",
-          documentoXNegociacion.getCostoEntrega());
+      parametros.put("costoEntrega", documentoXNegociacion.getCostoEntrega().doubleValue());
       parametros.put("costoSeguro",
           documentoXNegociacion.getCostoSeguro());
       parametros.put("costoFlete", documentoXNegociacion.getCostoFlete());

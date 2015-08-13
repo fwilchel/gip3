@@ -7,105 +7,140 @@
   xmlns:p="http://primefaces.org/ui"
   template="/resources/#{menuMB.tema}/template/general.xhtml">
 
-  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.documentoReporteGeneral}::.</ui:define>
+  <ui:define 
+    name="title">
+    .::(SOC) Sales Other of Channels::. .::#{msg.documentoReporteGeneral}::.
+  </ui:define>
 
-  <ui:define name="contenido">
-    <p:spacer height="40"></p:spacer>
-    <h:form prependId="false" id="forma">
+  <ui:define 
+    name="contenido">
 
-      <p:messages id="msgs" showDetail="false" showSummary="true"
-                  globalOnly="false" showIcon="true"></p:messages>
+    <p:spacer 
+      height="40"/>
 
+    <h:form 
+      id="forma"
+      prependId="false" >
 
+      <p:messages 
+        id="msgs" 
+        showDetail="false" 
+        showSummary="true"
+        globalOnly="false" 
+        showIcon="true"/>
 
-      <p:tabView id="tabPanel">
-        <p:tab title="#{msg.documentoReporteGeneral}">
+      <p:tabView 
+        id="tabPanel">
 
-          <p:panelGrid columns="9" id="panelFiltro"
-                       columnClasses="label,value,">
+        <p:tab 
+          title="#{msg.documentoReporteGeneral}">
 
-            <p:outputLabel value="#{msg.documentoConsecutivo}" for="filtroconsecutivo"
-                           styleClass="negrita" />
+          <p:panelGrid 
+            columns="9" 
+            id="panelFiltro"
+            columnClasses="label,value,">
+
+            <p:outputLabel 
+              value="#{msg.documentoConsecutivo}" 
+              for="filtroconsecutivo"
+              styleClass="negrita" />
             <h:inputText
               value="#{reporteDocumentosMB.filtro.consecutivoDocumento}"
               id="filtroconsecutivo"
               label="#{msg.ConsecutivoSP}" />
-            <p:message for="filtroconsecutivo"></p:message>
+            <p:message 
+              for="filtroconsecutivo"/>
 
-            <p:outputLabel value="#{msg.documentoFechaInicial}" for="filtrofechainicio"
-                           styleClass="negrita" />
-            <p:calendar id="filtrofechainicio"
-                        value="#{reporteDocumentosMB.filtro.fechaInicio}"
-                        pattern="yyyy-MM-dd">
+            <p:outputLabel 
+              value="#{msg.documentoFechaInicial}" 
+              for="filtrofechainicio"
+              styleClass="negrita" />
+            <p:calendar 
+              id="filtrofechainicio"
+              value="#{reporteDocumentosMB.filtro.fechaInicio}"
+              pattern="yyyy-MM-dd"
+              required="true">
             </p:calendar>
-            <p:message for="filtrofechainicio"></p:message>
+            <p:message 
+              for="filtrofechainicio"/>
 
-            <p:outputLabel value="#{msg.documentoFechaFinal}" for="filtrofechafin"
-                           styleClass="negrita" />
-            <p:calendar id="filtrofechafin"
-                        value="#{reporteDocumentosMB.filtro.fechaFinal}"
-                        pattern="yyyy-MM-dd">
+            <p:outputLabel 
+              value="#{msg.documentoFechaFinal}" 
+              for="filtrofechafin"
+              styleClass="negrita" />
+            <p:calendar 
+              id="filtrofechafin"
+              value="#{reporteDocumentosMB.filtro.fechaFinal}"
+              pattern="yyyy-MM-dd"
+              required="true">
             </p:calendar>
-            <p:message for="filtrofechafin"></p:message>
+            <p:message 
+              for="filtrofechafin"/>
 
-            <p:outputLabel value="#{msg.documentoTipo}" for="intTipoDocumento"
-                           styleClass="negrita" />
-            <p:selectOneMenu id="intTipoDocumento"
-                             value="#{reporteDocumentosMB.filtro.tipoDocumento}"
-                             label="#{msg.documentoTipo}">
-              <f:selectItem itemLabel="TODOS" />
-              <f:selectItems value="#{reporteDocumentosMB.listaTipoDocumento}"
-                             var="tipodoc" itemValue="#{tipodoc.id}"
-                             itemLabel="#{tipodoc.nombre}" />
+            <p:outputLabel 
+              value="#{msg.documentoTipo}" 
+              for="intTipoDocumento"
+              styleClass="negrita" />
+            <p:selectOneMenu 
+              id="intTipoDocumento"
+              value="#{reporteDocumentosMB.filtro.tipoDocumento}"
+              label="#{msg.documentoTipo}">
+              <f:selectItem 
+                itemLabel="TODOS" />
+              <f:selectItems 
+                value="#{reporteDocumentosMB.listaTipoDocumento}"
+                var="tipodoc" 
+                itemValue="#{tipodoc.id}"
+                itemLabel="#{tipodoc.nombre}" />
             </p:selectOneMenu>
-            <p:message for="intTipoDocumento"></p:message>
+            <p:message 
+              for="intTipoDocumento"/>
 
-            <p:outputLabel value="#{msg.documentoUbicacion}" for="idUbicacion"
-                           styleClass="negrita" />
-            <p:selectOneMenu id="idUbicacion"
-                             value="#{reporteDocumentosMB.intUbicacion}"
-                             label="#{msg.documentoUbicacion}">
-              <f:selectItem itemLabel="TODAS" />
-              <f:selectItems value="#{reporteDocumentosMB.listaUbicaciones}"
-                             var="ubicacion" itemValue="#{ubicacion.id}"
-                             itemLabel="#{ubicacion.nombre}" />
+            <p:outputLabel 
+              value="#{msg.documentoUbicacion}" 
+              for="idUbicacion"
+              styleClass="negrita" />
+            <p:selectOneMenu 
+              id="idUbicacion"
+              value="#{reporteDocumentosMB.intUbicacion}"
+              label="#{msg.documentoUbicacion}">
+              <f:selectItem 
+                itemLabel="TODAS" />
+              <f:selectItems 
+                value="#{reporteDocumentosMB.listaUbicaciones}"
+                var="ubicacion" 
+                itemValue="#{ubicacion.id}"
+                itemLabel="#{ubicacion.nombre}" />
             </p:selectOneMenu>
-            <p:message for="idUbicacion"></p:message>
+            <p:message 
+              for="idUbicacion"/>
 
-            <p:outputLabel value="#{msg.documentoEstado}" for="selectEstado"
-                           styleClass="negrita" />
-            <p:selectOneMenu id="selectEstado"
-                             value="#{reporteDocumentosMB.filtro.idEstado}"
-                             label="#{msg.documentoEstado}">
-              <f:selectItem itemLabel="TODOS" />
-              <f:selectItems value="#{reporteDocumentosMB.listaEstado}"
-                             var="estado" itemValue="#{estado.id}"
-                             itemLabel="#{estado.nombre}" />
+            <p:outputLabel 
+              value="#{msg.documentoEstado}" 
+              for="selectEstado"
+              styleClass="negrita" />
+            <p:selectOneMenu 
+              id="selectEstado"
+              value="#{reporteDocumentosMB.filtro.idEstado}"
+              label="#{msg.documentoEstado}">
+              <f:selectItem 
+                itemLabel="TODOS" />
+              <f:selectItems 
+                value="#{reporteDocumentosMB.listaEstado}"
+                var="estado" itemValue="#{estado.id}"
+                itemLabel="#{estado.nombre}" />
             </p:selectOneMenu>
-            <p:message for="selectEstado"></p:message>
-
-            <p:outputLabel value="#{msg.documentoProveedor}" for="selectProveedor"
-                           styleClass="negrita" />
-            <p:selectOneMenu id="selectProveedor"
-                             value="#{reporteDocumentosMB.filtro.proveedor}"
-                             label="#{msg.documentoProveedor}">
-              <f:selectItem itemLabel="TODOS" />
-              <f:selectItems value="#{reporteDocumentosMB.listaProveedor}"
-                             var="proveedor" itemValue="#{proveedor.id}"
-                             itemLabel="#{proveedor.nombre}" />
-            </p:selectOneMenu>
-            <p:message for="selectProveedor"></p:message>
-
-
-
+            <p:message 
+              for="selectEstado"/>
           </p:panelGrid>
 
-          <p:panelGrid columns="1">
-            <p:commandButton value="#{msg.documentoEjecutarBusqueda}"
-                             update="tabPanel"
-                             action="#{reporteDocumentosMB.consultarDocumentos}"></p:commandButton>
+          <p:panelGrid 
+            columns="1">
+            <p:commandButton 
+              value="#{msg.documentoEjecutarBusqueda}"
+              update="tabPanel"
+              action="#{reporteDocumentosMB.consultarDocumentos}"/>
           </p:panelGrid>
-
 
           <p:dataTable 
             var="dato" 
@@ -122,65 +157,104 @@
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
             rowsPerPageTemplate="5,10,15">
 
-
-            <p:column style="width:32px;text-align: center">
-              <p:commandButton oncomplete="PF('datoDialog').show()"
-                               icon="ui-icon-zoomin" title="Consultar Documento"
-                               update=":datoDlg"
-                               action="#{reporteDocumentosMB.consultarSolicitudPedido}">
-                <f:setPropertyActionListener value="#{dato}"
-                                             target="#{reporteDocumentosMB.seleccionado}" />
+            <p:column 
+              style="width:32px;text-align: center">
+              <p:commandButton 
+                oncomplete="PF('datoDialog').show()"
+                icon="ui-icon-zoomin" 
+                title="Consultar Documento"
+                update=":datoDlg"
+                action="#{reporteDocumentosMB.consultarSolicitudPedido}">
+                <f:setPropertyActionListener 
+                  value="#{dato}"
+                  target="#{reporteDocumentosMB.seleccionado}" />
               </p:commandButton>
             </p:column>
 
-            <p:column headerText="#{msg.documentoId}">
-              <h:outputText value="#{dato.idDocumento}" />
+            <p:column 
+              headerText="#{msg.documentoId}">
+              <h:outputText 
+                value="#{dato.idDocumento}" />
             </p:column>
 
-            <p:column headerText="#{msg.documentoConsecutivo}">
-              <h:outputText value="#{dato.consecutivoDocumento}" />
+            <p:column 
+              headerText="#{msg.documentoConsecutivo}">
+              <h:outputText 
+                value="#{dato.consecutivoDocumento}" />
             </p:column>
 
-            <p:column headerText="#{msg.documentoTipo}">
-              <h:outputText value="#{dato.nombreTipoDocumento}" />
+            <p:column 
+              headerText="#{msg.documentoTipo}">
+              <h:outputText 
+                value="#{dato.nombreTipoDocumento}" />
             </p:column>
 
-            <p:column headerText="#{msg.documentoOrigen}">
-              <h:outputText value="#{dato.nombreUbicacionOrigen}" />
+            <p:column 
+              headerText="#{msg.documentoOrigen}">
+              <h:outputText 
+                value="#{dato.nombreUbicacionOrigen}" />
             </p:column>
 
-            <p:column headerText="#{msg.documentoDestino}">
-              <h:outputText value="#{dato.nombreUbicacionDestino}" />
+            <p:column 
+              headerText="#{msg.documentoDestino}">
+              <h:outputText 
+                value="#{dato.nombreUbicacionDestino}" />
             </p:column>
 
-            <p:column headerText="#{msg.documentoProveedor}">
-              <h:outputText value="#{dato.nombreProveedor}" />
+            <p:column 
+              headerText="#{msg.documentoProveedor}">
+              <h:outputText 
+                value="#{dato.nombreProveedor}" />
             </p:column>
 
-            <p:column headerText="#{msg.documentoFechaGeneracion}">
-              <h:outputText value="#{dato.fechaGeneracion}">
-                <f:convertDateTime pattern="dd-MMM-yyyy" />
+            <p:column 
+              headerText="#{msg.documentoFechaGeneracion}">
+              <h:outputText 
+                value="#{dato.fechaGeneracion}">
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy" />
               </h:outputText>
             </p:column>
 
-            <p:column headerText="#{msg.documentoEstado}">
-              <h:outputText value="#{dato.estadoNombre}" />
+            <p:column 
+              headerText="#{msg.documentoEstado}">
+              <h:outputText 
+                value="#{dato.estadoNombre}" />
             </p:column>
 
-            <p:column headerText="#{msg.maestroObservacion}">
-              <h:outputText value="#{dato.observacionDocumento}" />
+            <p:column 
+              headerText="#{msg.maestroObservacion}">
+              <h:outputText 
+                value="#{dato.observacionDocumento}" />
             </p:column>
 
-            <p:column headerText="#{msg.VDDocumentoCliente2}">
-              <h:outputText value="#{dato.documentoCliente}" />
+            <p:column 
+              headerText="#{msg.VDDocumentoCliente2}">
+              <h:outputText 
+                value="#{dato.documentoCliente}" />
             </p:column>
 
-            <p:column headerText="#{msg.VDSitioEntrega}">
-              <h:outputText value="#{dato.sitioEntrega}" />
+            <p:column 
+              headerText="#{msg.VDSitioEntrega}">
+              <h:outputText 
+                value="#{dato.sitioEntrega}" />
             </p:column>
-
 
           </p:dataTable>
+
+          <p:panelGrid 
+            columns="1">
+            <p:commandButton 
+              id="btnReporteDetalleDocumentos"
+              value="#{msg.generalExcel}" 
+              ajax="false"
+              icon="ui-icon-document" 
+              onclick="PrimeFaces.monitorDownload(start, stop)">
+              <p:fileDownload 
+                value="#{reporteDocumentosMB.generarReporteCabecera()}" />
+            </p:commandButton>
+          </p:panelGrid>
+
         </p:tab>
       </p:tabView>
     </h:form>

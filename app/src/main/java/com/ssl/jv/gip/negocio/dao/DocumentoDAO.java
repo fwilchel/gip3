@@ -962,23 +962,16 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
        */
 
       String query = "select pi.sku ,"
-              + " case when c.modo_factura=0 then pi_ce.descripcion when c.modo_factura=1 then pi.nombre when c.modo_factura=2 then pi_ce.nombre_prd_proveedor end as nombre_producto,"
+              + " case when c.modo_factura=1 then pi_ce.descripcion when c.modo_factura=2 then pi.nombre when c.modo_factura=3 then pi_ce.nombre_prd_proveedor end as nombre_producto,"
               + " pxd.cantidad1 , pxd.total_peso_neto_item,"
               + " pxd.total_peso_bruto_item ,pxd.cantidad_cajas_item ,  pxd.cantidad_x_embalaje,"
               + " dxl.consecutivo ,"
               + " pxd.cantidad_pallets_item ,"
               + " pxc_ce.reg_sanitario ,"
               + " (pxd.cantidad1/pi_ce.cantidad_x_embalaje)/pi_ce.total_cajas_x_pallet AS TOTAL_CAJAS_PALLET ,"
-              // + ",pi_ce.descripcion as PRODUCTO_INGLES,"
-              // + " unidades.nombre as UNIDAD, "
-              // + "unidades.nombre_ingles as UNIDAD_INGLES,"
-
-              // + " pi_ce.nombre_prd_proveedor as PRODUCTO_CLIENTE ,"
-              // + " tl.descripcion_ingles as DESCRIPCION_LOTE_INGLES,"
-              // + " tl.descripcion as DESCRIPCION_LOTE"
               + " case when c.modo_factura=0 then tl.descripcion_ingles when c.modo_factura=1 then tl.descripcion when c.modo_factura=2 then tl.descripcion end as DESCRIPCION_LOTE" + " from productosXdocumentos pxd  " + " LEFT JOIN productos_inventario pi on  pxd.id_producto=pi.id" + " LEFT JOIN productos_inventario_comext pi_ce ON pi_ce.id_producto=pxd.id_producto" + " LEFT JOIN documentos d on d.id=pxd.id_documento"
               + " LEFT join productos_x_cliente_comext pxc_ce on pxc_ce.id_producto=pxd.id_producto and pxc_ce.id_cliente=d.id_cliente" + " LEFT join tipo_loteoic tl on pi_ce.id_tipo_loteoic=tl.id " + " LEFT join documento_x_lotesoic dxl on dxl.id_documento= " + " (select documentos.id from documentos where documentos.consecutivo_documento=(select documentos.observacion_documento from documentos where documentos.consecutivo_documento='" + strConsecutivoDocumento + "'))"
-              + " and dxl.id_tipo_lote=pi_ce.id_tipo_loteoic" + " LEFT JOIN unidades on unidades.id = pi.id_uv LEFT JOIN clientes c on c.id=d.id_cliente WHERE d.consecutivo_documento='" + strConsecutivoDocumento + "'";
+              + " and dxl.id_tipo_lote=pi_ce.id_tipo_loteoic" + " LEFT JOIN unidades on unidades.id = pi.id_uv LEFT JOIN clientes c on c.id=d.id_cliente WHERE d.consecutivo_documento='" + strConsecutivoDocumento + "' order by dxl.consecutivo";
 
       List<Object[]> listado = em.createNativeQuery(query).getResultList();
 
@@ -1701,8 +1694,17 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
         List<Object[]> regExiste = em.createNativeQuery(sql).getResultList();
 
         if (regExiste != null && regExiste.size() > 0) {
-          String sqlModificarFacturaProforma = "UPDATE productosXdocumentos SET total_peso_neto_item = " + dto.getDblTotalPesoNeto() + ", " + "total_peso_bruto_item = " + dto.getDblTotalPesoBruto() + ", " + "valor_unitario_usd = " + dto.getDblPrecioUSD() + ", cantidad1 = " + dto.getDblCantidad1ActualProductoxDocumento() + " , " + "valor_total = " + dto.getDblValorTotalProductoxDocumento() + ", " + "cantidad_cajas_item = " + dto.getDblTotalCajas() + ", cantidad_pallets_item = "
-                  + dto.getDblTotalCajasPallet() + " , " + "cantidad_x_embalaje = " + dto.getDblCantidadXEmbalajeProductoInventarioCE() + " " + "WHERE  id_documento = " + documento.getIdDocumento() + "  AND id_producto = " + dto.getIntIdProductoInventario() + " ";
+          String sqlModificarFacturaProforma = "UPDATE productosXdocumentos SET "
+                  + "total_peso_neto_item = " + dto.getDblTotalPesoNeto() + ", " 
+                  + "total_peso_bruto_item = " + dto.getDblTotalPesoBruto() + ", " 
+                  + "valor_unitario_usd = " + dto.getDblPrecioUSD() + ", "
+                  + "cantidad1 = " + dto.getDblCantidad1ProductoxDocumento() + " , " 
+                  + "valor_total = " + dto.getDblValorTotalProductoxDocumento() + ", " 
+                  + "cantidad_cajas_item = " + dto.getDblTotalCajas() + ", "
+                  + "cantidad_pallets_item = " + dto.getDblTotalCajasPallet() + " , " 
+                  + "cantidad_x_embalaje = " + dto.getDblCantidadXEmbalajeProductoInventarioCE() + " " 
+                  + "WHERE  id_documento = " + documento.getIdDocumento() + " " 
+                  + "AND id_producto = " + dto.getIntIdProductoInventario() + " ";
 
           em.createNativeQuery(sqlModificarFacturaProforma).executeUpdate();
         } else {

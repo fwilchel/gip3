@@ -73,6 +73,7 @@
               modal="true" showEffect="fade" hideEffect="fade" resizable="false"
               dynamic="true" id="datoDlg">
       <h:form id="formaDlg">
+
         <p:outputPanel id="datoDetalle" style="text-align:center;">
           <p:messages id="msgs2" showDetail="false" showSummary="true"
                       globalOnly="true" showIcon="true"></p:messages>
@@ -228,13 +229,22 @@
               <h:outputText value="#{producto.strNombreProductoInventario}" />
             </p:column>
 
-            <p:column headerText="#{msg.comprasCantidadSola}">
-              <p:panelGrid columns="1">
-                <p:inputText value="#{producto.dblCantidad1ProductoxDocumento}"
-                             required="true" maxlength="10" size="10" id="cantidadProd1">
-                  <f:convertNumber maxFractionDigits="2" />
-                </p:inputText>
-                <p:message for="cantidadProd1"></p:message>
+            <p:column 
+              headerText="#{msg.comprasCantidadSola}">
+              <p:panelGrid 
+                columns="1">
+                <h:inputText 
+                  id="cantidadProd1" 
+                  value="#{producto.dblCantidad1ProductoxDocumento}"
+                  required="#{producto.blnIncluirBusqueda}" 
+                  maxlength="10" 
+                  size="10">
+                  <f:convertNumber 
+                    maxFractionDigits="2" />
+                </h:inputText>
+                <p:message 
+                  for="cantidadProd1">
+                </p:message>
               </p:panelGrid>
             </p:column>
 
@@ -281,7 +291,13 @@
             </p:column>
 
             <p:column headerText="#{msg.buscadorIncluirProducto}">
-              <p:selectBooleanCheckbox value="#{producto.blnIncluirBusqueda}" />
+              <p:selectBooleanCheckbox 
+                value="#{producto.blnIncluirBusqueda}" 
+                immediate="true">
+                <p:ajax 
+                  update="tablaProductos" 
+                  process="@this"/>
+              </p:selectBooleanCheckbox>
             </p:column>
 
           </p:dataTable>

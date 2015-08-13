@@ -7,10 +7,12 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,9 +30,11 @@ import javax.persistence.Transient;
   @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_ORDER_BY_SKU, query = "SELECT p FROM ProductosXDocumento p WHERE p.id.idDocumento = :idDocumento ORDER BY p.productosInventario.sku"),
   @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_COLECCIONES, query = "SELECT distinct p FROM ProductosXDocumento p JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosxclientes pxc JOIN FETCH pi.productosInventarioComext pic JOIN FETCH pic.tipoLoteoic tl JOIN FETCH pic.cuentaContable  cc WHERE p.id.idDocumento = :idDocumento ORDER BY pic.tipoLoteoic.id"),
   @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_AND_CLIENTE, query = "SELECT p FROM ProductosXDocumento p LEFT JOIN p.productosInventario.productosXClienteComexts pcce WHERE p.id.idDocumento = :idDocumento AND pcce.cliente.id = :idCliente ORDER BY pcce.regSanitario"),
-  @NamedQuery(name = ProductosXDocumento.FIND_PRODUCTOS_BY_DOCUMENTO_CE, query ="SELECT distinct p FROM ProductosXDocumento p JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosXClienteComexts pxc JOIN FETCH pi.productosInventarioComext pic JOIN FETCH pic.tipoLoteoic tl JOIN FETCH pic.cuentaContable  cc WHERE p.id.idDocumento = :idDocumento ORDER BY pic.tipoLoteoic.id"),
-  @NamedQuery(name = ProductosXDocumento.ELIMINAR_REGISTROS_POR_DOCUMENTO, query = "DELETE FROM ProductosXDocumento pxd WHERE pxd.id.idDocumento = :idDocumento")})
-
+  @NamedQuery(name = ProductosXDocumento.FIND_PRODUCTOS_BY_DOCUMENTO_CE, query = "SELECT distinct p FROM ProductosXDocumento p JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosXClienteComexts pxc JOIN FETCH pi.productosInventarioComext pic JOIN FETCH pic.tipoLoteoic tl JOIN FETCH pic.cuentaContable  cc WHERE p.id.idDocumento = :idDocumento ORDER BY pic.tipoLoteoic.id"),
+  @NamedQuery(name = ProductosXDocumento.BUSCAR_PRODUCTOS_X_DOCUMENTO_LE, query = "SELECT distinct p FROM ProductosXDocumento p JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosInventarioComext pic JOIN FETCH pic.tipoLoteoic tl WHERE p.id.idDocumento = :idDocumento ORDER BY pic.tipoLoteoic.id"),
+  @NamedQuery(name = ProductosXDocumento.ELIMINAR_REGISTROS_POR_DOCUMENTO, query = "DELETE FROM ProductosXDocumento pxd WHERE pxd.id.idDocumento = :idDocumento"),
+  @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_PICE, query = "SELECT p FROM ProductosXDocumento p   JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosInventarioComext pic WHERE p.id.idDocumento = :idDocumento ORDER BY p.productosInventario.nombre")
+})
 public class ProductosXDocumento implements Serializable {
 
   /**
@@ -43,10 +47,27 @@ public class ProductosXDocumento implements Serializable {
   public static final String FIND_BY_DOCUMENTO_COLECCIONES = "ProductosXDocumento.findByDocumentoColecciones";
   public static final String FIND_BY_DOCUMENTO_ORDER_BY_SKU = "ProductosXDocumento.findByDocumentoOrderBySKU";
   public static final String ELIMINAR_REGISTROS_POR_DOCUMENTO = "ProductosXDocumento.eliminarRegistrosPorDocumento";
-  public static final String FIND_PRODUCTOS_BY_DOCUMENTO_CE  = "ProductosXDocumento.findProductosByDocumentoCE";
+  public static final String FIND_PRODUCTOS_BY_DOCUMENTO_CE = "ProductosXDocumento.findProductosByDocumentoCE";
+  public static final String BUSCAR_PRODUCTOS_X_DOCUMENTO_LE = "ProductosXDocumento.findProductosCafeLE";
+  public static final String FIND_BY_DOCUMENTO_PICE = "ProductosXDocumento.findByDocumento_PICE";
 
   @EmbeddedId
   private ProductosXDocumentoPK id;
+
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "id_producto", referencedColumnName = "id", insertable = false, updatable = false)
+  private ProductosInventario productosInventario;
+
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "id_documento", referencedColumnName = "id", insertable = false, updatable = false)
+  private Documento documento;
+  
+    
+  
+  
+  
+ 
+  
 
   private Boolean calidad;
 
@@ -117,11 +138,6 @@ public class ProductosXDocumento implements Serializable {
   @JoinColumn(name = "id_ml")
   private Moneda moneda;
 
-  // bi-directional many-to-one association to ProductosInventario
-  @ManyToOne(optional = false)
-  @JoinColumn(name = "id_producto", referencedColumnName = "id", insertable = false, updatable = false)
-  private ProductosInventario productosInventario;
-
   // bi-directional many-to-one association to TipoDevolucion
   @ManyToOne
   @JoinColumn(name = "id_tipo_devolucion")
@@ -131,7 +147,7 @@ public class ProductosXDocumento implements Serializable {
   @ManyToOne
   @JoinColumn(name = "id_unidades")
   private Unidad unidade;
-  
+
   @Transient
   private BigDecimal cantidadVD;
 
@@ -144,6 +160,22 @@ public class ProductosXDocumento implements Serializable {
 
   public void setId(ProductosXDocumentoPK id) {
     this.id = id;
+  }
+
+  public Documento getDocumento() {
+    return documento;
+  }
+
+  public void setDocumento(Documento documento) {
+    this.documento = documento;
+  }
+
+  public ProductosInventario getProductosInventario() {
+    return this.productosInventario;
+  }
+
+  public void setProductosInventario(ProductosInventario productosInventario) {
+    this.productosInventario = productosInventario;
   }
 
   public Boolean getCalidad() {
@@ -328,14 +360,6 @@ public class ProductosXDocumento implements Serializable {
 
   public void setMoneda(Moneda moneda) {
     this.moneda = moneda;
-  }
-
-  public ProductosInventario getProductosInventario() {
-    return this.productosInventario;
-  }
-
-  public void setProductosInventario(ProductosInventario productosInventario) {
-    this.productosInventario = productosInventario;
   }
 
   public TipoDevolucion getTipoDevolucion() {

@@ -212,6 +212,9 @@ public class ImprimirFacturaDirectaMB extends UtilMB {
     parametros.put("documento", seleccionado.getDocumentoCliente());
     parametros.put("fecha", fechaStringGeneracion);
     parametros.put("tipoImp", "Copia");
+    
+    //parametros.put("tipoImp", "Original");
+    
 
     parametros.put("valorSubtotal", seleccionado2.getValorSubtotal());
     parametros.put("valorDescuento", seleccionado2.getValorDescuento());

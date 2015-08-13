@@ -20,7 +20,7 @@
     max-connection-usage-count="0"  
     max-pool-size="32"  
     max-wait-time-in-millis="60000"  
-    name="gip3Pool"  
+    name="gip-local-pool"  
     non-transactional-connections="false"  
     pool-resize-quantity="2"  
     res-type="javax.sql.DataSource"  
@@ -49,7 +49,7 @@
   </jdbc-connection-pool> 
   <jdbc-resource  
     enabled="true"  
-    jndi-name="java:/jdbc/GIPDS"  
+    jndi-name="jdbc/gip"  
     object-type="user"  
-    pool-name="gip3Pool"/> 
+    pool-name="gip-local-pool"/> 
 </resources> 

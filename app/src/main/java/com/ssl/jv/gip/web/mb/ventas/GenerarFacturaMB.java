@@ -235,7 +235,7 @@ public class GenerarFacturaMB extends UtilMB {
 		  }
 		}
 	  }
-	  total = Utilidad.round(subtotal.add(descuento).add(totalIva10).add(totalIva5).add(totalIva16));
+	  total = Utilidad.round(subtotal.subtract(descuento).add(totalIva10).add(totalIva5).add(totalIva16));
 	  LOGGER.debug("Total factura: " + total);
 	}
   }
@@ -280,8 +280,6 @@ public class GenerarFacturaMB extends UtilMB {
 	  factura.setValorIva10(totalIva10);
 	  factura.setValorIva5(totalIva5);
 	  factura.setValorTotal(total);
-	  // TODO: a parecer en este campo deberia viajar e numero de a factura
-	  // especial, pero no se de donde debo sacarlo.
 	  factura.setNumeroFactura(remisionSeleccionada.getNumeroFacturaEspecial());
 	  factura.setObservacion2(this.remisionSeleccionada.getObservacion2());
 	  if (getRemisionSeleccionada().getSitioEntrega() != null && getRemisionSeleccionada().getSitioEntrega().equals("CS")) {

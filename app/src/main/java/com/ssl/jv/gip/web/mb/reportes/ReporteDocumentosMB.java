@@ -34,20 +34,28 @@ import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.TipoDocumento;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dto.DetalleDocumentoDTO;
 import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
 import com.ssl.jv.gip.negocio.dto.FiltroConsultaSolicitudDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
+import com.ssl.jv.gip.negocio.ejb.ReportesEJBLocal;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.exportarExcel;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import org.primefaces.model.StreamedContent;
 
 /**
  * The Class SolicitudPedidoMB.
@@ -56,11 +64,15 @@ import org.primefaces.model.SortOrder;
 @ViewScoped
 public class ReporteDocumentosMB extends UtilMB {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private static final Logger LOGGER = Logger.getLogger(ReporteDocumentosMB.class);
   /**
    * The lista documentos.
    */
-  private ArrayList<DocumentoIncontermDTO> listaDocumentos = new ArrayList<DocumentoIncontermDTO>();
+  private ArrayList<DocumentoIncontermDTO> listaDocumentos = new ArrayList<>();
 
   /**
    * The lista productos documento.
@@ -111,6 +123,12 @@ public class ReporteDocumentosMB extends UtilMB {
    * The int ubicacion.
    */
   private Long intUbicacion;
+  
+  /**
+   * 
+   */
+  @EJB
+  private ReportesEJBLocal reportesEJB;
 
   /**
    * The comercio ejb.
@@ -185,9 +203,30 @@ public class ReporteDocumentosMB extends UtilMB {
   public String consultarSolicitudPedido() {
     //Consultar la lista inconterm poor cliente
     listaProductosDocumento = this.reportesComercioExteriorEJBLocal.consultarProductosPorDocumentoReporte(seleccionado.getIdDocumento());
-    
-
     return "";
+  }
+
+  /**
+   * 
+   * @return 
+   */
+  public StreamedContent generarReporteCabecera() {
+    LOGGER.trace("Metodo: <<generarReporteCabecera>>");
+    StreamedContent reporte = null;
+    List<DetalleDocumentoDTO> listadoDetallaDocumentos = reportesEJB.consultarDetalleDocumentos(filtro);
+    Map<String, Object> parametrosReporte = new HashMap<>();
+    parametrosReporte.put("datos", listadoDetallaDocumentos);
+    try {
+      Hashtable<String, String> parametrosConfiguracionReporte;
+      parametrosConfiguracionReporte = new Hashtable<>();
+      parametrosConfiguracionReporte.put("tipo", "jxls");
+      String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteDetalleDocumento.xls");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, null);
+      reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "ReporteDetalleDocumento.xls");
+    } catch (Exception e) {
+      this.addMensajeError("Problemas al generar el reporte");
+    }
+    return reporte;
   }
 
   /**

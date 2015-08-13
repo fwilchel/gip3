@@ -210,6 +210,7 @@ public class GenerarListaEmpaqueMB extends UtilMB {
 	  documentoXNegociacion.setPesoBrutoEstibas(docXNegociacion.getPesoBrutoEstibas());
 	  documentoXNegociacion.setLugarIncoterm(docXNegociacion.getLugarIncoterm());
 	  documentoXNegociacion.setObservacionesMarcacion2(docXNegociacion.getObservacionesMarcacion2());
+	  documentoXNegociacion.setDescripcion(docXNegociacion.getDescripcion());
 	}
 
 	documentoXNegociacion.setTotalPesoBruto(totalPesoBruto);

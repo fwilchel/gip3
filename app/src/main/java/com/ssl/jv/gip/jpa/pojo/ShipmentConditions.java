@@ -8,12 +8,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-
-import com.ssl.jv.gip.web.util.Utilidad;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * <p>
@@ -55,6 +51,7 @@ public class ShipmentConditions implements Serializable {
   @Column(name = "nombre_cliente")
   private String clientName;
   @Column(name = "fecha_embarque")
+  @Temporal(TemporalType.TIMESTAMP)
   private Date shipmentDate;
 
   public ShipmentConditions() {

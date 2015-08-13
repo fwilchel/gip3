@@ -122,11 +122,11 @@ public class AdministracionEJB implements AdministracionEJBLocal {
       //message.setReplyTo( new Address[]{new InternetAddress( strEmail )} );       
       message.addRecipient(Message.RecipientType.TO, new InternetAddress(strEmail));
       message.setHeader("Content-Type", "text/html" + "; charset=\"" + "charset=iso-8859-1" + "\"");
-      message.setSubject("Juan Valdez - Gip3 - Recordar Datos Acceso");
+      message.setSubject("Juan Valdez - SOC - Recordar Datos Acceso");
 
       String sMailText = "Sr(a) " + nombre.toUpperCase() + " "
           + apellido.toUpperCase() + "\n\n"
-          + "Sus datos para acceso al sistema GIP3 son :\n\n"
+          + "Sus datos para acceso al sistema SOC son :\n\n"
           + "Usuario: " + strEmail + "\n" + "Contraseña: "
           + strContrasena + "\n\n"
           + "Cualquier duda comuníquese con el administrador";
