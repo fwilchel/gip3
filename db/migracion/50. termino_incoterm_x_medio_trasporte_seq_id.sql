@@ -1,1 +1,0 @@
-SELECT setval('termino_incoterm_x_medio_transporte_id_seq', MAX(id)) FROM termino_incoterm_x_medio_transporte;
