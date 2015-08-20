@@ -1105,9 +1105,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     String sqlConsecutivoEmpresa = "select nextval('" + "LE" + prefijoEmpresa + "_seq') AS SEQ";
     BigInteger consecutivoEmpresa = (BigInteger) em.createNativeQuery(sqlConsecutivoEmpresa).getSingleResult();
 
-    
-    
-    
     String sql;
     try {
       sql = "INSERT INTO documentos (consecutivo_documento," + " fecha_esperada_entrega, id_ubicacion_origen, id_ubicacion_destino," + " id_tipo_documento, fecha_generacion," + " id_estado, observacion_documento, id, documento_cliente, " + " sitio_entrega, id_cliente)" + " VALUES ('LE" + prefijoEmpresa + "-" + consecutivoEmpresa.toString() + "','" + listaEmpaqueDTO.getFechaEsperadaEntrega() + "','" + listaEmpaqueDTO.getIdUbicacionOrigen() + "','" + listaEmpaqueDTO.getIdUbicacionDestino()
@@ -1695,22 +1692,49 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
         if (regExiste != null && regExiste.size() > 0) {
           String sqlModificarFacturaProforma = "UPDATE productosXdocumentos SET "
-                  + "total_peso_neto_item = " + dto.getDblTotalPesoNeto() + ", " 
-                  + "total_peso_bruto_item = " + dto.getDblTotalPesoBruto() + ", " 
+                  + "total_peso_neto_item = " + dto.getDblTotalPesoNeto() + ", "
+                  + "total_peso_bruto_item = " + dto.getDblTotalPesoBruto() + ", "
                   + "valor_unitario_usd = " + dto.getDblPrecioUSD() + ", "
-                  + "cantidad1 = " + dto.getDblCantidad1ProductoxDocumento() + " , " 
-                  + "valor_total = " + dto.getDblValorTotalProductoxDocumento() + ", " 
+                  + "cantidad1 = " + dto.getDblCantidad1ProductoxDocumento() + " , "
+                  + "valor_total = " + dto.getDblValorTotalProductoxDocumento() + ", "
                   + "cantidad_cajas_item = " + dto.getDblTotalCajas() + ", "
-                  + "cantidad_pallets_item = " + dto.getDblTotalCajasPallet() + " , " 
-                  + "cantidad_x_embalaje = " + dto.getDblCantidadXEmbalajeProductoInventarioCE() + " " 
-                  + "WHERE  id_documento = " + documento.getIdDocumento() + " " 
+                  + "cantidad_pallets_item = " + dto.getDblTotalCajasPallet() + " , "
+                  + "cantidad_x_embalaje = " + dto.getDblCantidadXEmbalajeProductoInventarioCE() + " "
+                  + "WHERE  id_documento = " + documento.getIdDocumento() + " "
                   + "AND id_producto = " + dto.getIntIdProductoInventario() + " ";
 
           em.createNativeQuery(sqlModificarFacturaProforma).executeUpdate();
         } else {
-
-          String sqlInsert = "INSERT INTO productosXdocumentos (id_documento," + "id_producto," + "cantidad1," + "fecha_estimada_entrega," + "fecha_entrega," + "id_ml," + "id_unidades," + "total_peso_neto_item," + "valor_unitario_usd," + "valor_total," + "total_peso_bruto_item," + "cantidad_cajas_item," + "cantidad_pallets_item," + "cantidad_x_embalaje) " + "VALUES (" + documento.getIdDocumento() + "," + "" + dto.getIntIdProducto() + "," + "" + dto.getDblCantidad1ActualProductoxDocumento()
-                  + "," + "current_timestamp + '2 days'," + "current_timestamp + '2 days', " + "'USD', " + "(select id_ud from productos_inventario where id = " + dto.getIntIdProducto() + ")," + "" + dto.getDblTotalPesoNeto() + "," + "" + dto.getDblPrecioUSD() + "," + "" + dto.getDblValorTotalProductoxDocumento() + "," + "" + dto.getDblTotalPesoBruto() + "," + "" + dto.getDblTotalCajas() + "," + "" + dto.getDblTotalCajasXPalletProductoInventarioCE() + "" + ""
+          String sqlInsert = "INSERT INTO productosXdocumentos ("
+                  + "id_documento, " 
+                  + "id_producto, " 
+                  + "cantidad1, " 
+                  + "fecha_estimada_entrega, " 
+                  + "fecha_entrega, " 
+                  + "id_ml, " 
+                  + "id_unidades, " 
+                  + "total_peso_neto_item, " 
+                  + "valor_unitario_usd, " 
+                  + "valor_total, " 
+                  + "total_peso_bruto_item, " 
+                  + "cantidad_cajas_item, " 
+                  + "cantidad_pallets_item, " 
+                  + "cantidad_x_embalaje"
+                  + ") " 
+                  + "VALUES (" 
+                  + documento.getIdDocumento() + ", " 
+                  + dto.getIntIdProductoInventario() + ", " 
+                  + dto.getDblCantidad1ProductoxDocumento() + ", " 
+                  + "current_timestamp + '2 days', " 
+                  + "current_timestamp + '2 days', " 
+                  + "'USD', " 
+                  + "(select id_ud from productos_inventario where id = " + dto.getIntIdProductoInventario() + "), " 
+                  + dto.getDblTotalPesoNeto() + ", " 
+                  + dto.getDblPrecioUSD() + ", " 
+                  + dto.getDblValorTotalProductoxDocumento() + ", " 
+                  + dto.getDblTotalPesoBruto() + ", " 
+                  + dto.getDblTotalCajas() + ", " 
+                  + dto.getDblTotalCajasPallet() + ", " 
                   + dto.getDblCantidadXEmbalajeProductoInventarioCE() + ")";
 
           em.createNativeQuery(sqlInsert).executeUpdate();

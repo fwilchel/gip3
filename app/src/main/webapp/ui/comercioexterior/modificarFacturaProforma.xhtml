@@ -399,18 +399,20 @@
 
           </p:dataTable>
 
-          <p:panelGrid columns="1"
-                       rendered="#{not empty modificarFacturaProformaMB.seleccionado}"
-                       columnClasses="label,value">
+          <p:panelGrid 
+            columns="1"
+            rendered="#{not empty modificarFacturaProformaMB.seleccionado}"
+            columnClasses="label,value">
             <p:commandButton
               value="#{msg.buscadorInsertarProductoSeleccionado}"
               action="#{modificarFacturaProformaMB.insertarProductoTabla}"
               update=":formaDlg:datoDetalle"></p:commandButton>
           </p:panelGrid>
 
-          <p:panelGrid columns="3" style="width:100%"
-                       rendered="#{not empty modificarFacturaProformaMB.seleccionado}"
-                       columnClasses="label,value,">
+          <p:panelGrid 
+            columns="3" style="width:100%"
+            rendered="#{not empty modificarFacturaProformaMB.seleccionado}"
+            columnClasses="label,value,">
 
             <h:outputText styleClass="titulos_seccion"
                           value="#{msg.TituloCostosIncoterm}" />
@@ -455,23 +457,26 @@
 
           </p:panelGrid>
 
-          <p:panelGrid columns="2"
-                       rendered="#{not empty modificarFacturaProformaMB.seleccionado}"
-                       columnClasses="label,value">
-            <p:commandButton value="Guardar Ajustes" icon="ui-icon-disk"
-                             action="#{modificarFacturaProformaMB.guardarAjustesFP}"
-                             update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos">
-            </p:commandButton>
-            <p:commandButton value="#{msg.generalCancelar}"
-                             update=":formaDlg:datoDetalle,:forma:tabPanel:tablaDatos"
-                             action="#{modificarFacturaProformaMB.cancelar}"
-                             oncomplete="PF('datoDialog').hide()" icon="ui-icon-cancel"></p:commandButton>
+          <p:panelGrid 
+            columns="2"
+            rendered="#{not empty modificarFacturaProformaMB.seleccionado}"
+            columnClasses="label,value">
+            <p:commandButton 
+              value="Guardar Ajustes" 
+              icon="ui-icon-disk"
+              action="#{modificarFacturaProformaMB.guardarAjustesFP}"
+              update=":formaDlg:datoDetalle, :forma:tabPanel:tablaDatos"/>
+            <p:commandButton 
+              value="#{msg.generalCancelar}"
+              update=":formaDlg:datoDetalle,:forma:tabPanel:tablaDatos"
+              action="#{modificarFacturaProformaMB.cancelar}"
+              oncomplete="PF('datoDialog').hide()" 
+              icon="ui-icon-cancel"/>
           </p:panelGrid>
 
         </p:outputPanel>
       </h:form>
     </p:dialog>
-
 
   </ui:define>
 
