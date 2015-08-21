@@ -2,8 +2,8 @@
 -- SOC
 --
 -- script para eliminar ubicaciones de SOC
+-- @author: John Heredia, <jhon.heredia@juanvaldezcafe.com>.
 -- @author: Diego Poveda, <diego.poveda@softstudio.co>.
--- @author: John Heredia, <diego.poveda@softstudio.co>.
 -- @version: 1.0
 --
 

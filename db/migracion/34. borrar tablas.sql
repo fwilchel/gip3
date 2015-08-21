@@ -2,8 +2,8 @@
 -- SOC
 --
 -- script para eliminar las tablas que ya no se estan usando en el aplicativo SOC
+-- @author: John Heredia, <jhon.heredia@juanvaldezcafe.com>.
 -- @author: Diego Poveda, <diego.poveda@softstudio.co>.
--- @author: John Heredia, <diego.poveda@softstudio.co>.
 -- @version: 1.0
 --
 
