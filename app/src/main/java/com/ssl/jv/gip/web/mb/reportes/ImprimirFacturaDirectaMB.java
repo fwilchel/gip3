@@ -13,29 +13,19 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.Estado;
-import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.dto.FacturaDirectaDTO;
-import com.ssl.jv.gip.negocio.dto.ListaEmpaqueDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoFacturaDirectaDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 
 import com.ssl.jv.gip.web.util.Numero_a_Letra;
 
@@ -139,7 +129,7 @@ public class ImprimirFacturaDirectaMB extends UtilMB {
   private ComercioExteriorEJB comercioEjb;
 
   public List<Documento> consultarDocumento() {
-    Map<String, Object> parametros = new HashMap<String, Object>();
+    Map<String, Object> parametros = new HashMap<>();
 
     // Se Define la cadena de busqueda del nombre segun lo ingresado en el
     // campo de Consecutivo Pedido. 
@@ -167,7 +157,7 @@ public class ImprimirFacturaDirectaMB extends UtilMB {
   }
 
   public StreamedContent getReportePDF() {
-    Map<String, Object> parametros = new HashMap<String, Object>();
+    Map<String, Object> parametros = new HashMap<>();
     //Cliente c=seleccionado.getCliente();
 
     int n = 0;
@@ -212,10 +202,7 @@ public class ImprimirFacturaDirectaMB extends UtilMB {
     parametros.put("documento", seleccionado.getDocumentoCliente());
     parametros.put("fecha", fechaStringGeneracion);
     parametros.put("tipoImp", "Copia");
-    
-    //parametros.put("tipoImp", "Original");
-    
-
+//    parametros.put("tipoImp", "Original");
     parametros.put("valorSubtotal", seleccionado2.getValorSubtotal());
     parametros.put("valorDescuento", seleccionado2.getValorDescuento());
     parametros.put("valorIva5", seleccionado2.getValorIva5());
@@ -256,7 +243,7 @@ public class ImprimirFacturaDirectaMB extends UtilMB {
     JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDetalle);
     try {
 
-      Hashtable<String, String> parametrosR = new Hashtable<String, String>();
+      Hashtable<String, String> parametrosR = new Hashtable<>();
       parametrosR.put("tipo", "pdf");
       String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report2.jasper");
 

@@ -29,7 +29,6 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
-import com.ssl.jv.gip.web.mb.util.Numero_a_Letra_Ingles;
 import com.ssl.jv.gip.web.util.Numero_a_Letra;
 import com.ssl.jv.gip.web.util.Utilidad;
 
@@ -414,7 +413,7 @@ public class GenerarFacturaMB extends UtilMB {
 	  Hashtable<String, String> parametrosConfiguracionReporte;
 	  parametrosConfiguracionReporte = new Hashtable<>();
 	  parametrosConfiguracionReporte.put("tipo", "pdf");
-	  String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/FacturaDirecta.jasper");
+	  String reportePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/FD.jasper");
 	  ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reportePath, null, null, null, parametrosReporte, ds);
 	  reporte = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf", nombreArchivo.toString());
 	} catch (Exception e) {
