@@ -8,6 +8,7 @@
     name="primary" 
     transaction-type="JTA">
     <jta-data-source>java:/jdbc/GIPDS</jta-data-source>
+	<!--<jta-data-source>java:/jdbc/GIPDS_Produccion</jta-data-source> -->
     <!--<jta-data-source>jdbc/gip</jta-data-source>-->
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
