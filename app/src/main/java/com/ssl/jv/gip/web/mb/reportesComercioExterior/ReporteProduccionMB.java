@@ -2,6 +2,7 @@ package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,10 +62,13 @@ public class ReporteProduccionMB extends UtilMB {
     LOGGER.trace("Metodo: <<getReporteExcel>>");
     List<ReporteProduccionDTO> registros = new ArrayList<>();
     try {
+      DateFormat formatoFechaInicial = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      DateFormat formatoFechaFinal = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      DateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
       Map<String, Object> parametrosConsulta = new HashMap<>();
       parametrosConsulta.put("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
-      parametrosConsulta.put("fechaInicial", fechaInicial);
-      parametrosConsulta.put("fechaFinal", fechaFinal);
+      parametrosConsulta.put("fechaInicial", formatoFechaInicial.parse(formatoFecha.format(fechaInicial).concat(" 00:00:00")));
+      parametrosConsulta.put("fechaFinal", formatoFechaFinal.parse(formatoFecha.format(fechaFinal).concat(" 23:59:59")));
       parametrosConsulta.put("solicitudCafe", esSolicitudCafe);
       parametrosConsulta.put("estado", Estado.APROBADA.getCodigo());
       registros = reportesComercioExteriorEJBLocal.consultarProductosReporteProduccion(parametrosConsulta);
