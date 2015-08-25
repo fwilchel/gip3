@@ -7,12 +7,10 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,7 +24,7 @@ import javax.persistence.Transient;
 @Table(name = "productosxdocumentos")
 @NamedQueries({
   @NamedQuery(name = "ProductosXDocumento.findAll", query = "SELECT p FROM ProductosXDocumento p"),
-  @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO, query = "SELECT p FROM ProductosXDocumento p WHERE p.id.idDocumento = :idDocumento ORDER BY p.productosInventario.nombre"),
+  @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO, query = "SELECT p FROM ProductosXDocumento p JOIN FETCH p.productosInventario pi JOIN FETCH pi.unidadVenta uv WHERE p.id.idDocumento = :idDocumento ORDER BY p.productosInventario.nombre"),
   @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_ORDER_BY_SKU, query = "SELECT p FROM ProductosXDocumento p WHERE p.id.idDocumento = :idDocumento ORDER BY p.productosInventario.sku"),
   @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_COLECCIONES, query = "SELECT distinct p FROM ProductosXDocumento p JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosxclientes pxc JOIN FETCH pi.productosInventarioComext pic JOIN FETCH pic.tipoLoteoic tl JOIN FETCH pic.cuentaContable  cc WHERE p.id.idDocumento = :idDocumento ORDER BY pic.tipoLoteoic.id"),
   @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_AND_CLIENTE, query = "SELECT p FROM ProductosXDocumento p LEFT JOIN p.productosInventario.productosXClienteComexts pcce WHERE p.id.idDocumento = :idDocumento AND pcce.cliente.id = :idCliente ORDER BY pcce.regSanitario"),
@@ -61,13 +59,6 @@ public class ProductosXDocumento implements Serializable {
   @ManyToOne(optional = false)
   @JoinColumn(name = "id_documento", referencedColumnName = "id", insertable = false, updatable = false)
   private Documento documento;
-  
-    
-  
-  
-  
- 
-  
 
   private Boolean calidad;
 
