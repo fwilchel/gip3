@@ -826,14 +826,9 @@ public class ProductoClienteComercioExteriorDAO extends
   }
 
   @Override
-  public ProductosXClienteComext consultarPorClienteSku(Long idCliente,
-      String sku) {
-    Query query = em
-        .createNamedQuery(
-            ProductosXClienteComext.PRODUCTOS_X_CLIENTE_SKU)
-        .setParameter("idCliente", idCliente).setParameter("sku", sku);
-    ProductosXClienteComext r = (ProductosXClienteComext) query
-        .getSingleResult();
+  public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku) {
+    Query query = em.createNamedQuery(ProductosXClienteComext.PRODUCTOS_X_CLIENTE_SKU).setParameter("idCliente", idCliente).setParameter("sku", sku);
+    ProductosXClienteComext r = (ProductosXClienteComext) query.getSingleResult();
     return r;
   }
 
