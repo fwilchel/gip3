@@ -1799,7 +1799,6 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   public List<DocumentoReporteVentasCEDTO> consultarDocumentosReporteVentasCE(Map<String, Object> parametros) {
     LOGGER.trace("Metodo: <<consultarDocumentosReporteVentasCE>>");
     String sql = DocumentoReporteVentasCEDTO.LISTADO_DOCUMENTOS_REPORTE_VENTAS_CE;
-
     System.out.println("reporte vta CE: " + sql);
     boolean buscarPorClientes = false;
     boolean buscarPorProductos = false;

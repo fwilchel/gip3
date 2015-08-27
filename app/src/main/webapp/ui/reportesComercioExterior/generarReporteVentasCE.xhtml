@@ -33,10 +33,10 @@
           <p:panel>
             <p:panel
               id="pnlFltFechas">
-              <p:panelGrid
+              <h:panelGrid
                 columns="3"
                 styleClass="noBorders">
-                <h:outputLabel 
+                <p:outputLabel 
                   for="filtroFechaInicial" 
                   value="#{msg.grvceFltLblFechaInicial}" 
                   styleClass="negrita"/>
@@ -48,7 +48,7 @@
                   pattern="yyyy-MM-dd"/>
                 <p:message
                   for="filtroFechaInicial"/>
-                <h:outputLabel 
+                <p:outputLabel 
                   for="filtroFechaFinal" 
                   value="#{msg.grvceFltLblFechaFinal}" 
                   styleClass="negrita"/>
@@ -60,7 +60,7 @@
                   pattern="yyyy-MM-dd"/>
                 <p:message
                   for="filtroFechaFinal"/>
-              </p:panelGrid>
+              </h:panelGrid>
             </p:panel>
 
             <p:spacer 

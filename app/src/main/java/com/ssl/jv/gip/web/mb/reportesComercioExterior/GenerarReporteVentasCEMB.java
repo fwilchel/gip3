@@ -205,9 +205,9 @@ public class GenerarReporteVentasCEMB extends UtilMB {
       Hashtable<String, String> parametrosConfiguracionReporte;
       parametrosConfiguracionReporte = new Hashtable<>();
       parametrosConfiguracionReporte.put("tipo", "xls");
-      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_VCE.jasper");
+      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteVentasCE.jasper");
       ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reporte, null, null, null, parametrosReporte, ds);
-      reporteXLS = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "Reporte_VCE.xls");
+      reporteXLS = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "ReporteVentasCE.xls");
     } catch (Exception e) {
       this.addMensajeError("Problemas al generar el reporte");
     }
