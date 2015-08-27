@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
 @Table(name = "movimientos_inventario_comext")
 @NamedQueries({
   @NamedQuery(name = "MovimientosInventarioComext.findAll", query = "SELECT m FROM MovimientosInventarioComext m"),
-  @NamedQuery(name = "MovimientosInventarioComext.ultimosSaldos", query = "SELECT m FROM MovimientosInventarioComext m WHERE m.fecha = (SELECT max(m2.fecha) FROM MovimientosInventarioComext m2 WHERE m2.productosInventarioComext.idProducto=m.productosInventarioComext.idProducto) "),
+  @NamedQuery(name = "MovimientosInventarioComext.ultimosSaldos", query = "SELECT m FROM MovimientosInventarioComext m WHERE m.fecha = (SELECT max(m2.fecha) FROM MovimientosInventarioComext m2 WHERE m2.productosInventarioComext.idProducto = m.productosInventarioComext.idProducto) "),
   @NamedQuery(name = MovimientosInventarioComext.FIND_BY_SKU, query = "SELECT m FROM MovimientosInventarioComext m JOIN m.productosInventarioComext pice JOIN pice.productosInventario pi WHERE UPPER(pi.sku) LIKE UPPER(:sku) ORDER BY m.fecha DESC ")})
 public class MovimientosInventarioComext implements Serializable {
 

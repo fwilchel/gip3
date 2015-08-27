@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -48,6 +47,7 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Utilidad;
+import java.util.Map;
 
 /**
  * <p>
@@ -97,90 +97,10 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
   @EJB
   private ComercioExteriorEJBLocal comercioEjb;
 
-  private Integer language = AplicacionMB.SPANISH;
+  private final Integer language = AplicacionMB.SPANISH;
 
   public IngresarSolicitudPedidoMB() {
 
-  }
-
-  public AplicacionMB getAppMB() {
-    return appMB;
-  }
-
-  public void setAppMB(AplicacionMB appMB) {
-    this.appMB = appMB;
-  }
-
-  public Long getIdCliente() {
-    return idCliente;
-  }
-
-  public void setIdCliente(Long idCliente) {
-    this.idCliente = idCliente;
-  }
-
-  public MenuMB getMenu() {
-    return menu;
-  }
-
-  public void setMenu(MenuMB menu) {
-    this.menu = menu;
-  }
-
-  public Long getIdTerminoIncoterm() {
-    return idTerminoIncoterm;
-  }
-
-  public void setIdTerminoIncoterm(Long idTerminoIncoterm) {
-    this.idTerminoIncoterm = idTerminoIncoterm;
-  }
-
-  public List<SelectItem> getClientes() {
-    return clientes;
-  }
-
-  public void setClientes(List<SelectItem> clientes) {
-    this.clientes = clientes;
-  }
-
-  public List<SelectItem> getTerminosIncoterm() {
-    return terminosIncoterm;
-  }
-
-  public void setTerminosIncoterm(List<SelectItem> terminosIncoterm) {
-    this.terminosIncoterm = terminosIncoterm;
-  }
-
-  public Boolean getSolicitudCafe() {
-    return solicitudCafe;
-  }
-
-  public void setSolicitudCafe(Boolean solicitudCafe) {
-    this.solicitudCafe = solicitudCafe;
-  }
-
-  public String getNombreArchivo() {
-    return nombreArchivo;
-  }
-
-  public void setNombreArchivo(String nombreArchivo) {
-    this.nombreArchivo = nombreArchivo;
-  }
-
-  public List<ProductoSolicitudPedidoDTO> getProductos() {
-    return productos;
-  }
-
-  public void setProductos(List<ProductoSolicitudPedidoDTO> productos) {
-    this.productos = productos;
-  }
-
-  public boolean isDeshabilitado() {
-    return deshabilitado;
-  }
-
-  public void setDeshabilitado(boolean deshabilitado) {
-    this.deshabilitado = deshabilitado;
   }
 
   @PostConstruct
@@ -216,8 +136,7 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
       return;
     }
     this.nombreArchivo = event.getFile().getFileName();
-    Hashtable<Long, BigDecimal> saldos = this.comercioEjb.consultarUltimosSaldos();
-    Hashtable<String, BigDecimal> datos = new Hashtable<>();
+    Map<Long, BigDecimal> saldos = this.comercioEjb.consultarUltimosSaldos();
     this.productos = new ArrayList<>();
     try {
       boolean errorValidacion = false;
@@ -234,7 +153,6 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
         StringTokenizer st = new StringTokenizer(linea, "|");
         String sku = st.nextToken().trim();
         BigDecimal cantidad = new BigDecimal(st.nextToken().trim());
-        datos.put(sku, cantidad);
         ProductoSolicitudPedidoDTO dto = new ProductoSolicitudPedidoDTO();
         dto.setObservaciones("OK");
         dto.setSku(sku);
@@ -309,11 +227,7 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
           }
         }
       }
-      if (errorValidacion) {
-        this.deshabilitado = true;
-      } else {
-        this.deshabilitado = false;
-      }
+      this.deshabilitado = errorValidacion;
     } catch (IOException e) {
       this.addMensajeError(e);
     }
@@ -431,5 +345,85 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
     this.deshabilitado = true;
     return null;
 
+  }
+
+  public AplicacionMB getAppMB() {
+    return appMB;
+  }
+
+  public void setAppMB(AplicacionMB appMB) {
+    this.appMB = appMB;
+  }
+
+  public Long getIdCliente() {
+    return idCliente;
+  }
+
+  public void setIdCliente(Long idCliente) {
+    this.idCliente = idCliente;
+  }
+
+  public MenuMB getMenu() {
+    return menu;
+  }
+
+  public void setMenu(MenuMB menu) {
+    this.menu = menu;
+  }
+
+  public Long getIdTerminoIncoterm() {
+    return idTerminoIncoterm;
+  }
+
+  public void setIdTerminoIncoterm(Long idTerminoIncoterm) {
+    this.idTerminoIncoterm = idTerminoIncoterm;
+  }
+
+  public List<SelectItem> getClientes() {
+    return clientes;
+  }
+
+  public void setClientes(List<SelectItem> clientes) {
+    this.clientes = clientes;
+  }
+
+  public List<SelectItem> getTerminosIncoterm() {
+    return terminosIncoterm;
+  }
+
+  public void setTerminosIncoterm(List<SelectItem> terminosIncoterm) {
+    this.terminosIncoterm = terminosIncoterm;
+  }
+
+  public Boolean getSolicitudCafe() {
+    return solicitudCafe;
+  }
+
+  public void setSolicitudCafe(Boolean solicitudCafe) {
+    this.solicitudCafe = solicitudCafe;
+  }
+
+  public String getNombreArchivo() {
+    return nombreArchivo;
+  }
+
+  public void setNombreArchivo(String nombreArchivo) {
+    this.nombreArchivo = nombreArchivo;
+  }
+
+  public List<ProductoSolicitudPedidoDTO> getProductos() {
+    return productos;
+  }
+
+  public void setProductos(List<ProductoSolicitudPedidoDTO> productos) {
+    this.productos = productos;
+  }
+
+  public boolean isDeshabilitado() {
+    return deshabilitado;
+  }
+
+  public void setDeshabilitado(boolean deshabilitado) {
+    this.deshabilitado = deshabilitado;
   }
 }

@@ -231,7 +231,7 @@ public interface ComercioExteriorEJBLocal {
 
   public Documento crearSolicitudPedido(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, List<MovimientosInventarioComext> mice);
 
-  public Hashtable<Long, BigDecimal> consultarUltimosSaldos();
+  public Map<Long, BigDecimal> consultarUltimosSaldos();
 
   public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku);
 
