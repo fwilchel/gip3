@@ -1396,10 +1396,9 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   @SuppressWarnings("unchecked")
   @Override
   public List<Documento> consultarDocumentosParaGenerarListaEmpaque(String consecutivoDocumento) {
-    Query query = em.createNamedQuery(Documento.FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO_CUSTOM);
-    query.setParameter("idTipoDocumento", Long.valueOf(ConstantesTipoDocumento.FACTURA_PROFORMA));
-    query.setParameter("idEstado1", com.ssl.jv.gip.util.Estado.APROBADA.getCodigo());
-    query.setParameter("idEstado2", com.ssl.jv.gip.util.Estado.ASIGNADA.getCodigo());
+    Query query = em.createNamedQuery(Documento.BUSCAR_FACTURAS_PROFORMA_X_ESTADO);
+    query.setParameter("idTipoDocumento", (long) ConstantesTipoDocumento.FACTURA_PROFORMA);
+    query.setParameter("idEstado", com.ssl.jv.gip.util.Estado.APROBADA.getCodigo());
     query.setParameter("consecutivoDocumento", consecutivoDocumento);
     return query.getResultList();
   }

@@ -51,7 +51,9 @@ import com.ssl.jv.gip.negocio.dto.ProductoPorClienteDTO;
   @NamedQuery(name = Documento.BUSCAR_DOCUMENTO_FX_REIMPRIMIR_BY_ID, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dxn JOIN FETCH d.cliente c JOIN c.terminoIncoterms ti JOIN FETCH c.ciudad ciudad JOIN FETCH c.metodoPago mp WHERE d.id = :id"),
   @NamedQuery(name = Documento.BUSCAR_FACTURAS_FX_ANULAR, query = "SELECT d FROM Documento d JOIN d.cliente JOIN d.cliente.ciudad JOIN d.cliente.metodoPago JOIN d.estadosxdocumento JOIN FETCH d.documentoXNegociacions dxn JOIN dxn.terminoIncoterm WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d.estadosxdocumento.id.idEstado IN (:estado) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id desc"),
   @NamedQuery(name = Documento.ELIMINAR_REGISTRO, query = "DELETE FROM Documento d WHERE d.id = :id"),
-  @NamedQuery(name = Documento.BUSCAR_FACTURAS_PROFORMA, query = "SELECT d FROM Documento d JOIN FETCH d.cliente c JOIN FETCH d.estadosxdocumento exd JOIN FETCH exd.estado e JOIN FETCH d.documentoXNegociacions dxn JOIN FETCH dxn.terminoIncoterm ti JOIN FETCH c.ciudad ciu JOIN FETCH c.metodoPago mp WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND ((d.estadosxdocumento.estado.id = :estadoAprobada AND dxn.solicitudCafe = false) OR (d.estadosxdocumento.estado.id = :estadoAsignada AND dxn.solicitudCafe = true)) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC")})
+  @NamedQuery(name = Documento.BUSCAR_FACTURAS_PROFORMA, query = "SELECT d FROM Documento d JOIN FETCH d.cliente c JOIN FETCH d.estadosxdocumento exd JOIN FETCH exd.estado e JOIN FETCH d.documentoXNegociacions dxn JOIN FETCH dxn.terminoIncoterm ti JOIN FETCH c.ciudad ciu JOIN FETCH c.metodoPago mp WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND ((d.estadosxdocumento.estado.id = :estadoAprobada AND dxn.solicitudCafe = false) OR (d.estadosxdocumento.estado.id = :estadoAsignada AND dxn.solicitudCafe = true)) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
+  @NamedQuery(name = Documento.BUSCAR_FACTURAS_PROFORMA_X_ESTADO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn LEFT JOIN FETCH d.cliente c WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC")
+})
 public class Documento implements Serializable {
 
   /**
@@ -83,6 +85,7 @@ public class Documento implements Serializable {
   public static final String ELIMINAR_REGISTRO = "Documento.eliminarRegistro";
   public static final String ACTUALIZAR_ESTADO_Y_OBSERVACION_POR_CONSECUTIVO = "UPDATE Documento d SET d.estadosxdocumento.id.idEstado = :estado, d.observacionDocumento = :observacionDocumento WHERE d.consecutivoDocumento = :consecutivoDocumento";
   public static final String BUSCAR_FACTURAS_PROFORMA = "Documento.buscarFacturasProforma";
+  public static final String BUSCAR_FACTURAS_PROFORMA_X_ESTADO = "Documento.buscarFacturasProformaXEstado";
 
   @Id
   @SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)

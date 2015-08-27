@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -498,11 +497,11 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
         if (vProducto.getControlStockProductoInventarioCE() != null && vProducto.getControlStockProductoInventarioCE()) {
           if (vProducto.isBlnIncluirBusqueda()) {
-			// Consultar saldo del producto inventario, si no tiene
+            // Consultar saldo del producto inventario, si no tiene
             // lanzar excepcion
             dblSaldoActual = productoClienteComercioExteriorDAO.consultarUltimoSaldoProducto(vProducto.getIntIdProductoInventario());
             if (dblSaldoActual == null) {
-			  // TODO Lanzar mensaje de excepcion
+              // TODO Lanzar mensaje de excepcion
               // Los siguientes skus no tienen saldo de inventario
               // asociado:
             }
@@ -513,12 +512,12 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
           // Consultar la cantidad de producto
           dblCantidadActual = vProducto.getDblCantidad1ActualProductoxDocumento();
 
-		  // el calculo del nuevo saldo es saldo actual + la cantidad
+          // el calculo del nuevo saldo es saldo actual + la cantidad
           // actual - la cantidad nueva
           BigDecimal dblNuevoSaldo = dblSaldoActual.add(dblCantidadActual).min(vProducto.getDblCantidad1ProductoxDocumento());
 
           if (dblNuevoSaldo.compareTo(new BigDecimal(0)) == -1) {
-			// Error excepcion
+            // Error excepcion
             // TODO
             // "El calculo del nuevo saldo seria negativo para los siguientes skus:"
 
@@ -924,6 +923,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     return null;
   }
 
+  @Override
   public List<Documento> consultarFacturasProformasParaGenerarListaEmpaque(String consecutivoDocumento) {
     return documentoDAO.consultarDocumentosParaGenerarListaEmpaque(consecutivoDocumento);
   }
@@ -1253,7 +1253,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
     ventaDirecta.setConsecutivoDocumento(prefijoConsecutivo + "-" + valorSecuencia);
 
-	// ventaDirecta.getEstadosxdocumento().setEstado(
+    // ventaDirecta.getEstadosxdocumento().setEstado(
     // estadoDAOLocal
     // .findByPK(estadosxdocumento.getId().getIdEstado()));
     ventaDirecta = (Documento) documentoDAO.add(ventaDirecta);
@@ -1300,7 +1300,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
       }
     }
 
-	// String prefijoConsecutivo = tipoDocumento.getAbreviatura() +
+    // String prefijoConsecutivo = tipoDocumento.getAbreviatura() +
     // ubicacion.getEmpresa().getId();
     // Long valorSecuencia =
     // documentoDAO.consultarProximoValorSecuencia(prefijoConsecutivo + "_seq");
@@ -1329,12 +1329,12 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     id.setIdProducto(Long.valueOf(productoDTO.getId()));
     productosXDocumento.setId(id);
     Date fechaActual = new Date();
-	// productosXDocumento.setInformacion(Boolean.FALSE);
+    // productosXDocumento.setInformacion(Boolean.FALSE);
     // productosXDocumento.setCalidad(Boolean.FALSE);
     productosXDocumento.setFechaEntrega(fechaActual);
     productosXDocumento.setFechaEstimadaEntrega(fechaActual);
     productosXDocumento.setCantidad1(productoDTO.getCantidad());
-	// productosXDocumento.setCantidad2(BigDecimal.ZERO);
+    // productosXDocumento.setCantidad2(BigDecimal.ZERO);
     // productosXDocumento.setValorUnitatrioMl(BigDecimal.ZERO);
     productosXDocumento.setValorUnitarioUsd(productoDTO.getValorUnitarioUsd());
     productosXDocumento.setValorTotal(productoDTO.getValorTotal());
@@ -1556,7 +1556,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
 
   public int actualizarCostosLogisticos(BigDecimal valorTotal, BigDecimal fob, BigDecimal fletes, BigDecimal seguros, List<DocumentoCostosLogisticosDTO> documentos, LiquidacionCostoLogistico lcl) {
-	// public int actualizarCostosLogisticos(Long idDocumento, Long
+    // public int actualizarCostosLogisticos(Long idDocumento, Long
     // idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes,
     // BigDecimal valorSeguros, LiquidacionCostoLogistico lcl) {
     this.liquidacionCostoLogisticoDAO.add(lcl);
