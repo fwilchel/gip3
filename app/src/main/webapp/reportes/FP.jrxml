@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-08-28T10:07:05 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FP" pageWidth="609" pageHeight="800" whenNoDataType="NoDataSection" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3060fbe6-7590-4a01-9ea7-698dffb5f818">
 	<property name="ireport.zoom" value="1.2100000000000755"/>
 	<property name="ireport.x" value="0"/>
@@ -529,13 +527,6 @@ Bogotá - Colombia]]></text>
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorUnitarioUsd}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="357" y="0" width="67" height="9" uuid="232f1816-8455-4e5e-a40f-e31268e985f4"/>
-				<textElement textAlignment="Right">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{totalPesoNetoItem}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="256" y="0" width="51" height="9" uuid="c515313e-c3ec-4515-9cd8-d4e49656545b"/>
