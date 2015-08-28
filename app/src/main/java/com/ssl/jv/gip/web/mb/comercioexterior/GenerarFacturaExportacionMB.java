@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -42,7 +41,6 @@ import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ReporteReimprimirFacturaDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
-import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
@@ -65,158 +63,120 @@ public class GenerarFacturaExportacionMB extends UtilMB {
    * The Constant serialVersionUID.
    */
   private static final long serialVersionUID = 5093870535116322203L;
-
   /**
    * The Constant LOGGER.
    */
   private static final Logger LOGGER = Logger.getLogger(GenerarFacturaExportacionMB.class);
-
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
-
   /**
    * The reportes comercio exterior ejb local.
    */
   @EJB
   private ReportesComercioExteriorEJBLocal reportesComercioExteriorEJBLocal;
-
   /**
    * The reportes ejb local.
    */
   @EJB
   private ReportesEJBLocal reportesEJBLocal;
-
   /**
    * The comercio exterior ejb local.
    */
   @EJB
   private ComercioExteriorEJBLocal comercioExteriorEJBLocal;
-
-  @EJB
-  private ComunEJBLocal comunEJB;
-
   /**
    * The lista facturas exportacion.
    */
   private List<Documento> listaFacturasExportacion;
-
   /**
    * The language.
    */
   private Integer language = AplicacionMB.SPANISH;
-
   /**
    * The modo.
    */
   private Modo modo;
-
   /**
    * The seleccionado.
    */
   private Documento seleccionado;
-
   private Documento facturaGenerada;
-
   /**
    * The lista productos documento.
    */
   private List<ProductosXDocumento> listaProductosDocumento;
-
   /**
    * The total cantitad1.
    */
   private BigDecimal totalCantitad1 = BigDecimal.ZERO;
-
   /**
    * The total valor total.
    */
   private BigDecimal totalValorTotal = BigDecimal.ZERO;
-
   /**
    * The total cantidad x embalaje.
    */
   private BigDecimal totalCantidadXEmbalaje = BigDecimal.ZERO;
-
   /**
    * The total cantidad cajas.
    */
   private BigDecimal totalCantidadCajas = BigDecimal.ZERO;
-
   /**
    * The total peso neto.
    */
   private BigDecimal totalPesoNeto = BigDecimal.ZERO;
-
   /**
    * The total peso bruto.
    */
   private BigDecimal totalPesoBruto = BigDecimal.ZERO;
-
   /**
    * The total costo entrega.
    */
   private BigDecimal totalCostoEntrega = BigDecimal.ZERO;
-
   /**
    * The total costo seguro.
    */
   private BigDecimal totalCostoSeguro = BigDecimal.ZERO;
-
   /**
    * The total costo flete.
    */
   private BigDecimal totalCostoFlete = BigDecimal.ZERO;
-
   /**
    * The total pallets.
    */
   private BigDecimal totalPallets = BigDecimal.ZERO;
-
   /**
    * The total otros gastos.
    */
   private BigDecimal totalOtrosGastos = BigDecimal.ZERO;
-
   /**
    * The total costos.
    */
   private BigDecimal totalCostos = BigDecimal.ZERO;
-
   /**
    * The total valor neg.
    */
   private BigDecimal totalValorNeg = BigDecimal.ZERO;
-
   /**
    * The lista muestras.
    */
   private List<Muestrasxlote> listaMuestras;
-
   /**
    * The lista producto totales.
    */
   private List<ProductoLoteAsignarLoteOICDTO> listaProductoTotales;
-
   /**
    * The reporte pdf.
    */
   private StreamedContent reportePDF;
-
-  /**
-   * The fecha actual.
-   */
-  private Date fechaActual;
-
   /**
    * The consecutivo documento.
    */
   private String consecutivoDocumento;
-
   /**
    * The str descripcion.
    */
   private String strDescripcion;
-
   /**
    * The render imprimir factura.
    */
@@ -230,13 +190,6 @@ public class GenerarFacturaExportacionMB extends UtilMB {
   @PostConstruct
   public void init() {
     FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-    try {
-      fechaActual = new Date();
-    } catch (Exception e) {
-      LOGGER.error(e);
-      this.addMensajeError(e);
-    }
-
   }
 
   /**
@@ -402,7 +355,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
    * @return the reporte pdf
    */
   public StreamedContent getReportePDF() {
-	// cambiar a estado impreso la fx
+    // cambiar a estado impreso la fx
     this.imprimirFacturaFX();
     // generar el reporte
     Map<String, Object> parametros = new HashMap<>();
@@ -461,7 +414,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
     parametros.put("qEstibas", cantidadEstibas.doubleValue());
     parametros.put("PesoBrutoEstibas", pesoBrutoEstibas.doubleValue());
     parametros.put("descripcion_envio", this.strDescripcion);
-	parametros.put("loteOIC", "Lote OIC*: Cada transacción de café recibirá una marca de identificación de la Organización Internacional del Café, (Lote OIC) que será exclusiva de la partida de café de que se trate.");
+    parametros.put("loteOIC", AplicacionMB.getMessage("reporteFXLoteOIC", AplicacionMB.SPANISH));
     parametros.put("anulada", "");
     if (facturaGenerada.getCliente().getModoFactura() == 1) {
       parametros.put("metodoPago", facturaGenerada.getCliente().getMetodoPago() == null ? "" : facturaGenerada.getCliente().getMetodoPago().getDescripcionIngles());
@@ -479,7 +432,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
         produ.getProductosInventario().setNombre(productoIngles);
         produ.getUnidade().setNombre(unidadIngles);
         produ.getProductosInventario().getProductosInventarioComext().getTipoLoteoic().setDescripcion(tipoLoteIngles);
-		parametros.put("loteOIC", "Lote OIC*: Each transaction Coffee receive an identification mark of the International Coffee Organization (ICO Lot) that will be unique to the parcel of coffee concerned.");
+        parametros.put("loteOIC", AplicacionMB.getMessage("reporteFXLoteOIC", AplicacionMB.ENGLISH));
       }
     } else if (facturaGenerada.getCliente().getModoFactura() == 3) {
       String productoIngles;
@@ -507,7 +460,7 @@ public class GenerarFacturaExportacionMB extends UtilMB {
     for (DocumentoXLotesoic lotes : docxLotesOic) {
       lotesMap.put(lotes.getTipoLoteoic().getId(), lotes.getConsecutivo());
     }
-    List<ReporteReimprimirFacturaDTO> reporteDTOS = new ArrayList<ReporteReimprimirFacturaDTO>();
+    List<ReporteReimprimirFacturaDTO> reporteDTOS = new ArrayList<>();
     for (ProductosXDocumento prod : listaProductosDocumento) {
       ReporteReimprimirFacturaDTO registro = new ReporteReimprimirFacturaDTO();
       registro.setProductoInventarioNombre(prod.getProductosInventario().getNombre());
@@ -538,9 +491,9 @@ public class GenerarFacturaExportacionMB extends UtilMB {
     try {
       Hashtable<String, String> parametrosConfigReporte = new Hashtable<>();
       parametrosConfigReporte.put("tipo", "pdf");
-      String nombreReporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_FX.jasper");
+      String nombreReporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/FX.jasper");
       ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfigReporte, nombreReporte, null, null, null, parametros, ds);
-      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "FacturaExportacion.pdf");
+      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", (facturaGenerada.getConsecutivoDocumento() + "_original.pdf"));
     } catch (Exception e) {
       this.addMensajeError(e);
     }
@@ -886,24 +839,6 @@ public class GenerarFacturaExportacionMB extends UtilMB {
    */
   public void setTotalValorNeg(BigDecimal totalValorNeg) {
     this.totalValorNeg = totalValorNeg;
-  }
-
-  /**
-   * Gets the fecha actual.
-   *
-   * @return the fecha actual
-   */
-  public Date getFechaActual() {
-    return fechaActual;
-  }
-
-  /**
-   * Sets the fecha actual.
-   *
-   * @param fechaActual the new fecha actual
-   */
-  public void setFechaActual(Date fechaActual) {
-    this.fechaActual = fechaActual;
   }
 
   /**
