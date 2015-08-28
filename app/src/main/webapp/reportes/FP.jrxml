@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FP" pageWidth="609" pageHeight="800" whenNoDataType="NoDataSection" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3060fbe6-7590-4a01-9ea7-698dffb5f818">
 	<property name="ireport.zoom" value="1.2100000000000755"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="144"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="true,true,0.75,-9,-4,0,0,625,796"/>
 	<parameter name="nit" class="java.lang.String"/>
@@ -607,16 +607,16 @@ Bogotá - Colombia]]></text>
 				<reportElement mode="Transparent" x="22" y="-1" width="566" height="13" uuid="2fe08517-f484-4400-8667-28b5ad6d0e2c"/>
 			</rectangle>
 			<rectangle>
-				<reportElement mode="Transparent" x="124" y="68" width="84" height="63" uuid="794929f1-3ebc-4082-aaec-c9e7a27990b3"/>
+				<reportElement mode="Transparent" x="124" y="61" width="84" height="63" uuid="794929f1-3ebc-4082-aaec-c9e7a27990b3"/>
 			</rectangle>
 			<line>
-				<reportElement x="124" y="83" width="84" height="1" uuid="b5ba2bcc-0ae4-41f4-875f-8f9e27ec668f"/>
+				<reportElement x="124" y="76" width="84" height="1" uuid="b5ba2bcc-0ae4-41f4-875f-8f9e27ec668f"/>
 			</line>
 			<line>
-				<reportElement x="124" y="99" width="84" height="1" uuid="4b7d2ec5-49ef-400f-b004-b71d07104e15"/>
+				<reportElement x="124" y="92" width="84" height="1" uuid="4b7d2ec5-49ef-400f-b004-b71d07104e15"/>
 			</line>
 			<line>
-				<reportElement x="124" y="115" width="84" height="1" uuid="8cb16f09-4862-497b-9937-1fde4468d20e"/>
+				<reportElement x="124" y="108" width="84" height="1" uuid="8cb16f09-4862-497b-9937-1fde4468d20e"/>
 			</line>
 			<rectangle>
 				<reportElement mode="Transparent" x="21" y="135" width="255" height="69" uuid="98b1b12b-7d10-4f23-bb05-6cabf7334cd0"/>
@@ -628,28 +628,28 @@ Bogotá - Colombia]]></text>
 				<reportElement x="508" y="53" width="79" height="78" backcolor="#CCCCCC" uuid="2d7d4c78-ee52-494b-ae96-2751e8e97772"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="56" y="68" width="73" height="16" uuid="2d888ba6-33e6-49dd-8c2e-3c7776de9e63"/>
+				<reportElement x="56" y="61" width="73" height="16" uuid="2d888ba6-33e6-49dd-8c2e-3c7776de9e63"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Net Weight (kg)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="48" y="85" width="81" height="15" uuid="eb0028bd-e4c2-40f4-bc9a-f653e33d2371"/>
+				<reportElement x="48" y="78" width="81" height="15" uuid="eb0028bd-e4c2-40f4-bc9a-f653e33d2371"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Gross Weight (kg)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="58" y="99" width="71" height="16" uuid="13b77bb3-c768-4380-b012-db58f22a0c96"/>
+				<reportElement x="58" y="92" width="71" height="16" uuid="13b77bb3-c768-4380-b012-db58f22a0c96"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Pieces (Boxes)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="91" y="115" width="38" height="16" uuid="51242424-9560-4f64-9218-22865cf2114a"/>
+				<reportElement x="91" y="108" width="38" height="16" uuid="51242424-9560-4f64-9218-22865cf2114a"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
@@ -753,28 +753,28 @@ Bogotá - Colombia]]></text>
 				<reportElement x="307" y="181" width="280" height="1" uuid="eb6c7c52-0be3-467c-adea-daec503744ca"/>
 			</line>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="124" y="70" width="78" height="13" uuid="80cf66fa-189a-462d-aaa7-b843e90e49df"/>
+				<reportElement x="124" y="63" width="78" height="13" uuid="80cf66fa-189a-462d-aaa7-b843e90e49df"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalPesoNeto}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="124" y="86" width="78" height="13" uuid="a484cfb0-4b7b-4706-afc4-86e4b979e571"/>
+				<reportElement x="124" y="79" width="78" height="13" uuid="a484cfb0-4b7b-4706-afc4-86e4b979e571"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalPesoBruto}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="124" y="102" width="78" height="13" uuid="8c001908-d5e0-4339-9ec6-d18f77031c2b"/>
+				<reportElement x="124" y="95" width="78" height="13" uuid="8c001908-d5e0-4339-9ec6-d18f77031c2b"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalCajas}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="124" y="117" width="78" height="14" uuid="a19cd8d8-9442-443c-a99c-56ef27de87eb"/>
+				<reportElement x="124" y="110" width="78" height="14" uuid="a19cd8d8-9442-443c-a99c-56ef27de87eb"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
