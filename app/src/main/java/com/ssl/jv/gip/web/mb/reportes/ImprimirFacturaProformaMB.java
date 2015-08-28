@@ -32,7 +32,6 @@ import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.negocio.ejb.ReportesEJBLocal;
-import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
@@ -46,27 +45,16 @@ public class ImprimirFacturaProformaMB extends UtilMB {
    *
    */
   private static final long serialVersionUID = -6136563159395512436L;
-
-  private static final Logger LOGGER = Logger
-      .getLogger(ImprimirFacturaProformaMB.class);
-
+  private static final Logger LOGGER = Logger.getLogger(ImprimirFacturaProformaMB.class);
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
-  private String idUsuario;
-
-  private Integer language = AplicacionMB.SPANISH;
   private Modo modo;
-
   private List<Documento> facturasProforma;
   private List<ProductosXDocumento> productosXDocumentos;
   private Documento seleccionado;
-
-  private Date fechaActual;
   private String consecutivoDocumento;
-
   @EJB
   private ReportesEJBLocal reportesEJBLocal;
-
   private BigDecimal totalCantidad;
   private BigDecimal totalValorUnitario;
   private BigDecimal totalValorTotal;
@@ -75,30 +63,24 @@ public class ImprimirFacturaProformaMB extends UtilMB {
   private BigDecimal totalCantidadCajas;
   private BigDecimal totalCantidadTendidos;
   private BigDecimal totalCantidadPallets;
-
   private BigDecimal totalGastos;
   private BigDecimal totalNegociacion;
 
   @PostConstruct
   public void init() {
-    idUsuario = menu.getUsuario().getId();
-    fechaActual = new Date();
   }
 
   public void consultarFacturasProforma(ActionEvent actionEvent) {
     try {
       consecutivoDocumento = "%" + consecutivoDocumento + "%";
-      facturasProforma = reportesEJBLocal
-          .consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(consecutivoDocumento);
+      facturasProforma = reportesEJBLocal.consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(consecutivoDocumento);
     } catch (Exception e) {
       LOGGER.error(e);
-      Exception unrollException = (Exception) this.unrollException(e,
-          ConstraintViolationException.class);
+      Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);
       if (unrollException != null) {
         this.addMensajeError(unrollException.getLocalizedMessage());
       } else {
-        unrollException = (Exception) this.unrollException(e,
-            RuntimeException.class);
+        unrollException = (Exception) this.unrollException(e, RuntimeException.class);
         if (unrollException != null) {
           this.addMensajeError(unrollException.getLocalizedMessage());
         } else {
@@ -123,86 +105,26 @@ public class ImprimirFacturaProformaMB extends UtilMB {
       totalCantidadPallets = BigDecimal.ZERO;
 
       totalGastos = BigDecimal.ZERO;
-      List<DocumentoXNegociacion> documentoXNegociacions = seleccionado
-          .getDocumentoXNegociacions();
-      if (documentoXNegociacions != null
-          && !documentoXNegociacions.isEmpty()) {
-        DocumentoXNegociacion documentoXNegociacion = documentoXNegociacions
-            .get(0);
-        totalGastos = totalGastos
-            .add(documentoXNegociacion.getCostoEntrega() == null ? BigDecimal.ZERO
-                    : documentoXNegociacion.getCostoEntrega())
-            .add(documentoXNegociacion.getCostoFlete() == null ? BigDecimal.ZERO
-                    : documentoXNegociacion.getCostoFlete())
-            .add(documentoXNegociacion.getCostoSeguro() == null ? BigDecimal.ZERO
-                    : documentoXNegociacion.getCostoSeguro())
-            .add(documentoXNegociacion.getOtrosGastos() == null ? BigDecimal.ZERO
-                    : documentoXNegociacion.getOtrosGastos());
+      List<DocumentoXNegociacion> documentoXNegociacions = seleccionado.getDocumentoXNegociacions();
+      if (documentoXNegociacions != null && !documentoXNegociacions.isEmpty()) {
+        DocumentoXNegociacion documentoXNegociacion = documentoXNegociacions.get(0);
+        totalGastos = totalGastos.add(documentoXNegociacion.getCostoEntrega() == null ? BigDecimal.ZERO : documentoXNegociacion.getCostoEntrega())
+                .add(documentoXNegociacion.getCostoFlete() == null ? BigDecimal.ZERO : documentoXNegociacion.getCostoFlete())
+                .add(documentoXNegociacion.getCostoSeguro() == null ? BigDecimal.ZERO : documentoXNegociacion.getCostoSeguro())
+                .add(documentoXNegociacion.getOtrosGastos() == null ? BigDecimal.ZERO : documentoXNegociacion.getOtrosGastos());
       }
 
-      productosXDocumentos = reportesEJBLocal
-          //.consultarProductosXDocumentosFacturaProformaPorDocumentoYCliente(
-            //  seleccionado.getId(), seleccionado.getCliente()
-              //.getId());
-    		 .consultarProductosXDocumentosFacturaProformaPorDocumento_PICE(seleccionado.getId());
-    				 
-    		  
-    		  
+      productosXDocumentos = reportesEJBLocal.consultarProductosXDocumentosFacturaProformaPorDocumento_PICE(seleccionado.getId());
 
       for (ProductosXDocumento productosXDocumento : productosXDocumentos) {
-        totalCantidad = totalCantidad.add(productosXDocumento
-            .getCantidad1() == null ? BigDecimal.ZERO
-                : productosXDocumento.getCantidad1());
-        totalValorUnitario = totalValorUnitario.add(productosXDocumento
-            .getValorUnitarioUsd() == null ? BigDecimal.ZERO
-                : productosXDocumento.getValorUnitarioUsd());
-        totalValorTotal = totalValorTotal.add(productosXDocumento
-            .getValorTotal() == null ? BigDecimal.ZERO
-                : productosXDocumento.getValorTotal());
-        totalPesoNeto = totalPesoNeto.add(productosXDocumento
-            .getTotalPesoNetoItem() == null ? BigDecimal.ZERO
-                : productosXDocumento.getTotalPesoNetoItem());
-        totalPesoBruto = totalPesoBruto.add(productosXDocumento
-            .getTotalPesoBrutoItem() == null ? BigDecimal.ZERO
-                : productosXDocumento.getTotalPesoBrutoItem());
-        totalCantidadCajas = totalCantidadCajas.add(productosXDocumento
-            .getCantidadCajasItem() == null ? BigDecimal.ZERO
-                : productosXDocumento.getCantidadCajasItem());
-        totalCantidadTendidos = totalCantidadTendidos
-            .add(productosXDocumento.getCantidadXEmbalaje() == null ? BigDecimal.ZERO
-                    : productosXDocumento.getCantidadXEmbalaje());
-
-        totalCantidadPallets = totalCantidadPallets
-            .add(productosXDocumento
-                .getCantidad1()
-                .divide(productosXDocumento
-                    .getProductosInventario()
-                    .getProductosInventarioComext()
-                    .getCantidadXEmbalaje(), 2,
-                    RoundingMode.HALF_DOWN)
-                .divide(productosXDocumento
-                    .getProductosInventario()
-                    .getProductosInventarioComext()
-                    .getTotalCajasXPallet(), 2,
-                    RoundingMode.HALF_DOWN));
-				// .add(productosXDocumento.getCantidadPalletsItem() == null ?
-        // BigDecimal.ZERO
-        // : productosXDocumento.getCantidadPalletsItem());
-
-        // productosXDocumento.setCantidad1(productosXDocumento.getCantidad1().setScale(2,
-        // BigDecimal.ROUND_HALF_EVEN));
-        // productosXDocumento.setValorUnitarioUsd(productosXDocumento.getValorUnitarioUsd().setScale(2,
-        // BigDecimal.ROUND_HALF_EVEN));
-        // productosXDocumento.setValorTotal(productosXDocumento.getValorTotal().setScale(2,
-        // BigDecimal.ROUND_HALF_EVEN));
-        // productosXDocumento.setTotalPesoBrutoItem(productosXDocumento.getTotalPesoBrutoItem().setScale(2,
-        // BigDecimal.ROUND_HALF_EVEN));
-        // productosXDocumento.setTotalPesoNetoItem(productosXDocumento.getTotalPesoNetoItem().setScale(2,
-        // BigDecimal.ROUND_HALF_EVEN));
-        // productosXDocumento.setCantidadCajasItem(productosXDocumento.getCantidadCajasItem().setScale(2,
-        // BigDecimal.ROUND_HALF_EVEN));
-        // productosXDocumento.setCantidadXEmbalaje(productosXDocumento.getCantidadXEmbalaje().setScale(2,
-        // BigDecimal.ROUND_HALF_EVEN));
+        totalCantidad = totalCantidad.add(productosXDocumento.getCantidad1() == null ? BigDecimal.ZERO : productosXDocumento.getCantidad1());
+        totalValorUnitario = totalValorUnitario.add(productosXDocumento.getValorUnitarioUsd() == null ? BigDecimal.ZERO : productosXDocumento.getValorUnitarioUsd());
+        totalValorTotal = totalValorTotal.add(productosXDocumento.getValorTotal() == null ? BigDecimal.ZERO : productosXDocumento.getValorTotal());
+        totalPesoNeto = totalPesoNeto.add(productosXDocumento.getTotalPesoNetoItem() == null ? BigDecimal.ZERO : productosXDocumento.getTotalPesoNetoItem());
+        totalPesoBruto = totalPesoBruto.add(productosXDocumento.getTotalPesoBrutoItem() == null ? BigDecimal.ZERO : productosXDocumento.getTotalPesoBrutoItem());
+        totalCantidadCajas = totalCantidadCajas.add(productosXDocumento.getCantidadCajasItem() == null ? BigDecimal.ZERO : productosXDocumento.getCantidadCajasItem());
+        totalCantidadTendidos = totalCantidadTendidos.add(productosXDocumento.getCantidadXEmbalaje() == null ? BigDecimal.ZERO : productosXDocumento.getCantidadXEmbalaje());
+        totalCantidadPallets = totalCantidadPallets.add(productosXDocumento.getCantidad1().divide(productosXDocumento.getProductosInventario().getProductosInventarioComext().getCantidadXEmbalaje(), 2, RoundingMode.HALF_DOWN).divide(productosXDocumento.getProductosInventario().getProductosInventarioComext().getTotalCajasXPallet(), 2, RoundingMode.HALF_DOWN));
       }
 
       totalNegociacion = totalValorTotal.add(totalGastos);
@@ -218,23 +140,18 @@ public class ImprimirFacturaProformaMB extends UtilMB {
   public StreamedContent getReporteFacturaProforma() {
     StreamedContent reportePDF = null;
     try {
-      Map<String, Object> parametros = new HashMap<String, Object>();
+      Map<String, Object> parametros = new HashMap<>();
       Cliente cliente = seleccionado.getCliente();
       DocumentoXNegociacion documentoXNegociacion = new DocumentoXNegociacion();
-      List<DocumentoXNegociacion> documentoXNegociacions = seleccionado
-          .getDocumentoXNegociacions();
-      if (documentoXNegociacions != null
-          && !documentoXNegociacions.isEmpty()) {
+      List<DocumentoXNegociacion> documentoXNegociacions = seleccionado.getDocumentoXNegociacions();
+      if (documentoXNegociacions != null && !documentoXNegociacions.isEmpty()) {
         documentoXNegociacion = documentoXNegociacions.get(0);
       }
-
       SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-
       Date fechaGeneracion = seleccionado.getFechaGeneracion();
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(fechaGeneracion);
       calendar.add(Calendar.DAY_OF_MONTH, 1);
-
       parametros.put("cliente", cliente.getNombre());
       parametros.put("nit", cliente.getNit());
       parametros.put("ciudad", cliente.getCiudad().getNombre());
@@ -243,56 +160,34 @@ public class ImprimirFacturaProformaMB extends UtilMB {
       parametros.put("contacto", cliente.getContacto());
       parametros.put("documento", seleccionado.getDocumentoCliente());
       parametros.put("fecha", sdf.format(fechaGeneracion));
-      parametros
-          .put("numFactura", seleccionado.getConsecutivoDocumento());
+      parametros.put("numFactura", seleccionado.getConsecutivoDocumento());
       parametros.put("tipoImp", "Original");
-      parametros.put("fechaVigencia",
-          sdf.format(seleccionado.getFechaEsperadaEntrega()));
+      parametros.put("fechaVigencia", sdf.format(seleccionado.getFechaEsperadaEntrega()));
       parametros.put("fechaDespacho", sdf.format(calendar.getTime()));
-      parametros.put("totalPesoNeto", totalPesoNeto);
-      parametros.put("totalPesoBruto", totalPesoBruto);
-      parametros.put("totalCajas", totalCantidadCajas);
-      parametros.put("totalPallets", totalCantidadPallets);
+      parametros.put("totalPesoNeto", null); // totalPesoNeto
+      parametros.put("totalPesoBruto", null); // totalPesoBruto
+      parametros.put("totalCajas", null); // totalCantidadCajas
+      parametros.put("totalPallets", null); // totalCantidadPallets
       parametros.put("costoEntrega", documentoXNegociacion.getCostoEntrega().doubleValue());
-      parametros.put("costoSeguro",
-          documentoXNegociacion.getCostoSeguro());
+      parametros.put("costoSeguro", documentoXNegociacion.getCostoSeguro());
       parametros.put("costoFlete", documentoXNegociacion.getCostoFlete());
-      parametros.put("otrosCostos",
-          documentoXNegociacion.getOtrosGastos());
+      parametros.put("otrosCostos", documentoXNegociacion.getOtrosGastos());
       parametros.put("totalNegociacion", this.totalNegociacion);
-      parametros.put("incoterm", documentoXNegociacion
-          .getTerminoIncoterm() == null ? "" : documentoXNegociacion
-              .getTerminoIncoterm().getDescripcion());
-      parametros.put("lugarIncoterm",
-          "(" + documentoXNegociacion.getLugarIncoterm() == null ? ""
-              : documentoXNegociacion.getLugarIncoterm() + ")");
-      parametros.put("valorLetras", Utilidad
-          .convertNumberToWords(this.totalNegociacion.doubleValue()));
+      parametros.put("incoterm", documentoXNegociacion.getTerminoIncoterm() == null ? "" : documentoXNegociacion.getTerminoIncoterm().getDescripcion());
+      parametros.put("lugarIncoterm", "(" + documentoXNegociacion.getLugarIncoterm() == null ? "" : documentoXNegociacion.getLugarIncoterm() + ")");
+      parametros.put("valorLetras", Utilidad.convertNumberToWords(this.totalNegociacion.doubleValue()));
       parametros.put("solicitud", seleccionado.getObservacionDocumento());
-
-      if (cliente.getModoFactura() != null
-          && cliente.getModoFactura() == 1) {
-        parametros.put("metodoPago", cliente.getMetodoPago()
-            .getDescripcionIngles());
+      if (cliente.getModoFactura() != null && cliente.getModoFactura() == 1) {
+        parametros.put("metodoPago", cliente.getMetodoPago().getDescripcionIngles());
       } else {
-        parametros.put("metodoPago", cliente.getMetodoPago()
-            .getDescripcion());
+        parametros.put("metodoPago", cliente.getMetodoPago().getDescripcion());
       }
-
-      JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(
-          productosXDocumentos);
-
-      Hashtable<String, String> parametrosR = new Hashtable<String, String>();
+      JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(productosXDocumentos);
+      Hashtable<String, String> parametrosR = new Hashtable<>();
       parametrosR.put("tipo", "pdf");
-      String reporte = FacesContext.getCurrentInstance()
-          .getExternalContext()
-          .getRealPath("/reportes/Report_FP.jasper");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes
-          .generar(parametrosR, reporte, null, null, null,
-              parametros, ds);
-
-      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(
-          os.toByteArray()), "application/pdf ", "Report_FP.pdf");
+      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/FP.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
+      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", (seleccionado.getConsecutivoDocumento() + "_original.pdf"));
     } catch (Exception e) {
       LOGGER.error(e);
       this.addMensajeError(e);
@@ -301,11 +196,7 @@ public class ImprimirFacturaProformaMB extends UtilMB {
   }
 
   public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.modo != null && this.modo.equals(Modo.CREAR);
   }
 
   public MenuMB getMenu() {
@@ -332,14 +223,6 @@ public class ImprimirFacturaProformaMB extends UtilMB {
     this.seleccionado = seleccionado;
   }
 
-  public Date getFechaActual() {
-    return fechaActual;
-  }
-
-  public void setFechaActual(Date fechaActual) {
-    this.fechaActual = fechaActual;
-  }
-
   public String getConsecutivoDocumento() {
     return consecutivoDocumento;
   }
@@ -353,7 +236,7 @@ public class ImprimirFacturaProformaMB extends UtilMB {
   }
 
   public void setProductosXDocumentos(
-      List<ProductosXDocumento> productosXDocumentos) {
+          List<ProductosXDocumento> productosXDocumentos) {
     this.productosXDocumentos = productosXDocumentos;
   }
 
