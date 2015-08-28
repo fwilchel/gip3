@@ -174,7 +174,8 @@ public class ImprimirFacturaProformaMB extends UtilMB {
       parametros.put("otrosCostos", documentoXNegociacion.getOtrosGastos());
       parametros.put("totalNegociacion", this.totalNegociacion);
       parametros.put("incoterm", documentoXNegociacion.getTerminoIncoterm() == null ? "" : documentoXNegociacion.getTerminoIncoterm().getDescripcion());
-      parametros.put("lugarIncoterm", "(" + documentoXNegociacion.getLugarIncoterm() == null ? "" : documentoXNegociacion.getLugarIncoterm() + ")");
+      String lugarIncoterm = documentoXNegociacion.getLugarIncoterm() == null ? "" : documentoXNegociacion.getLugarIncoterm();
+      parametros.put("lugarIncoterm", "(" + lugarIncoterm + ")");
       parametros.put("valorLetras", Utilidad.convertNumberToWords(this.totalNegociacion.doubleValue()));
       parametros.put("solicitud", seleccionado.getObservacionDocumento());
       if (cliente.getModoFactura() != null && cliente.getModoFactura() == 1) {
