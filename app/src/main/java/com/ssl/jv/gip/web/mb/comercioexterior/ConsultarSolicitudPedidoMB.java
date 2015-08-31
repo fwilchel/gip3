@@ -355,7 +355,7 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
 
   public StreamedContent getReporteExcel() {
     Map<String, Object> parametros = new HashMap<>();
-    SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
     String fechaStringGeneracion = ft.format(seleccionado.getFechaGeneracion());
     parametros.put("cliente", seleccionado.getClientesNombre());
     parametros.put("nit", seleccionado.getClientesNit());
@@ -373,7 +373,7 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
     parametros.put("strLugarIncoterm", seleccionado.getLugarIncoterm());
     parametros.put("strNombreIncoterm", seleccionado.getDescripcionTerminoIncoterm());
     parametros.put("dblCantidadContenedores20", seleccionado.getCantidadContenedores20());
-    parametros.put("dtmFechaDespacho", seleccionado.getFechaEsperadaEntrega());
+    parametros.put("dtmFechaDespacho", ft.format(seleccionado.getFechaEsperadaEntrega()));
     parametros.put("incoterm", seleccionado.getDescripcionTerminoIncoterm());
     parametros.put("lugarIncoterm", "(" + seleccionado.getLugarIncoterm() + ")");
     double dblTotalValorT = totalValorT.doubleValue();
@@ -381,13 +381,13 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
     Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
     String valorLetrasIngles = NumLetraIng.convert(totalValorTotal);
     parametros.put("valorLetras", valorLetrasIngles);
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaSolicitudPedido);
+    parametros.put("datos", listaSolicitudPedido);
     try {
       Hashtable<String, String> parametrosR = new Hashtable<>();
-      parametrosR.put("tipo", "xls");
-      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_SP.jasper");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-      reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "SolicitudPedido" + seleccionado.getConsecutivoDocumento() + ".xls");
+      parametrosR.put("tipo", "jxls");
+      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/SP.xls");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, null);
+      reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", seleccionado.getConsecutivoDocumento() + ".xls");
     } catch (Exception e) {
       this.addMensajeError(e);
     }
