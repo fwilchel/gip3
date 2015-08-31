@@ -405,9 +405,9 @@ public class GenerarFacturaMB extends UtilMB {
 	JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(pxds, false);
 	try {
 	  StringBuilder nombreArchivo = new StringBuilder();
-	  nombreArchivo.append("FacturaDirecta");
-	  nombreArchivo.append("-");
 	  nombreArchivo.append(facturaGenerada.getConsecutivoDocumento());
+	  nombreArchivo.append("_");
+	  nombreArchivo.append("original");
 	  nombreArchivo.append(".");
 	  nombreArchivo.append("pdf");
 	  Hashtable<String, String> parametrosConfiguracionReporte;
