@@ -1705,35 +1705,35 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
           em.createNativeQuery(sqlModificarFacturaProforma).executeUpdate();
         } else {
           String sqlInsert = "INSERT INTO productosXdocumentos ("
-                  + "id_documento, " 
-                  + "id_producto, " 
-                  + "cantidad1, " 
-                  + "fecha_estimada_entrega, " 
-                  + "fecha_entrega, " 
-                  + "id_ml, " 
-                  + "id_unidades, " 
-                  + "total_peso_neto_item, " 
-                  + "valor_unitario_usd, " 
-                  + "valor_total, " 
-                  + "total_peso_bruto_item, " 
-                  + "cantidad_cajas_item, " 
-                  + "cantidad_pallets_item, " 
+                  + "id_documento, "
+                  + "id_producto, "
+                  + "cantidad1, "
+                  + "fecha_estimada_entrega, "
+                  + "fecha_entrega, "
+                  + "id_ml, "
+                  + "id_unidades, "
+                  + "total_peso_neto_item, "
+                  + "valor_unitario_usd, "
+                  + "valor_total, "
+                  + "total_peso_bruto_item, "
+                  + "cantidad_cajas_item, "
+                  + "cantidad_pallets_item, "
                   + "cantidad_x_embalaje"
-                  + ") " 
-                  + "VALUES (" 
-                  + documento.getIdDocumento() + ", " 
-                  + dto.getIntIdProductoInventario() + ", " 
-                  + dto.getDblCantidad1ProductoxDocumento() + ", " 
-                  + "current_timestamp + '2 days', " 
-                  + "current_timestamp + '2 days', " 
-                  + "'USD', " 
-                  + "(select id_ud from productos_inventario where id = " + dto.getIntIdProductoInventario() + "), " 
-                  + dto.getDblTotalPesoNeto() + ", " 
-                  + dto.getDblPrecioUSD() + ", " 
-                  + dto.getDblValorTotalProductoxDocumento() + ", " 
-                  + dto.getDblTotalPesoBruto() + ", " 
-                  + dto.getDblTotalCajas() + ", " 
-                  + dto.getDblTotalCajasPallet() + ", " 
+                  + ") "
+                  + "VALUES ("
+                  + documento.getIdDocumento() + ", "
+                  + dto.getIntIdProductoInventario() + ", "
+                  + dto.getDblCantidad1ProductoxDocumento() + ", "
+                  + "current_timestamp + '2 days', "
+                  + "current_timestamp + '2 days', "
+                  + "'USD', "
+                  + "(select id_ud from productos_inventario where id = " + dto.getIntIdProductoInventario() + "), "
+                  + dto.getDblTotalPesoNeto() + ", "
+                  + dto.getDblPrecioUSD() + ", "
+                  + dto.getDblValorTotalProductoxDocumento() + ", "
+                  + dto.getDblTotalPesoBruto() + ", "
+                  + dto.getDblTotalCajas() + ", "
+                  + dto.getDblTotalCajasPallet() + ", "
                   + dto.getDblCantidadXEmbalajeProductoInventarioCE() + ")";
 
           em.createNativeQuery(sqlInsert).executeUpdate();
@@ -1809,22 +1809,27 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
       buscarPorProductos = true;
       sql += DocumentoReporteVentasCEDTO.CONDICIONAL_PRODUCTOS;
     }
-    Query query = em.createNativeQuery(sql, DocumentoReporteVentasCEDTO.class);
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-    Timestamp fechaInicial = Timestamp.valueOf(formatoFecha.format(parametros.get("fechaInicial")).concat(" 00:00:00"));
-    Timestamp fechaFinal = Timestamp.valueOf(formatoFecha.format(parametros.get("fechaFinal")).concat(" 23:59:59"));
-    query.setParameter("fechaInicial", fechaInicial);
-    query.setParameter("fechaFinal", fechaFinal);
-    query.setParameter("tipoDocumento", ConstantesTipoDocumento.FACTURA_EXPORTACION);
-    List<Integer> estadosDucumentos = Arrays.asList(ConstantesDocumento.GENERADO, ConstantesDocumento.IMPRESO);
-    query.setParameter("estadosDocumento", estadosDucumentos);
-    if (buscarPorClientes) {
-      query.setParameter("idsClientes", parametros.get("idsClientes"));
+    try {
+      Query query = em.createNativeQuery(sql, DocumentoReporteVentasCEDTO.class);
+      DateFormat formatoFechaInicial = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      DateFormat formatoFechaFinal = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      DateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+      query.setParameter("fechaInicial", formatoFechaInicial.parse(formatoFecha.format(parametros.get("fechaInicial")).concat(" 00:00:00")));
+      query.setParameter("fechaFinal", formatoFechaFinal.parse(formatoFecha.format(parametros.get("fechaFinal")).concat(" 23:59:59")));
+      query.setParameter("tipoDocumento", ConstantesTipoDocumento.FACTURA_EXPORTACION);
+      List<Integer> estadosDucumentos = Arrays.asList(ConstantesDocumento.GENERADO, ConstantesDocumento.IMPRESO);
+      query.setParameter("estadosDocumento", estadosDucumentos);
+      if (buscarPorClientes) {
+        query.setParameter("idsClientes", parametros.get("idsClientes"));
+      }
+      if (buscarPorProductos) {
+        query.setParameter("idsProductos", parametros.get("idsProductos"));
+      }
+      return query.getResultList();
+    } catch (Exception ex) {      
+      LOGGER.error(ex.getMessage());
+      throw new IllegalArgumentException(ex);
     }
-    if (buscarPorProductos) {
-      query.setParameter("idsProductos", parametros.get("idsProductos"));
-    }
-    return query.getResultList();
   }
 
   @Override
