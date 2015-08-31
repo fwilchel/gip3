@@ -45,12 +45,12 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
   /**
    * The lista documentos.
    */
-  private ArrayList<DocumentoIncontermDTO> listaDocumentos = new ArrayList<DocumentoIncontermDTO>();
+  private ArrayList<DocumentoIncontermDTO> listaDocumentos = new ArrayList<>();
 
   /**
    * The lista solicitud pedido.
    */
-  private List<ProductoPorClienteComExtDTO> listaSolicitudPedido = new ArrayList<ProductoPorClienteComExtDTO>();
+  private List<ProductoPorClienteComExtDTO> listaSolicitudPedido = new ArrayList<>();
 
   /**
    * The seleccionado.
@@ -183,7 +183,6 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
     BigDecimal ValorCajas = new BigDecimal(0);
     BigDecimal ValorCajasTendido = new BigDecimal(0);
     BigDecimal ValorCajasPallet = new BigDecimal(0);
-
     totalValorT = new BigDecimal(0);
     cantidadValorT = new BigDecimal(0);
     valorPesoNetoT = new BigDecimal(0);
@@ -192,71 +191,207 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
     valorCajasPalletT = new BigDecimal(0);
     valorCajasT = new BigDecimal(0);
     dblTotalPrecio = new BigDecimal(0);
-
     if (listaSolicitudPedido != null && !listaSolicitudPedido.isEmpty()) {
       for (ProductoPorClienteComExtDTO pxc : listaSolicitudPedido) {
         if (pxc.isBlnIncluirBusqueda()) {
-
           ValorTotal = pxc.getDblCantidad1ProductoxDocumento().multiply(pxc.getDblPrecioUSD());
-
           MathContext mc = new MathContext(2, RoundingMode.HALF_UP);
-
           if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
-            ValorPesoNeto = (pxc.getDblPesoNetoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), mc))
-                .multiply(pxc.getDblCantidad1ProductoxDocumento());
-            ValorPesoBruto = (pxc.getDblPesoBrutoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), mc))
-                .multiply(pxc.getDblCantidad1ProductoxDocumento());
+            ValorPesoNeto = (pxc.getDblPesoNetoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), mc)).multiply(pxc.getDblCantidad1ProductoxDocumento());
+            ValorPesoBruto = (pxc.getDblPesoBrutoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), mc)).multiply(pxc.getDblCantidad1ProductoxDocumento());
             ValorCajas = pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), mc);
           } else {
             ValorPesoNeto = new BigDecimal(0);
             ValorPesoBruto = new BigDecimal(0);
             ValorCajas = new BigDecimal(0);
           }
-
-          if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1
-              && pxc.getDblCantCajasXTendidoProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
-            ValorCajasTendido = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), mc))
-                .divide(pxc.getDblCantCajasXTendidoProductoInventarioCE(), mc);
+          if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1 && pxc.getDblCantCajasXTendidoProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
+            ValorCajasTendido = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), mc)).divide(pxc.getDblCantCajasXTendidoProductoInventarioCE(), mc);
           } else {
             ValorCajasTendido = new BigDecimal(0);
           }
-
-          if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1
-              && pxc.getDblTotalCajasXPalletProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
-            ValorCajasPallet = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), mc))
-                .divide(pxc.getDblTotalCajasXPalletProductoInventarioCE(), mc);
+          if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1 && pxc.getDblTotalCajasXPalletProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
+            ValorCajasPallet = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), mc)).divide(pxc.getDblTotalCajasXPalletProductoInventarioCE(), mc);
           } else {
             ValorCajasPallet = new BigDecimal(0);
           }
-
           totalValorT = totalValorT.add(ValorTotal);
-
           cantidadValorT = cantidadValorT.add(pxc.getDblCantidad1ProductoxDocumento());
-
           valorPesoNetoT = valorPesoNetoT.add(ValorPesoNeto);
           valorPesoBrutoT = valorPesoBrutoT.add(ValorPesoBruto);
           valorCajasTendidoT = valorCajasTendidoT.add(ValorCajasTendido);
           valorCajasPalletT = valorCajasPalletT.add(ValorCajasPallet);
           valorCajasT = valorCajasT.add(ValorCajas);
-
           dblTotalPrecio = dblTotalPrecio.add(pxc.getDblPrecioUSD());
-
           pxc.setDblValorTotalProductoxDocumento(ValorTotal);
-
           pxc.setDblTotalPesoNeto(ValorPesoNeto);
-
           pxc.setDblTotalPesoBruto(ValorPesoBruto);
-
           pxc.setDblTotalCajas(ValorCajas);
-
           pxc.setDblTotalCajasTendido(ValorCajasTendido);
-
           pxc.setDblTotalCajasPallet(ValorCajasPallet);
-
         }
       }
     }
+  }
 
+  /**
+   * Consultar solicitud pedido.
+   *
+   * @return the string
+   */
+  public String consultarSolicitudPedido() {
+    dblValorFOB = seleccionado.getCostoEntrega() == null ? new BigDecimal(0) : seleccionado.getCostoEntrega();
+    dblValorFletes = seleccionado.getCostoFlete() == null ? new BigDecimal(0) : seleccionado.getCostoFlete();
+    dblValorSeguro = seleccionado.getCostoSeguro() == null ? new BigDecimal(0) : seleccionado.getCostoSeguro();
+    dblValorOtrosGastos = seleccionado.getOtrosGastos() == null ? new BigDecimal(0) : seleccionado.getOtrosGastos();
+    dblTotalValorT = dblValorFletes.add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
+    dblValorTotalNeg = seleccionado.getValorTotalDocumento().add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
+    //Consultar la lista inconterm poor cliente
+    listaSolicitudPedido = comercioEjb.consultarListaSolicitudesPedido(seleccionado.getIdDocumento(), seleccionado.getClientesId());
+    refrescarTotales();
+
+    return "";
+  }
+
+  /**
+   * Cancelar.
+   */
+  public void cancelar() {
+    listaSolicitudPedido = new ArrayList<>();
+    totalValorT = new BigDecimal(0.00);
+    cantidadValorT = new BigDecimal(0.00);
+    valorPesoNetoT = new BigDecimal(0.00);
+    valorPesoBrutoT = new BigDecimal(0.00);
+    valorCajasPalletT = new BigDecimal(0.00);
+    valorCajasTendidoT = new BigDecimal(0.00);
+    valorCajasT = new BigDecimal(0.00);
+    dblTotalPrecio = new BigDecimal(0.00);
+    seleccionado = new DocumentoIncontermDTO();
+  }
+
+  /**
+   * Gets the reporte pdf.
+   *
+   * @return the reporte pdf
+   */
+  public StreamedContent getReportePDF() {
+    Map<String, Object> parametros = new HashMap<>();
+    SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
+    String fechaStringGeneracion = ft.format(seleccionado.getFechaGeneracion());
+    parametros.put("cliente", seleccionado.getClientesNombre());
+    parametros.put("nit", seleccionado.getClientesNit());
+    parametros.put("ciudad", seleccionado.getLugarIncoterm());
+    parametros.put("direccion", seleccionado.getClientesDireccion());
+    parametros.put("telefono", seleccionado.getClientesTelefono());
+    parametros.put("contacto", seleccionado.getClientesContacto());
+    parametros.put("documento", seleccionado.getDocumentoCliente());
+    parametros.put("fecha", fechaStringGeneracion);
+    parametros.put("numFactura", seleccionado.getConsecutivoDocumento());
+    parametros.put("dblCantidadContenedores40", seleccionado.getCantidadContenedores40());
+    parametros.put("solicitud", seleccionado.getClientesNombre());
+    parametros.put("observacionDoc", seleccionado.getObservacionDocumento());
+    parametros.put("observacionMar", seleccionado.getObservacionesMarcacion2());
+    parametros.put("strLugarIncoterm", seleccionado.getLugarIncoterm());
+    parametros.put("strNombreIncoterm", seleccionado.getDescripcionTerminoIncoterm());
+    parametros.put("dblCantidadContenedores20", seleccionado.getCantidadContenedores20());
+    parametros.put("dtmFechaDespacho", seleccionado.getFechaEsperadaEntrega());
+    parametros.put("incoterm", seleccionado.getDescripcionTerminoIncoterm());
+    parametros.put("lugarIncoterm", "(" + seleccionado.getLugarIncoterm() + ")");
+    double dblTotalValorT = totalValorT.doubleValue();
+    double totalValorTotal = Math.rint(dblTotalValorT * 100) / 100;
+    Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
+    String valorLetrasIngles = NumLetraIng.convert(totalValorTotal);
+    parametros.put("valorLetras", valorLetrasIngles);
+    if (seleccionado.getFechaGeneracion() != null) {
+      Calendar Calendario = Calendar.getInstance();
+      Calendario.setTimeInMillis(seleccionado.getFechaGeneracion().getTime());
+      Integer intCantidadDiasVigencia = seleccionado.getCantidadDiasVigencia();
+      if (intCantidadDiasVigencia != null) {
+        Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
+        Timestamp tmsFecha = new Timestamp(Calendario.getTimeInMillis());
+        String fechaStringVigencia = ft.format(tmsFecha);
+        parametros.put("fechaVigencia", fechaStringVigencia);
+      }
+    }
+    Cliente cliente = comercioEjb.consultarClientePorId(seleccionado.getClientesId());
+    if (cliente.getModoFactura().equals(new Integer(1))) {
+      parametros.put("metodoPago", seleccionado.getDescripcionInglesMetodoPago());
+    } else {
+      parametros.put("metodoPago", seleccionado.getDescripcionMetodoPago());
+    }
+    if (cliente.getModoFactura().equals(new Integer(1))) {
+      String productoIngles;
+      String unidadIngles;
+      for (ProductoPorClienteComExtDTO producto : listaSolicitudPedido) {
+        productoIngles = producto.getDescripcionProductoInventarioCE();
+        unidadIngles = producto.getNombreInglesUnidad();
+        producto.setStrNombreProductoInventario(productoIngles);
+        producto.setNombreUnidad(unidadIngles);
+      }
+    } else {
+      if (cliente.getModoFactura().equals(new Integer(3))) {
+        String productoIngles;
+        String unidadIngles;
+        for (ProductoPorClienteComExtDTO producto : listaSolicitudPedido) {
+          productoIngles = producto.getNombrePrdProveedorProductoInventarioCE();
+          unidadIngles = producto.getNombreUnidad();
+          producto.setStrNombreProductoInventario(productoIngles);
+          producto.setNombreUnidad(unidadIngles);
+        }
+      }
+    }
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaSolicitudPedido);
+    try {
+      Hashtable<String, String> parametrosR = new Hashtable<String, String>();
+      parametrosR.put("tipo", "pdf");
+      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_SP2.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
+      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "SolicitudPedido" + seleccionado.getConsecutivoDocumento() + ".pdf");
+    } catch (Exception e) {
+      this.addMensajeError(e);
+    }
+    return reportePDF;
+  }
+
+  public StreamedContent getReporteExcel() {
+    Map<String, Object> parametros = new HashMap<>();
+    SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
+    String fechaStringGeneracion = ft.format(seleccionado.getFechaGeneracion());
+    parametros.put("cliente", seleccionado.getClientesNombre());
+    parametros.put("nit", seleccionado.getClientesNit());
+    parametros.put("ciudad", seleccionado.getLugarIncoterm());
+    parametros.put("direccion", seleccionado.getClientesDireccion());
+    parametros.put("telefono", seleccionado.getClientesTelefono());
+    parametros.put("contacto", seleccionado.getClientesContacto());
+    parametros.put("documento", seleccionado.getDocumentoCliente());
+    parametros.put("fecha", fechaStringGeneracion);
+    parametros.put("numFactura", seleccionado.getConsecutivoDocumento());
+    parametros.put("dblCantidadContenedores40", seleccionado.getCantidadContenedores40());
+    parametros.put("solicitud", seleccionado.getClientesNombre());
+    parametros.put("observacionDoc", seleccionado.getObservacionDocumento());
+    parametros.put("observacionMar", seleccionado.getObservacionesMarcacion2());
+    parametros.put("strLugarIncoterm", seleccionado.getLugarIncoterm());
+    parametros.put("strNombreIncoterm", seleccionado.getDescripcionTerminoIncoterm());
+    parametros.put("dblCantidadContenedores20", seleccionado.getCantidadContenedores20());
+    parametros.put("dtmFechaDespacho", seleccionado.getFechaEsperadaEntrega());
+    parametros.put("incoterm", seleccionado.getDescripcionTerminoIncoterm());
+    parametros.put("lugarIncoterm", "(" + seleccionado.getLugarIncoterm() + ")");
+    double dblTotalValorT = totalValorT.doubleValue();
+    double totalValorTotal = Math.rint(dblTotalValorT * 100) / 100;
+    Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
+    String valorLetrasIngles = NumLetraIng.convert(totalValorTotal);
+    parametros.put("valorLetras", valorLetrasIngles);
+    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaSolicitudPedido);
+    try {
+      Hashtable<String, String> parametrosR = new Hashtable<>();
+      parametrosR.put("tipo", "xls");
+      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_SP.jasper");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
+      reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "SolicitudPedido" + seleccionado.getConsecutivoDocumento() + ".xls");
+    } catch (Exception e) {
+      this.addMensajeError(e);
+    }
+    return reporteExcel;
   }
 
   /**
@@ -275,41 +410,6 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
    */
   public void setSeleccionado(DocumentoIncontermDTO seleccionado) {
     this.seleccionado = seleccionado;
-  }
-
-  /**
-   * Consultar solicitud pedido.
-   *
-   * @return the string
-   */
-  public String consultarSolicitudPedido() {
-    dblValorFOB = seleccionado.getCostoEntrega()==null?new BigDecimal(0):seleccionado.getCostoEntrega();
-    dblValorFletes = seleccionado.getCostoFlete()==null?new BigDecimal(0):seleccionado.getCostoFlete();
-    dblValorSeguro = seleccionado.getCostoSeguro()==null?new BigDecimal(0):seleccionado.getCostoSeguro();
-    dblValorOtrosGastos = seleccionado.getOtrosGastos()==null?new BigDecimal(0):seleccionado.getOtrosGastos();
-    dblTotalValorT = dblValorFletes.add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
-    dblValorTotalNeg = seleccionado.getValorTotalDocumento().add(dblValorFletes).add(dblValorSeguro).add(dblValorOtrosGastos).add(dblValorFOB);
-    //Consultar la lista inconterm poor cliente
-    listaSolicitudPedido = comercioEjb.consultarListaSolicitudesPedido(seleccionado.getIdDocumento(), seleccionado.getClientesId());
-    refrescarTotales();
-
-    return "";
-  }
-
-  /**
-   * Cancelar.
-   */
-  public void cancelar() {
-    listaSolicitudPedido = new ArrayList<ProductoPorClienteComExtDTO>();
-    totalValorT = new BigDecimal(0.00);
-    cantidadValorT = new BigDecimal(0.00);
-    valorPesoNetoT = new BigDecimal(0.00);
-    valorPesoBrutoT = new BigDecimal(0.00);
-    valorCajasPalletT = new BigDecimal(0.00);
-    valorCajasTendidoT = new BigDecimal(0.00);
-    valorCajasT = new BigDecimal(0.00);
-    dblTotalPrecio = new BigDecimal(0.00);
-    seleccionado = new DocumentoIncontermDTO();
   }
 
   /**
@@ -345,7 +445,7 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
    * @param listaSolicitudPedido the new lista solicitud pedido
    */
   public void setListaSolicitudPedido(
-      List<ProductoPorClienteComExtDTO> listaSolicitudPedido) {
+          List<ProductoPorClienteComExtDTO> listaSolicitudPedido) {
     this.listaSolicitudPedido = listaSolicitudPedido;
   }
 
@@ -636,171 +736,4 @@ public class ConsultarSolicitudPedidoMB extends UtilMB {
   public void setDblTotalValorT(BigDecimal dblTotalValorT) {
     this.dblTotalValorT = dblTotalValorT;
   }
-
-  /**
-   * Gets the reporte pdf.
-   *
-   * @return the reporte pdf
-   */
-  public StreamedContent getReportePDF() {
-    Map<String, Object> parametros = new HashMap<String, Object>();
-
-    SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
-    String fechaStringGeneracion = ft.format(seleccionado.getFechaGeneracion());
-
-    parametros.put("cliente", seleccionado.getClientesNombre());
-    parametros.put("nit", seleccionado.getClientesNit());
-    parametros.put("ciudad", seleccionado.getLugarIncoterm());
-    parametros.put("direccion", seleccionado.getClientesDireccion());
-    parametros.put("telefono", seleccionado.getClientesTelefono());
-    parametros.put("contacto", seleccionado.getClientesContacto());
-    parametros.put("documento", seleccionado.getDocumentoCliente());
-    parametros.put("fecha", fechaStringGeneracion);
-    parametros.put("numFactura", seleccionado.getConsecutivoDocumento());
-    parametros.put("dblCantidadContenedores40", seleccionado.getCantidadContenedores40());
-    parametros.put("solicitud", seleccionado.getClientesNombre());
-    parametros.put("observacionDoc", seleccionado.getObservacionDocumento());
-    parametros.put("observacionMar", seleccionado.getObservacionesMarcacion2());
-    parametros.put("strLugarIncoterm", seleccionado.getLugarIncoterm());
-    parametros.put("strNombreIncoterm", seleccionado.getDescripcionTerminoIncoterm());
-    parametros.put("dblCantidadContenedores20", seleccionado.getCantidadContenedores20());
-    parametros.put("dtmFechaDespacho", seleccionado.getFechaEsperadaEntrega());
-    parametros.put("incoterm", seleccionado.getDescripcionTerminoIncoterm());
-    parametros.put("lugarIncoterm", "(" + seleccionado.getLugarIncoterm() + ")");
-
-    double dblTotalValorT = totalValorT.doubleValue();
-
-    double totalValorTotal = Math.rint(dblTotalValorT * 100) / 100;
-
-    Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
-    String valorLetrasIngles = NumLetraIng.convert(totalValorTotal);
-
-    parametros.put("valorLetras", valorLetrasIngles);
-
-    if (seleccionado.getFechaGeneracion() != null){
-      Calendar Calendario = Calendar.getInstance();
-      Calendario.setTimeInMillis(seleccionado.getFechaGeneracion().getTime());
-      Integer intCantidadDiasVigencia = seleccionado.getCantidadDiasVigencia();
-      if (intCantidadDiasVigencia != null){
-        Calendario.add(Calendar.DATE, intCantidadDiasVigencia);
-        Timestamp tmsFecha = new Timestamp(Calendario.getTimeInMillis());
-        String fechaStringVigencia = ft.format(tmsFecha);
-        parametros.put("fechaVigencia", fechaStringVigencia);
-      }
-    }
-
-    Cliente cliente = comercioEjb.consultarClientePorId(seleccionado.getClientesId());
-
-    if (cliente.getModoFactura().equals(new Integer(1))) {
-      parametros.put("metodoPago", seleccionado.getDescripcionInglesMetodoPago());
-    } else {
-      parametros.put("metodoPago", seleccionado.getDescripcionMetodoPago());
-    }
-
-    if (cliente.getModoFactura().equals(new Integer(1))) {
-      String productoIngles;
-      String unidadIngles;
-
-      for (ProductoPorClienteComExtDTO producto : listaSolicitudPedido) {
-        productoIngles = producto.getDescripcionProductoInventarioCE();
-        unidadIngles = producto.getNombreInglesUnidad();
-
-        producto.setStrNombreProductoInventario(productoIngles);
-        producto.setNombreUnidad(unidadIngles);
-      }
-    } else {
-      if (cliente.getModoFactura().equals(new Integer(3))) {
-        String productoIngles;
-        String unidadIngles;
-
-        for (ProductoPorClienteComExtDTO producto : listaSolicitudPedido) {
-          productoIngles = producto.getNombrePrdProveedorProductoInventarioCE();
-          unidadIngles = producto.getNombreUnidad();
-
-          producto.setStrNombreProductoInventario(productoIngles);
-          producto.setNombreUnidad(unidadIngles);
-        }
-
-      }
-    }
-
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaSolicitudPedido);
-    try {
-
-      Hashtable<String, String> parametrosR = new Hashtable<String, String>();
-      parametrosR.put("tipo", "pdf");
-      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_SP2.jasper");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", "SolicitudPedido" + seleccionado.getConsecutivoDocumento() + ".pdf");
-
-    } catch (Exception e) {
-      this.addMensajeError(e);
-    }
-
-    return reportePDF;
-  }
-
-  /**
-   * Sets the reporte pdf.
-   *
-   * @param reportePDF the new reporte pdf
-   */
-  public void setReportePDF(StreamedContent reportePDF) {
-    this.reportePDF = reportePDF;
-  }
-
-  public StreamedContent getReporteExcel() {
-    Map<String, Object> parametros = new HashMap<String, Object>();
-
-    SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
-    String fechaStringGeneracion = ft.format(seleccionado.getFechaGeneracion());
-
-    parametros.put("cliente", seleccionado.getClientesNombre());
-    parametros.put("nit", seleccionado.getClientesNit());
-    parametros.put("ciudad", seleccionado.getLugarIncoterm());
-    parametros.put("direccion", seleccionado.getClientesDireccion());
-    parametros.put("telefono", seleccionado.getClientesTelefono());
-    parametros.put("contacto", seleccionado.getClientesContacto());
-    parametros.put("documento", seleccionado.getDocumentoCliente());
-    parametros.put("fecha", fechaStringGeneracion);
-    parametros.put("numFactura", seleccionado.getConsecutivoDocumento());
-    parametros.put("dblCantidadContenedores40", seleccionado.getCantidadContenedores40());
-    parametros.put("solicitud", seleccionado.getClientesNombre());
-    parametros.put("observacionDoc", seleccionado.getObservacionDocumento());
-    parametros.put("observacionMar", seleccionado.getObservacionesMarcacion2());
-    parametros.put("strLugarIncoterm", seleccionado.getLugarIncoterm());
-    parametros.put("strNombreIncoterm", seleccionado.getDescripcionTerminoIncoterm());
-    parametros.put("dblCantidadContenedores20", seleccionado.getCantidadContenedores20());
-    parametros.put("dtmFechaDespacho", seleccionado.getFechaEsperadaEntrega());
-    parametros.put("incoterm", seleccionado.getDescripcionTerminoIncoterm());
-    parametros.put("lugarIncoterm", "(" + seleccionado.getLugarIncoterm() + ")");
-
-    double dblTotalValorT = totalValorT.doubleValue();
-
-    double totalValorTotal = Math.rint(dblTotalValorT * 100) / 100;
-
-    Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
-    String valorLetrasIngles = NumLetraIng.convert(totalValorTotal);
-
-    parametros.put("valorLetras", valorLetrasIngles);
-
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaSolicitudPedido);
-    try {
-
-      Hashtable<String, String> parametrosR = new Hashtable<String, String>();
-      parametrosR.put("tipo", "xls");
-      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/Report_SP.jasper");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-      reporteExcel = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel", "SolicitudPedido" + seleccionado.getConsecutivoDocumento() + ".xls");
-
-    } catch (Exception e) {
-      this.addMensajeError(e);
-    }
-    return reporteExcel;
-  }
-
-  public void setReporteExcel(StreamedContent reporteExcel) {
-    this.reporteExcel = reporteExcel;
-  }
-
 }
