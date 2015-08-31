@@ -7,9 +7,7 @@
   <persistence-unit 
     name="primary" 
     transaction-type="JTA">
-    <jta-data-source>java:/jdbc/GIPDS</jta-data-source>
-	<!--<jta-data-source>java:/jdbc/GIPDS_Produccion</jta-data-source> -->
-    <!--<jta-data-source>jdbc/gip</jta-data-source>-->
+    <jta-data-source>java:/jdbc/GIPDS</jta-data-source>  
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.show_sql" value="true"/>
