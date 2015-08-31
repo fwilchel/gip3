@@ -39,6 +39,7 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
           + "productos_inventario.nombre AS productoNombre, "
           + "productosxdocumentos.cantidad1 AS cantidadFacturada, "
           + "productosxdocumentos.cantidad_cajas_item AS cantidadCajas, "
+          + "productosxdocumentos.total_peso_bruto_item AS pesoBruto, "
           + "productosxdocumentos.valor_unitario_usd AS valorUnitatrio, "
           + "productosxdocumentos.descuentoxproducto AS porcDescuentoXProducto, "
           + "productosxdocumentos.otros_descuentos AS porcOtrosDescuentos, "
@@ -86,6 +87,7 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
   private String productoNombre;
   private Double cantidadFacturada;
   private Double cantidadCajas;
+  private Double pesoBruto;
   private Double valorUnitatrio;
   private Double porcDescuentoXProducto;
   private Double porcOtrosDescuentos;
@@ -262,6 +264,20 @@ public class DocumentoReporteVentasCEDTO implements Serializable {
    */
   public void setCantidadCajas(Double cantidadCajas) {
     this.cantidadCajas = cantidadCajas;
+  }
+
+  /**
+   * @return the pesoBruto
+   */
+  public Double getPesoBruto() {
+    return pesoBruto;
+  }
+
+  /**
+   * @param pesoBruto the pesoBruto to set
+   */
+  public void setPesoBruto(Double pesoBruto) {
+    this.pesoBruto = pesoBruto;
   }
 
   /**
