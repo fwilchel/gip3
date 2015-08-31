@@ -3,7 +3,6 @@ package com.ssl.jv.gip.web.mb.reportesComercioExterior;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.negocio.dto.DocumentoReporteVentasCEDTO;
-import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.ReportesComercioExteriorEJB;
 import javax.annotation.PostConstruct;
@@ -13,7 +12,6 @@ import javax.faces.bean.ManagedProperty;
 
 import org.apache.log4j.Logger;
 
-import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import java.io.ByteArrayInputStream;
@@ -27,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -60,10 +57,6 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    */
   private static final long serialVersionUID = -2780795923623719268L;
   private static final Logger LOGGER = Logger.getLogger(GenerarReporteVentasCEMB.class);
-  @EJB
-  private ComercioExteriorEJBLocal comercioExteriorEjb;
-  @ManagedProperty(value = "#{aplicacionMB}")
-  private AplicacionMB appMB;
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menuMB;
   /**
@@ -117,8 +110,6 @@ public class GenerarReporteVentasCEMB extends UtilMB {
    *
    */
   private LazyDataModel<ProductosInventario> listaProductosLazyModel;
-  private String campoOrden;
-  private SortOrder orden;
   private ProductosInventario filtro;
 
   @PostConstruct
@@ -192,33 +183,25 @@ public class GenerarReporteVentasCEMB extends UtilMB {
       }
       parametrosConsulta.put("idsProductos", idsProductosSeleccionados);
     }
-    List<DocumentoReporteVentasCEDTO> listaDocumentosReporteVentasCEDTO;
-    listaDocumentosReporteVentasCEDTO = reportesComercioExteriorEJB.consultarDocumentosReporteVentasCE(parametrosConsulta);
+    List<DocumentoReporteVentasCEDTO> reporteVentasCE = reportesComercioExteriorEJB.consultarDocumentosReporteVentasCE(parametrosConsulta);
     // generar reporte
     StreamedContent reporteXLS = null;
     Map<String, Object> parametrosReporte = new HashMap<>();
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     parametrosReporte.put("fechaInicial", formatoFecha.format(filtroFechaInicial));
     parametrosReporte.put("fechaFinal", formatoFecha.format(filtroFechaFinal));
-    JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(listaDocumentosReporteVentasCEDTO, false);
+    parametrosReporte.put("datos", reporteVentasCE);
     try {
       Hashtable<String, String> parametrosConfiguracionReporte;
       parametrosConfiguracionReporte = new Hashtable<>();
-      parametrosConfiguracionReporte.put("tipo", "xls");
-      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteVentasCE.jasper");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reporte, null, null, null, parametrosReporte, ds);
-      reporteXLS = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "ReporteVentasCE.xls");
+      parametrosConfiguracionReporte.put("tipo", "jxls");
+      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/ReporteVentasComercioExterior.xls");
+      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosConfiguracionReporte, reporte, null, null, null, parametrosReporte, null);
+      reporteXLS = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/x-msexcel ", "ReporteVentasComercioExterior.xls");
     } catch (Exception e) {
       this.addMensajeError("Problemas al generar el reporte");
     }
     return reporteXLS;
-  }
-
-  /**
-   * @param appMB the appMB to set
-   */
-  public void setAppMB(AplicacionMB appMB) {
-    this.appMB = appMB;
   }
 
   /**
@@ -399,8 +382,6 @@ public class GenerarReporteVentasCEMB extends UtilMB {
     @Override
     public List<ProductosInventario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
       LOGGER.debug("Metodo: <<load>>");
-      campoOrden = sortField;
-      orden = sortOrder;
       Object rta[] = maestrosEJB.consultarProductos(filtro, first, pageSize, sortField, sortOrder, true);
       this.setRowCount(((Long) rta[0]).intValue());
       rta = maestrosEJB.consultarProductos(filtro, first, pageSize, sortField, sortOrder, false);
