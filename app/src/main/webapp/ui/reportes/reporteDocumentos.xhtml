@@ -249,7 +249,8 @@
               value="#{msg.generalExcel}" 
               ajax="false"
               icon="ui-icon-document" 
-              onclick="PrimeFaces.monitorDownload(start, stop)">
+              onclick="PrimeFaces.monitorDownload(start, stop)"
+              disabled="#{reporteDocumentosMB.disabledBtnExcel}">
               <p:fileDownload 
                 value="#{reporteDocumentosMB.generarReporteCabecera()}" />
             </p:commandButton>

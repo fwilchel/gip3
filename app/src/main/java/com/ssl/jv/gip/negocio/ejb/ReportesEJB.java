@@ -125,7 +125,7 @@ public class ReportesEJB implements ReportesEJBLocal {
       where.append("'");
     }
     if (filtro.getIdEstado() != null && filtro.getIdEstado().compareTo(new Long(0)) != 0) {
-      where.append(" AND d.id_estado = ");
+      where.append(" AND doc.id_estado = ");
       where.append(filtro.getIdEstado());
     }
     String query = select + from + where.toString();
