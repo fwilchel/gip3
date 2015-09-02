@@ -168,7 +168,7 @@ public class ImprimirFacturaProformaMB extends UtilMB {
       parametros.put("totalPesoBruto", null); // totalPesoBruto
       parametros.put("totalCajas", null); // totalCantidadCajas
       parametros.put("totalPallets", null); // totalCantidadPallets
-      parametros.put("costoEntrega", documentoXNegociacion.getCostoEntrega().doubleValue());
+      parametros.put("costoEntrega", documentoXNegociacion.getCostoEntrega());
       parametros.put("costoSeguro", documentoXNegociacion.getCostoSeguro());
       parametros.put("costoFlete", documentoXNegociacion.getCostoFlete());
       parametros.put("otrosCostos", documentoXNegociacion.getOtrosGastos());

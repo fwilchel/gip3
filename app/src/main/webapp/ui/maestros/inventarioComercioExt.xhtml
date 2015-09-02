@@ -66,11 +66,17 @@
               <h:outputText value="#{dato.productosInventarioComext.productosInventario.nombre}" />
             </p:column>
 
-            <p:column filterBy="#{dato.cantidad}" headerText="#{msg.maestroInventarioComExt_Cantidad}"
-                      filterMatchMode="contains" sortBy="#{dato.cantidad}">
-              <h:inputText  value="#{dato.cantidad}" id="cantidad" label="#{msg.maestroInventarioComExt_Cantidad}" required="true" maxlength="16" >
-                <f:validateDoubleRange minimum="0" maximum="999999999999.999"></f:validateDoubleRange>
-              </h:inputText>
+            <p:column 
+              filterBy="#{dato.cantidad}" 
+              headerText="#{msg.maestroInventarioComExt_Cantidad}"
+              filterMatchMode="contains" 
+              sortBy="#{dato.cantidad}">
+              <h:inputText  
+                id="cantidad" 
+                value="#{dato.cantidad}" 
+                label="#{msg.maestroInventarioComExt_Cantidad}" 
+                required="true" 
+                maxlength="16" />
             </p:column>
 
           </p:dataTable>

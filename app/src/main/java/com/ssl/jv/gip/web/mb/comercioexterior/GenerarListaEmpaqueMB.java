@@ -47,7 +47,7 @@ public class GenerarListaEmpaqueMB extends UtilMB {
   private ComercioExteriorEJBLocal comercioExteriorEJBLocal;
   private String consecutivoDocumento;
   private List<Documento> facturasProforma;
-  private Documento seleccionado;
+  private Documento facturaProforma;
   private List<ProductoDTO> productoDTOs;
   private BigDecimal totalCantidad;
   private BigDecimal totalCantidadPorEmbalaje;
@@ -95,12 +95,12 @@ public class GenerarListaEmpaqueMB extends UtilMB {
     try {
       this.modo = Modo.EDITAR;
       ListaEmpaqueDTO listaEmpaqueDTO = new ListaEmpaqueDTO();
-      listaEmpaqueDTO.setIdDocumento(seleccionado.getId().toString());
+      listaEmpaqueDTO.setIdDocumento(facturaProforma.getId().toString());
       ClienteDTO cliente = new ClienteDTO();
-      cliente.setId(seleccionado.getCliente().getId().toString());
+      cliente.setId(facturaProforma.getCliente().getId().toString());
       listaEmpaqueDTO.setCliente(cliente);
       listaEmpaqueDTO.setSolicitudCafe(Boolean.TRUE);
-      List<DocumentoXNegociacion> documentoXNegociacions = seleccionado.getDocumentoXNegociacions();
+      List<DocumentoXNegociacion> documentoXNegociacions = facturaProforma.getDocumentoXNegociacions();
       if (documentoXNegociacions != null && !documentoXNegociacions.isEmpty()) {
         listaEmpaqueDTO.setSolicitudCafe(documentoXNegociacions.get(0).getSolicitudCafe());
       }
@@ -139,8 +139,8 @@ public class GenerarListaEmpaqueMB extends UtilMB {
     String outcome = null;
     try {
       DocumentoXNegociacion documentoXNegociacion = getDocumentoXNegociacion();
-      listaEmpaqueGenerada = comercioExteriorEJBLocal.generarListaEmpaque(seleccionado, documentoXNegociacion, productoDTOs);
-      facturasProforma.remove(seleccionado);
+      listaEmpaqueGenerada = comercioExteriorEJBLocal.generarListaEmpaque(facturaProforma, documentoXNegociacion, productoDTOs);
+      facturasProforma.remove(facturaProforma);
       consecutivoDocumento = null;
       this.modo = Modo.CREAR;
       outcome = "listado_LE";
@@ -165,7 +165,7 @@ public class GenerarListaEmpaqueMB extends UtilMB {
   private DocumentoXNegociacion getDocumentoXNegociacion() {
     DocumentoXNegociacion documentoXNegociacion = new DocumentoXNegociacion();
     DocumentoXNegociacion docXNegociacion = null;
-    List<DocumentoXNegociacion> documentoXNegociacions = seleccionado.getDocumentoXNegociacions();
+    List<DocumentoXNegociacion> documentoXNegociacions = facturaProforma.getDocumentoXNegociacions();
     if (documentoXNegociacions != null && !documentoXNegociacions.isEmpty()) {
       docXNegociacion = documentoXNegociacions.get(0);
     }
@@ -251,12 +251,12 @@ public class GenerarListaEmpaqueMB extends UtilMB {
     this.facturasProforma = facturasProforma;
   }
 
-  public Documento getSeleccionado() {
-    return seleccionado;
+  public Documento getFacturaProforma() {
+    return facturaProforma;
   }
 
-  public void setSeleccionado(Documento seleccionado) {
-    this.seleccionado = seleccionado;
+  public void setFacturaProforma(Documento facturaProforma) {
+    this.facturaProforma = facturaProforma;
   }
 
   public BigDecimal getTotalCantidad() {

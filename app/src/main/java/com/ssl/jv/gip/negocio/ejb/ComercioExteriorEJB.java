@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+import java.util.List;	
 import java.util.Map;
 
 import javax.ejb.EJB;
@@ -664,21 +664,29 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
 
   @Override
-  public Documento crearFactura(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, Documento original) {
-    documento.setConsecutivoDocumento("FP1-" + this.documentoDAO.consultarProximoValorSecuencia("fp1_seq"));
-    documento = (Documento) this.documentoDAO.add(documento);
-    auditoria.setIdRegTabla(documento.getId());
-    auditoria.setValorNuevo(documento.getConsecutivoDocumento());
+  public Documento crearFactura(Documento fp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductosXDocumento> pxd, Documento sp) {
+    // crear el documento FP
+    fp.setConsecutivoDocumento("FP1-" + this.documentoDAO.consultarProximoValorSecuencia("fp1_seq"));
+    fp = (Documento) this.documentoDAO.add(fp);
+    // crear la auditoria
+    auditoria.setIdRegTabla(fp.getId());
+    auditoria.setValorNuevo(fp.getConsecutivoDocumento());
     this.logAuditoriaDAO.add(auditoria);
-    documentoPorNegociacion.getPk().setIdDocumento(documento.getId());
-    documentoXNegociacionDAO.add(documentoPorNegociacion);
-    for (ProductosXDocumento pxd : productos) {
-      pxd.getId().setIdDocumento(documento.getId());
-      this.productoXDocumentoDAO.add(pxd);
+    // crear el DXN
+    dxn.getPk().setIdDocumento(fp.getId());
+    documentoXNegociacionDAO.add(dxn);
+    // crear los PXD
+    for (ProductosXDocumento productoxdocumento : pxd) {
+      productoxdocumento.getId().setIdDocumento(fp.getId());
+      this.productoXDocumentoDAO.add(productoxdocumento);
     }
-    original.getEstadosxdocumento().getId().setIdEstado((long) ConstantesDocumento.APROBADA);
-    this.documentoDAO.update(original);
-    return documento;
+    //asignar los lotes OIC
+    guardarLotesFP(fp);
+    // cambiar de estado la SP a CERRADO
+    sp.getEstadosxdocumento().getId().setIdEstado((long) ConstantesDocumento.CERRADO);
+    this.documentoDAO.update(sp);
+    // retornar el documento creado
+    return fp;
   }
 
   @Override
@@ -724,6 +732,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     return documento;
   }
 
+  @Override
   public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(String consecutivoDocumento) {
     return documentoDAO.consultarProductoListaEmpaque(consecutivoDocumento);
   }
@@ -757,6 +766,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     }
   }
 
+  @Override
   public List<Documento> consultarDocumentosActivosPorTipoDocumentoYConsecutivoDocumento(Long idTipoDocumento, String consecutivoDocumento) {
     List<Documento> listaEmpaques = this.documentoDAO.consultarDocumentosPorTipoDocumentoConsecutivoDocumentoYEstados(idTipoDocumento, consecutivoDocumento, Estado.ACTIVO.getCodigo());
     for (Documento documento : listaEmpaques) {
@@ -819,6 +829,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     }
   }
 
+  @Override
   public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento) {
     try {
       return documentoDAO.consultarDocumentosAutorizar(consecutivoDocumento);
@@ -828,6 +839,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     return null;
   }
 
+  @Override
   public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado, LogAuditoria auditoria) {
     try {
       documentoDAO.cambiarEstadoFacturaProforma(listado, auditoria);
@@ -929,58 +941,35 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
 
   @Override
-  public Documento generarListaEmpaque(Documento documento, DocumentoXNegociacion documentoXNegociacion, List<ProductoDTO> productoDTOs) {
-
-    Documento listaEmpaque = crearListaEmpaque(documento);
-
+  public Documento generarListaEmpaque(Documento facturaProforma, DocumentoXNegociacion documentoXNegociacion, List<ProductoDTO> productoDTOs) {
+    // crea la LE
+    Documento listaEmpaque = crearListaEmpaque(facturaProforma);
+    // crea el dxn
     documentoXNegociacion.getPk().setIdDocumento(listaEmpaque.getId());
     documentoXNegociacion.setDocumento(listaEmpaque);
-    documentoXNegociacion = documentoXNegociacionDAO.add(documentoXNegociacion);
-
+    documentoXNegociacionDAO.add(documentoXNegociacion);
+    // crea los pxd
     List<ProductosXDocumento> productosXDocumentosListaEmpaque = getProductosXDocumentosParaListaEmpaque(productoDTOs);
     for (ProductosXDocumento productosXDocumento : productosXDocumentosListaEmpaque) {
       productosXDocumento.getId().setIdDocumento(listaEmpaque.getId());
       productoXDocumentoDAO.add(productosXDocumento);
     }
-
-    /*
-     * Documento ventaDirecta = crearVentaDirecta(listaEmpaque);
-     * List<ProductosXDocumento> productosXDocumentosVentaDirecta =
-     * getProductosXDocumentosParaVentaDirecta(productoDTOs); for
-     * (ProductosXDocumento productosXDocumento :
-     * productosXDocumentosVentaDirecta) {
-     * productosXDocumento.getId().setIdDocumento(ventaDirecta.getId());
-     * productoXDocumentoDAO.add(productosXDocumento); }
-     * 
-     * Documento remision = crearRemision(ventaDirecta);
-     * List<ProductosXDocumento> productosXDocumentosRemision =
-     * getProductosXDocumentosParaRemision(productoDTOs); for
-     * (ProductosXDocumento productosXDocumento : productosXDocumentosRemision)
-     * { productosXDocumento.getId().setIdDocumento(remision.getId());
-     * productosXDocumento = productoXDocumentoDAO.add(productosXDocumento);
-     * 
-     * crearMovimientos(remision, productosXDocumento); }
-     * 
-     * listaEmpaque.setSitioEntrega(ventaDirecta.getConsecutivoDocumento() + ";"
-     * + remision.getConsecutivoDocumento()); documentoDAO.update(listaEmpaque);
-     */
-    Documento solicitudPedido = documentoDAO.consultarDocumentoPorConsecutivo(documento.getObservacionDocumento());
+    // actualizar estado de la SP
+    Documento solicitudPedido = documentoDAO.consultarDocumentoPorConsecutivo(facturaProforma.getObservacionDocumento());
     Estadosxdocumento estadosxdocumentoSP = solicitudPedido.getEstadosxdocumento();
     EstadosxdocumentoPK idEstDocSP = estadosxdocumentoSP.getId();
     idEstDocSP.setIdEstado(Estado.CERRADA.getCodigo());
     estadosxdocumentoSP.setId(idEstDocSP);
     solicitudPedido.setEstadosxdocumento(estadosxdocumentoSP);
     documentoDAO.update(solicitudPedido);
-
-    Estadosxdocumento estadosxdocumento = documento.getEstadosxdocumento();
+    // actualizar estadod e la FP
+    Estadosxdocumento estadosxdocumento = facturaProforma.getEstadosxdocumento();
     EstadosxdocumentoPK idEstadoXDocumento = estadosxdocumento.getId();
     idEstadoXDocumento.setIdEstado(Estado.LISTADA.getCodigo());
     estadosxdocumento.setId(idEstadoXDocumento);
-    documento.setEstadosxdocumento(estadosxdocumento);
-    documentoDAO.update(documento);
-
+    facturaProforma.setEstadosxdocumento(estadosxdocumento);
+    documentoDAO.update(facturaProforma);
     return listaEmpaque;
-
   }
 
   private void crearMovimientos(Documento remision, ProductosXDocumento productosXDocumento) {
@@ -1046,7 +1035,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
 
   private List<ProductosXDocumento> getProductosXDocumentosParaRemision(List<ProductoDTO> productoDTOs) {
-    List<ProductosXDocumento> productosXDocumentos = new ArrayList<ProductosXDocumento>();
+    List<ProductosXDocumento> productosXDocumentos = new ArrayList<>();
 
     Calendar calendar = Calendar.getInstance();
     for (ProductoDTO productoDTO : productoDTOs) {
@@ -1154,7 +1143,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
 
   private List<ProductosXDocumento> getProductosXDocumentosParaVentaDirecta(List<ProductoDTO> productoDTOs) {
-    List<ProductosXDocumento> productosXDocumentos = new ArrayList<ProductosXDocumento>();
+    List<ProductosXDocumento> productosXDocumentos = new ArrayList<>();
     Calendar calendar = Calendar.getInstance();
     for (ProductoDTO productoDTO : productoDTOs) {
       productosXDocumentos.add(getProductoXDocumentoParaVentaDirecta(productoDTO, calendar));
@@ -1263,14 +1252,12 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   private Documento crearListaEmpaque(Documento documento) {
     Documento listaEmpaque = new Documento();
-
     Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
     EstadosxdocumentoPK id = new EstadosxdocumentoPK();
     id.setIdEstado(Estado.ACTIVO.getCodigo());
     id.setIdTipoDocumento((long) ConstantesTipoDocumento.LISTA_EMPAQUE);
     estadosxdocumento.setId(id);
     listaEmpaque.setEstadosxdocumento(estadosxdocumento);
-
     listaEmpaque.setUbicacionOrigen(documento.getUbicacionOrigen());
     listaEmpaque.setUbicacionDestino(documento.getUbicacionOrigen());
     listaEmpaque.setFechaGeneracion(new Date());
@@ -1278,7 +1265,6 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     listaEmpaque.setCliente(documento.getCliente());
     listaEmpaque.setDocumentoCliente(documento.getDocumentoCliente());
     listaEmpaque.setFechaEsperadaEntrega(documento.getFechaEsperadaEntrega());
-    // listaEmpaque.setPuntoVenta(Long.valueOf(0));
     listaEmpaque.setNumeroFactura("0");
     listaEmpaque.setValorTotal(BigDecimal.ZERO);
     listaEmpaque.setDescuentoCliente(BigDecimal.ZERO);
@@ -1287,7 +1273,6 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     listaEmpaque.setValorIva10(BigDecimal.ZERO);
     listaEmpaque.setValorIva16(BigDecimal.ZERO);
     listaEmpaque.setValorIva5(BigDecimal.ZERO);
-
     TipoDocumento tipoDocumento = tipoDocumentoDAOLocal.findByPK(listaEmpaque.getEstadosxdocumento().getId().getIdTipoDocumento());
     Ubicacion ubicacion = null;
     if (listaEmpaque.getUbicacionOrigen() != null && listaEmpaque.getUbicacionDestino() != null && com.ssl.jv.gip.util.Ubicacion.EXTERNA.getCodigo().equals(listaEmpaque.getUbicacionDestino().getId())) {
@@ -1299,24 +1284,14 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
         ubicacion = ubicacionDAOLocal.findByPK(com.ssl.jv.gip.util.Ubicacion.EXTERNA.getCodigo());
       }
     }
-
-    // String prefijoConsecutivo = tipoDocumento.getAbreviatura() +
-    // ubicacion.getEmpresa().getId();
-    // Long valorSecuencia =
-    // documentoDAO.consultarProximoValorSecuencia(prefijoConsecutivo + "_seq");
-    // listaEmpaque.setConsecutivoDocumento(prefijoConsecutivo + "-" +
-    // valorSecuencia);
     listaEmpaque.setConsecutivoDocumento("LE1-" + this.documentoDAO.consultarProximoValorSecuencia("le1_seq"));
-
     listaEmpaque.getEstadosxdocumento().setEstado(estadoDAOLocal.findByPK(estadosxdocumento.getId().getIdEstado()));
-
     listaEmpaque = (Documento) documentoDAO.add(listaEmpaque);
-
     return listaEmpaque;
   }
 
   private List<ProductosXDocumento> getProductosXDocumentosParaListaEmpaque(List<ProductoDTO> productoDTOs) {
-    List<ProductosXDocumento> productosXDocumentos = new ArrayList<ProductosXDocumento>();
+    List<ProductosXDocumento> productosXDocumentos = new ArrayList<>();
     for (ProductoDTO productoDTO : productoDTOs) {
       productosXDocumentos.add(getProductoXDocumento(productoDTO));
     }
@@ -1355,6 +1330,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     return productosXDocumento;
   }
 
+  @Override
   public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal) {
     /*
      * aplica_fob, cfr, cif, fca, cip, dap, dapm, cpt, fcat
@@ -1403,6 +1379,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     return documentoDAO.consultarDocumentosAutorizadosParaModificarFacturaProforma();
   }
 
+  @Override
   public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(Long idDocumento, Long idCliente) {
     return productoClienteComercioExteriorDAO.consultarListaProductosClienteFacturaProforma(idDocumento, idCliente);
   }
@@ -1555,6 +1532,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     return lista;
   }
 
+  @Override
   public int actualizarCostosLogisticos(BigDecimal valorTotal, BigDecimal fob, BigDecimal fletes, BigDecimal seguros, List<DocumentoCostosLogisticosDTO> documentos, LiquidacionCostoLogistico lcl) {
     // public int actualizarCostosLogisticos(Long idDocumento, Long
     // idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes,
@@ -1724,9 +1702,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @Override
   public void guardarLotesFP(Documento documento) {
-
     documentoXLoteDAO.addConsecutivoLoteOIC_FP(documento);
-    // return lista;
   }
 
   @Override

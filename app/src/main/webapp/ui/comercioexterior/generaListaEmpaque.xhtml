@@ -29,7 +29,7 @@
               for="documento" 
               styleClass="negrita" />								
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.id}"
+              value="#{generarListaEmpaqueMB.facturaProforma.id}"
               id="documento" 
               label="#{msg.generarListaEmpaque_Documento}" 
               disabled="true"/>
@@ -38,7 +38,7 @@
               for="consecutivoDocumento" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.consecutivoDocumento}"
+              value="#{generarListaEmpaquefacturaProformaado.consecutivoDocumento}"
               id="consecutivoDocumento" 
               label="#{msg.generarListaEmpaque_ConsecutivoDocumento}" 
               disabled="true" />
@@ -47,7 +47,7 @@
               for="fechaGeneracion" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.fechaGeneracion}"
+              value="#{generarListaEmpafacturaProformaionado.fechaGeneracion}"
               id="fechaGeneracion" 
               label="#{msg.generarListaEmpaque_FechaGeneracion}" 
               disabled="true"/>
@@ -56,7 +56,7 @@
               for="clienteNombre" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.cliente.nombre}" 
+              value="#{generarListaEmpaquefacturaProformaado.cliente.nombre}" 
               size="80"
               id="clienteNombre" 
               label="#{msg.generarListaEmpaque_Cliente}" 
@@ -66,7 +66,7 @@
               for="clienteId" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.documentoCliente}"
+              value="#{generarLisfacturaProformaseleccionado.documentoCliente}"
               id="clienteId" 
               label="#{msg.generarListaEmpaque_NumeroPedidoWeb}" 
               disabled="true"/>
@@ -75,7 +75,7 @@
               for="clienteDireccion" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.cliente.direccion}" 
+              value="#{generarListaEmpaqueMB.facturaProforma.cliente.direccion}" 
               size="80"
               id="clienteDireccion" 
               label="#{msg.generarListaEmpaque_Direccion}" 
@@ -85,7 +85,7 @@
               for="clienteTelefono" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.cliente.telefono}"
+              value="#{generarListaEmpaquefacturaProformaado.cliente.telefono}"
               id="clienteTelefono" 
               label="#{msg.generarListaEmpaque_Telefono}" 
               disabled="true"/>
@@ -94,7 +94,7 @@
               for="clienteContacto" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.cliente.contacto}" 
+              value="#{generarListaEmpaquefacturaProformaado.cliente.contacto}" 
               size="80"
               id="clienteContacto" 
               label="#{msg.generarListaEmpaque_Contacto}" 
@@ -104,7 +104,7 @@
               for="terminoIncoterm" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].terminoIncoterm.descripcion}"
+              value="#{generarLisfacturaProformaseleccionado.documentoXNegociacions[0].terminoIncoterm.descripcion}"
               id="terminoIncoterm" 
               label="#{msg.generarListaEmpaque_TerminoIncoterm}" 
               disabled="true"/>
@@ -113,7 +113,7 @@
               for="lugarIncoterm" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].lugarIncoterm}" 
+              value="#{gfacturaProformampaqueMB.seleccionado.documentoXNegociacions[0].lugarIncoterm}" 
               size="50"
               id="lugarIncoterm" 
               label="#{msg.generarListaEmpaque_LugarIncoterm}" 
@@ -123,7 +123,7 @@
               for="cantidadContenedores20" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].cantidadContenedoresDe20}"
+              value="#{generarListaEmpaquefacturaProformaado.documentoXNegociacions[0].cantidadContenedoresDe20}"
               id="cantidadContenedores20" 
               label="#{msg.generarListaEmpaque_CantidadContenedores20}" 
               disabled="true"/>
@@ -132,7 +132,7 @@
               for="cantidadContenedores40" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].cantidadContenedoresDe40}"
+              value="#{generarLisfacturaProformaseleccionado.documentoXNegociacions[0].cantidadContenedoresDe40}"
               id="cantidadContenedores40" 
               label="#{msg.generarListaEmpaque_CantidadContenedores40}" 
               disabled="true"/>
@@ -141,7 +141,7 @@
               for="despachadoEn" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.sitioEntrega}"
+              value="#{gfacturaProformampaqueMB.seleccionado.sitioEntrega}"
               id="despachadoEn" 
               label="#{msg.generarListaEmpaque_DespachadoEn}" 
               disabled="true" />
@@ -150,7 +150,7 @@
               for="fechaEntrega" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.fechaEntrega}"
+      facturaProformae="#{generarListaEmpaqueMB.seleccionado.fechaEntrega}"
               id="fechaEntrega" 
               label="#{msg.generarListaEmpaque_FechaCargue}"  
               disabled="true">
@@ -162,7 +162,7 @@
               for="observacionDocumento" 
               styleClass="negrita" />
             <p:inputTextarea 
-              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].descripcion}"
+              value="#{generarLisfacturaProformaseleccionado.documentoXNegociacions[0].descripcion}"
               id="observacionDocumento" 
               label="#{msg.generarListaEmpaque_ObservacionDocumento}" 
               disabled="false"/>
@@ -171,7 +171,7 @@
               for="observacionMarcacion" 
               styleClass="negrita" />
             <p:inputTextarea 
-              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].observacionesMarcacion2}"
+              value="#{generarfacturaProformaMB.seleccionado.documentoXNegociacions[0].observacionesMarcacion2}"
               id="observacionMarcacion" 
               label="#{msg.generarListaEmpaque_ObservacionMarcacion}" 
               disabled="true" />
@@ -180,7 +180,7 @@
               for="cantidadEstibas" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].cantidadEstibas}"
+      facturaProformae="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].cantidadEstibas}"
               id="cantidadEstibas" 
               label="#{msg.generarListaEmpaque_CantidadEstibas}" 
               disabled="false" />
@@ -189,7 +189,7 @@
               for="pesoBrutoEstibas" 
               styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.documentoXNegociacions[0].pesoBrutoEstibas}"
+              value="#{generarListaEmpafacturaProformaionado.documentoXNegociacions[0].pesoBrutoEstibas}"
               id="pesoBrutoEstibas" 
               label="#{msg.generarListaEmpaque_PesoBrutoEstibas}"  
               disabled="false"/>
@@ -197,7 +197,7 @@
               value="#{msg.generarListaEmpaque_Canal}"
               for="canal" styleClass="negrita" />
             <p:inputText 
-              value="#{generarListaEmpaqueMB.seleccionado.ubicacionOrigen.nombre}"
+            facturaProformaenerarListaEmpaqueMB.seleccionado.ubicacionOrigen.nombre}"
               id="canal" 
               label="#{msg.generarListaEmpaque_Canal}"  
               disabled="true"/>

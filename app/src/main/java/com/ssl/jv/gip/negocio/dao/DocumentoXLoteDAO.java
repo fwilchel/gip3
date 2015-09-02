@@ -47,10 +47,10 @@ public class DocumentoXLoteDAO extends GenericDAO<DocumentoXLotesoic> implements
     try {
 
       String sql = "SELECT documentos.consecutivo_documento, documento_x_lotesoic.fecha, documento_x_lotesoic.consecutivo "
-          + "FROM documento_x_lotesoic "
-          + "INNER JOIN tipo_loteoic on documento_x_lotesoic.id_tipo_lote = tipo_loteoic.id "
-          + "INNER JOIN documentos on documento_x_lotesoic.id_documento = documentos.id "
-          + "WHERE documento_x_lotesoic.id_documento = (select id_documento from documento_x_lotesoic order by fecha || consecutivo desc limit 1)";
+              + "FROM documento_x_lotesoic "
+              + "INNER JOIN tipo_loteoic on documento_x_lotesoic.id_tipo_lote = tipo_loteoic.id "
+              + "INNER JOIN documentos on documento_x_lotesoic.id_documento = documentos.id "
+              + "WHERE documento_x_lotesoic.id_documento = (select id_documento from documento_x_lotesoic order by fecha || consecutivo desc limit 1)";
 
       Query query = em.createNativeQuery(sql);
       List<Object[]> resultado = query.getResultList();
@@ -101,26 +101,26 @@ public class DocumentoXLoteDAO extends GenericDAO<DocumentoXLotesoic> implements
       conta = conta + 1;
 
       sql = "SELECT documento_x_lotesoic.id_documento, documento_x_lotesoic.consecutivo, documento_x_lotesoic.id_tipo_lote, "
-          + "documento_x_lotesoic.total_cajas, documento_x_lotesoic.pedido, documento_x_lotesoic.asignacion, documento_x_lotesoic.aviso, "
-          + "tipo_loteoic.descripcion, documento_x_lotesoic.total_cantidad, "
-          + "(select consecutivo_documento from documentos doc2 "
-          + "where observacion_documento = (select doc.consecutivo_documento from documentos doc "
-          + "where doc.observacion_documento = documentos.consecutivo_documento "
-          + "and doc.id_tipo_documento = 24) and doc2.id_estado <> 11 "
-          + "order by doc2.consecutivo_documento desc limit 1) as consecutivo_documento, "
-          + "(select doc.consecutivo_documento from documentos doc "
-          + "where doc.observacion_documento = documentos.consecutivo_documento "
-          + "and doc.id_tipo_documento = 24 and doc.id_estado <> 11 limit 1) as observacion_documento, "
-          + "documentos.consecutivo_documento as factura_proforma "
-          + ",(select fecha_eta from documentos doc2 "
-          + "where observacion_documento = (select doc.consecutivo_documento from documentos doc "
-          + "where doc.observacion_documento = documentos.consecutivo_documento "
-          + "and doc.id_tipo_documento = 24) and doc2.id_estado <> 11 "
-          + "order by doc2.consecutivo_documento desc limit 1) as fecha_eta "
-          + "FROM documento_x_lotesoic "
-          + "INNER JOIN tipo_loteoic on documento_x_lotesoic.id_tipo_lote = tipo_loteoic.id "
-          + "INNER JOIN documentos on documento_x_lotesoic.id_documento = documentos.id "
-          + "WHERE documento_x_lotesoic.id_documento IN (select documentos.id from documentos where documentos.consecutivo_documento IN (select documentos.observacion_documento from documentos where documentos.consecutivo_documento IN (select documentos.observacion_documento from documentos where documentos.id IN (" + strDocs + ")))) ";
+              + "documento_x_lotesoic.total_cajas, documento_x_lotesoic.pedido, documento_x_lotesoic.asignacion, documento_x_lotesoic.aviso, "
+              + "tipo_loteoic.descripcion, documento_x_lotesoic.total_cantidad, "
+              + "(select consecutivo_documento from documentos doc2 "
+              + "where observacion_documento = (select doc.consecutivo_documento from documentos doc "
+              + "where doc.observacion_documento = documentos.consecutivo_documento "
+              + "and doc.id_tipo_documento = 24) and doc2.id_estado <> 11 "
+              + "order by doc2.consecutivo_documento desc limit 1) as consecutivo_documento, "
+              + "(select doc.consecutivo_documento from documentos doc "
+              + "where doc.observacion_documento = documentos.consecutivo_documento "
+              + "and doc.id_tipo_documento = 24 and doc.id_estado <> 11 limit 1) as observacion_documento, "
+              + "documentos.consecutivo_documento as factura_proforma "
+              + ",(select fecha_eta from documentos doc2 "
+              + "where observacion_documento = (select doc.consecutivo_documento from documentos doc "
+              + "where doc.observacion_documento = documentos.consecutivo_documento "
+              + "and doc.id_tipo_documento = 24) and doc2.id_estado <> 11 "
+              + "order by doc2.consecutivo_documento desc limit 1) as fecha_eta "
+              + "FROM documento_x_lotesoic "
+              + "INNER JOIN tipo_loteoic on documento_x_lotesoic.id_tipo_lote = tipo_loteoic.id "
+              + "INNER JOIN documentos on documento_x_lotesoic.id_documento = documentos.id "
+              + "WHERE documento_x_lotesoic.id_documento IN (select documentos.id from documentos where documentos.consecutivo_documento IN (select documentos.observacion_documento from documentos where documentos.consecutivo_documento IN (select documentos.observacion_documento from documentos where documentos.id IN (" + strDocs + ")))) ";
     }
     if (strDocsMerca.length() > 0) {
       conta = conta + 1;
@@ -130,28 +130,28 @@ public class DocumentoXLoteDAO extends GenericDAO<DocumentoXLotesoic> implements
       }
 
       sql = sql + "SELECT productosXdocumentos.id_documento, 'MERCADEO' as consecutivo, pic.id_tipo_loteoic as id_tipo_lote, "
-          + "SUM((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pic.cantidad_x_embalaje) END)) as Total_Cajas, "
-          + "'MERCADEO' as pedido, "
-          + "'MERCADEO' as asignacion, "
-          + "'MERCADEO' as aviso, "
-          + "tipo_loteoic.descripcion, "
-          + "SUM(productosXdocumentos.cantidad1) as Total_Cantidad, docs.consecutivo_documento, docs.observacion_documento,"
-          + "(select observacion_documento from documentos where consecutivo_documento = docs.observacion_documento) as factura_proforma "
-          + ",(select fecha_eta from documentos where consecutivo_documento = docs.consecutivo_documento) as fecha_eta "
-          + "FROM productosXdocumentos "
-          + "LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id "
-          + "LEFT JOIN productos_inventario_comext pic ON pic.id_producto=productos_inventario.id "
-          + "LEFT JOIN tipo_loteoic ON tipo_loteoic.id = pic.id_tipo_loteoic "
-          + "INNER JOIN unidades ON productos_inventario.id_uv=unidades.id "
-          + "INNER JOIN documentos docs ON docs.id = productosXdocumentos.id_documento "
-          + "WHERE productosXdocumentos.id_documento IN (" + strDocsMerca + ") "
-          + "GROUP BY pic.id_tipo_loteoic, tipo_loteoic.descripcion, productosXdocumentos.id_documento, docs.consecutivo_documento, docs.observacion_documento ";
+              + "SUM((CASE WHEN (pic.cantidad_x_embalaje = 0) THEN 0 ELSE (productosXdocumentos.cantidad1/pic.cantidad_x_embalaje) END)) as Total_Cajas, "
+              + "'MERCADEO' as pedido, "
+              + "'MERCADEO' as asignacion, "
+              + "'MERCADEO' as aviso, "
+              + "tipo_loteoic.descripcion, "
+              + "SUM(productosXdocumentos.cantidad1) as Total_Cantidad, docs.consecutivo_documento, docs.observacion_documento,"
+              + "(select observacion_documento from documentos where consecutivo_documento = docs.observacion_documento) as factura_proforma "
+              + ",(select fecha_eta from documentos where consecutivo_documento = docs.consecutivo_documento) as fecha_eta "
+              + "FROM productosXdocumentos "
+              + "LEFT JOIN productos_inventario ON productosXdocumentos.id_producto=productos_inventario.id "
+              + "LEFT JOIN productos_inventario_comext pic ON pic.id_producto=productos_inventario.id "
+              + "LEFT JOIN tipo_loteoic ON tipo_loteoic.id = pic.id_tipo_loteoic "
+              + "INNER JOIN unidades ON productos_inventario.id_uv=unidades.id "
+              + "INNER JOIN documentos docs ON docs.id = productosXdocumentos.id_documento "
+              + "WHERE productosXdocumentos.id_documento IN (" + strDocsMerca + ") "
+              + "GROUP BY pic.id_tipo_loteoic, tipo_loteoic.descripcion, productosXdocumentos.id_documento, docs.consecutivo_documento, docs.observacion_documento ";
     }
 
     sql = sql + "ORDER BY id_documento, consecutivo";
 
     List<Object[]> listado = em.createNativeQuery(sql)
-        .getResultList();
+            .getResultList();
 
     List<DocumentoPorLotesInstruccionEmbarqueDTO> listadoDocumentos = new ArrayList<DocumentoPorLotesInstruccionEmbarqueDTO>();
 
@@ -185,18 +185,7 @@ public class DocumentoXLoteDAO extends GenericDAO<DocumentoXLotesoic> implements
 
   @Override
   public void addConsecutivoLoteOIC_FP(Documento documento) {
-    try {
-      StringBuilder sql = new StringBuilder();
-      // sql.append("UPDATE documentos SET " + " id_estado = " + documento.getEstadosxdocumento().getEstado().getId() + " WHERE  consecutivo_documento = '" + documento.getConsecutivoDocumento() + "'");
-
-      sql.append("insert into documento_x_lotesoic(id_documento,consecutivo,id_tipo_lote,fecha,total_cantidad,total_cajas,pedido,asignacion,aviso,total_peso_neto,contribucion,dex)"
-          + " select " + documento.getId() + ", consecutivo,id_tipo_lote,fecha,total_cantidad,total_cajas,pedido,asignacion,aviso,total_peso_neto,contribucion,dex"
-          + " from documento_x_lotesoic where id_documento  in (select id from documentos where consecutivo_documento ='" + documento.getObservacionDocumento() + "')");
-
-      int q = em.createNativeQuery(sql.toString()).executeUpdate();
-
-    } catch (Exception e) {
-
-    }
+    String query = "insert into documento_x_lotesoic(id_documento,consecutivo,id_tipo_lote,fecha,total_cantidad,total_cajas,pedido,asignacion,aviso,total_peso_neto,contribucion,dex) select " + documento.getId() + ", consecutivo,id_tipo_lote,fecha,total_cantidad,total_cajas,pedido,asignacion,aviso,total_peso_neto,contribucion,dex from documento_x_lotesoic where id_documento  in (select id from documentos where consecutivo_documento ='" + documento.getObservacionDocumento() + "')";
+    em.createNativeQuery(query).executeUpdate();
   }
 }
