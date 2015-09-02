@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FP" pageWidth="609" pageHeight="800" whenNoDataType="NoDataSection" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3060fbe6-7590-4a01-9ea7-698dffb5f818">
 	<property name="ireport.zoom" value="1.2100000000000755"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="144"/>
+	<property name="ireport.y" value="292"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="true,true,0.75,-9,-4,0,0,625,796"/>
 	<parameter name="nit" class="java.lang.String"/>
@@ -22,7 +22,7 @@
 	<parameter name="totalPesoBruto" class="java.math.BigDecimal"/>
 	<parameter name="totalCajas" class="java.math.BigDecimal"/>
 	<parameter name="totalPallets" class="java.math.BigDecimal"/>
-	<parameter name="costoEntrega" class="java.lang.Double"/>
+	<parameter name="costoEntrega" class="java.math.BigDecimal"/>
 	<parameter name="costoFlete" class="java.math.BigDecimal"/>
 	<parameter name="costoSeguro" class="java.math.BigDecimal"/>
 	<parameter name="otrosCostos" class="java.math.BigDecimal"/>
@@ -119,16 +119,16 @@
 	<field name="productosInventario.nombre" class="java.lang.String"/>
 	<field name="unidade.nombre" class="java.lang.String"/>
 	<field name="productosInventario.productosInventarioComext.posicionArancelaria" class="java.lang.String"/>
-	<variable name="dblCantidad1_1" class="java.lang.Double" calculation="Sum">
+	<variable name="dblCantidad1_1" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{cantidad1}]]></variableExpression>
 	</variable>
-	<variable name="dblTotalPesoNetoItem_1" class="java.lang.Double" calculation="Sum">
+	<variable name="dblTotalPesoNetoItem_1" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{totalPesoNetoItem}]]></variableExpression>
 	</variable>
-	<variable name="dblValorUnitarioUsd_1" class="java.lang.Double" calculation="Sum">
+	<variable name="dblValorUnitarioUsd_1" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{valorUnitarioUsd}]]></variableExpression>
 	</variable>
-	<variable name="dblValorTotal_1" class="java.lang.Double" calculation="Sum">
+	<variable name="dblValorTotal_1" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{valorTotal}]]></variableExpression>
 	</variable>
 	<background>
@@ -890,7 +890,7 @@ Bogotá - Colombia]]></text>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{dblValorTotal_1}+$P{costoEntrega}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{dblValorTotal_1}.add($P{costoEntrega})]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>
