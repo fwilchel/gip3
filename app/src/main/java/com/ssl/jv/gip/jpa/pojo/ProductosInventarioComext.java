@@ -22,159 +22,108 @@ import java.util.List;
 public class ProductosInventarioComext implements Serializable {
 
   private static final long serialVersionUID = 1L;
-
   @Id
   @Column(name = "id_producto")
   private Long idProducto;
-
   private BigDecimal alto;
-
   @Column(name = "alto_embalaje")
   private BigDecimal altoEmbalaje;
-
   @Column(name = "altura_max_pallet")
   private BigDecimal alturaMaxPallet;
-
   private BigDecimal ancho;
-
   @Column(name = "ancho_embalaje")
   private BigDecimal anchoEmbalaje;
-
   @Column(name = "cant_cajas_x_tendido")
   private BigDecimal cantCajasXTendido;
-
   @Column(name = "cant_max_tend_x_pallet")
   private BigDecimal cantMaxTendXPallet;
-
   @Column(name = "cantidad_x_embalaje")
   private BigDecimal cantidadXEmbalaje;
-
   private String clave;
-
   @Column(name = "codigo_sap")
   private String codigoSap;
-
   @Column(name = "controlstock")
   private Boolean controlStock;
-
   private String descripcion;
-
   @Column(name = "ean_14")
   private Long ean14;
-
   @Temporal(TemporalType.DATE)
   @Column(name = "fecha_creado")
   private Date fechaCreado;
-
   private Boolean importado;
-
   private BigDecimal largo;
-
   @Column(name = "largo_embalaje")
   private BigDecimal largoEmbalaje;
-
   @Column(name = "marcacion_fecha_vencimiento")
   private String marcacionFechaVencimiento;
-
   @Column(name = "nombre_prd_proveedor")
   private String nombrePrdProveedor;
-
   @Column(name = "observaciones_unidad_embalaje")
   private String observacionesUnidadEmbalaje;
-
   @Column(name = "peso_bruto")
   private BigDecimal pesoBruto;
-
   @Column(name = "peso_bruto_embalaje")
   private BigDecimal pesoBrutoEmbalaje;
-
   @Column(name = "peso_bruto_max_pallet")
   private BigDecimal pesoBrutoMaxPallet;
-
   @Column(name = "peso_neto")
   private BigDecimal pesoNeto;
-
   @Column(name = "peso_neto_embalaje")
   private BigDecimal pesoNetoEmbalaje;
-
   @Column(name = "posicion_arancelaria")
   private String posicionArancelaria;
-
   @Column(name = "ruta_certificaciones")
   private String rutaCertificaciones;
-
   @Column(name = "ruta_examenes_lab")
   private String rutaExamenesLab;
-
   @Column(name = "ruta_ficha_tecnica")
   private String rutaFichaTecnica;
-
   @Column(name = "ruta_formula_cuali_cuanti")
   private String rutaFormulaCualiCuanti;
-
   @Column(name = "ruta_foto")
   private String rutaFoto;
-
   @Column(name = "ruta_foto1")
   private String rutaFoto1;
-
   @Column(name = "ruta_foto2")
   private String rutaFoto2;
-
   @Column(name = "ruta_foto3")
   private String rutaFoto3;
-
   @Column(name = "ruta_info_etiquetado")
   private String rutaInfoEtiquetado;
-
   @Column(name = "ruta_marcacion_lote")
   private String rutaMarcacionLote;
-
   @Column(name = "ruta_reg_sanitario")
   private String rutaRegSanitario;
-
   @Column(name = "tiempo_util")
   private BigDecimal tiempoUtil;
-
   @Column(name = "total_cajas_x_pallet")
   private BigDecimal totalCajasXPallet;
-
   @Column(name = "unidad_medida")
   private String unidadMedida;
-
   @Column(name = "unidad_min_despacho_x_tendido")
   private BigDecimal unidadMinDespachoXTendido;
-
   @Column(name = "unidad_peso")
   private String unidadPeso;
-
   private BigDecimal volumen;
-
   @Column(name = "volumen_embalaje")
   private BigDecimal volumenEmbalaje;
-
   @Column(name = "volumen_pallet")
   private BigDecimal volumenPallet;
-
   //bi-directional many-to-one association to ComextItemc
   @OneToMany(mappedBy = "productosInventarioComext", fetch = FetchType.LAZY)
   private List<ComextItemc> comextItemcs;
-
   //bi-directional many-to-one association to CuentaContable
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_cuenta_contable_ce")
   private CuentaContable cuentaContable;
-
   //bi-directional one-to-one association to ProductosInventario
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_producto")
   private ProductosInventario productosInventario;
-
   //bi-directional many-to-one association to TipoLoteoic
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_tipo_loteoic")
   private TipoLoteoic tipoLoteoic;
-
   //bi-directional many-to-one association to Unidad
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_unidad_embalaje")
