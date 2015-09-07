@@ -1,11 +1,21 @@
 package com.ssl.jv.gip.jpa.pojo;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.sql.Timestamp;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the usuarios database table.
@@ -78,6 +88,18 @@ public class Usuario implements Serializable {
   private List<UsuariosXGeografia> usuariosxgeografias;
 
   public Usuario() {
+  }
+  
+  public String getNombreCompleto(){
+  	StringBuilder sb = new StringBuilder();
+  	if (this.nombre != null && !this.nombre.isEmpty()){
+  		sb.append(this.nombre);
+  		sb.append(" ");
+  	}
+  	if (this.apellidos != null && !this.apellidos.isEmpty()){
+  		sb.append(this.apellidos);
+  	}
+  	return sb.toString();
   }
 
   public String getId() {

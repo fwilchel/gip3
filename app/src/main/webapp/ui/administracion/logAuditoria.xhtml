@@ -101,97 +101,106 @@
                 </p:outputPanel>
               </div>
             </f:facet>
-            <!--  -->
+            <!---->
             <p:column
-              headerText="#{msg.auditoriaId}"
-              style="width:40px;">
+              headerText="#{msg.auditoriaFecha}"
+              style="width:110px;"
+              sortBy="#{registro.fecha}">
               <h:outputText 
-                value="#{registro.idLog}" />
+                value="#{registro.fecha}">
+                <f:convertDateTime 
+                  pattern="yyyy-MM-dd HH:MM:SS"/>
+              </h:outputText>
             </p:column>
+            <!--  -->
+<!--             <p:column -->
+<!--               headerText="#{msg.auditoriaId}" -->
+<!--               style="width:40px;"> -->
+<!--               <h:outputText  -->
+<!--                 value="#{registro.idLog}" /> -->
+<!--             </p:column> -->
             <!---->
             <p:column
               headerText="#{msg.auditoriaIdUsuario}"
-              style="width:40px;">
+              style="width:60px;"
+              sortBy="#{registro.usuario.id}">
               <h:outputText 
                 value="#{registro.usuario.id}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaNomUsuario}"
-              style="width:60px;">
+              sortBy="#{registro.usuario.nombre}">
               <h:outputText 
-                value="#{registro.usuario.nombre}" />
+                value="#{registro.usuario.nombreCompleto}" />
             </p:column>
             <!---->
-            <p:column
-              headerText="#{msg.auditoriaAplUsuario}"
-              style="width:60px;">
-              <h:outputText 
-                value="#{registro.usuario.apellidos}" />
-            </p:column>
+<!--             <p:column -->
+<!--               headerText="#{msg.auditoriaAplUsuario}" -->
+<!--               style="width:60px;"> -->
+<!--               <h:outputText  -->
+<!--                 value="#{registro.usuario.apellidos}" /> -->
+<!--             </p:column> -->
+            <!---->
+<!--             <p:column -->
+<!--               headerText="#{msg.auditoriaIdFuncionalidad}" -->
+<!--               style="width:40px;"> -->
+<!--               <h:outputText  -->
+<!--                 value="#{registro.funcionalidad.id}" /> -->
+<!--             </p:column> -->
             <!---->
             <p:column
-              headerText="#{msg.auditoriaIdFuncionalidad}"
-              style="width:40px;">
-              <h:outputText 
-                value="#{registro.funcionalidad.id}" />
-            </p:column>
-            <!---->
-            <p:column
-              headerText="#{msg.auditoriaNomfuncionalidad}">
+              headerText="#{msg.auditoriaNomfuncionalidad}"
+              sortBy="#{registro.funcionalidad.nombre}">
               <h:outputText 
                 value="#{registro.funcionalidad.nombre}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaTabla}">
+              headerText="#{msg.auditoriaTabla}"
+              sortBy="#{registro.tabla}">
               <h:outputText 
                 value="#{registro.tabla}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaAccion}"
-              style="width:40px;">
+              style="width:40px;"
+              sortBy="#{registro.accion}">
               <h:outputText 
                 value="#{registro.accion}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaIdRegTabla}"
-              style="width:40px;">
+              style="width:80px;"
+              sortBy="#{registro.idRegTabla}">
               <h:outputText 
                 value="#{registro.idRegTabla}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaCampo}"
-              style="width:40px;">
+              style="width:80px;"
+              sortBy="#{registro.campo}">
               <h:outputText 
                 value="#{registro.campo}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaValorAnt}"
-              style="width:40px;">
+              style="width:80px;"
+              sortBy="#{registro.valorAnterior}">
               <h:outputText 
                 value="#{registro.valorAnterior}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaValorNue}"
-              style="width:40px;">
+              style="width:80px;"
+              sortBy="#{registro.valorNuevo}">
               <h:outputText 
                 value="#{registro.valorNuevo}" />
-            </p:column>
-            <!---->
-            <p:column
-              headerText="#{msg.auditoriaFecha}"
-              style="width:50px;">
-              <h:outputText 
-                value="#{registro.fecha}">
-                <f:convertDateTime 
-                  pattern="yyyy-MM-dd HH:MM:SS"/>
-              </h:outputText>
             </p:column>
           </p:dataTable>
         </h:form>
