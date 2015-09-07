@@ -30,6 +30,6 @@ public interface DocumentoXLoteDAOLocal extends IGenericDAO<DocumentoXLotesoic> 
 
   public List<DocumentoPorLotesInstruccionEmbarqueDTO> consultarDocumentosPorLotes(String strDocs, String strDocsMerca);
 
-  public void addConsecutivoLoteOIC_FP(Documento documento);
+  public void asignarLotesOIC(Documento fp);
 
 }

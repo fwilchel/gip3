@@ -664,7 +664,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
 
   @Override
-  public Documento crearFactura(Documento fp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductosXDocumento> pxd, Documento sp) {
+  public Documento crearFacturaProforma(Documento fp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductosXDocumento> pxd, Documento sp) {
     // crear el documento FP
     fp.setConsecutivoDocumento("FP1-" + this.documentoDAO.consultarProximoValorSecuencia("fp1_seq"));
     fp = (Documento) this.documentoDAO.add(fp);
@@ -680,8 +680,6 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
       productoxdocumento.getId().setIdDocumento(fp.getId());
       this.productoXDocumentoDAO.add(productoxdocumento);
     }
-    //asignar los lotes OIC
-    guardarLotesFP(fp);
     // cambiar de estado la SP a CERRADO
     sp.getEstadosxdocumento().getId().setIdEstado((long) ConstantesDocumento.CERRADO);
     this.documentoDAO.update(sp);
@@ -1701,8 +1699,8 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
 
   @Override
-  public void guardarLotesFP(Documento documento) {
-    documentoXLoteDAO.addConsecutivoLoteOIC_FP(documento);
+  public void asignarLotesOIC(Documento fp) {
+    documentoXLoteDAO.asignarLotesOIC(fp);
   }
 
   @Override

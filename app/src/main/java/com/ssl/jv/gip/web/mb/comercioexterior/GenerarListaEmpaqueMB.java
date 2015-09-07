@@ -99,7 +99,6 @@ public class GenerarListaEmpaqueMB extends UtilMB {
       ClienteDTO cliente = new ClienteDTO();
       cliente.setId(facturaProforma.getCliente().getId().toString());
       listaEmpaqueDTO.setCliente(cliente);
-      listaEmpaqueDTO.setSolicitudCafe(Boolean.TRUE);
       List<DocumentoXNegociacion> documentoXNegociacions = facturaProforma.getDocumentoXNegociacions();
       if (documentoXNegociacions != null && !documentoXNegociacions.isEmpty()) {
         listaEmpaqueDTO.setSolicitudCafe(documentoXNegociacions.get(0).getSolicitudCafe());

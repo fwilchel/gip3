@@ -219,7 +219,10 @@ public class GenerarFacturaPFMB extends UtilMB {
       productoDocumento.setFechaEntrega(new Timestamp(c.getTimeInMillis()));
       pxd.add(productoDocumento);
     }
-    fp = this.comercioEjb.crearFactura(fp, auditoria, dxn, pxd, this.spSelected);
+    fp = this.comercioEjb.crearFacturaProforma(fp, auditoria, dxn, pxd, this.spSelected);
+    //asignar los lotes OIC
+    this.comercioEjb.asignarLotesOIC(fp);
+
     String mensaje = AplicacionMB.getMessage("VentasFPExito_Crear", language);
     String parametros[] = new String[2];
     parametros[0] = "" + fp.getId();
