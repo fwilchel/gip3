@@ -1,290 +1,205 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/resources/#{menuMB.tema}/template/general.xhtml">
-
-  <ui:define name="title">#{msg.generalTituloSOC} .::#{msg.TituloVentasImpFacturaDirecta}::.</ui:define>
-
-  <ui:define name="contenido">
-    <p:spacer height="40"></p:spacer>
-    <h:form prependId="false" id="forma">
-
-      <p:messages id="msgs" showDetail="false" showSummary="true"
-                  globalOnly="false" showIcon="true"></p:messages>
-
-
-
-
-
-
-
-
-
-      <p:tabView id="tabPanel">
-        <p:tab title="#{msg.TituloVentasImpFacturaDirecta}">
-
-
-          <p:panelGrid columns="2"  styleClass="noBorders">
-
-            <p:outputLabel value="#{msg.NumeroFDFactura}" for="codigo"
-                           styleClass="negrita" />
-            <h:inputText value="#{imprimirFacturaDirectaMB.strConsecutivoDocumento}" id="codigo"
-                         required="false" maxlength="10" label="#{msg.buscadorSKU}" />
-            <p:message for="codigo"></p:message>
-
-
-
-            <p:commandButton value="#{msg.documentoEjecutarBusqueda}" icon="ui-icon-search" action="#{imprimirFacturaDirectaMB.consultarDocumento}"
-                             update="tablaDatos">
-            </p:commandButton>
-
-
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/resources/#{menuMB.tema}/template/general.xhtml">
+  <ui:define 
+    name="title">
+    #{msg.generalTituloSOC} .::#{msg.TituloVentasImpFacturaDirecta}::.
+  </ui:define>
+  <ui:define 
+    name="contenido">
+    <p:spacer 
+      height="40"/>
+    <h:form 
+      prependId="false" 
+      id="forma">
+      <p:messages 
+        id="msgs" 
+        showDetail="false" 
+        showSummary="true"
+        globalOnly="false" 
+        showIcon="true"/>
+      <p:tabView 
+        id="tabPanel">
+        <p:tab 
+          title="#{msg.TituloVentasImpFacturaDirecta}">
+          <p:panelGrid 
+            columns="2"  
+            styleClass="noBorders">
+            <p:outputLabel 
+              value="#{msg.NumeroFDFactura}" 
+              for="codigo"
+              styleClass="negrita" />
+            <h:inputText 
+              value="#{imprimirFacturaDirectaMB.consecutivoDocumento}" 
+              id="codigo"
+              required="false" 
+              maxlength="10" 
+              label="#{msg.buscadorSKU}" />
+            <p:message 
+              for="codigo"/>
+            <p:commandButton 
+              value="#{msg.documentoEjecutarBusqueda}" 
+              icon="ui-icon-search" 
+              action="#{imprimirFacturaDirectaMB.consultarDocumento}"
+              update="tablaDatos"/>
           </p:panelGrid>
-
-
-          <p:dataTable var="dato" widgetVar="datoTabla" id="tablaDatos"
-                       value="#{imprimirFacturaDirectaMB.list}" rows="10"
-                       emptyMessage="#{msg.ConsultarFormatoNovedadNoEncontrados}"
-                       paginator="true" paginatorPosition="bottom"
-                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                       rowsPerPageTemplate="5,10,15">
-
-
-
-
-            <p:column style="width:64px;text-align: center">
-              <p:commandButton oncomplete="PF('editarDialog2').show()"
-                               icon="ui-icon-zoomin"
-                               title="#{msg.TituloProdCE} #{msg.SubTituloCE}"
-                               update=":editarDlg2">
-                <f:setPropertyActionListener value="#{dato}"
-                                             target="#{imprimirFacturaDirectaMB.seleccionado}" />
+          <p:dataTable 
+            var="dato" 
+            widgetVar="datoTabla" 
+            id="tablaDatos"
+            value="#{imprimirFacturaDirectaMB.list}" 
+            rows="10"
+            emptyMessage="#{msg.ConsultarFormatoNovedadNoEncontrados}"
+            paginator="true" 
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
+            <p:column 
+              style="width:64px;text-align: center">
+              <p:commandButton 
+                oncomplete="PF('editarDialog2').show()"
+                icon="ui-icon-zoomin"
+                title="#{msg.TituloProdCE} #{msg.SubTituloCE}"
+                update=":editarDlg2">
+                <f:setPropertyActionListener 
+                  value="#{dato}"
+                  target="#{imprimirFacturaDirectaMB.fd}" />
               </p:commandButton>
             </p:column>
-
-            <p:column filterBy="#{dato.id}"
-                      headerText="#{msg.CodigoGipSP}"
-                      filterMatchMode="contains" sortBy="#{dato.id}">
+            <p:column 
+              filterBy="#{dato.id}"
+              headerText="#{msg.CodigoGipSP}"
+              filterMatchMode="contains" sortBy="#{dato.id}">
               <h:outputText value="#{dato.id}" />
             </p:column>
-
-            <p:column filterBy="#{dato.consecutivoDocumento}"
-                      headerText="#{msg.reporteFacturasConsecutivo}"
-                      filterMatchMode="contains" sortBy="#{dato.consecutivoDocumento}">
+            <p:column 
+              filterBy="#{dato.consecutivoDocumento}"
+              headerText="#{msg.reporteFacturasConsecutivo}"
+              filterMatchMode="contains" 
+              sortBy="#{dato.consecutivoDocumento}">
               <h:outputText value="#{dato.consecutivoDocumento}" />
             </p:column>
-
-            <p:column filterBy="#{dato.fechaGeneracion}"
-                      headerText="#{msg.FechaBusquedaFormatoNovedad}"
-                      filterMatchMode="contains" sortBy="#{dato.fechaGeneracion}">
-              <h:outputText value="#{dato.fechaGeneracion}" />
+            <p:column 
+              filterBy="#{dato.fechaGeneracion}"
+              headerText="#{msg.FechaBusquedaFormatoNovedad}"
+              filterMatchMode="contains" 
+              sortBy="#{dato.fechaGeneracion}">
+              <h:outputText 
+                value="#{dato.fechaGeneracion}" />
             </p:column>
-
-
-
           </p:dataTable>
-
-
-
         </p:tab>
       </p:tabView>
     </h:form>
-
-
     <p:dialog
       header="#{msg.TituloVentasImpFacturaDirecta}"
       widgetVar="editarDialog2" modal="true" showEffect="fade"
       hideEffect="fade" resizable="false" dynamic="true" id="editarDlg2">
       <h:form id="formaDlg2">
         <p:panelGrid columns="8"  styleClass="noBorders" >
-
-
           <p:outputLabel value="#{msg.recibiProductoDcoumento}" for="idDocumento" styleClass="negrita" />
-          <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.idDocumento}" id="idDocumento"/>
-
+          <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.idDocumento}" id="idDocumento"/>
           <p:outputLabel value="#{msg.RequisicionNombreCons}" for="consecutivoDocumento" styleClass="negrita" />
-          <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.consecutivoDocumento}" id="consecutivoDocumento"/>
-
-
+          <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.consecutivoDocumento}" id="consecutivoDocumento"/>
           <p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"  styleClass="negrita" />
-          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.fechaGeneracion}" />
-
+          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.fechaGeneracion}" />
           <p:outputLabel value="#{msg.VentasVDRel}"  styleClass="negrita" />
-          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.observacionDocumento}" />
-
-
+          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.observacionDocumento}" />
           <p:outputLabel value="#{msg.nomCliente}"  styleClass="negrita" />
-          <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.nombreCliente}" />
-
+          <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.nombreCliente}" />
           <p:outputLabel value="#{msg.maestroDireccionCliente}"  styleClass="negrita" />
-          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.direccionCliente}" />	
-
+          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.direccionCliente}" />	
           <p:outputLabel value="#{msg.maestroTelefonoCliente}"  styleClass="negrita" />
-          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.telefonoCliente}" />
-
-
-
-
-
-
-
-
-
-
-
-
+          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.telefonoCliente}" />
         </p:panelGrid>
-
-
-
-        <p:dataTable var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirFacturaDirectaMB.seleccionado2.idDocumento}"
-                     value="#{imprimirFacturaDirectaMB.listaDetalle}"
-                     rendered="#{not empty imprimirFacturaDirectaMB.listaDetalle}">
-
-
-
-
-
-
-
-
+        <p:dataTable 
+          var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirFacturaDirectaMB.fdDTO.idDocumento}"
+          value="#{imprimirFacturaDirectaMB.listaDetalle}"
+          rendered="#{not empty imprimirFacturaDirectaMB.listaDetalle}">
           <p:column headerText="#{msg.buscadorPxCSKU}">
             <h:outputText value="#{dato2.sku}" />
           </p:column>
-
           <p:column headerText="#{msg.buscadorNombreProducto}">
             <h:outputText value="#{dato2.nombre}" />
           </p:column>
-
           <p:column headerText="#{msg.recibiProductoUnidadVenta}">
             <h:outputText value="#{dato2.unidad}" />
           </p:column>
-
-
           <p:column headerText="#{msg.cantidadRemisionada}" styleClass="derecha">
             <h:outputText value="#{dato2.cantidad}" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
             </h:outputText>
           </p:column>
-
-
-
-
           <p:column headerText="#{msg.ventasVrUnitario}" styleClass="derecha">
             <h:outputText value="#{dato2.precio}" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               <f:convertNumber pattern="$#####,###,###,###.0"/>
             </h:outputText>
           </p:column>
-
           <p:column headerText="#{msg.VentasRemisionPorcDctoProd}" styleClass="derecha">
             <h:outputText value="#{dato2.valorDescuento}" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
             </h:outputText>
           </p:column>
-
-
           <p:column headerText="#{msg.VentasRemisionValorTotal}" styleClass="derecha">
             <h:outputText value="#{dato2.valorTotal}" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               <f:convertNumber pattern="$#####,###,###,###.0"/>
             </h:outputText>
           </p:column>
-
           <p:column headerText="#{msg.VentasRemisionPorcOtrosDctos}" styleClass="derecha">
             <h:outputText value="#{dato2.valorOtrosDescuento}" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
             </h:outputText>
           </p:column>
-
-
           <p:column headerText="#{msg.VentasRemisionPorcIva}" styleClass="derecha">
             <h:outputText value="#{dato2.valorIva}" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
             </h:outputText>
           </p:column>
-
-
-
-
-
-
-
-
-
-
-
         </p:dataTable>
-
-
-
-
-
         <p:spacer  height="30"></p:spacer>
-
-
         <p:panelGrid  styleClass="noBorders">
-
           <p:column>  <p:spacer width="800" height="10" /></p:column>
-
           <p:column>
-
-
-
             <p:panelGrid columns="2"  styleClass="noBorders">
-
               <p:outputLabel value="#{msg.VentasRemisionValorSubTotal}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorSubtotal}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorSubtotal}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
-
               <p:outputLabel value="#{msg.VentasRemisionValorDescuento}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorDescuento}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorDescuento}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
-
               <p:outputLabel value="#{msg.VentasValorIva10}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorIva10}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorIva10}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
-
               <p:outputLabel value="#{msg.VentasValorIva16}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorIva16}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorIva16}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
-
               <p:outputLabel value="#{msg.VentasValorIva5}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorIva5}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorIva5}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
-
               <p:outputLabel value="#{msg.VentasRemisionVRTotal}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.seleccionado2.valorTotal}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorTotal}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
-
-
-
             </p:panelGrid>
-
           </p:column>
-
         </p:panelGrid>
-
-
         <p:commandButton value="Reporte PDF" ajax="false"  icon="ui-icon-document">
           <p:fileDownload value="#{imprimirFacturaDirectaMB.reportePDF}" />
         </p:commandButton>		
-
       </h:form>
     </p:dialog>
-
   </ui:define>
-
-
-
 </ui:composition>
 
