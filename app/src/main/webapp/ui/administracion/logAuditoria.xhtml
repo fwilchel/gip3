@@ -78,7 +78,7 @@
             paginator="true"
             paginatorPosition="bottom"
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            rowsPerPageTemplate="5,10,15">
+            rowsPerPageTemplate="10,20,40">
             <f:facet 
               name="header">
               <div 
@@ -104,8 +104,7 @@
             <!---->
             <p:column
               headerText="#{msg.auditoriaFecha}"
-              style="width:110px;"
-              sortBy="#{registro.fecha}">
+              style="width:120px;">
               <h:outputText 
                 value="#{registro.fecha}">
                 <f:convertDateTime 
@@ -113,92 +112,83 @@
               </h:outputText>
             </p:column>
             <!--  -->
-<!--             <p:column -->
-<!--               headerText="#{msg.auditoriaId}" -->
-<!--               style="width:40px;"> -->
-<!--               <h:outputText  -->
-<!--                 value="#{registro.idLog}" /> -->
-<!--             </p:column> -->
+            <!--             <p:column -->
+            <!--               headerText="#{msg.auditoriaId}" -->
+            <!--               style="width:40px;"> -->
+            <!--               <h:outputText  -->
+            <!--                 value="#{registro.idLog}" /> -->
+            <!--             </p:column> -->
             <!---->
             <p:column
               headerText="#{msg.auditoriaIdUsuario}"
-              style="width:60px;"
-              sortBy="#{registro.usuario.id}">
+              style="width:60px;">
               <h:outputText 
                 value="#{registro.usuario.id}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaNomUsuario}"
-              sortBy="#{registro.usuario.nombre}">
+              headerText="#{msg.auditoriaNomUsuario}">
               <h:outputText 
                 value="#{registro.usuario.nombreCompleto}" />
             </p:column>
             <!---->
-<!--             <p:column -->
-<!--               headerText="#{msg.auditoriaAplUsuario}" -->
-<!--               style="width:60px;"> -->
-<!--               <h:outputText  -->
-<!--                 value="#{registro.usuario.apellidos}" /> -->
-<!--             </p:column> -->
+            <!--             <p:column -->
+            <!--               headerText="#{msg.auditoriaAplUsuario}" -->
+            <!--               style="width:60px;"> -->
+            <!--               <h:outputText  -->
+            <!--                 value="#{registro.usuario.apellidos}" /> -->
+            <!--             </p:column> -->
             <!---->
-<!--             <p:column -->
-<!--               headerText="#{msg.auditoriaIdFuncionalidad}" -->
-<!--               style="width:40px;"> -->
-<!--               <h:outputText  -->
-<!--                 value="#{registro.funcionalidad.id}" /> -->
-<!--             </p:column> -->
+            <!--             <p:column -->
+            <!--               headerText="#{msg.auditoriaIdFuncionalidad}" -->
+            <!--               style="width:40px;"> -->
+            <!--               <h:outputText  -->
+            <!--                 value="#{registro.funcionalidad.id}" /> -->
+            <!--             </p:column> -->
             <!---->
             <p:column
-              headerText="#{msg.auditoriaNomfuncionalidad}"
-              sortBy="#{registro.funcionalidad.nombre}">
+              headerText="#{msg.auditoriaNomfuncionalidad}">
               <h:outputText 
                 value="#{registro.funcionalidad.nombre}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaTabla}"
-              sortBy="#{registro.tabla}">
+              headerText="#{msg.auditoriaTabla}">
               <h:outputText 
                 value="#{registro.tabla}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaAccion}"
-              style="width:40px;"
-              sortBy="#{registro.accion}">
+              style="width:40px;">
               <h:outputText 
                 value="#{registro.accion}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaIdRegTabla}"
-              style="width:80px;"
-              sortBy="#{registro.idRegTabla}">
+              style="width:80px;">
               <h:outputText 
                 value="#{registro.idRegTabla}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaCampo}"
-              style="width:80px;"
-              sortBy="#{registro.campo}">
+              style="width:80px;">
               <h:outputText 
                 value="#{registro.campo}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaValorAnt}"
-              style="width:80px;"
-              sortBy="#{registro.valorAnterior}">
+              style="width:80px;">
               <h:outputText 
                 value="#{registro.valorAnterior}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaValorNue}"
-              style="width:80px;"
-              sortBy="#{registro.valorNuevo}">
+              style="width:80px;">
               <h:outputText 
                 value="#{registro.valorNuevo}" />
             </p:column>
