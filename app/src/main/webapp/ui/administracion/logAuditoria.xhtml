@@ -72,6 +72,7 @@
             value="#{logAuditoriaMB.listaAuditoriaLazyModel}" 
             sortField="idLog"
             sortMode="single" 
+            sortOrder="DESCENDING"
             lazy="true"
             rows="10"
             emptyMessage="#{msg.generalNoDatos}"
@@ -84,14 +85,6 @@
               <div 
                 align="right">
                 <p:outputPanel>
-                  <h:outputText 
-                    value="#{msg.generalBuscarTodosCampos}: " />
-                  <p:inputText 
-                    id="globalFilter"
-                    onkeyup="PF('tblRegistros').filter()" 
-                    style="width:150px"
-                    placeholder="#{msg.generalPalabrasBuscar}" />
-                  <p:spacer width="30"/>
                   <p:commandButton 
                     action="introduccion" 
                     title="#{msg.generalCancelar}" 
@@ -104,7 +97,8 @@
             <!---->
             <p:column
               headerText="#{msg.auditoriaFecha}"
-              style="width:120px;">
+              style="width:120px;"
+              sortBy="#{registro.fecha}">
               <h:outputText 
                 value="#{registro.fecha}">
                 <f:convertDateTime 
@@ -121,13 +115,15 @@
             <!---->
             <p:column
               headerText="#{msg.auditoriaIdUsuario}"
-              style="width:60px;">
+              style="width:60px;"
+              sortBy="#{registro.usuario.id}">
               <h:outputText 
                 value="#{registro.usuario.id}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaNomUsuario}">
+              headerText="#{msg.auditoriaNomUsuario}"
+              sortBy="#{registro.usuario.nombre}">
               <h:outputText 
                 value="#{registro.usuario.nombreCompleto}" />
             </p:column>
@@ -147,48 +143,55 @@
             <!--             </p:column> -->
             <!---->
             <p:column
-              headerText="#{msg.auditoriaNomfuncionalidad}">
+              headerText="#{msg.auditoriaNomfuncionalidad}"
+              sortBy="#{registro.funcionalidad.nombre}">
               <h:outputText 
                 value="#{registro.funcionalidad.nombre}" />
             </p:column>
             <!---->
             <p:column
-              headerText="#{msg.auditoriaTabla}">
+              headerText="#{msg.auditoriaTabla}"
+              sortBy="#{registro.tabla}">
               <h:outputText 
                 value="#{registro.tabla}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaAccion}"
-              style="width:40px;">
+              style="width:40px;"
+              sortBy="#{registro.accion}">
               <h:outputText 
                 value="#{registro.accion}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaIdRegTabla}"
-              style="width:80px;">
+              style="width:80px;"
+              sortBy="#{registro.idRegTabla}">
               <h:outputText 
                 value="#{registro.idRegTabla}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaCampo}"
-              style="width:80px;">
+              style="width:80px;"
+              sortBy="#{registro.campo}">
               <h:outputText 
                 value="#{registro.campo}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaValorAnt}"
-              style="width:80px;">
+              style="width:80px;"
+              sortBy="#{registro.valorAnterior}">
               <h:outputText 
                 value="#{registro.valorAnterior}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaValorNue}"
-              style="width:80px;">
+              style="width:80px;"
+              sortBy="#{registro.valorNuevo}">
               <h:outputText 
                 value="#{registro.valorNuevo}" />
             </p:column>

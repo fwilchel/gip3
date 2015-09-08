@@ -95,7 +95,13 @@ public class LogAuditoriaDAO extends GenericDAO<LogAuditoria> implements LogAudi
     if (!count && sortField != null && !sortField.equals("")) {
       orderBy.append("ORDER BY la.");
       orderBy.append(sortField);
-      orderBy.append(" DESC");
+      if (!sortOrder.equals(SortOrder.UNSORTED)) {
+        if (sortOrder.equals(SortOrder.ASCENDING)) {
+          orderBy.append(" ASC");
+        } else {
+          orderBy.append(" DESC");
+        }
+      }
     }
     StringBuilder jpql = new StringBuilder();
     jpql.append(select);
