@@ -12,7 +12,12 @@
     <h:head>
 
       <f:facet name="first">
-        <title><ui:insert name="title">.:: SOC ::.</ui:insert></title>
+        <title>
+          <ui:insert 
+            name="title">
+            #{msg.generalTituloSOC}
+          </ui:insert>
+        </title>
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/default/images/favicon.png" />
       </f:facet>
 

@@ -7,7 +7,7 @@
                 xmlns:misc="http://java.sun.com/jsf/composite/misc"
                 template="/resources/#{menuMB.tema}/template/general.xhtml">
 
-  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.itemsCLTitulo}::.</ui:define>
+  <ui:define name="title">#{msg.generalTituloSOC} .::#{msg.itemsCLTitulo}::.</ui:define>
 
   <ui:define name="contenido">
     <p:spacer height="40"></p:spacer>
@@ -245,43 +245,43 @@
                        rendered="#{itemsCLMB.seleccionado.tipo eq 7}" style="width:430px">
 
             <p:commandButton value="#{msg.itemsCLAdicionarRango}" oncomplete="PF('editarRangoDialog').show()"
-                               update=":editarRangoDlg" action="#{itemsCLMB.adicionarRango}"></p:commandButton>
+                             update=":editarRangoDlg" action="#{itemsCLMB.adicionarRango}"></p:commandButton>
 
             <p:dataTable id="rangos" var="rango" 
                          value="#{itemsCLMB.seleccionado.rangoCostoLogisticos}"
-                          style="margin-bottom:20px" emptyMessage="">
+                         style="margin-bottom:20px" emptyMessage="">
 
               <p:column headerText="#{msg.rangosCLdesde}" style="width:100px">
-              	<h:outputText value="#{rango.desde}" />
+                <h:outputText value="#{rango.desde}" />
               </p:column>
 
               <p:column headerText="#{msg.rangosCLhasta}" style="width:100px">
-              	<h:outputText value="#{rango.hasta}" />
+                <h:outputText value="#{rango.hasta}" />
               </p:column>
 
               <p:column headerText="#{msg.rangosCLunidad}" style="width:100px">
-              	<h:outputText value="#{rango.unidad.abreviacion}" />
+                <h:outputText value="#{rango.unidad.abreviacion}" />
               </p:column>
 
               <p:column headerText="#{msg.rangosCLvalor}" style="width:100px">
-              	<h:outputText value="#{rango.valor}" />
+                <h:outputText value="#{rango.valor}" />
               </p:column>
 
               <p:column headerText="#{msg.rangosCLmoneda}" style="width:100px">
-              	<h:outputText value="#{rango.moneda.id}" />
+                <h:outputText value="#{rango.moneda.id}" />
               </p:column>
 
 
 
 
               <p:column style="width:70px">
-              	<p:commandButton oncomplete="PF('editarRangoDialog').show()"
-                               icon="ui-icon-pencil" title="#{msg.generalEditar}"
-                               update=":editarRangoDlg">
-                <f:setPropertyActionListener value="#{rango}"
-                                             target="#{itemsCLMB.seleccionado2}" />
-              </p:commandButton>
-              
+                <p:commandButton oncomplete="PF('editarRangoDialog').show()"
+                                 icon="ui-icon-pencil" title="#{msg.generalEditar}"
+                                 update=":editarRangoDlg">
+                  <f:setPropertyActionListener value="#{rango}"
+                                               target="#{itemsCLMB.seleccionado2}" />
+                </p:commandButton>
+
                 <p:commandButton icon="ui-icon-close"
                                  action="#{itemsCLMB.eliminarRango}"
                                  title="#{msg.itemsCLEliminarRango}" update="rangos">
@@ -419,7 +419,7 @@
       </h:form>
     </p:dialog>
 
-	<p:dialog style="overflow:auto"
+    <p:dialog style="overflow:auto"
               header="EDITAR RANGO"
               widgetVar="editarRangoDialog" modal="true" showEffect="fade"
               hideEffect="fade" resizable="false" dynamic="true" id="editarRangoDlg">
@@ -435,19 +435,19 @@
                            styleClass="negrita" />
             <p:inputText value="#{itemsCLMB.seleccionado2.desde}" size="10" id="desde" required="true" label="#{msg.rangosCLdesde}" maxlength="10" />
             <p:message for="desde"></p:message>
-            
+
             <p:outputLabel value="#{msg.rangosCLhasta}" for="hasta"
                            styleClass="negrita" />
             <p:inputText value="#{itemsCLMB.seleccionado2.hasta}" size="10" id="hasta" required="true" label="#{msg.rangosCLhasta}" maxlength="10"/>
             <p:message for="hasta"></p:message>
-            
+
             <p:outputLabel value="#{msg.rangosCLunidad}" for="unidad"
                            styleClass="negrita" />
             <p:selectOneMenu value="#{itemsCLMB.seleccionado2.unidad.id}" style="width:90px" id="unidad">
-            	<f:selectItems value="#{itemsCLMB.unidades}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad.id}" />
+              <f:selectItems value="#{itemsCLMB.unidades}" var="unidad" itemLabel="#{unidad.nombre}" itemValue="#{unidad.id}" />
             </p:selectOneMenu>
             <p:message for="unidad"></p:message>
-            
+
             <p:outputLabel value="#{msg.rangosCLvalor}" for="valor"
                            styleClass="negrita" />
             <p:inputText value="#{itemsCLMB.seleccionado2.valor}" size="10" id="valor" required="true" label="#{msg.rangosCLvalor}" maxlength="10"/>
@@ -456,13 +456,13 @@
             <p:outputLabel value="#{msg.rangosCLmoneda}" for="moneda"
                            styleClass="negrita" />
             <p:selectOneMenu value="#{itemsCLMB.seleccionado2.moneda.id}" style="width:90px" id="moneda" required="true">
-                <f:selectItem itemLabel="" itemValue="" />
-            	<f:selectItems value="#{itemsCLMB.monedas}" var="moneda"
-                                     itemLabel="#{moneda.id}" itemValue="#{moneda.id}" />
+              <f:selectItem itemLabel="" itemValue="" />
+              <f:selectItems value="#{itemsCLMB.monedas}" var="moneda"
+                             itemLabel="#{moneda.id}" itemValue="#{moneda.id}" />
             </p:selectOneMenu>
             <p:message for="moneda"></p:message>
-            
-            
+
+
             <p:commandButton value="#{msg.generalGuardar}" icon="ui-icon-disk"
                              action="#{itemsCLMB.guardarRango}" update=":formaRangoDlg:registroDetalle, :formaDlg:registroDetalle, msgs2"></p:commandButton>
             <p:commandButton value="#{msg.generalCancelar}" process="@this"
@@ -470,12 +470,12 @@
               <p:resetInput target="registroDetalle" />
             </p:commandButton>
 
-		</p:panelGrid>
-		
-			
-		</p:outputPanel>
-		</h:form>
-		</p:dialog>
+          </p:panelGrid>
+
+
+        </p:outputPanel>
+      </h:form>
+    </p:dialog>
   </ui:define>
 
 </ui:composition>

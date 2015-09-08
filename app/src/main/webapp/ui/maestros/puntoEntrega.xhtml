@@ -8,7 +8,7 @@
   xmlns:misc="http://java.sun.com/jsf/composite/misc"
   template="/resources/#{menuMB.tema}/template/general.xhtml">
 
-  <ui:define name="title">.::(SOC) Sales Other of Channels::. .::#{msg.maestroPuntosVentaTituloFrame}::.</ui:define>
+  <ui:define name="title">#{msg.generalTituloSOC} .::#{msg.maestroPuntosVentaTituloFrame}::.</ui:define>
 
   <ui:define name="contenido">
 
@@ -300,7 +300,7 @@
               value="#{puntoEntregaMB.seleccionado.cliente.id}"
               label="#{msg.maestroCreModCiudadCliente}">
               <p:ajax 
-              	update="ubicacion"/>
+                update="ubicacion"/>
               <f:selectItem 
                 itemLabel="#{msg.generalSinSeleccionar}"
                 itemValue="" />
@@ -350,7 +350,7 @@
             <p:message 
               for="interlocutor"/>
 
-           <p:outputLabel 
+            <p:outputLabel 
               value="#{msg.puntoVentaUsuario}"
               for="usuario" 
               styleClass="negrita" />
@@ -370,7 +370,7 @@
             <p:message 
               for="usuario"/> 
 
-           <p:outputLabel 
+            <p:outputLabel 
               value="#{msg.puntoVentaUbicacion}"
               for="ubicacion" 
               styleClass="negrita" />
