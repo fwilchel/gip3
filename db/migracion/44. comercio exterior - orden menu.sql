@@ -1,11 +1,11 @@
-﻿select * from funcionalidades where id_funcionalidad_padre = 99 order by ordenar
+select * from funcionalidades where id_funcionalidad_padre = 99 order by ordenar;
 
 UPDATE funcionalidades SET ordenar = 1 WHERE id = 100;
 UPDATE funcionalidades SET ordenar = 2 WHERE id = 105;
-UPDATE funcionalidades SET ordenar = 3 WHERE id = 143;
-UPDATE funcionalidades SET ordenar = 4 WHERE id = 103;
-UPDATE funcionalidades SET ordenar = 5 WHERE id = 102;
-UPDATE funcionalidades SET ordenar = 6 WHERE id = 106;
+UPDATE funcionalidades SET ordenar = 3 WHERE id = 106;
+UPDATE funcionalidades SET ordenar = 4 WHERE id = 143;
+UPDATE funcionalidades SET ordenar = 5 WHERE id = 103;
+UPDATE funcionalidades SET ordenar = 6 WHERE id = 102;
 UPDATE funcionalidades SET ordenar = 7 WHERE id = 109;
 UPDATE funcionalidades SET ordenar = 8 WHERE id = 107;
 UPDATE funcionalidades SET ordenar = 9 WHERE id = 115;
