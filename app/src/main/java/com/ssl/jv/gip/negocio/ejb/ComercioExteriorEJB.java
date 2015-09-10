@@ -703,18 +703,29 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @Override
   public Documento crearSolicitudPedido(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, List<MovimientosInventarioComext> mice) {
+  	// crear el documento
     documento.setConsecutivoDocumento("SP1-" + this.documentoDAO.consultarProximoValorSecuencia("sp1_seq"));
     documento = (Documento) this.documentoDAO.add(documento);
+    // ingresar el registro de auditoria
+		auditoria.setTabla("Documentos");
+		auditoria.setAccion("CRE");
+		auditoria.setCampo(null);
+		auditoria.setValorAnterior(null);
+		auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
     auditoria.setIdRegTabla(documento.getId());
     auditoria.setValorNuevo(documento.getConsecutivoDocumento());
     this.logAuditoriaDAO.add(auditoria);
+    // crear el documento por negociacion
     documentoPorNegociacion.getPk().setIdDocumento(documento.getId());
     documentoXNegociacionDAO.add(documentoPorNegociacion);
+    // crear los productos asociados al documento
     for (ProductosXDocumento pxd : productos) {
       pxd.getId().setIdDocumento(documento.getId());
       this.productoXDocumentoDAO.add(pxd);
     }
+    // crear los movimientos de inventario
     for (MovimientosInventarioComext mic : mice) {
+    	mic.setConsecutivoDocumento(documento.getConsecutivoDocumento());
       mic = (MovimientosInventarioComext) movimientosInventarioComextDAO.add(mic);
       LogAuditoria aud = new LogAuditoria();
       aud.setIdUsuario(auditoria.getIdUsuario());
