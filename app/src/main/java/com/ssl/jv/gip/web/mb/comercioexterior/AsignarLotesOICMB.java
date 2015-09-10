@@ -3,7 +3,6 @@ package com.ssl.jv.gip.web.mb.comercioexterior;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -17,27 +16,15 @@ import org.apache.log4j.Logger;
 import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoic;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXLotesoicPK;
-import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
-import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
-import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
-import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
-import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
-import com.ssl.jv.gip.jpa.pojo.Moneda;
-import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.TipoLoteoic;
-import com.ssl.jv.gip.jpa.pojo.Ubicacion;
-import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.ProductoAsignarLoteOICDTO;
-import com.ssl.jv.gip.negocio.dto.ProductoGenerarFacturaPFDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
-import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
-import com.ssl.jv.gip.web.util.Utilidad;
+import javax.ejb.EJBTransactionRolledbackException;
 
 /**
  * <p>
@@ -91,13 +78,85 @@ public class AsignarLotesOICMB extends UtilMB {
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
 
-  public AsignarLotesOICMB() {
-
-  }
-
   @PostConstruct
   public void init() {
     currentTimeStamp = new Timestamp(System.currentTimeMillis());
+  }
+
+  public String buscarDocumentos() {
+    listaDocumentos = this.comercioEjb.consultarDocumentosSP(consecutivoDocumento);
+    this.deshabilitado = false;
+    return null;
+  }
+
+  public String consultarFacturaPF() {
+    productos = comercioEjb.consultarProductoPorDocumentoAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
+    this.totalCantidad = 0;
+    this.totalValorTotal = 0;
+    this.totalPesoNeto = 0;
+    this.totalPesoBruto = 0;
+    this.totalCantidadCajas = 0;
+    this.totalCantidadTendidos = 0;
+    this.totalCantidadPallets = 0;
+    for (ProductoAsignarLoteOICDTO p : productos) {
+      this.totalCantidad += p.getCantidad() == null ? 0 : p.getCantidad().doubleValue();
+      this.totalValorTotal += p.getValorTotal() == null ? 0 : p.getValorTotal().doubleValue();
+      this.totalPesoNeto += p.getTotalPesoNeto() == null ? 0 : p.getTotalPesoNeto().doubleValue();
+      this.totalPesoBruto += p.getTotalPesoBruto() == null ? 0 : p.getTotalPesoBruto().doubleValue();
+      this.totalCantidadCajas += p.getTotalCajas() == null ? 0 : p.getTotalCajas().doubleValue();
+      this.totalCantidadTendidos += p.getTotalCajasTendido() == null ? 0 : p.getTotalCajasTendido().doubleValue();
+      this.totalCantidadPallets += p.getTotalCajasPallet() == null ? 0 : p.getTotalCajasPallet().doubleValue();
+    }
+
+    System.out.println("doc0:" + this.documentoSeleccionado.getId());
+    System.out.println("doc1:" + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getTerminoIncoterm().getDescripcion());
+    System.out.println("doc2:" + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm());
+    System.out.println("doc3:" + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe20());
+    System.out.println("doc4:" + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe40());
+    System.out.println("doc5:" + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadDiasVigencia());
+    System.out.println("doc6:" + this.documentoSeleccionado.getCliente().getContacto());
+    System.out.println("doc7:" + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm());
+    lotes = comercioEjb.consultarProductoPorDocumentoLoteAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
+    return null;
+  }
+
+  public String asignarLotes() {
+    List<DocumentoXLotesoic> lista = new ArrayList<>();
+    if (lotes != null && !lotes.isEmpty()) {
+      for (ProductoLoteAsignarLoteOICDTO lote : this.lotes) {
+        if (lote != null) {
+          DocumentoXLotesoic docLote = new DocumentoXLotesoic();
+          docLote.setDocumento(this.documentoSeleccionado);
+          docLote.setTipoLoteoic(new TipoLoteoic());
+          docLote.setId(new DocumentoXLotesoicPK());
+          docLote.getId().setIdDocumento(this.documentoSeleccionado.getId());
+          docLote.getId().setIdTipoLote(lote.getTipoLote() == null ? null : lote.getTipoLote().longValue());
+          docLote.getTipoLoteoic().setId(lote.getTipoLote() == null ? null : lote.getTipoLote().longValue());
+          docLote.setFecha(new Timestamp(System.currentTimeMillis()));
+          docLote.setTotalCantidad(lote.getTotalCantidad());
+          docLote.setTotalCajas(lote.getTotalCajas());
+          docLote.setTotalPesoNeto(lote.getTotalPesoNeto());
+          docLote.setContribucion(new BigDecimal(0));
+          docLote.setDex(new BigDecimal(0));
+          lista.add(docLote);
+        }
+      }
+    }
+    documentoSeleccionado.getEstadosxdocumento().getId().setIdEstado((long) ConstantesDocumento.ASIGNADA);
+    try {
+      lista = this.comercioEjb.guardarLotes(lista, this.documentoSeleccionado);
+      for (int i = 0; i < lista.size(); i++) {
+        this.lotes.get(i).setConsecutivo(lista.get(i).getConsecutivo());
+      }
+      this.buscarDocumentos();
+      this.deshabilitado = true;
+    } catch (EJBTransactionRolledbackException e) {
+      if (this.isException(e, "pk_id_documentoxid_tipo_lote")) {
+        this.addMensajeError("A esta Solicitud de Pedido, ya se le asignarion Lotes OIC");
+      }
+      LOGGER.error(e);
+    }
+    return null;
 
   }
 
@@ -123,12 +182,6 @@ public class AsignarLotesOICMB extends UtilMB {
 
   public void setConsecutivoDocumento(String consecutivoDocumento) {
     this.consecutivoDocumento = consecutivoDocumento;
-  }
-
-  public String buscarDocumentos() {
-    listaDocumentos = this.comercioEjb.consultarDocumentosSP(consecutivoDocumento);
-    this.deshabilitado = false;
-    return null;
   }
 
   public boolean isDeshabilitado() {
@@ -227,88 +280,12 @@ public class AsignarLotesOICMB extends UtilMB {
     this.totalNegociacion = totalNegociacion;
   }
 
-  public String consultarFacturaPF() {
-    productos = comercioEjb.consultarProductoPorDocumentoAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
-    this.totalCantidad = 0;
-    this.totalValorTotal = 0;
-    this.totalPesoNeto = 0;
-    this.totalPesoBruto = 0;
-    this.totalCantidadCajas = 0;
-    this.totalCantidadTendidos = 0;
-    this.totalCantidadPallets = 0;
-    for (ProductoAsignarLoteOICDTO p : productos) {
-      this.totalCantidad += p.getCantidad() == null ? 0 : p.getCantidad().doubleValue();
-      this.totalValorTotal += p.getValorTotal() == null ? 0 : p.getValorTotal().doubleValue();
-      this.totalPesoNeto += p.getTotalPesoNeto() == null ? 0 : p.getTotalPesoNeto().doubleValue();
-      this.totalPesoBruto += p.getTotalPesoBruto() == null ? 0 : p.getTotalPesoBruto().doubleValue();
-      this.totalCantidadCajas += p.getTotalCajas() == null ? 0 : p.getTotalCajas().doubleValue();
-      this.totalCantidadTendidos += p.getTotalCajasTendido() == null ? 0 : p.getTotalCajasTendido().doubleValue();
-      this.totalCantidadPallets += p.getTotalCajasPallet() == null ? 0 : p.getTotalCajasPallet().doubleValue();
-    }
-    
-    System.out.println("doc0:"+this.documentoSeleccionado.getId());
-    System.out.println("doc1:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getTerminoIncoterm().getDescripcion());
-    System.out.println("doc2:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm());
-    System.out.println("doc3:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe20());
-    System.out.println("doc4:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadContenedoresDe40());
-    System.out.println("doc5:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCantidadDiasVigencia());
-    System.out.println("doc6:"+this.documentoSeleccionado.getCliente().getContacto());
-    System.out.println("doc7:"+this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getLugarIncoterm());
-    
-
-    
-    
-    /*
-     totalCostos = 0;
-     if (this.documentoSeleccionado.getDocumentoXNegociacions() != null && this.documentoSeleccionado.getDocumentoXNegociacions().size() > 0) {
-     totalCostos = this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoEntrega().doubleValue() + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoSeguro().doubleValue()
-     + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getCostoFlete().doubleValue() + this.documentoSeleccionado.getDocumentoXNegociacions().get(0).getOtrosGastos().doubleValue();
-     }
-     totalNegociacion = this.totalCostos + this.totalValorTotal;
-     */
-    lotes = comercioEjb.consultarProductoPorDocumentoLoteAsignarLotesOIC(this.documentoSeleccionado.getId(), this.documentoSeleccionado.getCliente().getId());
-    return null;
-  }
-
   public List<ProductoAsignarLoteOICDTO> getProductos() {
     return productos;
   }
 
   public void setProductos(List<ProductoAsignarLoteOICDTO> productos) {
     this.productos = productos;
-  }
-
-  public String asignarLotes() {
-    List<DocumentoXLotesoic> lista = new ArrayList<DocumentoXLotesoic>();
-    if (lotes != null && !lotes.isEmpty()) {
-        for (ProductoLoteAsignarLoteOICDTO lote : this.lotes) {
-        	if (lote != null) {
-                DocumentoXLotesoic docLote = new DocumentoXLotesoic();
-                docLote.setDocumento(this.documentoSeleccionado);
-                docLote.setTipoLoteoic(new TipoLoteoic());
-                docLote.setId(new DocumentoXLotesoicPK());
-                docLote.getId().setIdDocumento(this.documentoSeleccionado.getId());
-                docLote.getId().setIdTipoLote(lote.getTipoLote() == null ? null : lote.getTipoLote().longValue());
-                docLote.getTipoLoteoic().setId(lote.getTipoLote() == null ? null : lote.getTipoLote().longValue());
-                docLote.setFecha(new Timestamp(System.currentTimeMillis()));
-                docLote.setTotalCantidad(lote.getTotalCantidad());
-                docLote.setTotalCajas(lote.getTotalCajas());
-                docLote.setTotalPesoNeto(lote.getTotalPesoNeto());
-                docLote.setContribucion(new BigDecimal(0));
-                docLote.setDex(new BigDecimal(0));
-                lista.add(docLote);
-        	}
-          }
-    }
-    documentoSeleccionado.getEstadosxdocumento().getId().setIdEstado((long) ConstantesDocumento.ASIGNADA);
-    lista = this.comercioEjb.guardarLotes(lista, this.documentoSeleccionado);
-    for (int i = 0; i < lista.size(); i++) {
-      this.lotes.get(i).setConsecutivo(lista.get(i).getConsecutivo());
-    }
-    this.buscarDocumentos();
-    this.deshabilitado = true;
-    return null;
-
   }
 
   public MenuMB getMenu() {
