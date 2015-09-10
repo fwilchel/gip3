@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.annotation.PostConstruct;
@@ -29,15 +29,9 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
 import com.ssl.jv.gip.jpa.pojo.Estadosxdocumento;
 import com.ssl.jv.gip.jpa.pojo.EstadosxdocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
-import com.ssl.jv.gip.jpa.pojo.Moneda;
-import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
-import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
-import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
-import com.ssl.jv.gip.jpa.pojo.TipoMovimiento;
-import com.ssl.jv.gip.jpa.pojo.Unidad;
 import com.ssl.jv.gip.negocio.dto.ProductoSolicitudPedidoDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
@@ -47,8 +41,6 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Utilidad;
-
-import java.util.Map;
 
 /**
  * <p>
@@ -84,7 +76,7 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 	private List<SelectItem> terminosIncoterm;
 	private Boolean solicitudCafe;
 	private String nombreArchivo;
-	private List<ProductoSolicitudPedidoDTO> productos;
+	private List<ProductoSolicitudPedidoDTO> listaProductosXDocumentoDTO;
 	private boolean deshabilitado = true;
 	@ManagedProperty(value = "#{menuMB}")
 	private MenuMB menu;
@@ -107,6 +99,15 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 		}
 		this.terminosIncoterm = new ArrayList<>();
 	}
+	
+	private void reset(){
+		idCliente = null;
+		idTerminoIncoterm = null;
+		solicitudCafe = false;
+		nombreArchivo = null;
+		deshabilitado = true;
+		listaProductosXDocumentoDTO = null;
+	}
 
 	public void cargarTerminos() {
 		this.terminosIncoterm = new ArrayList<>();
@@ -128,7 +129,7 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 		}
 		this.nombreArchivo = event.getFile().getFileName();
 		Map<Long, BigDecimal> saldos = this.comercioEjb.consultarUltimosSaldos();
-		this.productos = new ArrayList<>();
+		this.listaProductosXDocumentoDTO = new ArrayList<>();
 		try {
 			boolean errorValidacion = false;
 			BufferedReader di = new BufferedReader(new InputStreamReader(event.getFile().getInputstream()));
@@ -198,7 +199,7 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 						errorValidacion = true;
 					}
 				}
-				this.productos.add(dto);
+				this.listaProductosXDocumentoDTO.add(dto);
 				// Consultar saldos
 				if (dto.getControlStock() != null && dto.getControlStock()) {
 					BigDecimal saldo = saldos.get(dto.getId());
@@ -228,23 +229,21 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 	}
 
 	public String generarSolicitudPedido() {
-		Documento documento = new Documento();
+		// se crea el documento
+		Documento sp = new Documento();
 		Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
 		EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
 		estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.ACTIVO);
 		estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
 		estadosxdocumento.setId(estadosxdocumentoPK);
-		documento.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
-		documento.setEstadosxdocumento(estadosxdocumento);
-		documento.setObservacionDocumento(null);
-		documento.setValorTotal(new BigDecimal(0));
-		documento.setCliente(new Cliente());
-		documento.getCliente().setId(this.idCliente);
-		documento.setDocumentoCliente("Cargue Manual");
-		documento.setNumeroFactura("0");
-		LogAuditoria auditoria = new LogAuditoria();
-		auditoria.setIdUsuario(menu.getUsuario().getId());
-		auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
+		sp.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
+		sp.setEstadosxdocumento(estadosxdocumento);
+		sp.setObservacionDocumento(null);
+		sp.setValorTotal(new BigDecimal(0));
+		sp.setCliente(new Cliente());
+		sp.getCliente().setId(this.idCliente);
+		sp.setDocumentoCliente("Cargue Manual");
+		sp.setNumeroFactura("0");
 		DocumentoXNegociacion dxn = new DocumentoXNegociacion();
 		dxn.setPk(new DocumentoXNegociacionPK());
 		dxn.getPk().setIdTerminoIncoterm(this.idTerminoIncoterm);
@@ -264,58 +263,23 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 		dxn.setLugarIncoterm(null);
 		dxn.setCantidadEstibas(0);
 		dxn.setPesoBrutoEstibas(0);
-		List<ProductosXDocumento> productos = new ArrayList<>();
-		List<MovimientosInventarioComext> mice = new ArrayList<>();
-		for (ProductoSolicitudPedidoDTO pxc : this.productos) {
-			if (pxc.isSeleccionado()) {
-				ProductosXDocumento productoDocumento = new ProductosXDocumento();
-				productoDocumento.setInformacion(false);
-				productoDocumento.setCalidad(false);
-				productoDocumento.setFechaEstimadaEntrega(documento.getFechaGeneracion());
-				productoDocumento.setFechaEntrega(documento.getFechaGeneracion());
-				productoDocumento.setId(new ProductosXDocumentoPK());
-				productoDocumento.getId().setIdProducto(pxc.getId());
-				productoDocumento.setCantidad1(pxc.getCantidad());
-				Unidad u = new Unidad();
-				u.setId(pxc.getIdUnidad());
-				productoDocumento.setUnidade(u); // unidad de venta
-				Moneda moneda = new Moneda();
-				moneda.setId("USD");
-				productoDocumento.setMoneda(moneda);
-				productoDocumento.setCantidad2(new BigDecimal(0));
-				productoDocumento.setValorUnitatrioMl(new BigDecimal(0));
-				productoDocumento.setValorUnitarioUsd(new BigDecimal(0));
-				productoDocumento.setValorTotal(new BigDecimal(0));
-				productoDocumento.setTotalPesoNetoItem(new BigDecimal(0));
-				productoDocumento.setTotalPesoBrutoItem(new BigDecimal(0));
-				productoDocumento.setCantidadCajasItem(new BigDecimal(0));
-				productoDocumento.setCantidadPalletsItem(new BigDecimal(0));
-				productoDocumento.setCantidadXEmbalaje(new BigDecimal(0));
-				Calendar c = Calendar.getInstance();
-				c.add(Calendar.DATE, 2);
-				productoDocumento.setFechaEstimadaEntrega(new Timestamp(c.getTimeInMillis()));
-				productoDocumento.setFechaEntrega(new Timestamp(c.getTimeInMillis()));
-				productos.add(productoDocumento);
-				if (pxc.getProductoInventarioComext().getControlStock() != null && pxc.getProductoInventarioComext().getControlStock()) {
-					MovimientosInventarioComext mi = new MovimientosInventarioComext();
-					mi.setCantidad(pxc.getCantidad());
-					mi.setFecha(new Timestamp(System.currentTimeMillis()));
-					mi.setProductosInventarioComext(pxc.getProductoInventarioComext());
-					mi.setSaldo(pxc.getSaldo());
-					mi.setTipoMovimiento(new TipoMovimiento());
-					mi.getTipoMovimiento().setId(1L);
-					mice.add(mi);
-				}
-			}
+		// auditoria
+		LogAuditoria auditoria = new LogAuditoria();
+		auditoria.setIdUsuario(menu.getUsuario().getId());
+		auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
+		// crear la sp
+		try {
+			sp = this.comercioEjb.crearSolicitudPedido(sp, auditoria, dxn, listaProductosXDocumentoDTO);
+			String mensaje = AplicacionMB.getMessage("VentasSPExito_Crear", language);
+			String parametros[] = new String[2];
+			parametros[0] = "" + sp.getId();
+			parametros[1] = sp.getConsecutivoDocumento();
+			mensaje = Utilidad.stringFormat(mensaje, parametros);
+			this.addMensajeInfo(mensaje);
+			this.reset();
+		} catch (Exception e) {
+			this.addMensajeError("No fue posible ingresar la solicitud");
 		}
-		documento = this.comercioEjb.crearSolicitudPedido(documento, auditoria, dxn, productos, mice);
-		String mensaje = AplicacionMB.getMessage("VentasSPExito_Crear", language);
-		String parametros[] = new String[2];
-		parametros[0] = "" + documento.getId();
-		parametros[1] = documento.getConsecutivoDocumento();
-		mensaje = Utilidad.stringFormat(mensaje, parametros);
-		this.addMensajeInfo(mensaje);
-		this.deshabilitado = true;
 		return null;
 	}
 
@@ -383,12 +347,12 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 		this.nombreArchivo = nombreArchivo;
 	}
 
-	public List<ProductoSolicitudPedidoDTO> getProductos() {
-		return productos;
+	public List<ProductoSolicitudPedidoDTO> getListaProductosXDocumentoDTO() {
+		return listaProductosXDocumentoDTO;
 	}
 
-	public void setProductos(List<ProductoSolicitudPedidoDTO> productos) {
-		this.productos = productos;
+	public void setListaProductosXDocumentoDTO(List<ProductoSolicitudPedidoDTO> listaProductosXDocumentoDTO) {
+		this.listaProductosXDocumentoDTO = listaProductosXDocumentoDTO;
 	}
 
 	public boolean isDeshabilitado() {

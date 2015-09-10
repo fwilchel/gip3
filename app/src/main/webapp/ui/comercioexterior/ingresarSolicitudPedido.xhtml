@@ -94,7 +94,7 @@
           </p:panelGrid>
           <p:dataTable 
             id="tablaRegistros"
-            value="#{ingresarSolicitudPedidoMB.productos}" 
+            value="#{ingresarSolicitudPedidoMB.listaProductosXDocumentoDTO}" 
             var="registro" 
             widgetVar="registrosTabla"
             sortField="nombre" 
@@ -107,7 +107,7 @@
                     value="#{msg.TituloGenerarSolicitudPedido}"
                     action="#{ingresarSolicitudPedidoMB.generarSolicitudPedido}"
                     disabled="#{ingresarSolicitudPedidoMB.deshabilitado}"
-                    update=":forma:msgs" />
+                    update="@form" />
                   <p:commandButton 
                     action="introduccion"
                     title="#{msg.generalCancelar}" 

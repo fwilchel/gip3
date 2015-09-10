@@ -3,8 +3,6 @@ package com.ssl.jv.gip.negocio.ejb;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -23,13 +21,11 @@ import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.LiquidacionCostoLogistico;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.ModalidadEmbarque;
-import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.RequerimientosXDocumento;
-import com.ssl.jv.gip.jpa.pojo.Reqxproducto;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncotermXMedioTransporte;
 import com.ssl.jv.gip.jpa.pojo.TerminosTransporte;
@@ -53,6 +49,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoImprimirLEDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoLoteAsignarLoteOICDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoODDTO;
 import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
+import com.ssl.jv.gip.negocio.dto.ProductoSolicitudPedidoDTO;
 
 import org.primefaces.model.SortOrder;
 
@@ -67,14 +64,14 @@ public interface ComercioExteriorEJBLocal {
    *
    * @return the list
    */
-  public List<DocumentoXLotesoic> consultarDocumentosPorLoteOIC();
+  List<DocumentoXLotesoic> consultarDocumentosPorLoteOIC();
 
   /**
    * Reiniciar consecutivo lote oic.
    *
    * @return the integer
    */
-  public Integer reiniciarConsecutivoLoteOIC();
+  Integer reiniciarConsecutivoLoteOIC();
 
   /**
    * Consultar cliente por id.
@@ -82,21 +79,21 @@ public interface ComercioExteriorEJBLocal {
    * @param idCliente the id cliente
    * @return the cliente
    */
-  public Cliente consultarClientePorId(Long idCliente);
+  Cliente consultarClientePorId(Long idCliente);
 
   /**
    * Consultar documentos costos inconterm
    *
    * @return the list
    */
-  public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm();
+  List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm();
 
   /**
    * Actualizar documento por negociacion.
    *
    * @param documento the documento
    */
-  public void actualizarDocumentoPorNegociacion(DocumentoIncontermDTO documento);
+  void actualizarDocumentoPorNegociacion(DocumentoIncontermDTO documento);
 
   /**
    * Consultar lista inconterm por cliente.
@@ -104,21 +101,21 @@ public interface ComercioExteriorEJBLocal {
    * @param idCliente the id cliente
    * @return the list
    */
-  public List<TerminoIncoterm> consultarListaIncontermPorCliente(Long idCliente);
+  List<TerminoIncoterm> consultarListaIncontermPorCliente(Long idCliente);
 
   /**
    * Consultar documentos solicitud pedido.
    *
    * @return the list
    */
-  public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
+  List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido();
 
   /**
    * Consultar documentos solicitud pedido.
    *
    * @return the list
    */
-  public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
+  List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro);
 
   /**
    * Consultar documentos general.
@@ -126,7 +123,7 @@ public interface ComercioExteriorEJBLocal {
    * @param filtro the filtro
    * @return the list
    */
-  public List<DocumentoIncontermDTO> consultarDocumentosGeneral(FiltroConsultaSolicitudDTO filtro);
+  List<DocumentoIncontermDTO> consultarDocumentosGeneral(FiltroConsultaSolicitudDTO filtro);
 
   /**
    * Metodo que consulta los documentos por uno o varios de los campos del filtro y adicionalmente paginados
@@ -149,14 +146,14 @@ public interface ComercioExteriorEJBLocal {
    *
    * @return the list
    */
-  public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
+  List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido();
 
   /**
    * Consultar lista solicitudes pedido.
    *
    * @return the list
    */
-  public List<ProductoPorClienteComExtDTO> consultarListaSolicitudesPedido(Long idDocumento, Long idCliente);
+  List<ProductoPorClienteComExtDTO> consultarListaSolicitudesPedido(Long idDocumento, Long idCliente);
 
   /**
    * Consultar lista productos por cliente ce.
@@ -166,7 +163,7 @@ public interface ComercioExteriorEJBLocal {
    * @param solicitudCafe the solicitud cafe
    * @return the list
    */
-  public List<ProductoPorClienteComExtDTO> consultarListaProductosPorClienteCE(Long idCliente, String idsProductos, Boolean solicitudCafe);
+  List<ProductoPorClienteComExtDTO> consultarListaProductosPorClienteCE(Long idCliente, String idsProductos, Boolean solicitudCafe);
 
   /**
    * Guardar solicitud pedido.
@@ -174,14 +171,14 @@ public interface ComercioExteriorEJBLocal {
    * @param documento the documento
    * @param listaSolicitudPedido the lista solicitud pedido
    */
-  public void guardarSolicitudPedido(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
+  void guardarSolicitudPedido(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
 
   /**
    * Actualizar estado documento.
    *
    * @param documento the documento
    */
-  public void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
+  void actualizarEstadoDocumento(DocumentoIncontermDTO documento);
 
   /**
    * Consultar ubicaciones por usuario.
@@ -189,69 +186,68 @@ public interface ComercioExteriorEJBLocal {
    * @param idUsuario the id usuario
    * @return the list
    */
-  public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
+  List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario);
 
-  public List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(Map<String, Object> parametros);
+  List<DatoContribucionCafeteraDTO> consultarDatosContribucionCafetera(Map<String, Object> parametros);
 
-  public List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(Map<String, Object> parametros);
+  List<DocumentoLotesContribucionCafeteriaDTO> consultarDocumentoLotesContribucionCafetera(Map<String, Object> parametros);
 
-  public List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(List<DocumentoLotesContribucionCafeteriaDTO> documentos);
+  List<DocumentoLotesContribucionCafeteriaDTO> guardarDocumentoLotesContribucionCafetera(List<DocumentoLotesContribucionCafeteriaDTO> documentos);
 
-  public List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
+  List<ListaEmpaqueDTO> consultarDocumentoPorFacturaProforma(String consecutivoFacturaProforma);
 
-  public List<Documento> consultarDocumento(Map<String, Object> parametros, Long[] idEstados);
+  List<Documento> consultarDocumento(Map<String, Object> parametros, Long[] idEstados);
 
-  public ListaEmpaqueDTO consultarDocumentoListaEmpaque(String consecutivoDocumento);
+  ListaEmpaqueDTO consultarDocumentoListaEmpaque(String consecutivoDocumento);
 
-  public List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(String strConsecutivoDocumento);
+  List<ProductoImprimirLEDTO> consultarProductoListaEmpaque(String strConsecutivoDocumento);
 
-  public List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento);
+  List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento);
 
-  public List<Documento> consultarDocumentosFacturaPF(String consecutivoDocumento);
+  List<Documento> consultarDocumentosFacturaPF(String consecutivoDocumento);
 
-  public List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente);
+  List<ProductoGenerarFacturaPFDTO> consultarProductoPorDocumentoGenerarFacturaProforma(Long idDocumento, Long idCliente);
 
-  public List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento, Long idCliente);
- 
-  public List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento, Long idCliente);
+  List<ProductoAsignarLoteOICDTO> consultarProductoPorDocumentoAsignarLotesOIC(Long idDocumento, Long idCliente);
+
+  List<ProductoLoteAsignarLoteOICDTO> consultarProductoPorDocumentoLoteAsignarLotesOIC(Long idDocumento, Long idCliente);
 
   List<ProductoDTO> consultarProductoPorDocumento(ListaEmpaqueDTO listaEmpaqueDTO);
 
-  //public Documento generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
-
+  //Documento generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
   Documento consultarDocumentoPorId(Long pId);
 
   void generarListaEmpaque(ProductoDTO productoDTO);
 
-  public Documento crearFacturaProforma(Documento fp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductosXDocumento> productos, Documento sp);
+  Documento crearFacturaProforma(Documento fp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductosXDocumento> productos, Documento sp);
 
-  public Documento crearFacturaExportacion(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, Documento original);
+  Documento crearFacturaExportacion(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, Documento original);
 
-  public List<DocumentoXLotesoic> guardarLotes(List<DocumentoXLotesoic> lista, Documento documento);
+  List<DocumentoXLotesoic> guardarLotes(List<DocumentoXLotesoic> lista, Documento documento);
 
-  public Documento crearSolicitudPedido(Documento documento, LogAuditoria auditoria, DocumentoXNegociacion documentoPorNegociacion, List<ProductosXDocumento> productos, List<MovimientosInventarioComext> mice);
+  Documento crearSolicitudPedido(Documento sp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductoSolicitudPedidoDTO> pxd);
 
-  public Map<Long, BigDecimal> consultarUltimosSaldos();
+  Map<Long, BigDecimal> consultarUltimosSaldos();
 
-  public ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku);
+  ProductosXClienteComext consultarPorClienteSku(Long idCliente, String sku);
 
-  public List<Documento> consultarDocumentosActivosPorTipoDocumentoYConsecutivoDocumento(Long idTipoDocumento, String consecutivoDocumento);
+  List<Documento> consultarDocumentosActivosPorTipoDocumentoYConsecutivoDocumento(Long idTipoDocumento, String consecutivoDocumento);
 
-  public List<ProductosInventario> consultarProductosInventariosPorSkus(List<String> skus);
+  List<ProductosInventario> consultarProductosInventariosPorSkus(List<String> skus);
 
-  public List<ProductosXDocumento> consultarProductosXDocumentosPorDocumento(Long idDocumento);
+  List<ProductosXDocumento> consultarProductosXDocumentosPorDocumento(Long idDocumento);
 
-  public void modificarListaEmpaque(Documento documento, List<ProductosXDocumento> productosXDocumentos);
+  void modificarListaEmpaque(Documento documento, List<ProductosXDocumento> productosXDocumentos);
 
-  public List<Documento> consultarFacturasDeExportacion();
+  List<Documento> consultarFacturasDeExportacion();
 
-  public List<Documento> consultarFacturasDeExportacionFiltro(Documento documento);
+  List<Documento> consultarFacturasDeExportacionFiltro(Documento documento);
 
-  public void actualizarFacturaDeExportacionFiltro(Documento documento);
+  void actualizarFacturaDeExportacionFiltro(Documento documento);
 
-  public List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
+  List<AutorizarDocumentoDTO> consultarDocumentosAutorizar(String consecutivoDocumento);
 
-  public void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado, LogAuditoria auditoria);
+  void cambiarEstadoFacturaProforma(List<AutorizarDocumentoDTO> listado, LogAuditoria auditoria);
 
   /**
    *
@@ -272,70 +268,70 @@ public interface ComercioExteriorEJBLocal {
    */
   void anularSolicitudPedido(Documento documento);
 
-  public List<Documento> consultarFacturasProformasParaGenerarListaEmpaque(String consecutivoDocumento);
+  List<Documento> consultarFacturasProformasParaGenerarListaEmpaque(String consecutivoDocumento);
 
-  public List<Cliente> listadoClientesInstruccionEmbarque(String idUsuario);
+  List<Cliente> listadoClientesInstruccionEmbarque(String idUsuario);
 
-  public List<DocumentoInstruccionEmbarqueDTO> listadoDocumentosInstruccionEmbarque(Long idCliente);
+  List<DocumentoInstruccionEmbarqueDTO> listadoDocumentosInstruccionEmbarque(Long idCliente);
 
-  public List<DocumentoPorLotesInstruccionEmbarqueDTO> consultarDocumentosPorLotes(String strDocs, String strDocsMerca);
+  List<DocumentoPorLotesInstruccionEmbarqueDTO> consultarDocumentosPorLotes(String strDocs, String strDocsMerca);
 
-  public List<AgenteAduana> consultarAgenteAduana();
+  List<AgenteAduana> consultarAgenteAduana();
 
-  public List<Pais> findByPaisTodos();
+  List<Pais> findByPaisTodos();
 
-  public List<TerminoIncoterm> findTerminoIncotermAll();
+  List<TerminoIncoterm> findTerminoIncotermAll();
 
-  public List<Ciudad> findCiudadesAll(String idPais);
+  List<Ciudad> findCiudadesAll(String idPais);
 
-  public List<ModalidadEmbarque> findModalidadEmbarque();
+  List<ModalidadEmbarque> findModalidadEmbarque();
 
-  public TerminosTransporte updateTerminoTransporte(TerminosTransporte terminosTransporte);
+  TerminosTransporte updateTerminoTransporte(TerminosTransporte terminosTransporte);
 
-  public String guardarInstruccionEmbarque(List<DocumentoInstruccionEmbarqueDTO> listadoDocumentos, TerminosTransporte terminosTransporte);
+  String guardarInstruccionEmbarque(List<DocumentoInstruccionEmbarqueDTO> listadoDocumentos, TerminosTransporte terminosTransporte);
 
-  public Documento generarListaEmpaque(Documento documento, DocumentoXNegociacion documentoXNegociacion, List<ProductoDTO> productoDTOs);
+  Documento generarListaEmpaque(Documento documento, DocumentoXNegociacion documentoXNegociacion, List<ProductoDTO> productoDTOs);
 
-  public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal);
+  List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal);
 
-  public List<Documento> consultarListaEmpaquesParaAsignarDatosTL(String consecutivo);
+  List<Documento> consultarListaEmpaquesParaAsignarDatosTL(String consecutivo);
 
-  public List<DocumentoXLotesoic> consultarDocumentosXLotesOICParaAsignarDatosTL(String consecutivo);
+  List<DocumentoXLotesoic> consultarDocumentosXLotesOICParaAsignarDatosTL(String consecutivo);
 
-  public void asignarDatosTL(Documento listaEmpaque, List<DocumentoXLotesoic> documentoXLotesoics);
+  void asignarDatosTL(Documento listaEmpaque, List<DocumentoXLotesoic> documentoXLotesoics);
 
-  public List<DocumentoIncontermDTO> consultarDocumentosAutorizadosParaModificarFacturaProforma();
+  List<DocumentoIncontermDTO> consultarDocumentosAutorizadosParaModificarFacturaProforma();
 
-  public List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(Long idDocumento, Long idCliente);
+  List<ProductoPorClienteComExtDTO> consultarListaProductosClienteFacturaProforma(Long idDocumento, Long idCliente);
 
-  public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado, LogAuditoria auditoria);
+  String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado, LogAuditoria auditoria);
 
   void actualizarEstadoDocumento(Documento documento);
 
-  public void actualizarEstadoDocumentoPorId(Documento documento);
+  void actualizarEstadoDocumentoPorId(Documento documento);
 
-  public List<String> consultarPuertosNacionales();
+  List<String> consultarPuertosNacionales();
 
-  public List<String> consultarPuertosInternacionales(String idPais);
+  List<String> consultarPuertosInternacionales(String idPais);
 
-  public List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente);
+  List<DocumentoCostosLogisticosDTO> consultarDocumentosCostosLogisticos(Long idCliente);
 
-  public List<Documento> consultarFacturasDeExportacionEstado(String consecutivoDocumento);
+  List<Documento> consultarFacturasDeExportacionEstado(String consecutivoDocumento);
 
-  public List<ProductoODDTO> consultarProductoPorDocumentoOrdenDespacho(Long idDocumento, Long idCliente, Boolean cafe);
+  List<ProductoODDTO> consultarProductoPorDocumentoOrdenDespacho(Long idDocumento, Long idCliente, Boolean cafe);
 
-  public List<Documento> consultarFP(String consecutivoDocumento);
+  List<Documento> consultarFP(String consecutivoDocumento);
 
-  // public int actualizarCostosLogisticos(Long idDocumento, Long
+  // int actualizarCostosLogisticos(Long idDocumento, Long
   // idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes, BigDecimal
   // valorSeguros, LiquidacionCostoLogistico lcl);
-  public int actualizarCostosLogisticos(BigDecimal valorTotal, BigDecimal fob, BigDecimal fletes, BigDecimal seguros, List<DocumentoCostosLogisticosDTO> documentos, LiquidacionCostoLogistico lcl);
+  int actualizarCostosLogisticos(BigDecimal valorTotal, BigDecimal fob, BigDecimal fletes, BigDecimal seguros, List<DocumentoCostosLogisticosDTO> documentos, LiquidacionCostoLogistico lcl);
 
-  public void generarReporteOrdenDespachoPDF(JasperPrint jasperPrint, Long id) throws ClassNotFoundException, IOException, JRException;
+  void generarReporteOrdenDespachoPDF(JasperPrint jasperPrint, Long id) throws ClassNotFoundException, IOException, JRException;
 
-  public void generarReporteOrdenDespachoExcel(JasperPrint jasperPrint, Long id) throws ClassNotFoundException, IOException, JRException;
+  void generarReporteOrdenDespachoExcel(JasperPrint jasperPrint, Long id) throws ClassNotFoundException, IOException, JRException;
 
-  public OutputStream generar(JasperPrint jasperPrint, String nombre, String tipo) throws JRException, IOException;
+  OutputStream generar(JasperPrint jasperPrint, String nombre, String tipo) throws JRException, IOException;
 
   void actualizarEstadoDocumento(Long id, Long estado);
 
@@ -347,38 +343,35 @@ public interface ComercioExteriorEJBLocal {
    */
   void anularFacturaFX(Documento documento);
 
-  public List<Documento> consultarDocumentosSP(String consecutivoDocumento);
+  List<Documento> consultarDocumentosSP(String consecutivoDocumento);
 
-  public List<Documento> consultarDocumentosOD(String consecutivoDocumento);
+  List<Documento> consultarDocumentosOD(String consecutivoDocumento);
 
-  public void asignarLotesOIC(Documento fp);
-  
+  void asignarLotesOIC(Documento fp);
+
   Documento consultarFX(Long id);
 
-  public List<DocumentoRequerimientoExportacionDTO> consultarDocumentosSolicitudPedidoRE(Map<String, Object> parametros);
+  List<DocumentoRequerimientoExportacionDTO> consultarDocumentosSolicitudPedidoRE(Map<String, Object> parametros);
 
-  public ComextRequerimientoexportacion crearRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion);
+  ComextRequerimientoexportacion crearRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion);
 
-  public List<ComextRequerimientoexportacionDTO> crearMarcacionEspecial(String id);
+  List<ComextRequerimientoexportacionDTO> crearMarcacionEspecial(String id);
 
-  public void crearReqxprod(List<ComextRequerimientoexportacionDTO> productos, long idrequerimiento, boolean selectedMarcacionEspecial);
+  void crearReqxprod(List<ComextRequerimientoexportacionDTO> productos, long idrequerimiento, boolean selectedMarcacionEspecial);
 
-  public ComextRequerimientoexportacion actualizarRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion);
+  ComextRequerimientoexportacion actualizarRequerimientoExportacion(ComextRequerimientoexportacion comextRequerimientoexportacion);
 
- public void crearRequerimientoxdocumento(List<DocumentoRequerimientoExportacionDTO> listaDocumentos,long idrequerimiento);
+  void crearRequerimientoxdocumento(List<DocumentoRequerimientoExportacionDTO> listaDocumentos, long idrequerimiento);
 
- public List<RequerimientosXDocumento> consultarComextRequerimientoExportacionXDocumento(Long id);
+  List<RequerimientosXDocumento> consultarComextRequerimientoExportacionXDocumento(Long id);
 
- //public void actualizarComextRequerimientoExportacionEstado(Long id);
+  //void actualizarComextRequerimientoExportacionEstado(Long id);
+  void actualizarComextRequerimientoExportacionEstado(DocumentoRequerimientoExportacionDTO requerimiento);
 
- public void actualizarComextRequerimientoExportacionEstado(DocumentoRequerimientoExportacionDTO requerimiento);
+  List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionEstado(Integer idEstado);
 
- public List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionEstado(Integer idEstado);
+  List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionEstadoXConsecutivo(Integer idEstado, Long id);
 
-List<ComextRequerimientoexportacion> consultarComextRequerimientoExportacionEstadoXConsecutivo(Integer idEstado, Long id);
-
-void actualizarReqxprod(List<ComextRequerimientoexportacionDTO> productos,long idrequerimiento, boolean selectedMarcacionEspecial);
-
-
+  void actualizarReqxprod(List<ComextRequerimientoexportacionDTO> productos, long idrequerimiento, boolean selectedMarcacionEspecial);
 
 }
