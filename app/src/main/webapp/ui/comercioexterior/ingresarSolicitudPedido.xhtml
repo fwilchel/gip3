@@ -93,19 +93,13 @@
               value="#{msg.fileupload_button}" />
           </p:panelGrid>
           <p:dataTable 
+            id="tablaRegistros"
+            value="#{ingresarSolicitudPedidoMB.productos}" 
             var="registro" 
             widgetVar="registrosTabla"
             sortField="nombre" 
-            id="tablaRegistros"
-            value="#{ingresarSolicitudPedidoMB.productos}" 
-            rows="15"
-            emptyMessage="#{msg.MaestroInventarioNoEncontrados}"
             sortMode="single" 
-            paginator="true" 
-            paginatorPosition="bottom"
-            lazy="true"
-            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            rowsPerPageTemplate="20,50,100">
+            emptyMessage="#{msg.MaestroInventarioNoEncontrados}">
             <f:facet name="header">
               <div align="right">
                 <p:outputPanel>
