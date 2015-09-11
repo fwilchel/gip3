@@ -14,7 +14,7 @@ import javax.persistence.*;
   @NamedQuery(name = PuntoVenta.FIND_BY_ID, query = "SELECT p FROM PuntoVenta p JOIN FETCH p.cliente JOIN FETCH p.ubicacion WHERE p.id = :id"),
   @NamedQuery(name = "PuntoVenta.findAll", query = "SELECT p FROM PuntoVenta p"),
   @NamedQuery(name = "PuntoVenta.findByCliente", query = "SELECT p FROM PuntoVenta p WHERE p.cliente.id = :idCliente"),
-  @NamedQuery(name = PuntoVenta.FIND_BY_USUARIO, query = "SELECT p FROM PuntoVenta p JOIN FETCH p.cliente JOIN FETCH p.ubicacion WHERE p.usuario.id = :idUsuario"),
+  @NamedQuery(name = PuntoVenta.FIND_BY_USUARIO, query = "SELECT p FROM PuntoVenta p JOIN FETCH p.cliente WHERE p.usuario.id = :idUsuario"),
   @NamedQuery(name = PuntoVenta.FIND_BY_CODIGO_BARRAS, query = "SELECT p FROM PuntoVenta p WHERE p.codigoBarras = :codigoBarras")
 })
 public class PuntoVenta implements Serializable {
