@@ -23,6 +23,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoPorClienteComExtDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.util.Modo;
 
 /**
  * The Class SolicitudPedidoMB.
@@ -31,231 +32,46 @@ import com.ssl.jv.gip.web.mb.UtilMB;
 @ViewScoped
 public class SolicitudPedidoMB extends UtilMB {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
-
-  /**
-   * The lista documentos.
-   */
-  private ArrayList<DocumentoIncontermDTO> listaDocumentos = new ArrayList<DocumentoIncontermDTO>();
-
-  /**
-   * The lista termino inconterm.
-   */
-  private List<TerminoIncoterm> listaTerminoInconterm;
-
-  /**
-   * The lista ubicaciones.
-   */
-  private List<Ubicacion> listaUbicaciones;
-
-  /**
-   * The lista solicitud pedido.
-   */
-  private List<ProductoPorClienteComExtDTO> listaSolicitudPedido = new ArrayList<ProductoPorClienteComExtDTO>();
-
-  /**
-   * The lista productos mostrar uno.
-   */
-  private List<ProductoPorClienteComExtDTO> listaProductosMostrarUno = new ArrayList<ProductoPorClienteComExtDTO>();
-
-  /**
-   * The seleccionado.
-   */
-  private DocumentoIncontermDTO seleccionado;
-
-  /**
-   * The total valor t.
-   */
-  private BigDecimal totalValorT = new BigDecimal(0.00);
-
-  /**
-   * The cantidad valor t.
-   */
-  private BigDecimal cantidadValorT = new BigDecimal(0.00);
-
-  /**
-   * The valor peso neto t.
-   */
-  private BigDecimal valorPesoNetoT = new BigDecimal(0.00);
-
-  /**
-   * The valor peso bruto t.
-   */
-  private BigDecimal valorPesoBrutoT = new BigDecimal(0.00);
-
-  /**
-   * The valor cajas pallet t.
-   */
-  private BigDecimal valorCajasPalletT = new BigDecimal(0.00);
-
-  /**
-   * The valor cajas tendido t.
-   */
-  private BigDecimal valorCajasTendidoT = new BigDecimal(0.00);
-
-  /**
-   * The valor cajas t.
-   */
-  private BigDecimal valorCajasT = new BigDecimal(0.00);
-
-  /**
-   * The dbl total precio.
-   */
-  private BigDecimal dblTotalPrecio = new BigDecimal(0.00);
-
-  /**
-   * The comercio ejb.
-   */
   @EJB
   private ComercioExteriorEJB comercioEjb;
-
-  /**
-   * The menu.
-   */
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
-
-  /**
-   * Instantiates a new ingresar costos inconterm mb.
-   */
-  public SolicitudPedidoMB() {
-
-  }
+  private Modo modo;
+  private ArrayList<DocumentoIncontermDTO> listaDocumentos = new ArrayList<>();
+  private List<TerminoIncoterm> listaTerminoInconterm;
+  private List<Ubicacion> listaUbicaciones;
+  private List<ProductoPorClienteComExtDTO> listaSolicitudPedido = new ArrayList<>();
+  private List<ProductoPorClienteComExtDTO> listaProductosMostrarUno = new ArrayList<>();
+  private DocumentoIncontermDTO seleccionado;
+  private BigDecimal totalValorT = new BigDecimal(0.00);
+  private BigDecimal cantidadValorT = new BigDecimal(0.00);
+  private BigDecimal valorPesoNetoT = new BigDecimal(0.00);
+  private BigDecimal valorPesoBrutoT = new BigDecimal(0.00);
+  private BigDecimal valorCajasPalletT = new BigDecimal(0.00);
+  private BigDecimal valorCajasTendidoT = new BigDecimal(0.00);
+  private BigDecimal valorCajasT = new BigDecimal(0.00);
+  private BigDecimal dblTotalPrecio = new BigDecimal(0.00);
 
   /**
    * Inits the.
    */
   @PostConstruct
   public void init() {
-	listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
-  }
-
-  /**
-   * Refrescar totales.
-   */
-  public void refrescarTotales() {
-	BigDecimal ValorTotal = new BigDecimal(0);
-	BigDecimal ValorPesoNeto = new BigDecimal(0);
-	BigDecimal ValorPesoBruto = new BigDecimal(0);
-	BigDecimal ValorCajas = new BigDecimal(0);
-	BigDecimal ValorCajasTendido = new BigDecimal(0);
-	BigDecimal ValorCajasPallet = new BigDecimal(0);
-
-	totalValorT = new BigDecimal(0);
-	cantidadValorT = new BigDecimal(0);
-	valorPesoNetoT = new BigDecimal(0);
-	valorPesoBrutoT = new BigDecimal(0);
-	valorCajasTendidoT = new BigDecimal(0);
-	valorCajasPalletT = new BigDecimal(0);
-	valorCajasT = new BigDecimal(0);
-	dblTotalPrecio = new BigDecimal(0);
-
-	if (listaSolicitudPedido != null && !listaSolicitudPedido.isEmpty()) {
-	  for (ProductoPorClienteComExtDTO pxc : listaSolicitudPedido) {
-		if (pxc.isBlnIncluirBusqueda()) {
-
-		  ValorTotal = pxc.getDblCantidad1ProductoxDocumento().multiply(pxc.getDblPrecioUSD());
-
-		  if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
-			ValorPesoNeto = (pxc.getDblPesoNetoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN)).multiply(pxc.getDblCantidad1ProductoxDocumento());
-			ValorPesoBruto = (pxc.getDblPesoBrutoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN)).multiply(pxc.getDblCantidad1ProductoxDocumento());
-			ValorCajas = pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN);
-		  } else {
-			ValorPesoNeto = new BigDecimal(0);
-			ValorPesoBruto = new BigDecimal(0);
-			ValorCajas = new BigDecimal(0);
-		  }
-
-		  if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1 && pxc.getDblCantCajasXTendidoProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
-			ValorCajasTendido = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN)).divide(pxc.getDblCantCajasXTendidoProductoInventarioCE(), 2, RoundingMode.HALF_DOWN);
-		  } else {
-			ValorCajasTendido = new BigDecimal(0);
-		  }
-
-		  if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1 && pxc.getDblTotalCajasXPalletProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
-			BigDecimal cantidad1ProductoxDocumento = pxc.getDblCantidad1ProductoxDocumento().setScale(2);
-			BigDecimal cantidadXEmbalajeProductoInventarioCE = pxc.getDblCantidadXEmbalajeProductoInventarioCE().setScale(2);
-			BigDecimal totalCajasXPalletProductoInventarioCE = pxc.getDblTotalCajasXPalletProductoInventarioCE().setScale(2);
-			ValorCajasPallet = cantidad1ProductoxDocumento.divide(cantidadXEmbalajeProductoInventarioCE, 2, RoundingMode.HALF_DOWN).divide(totalCajasXPalletProductoInventarioCE, 2, RoundingMode.HALF_DOWN);
-		  } else {
-			ValorCajasPallet = new BigDecimal(0);
-		  }
-
-		  totalValorT = totalValorT.add(ValorTotal);
-
-		  cantidadValorT = cantidadValorT.add(pxc.getDblCantidad1ProductoxDocumento());
-
-		  valorPesoNetoT = valorPesoNetoT.add(ValorPesoNeto);
-		  valorPesoBrutoT = valorPesoBrutoT.add(ValorPesoBruto);
-		  valorCajasTendidoT = valorCajasTendidoT.add(ValorCajasTendido);
-		  valorCajasPalletT = valorCajasPalletT.add(ValorCajasPallet);
-		  valorCajasT = valorCajasT.add(ValorCajas);
-
-		  dblTotalPrecio = dblTotalPrecio.add(pxc.getDblPrecioUSD());
-
-		  pxc.setDblValorTotalProductoxDocumento(ValorTotal);
-
-		  pxc.setDblTotalPesoNeto(ValorPesoNeto);
-
-		  pxc.setDblTotalPesoBruto(ValorPesoBruto);
-
-		  pxc.setDblTotalCajas(ValorCajas);
-
-		  pxc.setDblTotalCajasTendido(ValorCajasTendido);
-
-		  pxc.setDblTotalCajasPallet(ValorCajasPallet);
-
-		}
-	  }
-	}
-
-  }
-
-  /**
-   * Consultar lista productosx cli.
-   */
-  public void consultarListaProductosxCli() {
-
-	listaProductosMostrarUno = new ArrayList<ProductoPorClienteComExtDTO>();
-
-	StringBuilder cadenaIdPrds = new StringBuilder("");
-
-	if (listaSolicitudPedido != null && !listaSolicitudPedido.isEmpty()) {
-	  int x = 0;
-	  for (ProductoPorClienteComExtDTO prdxcom : listaSolicitudPedido) {
-		if (x == listaSolicitudPedido.size() - 1) {
-		  cadenaIdPrds.append(prdxcom.getIntIdProductoInventario());
-		} else {
-		  cadenaIdPrds.append(prdxcom.getIntIdProductoInventario() + ",");
-		}
-		x++;
-	  }
-	}
-
-	listaProductosMostrarUno = comercioEjb.consultarListaProductosPorClienteCE(seleccionado.getClientesId(), cadenaIdPrds.toString(), seleccionado.getSolicitudCafe());
-
-  }
-
-  /**
-   * Gets the seleccionado.
-   *
-   * @return the seleccionado
-   */
-  public DocumentoIncontermDTO getSeleccionado() {
-	return seleccionado;
-  }
-
-  /**
-   * Sets the seleccionado.
-   *
-   * @param seleccionado
-   *          the new seleccionado
-   */
-  public void setSeleccionado(DocumentoIncontermDTO seleccionado) {
-	this.seleccionado = seleccionado;
+    this.modo = Modo.LISTAR;
+    this.listaTerminoInconterm = null;
+    this.listaSolicitudPedido = new ArrayList<>();
+    this.listaProductosMostrarUno = new ArrayList<>();
+    this.totalValorT = new BigDecimal(0.00);
+    this.cantidadValorT = new BigDecimal(0.00);
+    this.valorPesoNetoT = new BigDecimal(0.00);
+    this.valorPesoBrutoT = new BigDecimal(0.00);
+    this.valorCajasPalletT = new BigDecimal(0.00);
+    this.valorCajasTendidoT = new BigDecimal(0.00);
+    this.valorCajasT = new BigDecimal(0.00);
+    this.dblTotalPrecio = new BigDecimal(0.00);
+    this.seleccionado = new DocumentoIncontermDTO();
+    this.listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
   }
 
   /**
@@ -264,88 +80,179 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the string
    */
   public String consultarSolicitudPedido() {
-	// Consultar la lista inconterm poor cliente
-	listaTerminoInconterm = comercioEjb.consultarListaIncontermPorCliente(seleccionado.getClientesId());
-	listaSolicitudPedido = comercioEjb.consultarListaSolicitudesPedido(seleccionado.getIdDocumento(), seleccionado.getClientesId());
-	listaProductosMostrarUno = new ArrayList<ProductoPorClienteComExtDTO>();
-	this.refrescarTotales();
-	return "";
+    // Consultar la lista inconterm poor cliente
+    listaTerminoInconterm = comercioEjb.consultarListaIncontermPorCliente(seleccionado.getClientesId());
+    listaSolicitudPedido = comercioEjb.consultarListaSolicitudesPedido(seleccionado.getIdDocumento(), seleccionado.getClientesId());
+    listaProductosMostrarUno = new ArrayList<>();
+    this.refrescarTotales();
+    this.modo = Modo.EDITAR;
+    return "";
   }
 
-  public void cancelar() {
-	listaTerminoInconterm = null;
-	listaSolicitudPedido = new ArrayList<ProductoPorClienteComExtDTO>();
-	listaProductosMostrarUno = new ArrayList<ProductoPorClienteComExtDTO>();
-	totalValorT = new BigDecimal(0.00);
-	cantidadValorT = new BigDecimal(0.00);
-	valorPesoNetoT = new BigDecimal(0.00);
-	valorPesoBrutoT = new BigDecimal(0.00);
-	valorCajasPalletT = new BigDecimal(0.00);
-	valorCajasTendidoT = new BigDecimal(0.00);
-	valorCajasT = new BigDecimal(0.00);
-	dblTotalPrecio = new BigDecimal(0.00);
-	seleccionado = new DocumentoIncontermDTO();
-	listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
+  /**
+   * Refrescar totales.
+   */
+  public void refrescarTotales() {
+    BigDecimal ValorTotal = new BigDecimal(0);
+    BigDecimal ValorPesoNeto = new BigDecimal(0);
+    BigDecimal ValorPesoBruto = new BigDecimal(0);
+    BigDecimal ValorCajas = new BigDecimal(0);
+    BigDecimal ValorCajasTendido = new BigDecimal(0);
+    BigDecimal ValorCajasPallet = new BigDecimal(0);
+    totalValorT = new BigDecimal(0);
+    cantidadValorT = new BigDecimal(0);
+    valorPesoNetoT = new BigDecimal(0);
+    valorPesoBrutoT = new BigDecimal(0);
+    valorCajasTendidoT = new BigDecimal(0);
+    valorCajasPalletT = new BigDecimal(0);
+    valorCajasT = new BigDecimal(0);
+    dblTotalPrecio = new BigDecimal(0);
+    if (listaSolicitudPedido != null && !listaSolicitudPedido.isEmpty()) {
+      for (ProductoPorClienteComExtDTO pxc : listaSolicitudPedido) {
+        if (pxc.isBlnIncluirBusqueda()) {
+          ValorTotal = pxc.getDblCantidad1ProductoxDocumento().multiply(pxc.getDblPrecioUSD());
+          if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
+            ValorPesoNeto = (pxc.getDblPesoNetoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN)).multiply(pxc.getDblCantidad1ProductoxDocumento());
+            ValorPesoBruto = (pxc.getDblPesoBrutoEmbalajeProductoInventarioCE().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN)).multiply(pxc.getDblCantidad1ProductoxDocumento());
+            ValorCajas = pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN);
+          } else {
+            ValorPesoNeto = new BigDecimal(0);
+            ValorPesoBruto = new BigDecimal(0);
+            ValorCajas = new BigDecimal(0);
+          }
+          if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1 && pxc.getDblCantCajasXTendidoProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
+            ValorCajasTendido = (pxc.getDblCantidad1ProductoxDocumento().divide(pxc.getDblCantidadXEmbalajeProductoInventarioCE(), 2, RoundingMode.HALF_DOWN)).divide(pxc.getDblCantCajasXTendidoProductoInventarioCE(), 2, RoundingMode.HALF_DOWN);
+          } else {
+            ValorCajasTendido = new BigDecimal(0);
+          }
+          if (pxc.getDblCantidadXEmbalajeProductoInventarioCE().compareTo(new BigDecimal(0)) == 1 && pxc.getDblTotalCajasXPalletProductoInventarioCE().compareTo(new BigDecimal(0)) == 1) {
+            BigDecimal cantidad1ProductoxDocumento = pxc.getDblCantidad1ProductoxDocumento().setScale(2);
+            BigDecimal cantidadXEmbalajeProductoInventarioCE = pxc.getDblCantidadXEmbalajeProductoInventarioCE().setScale(2);
+            BigDecimal totalCajasXPalletProductoInventarioCE = pxc.getDblTotalCajasXPalletProductoInventarioCE().setScale(2);
+            ValorCajasPallet = cantidad1ProductoxDocumento.divide(cantidadXEmbalajeProductoInventarioCE, 2, RoundingMode.HALF_DOWN).divide(totalCajasXPalletProductoInventarioCE, 2, RoundingMode.HALF_DOWN);
+          } else {
+            ValorCajasPallet = new BigDecimal(0);
+          }
+          totalValorT = totalValorT.add(ValorTotal);
+          cantidadValorT = cantidadValorT.add(pxc.getDblCantidad1ProductoxDocumento());
+          valorPesoNetoT = valorPesoNetoT.add(ValorPesoNeto);
+          valorPesoBrutoT = valorPesoBrutoT.add(ValorPesoBruto);
+          valorCajasTendidoT = valorCajasTendidoT.add(ValorCajasTendido);
+          valorCajasPalletT = valorCajasPalletT.add(ValorCajasPallet);
+          valorCajasT = valorCajasT.add(ValorCajas);
+          dblTotalPrecio = dblTotalPrecio.add(pxc.getDblPrecioUSD());
+          pxc.setDblValorTotalProductoxDocumento(ValorTotal);
+          pxc.setDblTotalPesoNeto(ValorPesoNeto);
+          pxc.setDblTotalPesoBruto(ValorPesoBruto);
+          pxc.setDblTotalCajas(ValorCajas);
+          pxc.setDblTotalCajasTendido(ValorCajasTendido);
+          pxc.setDblTotalCajasPallet(ValorCajasPallet);
+        }
+      }
+    }
+  }
+
+  /**
+   * Consultar lista productosx cli.
+   */
+  public void consultarListaProductosxCli() {
+    listaProductosMostrarUno = new ArrayList<>();
+    StringBuilder cadenaIdPrds = new StringBuilder("");
+    if (listaSolicitudPedido != null && !listaSolicitudPedido.isEmpty()) {
+      int x = 0;
+      for (ProductoPorClienteComExtDTO prdxcom : listaSolicitudPedido) {
+        if (x == listaSolicitudPedido.size() - 1) {
+          cadenaIdPrds.append(prdxcom.getIntIdProductoInventario());
+        } else {
+          cadenaIdPrds.append(prdxcom.getIntIdProductoInventario() + ",");
+        }
+        x++;
+      }
+    }
+    listaProductosMostrarUno = comercioEjb.consultarListaProductosPorClienteCE(seleccionado.getClientesId(), cadenaIdPrds.toString(), seleccionado.getSolicitudCafe());
   }
 
   /**
    * Insertar producto tabla.
    */
   public void insertarProductoTabla() {
-	Iterator<ProductoPorClienteComExtDTO> iterator = listaProductosMostrarUno.iterator();
-	ProductoPorClienteComExtDTO objProducto = null;
-
-	Boolean yaEsta = false;
-	while (iterator.hasNext()) {
-	  objProducto = iterator.next();
-
-	  if (objProducto.isBlnIncluirBusqueda()) {
-
-		for (ProductoPorClienteComExtDTO vProducto : listaSolicitudPedido) {
-		  if (vProducto.getIntIdProductoInventario().equals(objProducto.getIntIdProductoInventario())) {
-			yaEsta = true;
-			break;
-		  }
-		}
-
-		if (!yaEsta) {
-		  listaSolicitudPedido.add(objProducto);
-		}
-	  }
-	  yaEsta = false;
-	}
-	objProducto = null;
+    Iterator<ProductoPorClienteComExtDTO> iterator = listaProductosMostrarUno.iterator();
+    ProductoPorClienteComExtDTO objProducto = null;
+    Boolean yaEsta = false;
+    while (iterator.hasNext()) {
+      objProducto = iterator.next();
+      if (objProducto.isBlnIncluirBusqueda()) {
+        for (ProductoPorClienteComExtDTO vProducto : listaSolicitudPedido) {
+          if (vProducto.getIntIdProductoInventario().equals(objProducto.getIntIdProductoInventario())) {
+            yaEsta = true;
+            break;
+          }
+        }
+        if (!yaEsta) {
+          listaSolicitudPedido.add(objProducto);
+        }
+      }
+      yaEsta = false;
+    }
+    objProducto = null;
   }
 
   /**
    * Guardar ajustes pedido.
    */
   public void guardarAjustesSP() {
+    this.refrescarTotales();
+    seleccionado.setValorTotalDocumento(totalValorT);
+    seleccionado.setIdUbicacionOrigen(seleccionado.getIdUbicacionDestino());
+    seleccionado.setTotalPesoNeto(valorPesoNetoT);
+    seleccionado.setTotalPesoBruto(valorPesoBrutoT);
+    seleccionado.setTotalTendidos(valorCajasTendidoT);
+    seleccionado.setTotalPallets(valorCajasPalletT);
+    seleccionado.setCantidadContenedores20(seleccionado.getCantidadContenedores20());
+    seleccionado.setCantidadContenedores40(seleccionado.getCantidadContenedores40());
+    seleccionado.setLugarIncoterm(seleccionado.getLugarIncoterm());
+    comercioEjb.guardarSolicitudPedido(seleccionado, listaSolicitudPedido);
+    this.addMensajeInfo("Se almaceno la solicitud de pedido exitosamente");
+    listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
+    for (DocumentoIncontermDTO vdoc : listaDocumentos) {
+      if (vdoc.getIdDocumento().equals(seleccionado.getIdDocumento())) {
+        seleccionado = vdoc;
+        break;
+      }
+    }
+    this.init();
+  }
 
-	this.refrescarTotales();
+  public void backToList() {
+    this.init();
+  }
 
-	seleccionado.setValorTotalDocumento(totalValorT);
-	seleccionado.setIdUbicacionOrigen(seleccionado.getIdUbicacionDestino());
-	seleccionado.setTotalPesoNeto(valorPesoNetoT);
-	seleccionado.setTotalPesoBruto(valorPesoBrutoT);
-	seleccionado.setTotalTendidos(valorCajasTendidoT);
-	seleccionado.setTotalPallets(valorCajasPalletT);
-	seleccionado.setCantidadContenedores20(seleccionado.getCantidadContenedores20());
-	seleccionado.setCantidadContenedores40(seleccionado.getCantidadContenedores40());
-	seleccionado.setLugarIncoterm(seleccionado.getLugarIncoterm());
+  public boolean renderedFormList() {
+    boolean showList = (modo == Modo.LISTAR);
+    return showList;
+  }
 
-	comercioEjb.guardarSolicitudPedido(seleccionado, listaSolicitudPedido);
+  public boolean renderedFormDetail() {
+    boolean showList = (modo == Modo.EDITAR);
+    return showList;
+  }
 
-	this.addMensajeInfo("Se almaceno la solicitud de pedido exitosamente");
-	listaDocumentos = (ArrayList<DocumentoIncontermDTO>) comercioEjb.consultarDocumentosSolicitudPedido();
-	for (DocumentoIncontermDTO vdoc : listaDocumentos) {
-	  if (vdoc.getIdDocumento().equals(seleccionado.getIdDocumento())) {
-		seleccionado = vdoc;
-		break;
-	  }
-	}
-	consultarSolicitudPedido();
+  /**
+   * Gets the seleccionado.
+   *
+   * @return the seleccionado
+   */
+  public DocumentoIncontermDTO getSeleccionado() {
+    return seleccionado;
+  }
 
+  /**
+   * Sets the seleccionado.
+   *
+   * @param seleccionado the new seleccionado
+   */
+  public void setSeleccionado(DocumentoIncontermDTO seleccionado) {
+    this.seleccionado = seleccionado;
   }
 
   /**
@@ -354,17 +261,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the lista documentos
    */
   public ArrayList<DocumentoIncontermDTO> getListaDocumentos() {
-	return listaDocumentos;
+    return listaDocumentos;
   }
 
   /**
    * Sets the lista documentos.
    *
-   * @param listaDocumentos
-   *          the new lista documentos
+   * @param listaDocumentos the new lista documentos
    */
   public void setListaDocumentos(ArrayList<DocumentoIncontermDTO> listaDocumentos) {
-	this.listaDocumentos = listaDocumentos;
+    this.listaDocumentos = listaDocumentos;
   }
 
   /**
@@ -373,17 +279,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the lista termino inconterm
    */
   public List<TerminoIncoterm> getListaTerminoInconterm() {
-	return listaTerminoInconterm;
+    return listaTerminoInconterm;
   }
 
   /**
    * Sets the lista termino inconterm.
    *
-   * @param listaTerminoInconterm
-   *          the new lista termino inconterm
+   * @param listaTerminoInconterm the new lista termino inconterm
    */
   public void setListaTerminoInconterm(List<TerminoIncoterm> listaTerminoInconterm) {
-	this.listaTerminoInconterm = listaTerminoInconterm;
+    this.listaTerminoInconterm = listaTerminoInconterm;
   }
 
   /**
@@ -392,17 +297,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the lista solicitud pedido
    */
   public List<ProductoPorClienteComExtDTO> getListaSolicitudPedido() {
-	return listaSolicitudPedido;
+    return listaSolicitudPedido;
   }
 
   /**
    * Sets the lista solicitud pedido.
    *
-   * @param listaSolicitudPedido
-   *          the new lista solicitud pedido
+   * @param listaSolicitudPedido the new lista solicitud pedido
    */
   public void setListaSolicitudPedido(List<ProductoPorClienteComExtDTO> listaSolicitudPedido) {
-	this.listaSolicitudPedido = listaSolicitudPedido;
+    this.listaSolicitudPedido = listaSolicitudPedido;
   }
 
   /**
@@ -411,17 +315,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the total valor t
    */
   public BigDecimal getTotalValorT() {
-	return totalValorT;
+    return totalValorT;
   }
 
   /**
    * Sets the total valor t.
    *
-   * @param totalValorT
-   *          the new total valor t
+   * @param totalValorT the new total valor t
    */
   public void setTotalValorT(BigDecimal totalValorT) {
-	this.totalValorT = totalValorT;
+    this.totalValorT = totalValorT;
   }
 
   /**
@@ -430,17 +333,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the cantidad valor t
    */
   public BigDecimal getCantidadValorT() {
-	return cantidadValorT;
+    return cantidadValorT;
   }
 
   /**
    * Sets the cantidad valor t.
    *
-   * @param cantidadValorT
-   *          the new cantidad valor t
+   * @param cantidadValorT the new cantidad valor t
    */
   public void setCantidadValorT(BigDecimal cantidadValorT) {
-	this.cantidadValorT = cantidadValorT;
+    this.cantidadValorT = cantidadValorT;
   }
 
   /**
@@ -449,17 +351,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the valor peso neto t
    */
   public BigDecimal getValorPesoNetoT() {
-	return valorPesoNetoT;
+    return valorPesoNetoT;
   }
 
   /**
    * Sets the valor peso neto t.
    *
-   * @param valorPesoNetoT
-   *          the new valor peso neto t
+   * @param valorPesoNetoT the new valor peso neto t
    */
   public void setValorPesoNetoT(BigDecimal valorPesoNetoT) {
-	this.valorPesoNetoT = valorPesoNetoT;
+    this.valorPesoNetoT = valorPesoNetoT;
   }
 
   /**
@@ -468,17 +369,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the valor peso bruto t
    */
   public BigDecimal getValorPesoBrutoT() {
-	return valorPesoBrutoT;
+    return valorPesoBrutoT;
   }
 
   /**
    * Sets the valor peso bruto t.
    *
-   * @param valorPesoBrutoT
-   *          the new valor peso bruto t
+   * @param valorPesoBrutoT the new valor peso bruto t
    */
   public void setValorPesoBrutoT(BigDecimal valorPesoBrutoT) {
-	this.valorPesoBrutoT = valorPesoBrutoT;
+    this.valorPesoBrutoT = valorPesoBrutoT;
   }
 
   /**
@@ -487,17 +387,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the valor cajas pallet t
    */
   public BigDecimal getValorCajasPalletT() {
-	return valorCajasPalletT;
+    return valorCajasPalletT;
   }
 
   /**
    * Sets the valor cajas pallet t.
    *
-   * @param valorCajasPalletT
-   *          the new valor cajas pallet t
+   * @param valorCajasPalletT the new valor cajas pallet t
    */
   public void setValorCajasPalletT(BigDecimal valorCajasPalletT) {
-	this.valorCajasPalletT = valorCajasPalletT;
+    this.valorCajasPalletT = valorCajasPalletT;
   }
 
   /**
@@ -506,17 +405,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the valor cajas tendido t
    */
   public BigDecimal getValorCajasTendidoT() {
-	return valorCajasTendidoT;
+    return valorCajasTendidoT;
   }
 
   /**
    * Sets the valor cajas tendido t.
    *
-   * @param valorCajasTendidoT
-   *          the new valor cajas tendido t
+   * @param valorCajasTendidoT the new valor cajas tendido t
    */
   public void setValorCajasTendidoT(BigDecimal valorCajasTendidoT) {
-	this.valorCajasTendidoT = valorCajasTendidoT;
+    this.valorCajasTendidoT = valorCajasTendidoT;
   }
 
   /**
@@ -525,17 +423,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the valor cajas t
    */
   public BigDecimal getValorCajasT() {
-	return valorCajasT;
+    return valorCajasT;
   }
 
   /**
    * Sets the valor cajas t.
    *
-   * @param valorCajasT
-   *          the new valor cajas t
+   * @param valorCajasT the new valor cajas t
    */
   public void setValorCajasT(BigDecimal valorCajasT) {
-	this.valorCajasT = valorCajasT;
+    this.valorCajasT = valorCajasT;
   }
 
   /**
@@ -544,17 +441,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the dbl total precio
    */
   public BigDecimal getDblTotalPrecio() {
-	return dblTotalPrecio;
+    return dblTotalPrecio;
   }
 
   /**
    * Sets the dbl total precio.
    *
-   * @param dblTotalPrecio
-   *          the new dbl total precio
+   * @param dblTotalPrecio the new dbl total precio
    */
   public void setDblTotalPrecio(BigDecimal dblTotalPrecio) {
-	this.dblTotalPrecio = dblTotalPrecio;
+    this.dblTotalPrecio = dblTotalPrecio;
   }
 
   /**
@@ -563,17 +459,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the lista productos mostrar uno
    */
   public List<ProductoPorClienteComExtDTO> getListaProductosMostrarUno() {
-	return listaProductosMostrarUno;
+    return listaProductosMostrarUno;
   }
 
   /**
    * Sets the lista productos mostrar uno.
    *
-   * @param listaProductosMostrarUno
-   *          the new lista productos mostrar uno
+   * @param listaProductosMostrarUno the new lista productos mostrar uno
    */
   public void setListaProductosMostrarUno(List<ProductoPorClienteComExtDTO> listaProductosMostrarUno) {
-	this.listaProductosMostrarUno = listaProductosMostrarUno;
+    this.listaProductosMostrarUno = listaProductosMostrarUno;
   }
 
   /**
@@ -582,26 +477,25 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the lista ubicaciones
    */
   public List<Ubicacion> getListaUbicaciones() {
-	if (listaUbicaciones == null) {
-	  Usuario objUsuario;
+    if (listaUbicaciones == null) {
+      Usuario objUsuario;
 
-	  ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-	  HttpSession session = (HttpSession) context.getSession(true);
-	  objUsuario = (Usuario) session.getAttribute("usuarioLogin");
+      ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+      HttpSession session = (HttpSession) context.getSession(true);
+      objUsuario = (Usuario) session.getAttribute("usuarioLogin");
 
-	  listaUbicaciones = comercioEjb.consultarUbicacionesPorUsuario(menu.getUsuario().getId());
-	}
-	return listaUbicaciones;
+      listaUbicaciones = comercioEjb.consultarUbicacionesPorUsuario(menu.getUsuario().getId());
+    }
+    return listaUbicaciones;
   }
 
   /**
    * Sets the lista ubicaciones.
    *
-   * @param listaUbicaciones
-   *          the new lista ubicaciones
+   * @param listaUbicaciones the new lista ubicaciones
    */
   public void setListaUbicaciones(List<Ubicacion> listaUbicaciones) {
-	this.listaUbicaciones = listaUbicaciones;
+    this.listaUbicaciones = listaUbicaciones;
   }
 
   /**
@@ -610,17 +504,16 @@ public class SolicitudPedidoMB extends UtilMB {
    * @return the menu
    */
   public MenuMB getMenu() {
-	return menu;
+    return menu;
   }
 
   /**
    * Sets the menu.
    *
-   * @param menu
-   *          the new menu
+   * @param menu the new menu
    */
   public void setMenu(MenuMB menu) {
-	this.menu = menu;
+    this.menu = menu;
   }
 
 }
