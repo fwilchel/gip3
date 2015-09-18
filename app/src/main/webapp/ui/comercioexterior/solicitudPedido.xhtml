@@ -31,26 +31,22 @@
           <p:spacer 
             height="20"/>
           <p:dataTable 
-            var="dato" 
-            widgetVar="datoTabla" 
             id="tablaDatos"
-            value="#{solicitudPedidoMB.listaDocumentos}" 
+            widgetVar="datoTabla" 
+            value="#{solicitudPedidoMB.listaSP}" 
+            var="dato" 
             rows="10"
             emptyMessage="#{msg.comercioDocumentosIncotermNoEncontrados}"
             paginator="true" 
             paginatorPosition="bottom"
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            rowsPerPageTemplate="5,10,15">
+            rowsPerPageTemplate="10,50,100">
             <p:column 
               style="width:32px;text-align: center">
               <p:commandButton 
                 icon="ui-icon-pencil"
                 update="@all"
-                action="#{solicitudPedidoMB.consultarSolicitudPedido}">
-                <f:setPropertyActionListener 
-                  value="#{dato}"
-                  target="#{solicitudPedidoMB.seleccionado}" />
-              </p:commandButton>
+                action="#{solicitudPedidoMB.onEdit(dato)}"/>
             </p:column>
             <p:column 
               headerText="#{msg.recibiProductoDcoumento}">
@@ -100,227 +96,198 @@
               globalOnly="true" 
               showIcon="true"/>
             <p:panelGrid 
-              columns="6"
-              rendered="#{not empty solicitudPedidoMB.seleccionado}"
-              columnClasses="label,value,,label,value,">
+              columns="4" 
+              layout="grid"
+              rendered="#{not empty solicitudPedidoMB.sp}"
+              columnClasses="label,izquierda,label,izquierda">
               <p:outputLabel 
                 value="#{msg.recibiProductoDcoumento}" 
                 for="strId"
-                styleClass="negrita" />
-              <h:inputText 
-                value="#{solicitudPedidoMB.seleccionado.idDocumento}"
+                styleClass="negrita" 
+                style="width:20%"/>
+              <h:outputText 
                 id="strId" 
-                disabled="true" 
-                label="#{msg.recibiProductoDcoumento}" />
-              <p:message 
-                for="strId"/>
+                value="#{solicitudPedidoMB.sp.idDocumento}" 
+                style="width:30%"/>                  
               <p:outputLabel 
                 value="#{msg.RequisicionNombreCons}"
                 for="strConsecutivo" 
                 styleClass="negrita" />
-              <h:inputText
-                value="#{solicitudPedidoMB.seleccionado.consecutivoDocumento}"
+              <h:outputText
                 id="strConsecutivo" 
-                disabled="true"
-                label="#{msg.RequisicionNombreCons}" />
-              <p:message 
-                for="strConsecutivo"/>
+                value="#{solicitudPedidoMB.sp.consecutivoDocumento}"/>
               <p:outputLabel 
                 value="#{msg.RequisicionNombreFechaGenerado}"
                 for="strFechaGeneracion" 
                 styleClass="negrita" />
-              <h:inputText
-                value="#{solicitudPedidoMB.seleccionado.fechaGeneracion}"
-                id="strFechaGeneracion" 
-                disabled="true"
-                label="#{msg.RequisicionNombreFechaGenerado}">
+              <h:outputText
+                value="#{solicitudPedidoMB.sp.fechaGeneracion}"
+                id="strFechaGeneracion" >
                 <f:convertDateTime 
                   pattern="dd-MMM-yyyy" />
-              </h:inputText>
-              <p:message 
-                for="strFechaGeneracion"/>
+              </h:outputText>
               <p:outputLabel 
                 value="#{msg.nomCliente}" 
                 for="strNombreCliente"
                 styleClass="negrita" />
-              <h:inputText
-                value="#{solicitudPedidoMB.seleccionado.clientesNombre}"
-                id="strNombreCliente" 
-                disabled="true" 
-                label="#{msg.nomCliente}" />
-              <p:message 
-                for="strNombreCliente"/>
+              <h:outputText
+                value="#{solicitudPedidoMB.sp.clientesNombre}"
+                id="strNombreCliente" />
               <p:outputLabel 
                 value="#{msg.NumeroPedidoWeb}"
                 for="strDocumentoCliente" 
                 styleClass="negrita" />
-              <h:inputText
-                value="#{solicitudPedidoMB.seleccionado.documentoCliente}"
-                id="strDocumentoCliente" 
-                disabled="true"
-                label="#{msg.NumeroPedidoWeb}" />
-              <p:message 
-                for="strDocumentoCliente"/>
+              <h:outputText
+                value="#{solicitudPedidoMB.sp.documentoCliente}"
+                id="strDocumentoCliente" />
               <p:outputLabel 
                 value="#{msg.maestroDireccionCliente}"
                 for="strDocumentoClienteDir" 
                 styleClass="negrita" />
-              <h:inputText
-                value="#{solicitudPedidoMB.seleccionado.clientesDireccion}"
-                id="strDocumentoClienteDir" 
-                disabled="true"
-                label="#{msg.maestroDireccionCliente}" />
-              <p:message 
-                for="strDocumentoClienteDir"/>
+              <h:outputText
+                value="#{solicitudPedidoMB.sp.clientesDireccion}"
+                id="strDocumentoClienteDir" />
               <p:outputLabel 
                 value="#{msg.maestroTelefonoCliente}"
                 for="strDocumentoClienteTel" 
                 styleClass="negrita" />
-              <h:inputText
-                value="#{solicitudPedidoMB.seleccionado.clientesTelefono}"
-                id="strDocumentoClienteTel" 
-                disabled="true"
-                label="#{msg.maestroTelefonoCliente}" />
-              <p:message 
-                for="strDocumentoClienteTel"/>
+              <h:outputText
+                value="#{solicitudPedidoMB.sp.clientesTelefono}"
+                id="strDocumentoClienteTel" />
               <p:outputLabel 
                 value="#{msg.maestroContactoAgente}"
                 for="strDocumentoClienteCont" 
                 styleClass="negrita" />
-              <h:inputText
-                value="#{solicitudPedidoMB.seleccionado.clientesContacto}"
-                id="strDocumentoClienteCont" 
-                disabled="true"
-                label="#{msg.maestroContactoAgente}" />
-              <p:message 
-                for="strDocumentoClienteCont"/>
+              <h:outputText
+                value="#{solicitudPedidoMB.sp.clientesContacto}"
+                id="strDocumentoClienteCont" />
               <p:outputLabel 
                 value="#{msg.observacionDocumento}"
                 for="strObservacionDoc" 
                 styleClass="negrita" />
-              <h:inputTextarea
-                value="#{solicitudPedidoMB.seleccionado.observacionDocumento}"
-                id="strObservacionDoc" 
-                readonly="true" 
-                rows="4" 
-                cols="40"
-                label="#{msg.observacionDocumento}" />
-              <p:message 
-                for="strObservacionDoc"/>
+              <h:outputText
+                value="#{solicitudPedidoMB.sp.observacionDocumento}"
+                id="strObservacionDoc" />
               <p:outputLabel 
                 value="#{msg.observacionMarcacion2}"
                 for="strObservacionMar" 
                 styleClass="negrita" />
-              <h:inputTextarea
-                value="#{solicitudPedidoMB.seleccionado.observacionesMarcacion2}"
-                id="strObservacionMar" 
-                readonly="true" 
-                rows="4" 
-                cols="40"
-                label="#{msg.observacionMarcacion2}" />
-              <p:message 
-                for="strObservacionMar"/>
+              <h:outputText
+                value="#{solicitudPedidoMB.sp.observacionesMarcacion2}"
+                id="strObservacionMar" />
               <p:outputLabel 
                 value="#{msg.TerminoIncotermSP}"
                 for="idTerminoIncoterm" 
                 styleClass="negrita" />
-              <p:selectOneMenu 
-                id="idTerminoIncoterm"
-                value="#{solicitudPedidoMB.seleccionado.idTerminoIncoterm}"
-                label="#{msg.TerminoIncotermSP}">
-                <f:selectItem 
-                  itemLabel="#{msg.generalSinSeleccionar}" />
-                <f:selectItems 
-                  value="#{solicitudPedidoMB.listaTerminoInconterm}"
-                  var="categoria" 
-                  itemValue="#{categoria.id}"
-                  itemLabel="#{categoria.descripcion}" />
-              </p:selectOneMenu>
-              <p:message 
-                for="idTerminoIncoterm"/>
+              <h:panelGroup>
+                <p:selectOneMenu 
+                  id="idTerminoIncoterm"
+                  value="#{solicitudPedidoMB.sp.idTerminoIncoterm}"
+                  label="#{msg.TerminoIncotermSP}">
+                  <f:selectItem 
+                    itemLabel="#{msg.generalSinSeleccionar}" />
+                  <f:selectItems 
+                    value="#{comunMB.obtenerTerminosInconterm(solicitudPedidoMB.sp.clientesId)}"
+                    var="categoria" 
+                    itemValue="#{categoria.id}"
+                    itemLabel="#{categoria.descripcion}" />
+                </p:selectOneMenu>
+                <p:message 
+                  for="idTerminoIncoterm"/>
+              </h:panelGroup>
               <p:outputLabel 
                 value="#{msg.LugarIncoterm}" 
                 for="strLugarIncoterm"
                 styleClass="negrita" />
-              <h:inputText 
-                maxlength="50"
-                value="#{solicitudPedidoMB.seleccionado.lugarIncoterm}"
-                id="strLugarIncoterm" 
-                required="true"
-                label="#{msg.LugarIncoterm}" />
-              <p:message 
-                for="strLugarIncoterm"/>
+              <h:panelGroup>
+                <h:inputText 
+                  maxlength="50"
+                  value="#{solicitudPedidoMB.sp.lugarIncoterm}"
+                  id="strLugarIncoterm" 
+                  required="true"
+                  label="#{msg.LugarIncoterm}" />
+                <p:message 
+                  for="strLugarIncoterm"/>
+              </h:panelGroup>
               <p:outputLabel 
                 value="#{msg.CantidadContenedores20}"
                 for="dblCantidadContenedores20" 
                 styleClass="negrita" />
-              <h:inputText 
-                maxlength="10" 
-                size="10"
-                value="#{solicitudPedidoMB.seleccionado.cantidadContenedores20}"
-                id="dblCantidadContenedores20" 
-                required="true"
-                label="#{msg.CantidadContenedores20}">
-                <f:convertNumber 
-                  maxFractionDigits="2" 
-                  minFractionDigits="2" />
-              </h:inputText>
-              <p:message 
-                for="dblCantidadContenedores20"/>
+              <h:panelGroup>
+                <h:inputText 
+                  maxlength="10" 
+                  size="10"
+                  value="#{solicitudPedidoMB.sp.cantidadContenedores20}"
+                  id="dblCantidadContenedores20" 
+                  required="true"
+                  label="#{msg.CantidadContenedores20}">
+                  <f:convertNumber 
+                    maxFractionDigits="2" 
+                    minFractionDigits="2" />
+                </h:inputText>
+                <p:message 
+                  for="dblCantidadContenedores20"/>
+              </h:panelGroup>
               <p:outputLabel 
                 value="#{msg.CantidadContenedores40}"
                 for="dblCantidadContenedores40" 
                 styleClass="negrita" />
-              <h:inputText 
-                maxlength="10" 
-                size="10"
-                value="#{solicitudPedidoMB.seleccionado.cantidadContenedores40}"
-                id="dblCantidadContenedores40" 
-                required="true"
-                label="#{msg.CantidadContenedores40}">
-                <f:convertNumber 
-                  maxFractionDigits="2" 
-                  minFractionDigits="2" />
-              </h:inputText>
-              <p:message 
-                for="dblCantidadContenedores40"/>
+              <h:panelGroup>
+                <h:inputText 
+                  maxlength="10" 
+                  size="10"
+                  value="#{solicitudPedidoMB.sp.cantidadContenedores40}"
+                  id="dblCantidadContenedores40" 
+                  required="true"
+                  label="#{msg.CantidadContenedores40}">
+                  <f:convertNumber 
+                    maxFractionDigits="2" 
+                    minFractionDigits="2" />
+                </h:inputText>
+                <p:message 
+                  for="dblCantidadContenedores40"/>
+              </h:panelGroup>
               <p:outputLabel 
                 value="#{msg.FechaDespacho}" 
                 for="dtmFechaDespacho"
                 styleClass="negrita" />
-              <p:calendar 
-                id="dtmFechaDespacho"
-                value="#{solicitudPedidoMB.seleccionado.fechaEsperadaEntregaDate}"
-                required="true" 
-                pattern="yyyy-MM-dd"/>
-              <p:message 
-                for="dtmFechaDespacho"/>
+              <h:panelGroup>
+                <p:calendar 
+                  id="dtmFechaDespacho"
+                  value="#{solicitudPedidoMB.sp.fechaEsperadaEntregaDate}"
+                  required="true" 
+                  pattern="yyyy-MM-dd"/>
+                <p:message 
+                  for="dtmFechaDespacho"/>
+              </h:panelGroup>
               <p:outputLabel 
                 value="#{msg.Canal}" 
                 for="idUbicacion"
                 styleClass="negrita" />
-              <p:selectOneMenu 
-                id="idUbicacion" 
-                required="true"
-                value="#{solicitudPedidoMB.seleccionado.idUbicacionDestino}"
-                label="#{msg.Canal}">
-                <f:selectItem 
-                  itemLabel="#{msg.generalSinSeleccionar}" />
-                <f:selectItems 
-                  value="#{solicitudPedidoMB.listaUbicaciones}"
-                  var="ubicacion" 
-                  itemValue="#{ubicacion.id}"
-                  itemLabel="#{ubicacion.nombre}" />
-              </p:selectOneMenu>
-              <p:message 
-                for="idUbicacion"/>
+              <h:panelGroup>
+                <p:selectOneMenu 
+                  id="idUbicacion" 
+                  required="true"
+                  value="#{solicitudPedidoMB.sp.idUbicacionDestino}"
+                  label="#{msg.Canal}">
+                  <f:selectItem 
+                    itemLabel="#{msg.generalSinSeleccionar}" />
+                  <f:selectItems 
+                    value="#{comunMB.obtenerListaUbicaciones(menuMB.usuario.id)}"
+                    var="ubicacion" 
+                    itemValue="#{ubicacion.id}"
+                    itemLabel="#{ubicacion.nombre}" />
+                </p:selectOneMenu>
+                <p:message 
+                  for="idUbicacion"/>
+              </h:panelGroup>
             </p:panelGrid>
             <p:dataTable 
               id="tablaProductos"
-              var="producto" 
               widgetVar="productoTabla"
-              value="#{solicitudPedidoMB.listaSolicitudPedido}"
-              sortBy="#{producto.intIdCliente}"
+              var="pxd" 
+              value="#{solicitudPedidoMB.productosXDocumento}"
+              sortBy="#{pxd.documento.id}"
               emptyMessage="No se encontraron productos" >
               <f:facet 
                 name="header">
@@ -329,7 +296,7 @@
                   <p:outputPanel>
                     <p:commandButton 
                       value="#{msg.buscadorConsultarPrdxCli}"
-                      action="#{solicitudPedidoMB.consultarListaProductosxCli}"
+                      action="#{solicitudPedidoMB.consultarOtrosProductosDelCliente}"
                       immediate="true"
                       oncomplete="PF('dlgBuscarProductos').show()"
                       update=":tabPanel:dlgBuscarProductos"/>
@@ -337,21 +304,23 @@
                 </div>
               </f:facet>
               <p:column 
-                headerText="#{msg.buscadorPxCSKU}">
+                headerText="#{msg.buscadorPxCSKU}"
+                style="width:32px;text-align:center;">
                 <h:outputText 
-                  value="#{producto.strSkuProductoInventario}" />
+                  value="#{pxd.productosInventario.sku}" />
               </p:column>
               <p:column 
-                headerText="#{msg.buscadorNombreProducto}">
+                headerText="#{msg.buscadorNombreProducto}"
+                style="width:200px;text-align:left;">
                 <h:outputText 
-                  value="#{producto.strNombreProductoInventario}" />
+                  value="#{pxd.productosInventario.nombre}" />
               </p:column>
               <p:column 
                 headerText="#{msg.comprasCantidadSola}"
                 style="text-align:right">
                 <h:inputText 
                   id="cantidadProd1"
-                  value="#{producto.dblCantidad1ProductoxDocumento}"
+                  value="#{pxd.cantidad1}"
                   required="true" 
                   maxlength="10" 
                   size="10" 
@@ -367,7 +336,7 @@
                 headerText="#{msg.costeoComperasValorUnitarioML}"
                 style="text-align:right">
                 <h:outputText 
-                  value="#{producto.dblPrecioUSD}">
+                  value="#{pxd.valorUnitarioUsd}">
                   <f:convertNumber 
                     pattern="$#####,###,###,##0.00" />
                 </h:outputText>
@@ -376,7 +345,7 @@
                 headerText="#{msg.VentasRemisionValorTotal}"
                 style="text-align:right">
                 <h:outputText 
-                  value="#{producto.dblValorTotalProductoxDocumento}">
+                  value="#{pxd.valorTotal}">
                   <f:convertNumber 
                     pattern="$#####,###,###,##0.00" />
                 </h:outputText>
@@ -385,7 +354,7 @@
                 headerText="#{msg.PesoNetoVista}"
                 style="text-align:right">
                 <h:outputText 
-                  value="#{producto.dblTotalPesoNeto}">
+                  value="#{pxd.totalPesoNetoItem}">
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
@@ -394,7 +363,7 @@
                 headerText="#{msg.PesoBrutoVista}"
                 style="text-align:right">
                 <h:outputText 
-                  value="#{producto.dblTotalPesoBruto}">
+                  value="#{pxd.totalPesoBrutoItem}">
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
@@ -403,7 +372,7 @@
                 headerText="#{msg.SPcantidadCajas}"
                 style="text-align:right">
                 <h:outputText 
-                  value="#{producto.dblTotalCajas}">
+                  value="#{pxd.cantidadCajasItem}">
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
@@ -412,7 +381,7 @@
                 headerText="#{msg.SPcantidadTendido}"
                 style="text-align:right">
                 <h:outputText 
-                  value="#{producto.dblTotalCajasTendido}">
+                  value="#{pxd.cantidadXEmbalaje}">
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
@@ -421,29 +390,41 @@
                 headerText="#{msg.SPcantidadPallet}"
                 style="text-align:right">
                 <h:outputText 
-                  value="#{producto.dblTotalCajasPallet}">
+                  value="#{pxd.cantidadPalletsItem}">
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
               <p:column 
-                headerText="#{msg.buscadorIncluirProducto}"
-                style="text-align:center">
-                <p:selectBooleanCheckbox 
-                  value="#{producto.blnIncluirBusqueda}" />
+                style="width:32px;text-align:center;">
+                <p:commandButton 
+                  icon="ui-icon-trash" 
+                  title="#{msg.ispcnBtnRemoverProducto}"
+                  actionListener="#{solicitudPedidoMB.eliminarProducto(pxd)}"
+                  process="@this" 
+                  update=":tabPanel:formaEditar:tablaProductos">
+                  <!--                  <p:confirm 
+                                      header="#{msg.generalConfirmacion}" 
+                                      message="#{msg.generalConfirmarEliminar}" 
+                                      icon="ui-icon-alert"/>-->
+                </p:commandButton>
               </p:column>
               <p:summaryRow 
                 rendered="true">
                 <p:column
                   colspan="2"
                   style="text-align:left">
-                  <h:outputText 
-                    value="Totales:" />
+                  <p:commandButton 
+                    value="#{msg.generarOrdenCompraTotalizar}"
+                    actionListener="#{solicitudPedidoMB.recalcularTotales()}" 
+                    update=":tabPanel:formaEditar:tablaProductos" 
+                    process=":tabPanel:formaEditar:tablaProductos"
+                    rendered="#{not empty solicitudPedidoMB.sp}"/> 
                 </p:column>
                 <p:column
                   style="text-align:right">
                   <h:outputText 
-                    value="#{solicitudPedidoMB.cantidadValorT}">
+                    value="#{solicitudPedidoMB.totalCantidad}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
@@ -459,7 +440,7 @@
                 <p:column
                   style="text-align:right">
                   <h:outputText 
-                    value="#{solicitudPedidoMB.totalValorT}">
+                    value="#{solicitudPedidoMB.totalValorTotal}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
@@ -467,7 +448,7 @@
                 <p:column
                   style="text-align:right">
                   <h:outputText 
-                    value="#{solicitudPedidoMB.valorPesoNetoT}">
+                    value="#{solicitudPedidoMB.totalPesoNeto}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
@@ -475,7 +456,7 @@
                 <p:column
                   style="text-align:right">
                   <h:outputText 
-                    value="#{solicitudPedidoMB.valorPesoBrutoT}">
+                    value="#{solicitudPedidoMB.totalPesoBruto}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
@@ -483,7 +464,7 @@
                 <p:column
                   style="text-align:right">
                   <h:outputText 
-                    value="#{solicitudPedidoMB.valorCajasT}">
+                    value="#{solicitudPedidoMB.totalCantidadCajas}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
@@ -491,7 +472,7 @@
                 <p:column
                   style="text-align:right">
                   <h:outputText 
-                    value="#{solicitudPedidoMB.valorCajasTendidoT}">
+                    value="#{solicitudPedidoMB.totalCantidadTendidos}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
@@ -499,25 +480,19 @@
                 <p:column
                   style="text-align:right">
                   <h:outputText 
-                    value="#{solicitudPedidoMB.valorCajasPalletT}">
+                    value="#{solicitudPedidoMB.totalCantidadPallets}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
                 </p:column>
                 <p:column
                   style="text-align:center">
-                  <p:commandButton 
-                    value="#{msg.generarOrdenCompraTotalizar}"
-                    actionListener="#{solicitudPedidoMB.refrescarTotales}" 
-                    update=":tabPanel:formaEditar:datoDetalle" 
-                    process=":tabPanel:formaEditar:tablaProductos"
-                    rendered="#{not empty solicitudPedidoMB.seleccionado}"/> 
                 </p:column>
               </p:summaryRow>
             </p:dataTable>
             <p:panelGrid 
               columns="2"
-              rendered="#{not empty solicitudPedidoMB.seleccionado}"
+              rendered="#{not empty solicitudPedidoMB.sp}"
               columnClasses="label,value">
               <p:commandButton 
                 value="Guardar Ajustes SP" 
@@ -542,51 +517,53 @@
           hideEffect="fade" 
           resizable="false" 
           dynamic="true" 
-          width="800">
+          width="800"
+          closable="true"
+          position="top"
+          closeOnEscape="true">
+          <p:ajax 
+            event="close" 
+            update=":tabPanel:formaEditar:tablaProductos"/>
           <h:form
             id="formBuscarProductos"
             prependId="false">
             <p:dataTable 
-              var="prod" 
-              widgetVar="prodTabla" 
               id="tablaProd"
-              value="#{solicitudPedidoMB.listaProductosMostrarUno}" 
+              widgetVar="prodTabla" 
+              var="pxc" 
+              value="#{solicitudPedidoMB.productosXCliente}" 
               rows="10"
               emptyMessage="No hay productos asociados al cliente"
               paginator="true" 
               paginatorPosition="bottom"
               paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-              rowsPerPageTemplate="5,10,15">
+              rowsPerPageTemplate="10,20,50,100">
               <p:column 
                 headerText="#{msg.buscadorPxCSKU}"
-              	sortBy="#{prod.strSkuProductoInventario}"
-                filterBy="#{prod.strSkuProductoInventario}"
-                filterMatchMode="contains">
+                sortBy="#{pxc.productosInventario.sku}"
+                filterBy="#{pxc.productosInventario.sku}"
+                filterMatchMode="contains" 
+                style="width:100px;">
                 <h:outputText 
-                  value="#{prod.strSkuProductoInventario}" />
+                  value="#{pxc.productosInventario.sku}" />
               </p:column>
               <p:column 
                 headerText="#{msg.buscadorNombreProducto}"
-              	sortBy="#{prod.strNombreProductoInventario}"
-                filterBy="#{prod.strNombreProductoInventario}"
+                sortBy="#{pxc.productosInventario.nombre}"
+                filterBy="#{pxc.productosInventario.nombre}"
                 filterMatchMode="contains">
                 <h:outputText 
-                  value="#{prod.strNombreProductoInventario}" />
+                  value="#{pxc.productosInventario.nombre}" />
               </p:column>
               <p:column 
-                headerText="#{msg.buscadorIncluirProducto}"
-                style="width:50px;text-align: center">
-                <p:selectBooleanCheckbox 
-                  value="#{prod.blnIncluirBusqueda}" />
+                style="width:32px;text-align: center">
+                <p:commandButton 
+                  icon="ui-icon-cart" 
+                  title="#{msg.ispcnBtnAgregarProducto}"
+                  actionListener="#{solicitudPedidoMB.agregarProducto(pxc)}"
+                  process="@this" 
+                  update=":tabPanel:formaEditar:tablaProductos @form "/>
               </p:column>
-              <f:facet
-                name="footer">
-                <p:commandButton
-                  value="#{msg.buscadorInsertarProductoSeleccionado}"
-                  action="#{solicitudPedidoMB.insertarProductoTabla}"
-                  immediate="true"
-                  update=":tabPanel:formaEditar:datoDetalle"/>
-              </f:facet>
             </p:dataTable>
           </h:form>          
         </p:dialog>

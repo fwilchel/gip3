@@ -1,21 +1,25 @@
 package com.ssl.jv.gip.negocio.ejb;
 
-import com.ssl.jv.gip.jpa.pojo.Cliente;
-import com.ssl.jv.gip.jpa.pojo.Documento;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import org.apache.log4j.Logger;
+
+import com.ssl.jv.gip.jpa.pojo.Cliente;
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.Empresa;
 import com.ssl.jv.gip.jpa.pojo.Estado;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.Region;
@@ -31,6 +35,7 @@ import com.ssl.jv.gip.negocio.dao.MonedaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PaisDAO;
 import com.ssl.jv.gip.negocio.dao.ParametroDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProductoInventarioDAOLocal;
+import com.ssl.jv.gip.negocio.dao.ProductosXDocumentoDAOLocal;
 import com.ssl.jv.gip.negocio.dao.ProveedorDAOLocal;
 import com.ssl.jv.gip.negocio.dao.PuntoVentaDAOLocal;
 import com.ssl.jv.gip.negocio.dao.RegionDAO;
@@ -39,11 +44,6 @@ import com.ssl.jv.gip.negocio.dao.UbicacionDAO;
 import com.ssl.jv.gip.negocio.dao.UnidadDAOLocal;
 import com.ssl.jv.gip.negocio.dao.UsuarioDAOLocal;
 import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
 
 /**
  * Session Bean implementation class ComunEJB
@@ -92,19 +92,15 @@ public class ComunEJB implements ComunEJBLocal {
 
   @EJB
   private ProductoInventarioDAOLocal productoDAO;
-  
-  @EJB
-  private PuntoVentaDAOLocal puntoVentaDAO; 
-  
-  @EJB
-  private UsuarioDAOLocal usuarioDAO; 
 
-  /**
-   * Default constructor.
-   */
-  public ComunEJB() {
-    // TODO Auto-generated constructor stub
-  }
+  @EJB
+  private PuntoVentaDAOLocal puntoVentaDAO;
+
+  @EJB
+  private UsuarioDAOLocal usuarioDAO;
+
+  @EJB
+  private ProductosXDocumentoDAOLocal productosXDocumentoDAO;
 
   /*
    * (non-Javadoc)
@@ -114,7 +110,7 @@ public class ComunEJB implements ComunEJBLocal {
   @Override
   public List<Empresa> consultarEmpresas() {
 
-    List<Empresa> listado = new ArrayList<Empresa>();
+    List<Empresa> listado = new ArrayList<>();
 
     try {
       listado = (List<Empresa>) empresaDao.findAll();
@@ -134,7 +130,7 @@ public class ComunEJB implements ComunEJBLocal {
   @Override
   public List<Region> consultarRegiones(String pais) {
 
-    List<Region> listado = new ArrayList<Region>();
+    List<Region> listado = new ArrayList<>();
 
     try {
       listado = (List<Region>) regionDao.findByRegional(pais);
@@ -154,7 +150,7 @@ public class ComunEJB implements ComunEJBLocal {
   @Override
   public List<Pais> consultarPaises() {
 
-    List<Pais> listado = new ArrayList<Pais>();
+    List<Pais> listado = new ArrayList<>();
 
     try {
       listado = (List<Pais>) paisDao.findByRegional();
@@ -169,7 +165,7 @@ public class ComunEJB implements ComunEJBLocal {
   @Override
   public List<Pais> consultarPaisesTodos() {
 
-    List<Pais> listado = new ArrayList<Pais>();
+    List<Pais> listado = new ArrayList<>();
 
     try {
       listado = (List<Pais>) paisDao.findAll();
@@ -190,7 +186,7 @@ public class ComunEJB implements ComunEJBLocal {
   @Override
   public List<Ubicacion> consultarBodegasAbastecedoras() {
 
-    List<Ubicacion> listado = new ArrayList<Ubicacion>();
+    List<Ubicacion> listado = new ArrayList<>();
 
     try {
 
@@ -298,5 +294,16 @@ public class ComunEJB implements ComunEJBLocal {
   public List<Usuario> consultarUsuariosActivos() {
     LOGGER.trace("Metodo: <<consultarUsuariosActivos>>");
     return usuarioDAO.buscarPorConsultaNombrada(Usuario.BUSCAR_USUARIOS_ACTIVOS, null);
+  }
+
+  @Override
+  public List<ProductosXDocumento> consultarProductosXDocumento(Long idDocumento) {
+    LOGGER.trace("Metodo: <<consultarProductosXDocumento>>");
+    if (idDocumento == null) {
+      throw new IllegalArgumentException();
+    }
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("idDocumento", idDocumento);
+    return productosXDocumentoDAO.buscarPorConsultaNombrada(ProductosXDocumento.FIND_BY_DOCUMENTO_ORDER_BY_SKU, parametros);
   }
 }

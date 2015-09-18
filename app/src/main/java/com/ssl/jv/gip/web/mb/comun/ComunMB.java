@@ -4,8 +4,10 @@ import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.Cliente;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
+import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
 import com.ssl.jv.gip.jpa.pojo.Ubicacion;
 import com.ssl.jv.gip.jpa.pojo.Usuario;
+import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJB;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -55,15 +57,17 @@ public class ComunMB extends UtilMB {
   private MaestrosEJBLocal maestrosEJB;
   @EJB
   private ComunEJBLocal comunEJB;
+  @EJB
+  private ComercioExteriorEJB comercioEjb;
   @ManagedProperty(value = "#{aplicacionMB}")
   private AplicacionMB appMB;
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
 
   public List<Cliente> obtenerListaClientes(String idUsuario) {
-	if (idUsuario == null) {
-	  return null;
-	}
+    if (idUsuario == null) {
+      return null;
+    }
     return maestrosEJB.consultarClientesActivosPorUsuario(idUsuario);
   }
 
@@ -72,21 +76,28 @@ public class ComunMB extends UtilMB {
   }
 
   public List<PuntoVenta> obtenerListaPuntosVenta(Long idCliente) {
-	if (idCliente == null) {
-	  return null;
-	}
+    if (idCliente == null) {
+      return null;
+    }
     return maestrosEJB.consultarPuntoEntregaPorCliente(idCliente);
   }
 
-  public List<Ubicacion> obtenerListaUbicaciones(String idCliente) {
-	if (idCliente == null) {
-	  return null;
-	}
-    return comunEJB.consultarUbicacionesPorUsuario(idCliente);
+  public List<Ubicacion> obtenerListaUbicaciones(String idUsuario) {
+    if (idUsuario == null) {
+      return null;
+    }
+    return comunEJB.consultarUbicacionesPorUsuario(idUsuario);
   }
 
   public List<Usuario> obtenerListaUsuariosActivos() {
     return comunEJB.consultarUsuariosActivos();
+  }
+
+  public List<TerminoIncoterm> obtenerTerminosInconterm(Long idCliente) {
+    if (idCliente == null) {
+      return null;
+    }
+    return comercioEjb.consultarListaIncontermPorCliente(idCliente);
   }
 
   public List<SelectItem> obtenerListaCategoriasInventarios() {

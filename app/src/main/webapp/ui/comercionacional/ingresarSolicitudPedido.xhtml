@@ -230,7 +230,12 @@
                   title="#{msg.ispcnBtnRemoverProducto}"
                   actionListener="#{ingresarSolicitudCNMB.removerProductoXCliente(registro)}"
                   immediate="true"
-                  update="tblDetalle :pnlTab:detailFrm:btnIngresar"/>
+                  update="tblDetalle :pnlTab:detailFrm:btnIngresar">
+                  <p:confirm 
+                    header="Confirmation" 
+                    message="Are you sure?" 
+                    icon="ui-icon-alert" />
+                </p:commandButton>
               </p:column>
             </p:dataTable>
             <!-- botones -->

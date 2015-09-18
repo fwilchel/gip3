@@ -374,4 +374,11 @@ public interface ComercioExteriorEJBLocal {
 
   void actualizarReqxprod(List<ComextRequerimientoexportacionDTO> productos, long idrequerimiento, boolean selectedMarcacionEspecial);
 
+  /**
+   *
+   * @param idCliente
+   * @param productosAExcluir
+   * @return
+   */
+  List<ProductosXClienteComext> consultarProductosActivosXCliente(Long idCliente, List<Long> productosAExcluir);
 }

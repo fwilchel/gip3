@@ -125,11 +125,32 @@
         name="default/images/ajaxloadingbar.gif"/>  
     </p:dialog>
 
-    <p:ajaxStatus 
-      onstart="PF('statusDialog').show()" 
-      onsuccess="PF('statusDialog').hide()" />
-
     <h:body>
+
+      <p:ajaxStatus 
+        onstart="PF('statusDialog').show()" 
+        onsuccess="PF('statusDialog').hide()" />
+
+      <!-- form dgl global -->
+      <h:form
+        id="frmGlobalDialog"
+        prependId="false">
+        <p:confirmDialog     
+          global="true" 
+          showEffect="fade" 
+          hideEffect="explode">
+          <p:commandButton 
+            value="#{msg.generalSI}" 
+            type="button" 
+            styleClass="ui-confirmdialog-yes" 
+            icon="ui-icon-check" />
+          <p:commandButton 
+            value="#{msg.generalNO}" 
+            type="button" 
+            styleClass="ui-confirmdialog-no" 
+            icon="ui-icon-close" />
+        </p:confirmDialog>
+      </h:form>
 
       <p:growl 
         id="msg" 

@@ -13,6 +13,8 @@ import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.Pais;
 import com.ssl.jv.gip.jpa.pojo.Parametro;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
+import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.Proveedor;
 import com.ssl.jv.gip.jpa.pojo.PuntoVenta;
 import com.ssl.jv.gip.jpa.pojo.Region;
@@ -129,4 +131,11 @@ public interface ComunEJBLocal {
    * @return
    */
   List<Usuario> consultarUsuariosActivos();
+  
+  /**
+   * 
+   * @param idDocumento
+   * @return
+   */
+  List<ProductosXDocumento> consultarProductosXDocumento(Long idDocumento);
 }
