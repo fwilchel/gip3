@@ -32,7 +32,7 @@
             height="20"/>
           <p:dataTable 
             id="tablaDatos"
-            widgetVar="datoTabla" 
+            widgetVar="tablaDatos" 
             value="#{solicitudPedidoMB.listaSP}" 
             var="dato" 
             rows="10"
@@ -42,39 +42,59 @@
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
             rowsPerPageTemplate="10,50,100">
             <p:column 
-              style="width:32px;text-align: center">
+              style="width:32px;text-align:center">
               <p:commandButton 
                 icon="ui-icon-pencil"
                 update="@all"
                 action="#{solicitudPedidoMB.onEdit(dato)}"/>
             </p:column>
             <p:column 
-              headerText="#{msg.recibiProductoDcoumento}">
+              headerText="#{msg.recibiProductoDcoumento}"
+              sortBy="#{dato.idDocumento}"
+              filterBy="#{dato.idDocumento}"
+              filterMatchMode="contains" 
+              style="width:120px;">
               <h:outputText 
                 value="#{dato.idDocumento}" />
             </p:column>
             <p:column 
-              headerText="#{msg.RequisicionNombreCons}">
+              headerText="#{msg.RequisicionNombreCons}"
+              sortBy="#{dato.consecutivoDocumento}"
+              filterBy="#{dato.consecutivoDocumento}"
+              filterMatchMode="contains"
+              style="width:120px;">
               <h:outputText 
-                value="#{dato.consecutivoDocumento}" />
+                value="#{dato.consecutivoDocumento}"  />
             </p:column>
             <p:column 
-              headerText="#{msg.DocumentoClienteSP}">
+              headerText="#{msg.DocumentoClienteSP}"
+              sortBy="#{dato.documentoCliente}"
+              filterBy="#{dato.documentoCliente}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{dato.documentoCliente}" />
             </p:column>
             <p:column 
-              headerText="#{msg.nomCliente}">
+              headerText="#{msg.nomCliente}"
+              sortBy="#{dato.clientesNombre}"
+              filterBy="#{dato.clientesNombre}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{dato.clientesNombre}" />
             </p:column>
             <p:column 
-              headerText="#{msg.EstadoSP}">
+              headerText="#{msg.EstadoSP}"
+              sortBy="#{dato.estadoNombre}"
+              filterBy="#{dato.estadoNombre}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{dato.estadoNombre}" />
             </p:column>
             <p:column 
-              headerText="#{msg.RequisicionNombreFechaGenerado}">
+              headerText="#{msg.RequisicionNombreFechaGenerado}"
+              sortBy="#{dato.fechaGeneracion}"
+              filterBy="#{dato.fechaGeneracion}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{dato.fechaGeneracion}">
                 <f:convertDateTime 
@@ -200,7 +220,7 @@
                 for="strLugarIncoterm"
                 styleClass="negrita" />
               <h:panelGroup>
-                <h:inputText 
+                <p:inputText 
                   maxlength="50"
                   value="#{solicitudPedidoMB.sp.lugarIncoterm}"
                   id="strLugarIncoterm" 
@@ -214,7 +234,7 @@
                 for="dblCantidadContenedores20" 
                 styleClass="negrita" />
               <h:panelGroup>
-                <h:inputText 
+                <p:inputText 
                   maxlength="10" 
                   size="10"
                   value="#{solicitudPedidoMB.sp.cantidadContenedores20}"
@@ -224,7 +244,7 @@
                   <f:convertNumber 
                     maxFractionDigits="2" 
                     minFractionDigits="2" />
-                </h:inputText>
+                </p:inputText>
                 <p:message 
                   for="dblCantidadContenedores20"/>
               </h:panelGroup>
@@ -233,7 +253,7 @@
                 for="dblCantidadContenedores40" 
                 styleClass="negrita" />
               <h:panelGroup>
-                <h:inputText 
+                <p:inputText 
                   maxlength="10" 
                   size="10"
                   value="#{solicitudPedidoMB.sp.cantidadContenedores40}"
@@ -243,7 +263,7 @@
                   <f:convertNumber 
                     maxFractionDigits="2" 
                     minFractionDigits="2" />
-                </h:inputText>
+                </p:inputText>
                 <p:message 
                   for="dblCantidadContenedores40"/>
               </h:panelGroup>
@@ -284,11 +304,11 @@
             </p:panelGrid>
             <p:dataTable 
               id="tablaProductos"
-              widgetVar="productoTabla"
+              widgetVar="tablaProductos"
               var="pxd" 
               value="#{solicitudPedidoMB.productosXDocumento}"
               sortBy="#{pxd.documento.id}"
-              emptyMessage="No se encontraron productos" >
+              emptyMessage="#{msg.generalNoDatos}" >
               <f:facet 
                 name="header">
                 <div 
@@ -318,7 +338,7 @@
               <p:column 
                 headerText="#{msg.comprasCantidadSola}"
                 style="text-align:right">
-                <h:inputText 
+                <p:inputText 
                   id="cantidadProd1"
                   value="#{pxd.cantidad1}"
                   required="true" 
@@ -326,9 +346,13 @@
                   size="10" 
                   label="Cantidad"
                   style="text-align:right">
+                  <p:ajax 
+                    event="blur" 
+                    listener="#{solicitudPedidoMB.recalcularTotales()}"
+                    update=":tabPanel:formaEditar:tablaProductos" />
                   <f:convertNumber 
                     maxFractionDigits="2" />
-                </h:inputText>
+                </p:inputText>
                 <p:message 
                   for="cantidadProd1"/>
               </p:column>
@@ -498,7 +522,7 @@
                 value="Guardar Ajustes SP" 
                 icon="ui-icon-disk"
                 action="#{solicitudPedidoMB.guardarAjustesSP}"
-                update=":tabPanel:formaEditar:datoDetalle, :tabPanel:forma:tablaDatos"/>
+                update="@all"/>
               <p:commandButton 
                 value="#{msg.generalVolverLista}"
                 icon="ui-icon-cancel"

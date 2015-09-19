@@ -21,7 +21,8 @@ import javax.persistence.Table;
 @Table(name = "productos_x_cliente_comext")
 @NamedQueries(value = {
   @NamedQuery(name = ProductosXClienteComext.PRODUCTOS_X_CLIENTE_COM_EXT_FIND_ALL, query = "SELECT p FROM ProductosXClienteComext p"),
-  @NamedQuery(name = ProductosXClienteComext.PRODUCTOS_X_CLIENTE_SKU, query = "SELECT p FROM ProductosXClienteComext p WHERE p.pk.idCliente= :idCliente AND p.productosInventario.sku= :sku")
+  @NamedQuery(name = ProductosXClienteComext.PRODUCTOS_X_CLIENTE_SKU, query = "SELECT p FROM ProductosXClienteComext p WHERE p.pk.idCliente= :idCliente AND p.productosInventario.sku= :sku"),
+  @NamedQuery(name = ProductosXClienteComext.BUSCAR_POR_PRODUCTO_Y_CLIENTE, query = "SELECT p FROM ProductosXClienteComext p WHERE p.pk.idCliente= :idCliente AND p.pk.idProducto = :idProducto")
 })
 public class ProductosXClienteComext implements Serializable {
 
@@ -31,6 +32,7 @@ public class ProductosXClienteComext implements Serializable {
   private static final long serialVersionUID = -2058658769141993022L;
   public static final String PRODUCTOS_X_CLIENTE_COM_EXT_FIND_ALL = "ProductosXClienteComext.findAll";
   public static final String PRODUCTOS_X_CLIENTE_SKU = "ProductosXClienteComext.findByClienteSku";
+  public static final String BUSCAR_POR_PRODUCTO_Y_CLIENTE = "buscarPorProductoYCliente";
 
   @EmbeddedId
   private ProductosXClienteComextPK pk;

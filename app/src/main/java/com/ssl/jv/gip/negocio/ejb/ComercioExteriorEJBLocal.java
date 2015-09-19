@@ -173,6 +173,8 @@ public interface ComercioExteriorEJBLocal {
    */
   void guardarSolicitudPedido(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
 
+  void verificarSolicitudPedido(DocumentoIncontermDTO sp, DocumentoXNegociacion dxn, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria);
+
   /**
    * Actualizar estado documento.
    *
@@ -381,4 +383,11 @@ public interface ComercioExteriorEJBLocal {
    * @return
    */
   List<ProductosXClienteComext> consultarProductosActivosXCliente(Long idCliente, List<Long> productosAExcluir);
+  
+  /**
+   * 
+   * @param idDocumento
+   * @return
+   */
+  List<ProductosXDocumento> consultarProductosSP(Long sp, Long cliente);
 }

@@ -46,6 +46,10 @@ public class TerminoIncoterm implements Serializable, Comparable<TerminoIncoterm
   public TerminoIncoterm() {
   }
 
+  public TerminoIncoterm(Long id) {
+    this.id = id;
+  }
+
   public Long getId() {
     return this.id;
   }

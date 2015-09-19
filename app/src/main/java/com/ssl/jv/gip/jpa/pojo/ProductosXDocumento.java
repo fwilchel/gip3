@@ -31,7 +31,8 @@ import javax.persistence.Transient;
   @NamedQuery(name = ProductosXDocumento.FIND_PRODUCTOS_BY_DOCUMENTO_CE, query = "SELECT distinct p FROM ProductosXDocumento p JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosXClienteComexts pxc JOIN FETCH pi.productosInventarioComext pic JOIN FETCH pic.tipoLoteoic tl JOIN FETCH pic.cuentaContable  cc WHERE p.id.idDocumento = :idDocumento ORDER BY pic.tipoLoteoic.id"),
   @NamedQuery(name = ProductosXDocumento.BUSCAR_PRODUCTOS_X_DOCUMENTO_LE, query = "SELECT distinct p FROM ProductosXDocumento p JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosInventarioComext pic JOIN FETCH pic.tipoLoteoic tl WHERE p.id.idDocumento = :idDocumento ORDER BY pic.tipoLoteoic.id"),
   @NamedQuery(name = ProductosXDocumento.ELIMINAR_REGISTROS_POR_DOCUMENTO, query = "DELETE FROM ProductosXDocumento pxd WHERE pxd.id.idDocumento = :idDocumento"),
-  @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_PICE, query = "SELECT p FROM ProductosXDocumento p   JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosInventarioComext pic WHERE p.id.idDocumento = :idDocumento ORDER BY p.productosInventario.nombre")
+  @NamedQuery(name = ProductosXDocumento.FIND_BY_DOCUMENTO_PICE, query = "SELECT p FROM ProductosXDocumento p   JOIN FETCH p.productosInventario pi JOIN FETCH pi.productosInventarioComext pic WHERE p.id.idDocumento = :idDocumento ORDER BY p.productosInventario.nombre"),
+  @NamedQuery(name = ProductosXDocumento.BUSCAR_PRODUCTOS_SP_COMERCIO_EXTERIOR, query = "SELECT pxd FROM ProductosXDocumento pxd JOIN FETCH pxd.productosInventario pi JOIN FETCH pi.productosInventarioComext pic WHERE pxd.id.idDocumento = :idDocumento ORDER BY pxd.productosInventario.sku")
 })
 public class ProductosXDocumento implements Serializable {
 
@@ -48,6 +49,7 @@ public class ProductosXDocumento implements Serializable {
   public static final String FIND_PRODUCTOS_BY_DOCUMENTO_CE = "ProductosXDocumento.findProductosByDocumentoCE";
   public static final String BUSCAR_PRODUCTOS_X_DOCUMENTO_LE = "ProductosXDocumento.findProductosCafeLE";
   public static final String FIND_BY_DOCUMENTO_PICE = "ProductosXDocumento.findByDocumento_PICE";
+  public static final String BUSCAR_PRODUCTOS_SP_COMERCIO_EXTERIOR = "ProductosXDocumento.buscarProductosSPComercioExterior";
 
   @EmbeddedId
   private ProductosXDocumentoPK id;

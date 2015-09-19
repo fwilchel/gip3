@@ -261,7 +261,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
    */
   @Override
   public List<DocumentoXLotesoic> consultarDocumentosPorLoteOIC() {
-    List<DocumentoXLotesoic> listado = new ArrayList<DocumentoXLotesoic>();
+    List<DocumentoXLotesoic> listado = new ArrayList<>();
 
     try {
       listado = documentoXLoteDAO.consultarDocumentoXLoteOIC();
@@ -298,7 +298,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
    */
   @Override
   public List<DocumentoIncontermDTO> consultarDocumentosCostosInconterm() {
-    List<DocumentoIncontermDTO> listado = new ArrayList<DocumentoIncontermDTO>();
+    List<DocumentoIncontermDTO> listado = new ArrayList<>();
 
     try {
       listado = documentoDAO.consultarDocumentosCostosInconterm();
@@ -340,8 +340,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
    */
   @Override
   public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido() {
-    List<DocumentoIncontermDTO> listado = new ArrayList<>();
-    listado = documentoDAO.consultarDocumentosSolicitudPedido();
+    List<DocumentoIncontermDTO> listado = documentoDAO.consultarDocumentosSolicitudPedido();
     return listado;
   }
 
@@ -354,7 +353,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
    */
   @Override
   public List<DocumentoIncontermDTO> consultarDocumentosSolicitudPedido(FiltroConsultaSolicitudDTO filtro) {
-    List<DocumentoIncontermDTO> listado = new ArrayList<DocumentoIncontermDTO>();
+    List<DocumentoIncontermDTO> listado = new ArrayList<>();
 
     try {
       listado = documentoDAO.consultarDocumentosSolicitudPedido(filtro);
@@ -374,7 +373,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
    */
   @Override
   public List<DocumentoIncontermDTO> consultarDocumentosGeneral(FiltroConsultaSolicitudDTO filtro) {
-    List<DocumentoIncontermDTO> listado = new ArrayList<DocumentoIncontermDTO>();
+    List<DocumentoIncontermDTO> listado = new ArrayList<>();
 
     try {
       listado = documentoDAO.consultarDocumentosGeneral(filtro);
@@ -393,7 +392,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @Override
   public List<DocumentoIncontermDTO> consultarDocumentosAprobarSolicitudPedido() {
-    List<DocumentoIncontermDTO> listado = new ArrayList<DocumentoIncontermDTO>();
+    List<DocumentoIncontermDTO> listado = new ArrayList<>();
 
     try {
       listado = documentoDAO.consultarDocumentosAprobarSolicitudPedido();
@@ -412,7 +411,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
    */
   @Override
   public List<ProductoPorClienteComExtDTO> consultarListaSolicitudesPedido(Long idDocumento, Long idCliente) {
-    List<ProductoPorClienteComExtDTO> listado = new ArrayList<ProductoPorClienteComExtDTO>();
+    List<ProductoPorClienteComExtDTO> listado = new ArrayList<>();
 
     try {
       listado = productoClienteCEDAO.consultarListaSolicitudesPedido(idDocumento, idCliente);
@@ -432,7 +431,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
    */
   @Override
   public List<ProductoPorClienteComExtDTO> consultarListaProductosPorClienteCE(Long idCliente, String idsProductos, Boolean solicitudCafe) {
-    List<ProductoPorClienteComExtDTO> listado = new ArrayList<ProductoPorClienteComExtDTO>();
+    List<ProductoPorClienteComExtDTO> listado = new ArrayList<>();
 
     try {
       listado = productoClienteCEDAO.consultarListaProductosPorClienteCE(idCliente, idsProductos, solicitudCafe);
@@ -443,6 +442,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     return listado;
   }
 
+  @Override
   public void actualizarEstadoDocumento(DocumentoIncontermDTO documento) {
     documentoDAO.actualizarEstadoDocumento(documento);
   }
@@ -505,7 +505,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
             }
 
           }
-					// Si tiene saldo
+		  // Si tiene saldo
 
           // Consultar la cantidad de producto
           dblCantidadActual = vProducto.getDblCantidad1ActualProductoxDocumento();
@@ -580,6 +580,102 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   }
 
+  @Override
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
+  public void verificarSolicitudPedido(DocumentoIncontermDTO sp, DocumentoXNegociacion dxn, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) {
+    LOGGER.debug("method: update(record, selected)");
+    try {
+      // actualizar el documento
+      Documento solicitud = documentoDAO.findByPK(sp.getIdDocumento());
+      Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
+      EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
+      estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.VERIFICADO);
+      estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
+      estadosxdocumento.setId(estadosxdocumentoPK);
+      solicitud.setEstadosxdocumento(estadosxdocumento);
+      solicitud.setValorTotal(sp.getValorTotalDocumento());
+      solicitud.setUbicacionOrigen(new Ubicacion(sp.getIdUbicacionDestino()));
+      solicitud.setUbicacionDestino(new Ubicacion(sp.getIdUbicacionDestino()));
+      solicitud.setFechaEsperadaEntrega(sp.getFechaEsperadaEntregaDate());
+      documentoDAO.update(solicitud);
+      // ingresar el registro de auditoria
+      auditoria.setTabla("Documentos");
+      auditoria.setAccion("MOD");
+      auditoria.setCampo("Estado");
+      auditoria.setValorAnterior(sp.getEstadoNombre());
+      auditoria.setValorNuevo("Verificado");
+      auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+      auditoria.setIdRegTabla(solicitud.getId());
+      this.logAuditoriaDAO.add(auditoria);
+      // documento x negociacion
+      this.documentoXNegociacionDAO.update(dxn);
+      // consultar los productos asociados a la sp
+      List<ProductosXDocumento> productosPreseleccionados = this.consultarProductosSP(sp.getIdDocumento(), sp.getClientesId());
+      boolean seleccionadosIsEmpty = (productosSeleccionados == null || productosSeleccionados.isEmpty());
+      boolean preseleccionadosIsEmpty = (productosPreseleccionados == null || productosPreseleccionados.isEmpty());
+      if (seleccionadosIsEmpty && preseleccionadosIsEmpty) {
+        // no hacer nada
+      } else if (seleccionadosIsEmpty && !preseleccionadosIsEmpty) {
+        // eliminar los registros de preseleccionados.
+        for (ProductosXDocumento pxd : productosPreseleccionados) {
+          productoXDocumentoDAO.delete(pxd);
+        }
+        LOGGER.debug("productos eliminados");
+      } else if (!seleccionadosIsEmpty && preseleccionadosIsEmpty) {
+        // crear los registros de selected.
+        for (ProductosXDocumento pxd : productosPreseleccionados) {
+          productoXDocumentoDAO.add(pxd);
+          // TODO: validar si maneja stock. si maneja validar saldos y crear los movimientos cuando es requerido
+        }
+        LOGGER.debug("productos agregados");
+      } else {
+        // recorro primero la lista de los preseleccionados, para determinar que registros se deben eliminar.
+        for (ProductosXDocumento pxdPreseleccionado : productosPreseleccionados) {
+          // si no existe se debe eliminar
+          if (!buscarProductoEnLista(pxdPreseleccionado, productosSeleccionados)) {
+            // TODO: debe validar si genera movimiento
+            productoXDocumentoDAO.delete(pxdPreseleccionado);
+            LOGGER.debug("productos eliminado");
+          }
+        }
+        // recorro despues la lista de los seleccionados contra los preseleccionados, de esta manera determino que registros nuevos debo crear y cuales actualizar
+        for (ProductosXDocumento pxdSeleccionado : productosSeleccionados) {
+          // si no existe se debe crear, si existe se debe actualizar
+          if (!buscarProductoEnLista(pxdSeleccionado, productosPreseleccionados)) {
+            // TODO: debe validar si maneja inventario ...
+            productoXDocumentoDAO.add(pxdSeleccionado);
+            LOGGER.debug("producto agregado");
+          } else {
+            // TODO: actualizar el registro ...
+            // validar cantidades
+            // q tipo de movimiento se debe hacer
+            productoXDocumentoDAO.update(pxdSeleccionado);
+            LOGGER.debug("producto actualizado");
+          }
+        }
+      }
+    } catch (Exception ex) {
+      LOGGER.error("Error en <<record>> ->> mensaje ->> {} / causa ->> {} ");
+      throw ex;
+    }
+  }
+
+  /**
+   * Valida si un producto ya se encuentra en la lista. Retorna true si el producto existe en la lista
+   *
+   * @param producto
+   * @param lista
+   * @return
+   */
+  private boolean buscarProductoEnLista(ProductosXDocumento producto, List<ProductosXDocumento> lista) {
+    for (ProductosXDocumento registro : lista) {
+      if (producto.getProductosInventario().getSku().equalsIgnoreCase(registro.getProductosInventario().getSku())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -588,7 +684,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
    */
   @Override
   public List<Ubicacion> consultarUbicacionesPorUsuario(String idUsuario) {
-    List<Ubicacion> listado = new ArrayList<Ubicacion>();
+    List<Ubicacion> listado = new ArrayList<>();
 
     try {
       listado = ubicacionDAO.consultarUbicacionesPorUsuario(idUsuario);
@@ -1377,8 +1473,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   }
 
   @Override
-  public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency,
-          String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal) {
+  public List<CostoLogisticoDTO> generarCostosLogisticos(Long idCliente, List<Long> documentos, TerminoIncotermXMedioTransporte terminoIncoterm, String puerto, String puertos, Long idCurrency, String pais, Integer tipoContenedor1, BigDecimal cantidad1, Integer tipoContenedor2, BigDecimal cantidad2, BigDecimal valorTotal) {
     /*
      * aplica_fob, cfr, cif, fca, cip, dap, dapm, cpt, fcat
      */
@@ -1587,10 +1682,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     this.liquidacionCostoLogisticoDAO.add(lcl);
     int cuantos = 0;
     for (DocumentoCostosLogisticosDTO d : documentos) {
-      cuantos += this.documentoDAO.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(),
-              d.getValorTotalDocumento().add(d.getEtiquetas()).divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(fob),
-              d.getValorTotalDocumento().add(d.getEtiquetas()).divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(fletes),
-              d.getValorTotalDocumento().add(d.getEtiquetas()).divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(seguros));
+      cuantos += this.documentoDAO.actualizarCostosLogisticos(d.getIdDocumento(), d.getIdTerminoIncoterm(), d.getValorTotalDocumento().add(d.getEtiquetas()).divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(fob), d.getValorTotalDocumento().add(d.getEtiquetas()).divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(fletes), d.getValorTotalDocumento().add(d.getEtiquetas()).divide(valorTotal, 2, RoundingMode.HALF_EVEN).multiply(seguros));
     }
     return cuantos;
   }
@@ -1922,5 +2014,34 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
       parametros.put("productosAExcluir", productosAExcluir);
     }
     return productosXClienteComercioExteriorDAO.buscarPorConsultaJPQL(query.toString(), parametros);
+  }
+
+  @Override
+  public List<ProductosXDocumento> consultarProductosSP(Long sp, Long cliente) {
+    LOGGER.trace("Metodo: <<consultarProductosSP>>");
+    if (sp == null) {
+      throw new IllegalArgumentException();
+    }
+    Map<String, Object> parametros;
+    List<ProductosXDocumento> lista;
+    {
+      parametros = new HashMap<>();
+      parametros.put("idDocumento", sp);
+      lista = productoXDocumentoDAO.buscarPorConsultaNombrada(ProductosXDocumento.BUSCAR_PRODUCTOS_SP_COMERCIO_EXTERIOR, parametros);
+    }
+    {
+      for (ProductosXDocumento pxd : lista) {
+        parametros = new HashMap<>();
+        parametros.put("idCliente", cliente);
+        parametros.put("idProducto", pxd.getProductosInventario().getId());
+        try {
+          ProductosXClienteComext pxc = productosXClienteComercioExteriorDAO.buscarRegistroPorConsultaNombrada(ProductosXClienteComext.BUSCAR_POR_PRODUCTO_Y_CLIENTE, parametros);
+          pxd.setValorUnitarioUsd(pxc.getPrecio());
+        } catch (Exception ex) {
+          LOGGER.error("no existe el producto para el cliente");
+        }
+      }
+    }
+    return lista;
   }
 }
