@@ -1010,20 +1010,46 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
   }
 
   @Override
-  public void guardarMovimientosInventarioComercioExterior(List<MovimientosInventarioComext> movimientosInventarioComexts) {
-	Date fecha = new Date();
-	List<MovimientosInventarioComext> ultimosSaldosMovimientosInventarioComExt = movimientosInventarioComextDAO.getUltimosSaldos();
-	for (MovimientosInventarioComext movimientosInventarioComext : movimientosInventarioComexts) {
-	  for (MovimientosInventarioComext ultimoSaldomovimientosInventarioComext : ultimosSaldosMovimientosInventarioComExt) {
-		if (movimientosInventarioComext.getProductosInventarioComext().getProductosInventario().getId().equals(ultimoSaldomovimientosInventarioComext.getProductosInventarioComext().getProductosInventario().getId())) {
-		  movimientosInventarioComext.setSaldo(movimientosInventarioComext.getCantidad().add(ultimoSaldomovimientosInventarioComext.getSaldo()));
-		  break;
-		}
+  public void guardarMovimientosInventarioComercioExterior(List<MovimientosInventarioComext> movimientosInventarioComexts, LogAuditoria auditoria) {
+	for (MovimientosInventarioComext movimiento : movimientosInventarioComexts) {
+	  // auditoria para el movimiento
+	  LogAuditoria aud = new LogAuditoria();
+	  if (movimiento.getTipoMovimiento().getId() == 1L) {
+		aud.setValorAnterior(movimiento.getSaldo().toString());
+		movimiento.setSaldo(movimiento.getSaldo().add(movimiento.getCantidad()));;
+		aud.setAccion("E");
+	  } else {
+		aud.setValorAnterior(movimiento.getSaldo().toString());
+		movimiento.setSaldo(movimiento.getSaldo().subtract(movimiento.getCantidad()));;
+		aud.setAccion("S");
 	  }
-	  movimientosInventarioComext.setFecha(fecha);
-	  movimientosInventarioComext.setProductosInventarioComext(productosInventarioComextDao.findByPK(movimientosInventarioComext.getProductosInventarioComext().getProductosInventario().getId()));
-	  movimientosInventarioComextDAO.add(movimientosInventarioComext);
+	  movimientosInventarioComextDAO.add(movimiento);
+	  aud.setIdRegTabla(movimiento.getId());
+	  aud.setIdUsuario(auditoria.getIdUsuario());
+	  aud.setIdFuncionalidad(auditoria.getIdFuncionalidad());
+	  aud.setTabla("movimientos_inventario_comext");
+	  aud.setCampo("Saldo");
+	  aud.setValorNuevo(movimiento.getSaldo().toString());
+	  aud.setFecha(new Timestamp(System.currentTimeMillis()));
+	  this.logAuditoriaDAO.add(aud);
 	}
+	// Date fecha = new Date();
+	List<MovimientosInventarioComext> ultimosSaldosMovimientosInventarioComExt = movimientosInventarioComextDAO.getUltimosSaldos();
+	// for (MovimientosInventarioComext movimientosInventarioComext :
+	// movimientosInventarioComexts) {
+	// for (MovimientosInventarioComext ultimoSaldomovimientosInventarioComext :
+	// ultimosSaldosMovimientosInventarioComExt) {
+	// if
+	// (movimientosInventarioComext.getProductosInventarioComext().getProductosInventario().getId().equals(ultimoSaldomovimientosInventarioComext.getProductosInventarioComext().getProductosInventario().getId()))
+	// {
+	// movimientosInventarioComext.setSaldo(movimientosInventarioComext.getCantidad().add(ultimoSaldomovimientosInventarioComext.getSaldo()));
+	// break;
+	// }
+	// }
+	// movimientosInventarioComext.setFecha(fecha);
+	// movimientosInventarioComext.setProductosInventarioComext(productosInventarioComextDao.findByPK(movimientosInventarioComext.getProductosInventarioComext().getProductosInventario().getId()));
+	// movimientosInventarioComextDAO.add(movimientosInventarioComext);
+	// }
   }
 
   @Override
@@ -1299,19 +1325,7 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 			parametros.put("descuentoxproducto", pxc.getDescuentoxproducto());
 			parametros.put("otros_descuentos", pxc.getOtrosDescuentos());
 			parametros.put("activo", pxc.getActivo());
-			productoClienteDAO.ejecutarConsultaNativa(""
-				+ "UPDATE productosxcliente SET "
-				+ "fecha_inicial_vigencia = :fecha_inicial_vigencia, "
-				+ "fecha_final_vigencia = :fecha_final_vigencia, "
-				+ "precio_ml = :precio_ml, "
-				+ "precio_usd = :precio_usd, "
-				+ "id_ml = :id_ml, "
-				+ "iva = :iva, "
-				+ "descuentoxproducto = :descuentoxproducto, "
-				+ "otros_descuentos = :otros_descuentos, "
-				+ "activo = :activo "
-				+ "WHERE id = :id", 
-				parametros);
+			productoClienteDAO.ejecutarConsultaNativa("" + "UPDATE productosxcliente SET " + "fecha_inicial_vigencia = :fecha_inicial_vigencia, " + "fecha_final_vigencia = :fecha_final_vigencia, " + "precio_ml = :precio_ml, " + "precio_usd = :precio_usd, " + "id_ml = :id_ml, " + "iva = :iva, " + "descuentoxproducto = :descuentoxproducto, " + "otros_descuentos = :otros_descuentos, " + "activo = :activo " + "WHERE id = :id", parametros);
 		  }
 		} catch (Exception ex) {
 		  productoClienteDAO.add(pxc);
@@ -1362,5 +1376,10 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
 	  }
 	}
 	LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
+  }
+
+  @Override
+  public List<MovimientosInventarioComext> consultarSaldosProductosComercioExterior() {
+	return movimientosInventarioComextDAO.getUltimosSaldos();
   }
 }

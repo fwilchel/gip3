@@ -62,6 +62,11 @@ public class MovimientosInventarioComextDAO extends GenericDAO<MovimientosInvent
   @SuppressWarnings("unchecked")
   @Override
   public List<MovimientosInventarioComext> consultarPorSKU(String sku) {
+    if (sku == null || "".equals(sku)) {
+      sku = "%";
+    } else {
+      sku = "%" + sku + "%";
+    }
     Query query = em.createNamedQuery(MovimientosInventarioComext.FIND_BY_SKU);
     query.setParameter("sku", sku);
     return query.getResultList();

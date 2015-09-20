@@ -2,7 +2,9 @@ package com.ssl.jv.gip.web.mb.maestros;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -15,21 +17,22 @@ import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
+import org.primefaces.event.TabChangeEvent;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
-import com.ssl.jv.gip.jpa.pojo.ProductosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.TipoMovimiento;
 import com.ssl.jv.gip.negocio.dto.ProductosInventarioFiltroDTO;
+import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.negocio.ejb.MaestrosEJBLocal;
-import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
 
 /**
- * @author Juan Jose Buzon
+ * @author Diego Poveda
  *
  */
 @ManagedBean(name = "inventarioComercioExteriorMB")
@@ -42,261 +45,231 @@ public class InventarioComercioExteriorMB extends UtilMB {
   private static final long serialVersionUID = -2386637213204199200L;
 
   private static final Logger LOGGER = Logger.getLogger(InventarioComercioExteriorMB.class);
+  @EJB
+  private MaestrosEJBLocal maestrosEJBLocal;
+  @EJB
+  private ComercioExteriorEJBLocal comercioExteriorEjb;
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
   private String idUsuario;
-  private Integer language = AplicacionMB.SPANISH;
-  private Modo modo;
   private String sku;
-  private List<MovimientosInventarioComext> movimientosInventarioComexts;
-  private MovimientosInventarioComext seleccionado;
-  @EJB
-  private MaestrosEJBLocal maestrosEJBLocal;
+  private Modo modo;
+  private List<MovimientosInventarioComext> historicoMovimientos;
+  private List<MovimientosInventarioComext> nuevosMovimientos;
   private ProductosInventarioFiltroDTO productosInventarioFiltroDTO;
-  private List<ProductosInventario> productosInventarios;
+  private List<ProductosInventario> productos;
   private List<SelectItem> categoriasInventarios;
-  private List<MovimientosInventarioComext> productosSeleccionados;
+  private Map<Long, BigDecimal> ultimosSaldosInventario;
 
   @PostConstruct
   public void init() {
-    idUsuario = menu.getUsuario().getId();
-    movimientosInventarioComexts = new ArrayList<>();
+	modo = Modo.LISTAR;
+	idUsuario = menu.getUsuario().getId();
+	historicoMovimientos = new ArrayList<>();
+	productosInventarioFiltroDTO = new ProductosInventarioFiltroDTO();
+	productos = new ArrayList<>();
+	nuevosMovimientos = new ArrayList<>();
+	cargarCategoriasInventario();
+	ultimosSaldosInventario = this.comercioExteriorEjb.consultarUltimosSaldos();
+  }
+
+  public void reset() {
+	nuevosMovimientos = new ArrayList<>();
+  }
+
+  public void onTabChange(TabChangeEvent event) {
+	switch (event.getTab().getId()) {
+	case "tabHitoricoMovimientos":
+	  modo = Modo.LISTAR;
+	  break;
+	case "tabNuevosMovimientos":
+	  modo = Modo.LISTAR;
+	  break;
+	}
   }
 
   public void consultarMovimientosInventarioComExt(ActionEvent actionEvent) {
-    try {
-      if (sku == null || "".equals(sku)) {
-        sku = "%";
-      } else {
-        sku = "%" + sku + "%";
-      }
-      movimientosInventarioComexts = maestrosEJBLocal.consultarMovimientosInventarioComextsPorSku(sku);
-    } catch (Exception e) {
-      LOGGER.error(e);
-      Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);
-      if (unrollException != null) {
-        this.addMensajeError(unrollException.getLocalizedMessage());
-      } else {
-        unrollException = (Exception) this.unrollException(e, RuntimeException.class);
-        if (unrollException != null) {
-          this.addMensajeError(unrollException.getLocalizedMessage());
-        } else {
-          this.addMensajeError(e);
-        }
-      }
-    }
+	try {
+	  historicoMovimientos = maestrosEJBLocal.consultarMovimientosInventarioComextsPorSku(sku);
+	} catch (Exception e) {
+	  LOGGER.error(e);
+	  Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);
+	  if (unrollException != null) {
+		this.addMensajeError(unrollException.getLocalizedMessage());
+	  } else {
+		unrollException = (Exception) this.unrollException(e, RuntimeException.class);
+		if (unrollException != null) {
+		  this.addMensajeError(unrollException.getLocalizedMessage());
+		} else {
+		  this.addMensajeError(e);
+		}
+	  }
+	}
   }
 
-  public String nuevo() {
-    String outcome = null;
-    try {
-      modo = Modo.CREAR;
-      seleccionado = new MovimientosInventarioComext();
-      productosInventarioFiltroDTO = new ProductosInventarioFiltroDTO();
-      productosInventarios = new ArrayList<>();
-      productosSeleccionados = new ArrayList<>();
-      cargarCategoriasInventario();
-      outcome = "crear_maestro_inventario_ce";
-    } catch (Exception e) {
-      LOGGER.error(e);
-      this.addMensajeError(e);
-    }
-    return outcome;
+  public String afectarInventario() {
+	return "crear_maestro_inventario_ce";
+  }
+
+  public void agregarProducto(ProductosInventario producto) {
+	if (producto != null) {
+	  MovimientosInventarioComext movimiento = new MovimientosInventarioComext();
+	  movimiento.setProductosInventarioComext(producto.getProductosInventarioComext());
+	  movimiento.setConsecutivoDocumento("MANUAL");
+	  movimiento.setTipoMovimiento(new TipoMovimiento(1L));
+	  movimiento.setCantidad(BigDecimal.ONE);
+	  movimiento.setFecha(new Date());
+	  movimiento.setSaldo(ultimosSaldosInventario.get(producto.getProductosInventarioComext().getIdProducto()));
+	  nuevosMovimientos.add(movimiento);
+	  productos.remove(producto);
+	}
+  }
+
+  public void eliminarMovimiento(MovimientosInventarioComext movimiento) {
+	if (movimiento != null) {
+	  nuevosMovimientos.remove(movimiento);
+	}
+  }
+
+  public void guardarMovimientos() {
+	try {
+	  if (nuevosMovimientos.isEmpty()) {
+		this.addMensajeError("No se han incluído productos");
+	  }
+	  // auditoria
+	  LogAuditoria auditoria = new LogAuditoria();
+	  auditoria.setIdUsuario(menu.getUsuario().getId());
+	  auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
+	  maestrosEJBLocal.guardarMovimientosInventarioComercioExterior(nuevosMovimientos, auditoria);
+	  reset();
+	  addMensajeInfo("Se han creado correctamente las movimientos");
+	} catch (Exception e) {
+	  addMensajeError("No fue posible crear los movimientos");
+	  LOGGER.error(e);
+	  Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);
+	  if (unrollException != null) {
+		this.addMensajeError(unrollException.getLocalizedMessage());
+	  } else {
+		this.addMensajeError(e);
+	  }
+	}
   }
 
   private void cargarCategoriasInventario() {
-    List<CategoriasInventario> categorias = maestrosEJBLocal.consultarCategoriasInventarios();
-    SelectItemGroup group;
-    categoriasInventarios = new ArrayList<>();
-    for (CategoriasInventario categoriasInventario : categorias) {
-      group = new SelectItemGroup(categoriasInventario.getNombre());
-      group.setSelectItems(getSelectItems(categoriasInventario.getCategoriasInventarios()));
-      categoriasInventarios.add(group);
-    }
+	List<CategoriasInventario> categorias = maestrosEJBLocal.consultarCategoriasInventarios();
+	SelectItemGroup group;
+	categoriasInventarios = new ArrayList<>();
+	for (CategoriasInventario categoriasInventario : categorias) {
+	  group = new SelectItemGroup(categoriasInventario.getNombre());
+	  group.setSelectItems(getSelectItems(categoriasInventario.getCategoriasInventarios()));
+	  categoriasInventarios.add(group);
+	}
   }
 
   private SelectItem[] getSelectItems(List<CategoriasInventario> categoriasInventarios) {
-    List<SelectItem> items = new ArrayList<>();
-    SelectItem item;
-    for (CategoriasInventario categoriasInventario : categoriasInventarios) {
-      item = new SelectItem(categoriasInventario.getId(), categoriasInventario.getNombre());
-      items.add(item);
-    }
-    return items.toArray(new SelectItem[categoriasInventarios.size()]);
+	List<SelectItem> items = new ArrayList<>();
+	SelectItem item;
+	for (CategoriasInventario categoriasInventario : categoriasInventarios) {
+	  item = new SelectItem(categoriasInventario.getId(), categoriasInventario.getNombre());
+	  items.add(item);
+	}
+	return items.toArray(new SelectItem[categoriasInventarios.size()]);
   }
 
   public void buscarProductosInventarios(ActionEvent event) {
-    try {
-      productosInventarioFiltroDTO.setEstado(true);
-      if (productosInventarioFiltroDTO.getIdCategoria() == -1) {
-        productosInventarioFiltroDTO.setIdCategoria(null);
-      }
-      if (productosInventarioFiltroDTO.getNombre() != null && productosInventarioFiltroDTO.getNombre().trim().equals("")) {
-        productosInventarioFiltroDTO.setNombre("%");
-      }
-      if (productosInventarioFiltroDTO.getSku() != null && productosInventarioFiltroDTO.getSku().trim().equals("")) {
-        productosInventarioFiltroDTO.setSku("%");
-      }
-      productosInventarioFiltroDTO.setControlStock(true);
-      productosInventarios = maestrosEJBLocal.consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(productosInventarioFiltroDTO);
-    } catch (Exception e) {
-      LOGGER.error(e);
-      Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);
-      if (unrollException != null) {
-        this.addMensajeError(unrollException.getLocalizedMessage());
-      } else {
-        unrollException = (Exception) this.unrollException(e, RuntimeException.class);
-        if (unrollException != null) {
-          this.addMensajeError(unrollException.getLocalizedMessage());
-        } else {
-          this.addMensajeError(e);
-        }
-      }
-    }
+	try {
+	  productosInventarioFiltroDTO.setEstado(true);
+	  if (productosInventarioFiltroDTO.getIdCategoria() == -1) {
+		productosInventarioFiltroDTO.setIdCategoria(null);
+	  }
+	  productosInventarioFiltroDTO.setControlStock(true);
+	  productos = maestrosEJBLocal.consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(productosInventarioFiltroDTO);
+	} catch (Exception e) {
+	  LOGGER.error(e);
+	  Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);
+	  if (unrollException != null) {
+		this.addMensajeError(unrollException.getLocalizedMessage());
+	  } else {
+		unrollException = (Exception) this.unrollException(e, RuntimeException.class);
+		if (unrollException != null) {
+		  this.addMensajeError(unrollException.getLocalizedMessage());
+		} else {
+		  this.addMensajeError(e);
+		}
+	  }
+	}
   }
 
-  public void adicionarProductosSeleccionados() {
-    try {
-      for (ProductosInventario productosInventario : productosInventarios) {
-        if (productosInventario.isIncluido() && !estaRelacionado(productosInventario)) {
-          productosSeleccionados.add(crearNuevoMovimientosInventarioComext(productosInventario));
-        }
-      }
-    } catch (Exception e) {
-      LOGGER.error(e);
-      this.addMensajeError(e);
-    }
+  public boolean isModoLista() {
+	return modo == Modo.LISTAR;
   }
 
-  private MovimientosInventarioComext crearNuevoMovimientosInventarioComext(ProductosInventario productosInventario) {
-    MovimientosInventarioComext movimientosInventarioComext = new MovimientosInventarioComext();
-    ProductosInventarioComext productosInventarioComext = new ProductosInventarioComext();
-    productosInventarioComext.setProductosInventario(productosInventario);
-    movimientosInventarioComext.setProductosInventarioComext(productosInventarioComext);
-    movimientosInventarioComext.setCantidad(BigDecimal.ZERO);
-    movimientosInventarioComext.setConsecutivoDocumento("INGRESO");
-    TipoMovimiento tipoMovimiento = new TipoMovimiento();
-    tipoMovimiento.setId(com.ssl.jv.gip.util.TipoMovimiento.ENTRADA.getCodigo());
-    tipoMovimiento.setNombre(com.ssl.jv.gip.util.TipoMovimiento.ENTRADA.getNombre());
-    movimientosInventarioComext.setTipoMovimiento(tipoMovimiento);
-    movimientosInventarioComext.setSaldo(BigDecimal.ZERO);
-    return movimientosInventarioComext;
-  }
-
-  private boolean estaRelacionado(ProductosInventario productosInventario) {
-    boolean relacionado = false;
-    for (MovimientosInventarioComext movimientosInventarioComext : productosSeleccionados) {
-      if (productosInventario.getId().equals(movimientosInventarioComext.getProductosInventarioComext().getProductosInventario().getId())) {
-        relacionado = true;
-        break;
-      }
-    }
-    return relacionado;
-  }
-
-  public String guardarMovimientosInventario() {
-    String outcome = null;
-    try {
-      if (productosSeleccionados.isEmpty()) {
-        this.addMensajeError("No se han incluído productos");
-        return outcome;
-      }
-      for (MovimientosInventarioComext movimientosInventarioComext : productosSeleccionados) {
-        movimientosInventarioComext.setSaldo(movimientosInventarioComext.getCantidad());
-      }
-      maestrosEJBLocal.guardarMovimientosInventarioComercioExterior(productosSeleccionados);
-      movimientosInventarioComexts.addAll(0, productosSeleccionados);
-      outcome = "listado_maestro_inventario_ce";
-    } catch (Exception e) {
-      LOGGER.error(e);
-      Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);
-      if (unrollException != null) {
-        this.addMensajeError(unrollException.getLocalizedMessage());
-      } else {
-        this.addMensajeError(e);
-      }
-    }
-    return outcome;
-  }
-
-  public boolean isCreacion() {
-    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
-      return true;
-    } else {
-      return false;
-    }
+  public boolean isModoEditar() {
+	return modo == Modo.EDITAR;
   }
 
   public String getIdUsuario() {
-    return idUsuario;
+	return idUsuario;
   }
 
   public void setIdUsuario(String idUsuario) {
-    this.idUsuario = idUsuario;
+	this.idUsuario = idUsuario;
   }
 
   public String getSku() {
-    return sku;
+	return sku;
   }
 
   public void setSku(String sku) {
-    this.sku = sku;
+	this.sku = sku;
   }
 
   public MenuMB getMenu() {
-    return menu;
+	return menu;
   }
 
   public void setMenu(MenuMB menu) {
-    this.menu = menu;
+	this.menu = menu;
   }
 
-  public List<MovimientosInventarioComext> getMovimientosInventarioComexts() {
-    return movimientosInventarioComexts;
+  public List<MovimientosInventarioComext> getHistoricoMovimientos() {
+	return historicoMovimientos;
   }
 
-  public void setMovimientosInventarioComexts(List<MovimientosInventarioComext> movimientosInventarioComexts) {
-    this.movimientosInventarioComexts = movimientosInventarioComexts;
-  }
-
-  public MovimientosInventarioComext getSeleccionado() {
-    return seleccionado;
-  }
-
-  public void setSeleccionado(MovimientosInventarioComext seleccionado) {
-    this.seleccionado = seleccionado;
+  public void setHistoricoMovimientos(List<MovimientosInventarioComext> historicoMovimientos) {
+	this.historicoMovimientos = historicoMovimientos;
   }
 
   public ProductosInventarioFiltroDTO getProductosInventarioFiltroDTO() {
-    return productosInventarioFiltroDTO;
+	return productosInventarioFiltroDTO;
   }
 
   public void setProductosInventarioFiltroDTO(ProductosInventarioFiltroDTO productosInventarioFiltroDTO) {
-    this.productosInventarioFiltroDTO = productosInventarioFiltroDTO;
+	this.productosInventarioFiltroDTO = productosInventarioFiltroDTO;
   }
 
-  public List<ProductosInventario> getProductosInventarios() {
-    return productosInventarios;
+  public List<ProductosInventario> getProductos() {
+	return productos;
   }
 
-  public void setProductosInventarios(List<ProductosInventario> productosInventarios) {
-    this.productosInventarios = productosInventarios;
+  public void setProductos(List<ProductosInventario> productos) {
+	this.productos = productos;
   }
 
   public List<SelectItem> getCategoriasInventarios() {
-    return categoriasInventarios;
+	return categoriasInventarios;
   }
 
   public void setCategoriasInventarios(List<SelectItem> categoriasInventarios) {
-    this.categoriasInventarios = categoriasInventarios;
+	this.categoriasInventarios = categoriasInventarios;
   }
 
-  public List<MovimientosInventarioComext> getProductosSeleccionados() {
-    return productosSeleccionados;
+  public List<MovimientosInventarioComext> getNuevosMovimientos() {
+	return nuevosMovimientos;
   }
 
-  public void setProductosSeleccionados(List<MovimientosInventarioComext> productosSeleccionados) {
-    this.productosSeleccionados = productosSeleccionados;
+  public void setNuevosMovimientos(List<MovimientosInventarioComext> nuevosMovimientos) {
+	this.nuevosMovimientos = nuevosMovimientos;
   }
 
 }

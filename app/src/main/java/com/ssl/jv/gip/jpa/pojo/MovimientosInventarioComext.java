@@ -60,6 +60,17 @@ public class MovimientosInventarioComext implements Serializable {
   private Date fecha;
 
   private BigDecimal saldo;
+  
+  public boolean isTieneSaldo(){
+    return saldo != null && saldo.compareTo(BigDecimal.ZERO) == 1;
+  }
+  
+  public boolean controlarCantidad(){
+	if (this.tipoMovimiento != null && this.tipoMovimiento.getId() != null) {
+	  return this.tipoMovimiento.getId() == 2L;
+	}
+	return false;
+  }
 
   public Long getId() {
     return id;

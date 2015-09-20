@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition 
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:h="http://java.sun.com/jsf/html"
   xmlns:f="http://java.sun.com/jsf/core"
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:p="http://primefaces.org/ui"
-  xmlns:misc="http://java.sun.com/jsf/composite/misc"
   template="/resources/#{menuMB.tema}/template/general.xhtml">
   <ui:define 
     name="title">
@@ -15,79 +14,63 @@
     name="contenido">
     <p:spacer 
       height="40"/>
-    <h:form 
-      prependId="false" 
-      id="forma">
-      <p:messages 
-        id="msgs" 
-        showDetail="false" 
-        showSummary="true" 
-        globalOnly="false"
-        showIcon="true" 
-        autoUpdate="true"/>
-      <p:tabView 
-        id="tabPanel">
-        <p:tab 
-          title="#{msg.maestroInventarioComExt_TituloFrame}">
-          <p:panelGrid 
-            columns="3"
-            columnClasses="label,value">
-            <p:outputLabel 
-              value="#{msg.maestroInventarioComExt_SKU}" 
-              for="sku" 
-              styleClass="negrita" />
-            <p:inputText 
-              value="#{inventarioComercioExteriorMB.sku}" 
-              id="sku" 
-              required="false" 
-              disabled="false" 
-              label="#{msg.maestroInventarioComExt_SKU}" />
-            <p:message 
-              for="sku"/>
-          </p:panelGrid>
-          <p:commandButton 
-            value="#{msg.generalConsultar}" 
-            icon="ui-icon-disk" 
-            actionListener="#{inventarioComercioExteriorMB.consultarMovimientosInventarioComExt}" 
-            update=":forma:tabPanel:tablaDatos" />
+    <p:tabView 
+      id="tabPanel">
+      <p:tab 
+        id="tabHitoricoMovimientos"
+        title="Histórico Movimientos Inventario Comercio Exterior">
+        <h:form 
+          id="forma"
+          prependId="false" 
+          rendered="#{inventarioComercioExteriorMB.modoLista}">
+          <p:messages 
+            id="msgs" 
+            showDetail="false" 
+            showSummary="true" 
+            globalOnly="false"
+            showIcon="true" 
+            autoUpdate="true"/>  
           <p:dataTable 
+            id="tblHistoricoMovimientos"
+            widgetVar="tblHistoricoMovimientos" 
+            value="#{inventarioComercioExteriorMB.historicoMovimientos}" 
             var="dato" 
-            widgetVar="datoTabla" 
-            id="tablaDatos"
-            value="#{inventarioComercioExteriorMB.movimientosInventarioComexts}" 
             rows="10"
             emptyMessage="#{msg.generalNoDatos}" 
             paginator="true"
             paginatorPosition="bottom" 
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            rowsPerPageTemplate="5,10,15">
-            <f:facet 
+            rowsPerPageTemplate="10,20,50,100">
+            <f:facet
               name="header">
-              <div 
-                align="right">
+              <div align="right">
                 <p:outputPanel>
-                  <p:commandButton 
-                    action="#{inventarioComercioExteriorMB.nuevo}" 
-                    title="#{msg.generalAdicionarRegistro}"
-                    icon="ui-icon-document" 
-                    value="#{msg.generalAdicionarRegistro}" />
-                  <p:spacer 
-                    width="30"/>
-                  <h:outputText 
-                    value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:outputLabel 
+                    value="#{msg.maestroInventarioComExt_SKU}" 
+                    for="sku" 
+                    styleClass="negrita" />
+                  <p:spacer
+                    height="5"/>
                   <p:inputText 
-                    id="globalFilter"
-                    onkeyup="PF('datoTabla').filter()" 
-                    style="width:150px"
-                    placeholder="#{msg.generalPalabrasBuscar}" />
-                  <p:spacer 
-                    width="30"/>
+                    value="#{inventarioComercioExteriorMB.sku}" 
+                    id="sku" 
+                    required="false" 
+                    disabled="false" 
+                    label="#{msg.maestroInventarioComExt_SKU}" />
+                  <p:spacer
+                    height="5"/>
                   <p:commandButton 
-                    action="introduccion" 
-                    title="#{msg.generalCancelar}" 
-                    ajax="false"
-                    icon="ui-icon-cancel" 
-                    value="#{msg.generalCancelar}" />
+                    value="#{msg.generalConsultar}" 
+                    icon="ui-icon-disk" 
+                    actionListener="#{inventarioComercioExteriorMB.consultarMovimientosInventarioComExt}" 
+                    update=":tabPanel:forma:tblHistoricoMovimientos" />
+                  <p:spacer
+                    height="5"/>
+                  <p:commandButton 
+                    action="#{inventarioComercioExteriorMB.afectarInventario}" 
+                    title="Ingresar movimientos"
+                    icon="ui-icon-document" 
+                    value="Ingresar movimientos" />
                 </p:outputPanel>
               </div>
             </f:facet>
@@ -122,8 +105,7 @@
               <p:outputLabel 
                 value="#{dato.cantidad}" >
                 <f:convertNumber 
-                  maxFractionDigits="2" 
-                  minFractionDigits="2"/>
+                  pattern="#####,###,###,##0.00" />
               </p:outputLabel>
             </p:column>
             <p:column 
@@ -133,8 +115,7 @@
               <p:outputLabel 
                 value="#{dato.saldo}" >
                 <f:convertNumber 
-                  maxFractionDigits="2" 
-                  minFractionDigits="2"/>
+                  pattern="#####,###,###,##0.00" />
               </p:outputLabel>
             </p:column>
             <p:column 
@@ -157,9 +138,9 @@
               </p:outputLabel>
             </p:column>
           </p:dataTable>
-        </p:tab>
-      </p:tabView>
-    </h:form>
+        </h:form>
+      </p:tab>
+    </p:tabView>
   </ui:define>
 </ui:composition>
 

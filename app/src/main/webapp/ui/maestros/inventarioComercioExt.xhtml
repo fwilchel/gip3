@@ -5,7 +5,6 @@
   xmlns:f="http://java.sun.com/jsf/core"
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:p="http://primefaces.org/ui"
-  xmlns:misc="http://java.sun.com/jsf/composite/misc"
   template="/resources/#{menuMB.tema}/template/general.xhtml">
   <ui:define 
     name="title">
@@ -15,133 +14,196 @@
     name="contenido">
     <p:spacer 
       height="40"/>
-    <h:form 
-      prependId="false" 
-      id="forma">
-      <p:messages 
-        id="msgs" 
-        showDetail="false" 
-        showSummary="true" 
-        globalOnly="false"
-        showIcon="true" 
-        autoUpdate="true"/>
-      <p:tabView 
-        id="tabPanel">
-        <p:tab 
-          title="#{msg.maestroInventarioComExt_TituloFrame}">
-          <p:panelGrid 
-            columns="3"
-            columnClasses="label,value">
-            <p:outputLabel 
-              value="#{msg.maestroInventarioComExt_Productos_Asociar}" 
-              for="productosAsociar" 
-              styleClass="negrita" />
-            <p:commandButton 
-              id="productosAsociar" 
-              value="#{msg.generalConsultar}" 
-              icon="ui-icon-disk" 
-              onclick="PF('buscarProdDialog').show();
-                  return false;"/>
-            <p:message 
-              for="productosAsociar"/>
-          </p:panelGrid>
+    <p:tabView 
+      id="tabPanel">
+      <p:tab 
+        id="tabNuevosMovimientos"
+        title="Ingresar movimientos">
+        <h:form 
+          id="frmNuevosMovimientos"
+          prependId="false" 
+          rendered="#{inventarioComercioExteriorMB.modoLista}">
+          <p:messages 
+            id="msgsNuevosMovimientos" 
+            showDetail="false" 
+            showSummary="true" 
+            globalOnly="false"
+            showIcon="true" 
+            autoUpdate="true"/>
           <p:dataTable 
+            id="tblNuevosMovimientos"
+            widgetVar="tblNuevosMovimientos" 
+            value="#{inventarioComercioExteriorMB.nuevosMovimientos}" 
             var="dato" 
-            widgetVar="datoTabla" 
-            id="tablaDatos"
-            value="#{inventarioComercioExteriorMB.productosSeleccionados}" 
-            rows="10"
-            emptyMessage="#{msg.generalNoDatos}" 
-            paginator="true"
-            paginatorPosition="bottom"
-            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            rowsPerPageTemplate="5,10,15">
+            emptyMessage="#{msg.generalNoDatos}" >
             <f:facet 
               name="header">
               <div 
                 align="right">
                 <p:outputPanel>
-                  <p:spacer 
-                    width="30"/>
-                  <h:outputText 
-                    value="#{msg.generalBuscarTodosCampos}: " />
-                  <p:inputText 
-                    id="globalFilter"
-                    onkeyup="PF('datoTabla').filter()" 
-                    style="width:150px"
-                    placeholder="#{msg.generalPalabrasBuscar}" />
-                  <p:spacer 
-                    width="30"/>
+                  <p:commandButton 
+                    value="Historial" 
+                    process="@this" 
+                    icon="ui-icon-cancel" 
+                    action="listado_maestro_inventario_ce" />
+                  <p:commandButton 
+                    value="Seleccionar productos"
+                    immediate="true"
+                    oncomplete="PF('dlgSeleccionarProductos').show()"
+                    update=":dlgSeleccionarProductos"/>
                 </p:outputPanel>
               </div>
             </f:facet>
-            <p:column filterBy="#{dato.productosInventarioComext.productosInventario.id}" headerText="#{msg.maestroInventarioComExt_ID}"
-                      filterMatchMode="contains" sortBy="#{dato.productosInventarioComext.productosInventario.id}">
-              <h:outputText value="#{dato.productosInventarioComext.productosInventario.id}" />
-            </p:column>
-
-            <p:column filterBy="#{dato.productosInventarioComext.productosInventario.sku}" headerText="#{msg.maestroInventarioComExt_SKU}"
-                      filterMatchMode="contains" sortBy="#{dato.productosInventarioComext.productosInventario.sku}" >
-              <h:outputText value="#{dato.productosInventarioComext.productosInventario.sku}" />
-            </p:column>
-
-            <p:column filterBy="#{dato.productosInventarioComext.productosInventario.nombre}" headerText="#{msg.maestroInventarioComExt_Nombre_del_producto}"
-                      filterMatchMode="contains" sortBy="#{dato.productosInventarioComext.productosInventario.nombre}">
-              <h:outputText value="#{dato.productosInventarioComext.productosInventario.nombre}" />
-            </p:column>
-
             <p:column 
-              filterBy="#{dato.cantidad}" 
-              headerText="#{msg.maestroInventarioComExt_Cantidad}"
+              filterBy="#{dato.productosInventarioComext.productosInventario.sku}" 
+              headerText="#{msg.maestroInventarioComExt_SKU}"
               filterMatchMode="contains" 
-              sortBy="#{dato.cantidad}">
-              <h:inputText  
-                id="cantidad" 
+              sortBy="#{dato.productosInventarioComext.productosInventario.sku}" 
+              style="width:100px;">
+              <h:outputText 
+                value="#{dato.productosInventarioComext.productosInventario.sku}" 
+                style="text-align:center;"/>
+            </p:column>
+            <p:column 
+              filterBy="#{dato.productosInventarioComext.productosInventario.nombre}" 
+              headerText="#{msg.maestroInventarioComExt_Nombre_del_producto}"
+              filterMatchMode="contains" 
+              sortBy="#{dato.productosInventarioComext.productosInventario.nombre}">
+              <h:outputText 
+                value="#{dato.productosInventarioComext.productosInventario.nombre}" />
+            </p:column>
+            <p:column 
+              headerText="Tipo de movimiento"
+              filterBy="#{dato.tipoMovimiento.nombre}" 
+              filterMatchMode="contains" 
+              sortBy="#{dato.tipoMovimiento.nombre}"
+              style="width:150px;">
+              <p:selectOneMenu 
+                id="tipoMovimiento" 
+                required="true"
+                value="#{dato.tipoMovimiento.id}"
+                label="Tipo de movimiento"
+                style="width:130px;">
+                <p:ajax 
+                  update="clmCantidad" />
+                <f:selectItem 
+                  itemLabel="Entrada" 
+                  itemValue="1"/>
+                <f:selectItem 
+                  itemLabel="Salida" 
+                  itemValue="2"
+                  itemDisabled="#{!dato.tieneSaldo}"/>
+              </p:selectOneMenu>
+            </p:column>
+            <p:column 
+              id="clmCantidad"
+              headerText="#{msg.maestroInventarioComExt_Cantidad}"
+              style="width:150px;text-align:right;">  
+              <p:spinner 
+                id="cantidadRequeridaEntrada"
                 value="#{dato.cantidad}" 
+                label="#{msg.ispcnTblColCantidad}"
+                stepFactor="1"
+                min="1"
+                max="#{dato.controlarCantidad() ? dato.saldo : 999999999}"
+                required="true"
+                size="16"
+                maxlength="9"
+                style="text-align:right;">
+              </p:spinner>
+              <!--               <p:spinner  -->
+              <!--                 id="cantidadRequeridaSalida" -->
+              <!--                 value="#{dato.cantidad}"  -->
+              <!--                 label="#{msg.ispcnTblColCantidad}" -->
+              <!--                 stepFactor="1" -->
+              <!--                 min="1" -->
+              <!--                 max="#{dato.saldo}" -->
+              <!--                 required="true" -->
+              <!--                 size="16" -->
+              <!--                 maxlength="9" -->
+              <!--                 style="text-align:right;" -->
+              <!--                 rendered="#{dato.controlarCantidad()}"> -->
+              <!--               </p:spinner> -->
+            </p:column>
+            <p:column 
+              headerText="#{msg.maestroInventarioComExt_Saldo}"
+              sortBy="#{dato.saldo}"  
+              style="width:150px;">
+              <p:inputText  
+                value="#{dato.saldo}" 
                 label="#{msg.maestroInventarioComExt_Cantidad}" 
                 required="true" 
-                maxlength="16" />
+                maxlength="16"  
+                disabled="true"
+                style="text-align:right;">
+                <f:convertNumber 
+                  pattern="#####,###,###,##0.00" />
+              </p:inputText>
             </p:column>
+            <p:column 
+              style="width:32px;text-align:center;">
+              <p:commandButton 
+                icon="ui-icon-trash" 
+                title="#{msg.ispcnBtnRemoverProducto}"
+                actionListener="#{inventarioComercioExteriorMB.eliminarMovimiento(dato)}"
+                process="@this" 
+                update=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos">
+              </p:commandButton>
+            </p:column>
+            <f:facet 
+              name="footer">
+              <p:commandButton 
+                value="#{msg.generalGuardar}" 
+                icon="ui-icon-disk" 
+                actionListener="#{inventarioComercioExteriorMB.guardarMovimientos}"
+                update=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos"/>
+              <p:commandButton 
+                value="Limpiar" 
+                process="@this" 
+                icon="ui-icon-cancel"
+                actionListener="#{inventarioComercioExteriorMB.reset()}"
+                update=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos">
+                  <p:resetInput 
+                    target=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos" />
+              </p:commandButton>
+            </f:facet>
           </p:dataTable>
-          <p:commandButton 
-            value="#{msg.generalGuardar}" 
-            icon="ui-icon-disk" 
-            action="#{inventarioComercioExteriorMB.guardarMovimientosInventario}" />
-          <p:commandButton 
-            value="#{msg.generalCancelar}" 
-            process="@this" 
-            icon="ui-icon-cancel" 
-            action="listado_maestro_inventario_ce" />
-        </p:tab>
-      </p:tabView>
-    </h:form>
+        </h:form>
+      </p:tab>
+    </p:tabView>
     <p:dialog 
-      header="#{msg.maestroProductosXClienteBuscarProd}" 
-      widgetVar="buscarProdDialog" 
-      modal="true"
-      showEffect="fade" 
+      id="dlgSeleccionarProductos"
+      widgetVar="dlgSeleccionarProductos" 
+      header="#{msg.maestroProductosXClienteBuscarProd}"
+      modal="true" 
+      showEffect="fade"
       hideEffect="fade" 
       resizable="false" 
       dynamic="true" 
-      id="findProdDlg">
+      width="800"
+      closable="true"
+      position="top"
+      closeOnEscape="true">
+      <p:ajax 
+        event="close" 
+        update="@this"/>
       <h:form 
-        id="formaDlg">
-        <p:outputPanel 
-          id="busquedaProducto" 
-          style="text-align:center;">
-          <p:messages 
-            id="msgs2" 
-            showDetail="false" 
-            showSummary="true" 
-            globalOnly="true"
-            showIcon="true"/>
-          <p:panelGrid 
-            columns="3"
-            columnClasses="label,value">
-            <p:outputLabel 
-              value="#{msg.maestroProductosXClienteCateInv}" 
-              for="categoria" 
-              styleClass="negrita" />
+        id="frmSeleccionarProductos">
+        <p:messages 
+          id="msgsSeleccionarProductos" 
+          showDetail="false" 
+          showSummary="true" 
+          globalOnly="true"
+          showIcon="true"/>
+        <p:panelGrid 
+          columns="2" 
+          layout="grid"
+          columnClasses="label,izquierda">
+          <p:outputLabel 
+            value="#{msg.maestroProductosXClienteCateInv}" 
+            for="categoria" 
+            styleClass="negrita" />
+          <h:panelGroup>
             <p:selectOneMenu 
               id="categoria" 
               value="#{inventarioComercioExteriorMB.productosInventarioFiltroDTO.idCategoria}" 
@@ -155,10 +217,12 @@
             </p:selectOneMenu>
             <p:message 
               for="categoria"/>
-            <p:outputLabel 
-              value="#{msg.maestroProductosXClienteCENombredelProducto}" 
-              for="nombreProd" 
-              styleClass="negrita"/>
+          </h:panelGroup>
+          <p:outputLabel 
+            value="#{msg.maestroProductosXClienteCENombredelProducto}" 
+            for="nombreProd" 
+            styleClass="negrita"/>
+          <h:panelGroup>
             <h:inputText 
               value="#{inventarioComercioExteriorMB.productosInventarioFiltroDTO.nombre}" 
               id="nombreProd" 
@@ -166,10 +230,12 @@
               label="#{msg.maestroProductosXClienteCENombredelProducto}"/>
             <p:message 
               for="nombreProd"/>
-            <p:outputLabel 
-              value="#{msg.maestroProductosXClienteCESKU}" 
-              for="sku" 
-              styleClass="negrita"/>
+          </h:panelGroup>
+          <p:outputLabel 
+            value="#{msg.maestroProductosXClienteCESKU}" 
+            for="sku" 
+            styleClass="negrita"/>
+          <h:panelGroup>
             <h:inputText 
               value="#{inventarioComercioExteriorMB.productosInventarioFiltroDTO.sku}" 
               id="sku" 
@@ -177,85 +243,54 @@
               label="#{msg.maestroProductosXClienteCESKU}"/>
             <p:message 
               for="sku"/>
-            <p:outputLabel 
-              value=""/>
+          </h:panelGroup>
+          <f:facet
+            name="footer">
             <p:commandButton 
               value="#{msg.generalConsultar}" 
               icon="ui-icon-disk" 
               actionListener="#{inventarioComercioExteriorMB.buscarProductosInventarios}" 
-              update=":formaDlg:tablaDatos2" />
-          </p:panelGrid>
-          <p:dataTable 
-            var="dato" 
-            widgetVar="datoTabla2" 
-            id="tablaDatos2"
-            value="#{inventarioComercioExteriorMB.productosInventarios}" 
-            rows="10"
-            emptyMessage="#{msg.generalNoDatos}" 
-            paginator="true"
-            paginatorPosition="bottom"
-            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            rowsPerPageTemplate="5,10,15">
-            <f:facet name="header">
-              <div align="right">
-                <p:outputPanel>
-                  <p:spacer 
-                    width="30"/>
-                  <h:outputText 
-                    value="#{msg.generalBuscarTodosCampos}: " />
-                  <p:inputText 
-                    id="globalFilter"
-                    onkeyup="PF('datoTabla2').filter()" 
-                    style="width:150px"
-                    placeholder="#{msg.generalPalabrasBuscar}" />
-                  <p:spacer 
-                    width="30"/>
-                </p:outputPanel>
-              </div>
-            </f:facet>
-            <p:column 
-              filterBy="#{dato.sku}" 
-              headerText="#{msg.maestroInventarioComExt_SKU}"
-              filterMatchMode="contains" 
-              sortBy="#{dato.sku}">
-              <h:outputText 
-                value="#{dato.sku}" />
-            </p:column>
-            <p:column 
-              filterBy="#{dato.nombre}" 
-              headerText="#{msg.maestroInventarioComExt_Nombre_del_producto}"
-              filterMatchMode="contains" 
-              sortBy="#{dato.nombre}">
-              <h:outputText 
-                value="#{dato.nombre}" />
-            </p:column>
-            <p:column 
-              headerText="#{msg.maestroProductosXClienteIncluirProd}" >
-              <p:selectBooleanCheckbox 
-                value="#{dato.incluido}" 
-                id="seleccionado" 
-                label="#{msg.maestroInventarioComExt_Incluir_Prod}"/>
-            </p:column>
-          </p:dataTable>
-          <p:panelGrid 
-            columns="2"
-            columnClasses="label,value">
+              update=":frmSeleccionarProductos:tblProductos" />
+          </f:facet>
+        </p:panelGrid>
+        <p:dataTable 
+          id="tblProductos"
+          widgetVar="tblProductos" 
+          var="dato" 
+          value="#{inventarioComercioExteriorMB.productos}" 
+          rows="10"
+          emptyMessage="#{msg.generalNoDatos}" 
+          paginator="true"
+          paginatorPosition="bottom"
+          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+          rowsPerPageTemplate="10,20,50,100">
+          <p:column 
+            filterBy="#{dato.sku}" 
+            headerText="#{msg.maestroInventarioComExt_SKU}"
+            filterMatchMode="contains" 
+            sortBy="#{dato.sku}"
+            style="width:100px;">
+            <h:outputText 
+              value="#{dato.sku}" />
+          </p:column>
+          <p:column 
+            filterBy="#{dato.nombre}" 
+            headerText="#{msg.maestroInventarioComExt_Nombre_del_producto}"
+            filterMatchMode="contains" 
+            sortBy="#{dato.nombre}">
+            <h:outputText 
+              value="#{dato.nombre}" />
+          </p:column>
+          <p:column 
+            style="width:32px;text-align: center">
             <p:commandButton 
-              value="#{msg.generalGuardar}" 
-              icon="ui-icon-disk" 
-              action="#{inventarioComercioExteriorMB.adicionarProductosSeleccionados}" 
-              update=":forma:tabPanel:tablaDatos" 
-              oncomplete="PF('buscarProdDialog').hide();" />
-            <p:commandButton 
-              value="#{msg.generalCancelar}" 
+              icon="ui-icon-cart" 
+              title="#{msg.ispcnBtnAgregarProducto}"
+              actionListener="#{inventarioComercioExteriorMB.agregarProducto(dato)}"
               process="@this" 
-              oncomplete="PF('buscarProdDialog').hide();" 
-              icon="ui-icon-cancel" >
-              <p:resetInput 
-                target="busquedaProducto" />
-            </p:commandButton>
-          </p:panelGrid>
-        </p:outputPanel>
+              update="@form :tabPanel:frmNuevosMovimientos:tblNuevosMovimientos"/>
+          </p:column>
+        </p:dataTable>
       </h:form>
     </p:dialog>
   </ui:define>
