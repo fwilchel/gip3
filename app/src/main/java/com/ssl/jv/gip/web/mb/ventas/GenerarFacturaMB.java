@@ -372,7 +372,7 @@ public class GenerarFacturaMB extends UtilMB {
 	parametrosReporte.put("fecha", formatoFecha.format(getFechaActual()));
 	parametrosReporte.put("sku", "A28");
 	parametrosReporte.put("numFactura", facturaGenerada.getConsecutivoDocumento());
-	parametrosReporte.put("tipoImp", "Original");
+	parametrosReporte.put("tipoImp", "ORIGINAL");
 	parametrosReporte.put("anulada", "");
 	boolean tieneOtrosDescuentos = false;
 	List<ProductosXDocumento> pxds = ventasFacturacionEJB.consultarProductosPorDocumentoOrdenadosPorSKU(facturaGenerada.getId());
@@ -407,7 +407,7 @@ public class GenerarFacturaMB extends UtilMB {
 	  StringBuilder nombreArchivo = new StringBuilder();
 	  nombreArchivo.append(facturaGenerada.getConsecutivoDocumento());
 	  nombreArchivo.append("_");
-	  nombreArchivo.append("original");
+	  nombreArchivo.append("ORIGINAL");
 	  nombreArchivo.append(".");
 	  nombreArchivo.append("pdf");
 	  Hashtable<String, String> parametrosConfiguracionReporte;
