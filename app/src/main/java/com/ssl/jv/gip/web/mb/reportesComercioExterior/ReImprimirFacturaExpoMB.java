@@ -169,6 +169,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     BigDecimal dblValorTotalNeg = this.totalValorNeg.multiply(new BigDecimal(100)).divide(new BigDecimal(100));
     Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
     String valorLetrasIngles = NumLetraIng.convert(dblValorTotalNeg.doubleValue());
+    final String TIPO_IMPRESION = "COPIA"; // ORIGINAL
     parametros.put("cliente", seleccionado.getCliente().getNombre());
     parametros.put("nit", seleccionado.getCliente().getNit());
     parametros.put("ciudad", seleccionado.getCliente().getCiudad().getNombre());
@@ -178,8 +179,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     parametros.put("documento", this.seleccionado.getDocumentoCliente());
     parametros.put("fecha", fechaStringGeneracion);
     parametros.put("numFactura", this.seleccionado.getConsecutivoDocumento());
-    parametros.put("tipoImp", "COPY");
-    //parametros.put("tipoImp", "ORIGINAL");
+    parametros.put("tipoImp", TIPO_IMPRESION);
     parametros.put("fechaVigencia", fechaStringVigencia);
     parametros.put("fechaDespacho", fechaStringDespacho);
     parametros.put("totalPesoNeto", this.totalPesoNeto.doubleValue());
@@ -280,7 +280,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
       parametrosR.put("tipo", "pdf");
       String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/FX.jasper");
       ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", (seleccionado.getConsecutivoDocumento() + "_copia.pdf"));
+      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", (seleccionado.getConsecutivoDocumento() + "_" + TIPO_IMPRESION + ".pdf"));
     } catch (Exception e) {
       this.addMensajeError(e);
     }
