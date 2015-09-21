@@ -181,7 +181,7 @@
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_maestro_inventario_ce</from-outcome>
-      <to-view-id>/ui/maestros/listaInventarioComercioExt.xhtml</to-view-id>
+      <to-view-id>/ui/maestros/movimientosInventarioComercioExterior.xhtml</to-view-id>
     </navigation-case>
     <navigation-case>
       <from-outcome>crear_maestro_inventario_ce</from-outcome>

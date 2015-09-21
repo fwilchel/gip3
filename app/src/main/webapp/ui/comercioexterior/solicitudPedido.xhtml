@@ -40,7 +40,7 @@
             paginator="true" 
             paginatorPosition="bottom"
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            rowsPerPageTemplate="10,50,100">
+            rowsPerPageTemplate="10,20,50,100">
             <p:column 
               style="width:32px;text-align:center">
               <p:commandButton 
@@ -63,7 +63,7 @@
               sortBy="#{dato.consecutivoDocumento}"
               filterBy="#{dato.consecutivoDocumento}"
               filterMatchMode="contains"
-              style="width:120px;">
+              style="width:160px;">
               <h:outputText 
                 value="#{dato.consecutivoDocumento}"  />
             </p:column>
