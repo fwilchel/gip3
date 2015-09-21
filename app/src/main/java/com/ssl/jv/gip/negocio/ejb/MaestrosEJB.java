@@ -1021,10 +1021,10 @@ public class MaestrosEJB<puntoVentaDAO> implements MaestrosEJBLocal {
         aud.setAccion("E");
       } else {
         // validar contra el inventario
-        if (movimiento.getProductosInventarioComext().getControlStock()) {          
+        if (movimiento.getProductosInventarioComext().getControlStock()) {
           BigDecimal ultimoSaldo = ultimosSaldosInventario.get(movimiento.getProductosInventarioComext().getIdProducto());
           if (ultimoSaldo == null || ultimoSaldo.compareTo(movimiento.getCantidad()) == -1) {
-            throw new Exception("Saldo insuficiente para el producto " + movimiento.getProductosInventarioComext().getProductosInventario().getSku());
+            throw new Exception("Saldo insuficiente para el producto " + movimiento.getProductosInventarioComext().getProductosInventario().getSku() + ". " + ultimoSaldo + " unidades disponibles.");
           }
         }
         aud.setValorAnterior(movimiento.getSaldo().toString());

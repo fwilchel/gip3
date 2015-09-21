@@ -378,15 +378,15 @@ public interface ComercioExteriorEJBLocal {
 
   /**
    *
-   * @param idCliente
-   * @param productosAExcluir
+   * @param filtro
    * @return
    */
-  List<ProductosXClienteComext> consultarProductosActivosXCliente(Long idCliente, List<Long> productosAExcluir);
+  List<ProductosXClienteComext> consultarProductosActivosXCliente(Map<String, Object> filtro);
 
   /**
    *
-   * @param idDocumento
+   * @param sp
+   * @param cliente
    * @return
    */
   List<ProductosXDocumento> consultarProductosSP(Long sp, Long cliente);

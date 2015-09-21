@@ -26,6 +26,9 @@ import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
+import com.ssl.jv.gip.web.util.Utilidad;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The Class SolicitudPedidoMB.
@@ -52,6 +55,7 @@ public class SolicitudPedidoMB extends UtilMB {
   private BigDecimal totalCantidadCajas = new BigDecimal(0.00);
   private BigDecimal totalCantidadTendidos = new BigDecimal(0.00);
   private BigDecimal totalCantidadPallets = new BigDecimal(0.00);
+  private Map<Long, BigDecimal> ultimosSaldosInventario;
 
   /**
    * Inits the.
@@ -67,7 +71,12 @@ public class SolicitudPedidoMB extends UtilMB {
     this.productosXDocumento = comercioExteriorEJB.consultarProductosSP(this.sp.getIdDocumento(), sp.getClientesId());
     this.recalcularTotales();
     this.modo = Modo.EDITAR;
+    this.consultarSaldosInventarioComercioExterior();
     return null;
+  }
+
+  public void consultarSaldosInventarioComercioExterior() {
+    ultimosSaldosInventario = this.comercioExteriorEJB.consultarUltimosSaldos();
   }
 
   /**
@@ -134,14 +143,17 @@ public class SolicitudPedidoMB extends UtilMB {
    * consultar los productos del cliente activos y q no estan ya en el documento
    */
   public void consultarOtrosProductosDelCliente() {
-    List<Long> productosSeleccionados = new ArrayList<>();
+    Map<String, Object> parametros = new HashMap<>();
+    List<Long> productosAExcluir = new ArrayList<>();
     if (productosXDocumento != null && !productosXDocumento.isEmpty()) {
       for (ProductosXDocumento pxd : productosXDocumento) {
-        productosSeleccionados.add(pxd.getProductosInventario().getId());
+        productosAExcluir.add(pxd.getProductosInventario().getId());
       }
     }
-    // TODO: validar si debe consultar solo productos de café o solo mercadeo
-    productosXCliente = comercioExteriorEJB.consultarProductosActivosXCliente(sp.getClientesId(), productosSeleccionados);
+    parametros.put("cliente", sp.getIdCliente());
+    parametros.put("solicitudCafe", sp.getSolicitudCafe());
+    parametros.put("productosAExcluir", productosAExcluir);
+    productosXCliente = comercioExteriorEJB.consultarProductosActivosXCliente(parametros);
   }
 
   /**
@@ -151,6 +163,16 @@ public class SolicitudPedidoMB extends UtilMB {
    */
   public void agregarProducto(ProductosXClienteComext pxc) {
     if (pxc != null) {
+      if (pxc.getProductosInventario().getProductosInventarioComext().getControlStock()) {
+        BigDecimal ultimoSaldo = ultimosSaldosInventario.get(pxc.getProductosInventario().getId());
+				if (ultimoSaldo == null) {
+					ultimoSaldo = BigDecimal.ZERO;
+				}
+        if (ultimoSaldo.compareTo(BigDecimal.ZERO) == 0) {
+          this.addMensajeWarn("tabPanel:msgsBuscarProductos", Utilidad.stringFormat("Para el producto {0}, no hay saldo siponible.", new String[]{pxc.getProductosInventario().getSku()}));
+          return;
+        }
+      }
       ProductosXDocumento pxd = new ProductosXDocumento();
       ProductosXDocumentoPK pxdID = new ProductosXDocumentoPK();
       pxdID.setIdDocumento(sp.getIdDocumento());
@@ -163,12 +185,13 @@ public class SolicitudPedidoMB extends UtilMB {
       pxd.setMoneda(new Moneda(pxc.getIdMoneda()));
       pxd.setInformacion(false);
       pxd.setCalidad(false);
-      pxd.setCantidad1(BigDecimal.ZERO);
+      pxd.setCantidad1(BigDecimal.ONE);
       pxd.setValorUnitarioUsd(pxc.getPrecio());
       this.calcularTotalesPorRegistro(pxd);
       this.productosXDocumento.add(pxd);
       this.productosXCliente.remove(pxc);
       this.recalcularTotales();
+      this.addMensajeInfo("tabPanel:msgsBuscarProductos", Utilidad.stringFormat("Producto {0} agregado.", new String[]{pxc.getProductosInventario().getSku()}));
     }
   }
 
@@ -220,7 +243,7 @@ public class SolicitudPedidoMB extends UtilMB {
       this.addMensajeInfo("Se ha actualizado correctamente la Solicitud de Pedido " + sp.getConsecutivoDocumento());
       this.init();
     } catch (Exception ex) {
-      this.addMensajeError("Ocurrio un problema. No se guardaron los cambios en la SP.");
+      this.addMensajeError(ex.getMessage());
     }
   }
 

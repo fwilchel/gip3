@@ -206,7 +206,8 @@
                   value="#{solicitudPedidoMB.sp.idTerminoIncoterm}"
                   label="#{msg.TerminoIncotermSP}">
                   <f:selectItem 
-                    itemLabel="#{msg.generalSinSeleccionar}" />
+                    itemLabel="#{msg.generalSinSeleccionar}" 
+                    noSelectionOption="true"/>
                   <f:selectItems 
                     value="#{comunMB.obtenerTerminosInconterm(solicitudPedidoMB.sp.clientesId)}"
                     var="categoria" 
@@ -338,22 +339,25 @@
               </p:column>
               <p:column 
                 headerText="#{msg.comprasCantidadSola}"
-                style="text-align:right">
-                <p:inputText 
+                style="width:120px;text-align:right">
+                <p:spinner 
                   id="cantidadProd1"
-                  value="#{pxd.cantidad1}"
-                  required="true" 
-                  maxlength="10" 
-                  size="10" 
-                  label="Cantidad"
-                  style="text-align:right">
+                  value="#{pxd.cantidad1}" 
+                  label="#{msg.ispcnTblColCantidad}"
+                  stepFactor="1"
+                  min="1"
+                  max="#{999999999}"
+                  required="true"
+                  size="12"
+                  maxlength="9"
+                  style="text-align:right;">                
                   <p:ajax 
-                    event="blur" 
                     listener="#{solicitudPedidoMB.recalcularTotales()}"
-                    update=":tabPanel:formaEditar:tablaProductos" />
+                    update=":tabPanel:formaEditar:tablaProductos"
+                    process="@this" />
                   <f:convertNumber 
-                    maxFractionDigits="2" />
-                </p:inputText>
+                    pattern="#####,###,###,##0" />
+                </p:spinner>
                 <p:message 
                   for="cantidadProd1"/>
               </p:column>
@@ -551,6 +555,9 @@
           <h:form
             id="formBuscarProductos"
             prependId="false">
+            <p:messages
+              id="msgsBuscarProductos" 
+              autoUpdate="true" />
             <p:dataTable 
               id="tablaProd"
               widgetVar="prodTabla" 
