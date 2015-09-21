@@ -22,7 +22,7 @@
         <h:form 
           id="frmNuevosMovimientos"
           prependId="false" 
-          rendered="#{inventarioComercioExteriorMB.modoLista}">
+          rendered="#{inventarioComercioExteriorMB.modoEditar}">
           <p:messages 
             id="msgsNuevosMovimientos" 
             showDetail="false" 
@@ -42,12 +42,13 @@
                 align="right">
                 <p:outputPanel>
                   <p:commandButton 
-                    value="Historial" 
+                    value="Movimientos" 
                     process="@this" 
-                    icon="ui-icon-cancel" 
-                    action="listado_maestro_inventario_ce" />
+                    icon="ui-icon-circle-arrow-w" 
+                    action="#{inventarioComercioExteriorMB.activarModoConsultarMovimientos()}" />
                   <p:commandButton 
                     value="Seleccionar productos"
+                    icon="ui-icon-plus"
                     immediate="true"
                     oncomplete="PF('dlgSeleccionarProductos').show()"
                     update=":dlgSeleccionarProductos"/>
@@ -85,7 +86,7 @@
                 label="Tipo de movimiento"
                 style="width:130px;">
                 <p:ajax 
-                  update="clmCantidad" />
+                  update=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos" />
                 <f:selectItem 
                   itemLabel="Entrada" 
                   itemValue="1"/>
@@ -96,11 +97,10 @@
               </p:selectOneMenu>
             </p:column>
             <p:column 
-              id="clmCantidad"
               headerText="#{msg.maestroInventarioComExt_Cantidad}"
               style="width:150px;text-align:right;">  
               <p:spinner 
-                id="cantidadRequeridaEntrada"
+                id="cantidadRequerida"
                 value="#{dato.cantidad}" 
                 label="#{msg.ispcnTblColCantidad}"
                 stepFactor="1"
@@ -109,21 +109,11 @@
                 required="true"
                 size="16"
                 maxlength="9"
-                style="text-align:right;">
+                style="text-align:right;">                
+                <p:ajax 
+                  update="cantidadRequerida" 
+                  process="@this" />
               </p:spinner>
-              <!--               <p:spinner  -->
-              <!--                 id="cantidadRequeridaSalida" -->
-              <!--                 value="#{dato.cantidad}"  -->
-              <!--                 label="#{msg.ispcnTblColCantidad}" -->
-              <!--                 stepFactor="1" -->
-              <!--                 min="1" -->
-              <!--                 max="#{dato.saldo}" -->
-              <!--                 required="true" -->
-              <!--                 size="16" -->
-              <!--                 maxlength="9" -->
-              <!--                 style="text-align:right;" -->
-              <!--                 rendered="#{dato.controlarCantidad()}"> -->
-              <!--               </p:spinner> -->
             </p:column>
             <p:column 
               headerText="#{msg.maestroInventarioComExt_Saldo}"
@@ -163,8 +153,8 @@
                 icon="ui-icon-cancel"
                 actionListener="#{inventarioComercioExteriorMB.reset()}"
                 update=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos">
-                  <p:resetInput 
-                    target=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos" />
+                <p:resetInput 
+                  target=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos" />
               </p:commandButton>
             </f:facet>
           </p:dataTable>
@@ -184,9 +174,6 @@
       closable="true"
       position="top"
       closeOnEscape="true">
-      <p:ajax 
-        event="close" 
-        update="@this"/>
       <h:form 
         id="frmSeleccionarProductos">
         <p:messages 

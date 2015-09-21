@@ -17,7 +17,6 @@ import javax.faces.model.SelectItemGroup;
 
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
-import org.primefaces.event.TabChangeEvent;
 
 import com.ssl.jv.gip.jpa.pojo.CategoriasInventario;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
@@ -70,22 +69,15 @@ public class InventarioComercioExteriorMB extends UtilMB {
 	productos = new ArrayList<>();
 	nuevosMovimientos = new ArrayList<>();
 	cargarCategoriasInventario();
+	consultarSaldosInventarioComercioExterior();
+  }
+
+  public void consultarSaldosInventarioComercioExterior() {
 	ultimosSaldosInventario = this.comercioExteriorEjb.consultarUltimosSaldos();
   }
 
   public void reset() {
 	nuevosMovimientos = new ArrayList<>();
-  }
-
-  public void onTabChange(TabChangeEvent event) {
-	switch (event.getTab().getId()) {
-	case "tabHitoricoMovimientos":
-	  modo = Modo.LISTAR;
-	  break;
-	case "tabNuevosMovimientos":
-	  modo = Modo.LISTAR;
-	  break;
-	}
   }
 
   public void consultarMovimientosInventarioComExt(ActionEvent actionEvent) {
@@ -107,12 +99,24 @@ public class InventarioComercioExteriorMB extends UtilMB {
 	}
   }
 
-  public String afectarInventario() {
-	return "crear_maestro_inventario_ce";
+  public String activarModoIngresarMovimientos() {
+	modo = Modo.EDITAR;
+	return null;
+  }
+
+  public String activarModoConsultarMovimientos() {
+	modo = Modo.LISTAR;
+	return null;
   }
 
   public void agregarProducto(ProductosInventario producto) {
 	if (producto != null) {
+	  for (MovimientosInventarioComext m : nuevosMovimientos) {
+		if (m.getProductosInventarioComext().getProductosInventario().getId().equals(producto.getId())) {
+		  addMensajeWarn("El producto " + producto.getSku() + " ya se encuentra en la lista.");
+		  break;
+		}
+	  }
 	  MovimientosInventarioComext movimiento = new MovimientosInventarioComext();
 	  movimiento.setProductosInventarioComext(producto.getProductosInventarioComext());
 	  movimiento.setConsecutivoDocumento("MANUAL");
@@ -142,6 +146,7 @@ public class InventarioComercioExteriorMB extends UtilMB {
 	  auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
 	  maestrosEJBLocal.guardarMovimientosInventarioComercioExterior(nuevosMovimientos, auditoria);
 	  reset();
+	  consultarSaldosInventarioComercioExterior();
 	  addMensajeInfo("Se han creado correctamente las movimientos");
 	} catch (Exception e) {
 	  addMensajeError("No fue posible crear los movimientos");
@@ -150,7 +155,7 @@ public class InventarioComercioExteriorMB extends UtilMB {
 	  if (unrollException != null) {
 		this.addMensajeError(unrollException.getLocalizedMessage());
 	  } else {
-		this.addMensajeError(e);
+		this.addMensajeError(e.getMessage());
 	  }
 	}
   }

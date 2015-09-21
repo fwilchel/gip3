@@ -362,7 +362,7 @@ public interface MaestrosEJBLocal {
 
   public List<ProductosInventario> consultarProductosInventariosPorEstadoCategoriaSkuNombreAndControlStock(ProductosInventarioFiltroDTO filtroDTO);
 
-  public void guardarMovimientosInventarioComercioExterior(List<MovimientosInventarioComext> movimientosInventarioComexts, LogAuditoria auditoria);
+  public void guardarMovimientosInventarioComercioExterior(List<MovimientosInventarioComext> movimientosInventarioComexts, LogAuditoria auditoria) throws Exception;
 
   public List<PuntoVenta> consultarPuntoEntrega();
 
@@ -431,6 +431,6 @@ public interface MaestrosEJBLocal {
    * @param auditoria
    */
   void modificarProductosXClientes(ProductosXCliente pxcOld, ProductosXCliente pxcNew, LogAuditoria auditoria);
-  
+
   List<MovimientosInventarioComext> consultarSaldosProductosComercioExterior();
 }
