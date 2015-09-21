@@ -41,284 +41,283 @@ import com.ssl.jv.gip.web.util.Utilidad;
 @SessionScoped
 public class ImprimirFacturaProformaMB extends UtilMB {
 
-  /**
+	/**
    *
    */
-  private static final long serialVersionUID = -6136563159395512436L;
-  private static final Logger LOGGER = Logger.getLogger(ImprimirFacturaProformaMB.class);
-  @ManagedProperty(value = "#{menuMB}")
-  private MenuMB menu;
-  private Modo modo;
-  private List<Documento> facturasProforma;
-  private List<ProductosXDocumento> productosXDocumentos;
-  private Documento seleccionado;
-  private String consecutivoDocumento;
-  @EJB
-  private ReportesEJBLocal reportesEJBLocal;
-  private BigDecimal totalCantidad;
-  private BigDecimal totalValorUnitario;
-  private BigDecimal totalValorTotal;
-  private BigDecimal totalPesoNeto;
-  private BigDecimal totalPesoBruto;
-  private BigDecimal totalCantidadCajas;
-  private BigDecimal totalCantidadTendidos;
-  private BigDecimal totalCantidadPallets;
-  private BigDecimal totalGastos;
-  private BigDecimal totalNegociacion;
+	private static final long serialVersionUID = -6136563159395512436L;
+	private static final Logger LOGGER = Logger.getLogger(ImprimirFacturaProformaMB.class);
+	@ManagedProperty(value = "#{menuMB}")
+	private MenuMB menu;
+	private Modo modo;
+	private List<Documento> facturasProforma;
+	private List<ProductosXDocumento> productosXDocumentos;
+	private Documento seleccionado;
+	private String consecutivoDocumento;
+	@EJB
+	private ReportesEJBLocal reportesEJBLocal;
+	private BigDecimal totalCantidad;
+	private BigDecimal totalValorUnitario;
+	private BigDecimal totalValorTotal;
+	private BigDecimal totalPesoNeto;
+	private BigDecimal totalPesoBruto;
+	private BigDecimal totalCantidadCajas;
+	private BigDecimal totalCantidadTendidos;
+	private BigDecimal totalCantidadPallets;
+	private BigDecimal totalGastos;
+	private BigDecimal totalNegociacion;
 
-  @PostConstruct
-  public void init() {
-  }
+	@PostConstruct
+	public void init() {
+	}
 
-  public void consultarFacturasProforma(ActionEvent actionEvent) {
-    try {
-      consecutivoDocumento = "%" + consecutivoDocumento + "%";
-      facturasProforma = reportesEJBLocal.consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(consecutivoDocumento);
-    } catch (Exception e) {
-      LOGGER.error(e);
-      Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);
-      if (unrollException != null) {
-        this.addMensajeError(unrollException.getLocalizedMessage());
-      } else {
-        unrollException = (Exception) this.unrollException(e, RuntimeException.class);
-        if (unrollException != null) {
-          this.addMensajeError(unrollException.getLocalizedMessage());
-        } else {
-          this.addMensajeError(e);
-        }
-      }
-    }
-  }
+	public void consultarFacturasProforma(ActionEvent actionEvent) {
+		try {
+			consecutivoDocumento = "%" + consecutivoDocumento + "%";
+			facturasProforma = reportesEJBLocal.consultarFacturasProformasActivasAprobadasOAsignadasPorConsecutivo(consecutivoDocumento);
+		} catch (Exception e) {
+			LOGGER.error(e);
+			Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);
+			if (unrollException != null) {
+				this.addMensajeError(unrollException.getLocalizedMessage());
+			} else {
+				unrollException = (Exception) this.unrollException(e, RuntimeException.class);
+				if (unrollException != null) {
+					this.addMensajeError(unrollException.getLocalizedMessage());
+				} else {
+					this.addMensajeError(e);
+				}
+			}
+		}
+	}
 
-  public String editar() {
-    String outcome = null;
-    try {
-      this.modo = Modo.EDITAR;
+	public String editar() {
+		String outcome = null;
+		try {
+			this.modo = Modo.EDITAR;
+			totalCantidad = BigDecimal.ZERO;
+			totalValorUnitario = BigDecimal.ZERO;
+			totalValorTotal = BigDecimal.ZERO;
+			totalPesoNeto = BigDecimal.ZERO;
+			totalPesoBruto = BigDecimal.ZERO;
+			totalCantidadCajas = BigDecimal.ZERO;
+			totalCantidadTendidos = BigDecimal.ZERO;
+			totalCantidadPallets = BigDecimal.ZERO;
+			totalGastos = BigDecimal.ZERO;
+			List<DocumentoXNegociacion> documentoXNegociacions = seleccionado.getDocumentoXNegociacions();
+			if (documentoXNegociacions != null && !documentoXNegociacions.isEmpty()) {
+				DocumentoXNegociacion documentoXNegociacion = documentoXNegociacions.get(0);
+				totalGastos = totalGastos.add(documentoXNegociacion.getCostoEntrega() == null ? BigDecimal.ZERO : documentoXNegociacion.getCostoEntrega())
+						.add(documentoXNegociacion.getCostoFlete() == null ? BigDecimal.ZERO : documentoXNegociacion.getCostoFlete())
+						.add(documentoXNegociacion.getCostoSeguro() == null ? BigDecimal.ZERO : documentoXNegociacion.getCostoSeguro())
+						.add(documentoXNegociacion.getOtrosGastos() == null ? BigDecimal.ZERO : documentoXNegociacion.getOtrosGastos());
+			}
+			productosXDocumentos = reportesEJBLocal.consultarProductosXDocumentosFacturaProformaPorDocumento_PICE(seleccionado.getId());
+			for (ProductosXDocumento productosXDocumento : productosXDocumentos) {
+				totalCantidad = totalCantidad.add(productosXDocumento.getCantidad1() == null ? BigDecimal.ZERO : productosXDocumento.getCantidad1());
+				totalValorUnitario = totalValorUnitario.add(productosXDocumento.getValorUnitarioUsd() == null ? BigDecimal.ZERO : productosXDocumento.getValorUnitarioUsd());
+				totalValorTotal = totalValorTotal.add(productosXDocumento.getValorTotal() == null ? BigDecimal.ZERO : productosXDocumento.getValorTotal());
+				totalPesoNeto = totalPesoNeto.add(productosXDocumento.getTotalPesoNetoItem() == null ? BigDecimal.ZERO : productosXDocumento.getTotalPesoNetoItem());
+				totalPesoBruto = totalPesoBruto.add(productosXDocumento.getTotalPesoBrutoItem() == null ? BigDecimal.ZERO : productosXDocumento.getTotalPesoBrutoItem());
+				totalCantidadCajas = totalCantidadCajas.add(productosXDocumento.getCantidadCajasItem() == null ? BigDecimal.ZERO : productosXDocumento.getCantidadCajasItem());
+				totalCantidadTendidos = totalCantidadTendidos.add(productosXDocumento.getCantidadXEmbalaje() == null ? BigDecimal.ZERO : productosXDocumento.getCantidadXEmbalaje());
+				BigDecimal cantidadXEmbalaje = productosXDocumento.getProductosInventario().getProductosInventarioComext().getCantidadXEmbalaje();
+				BigDecimal totalCajasXPallet = productosXDocumento.getProductosInventario().getProductosInventarioComext().getTotalCajasXPallet();
+				if ((cantidadXEmbalaje == null || cantidadXEmbalaje.compareTo(BigDecimal.ZERO) == 0) || (totalCajasXPallet == null || totalCajasXPallet.compareTo(BigDecimal.ZERO) == 0)) {
+					totalCantidadPallets = BigDecimal.ZERO;
+				} else {
+					totalCantidadPallets = totalCantidadPallets.add(productosXDocumento.getCantidad1().divide(cantidadXEmbalaje, 2, RoundingMode.HALF_DOWN).divide(totalCajasXPallet, 2, RoundingMode.HALF_DOWN));
+				}
+			}
+			totalNegociacion = totalValorTotal.add(totalGastos);
+			outcome = "consultar_factura_proforma";
+		} catch (Exception e) {
+			LOGGER.error(e);
+			this.addMensajeError(e);
+		}
+		return outcome;
+	}
 
-      totalCantidad = BigDecimal.ZERO;
-      totalValorUnitario = BigDecimal.ZERO;
-      totalValorTotal = BigDecimal.ZERO;
-      totalPesoNeto = BigDecimal.ZERO;
-      totalPesoBruto = BigDecimal.ZERO;
-      totalCantidadCajas = BigDecimal.ZERO;
-      totalCantidadTendidos = BigDecimal.ZERO;
-      totalCantidadPallets = BigDecimal.ZERO;
+	public StreamedContent getReporteFacturaProforma() {
+		StreamedContent reportePDF = null;
+		try {
+			Map<String, Object> parametros = new HashMap<>();
+			Cliente cliente = seleccionado.getCliente();
+			DocumentoXNegociacion documentoXNegociacion = new DocumentoXNegociacion();
+			List<DocumentoXNegociacion> documentoXNegociacions = seleccionado.getDocumentoXNegociacions();
+			if (documentoXNegociacions != null && !documentoXNegociacions.isEmpty()) {
+				documentoXNegociacion = documentoXNegociacions.get(0);
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			Date fechaGeneracion = seleccionado.getFechaGeneracion();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(fechaGeneracion);
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+			parametros.put("cliente", cliente.getNombre());
+			parametros.put("nit", cliente.getNit());
+			parametros.put("ciudad", cliente.getCiudad().getNombre());
+			parametros.put("direccion", cliente.getDireccion());
+			parametros.put("telefono", cliente.getTelefono());
+			parametros.put("contacto", cliente.getContacto());
+			parametros.put("documento", seleccionado.getDocumentoCliente());
+			parametros.put("fecha", sdf.format(fechaGeneracion));
+			parametros.put("numFactura", seleccionado.getConsecutivoDocumento());
+			parametros.put("tipoImp", "ORIGINAL");
+			parametros.put("fechaVigencia", sdf.format(seleccionado.getFechaEsperadaEntrega()));
+			parametros.put("fechaDespacho", sdf.format(calendar.getTime()));
+			parametros.put("totalPesoNeto", null); // totalPesoNeto
+			parametros.put("totalPesoBruto", null); // totalPesoBruto
+			parametros.put("totalCajas", null); // totalCantidadCajas
+			parametros.put("totalPallets", null); // totalCantidadPallets
+			parametros.put("costoEntrega", documentoXNegociacion.getCostoEntrega());
+			parametros.put("costoSeguro", documentoXNegociacion.getCostoSeguro());
+			parametros.put("costoFlete", documentoXNegociacion.getCostoFlete());
+			parametros.put("otrosCostos", documentoXNegociacion.getOtrosGastos());
+			parametros.put("totalNegociacion", this.totalNegociacion);
+			parametros.put("incoterm", documentoXNegociacion.getTerminoIncoterm() == null ? "" : documentoXNegociacion.getTerminoIncoterm().getDescripcion());
+			String lugarIncoterm = documentoXNegociacion.getLugarIncoterm() == null ? "" : documentoXNegociacion.getLugarIncoterm();
+			parametros.put("lugarIncoterm", "(" + lugarIncoterm + ")");
+			parametros.put("valorLetras", Utilidad.convertNumberToWords(this.totalNegociacion.doubleValue()));
+			parametros.put("solicitud", seleccionado.getObservacionDocumento());
+			if (cliente.getModoFactura() != null && cliente.getModoFactura() == 1) {
+				parametros.put("metodoPago", cliente.getMetodoPago().getDescripcionIngles());
+			} else {
+				parametros.put("metodoPago", cliente.getMetodoPago().getDescripcion());
+			}
+			JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(productosXDocumentos);
+			Hashtable<String, String> parametrosR = new Hashtable<>();
+			parametrosR.put("tipo", "pdf");
+			String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/FP.jasper");
+			ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
+			reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", (seleccionado.getConsecutivoDocumento() + "_ORIGINAL.pdf"));
+		} catch (Exception e) {
+			LOGGER.error(e);
+			this.addMensajeError(e);
+		}
+		return reportePDF;
+	}
 
-      totalGastos = BigDecimal.ZERO;
-      List<DocumentoXNegociacion> documentoXNegociacions = seleccionado.getDocumentoXNegociacions();
-      if (documentoXNegociacions != null && !documentoXNegociacions.isEmpty()) {
-        DocumentoXNegociacion documentoXNegociacion = documentoXNegociacions.get(0);
-        totalGastos = totalGastos.add(documentoXNegociacion.getCostoEntrega() == null ? BigDecimal.ZERO : documentoXNegociacion.getCostoEntrega())
-                .add(documentoXNegociacion.getCostoFlete() == null ? BigDecimal.ZERO : documentoXNegociacion.getCostoFlete())
-                .add(documentoXNegociacion.getCostoSeguro() == null ? BigDecimal.ZERO : documentoXNegociacion.getCostoSeguro())
-                .add(documentoXNegociacion.getOtrosGastos() == null ? BigDecimal.ZERO : documentoXNegociacion.getOtrosGastos());
-      }
+	public boolean isCreacion() {
+		return this.modo != null && this.modo.equals(Modo.CREAR);
+	}
 
-      productosXDocumentos = reportesEJBLocal.consultarProductosXDocumentosFacturaProformaPorDocumento_PICE(seleccionado.getId());
+	public MenuMB getMenu() {
+		return menu;
+	}
 
-      for (ProductosXDocumento productosXDocumento : productosXDocumentos) {
-        totalCantidad = totalCantidad.add(productosXDocumento.getCantidad1() == null ? BigDecimal.ZERO : productosXDocumento.getCantidad1());
-        totalValorUnitario = totalValorUnitario.add(productosXDocumento.getValorUnitarioUsd() == null ? BigDecimal.ZERO : productosXDocumento.getValorUnitarioUsd());
-        totalValorTotal = totalValorTotal.add(productosXDocumento.getValorTotal() == null ? BigDecimal.ZERO : productosXDocumento.getValorTotal());
-        totalPesoNeto = totalPesoNeto.add(productosXDocumento.getTotalPesoNetoItem() == null ? BigDecimal.ZERO : productosXDocumento.getTotalPesoNetoItem());
-        totalPesoBruto = totalPesoBruto.add(productosXDocumento.getTotalPesoBrutoItem() == null ? BigDecimal.ZERO : productosXDocumento.getTotalPesoBrutoItem());
-        totalCantidadCajas = totalCantidadCajas.add(productosXDocumento.getCantidadCajasItem() == null ? BigDecimal.ZERO : productosXDocumento.getCantidadCajasItem());
-        totalCantidadTendidos = totalCantidadTendidos.add(productosXDocumento.getCantidadXEmbalaje() == null ? BigDecimal.ZERO : productosXDocumento.getCantidadXEmbalaje());
-        totalCantidadPallets = totalCantidadPallets.add(productosXDocumento.getCantidad1().divide(productosXDocumento.getProductosInventario().getProductosInventarioComext().getCantidadXEmbalaje(), 2, RoundingMode.HALF_DOWN).divide(productosXDocumento.getProductosInventario().getProductosInventarioComext().getTotalCajasXPallet(), 2, RoundingMode.HALF_DOWN));
-      }
+	public void setMenu(MenuMB menu) {
+		this.menu = menu;
+	}
 
-      totalNegociacion = totalValorTotal.add(totalGastos);
+	public List<Documento> getFacturasProforma() {
+		return facturasProforma;
+	}
 
-      outcome = "consultar_factura_proforma";
-    } catch (Exception e) {
-      LOGGER.error(e);
-      this.addMensajeError(e);
-    }
-    return outcome;
-  }
+	public void setFacturasProforma(List<Documento> facturasProforma) {
+		this.facturasProforma = facturasProforma;
+	}
 
-  public StreamedContent getReporteFacturaProforma() {
-    StreamedContent reportePDF = null;
-    try {
-      Map<String, Object> parametros = new HashMap<>();
-      Cliente cliente = seleccionado.getCliente();
-      DocumentoXNegociacion documentoXNegociacion = new DocumentoXNegociacion();
-      List<DocumentoXNegociacion> documentoXNegociacions = seleccionado.getDocumentoXNegociacions();
-      if (documentoXNegociacions != null && !documentoXNegociacions.isEmpty()) {
-        documentoXNegociacion = documentoXNegociacions.get(0);
-      }
-      SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-      Date fechaGeneracion = seleccionado.getFechaGeneracion();
-      Calendar calendar = Calendar.getInstance();
-      calendar.setTime(fechaGeneracion);
-      calendar.add(Calendar.DAY_OF_MONTH, 1);
-      parametros.put("cliente", cliente.getNombre());
-      parametros.put("nit", cliente.getNit());
-      parametros.put("ciudad", cliente.getCiudad().getNombre());
-      parametros.put("direccion", cliente.getDireccion());
-      parametros.put("telefono", cliente.getTelefono());
-      parametros.put("contacto", cliente.getContacto());
-      parametros.put("documento", seleccionado.getDocumentoCliente());
-      parametros.put("fecha", sdf.format(fechaGeneracion));
-      parametros.put("numFactura", seleccionado.getConsecutivoDocumento());
-      parametros.put("tipoImp", "Original");
-      parametros.put("fechaVigencia", sdf.format(seleccionado.getFechaEsperadaEntrega()));
-      parametros.put("fechaDespacho", sdf.format(calendar.getTime()));
-      parametros.put("totalPesoNeto", null); // totalPesoNeto
-      parametros.put("totalPesoBruto", null); // totalPesoBruto
-      parametros.put("totalCajas", null); // totalCantidadCajas
-      parametros.put("totalPallets", null); // totalCantidadPallets
-      parametros.put("costoEntrega", documentoXNegociacion.getCostoEntrega());
-      parametros.put("costoSeguro", documentoXNegociacion.getCostoSeguro());
-      parametros.put("costoFlete", documentoXNegociacion.getCostoFlete());
-      parametros.put("otrosCostos", documentoXNegociacion.getOtrosGastos());
-      parametros.put("totalNegociacion", this.totalNegociacion);
-      parametros.put("incoterm", documentoXNegociacion.getTerminoIncoterm() == null ? "" : documentoXNegociacion.getTerminoIncoterm().getDescripcion());
-      String lugarIncoterm = documentoXNegociacion.getLugarIncoterm() == null ? "" : documentoXNegociacion.getLugarIncoterm();
-      parametros.put("lugarIncoterm", "(" + lugarIncoterm + ")");
-      parametros.put("valorLetras", Utilidad.convertNumberToWords(this.totalNegociacion.doubleValue()));
-      parametros.put("solicitud", seleccionado.getObservacionDocumento());
-      if (cliente.getModoFactura() != null && cliente.getModoFactura() == 1) {
-        parametros.put("metodoPago", cliente.getMetodoPago().getDescripcionIngles());
-      } else {
-        parametros.put("metodoPago", cliente.getMetodoPago().getDescripcion());
-      }
-      JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(productosXDocumentos);
-      Hashtable<String, String> parametrosR = new Hashtable<>();
-      parametrosR.put("tipo", "pdf");
-      String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/FP.jasper");
-      ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
-      reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", (seleccionado.getConsecutivoDocumento() + "_original.pdf"));
-    } catch (Exception e) {
-      LOGGER.error(e);
-      this.addMensajeError(e);
-    }
-    return reportePDF;
-  }
+	public Documento getSeleccionado() {
+		return seleccionado;
+	}
 
-  public boolean isCreacion() {
-    return this.modo != null && this.modo.equals(Modo.CREAR);
-  }
+	public void setSeleccionado(Documento seleccionado) {
+		this.seleccionado = seleccionado;
+	}
 
-  public MenuMB getMenu() {
-    return menu;
-  }
+	public String getConsecutivoDocumento() {
+		return consecutivoDocumento;
+	}
 
-  public void setMenu(MenuMB menu) {
-    this.menu = menu;
-  }
+	public void setConsecutivoDocumento(String consecutivoDocumento) {
+		this.consecutivoDocumento = consecutivoDocumento;
+	}
 
-  public List<Documento> getFacturasProforma() {
-    return facturasProforma;
-  }
+	public List<ProductosXDocumento> getProductosXDocumentos() {
+		return productosXDocumentos;
+	}
 
-  public void setFacturasProforma(List<Documento> facturasProforma) {
-    this.facturasProforma = facturasProforma;
-  }
+	public void setProductosXDocumentos(List<ProductosXDocumento> productosXDocumentos) {
+		this.productosXDocumentos = productosXDocumentos;
+	}
 
-  public Documento getSeleccionado() {
-    return seleccionado;
-  }
+	public BigDecimal getTotalCantidad() {
+		return totalCantidad;
+	}
 
-  public void setSeleccionado(Documento seleccionado) {
-    this.seleccionado = seleccionado;
-  }
+	public void setTotalCantidad(BigDecimal totalCantidad) {
+		this.totalCantidad = totalCantidad;
+	}
 
-  public String getConsecutivoDocumento() {
-    return consecutivoDocumento;
-  }
+	public BigDecimal getTotalValorUnitario() {
+		return totalValorUnitario;
+	}
 
-  public void setConsecutivoDocumento(String consecutivoDocumento) {
-    this.consecutivoDocumento = consecutivoDocumento;
-  }
+	public void setTotalValorUnitario(BigDecimal totalValorUnitario) {
+		this.totalValorUnitario = totalValorUnitario;
+	}
 
-  public List<ProductosXDocumento> getProductosXDocumentos() {
-    return productosXDocumentos;
-  }
+	public BigDecimal getTotalValorTotal() {
+		return totalValorTotal;
+	}
 
-  public void setProductosXDocumentos(
-          List<ProductosXDocumento> productosXDocumentos) {
-    this.productosXDocumentos = productosXDocumentos;
-  }
+	public void setTotalValorTotal(BigDecimal totalValorTotal) {
+		this.totalValorTotal = totalValorTotal;
+	}
 
-  public BigDecimal getTotalCantidad() {
-    return totalCantidad;
-  }
+	public BigDecimal getTotalPesoNeto() {
+		return totalPesoNeto;
+	}
 
-  public void setTotalCantidad(BigDecimal totalCantidad) {
-    this.totalCantidad = totalCantidad;
-  }
+	public void setTotalPesoNeto(BigDecimal totalPesoNeto) {
+		this.totalPesoNeto = totalPesoNeto;
+	}
 
-  public BigDecimal getTotalValorUnitario() {
-    return totalValorUnitario;
-  }
+	public BigDecimal getTotalPesoBruto() {
+		return totalPesoBruto;
+	}
 
-  public void setTotalValorUnitario(BigDecimal totalValorUnitario) {
-    this.totalValorUnitario = totalValorUnitario;
-  }
+	public void setTotalPesoBruto(BigDecimal totalPesoBruto) {
+		this.totalPesoBruto = totalPesoBruto;
+	}
 
-  public BigDecimal getTotalValorTotal() {
-    return totalValorTotal;
-  }
+	public BigDecimal getTotalCantidadCajas() {
+		return totalCantidadCajas;
+	}
 
-  public void setTotalValorTotal(BigDecimal totalValorTotal) {
-    this.totalValorTotal = totalValorTotal;
-  }
+	public void setTotalCantidadCajas(BigDecimal totalCantidadCajas) {
+		this.totalCantidadCajas = totalCantidadCajas;
+	}
 
-  public BigDecimal getTotalPesoNeto() {
-    return totalPesoNeto;
-  }
+	public BigDecimal getTotalCantidadTendidos() {
+		return totalCantidadTendidos;
+	}
 
-  public void setTotalPesoNeto(BigDecimal totalPesoNeto) {
-    this.totalPesoNeto = totalPesoNeto;
-  }
+	public void setTotalCantidadTendidos(BigDecimal totalCantidadTendidos) {
+		this.totalCantidadTendidos = totalCantidadTendidos;
+	}
 
-  public BigDecimal getTotalPesoBruto() {
-    return totalPesoBruto;
-  }
+	public BigDecimal getTotalCantidadPallets() {
+		return totalCantidadPallets;
+	}
 
-  public void setTotalPesoBruto(BigDecimal totalPesoBruto) {
-    this.totalPesoBruto = totalPesoBruto;
-  }
+	public void setTotalCantidadPallets(BigDecimal totalCantidadPallets) {
+		this.totalCantidadPallets = totalCantidadPallets;
+	}
 
-  public BigDecimal getTotalCantidadCajas() {
-    return totalCantidadCajas;
-  }
+	public BigDecimal getTotalGastos() {
+		return totalGastos;
+	}
 
-  public void setTotalCantidadCajas(BigDecimal totalCantidadCajas) {
-    this.totalCantidadCajas = totalCantidadCajas;
-  }
+	public void setTotalGastos(BigDecimal totalGastos) {
+		this.totalGastos = totalGastos;
+	}
 
-  public BigDecimal getTotalCantidadTendidos() {
-    return totalCantidadTendidos;
-  }
+	public BigDecimal getTotalNegociacion() {
+		return totalNegociacion;
+	}
 
-  public void setTotalCantidadTendidos(BigDecimal totalCantidadTendidos) {
-    this.totalCantidadTendidos = totalCantidadTendidos;
-  }
-
-  public BigDecimal getTotalCantidadPallets() {
-    return totalCantidadPallets;
-  }
-
-  public void setTotalCantidadPallets(BigDecimal totalCantidadPallets) {
-    this.totalCantidadPallets = totalCantidadPallets;
-  }
-
-  public BigDecimal getTotalGastos() {
-    return totalGastos;
-  }
-
-  public void setTotalGastos(BigDecimal totalGastos) {
-    this.totalGastos = totalGastos;
-  }
-
-  public BigDecimal getTotalNegociacion() {
-    return totalNegociacion;
-  }
-
-  public void setTotalNegociacion(BigDecimal totalNegociacion) {
-    this.totalNegociacion = totalNegociacion;
-  }
+	public void setTotalNegociacion(BigDecimal totalNegociacion) {
+		this.totalNegociacion = totalNegociacion;
+	}
 
 }
