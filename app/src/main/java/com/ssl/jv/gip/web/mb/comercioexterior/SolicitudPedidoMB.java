@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -12,7 +14,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
@@ -27,8 +28,6 @@ import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Modo;
 import com.ssl.jv.gip.web.util.Utilidad;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The Class SolicitudPedidoMB.
@@ -169,7 +168,7 @@ public class SolicitudPedidoMB extends UtilMB {
 					ultimoSaldo = BigDecimal.ZERO;
 				}
         if (ultimoSaldo.compareTo(BigDecimal.ZERO) == 0) {
-          this.addMensajeWarn("tabPanel:msgsBuscarProductos", Utilidad.stringFormat("Para el producto {0}, no hay saldo siponible.", new String[]{pxc.getProductosInventario().getSku()}));
+          this.addMensajeWarn(":tabPanel:msgsBuscarProductos", Utilidad.stringFormat("Para el producto {0}, no hay saldo siponible.", new String[]{pxc.getProductosInventario().getSku()}));
           return;
         }
       }
@@ -178,20 +177,22 @@ public class SolicitudPedidoMB extends UtilMB {
       pxdID.setIdDocumento(sp.getIdDocumento());
       pxdID.setIdProducto(pxc.getProductosInventario().getId());
       pxd.setId(pxdID);
-      pxd.setDocumento(new Documento(sp.getIdDocumento()));
+      pxd.setDocumento(comercioExteriorEJB.consultarDocumentoPorId(sp.getIdDocumento())); // TODO: esto no seria necesario si el listado fuera de documentos
       pxd.setProductosInventario(pxc.getProductosInventario());
-      pxd.setUnidade(pxc.getProductosInventario().getUnidadVenta());
-      pxd.setFechaEntrega(sp.getFechaEntrega());
-      pxd.setMoneda(new Moneda(pxc.getIdMoneda()));
       pxd.setInformacion(false);
       pxd.setCalidad(false);
+      pxd.setFechaEntrega(sp.getFechaEsperadaEntregaDate());
+      pxd.setFechaEstimadaEntrega(sp.getFechaEsperadaEntregaDate());
       pxd.setCantidad1(BigDecimal.ONE);
+      pxd.setCantidad2(BigDecimal.ZERO);
+      pxd.setUnidade(pxc.getProductosInventario().getUnidadVenta());
+      pxd.setMoneda(new Moneda(pxc.getIdMoneda()));
       pxd.setValorUnitarioUsd(pxc.getPrecio());
-      this.calcularTotalesPorRegistro(pxd);
+      pxd.setValorUnitatrioMl(BigDecimal.ZERO);
       this.productosXDocumento.add(pxd);
       this.productosXCliente.remove(pxc);
       this.recalcularTotales();
-      this.addMensajeInfo("tabPanel:msgsBuscarProductos", Utilidad.stringFormat("Producto {0} agregado.", new String[]{pxc.getProductosInventario().getSku()}));
+      this.addMensajeInfo(":tabPanel:msgsBuscarProductos", Utilidad.stringFormat("Producto {0} agregado.", new String[]{pxc.getProductosInventario().getSku()}));
     }
   }
 
