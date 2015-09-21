@@ -26,107 +26,106 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "movimientos_inventario_comext")
 @NamedQueries({
-  @NamedQuery(name = "MovimientosInventarioComext.findAll", query = "SELECT m FROM MovimientosInventarioComext m"),
-  @NamedQuery(name = "MovimientosInventarioComext.ultimosSaldos", query = "SELECT m FROM MovimientosInventarioComext m WHERE m.fecha = (SELECT max(m2.fecha) FROM MovimientosInventarioComext m2 WHERE m2.productosInventarioComext.idProducto = m.productosInventarioComext.idProducto) "),
-  @NamedQuery(name = MovimientosInventarioComext.FIND_BY_SKU, query = "SELECT m FROM MovimientosInventarioComext m JOIN m.productosInventarioComext pice JOIN pice.productosInventario pi WHERE UPPER(pi.sku) LIKE UPPER(:sku) ORDER BY m.fecha DESC ")})
+		@NamedQuery(name = "MovimientosInventarioComext.findAll", query = "SELECT m FROM MovimientosInventarioComext m"),
+		@NamedQuery(name = "MovimientosInventarioComext.ultimosSaldos", query = "SELECT m FROM MovimientosInventarioComext m WHERE m.fecha = (SELECT max(m2.fecha) FROM MovimientosInventarioComext m2 WHERE m2.productosInventarioComext.idProducto = m.productosInventarioComext.idProducto) "),
+		@NamedQuery(name = MovimientosInventarioComext.FIND_BY_SKU, query = "SELECT m FROM MovimientosInventarioComext m JOIN m.productosInventarioComext pice JOIN pice.productosInventario pi WHERE UPPER(pi.sku) LIKE UPPER(:sku) ORDER BY m.fecha DESC ") })
 public class MovimientosInventarioComext implements Serializable {
 
-  /**
+	/**
    *
    */
-  private static final long serialVersionUID = -6177643071198857825L;
+	private static final long serialVersionUID = -6177643071198857825L;
 
-  public static final String FIND_BY_SKU = "MovimientosInventarioComext.findBySku";
+	public static final String FIND_BY_SKU = "MovimientosInventarioComext.findBySku";
 
-  @Id
-  @SequenceGenerator(name = "movimientosInventarioComExtSeq", sequenceName = "movimientos_inventario_comext_id_seq", allocationSize = 1)
-  @GeneratedValue(generator = "movimientosInventarioComExtSeq", strategy = GenerationType.SEQUENCE)
-  private Long id;
+	@Id
+	@SequenceGenerator(name = "movimientosInventarioComExtSeq", sequenceName = "movimientos_inventario_comext_id_seq", allocationSize = 1)
+	@GeneratedValue(generator = "movimientosInventarioComExtSeq", strategy = GenerationType.SEQUENCE)
+	private Long id;
 
-  @Column(name = "consecutivo_documento")
-  private String consecutivoDocumento;
+	@Column(name = "consecutivo_documento")
+	private String consecutivoDocumento;
 
-  @ManyToOne
-  @JoinColumn(name = "id_tipo_movimiento")
-  private TipoMovimiento tipoMovimiento;
+	@ManyToOne
+	@JoinColumn(name = "id_tipo_movimiento")
+	private TipoMovimiento tipoMovimiento;
 
-  @ManyToOne(cascade = CascadeType.DETACH)
-  @JoinColumn(name = "id_producto")
-  private ProductosInventarioComext productosInventarioComext;
+	@ManyToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name = "id_producto")
+	private ProductosInventarioComext productosInventarioComext;
 
-  private BigDecimal cantidad;
+	private BigDecimal cantidad;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date fecha;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fecha;
 
-  private BigDecimal saldo;
-  
-  public boolean isTieneSaldo(){
-    return saldo != null && saldo.compareTo(BigDecimal.ZERO) == 1;
-  }
-  
-  public boolean controlarCantidad(){
-	if (this.tipoMovimiento != null && this.tipoMovimiento.getId() != null) {
-	  return this.tipoMovimiento.getId() == 2L;
+	private BigDecimal saldo = BigDecimal.ZERO;
+
+	public boolean isTieneSaldo() {
+		return saldo != null && saldo.compareTo(BigDecimal.ZERO) == 1;
 	}
-	return false;
-  }
 
-  public Long getId() {
-    return id;
-  }
+	public boolean controlarCantidad() {
+		if (this.tipoMovimiento != null && this.tipoMovimiento.getId() != null) {
+			return this.tipoMovimiento.getId() == com.ssl.jv.gip.util.TipoMovimiento.SALIDA.getCodigo();
+		}
+		return false;
+	}
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+	public Long getId() {
+		return id;
+	}
 
-  public String getConsecutivoDocumento() {
-    return consecutivoDocumento;
-  }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-  public void setConsecutivoDocumento(String consecutivoDocumento) {
-    this.consecutivoDocumento = consecutivoDocumento;
-  }
+	public String getConsecutivoDocumento() {
+		return consecutivoDocumento;
+	}
 
-  public TipoMovimiento getTipoMovimiento() {
-    return tipoMovimiento;
-  }
+	public void setConsecutivoDocumento(String consecutivoDocumento) {
+		this.consecutivoDocumento = consecutivoDocumento;
+	}
 
-  public void setTipoMovimiento(TipoMovimiento tipoMovimiento) {
-    this.tipoMovimiento = tipoMovimiento;
-  }
+	public TipoMovimiento getTipoMovimiento() {
+		return tipoMovimiento;
+	}
 
-  public ProductosInventarioComext getProductosInventarioComext() {
-    return productosInventarioComext;
-  }
+	public void setTipoMovimiento(TipoMovimiento tipoMovimiento) {
+		this.tipoMovimiento = tipoMovimiento;
+	}
 
-  public void setProductosInventarioComext(
-      ProductosInventarioComext productosInventarioComext) {
-    this.productosInventarioComext = productosInventarioComext;
-  }
+	public ProductosInventarioComext getProductosInventarioComext() {
+		return productosInventarioComext;
+	}
 
-  public BigDecimal getCantidad() {
-    return cantidad;
-  }
+	public void setProductosInventarioComext(ProductosInventarioComext productosInventarioComext) {
+		this.productosInventarioComext = productosInventarioComext;
+	}
 
-  public void setCantidad(BigDecimal cantidad) {
-    this.cantidad = cantidad;
-  }
+	public BigDecimal getCantidad() {
+		return cantidad;
+	}
 
-  public Date getFecha() {
-    return fecha;
-  }
+	public void setCantidad(BigDecimal cantidad) {
+		this.cantidad = cantidad;
+	}
 
-  public void setFecha(Date fecha) {
-    this.fecha = fecha;
-  }
+	public Date getFecha() {
+		return fecha;
+	}
 
-  public BigDecimal getSaldo() {
-    return saldo;
-  }
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
 
-  public void setSaldo(BigDecimal saldo) {
-    this.saldo = saldo;
-  }
+	public BigDecimal getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(BigDecimal saldo) {
+		this.saldo = saldo;
+	}
 
 }

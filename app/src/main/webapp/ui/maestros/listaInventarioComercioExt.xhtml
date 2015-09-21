@@ -102,9 +102,10 @@
             <p:column 
               headerText="#{msg.maestroInventarioComExt_Cantidad}"
               sortBy="#{dato.cantidad}" 
-              style="text-align:right" >
+              style="width:100px;" >
               <p:outputLabel 
-                value="#{dato.cantidad}" >
+                value="#{dato.cantidad}"  
+                style="text-align:right">
                 <f:convertNumber 
                   pattern="#####,###,###,##0.00" />
               </p:outputLabel>
@@ -112,9 +113,10 @@
             <p:column 
               headerText="#{msg.maestroInventarioComExt_Saldo}"
               sortBy="#{dato.saldo}" 
-              style="text-align:right">
+              style="width:100px;">
               <p:outputLabel 
-                value="#{dato.saldo}" >
+                value="#{dato.saldo}"  
+                style="text-align:right">
                 <f:convertNumber 
                   pattern="#####,###,###,##0.00" />
               </p:outputLabel>
@@ -210,7 +212,8 @@
                 required="true"
                 value="#{dato.tipoMovimiento.id}"
                 label="Tipo de movimiento"
-                style="width:130px;">
+                style="width:130px;"
+                immediate="true">
                 <p:ajax 
                   update=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos" />
                 <f:selectItem 
@@ -224,7 +227,7 @@
             </p:column>
             <p:column 
               headerText="#{msg.maestroInventarioComExt_Cantidad}"
-              style="width:150px;text-align:right;">  
+              style="width:150px;">  
               <p:spinner 
                 id="cantidadRequerida"
                 value="#{dato.cantidad}" 
@@ -249,7 +252,8 @@
                 value="#{dato.saldo}" 
                 label="#{msg.maestroInventarioComExt_Cantidad}" 
                 required="true" 
-                maxlength="16"  
+                size="16"
+                maxlength="9"
                 disabled="true"
                 style="text-align:right;">
                 <f:convertNumber 
