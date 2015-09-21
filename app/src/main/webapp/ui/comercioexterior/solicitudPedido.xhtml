@@ -45,6 +45,7 @@
               style="width:32px;text-align:center">
               <p:commandButton 
                 icon="ui-icon-pencil"
+                title="Modificar"
                 update="@all"
                 action="#{solicitudPedidoMB.onEdit(dato)}"/>
             </p:column>
@@ -513,23 +514,22 @@
                   style="text-align:center">
                 </p:column>
               </p:summaryRow>
+              <f:facet
+                name="footer">
+                <p:commandButton 
+                  value="Guardar Ajustes SP" 
+                  icon="ui-icon-disk"
+                  action="#{solicitudPedidoMB.guardarAjustesSP}"
+                  update="@all"
+                  rendered="#{not empty solicitudPedidoMB.sp}"/>
+                <p:commandButton 
+                  value="#{msg.generalCancelar}"
+                  icon="ui-icon-cancel"
+                  action="#{solicitudPedidoMB.backToList}"
+                  immediate="true"
+                  update="@all"/>
+              </f:facet>
             </p:dataTable>
-            <p:panelGrid 
-              columns="2"
-              rendered="#{not empty solicitudPedidoMB.sp}"
-              columnClasses="label,value">
-              <p:commandButton 
-                value="Guardar Ajustes SP" 
-                icon="ui-icon-disk"
-                action="#{solicitudPedidoMB.guardarAjustesSP}"
-                update="@all"/>
-              <p:commandButton 
-                value="#{msg.generalVolverLista}"
-                icon="ui-icon-cancel"
-                action="#{solicitudPedidoMB.backToList}"
-                immediate="true"
-                update="@all"/>
-            </p:panelGrid>
           </p:outputPanel>
         </h:form>
         <p:dialog 

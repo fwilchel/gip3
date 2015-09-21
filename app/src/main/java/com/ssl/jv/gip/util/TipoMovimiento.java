@@ -4,15 +4,15 @@ public enum TipoMovimiento {
 
   ENTRADA(1L, "E"), SALIDA(2L, "S");
 
-  private long codigo;
-  private String nombre;
+  private final Long codigo;
+  private final String nombre;
 
-  private TipoMovimiento(long codigo, String nombre) {
+  private TipoMovimiento(Long codigo, String nombre) {
     this.codigo = codigo;
     this.nombre = nombre;
   }
 
-  public long getCodigo() {
+  public Long getCodigo() {
     return codigo;
   }
 

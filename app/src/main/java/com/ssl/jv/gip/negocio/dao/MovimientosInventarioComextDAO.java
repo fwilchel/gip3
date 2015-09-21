@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.negocio.dao;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -17,8 +18,10 @@ import javax.persistence.criteria.Subquery;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.MovimientosInventarioComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosInventario;
+
 import java.util.HashMap;
 import java.util.Map;
 
