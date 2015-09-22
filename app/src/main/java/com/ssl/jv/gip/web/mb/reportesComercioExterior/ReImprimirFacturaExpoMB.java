@@ -169,7 +169,7 @@ public class ReImprimirFacturaExpoMB extends UtilMB {
     BigDecimal dblValorTotalNeg = this.totalValorNeg.multiply(new BigDecimal(100)).divide(new BigDecimal(100));
     Numero_a_Letra_Ingles NumLetraIng = new Numero_a_Letra_Ingles();
     String valorLetrasIngles = NumLetraIng.convert(dblValorTotalNeg.doubleValue());
-    final String TIPO_IMPRESION = "COPIA"; // ORIGINAL
+    final String TIPO_IMPRESION = "COPIA"; // ORIGINAL/COPIA
     parametros.put("cliente", seleccionado.getCliente().getNombre());
     parametros.put("nit", seleccionado.getCliente().getNit());
     parametros.put("ciudad", seleccionado.getCliente().getCiudad().getNombre());
