@@ -64,7 +64,7 @@
               <p:commandButton 
                 icon="ui-icon-zoomin"
                 title="Ver"
-                action="#{generarFPMB.initGeneracion(doc)}"
+                action="#{generarFPMB.verDetalle(doc)}"
                 update="@all"/>
             </p:column>
             <p:column 
@@ -232,8 +232,7 @@
               widgetVar="productoDoc"
               value="#{generarFPMB.productosSP}"
               var="producto" 
-              sortBy="#{producto.idDocumento}"
-              rendered="#{not empty generarFPMB.productosSP}">
+              sortBy="#{producto.documento.id}">
               <f:facet 
                 name="header">
                 <div 
@@ -244,20 +243,20 @@
                 </div>
               </f:facet>
               <p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
-                <h:outputText value="#{producto.sku}" />
+                <h:outputText value="#{producto.productosInventario.sku}" />
               </p:column>
               <p:column headerText="#{msg.buscadorNombreProducto}">
-                <h:outputText value="#{producto.nombre}" />
+                <h:outputText value="#{producto.productosInventario.nombre}" />
               </p:column>
               <p:column styleClass="derecha"
                         headerText="#{msg.comprasCantidadSola}">
-                <h:outputText value="#{producto.cantidad}">
+                <h:outputText value="#{producto.cantidad1}">
                   <f:convertNumber pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
               <p:column styleClass="derecha"
                         headerText="#{msg.costeoComperasValorUnitarioML}">
-                <h:outputText value="#{producto.precio}">
+                <h:outputText value="#{producto.valorUnitarioUsd}">
                   <f:convertNumber pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
@@ -268,29 +267,29 @@
                 </h:outputText>
               </p:column>
               <p:column styleClass="derecha" headerText="#{msg.PesoNetoVista}">
-                <h:outputText value="#{producto.totalPesoNeto}">
+                <h:outputText value="#{producto.totalPesoNetoItem}">
                   <f:convertNumber pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
               <p:column styleClass="derecha" headerText="#{msg.PesoBrutoVista}">
-                <h:outputText value="#{producto.totalPesoBruto}">
+                <h:outputText value="#{producto.totalPesoBrutoItem}">
                   <f:convertNumber pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
               <p:column styleClass="derecha" headerText="#{msg.SPcantidadCajas}">
-                <h:outputText value="#{producto.totalCajas}">
+                <h:outputText value="#{producto.cantidadCajasItem}">
                   <f:convertNumber pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
               <p:column styleClass="derecha"
                         headerText="#{msg.SPcantidadTendido}">
-                <h:outputText value="#{producto.totalCajasTendido}">
+                <h:outputText value="#{producto.cantidadXEmbalaje}">
                   <f:convertNumber pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
               <p:column styleClass="derecha"
                         headerText="#{msg.SPcantidadPallet}">
-                <h:outputText value="#{producto.totalCajasPallet}">
+                <h:outputText value="#{producto.cantidadPalletsItem}">
                   <f:convertNumber pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
@@ -355,7 +354,7 @@
                   <p:column styleClass="negrita">#{msg.SP_CostoEntrega}</p:column>
                   <p:column styleClass="derecha">
                     <h:outputLabel
-                      value="#{generarFPMB.spSelected.documentoXNegociacions.get(0).costoEntrega}">
+                      value="#{generarFPMB.spSelected.documentoXNegociacion.costoEntrega}">
                       <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
                     </h:outputLabel>
                   </p:column>
@@ -374,7 +373,7 @@
                   <p:column styleClass="negrita">#{msg.SP_CostoSeguro}</p:column>
                   <p:column styleClass="derecha">
                     <h:outputLabel
-                      value="#{generarFPMB.spSelected.documentoXNegociacions.get(0).costoSeguro}">
+                      value="#{generarFPMB.spSelected.documentoXNegociacion.costoSeguro}">
                       <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
                     </h:outputLabel>
                   </p:column>
@@ -383,7 +382,7 @@
                   <p:column styleClass="negrita">#{msg.SP_CostoFlete}</p:column>
                   <p:column styleClass="derecha">
                     <h:outputLabel
-                      value="#{generarFPMB.spSelected.documentoXNegociacions.get(0).costoFlete}">
+                      value="#{generarFPMB.spSelected.documentoXNegociacion.costoFlete}">
                       <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
                     </h:outputLabel>
                   </p:column>
@@ -392,7 +391,7 @@
                   <p:column styleClass="negrita">#{msg.SP_OtrosGastos}</p:column>
                   <p:column styleClass="derecha">
                     <h:outputLabel
-                      value="#{generarFPMB.spSelected.documentoXNegociacions.get(0).otrosGastos}">
+                      value="#{generarFPMB.spSelected.documentoXNegociacion.otrosGastos}">
                       <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
                     </h:outputLabel>
                   </p:column>
