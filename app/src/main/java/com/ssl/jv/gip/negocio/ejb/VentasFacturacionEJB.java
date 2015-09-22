@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -65,7 +67,6 @@ import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesInventario;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesUbicacion;
-import java.text.ParseException;
 
 /**
  * Session Bean implementation class VentasFacturacionEJB
@@ -519,7 +520,7 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 	}
 
 	@Override
-	public Documento generarFactura(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, Documento remisionRelacionada, LogAuditoria auditoria) {
+	public Documento generarFactura(Documento ventaDirecta, List<ProductosXDocumento> listaProductos, Documento remisionRelacionada, LogAuditoria auditoria) throws Exception {
 		LOGGER.trace("Metodo: <<generarFactura>>");
 		LOGGER.debug("Crear factura");
 		Documento factura = new Documento();
@@ -560,7 +561,12 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 				Ubicacion ubicacionDestino = ubicacionDAOLocal.findByPK(ventaDirecta.getUbicacionDestino().getId());
 				secuencia.append(ubicacionDestino.getEmpresa().getId());
 			}
-			Long valorSecuencia = documentoDAO.consultarProximoValorSecuencia(secuencia.toString().concat("_SEQ"));
+			Long valorSecuencia = null;
+			try {
+				valorSecuencia = documentoDAO.consultarProximoValorSecuencia(secuencia.toString().concat("_SEQ"));
+			} catch (EJBTransactionRolledbackException ex) {
+				throw new Exception("El rango de facturación ha llegado a su límite", ex);
+			}
 			secuencia.append("-");
 			secuencia.append(valorSecuencia);
 			String consecutivoDocumento = secuencia.toString();
@@ -579,99 +585,103 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 				}
 			}
 		}
-		factura = (Documento) documentoDAO.add(factura);
-		LOGGER.debug("Factura creada con id: " + factura.getId());
-		LOGGER.debug("Crear log de auditoria");
-		auditoria.setTabla("Documentos");
-		auditoria.setAccion("CRE");
-		auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
-		auditoria.setIdRegTabla(factura.getId());
-		auditoria = logAuditoriaDAO.add(auditoria);
-		LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
-		LOGGER.debug("Crear los productos para la factura");
-		for (ProductosXDocumento pxd : listaProductos) {
-			pxd.setInformacion(Boolean.FALSE);
-			pxd.setCalidad(Boolean.FALSE);
-			pxd.setFechaEstimadaEntrega(new Timestamp(System.currentTimeMillis()));
-			pxd.setFechaEntrega(new Timestamp(System.currentTimeMillis()));
-			ProductosXDocumentoPK productosXDocumentoPK = new ProductosXDocumentoPK();
-			productosXDocumentoPK.setIdDocumento(factura.getId());
-			productosXDocumentoPK.setIdProducto(pxd.getProductosInventario().getId());
-			pxd.setId(productosXDocumentoPK);
-			pxd.setMoneda(new Moneda("COP"));
-			pxd.setCantidad2(BigDecimal.ZERO);
-			pxd.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
-			pxd.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
-			pxd.setValorUnitarioUsd(BigDecimal.ZERO);
-			pxd = productoXDocumentoDAO.add(pxd);
-			LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
+		try {
+			factura = (Documento) documentoDAO.add(factura);
+			LOGGER.debug("Factura creada con id: " + factura.getId());
+			LOGGER.debug("Crear log de auditoria");
+			auditoria.setTabla("Documentos");
+			auditoria.setAccion("CRE");
+			auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+			auditoria.setIdRegTabla(factura.getId());
+			auditoria = logAuditoriaDAO.add(auditoria);
+			LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
+			LOGGER.debug("Crear los productos para la factura");
+			for (ProductosXDocumento pxd : listaProductos) {
+				pxd.setInformacion(Boolean.FALSE);
+				pxd.setCalidad(Boolean.FALSE);
+				pxd.setFechaEstimadaEntrega(new Timestamp(System.currentTimeMillis()));
+				pxd.setFechaEntrega(new Timestamp(System.currentTimeMillis()));
+				ProductosXDocumentoPK productosXDocumentoPK = new ProductosXDocumentoPK();
+				productosXDocumentoPK.setIdDocumento(factura.getId());
+				productosXDocumentoPK.setIdProducto(pxd.getProductosInventario().getId());
+				pxd.setId(productosXDocumentoPK);
+				pxd.setMoneda(new Moneda("COP"));
+				pxd.setCantidad2(BigDecimal.ZERO);
+				pxd.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
+				pxd.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
+				pxd.setValorUnitarioUsd(BigDecimal.ZERO);
+				pxd = productoXDocumentoDAO.add(pxd);
+				LOGGER.debug("Producto creado con idProducto: " + pxd.getId().getIdProducto() + " y idDocumento: " + pxd.getId().getIdDocumento());
+			}
+			LOGGER.debug("Productos creados exitosamente");
+			LOGGER.debug("Consultar los productos de un ventaDirecta por su consecutivo [informacion relacionada a los movimientos]");
+			Documento documentoRelacionado = maestrosEJB.consultarDocumentoPorConsecutivo(remisionRelacionada.getConsecutivoDocumento());
+			List<ProductosXDocumento> pxds = this.consultarProductosPorDocumento(documentoRelacionado.getId());
+			LOGGER.debug("Ejecutar despacho");
+			LOGGER.debug("Actualizar orden despacho con consecutivo: " + remisionRelacionada.getObservacionDocumento());
+			Documento ordenDespacho = documentoDAO.consultarDocumentoPorConsecutivo(remisionRelacionada.getObservacionDocumento());
+			ordenDespacho.getEstadosxdocumento().setEstado(new Estado((long) ConstantesDocumento.CERRADO));
+			ordenDespacho.setDocumentoCliente(remisionRelacionada.getDocumentoCliente());
+			documentoDAO.actualizarEstadoDocumentoPorId(ordenDespacho);
+			LOGGER.debug("Orden despacho actualizada");
+			LOGGER.debug("Crear los movimientos de salida para la orden de despacho con id: " + ordenDespacho.getId());
+			for (ProductosXDocumento pxd : pxds) {
+				MovimientosInventario movimientosSalida = new MovimientosInventario();
+				movimientosSalida.setDocumento(ordenDespacho);
+				movimientosSalida.setFecha(new Timestamp(System.currentTimeMillis()));
+				movimientosSalida.setTipoMovimiento(new TipoMovimiento(ConstantesInventario.SALIDAS));
+				movimientosSalida.setUbicacionOrigen(ordenDespacho.getUbicacionDestino());
+				movimientosSalida.setUbicacionDestino(new Ubicacion(ConstantesUbicacion.EXTERNA));
+				movimientosSalida.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
+				movimientosSalida.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
+				movimientosSalida.setCantidad(pxd.getCantidad1());
+				movimientosSalida.setMoneda(pxd.getMoneda());
+				movimientosSalida.setProductosInventario(pxd.getProductosInventario());
+				movimientosSalida.setUnidade(pxd.getUnidade());
+				movimientosSalida.setValorUnitarioMl(0);
+				movimientosSalida.setValotUnitarioUsd(0);
+				movimientosSalida = movimientoInventarioDAO.add(movimientosSalida);
+				LOGGER.debug("Movimiento de salida creado con id: " + movimientosSalida.getId());
+			}
+			LOGGER.debug("Movimientos de salida creados exitosamente");
+			LOGGER.debug("Orden despacho ejecutada exitosamente");
+			LOGGER.debug("Crear los movimientos a la remision seleccionada con id: " + remisionRelacionada.getId());
+			for (ProductosXDocumento pxd : pxds) {
+				MovimientosInventario movimiento = new MovimientosInventario();
+				movimiento.setFecha(new Timestamp(System.currentTimeMillis()));
+				movimiento.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.TRANSITO));
+				movimiento.setUbicacionDestino(remisionRelacionada.getUbicacionDestino());
+				movimiento.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
+				movimiento.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
+				movimiento.setProductosInventario(pxd.getProductosInventario());
+				movimiento.setDocumento(remisionRelacionada);
+				movimiento.setUnidade(pxd.getUnidade());
+				movimiento.setCantidad(pxd.getCantidad1());
+				movimiento.setMoneda(pxd.getMoneda());
+				movimiento.setValorUnitarioMl(0);
+				movimiento.setValotUnitarioUsd(0);
+				MovimientosInventario movimientoEntrada = movimiento;
+				movimientoEntrada.setTipoMovimiento(new TipoMovimiento(ConstantesInventario.ENTRADAS));
+				movimientoEntrada = movimientoInventarioDAO.add(movimientoEntrada);
+				LOGGER.debug("Movimiento de entrada creado con id: " + movimientoEntrada.getId());
+				MovimientosInventario movimientoSalida = movimiento;
+				movimientoSalida.setTipoMovimiento(new TipoMovimiento(ConstantesInventario.SALIDAS));
+				movimientoSalida = movimientoInventarioDAO.add(movimientoSalida);
+				LOGGER.debug("Movimiento de salida creado con id: " + movimientoSalida.getId());
+			}
+			LOGGER.debug("Movimientos creados exitosamente");
+			LOGGER.debug("Actualizar estado de la remision con id: " + remisionRelacionada.getId());
+			Map<String, Object> parametros = new HashMap<>();
+			parametros.put("id_estado", (long) ConstantesDocumento.RECIBIDO);
+			parametros.put("id", (long) remisionRelacionada.getId());
+			documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
+			LOGGER.debug("Remision actualizada exitosamente");
+			factura.getCliente().getCiudad();
+			factura.getPuntoVenta();
+			return factura;
+		} catch (Exception ex) {
+			throw new Exception("Problemas al generar la Factura, pongase en contacto con el administrador de SOC");
 		}
-		LOGGER.debug("Productos creados exitosamente");
-		LOGGER.debug("Consultar los productos de un ventaDirecta por su consecutivo [informacion relacionada a los movimientos]");
-		Documento documentoRelacionado = maestrosEJB.consultarDocumentoPorConsecutivo(remisionRelacionada.getConsecutivoDocumento());
-		List<ProductosXDocumento> pxds = this.consultarProductosPorDocumento(documentoRelacionado.getId());
-		LOGGER.debug("Ejecutar despacho");
-		LOGGER.debug("Actualizar orden despacho con consecutivo: " + remisionRelacionada.getObservacionDocumento());
-		Documento ordenDespacho = documentoDAO.consultarDocumentoPorConsecutivo(remisionRelacionada.getObservacionDocumento());
-		ordenDespacho.getEstadosxdocumento().setEstado(new Estado((long) ConstantesDocumento.CERRADO));
-		ordenDespacho.setDocumentoCliente(remisionRelacionada.getDocumentoCliente());
-		documentoDAO.actualizarEstadoDocumentoPorId(ordenDespacho);
-		LOGGER.debug("Orden despacho actualizada");
-		LOGGER.debug("Crear los movimientos de salida para la orden de despacho con id: " + ordenDespacho.getId());
-		for (ProductosXDocumento pxd : pxds) {
-			MovimientosInventario movimientosSalida = new MovimientosInventario();
-			movimientosSalida.setDocumento(ordenDespacho);
-			movimientosSalida.setFecha(new Timestamp(System.currentTimeMillis()));
-			movimientosSalida.setTipoMovimiento(new TipoMovimiento(ConstantesInventario.SALIDAS));
-			movimientosSalida.setUbicacionOrigen(ordenDespacho.getUbicacionDestino());
-			movimientosSalida.setUbicacionDestino(new Ubicacion(ConstantesUbicacion.EXTERNA));
-			movimientosSalida.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
-			movimientosSalida.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
-			movimientosSalida.setCantidad(pxd.getCantidad1());
-			movimientosSalida.setMoneda(pxd.getMoneda());
-			movimientosSalida.setProductosInventario(pxd.getProductosInventario());
-			movimientosSalida.setUnidade(pxd.getUnidade());
-			movimientosSalida.setValorUnitarioMl(0);
-			movimientosSalida.setValotUnitarioUsd(0);
-			movimientosSalida = movimientoInventarioDAO.add(movimientosSalida);
-			LOGGER.debug("Movimiento de salida creado con id: " + movimientosSalida.getId());
-		}
-		LOGGER.debug("Movimientos de salida creados exitosamente");
-		LOGGER.debug("Orden despacho ejecutada exitosamente");
-		LOGGER.debug("Crear los movimientos a la remision seleccionada con id: " + remisionRelacionada.getId());
-		for (ProductosXDocumento pxd : pxds) {
-			MovimientosInventario movimiento = new MovimientosInventario();
-			movimiento.setFecha(new Timestamp(System.currentTimeMillis()));
-			movimiento.setUbicacionOrigen(new Ubicacion(ConstantesUbicacion.TRANSITO));
-			movimiento.setUbicacionDestino(remisionRelacionada.getUbicacionDestino());
-			movimiento.setBodegasLogica1(new BodegasLogica(ConstantesBodegas.DEFAULT));
-			movimiento.setBodegasLogica2(new BodegasLogica(ConstantesBodegas.DEFAULT));
-			movimiento.setProductosInventario(pxd.getProductosInventario());
-			movimiento.setDocumento(remisionRelacionada);
-			movimiento.setUnidade(pxd.getUnidade());
-			movimiento.setCantidad(pxd.getCantidad1());
-			movimiento.setMoneda(pxd.getMoneda());
-			movimiento.setValorUnitarioMl(0);
-			movimiento.setValotUnitarioUsd(0);
-			MovimientosInventario movimientoEntrada = movimiento;
-			movimientoEntrada.setTipoMovimiento(new TipoMovimiento(ConstantesInventario.ENTRADAS));
-			movimientoEntrada = movimientoInventarioDAO.add(movimientoEntrada);
-			LOGGER.debug("Movimiento de entrada creado con id: " + movimientoEntrada.getId());
-			MovimientosInventario movimientoSalida = movimiento;
-			movimientoSalida.setTipoMovimiento(new TipoMovimiento(ConstantesInventario.SALIDAS));
-			movimientoSalida = movimientoInventarioDAO.add(movimientoSalida);
-			LOGGER.debug("Movimiento de salida creado con id: " + movimientoSalida.getId());
-		}
-		LOGGER.debug("Movimientos creados exitosamente");
-		LOGGER.debug("Actualizar estado de la remision con id: " + remisionRelacionada.getId());
-		Map<String, Object> parametros = new HashMap<>();
-		parametros.put("id_estado", (long) ConstantesDocumento.RECIBIDO);
-		parametros.put("id", (long) remisionRelacionada.getId());
-		documentoDAO.ejecutarConsultaNativa(Documento.ACTUALIZAR_ESTADO_DOCUMENTO, parametros);
-		LOGGER.debug("Remision actualizada exitosamente");
-		factura.getCliente().getCiudad();
-		factura.getPuntoVenta();
-		return factura;
 	}
 
 	@Override
