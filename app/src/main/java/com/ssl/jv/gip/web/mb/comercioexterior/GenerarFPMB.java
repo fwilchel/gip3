@@ -198,9 +198,8 @@ public class GenerarFPMB extends UtilMB {
     dxn.setCantidadEstibas(0);
     dxn.setPesoBrutoEstibas(0);
     fp = this.comercioExteriorEJB.crearFacturaProforma(fp, auditoria, dxn, productosSP, this.spSelected);
-    //asignar los lotes OIC
+    //TODO: cambiar esto: asignar los lotes OIC
     this.comercioExteriorEJB.asignarLotesOIC(fp);
-
     String mensaje = AplicacionMB.getMessage("VentasFPExito_Crear", language);
     String parametros[] = new String[2];
     parametros[0] = fp.getId().toString();

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition 
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:h="http://java.sun.com/jsf/html"
@@ -242,161 +242,301 @@
                   </p:outputPanel>
                 </div>
               </f:facet>
-              <p:column styleClass="centro" headerText="#{msg.buscadorPxCSKU}">
-                <h:outputText value="#{producto.productosInventario.sku}" />
+              <p:column 
+                styleClass="centro" 
+                headerText="#{msg.buscadorPxCSKU}">
+                <h:outputText 
+                  value="#{producto.productosInventario.sku}" />
               </p:column>
-              <p:column headerText="#{msg.buscadorNombreProducto}">
-                <h:outputText value="#{producto.productosInventario.nombre}" />
+              <p:column 
+                headerText="#{msg.buscadorNombreProducto}">
+                <h:outputText 
+                  value="#{producto.productosInventario.nombre}" />
               </p:column>
-              <p:column styleClass="derecha"
-                        headerText="#{msg.comprasCantidadSola}">
-                <h:outputText value="#{producto.cantidad1}">
-                  <f:convertNumber pattern="#####,###,###,##0.00" />
+              <p:column 
+                styleClass="derecha"
+                headerText="#{msg.comprasCantidadSola}">
+                <h:outputText 
+                  value="#{producto.cantidad1}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
-              <p:column styleClass="derecha"
-                        headerText="#{msg.costeoComperasValorUnitarioML}">
-                <h:outputText value="#{producto.valorUnitarioUsd}">
-                  <f:convertNumber pattern="#####,###,###,##0.00" />
+              <p:column 
+                styleClass="derecha"
+                headerText="#{msg.costeoComperasValorUnitarioML}">
+                <h:outputText 
+                  value="#{producto.valorUnitarioUsd}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
-              <p:column styleClass="derecha"
-                        headerText="#{msg.VentasRemisionValorTotal}">
-                <h:outputText value="#{producto.valorTotal}">
-                  <f:convertNumber pattern="#####,###,###,##0.00" />
+              <p:column 
+                styleClass="derecha"
+                headerText="#{msg.VentasRemisionValorTotal}">
+                <h:outputText 
+                  value="#{producto.valorTotal}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
-              <p:column styleClass="derecha" headerText="#{msg.PesoNetoVista}">
-                <h:outputText value="#{producto.totalPesoNetoItem}">
-                  <f:convertNumber pattern="#####,###,###,##0.00" />
+              <p:column 
+                styleClass="derecha" 
+                headerText="#{msg.PesoNetoVista}">
+                <h:outputText 
+                  value="#{producto.totalPesoNetoItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
-              <p:column styleClass="derecha" headerText="#{msg.PesoBrutoVista}">
-                <h:outputText value="#{producto.totalPesoBrutoItem}">
-                  <f:convertNumber pattern="#####,###,###,##0.00" />
+              <p:column 
+                styleClass="derecha"
+                headerText="#{msg.PesoBrutoVista}">
+                <h:outputText 
+                  value="#{producto.totalPesoBrutoItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
-              <p:column styleClass="derecha" headerText="#{msg.SPcantidadCajas}">
-                <h:outputText value="#{producto.cantidadCajasItem}">
-                  <f:convertNumber pattern="#####,###,###,##0.00" />
+              <p:column 
+                styleClass="derecha" 
+                headerText="#{msg.SPcantidadCajas}">
+                <h:outputText 
+                  value="#{producto.cantidadCajasItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
-              <p:column styleClass="derecha"
-                        headerText="#{msg.SPcantidadTendido}">
-                <h:outputText value="#{producto.cantidadXEmbalaje}">
-                  <f:convertNumber pattern="#####,###,###,##0.00" />
+              <p:column 
+                styleClass="derecha"
+                headerText="#{msg.SPcantidadTendido}">
+                <h:outputText 
+                  value="#{producto.cantidadXEmbalaje}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
-              <p:column styleClass="derecha"
-                        headerText="#{msg.SPcantidadPallet}">
-                <h:outputText value="#{producto.cantidadPalletsItem}">
-                  <f:convertNumber pattern="#####,###,###,##0.00" />
+              <p:column 
+                styleClass="derecha"
+                headerText="#{msg.SPcantidadPallet}">
+                <h:outputText 
+                  value="#{producto.cantidadPalletsItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
                 </h:outputText>
               </p:column>
               <p:summaryRow>
-                <p:column colspan="2" styleClass="derecha">
-                  <h:outputText value="TOTALES " />
+                <p:column 
+                  colspan="2" 
+                  styleClass="derecha">
+                  <h:outputText 
+                    value="TOTALES " />
                 </p:column>
-                <p:column styleClass="derecha">
-                  <h:outputText value="#{generarFPMB.totalCantidad}">
-                    <f:convertNumber pattern="#####,###,###,##0.00" />
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText 
+                    value="#{generarFPMB.totalCantidad}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
                   </h:outputText>
                 </p:column>
                 <p:column>
                 </p:column>
-                <p:column styleClass="derecha">
-                  <h:outputText value="#{generarFPMB.totalValorTotal}">
-                    <f:convertNumber pattern="#####,###,###,##0.00" />
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText 
+                    value="#{generarFPMB.totalValorTotal}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
                   </h:outputText>
                 </p:column>
-                <p:column styleClass="derecha">
-                  <h:outputText value="#{generarFPMB.totalPesoNeto}">
-                    <f:convertNumber pattern="#####,###,###,##0.00" />
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText 
+                    value="#{generarFPMB.totalPesoNeto}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
                   </h:outputText>
                 </p:column>
-                <p:column styleClass="derecha">
-                  <h:outputText value="#{generarFPMB.totalPesoBruto}">
-                    <f:convertNumber pattern="#####,###,###,##0.00" />
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText 
+                    value="#{generarFPMB.totalPesoBruto}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
                   </h:outputText>
                 </p:column>
-                <p:column styleClass="derecha">
-                  <h:outputText value="#{generarFPMB.totalCantidadCajas}">
-                    <f:convertNumber pattern="#####,###,###,##0.00" />
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText 
+                    value="#{generarFPMB.totalCantidadCajas}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
                   </h:outputText>
                 </p:column>
-                <p:column styleClass="derecha">
+                <p:column 
+                  styleClass="derecha">
                   <h:outputText
                     value="#{generarFPMB.totalCantidadTendidos}">
-                    <f:convertNumber pattern="#####,###,###,##0.00" />
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
                   </h:outputText>
                 </p:column>
-                <p:column styleClass="derecha">
-                  <h:outputText value="#{generarFPMB.totalCantidadPallets}">
-                    <f:convertNumber pattern="#####,###,###,##0.00" />
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText 
+                    value="#{generarFPMB.totalCantidadPallets}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
                   </h:outputText>
                 </p:column>
               </p:summaryRow>
             </p:dataTable>
-            <p:spacer 
-              height="10"/>
-            <p:panelGrid 
-              columns="2">
-              <p:panelGrid>
-                <f:facet 
-                  name="header">
-                  <p:row>
-                    <p:column colspan="2"></p:column>
-                    <p:column>#{msg.SP_TotalCostos}</p:column>
-                    <p:column>#{msg.TotalNegociacion}</p:column>
-                  </p:row>
-                </f:facet>
+            <p:panelGrid>
+              <f:facet 
+                name="header">
                 <p:row>
-                  <p:column styleClass="negrita">#{msg.SP_CostoEntrega}</p:column>
-                  <p:column styleClass="derecha">
-                    <h:outputLabel
-                      value="#{generarFPMB.spSelected.documentoXNegociacion.costoEntrega}">
-                      <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                    </h:outputLabel>
+                  <p:column 
+                    colspan="2">
+                    <h:outputText
+                      value="Costos"/>
                   </p:column>
-                  <p:column rowspan="4" styleClass="derecha">
-                    <h:outputLabel value="#{generarFPMB.totalCostos}">
-                      <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                    </h:outputLabel>
-                  </p:column>
-                  <p:column rowspan="4" styleClass="derecha">
-                    <h:outputLabel value="#{generarFPMB.totalNegociacion}">
-                      <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                    </h:outputLabel>
+                  <p:column 
+                    colspan="2">
+                    <h:outputText
+                      value="Negociación"/>
                   </p:column>
                 </p:row>
+              </f:facet>
+              <p:row>
+                <p:column 
+                  styleClass="label"
+                  style="width: 200px;">
+                  <p:outputLabel
+                    value="#{msg.SP_CostoEntrega}"/>
+                </p:column>
+                <p:column
+                  style="width: 100px;" 
+                  styleClass="derecha">
+                  <h:outputText
+                    value="#{generarFPMB.spSelected.documentoXNegociacion.costoEntrega}" >                    
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column 
+                  styleClass="label"
+                  style="width: 200px;">
+                  <p:outputLabel
+                    value="#{msg.VentasRemisionValorTotal}"/>
+                </p:column>
+                <p:column
+                  style="width: 100px;" 
+                  styleClass="derecha">
+                  <h:outputText
+                    value="#{generarFPMB.totalValorTotal}">                    
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>   
+                </p:column>
+              </p:row>
+              <p:row>
+                <p:column 
+                  styleClass="label">
+                  <p:outputLabel
+                    value="#{msg.SP_CostoSeguro}"/>
+                </p:column>
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText
+                    value="#{generarFPMB.spSelected.documentoXNegociacion.costoSeguro}">                    
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column>
+                  <span/>
+                </p:column>
+                <p:column>
+                  <span/>
+                </p:column>
+              </p:row>
+              <p:row>
+                <p:column 
+                  styleClass="label">
+                  <p:outputLabel
+                    value="#{msg.SP_CostoFlete}"/>
+                </p:column>
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText
+                    value="#{generarFPMB.spSelected.documentoXNegociacion.costoFlete}">                    
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column>
+                  <span/>
+                </p:column>
+                <p:column>
+                  <span/>
+                </p:column>
+              </p:row>
+              <p:row>
+                <p:column 
+                  styleClass="label">
+                  <p:outputLabel
+                    value="#{msg.SP_OtrosGastos}"/>
+                </p:column>
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText
+                    value="#{generarFPMB.spSelected.documentoXNegociacion.otrosGastos}">                    
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column>
+                  <span/>
+                </p:column>
+                <p:column>
+                  <span/>
+                </p:column>
+              </p:row>
+              <f:facet 
+                name="footer">
                 <p:row>
-                  <p:column styleClass="negrita">#{msg.SP_CostoSeguro}</p:column>
-                  <p:column styleClass="derecha">
-                    <h:outputLabel
-                      value="#{generarFPMB.spSelected.documentoXNegociacion.costoSeguro}">
-                      <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                    </h:outputLabel>
+                  <p:column 
+                    styleClass="label">
+                    <p:outputLabel
+                      value="Total"/>
+                  </p:column>
+                  <p:column
+                    styleClass="derecha">
+                    <h:outputText
+                      value="#{generarFPMB.totalCostos}">                    
+                      <f:convertNumber 
+                        pattern="#####,###,###,##0.00" />
+                    </h:outputText>
+                  </p:column>
+                  <p:column 
+                    styleClass="label">
+                    <p:outputLabel
+                      value="Total"/>
+                  </p:column>
+                  <p:column
+                    styleClass="derecha">
+                    <h:outputText
+                      value="#{generarFPMB.totalNegociacion}">                    
+                      <f:convertNumber 
+                        pattern="#####,###,###,##0.00" />
+                    </h:outputText>
                   </p:column>
                 </p:row>
-                <p:row>
-                  <p:column styleClass="negrita">#{msg.SP_CostoFlete}</p:column>
-                  <p:column styleClass="derecha">
-                    <h:outputLabel
-                      value="#{generarFPMB.spSelected.documentoXNegociacion.costoFlete}">
-                      <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                    </h:outputLabel>
-                  </p:column>
-                </p:row>
-                <p:row>
-                  <p:column styleClass="negrita">#{msg.SP_OtrosGastos}</p:column>
-                  <p:column styleClass="derecha">
-                    <h:outputLabel
-                      value="#{generarFPMB.spSelected.documentoXNegociacion.otrosGastos}">
-                      <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-                    </h:outputLabel>
-                  </p:column>
-                </p:row>
-              </p:panelGrid>
+              </f:facet>
+            </p:panelGrid>
+            <p:panelGrid
+              layout="grid">  
               <f:facet 
                 name="footer">
                 <p:commandButton 
@@ -412,7 +552,7 @@
                   actionListener="#{generarFPMB.volverAlListado}"
                   immediate="true"
                   update="@all"/>
-              </f:facet>
+              </f:facet>            
             </p:panelGrid>
           </p:outputPanel>
         </h:form>
