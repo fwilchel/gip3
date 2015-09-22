@@ -32,6 +32,7 @@ import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import com.ssl.jv.gip.web.util.Modo;
 import com.ssl.jv.gip.web.util.Utilidad;
 
 /**
@@ -56,22 +57,21 @@ import com.ssl.jv.gip.web.util.Utilidad;
  * @phone 300 2146240
  * @version 1.0
  */
-@ManagedBean(name = "generarFacturaPFMB")
+@ManagedBean
 @SessionScoped
-public class GenerarFacturaPFMB extends UtilMB {
+public class GenerarFPMB extends UtilMB {
 
   /**
    *
    */
   private static final long serialVersionUID = -2780795923623719268L;
 
-  private static final Logger LOGGER = Logger.getLogger(GenerarFacturaPFMB.class);
-  private Timestamp currentTimeStamp;
+  private static final Logger LOGGER = Logger.getLogger(GenerarFPMB.class);
   private String consecutivoDocumento;
   private final Integer language = AplicacionMB.SPANISH;
   private List<Documento> listaSP;
   private Documento spSelected;
-  private List<ProductoGenerarFacturaPFDTO> productosXSP;
+  private List<ProductoGenerarFacturaPFDTO> productosSP;
   private double totalCantidad = 0;
   private double totalValorTotal = 0;
   private double totalPesoNeto = 0;
@@ -82,7 +82,7 @@ public class GenerarFacturaPFMB extends UtilMB {
   private double totalCostos = 0;
   private double totalNegociacion = 0;
   private Integer cantidadDiasVigencia;
-  private boolean deshabilitado = false;
+  private Modo modo;
 
   @EJB
   private ComercioExteriorEJBLocal comercioEjb;
@@ -92,17 +92,32 @@ public class GenerarFacturaPFMB extends UtilMB {
 
   @PostConstruct
   public void init() {
-    currentTimeStamp = new Timestamp(System.currentTimeMillis());
+    this.modo = Modo.LISTAR;
+    this.buscarSolicitudesPedidos();
   }
 
-  public String buscarSolicitudesPedidos() {
+  public boolean isModoLista() {
+    return modo == Modo.LISTAR;
+  }
+
+  public boolean isModoGenerar() {
+    return modo == Modo.GENERAR;
+  }
+
+  public void buscarSolicitudesPedidos() {
     listaSP = this.comercioEjb.consultarDocumentosSolicitudPedido(consecutivoDocumento);
-    this.deshabilitado = false;
+  }
+
+  public String initGeneracion(Documento sp) {
+    this.spSelected = sp;
+    this.cantidadDiasVigencia = null;
+    this.consultarSolicitudPedido();
+    this.modo = Modo.GENERAR;
     return null;
   }
 
-  public String consultarSolicitudPedido() {
-    productosXSP = comercioEjb.consultarProductoPorDocumentoGenerarFacturaProforma(this.spSelected.getId(), this.spSelected.getCliente().getId());
+  private void consultarSolicitudPedido() {
+    productosSP = comercioEjb.consultarProductoPorDocumentoGenerarFacturaProforma(this.spSelected.getId(), this.spSelected.getCliente().getId());
     this.totalCantidad = 0;
     this.totalValorTotal = 0;
     this.totalPesoNeto = 0;
@@ -110,7 +125,7 @@ public class GenerarFacturaPFMB extends UtilMB {
     this.totalCantidadCajas = 0;
     this.totalCantidadTendidos = 0;
     this.totalCantidadPallets = 0;
-    for (ProductoGenerarFacturaPFDTO p : productosXSP) {
+    for (ProductoGenerarFacturaPFDTO p : productosSP) {
       this.totalCantidad += p.getCantidad().doubleValue();
       this.totalValorTotal += p.getValorTotal().doubleValue();
       this.totalPesoNeto += p.getTotalPesoNeto().doubleValue();
@@ -138,10 +153,9 @@ public class GenerarFacturaPFMB extends UtilMB {
       totalCostos = totalCostosTmp.doubleValue();
     }
     totalNegociacion = this.totalCostos + this.totalValorTotal;
-    return null;
   }
 
-  public String crearFactura() {
+  public void crearFactura() {
     Documento fp = new Documento();
     fp.setFechaGeneracion(new Timestamp(System.currentTimeMillis()));
     Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
@@ -189,7 +203,7 @@ public class GenerarFacturaPFMB extends UtilMB {
     dxn.setPesoBrutoEstibas(0);
     // pxd
     List<ProductosXDocumento> pxd = new ArrayList<>();
-    for (ProductoGenerarFacturaPFDTO pxc : this.productosXSP) {
+    for (ProductoGenerarFacturaPFDTO pxc : this.productosSP) {
       ProductosXDocumento productoDocumento = new ProductosXDocumento();
       productoDocumento.setInformacion(false);
       productoDocumento.setCalidad(false);
@@ -225,29 +239,24 @@ public class GenerarFacturaPFMB extends UtilMB {
 
     String mensaje = AplicacionMB.getMessage("VentasFPExito_Crear", language);
     String parametros[] = new String[2];
-    parametros[0] = "" + fp.getId();
+    parametros[0] = fp.getId().toString();
     parametros[1] = fp.getConsecutivoDocumento();
     mensaje = Utilidad.stringFormat(mensaje, parametros);
+    this.formatearCadenaConParametros("VentasFPExito_Crear", language, parametros);
     this.addMensajeInfo(mensaje);
-    this.buscarSolicitudesPedidos();
-    this.deshabilitado = true;
-    return null;
+    this.init();
   }
 
-  public List<ProductoGenerarFacturaPFDTO> getProductosXSP() {
-    return productosXSP;
+  public void volverAlListado() {
+    this.modo = Modo.LISTAR;
   }
 
-  public void setProductosXSP(List<ProductoGenerarFacturaPFDTO> productosXSP) {
-    this.productosXSP = productosXSP;
+  public List<ProductoGenerarFacturaPFDTO> getProductosSP() {
+    return productosSP;
   }
 
-  public Timestamp getCurrentTimeStamp() {
-    return currentTimeStamp;
-  }
-
-  public void setCurrentTimeStamp(Timestamp currentTimeStamp) {
-    this.currentTimeStamp = currentTimeStamp;
+  public void setProductosSP(List<ProductoGenerarFacturaPFDTO> productosSP) {
+    this.productosSP = productosSP;
   }
 
   public String getConsecutivoDocumento() {
@@ -256,14 +265,6 @@ public class GenerarFacturaPFMB extends UtilMB {
 
   public void setConsecutivoDocumento(String consecutivoDocumento) {
     this.consecutivoDocumento = consecutivoDocumento;
-  }
-
-  public boolean isDeshabilitado() {
-    return deshabilitado;
-  }
-
-  public void setDeshabilitado(boolean deshabilitado) {
-    this.deshabilitado = deshabilitado;
   }
 
   public List<Documento> getListaSP() {
