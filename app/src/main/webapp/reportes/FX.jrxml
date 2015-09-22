@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FX" pageWidth="609" pageHeight="800" whenNoDataType="AllSectionsNoDetail" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7b96cc99-4a12-4081-b476-5cf0acd2e8c0">
 	<property name="ireport.zoom" value="2.1435888100001144"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="528"/>
+	<property name="ireport.y" value="240"/>
 	<property name="ireport.background.image" value="D:\Arreglos Sistema Gipv2\Facturacion\FACT2.jpg"/>
 	<property name="ireport.background.image.properties" value="true,true,0.75,-9,-4,0,0,625,796"/>
 	<parameter name="nit" class="java.lang.String"/>
@@ -349,17 +349,17 @@ Bogotá - Colombia]]></text>
 				<text><![CDATA[Payment Terms:]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="81" y="193" width="72" height="18" backcolor="#CCCCCC" uuid="700ed366-fc75-4682-b624-380adedf5bc9"/>
+				<reportElement x="81" y="193" width="86" height="18" backcolor="#CCCCCC" uuid="700ed366-fc75-4682-b624-380adedf5bc9"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="192" y="193" width="152" height="18" backcolor="#CCCCCC" uuid="665ed2cb-9614-45e5-b4e9-b10067acdcce"/>
+				<reportElement x="209" y="193" width="135" height="18" backcolor="#CCCCCC" uuid="665ed2cb-9614-45e5-b4e9-b10067acdcce"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="156" y="196" width="47" height="17" uuid="59340ece-c69c-4863-b40f-601df9d27854"/>
+				<reportElement x="167" y="194" width="42" height="17" uuid="59340ece-c69c-4863-b40f-601df9d27854"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Contact:]]></text>
+				<text><![CDATA[ Contact:]]></text>
 			</staticText>
 			<line>
 				<reportElement x="424" y="155" width="163" height="1" uuid="07687fc4-c1f2-4bc1-885f-3fe21dec5ba3"/>
@@ -403,7 +403,7 @@ Bogotá - Colombia]]></text>
 				<reportElement mode="Transparent" x="424" y="45" width="162" height="17" uuid="8d351b42-c13b-44a7-a1d1-5f5baec10a14"/>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement x="83" y="196" width="67" height="15" uuid="27cd6ac9-c1d5-472f-ac6c-6cad1767d52c"/>
+				<reportElement x="83" y="194" width="84" height="15" uuid="27cd6ac9-c1d5-472f-ac6c-6cad1767d52c"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -424,7 +424,7 @@ Bogotá - Colombia]]></text>
 				<textFieldExpression><![CDATA[$P{metodoPago}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="195" y="196" width="156" height="14" uuid="f34f679b-8e9c-4837-b51c-a6f991856811"/>
+				<reportElement x="211" y="195" width="133" height="14" uuid="f34f679b-8e9c-4837-b51c-a6f991856811"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
