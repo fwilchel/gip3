@@ -231,7 +231,7 @@
               id="tablaProductos" 
               widgetVar="productoDoc"
               value="#{generarFPMB.productosSP}"
-              var="producto" 
+              var="pxd" 
               sortBy="#{producto.documento.id}">
               <f:facet 
                 name="header">
@@ -243,154 +243,147 @@
                 </div>
               </f:facet>
               <p:column 
-                styleClass="centro" 
-                headerText="#{msg.buscadorPxCSKU}">
+                headerText="#{msg.buscadorPxCSKU}"
+                sortBy="#{pxd.productosInventario.sku}"
+                style="width:50px;text-align:center;">
                 <h:outputText 
-                  value="#{producto.productosInventario.sku}" />
+                  value="#{pxd.productosInventario.sku}" />
               </p:column>
               <p:column 
-                headerText="#{msg.buscadorNombreProducto}">
+                headerText="#{msg.buscadorNombreProducto}"
+                sortBy="#{pxd.productosInventario.nombre}"
+                style="width:200px;text-align:left;">
                 <h:outputText 
-                  value="#{producto.productosInventario.nombre}" />
+                  value="#{pxd.productosInventario.nombre}" />
               </p:column>
               <p:column 
-                styleClass="derecha"
-                headerText="#{msg.comprasCantidadSola}">
+                headerText="#{msg.comprasCantidadSola}"
+                style="width:120px;text-align:right">
                 <h:outputText 
-                  value="#{producto.cantidad1}">
+                  value="#{pxd.cantidad1}">
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
-              </p:column>
-              <p:column 
-                styleClass="derecha"
-                headerText="#{msg.costeoComperasValorUnitarioML}">
-                <h:outputText 
-                  value="#{producto.valorUnitarioUsd}">
-                  <f:convertNumber 
-                    pattern="#####,###,###,##0.00" />
-                </h:outputText>
-              </p:column>
-              <p:column 
-                styleClass="derecha"
-                headerText="#{msg.VentasRemisionValorTotal}">
-                <h:outputText 
-                  value="#{producto.valorTotal}">
-                  <f:convertNumber 
-                    pattern="#####,###,###,##0.00" />
-                </h:outputText>
-              </p:column>
-              <p:column 
-                styleClass="derecha" 
-                headerText="#{msg.PesoNetoVista}">
-                <h:outputText 
-                  value="#{producto.totalPesoNetoItem}">
-                  <f:convertNumber 
-                    pattern="#####,###,###,##0.00" />
-                </h:outputText>
-              </p:column>
-              <p:column 
-                styleClass="derecha"
-                headerText="#{msg.PesoBrutoVista}">
-                <h:outputText 
-                  value="#{producto.totalPesoBrutoItem}">
-                  <f:convertNumber 
-                    pattern="#####,###,###,##0.00" />
-                </h:outputText>
-              </p:column>
-              <p:column 
-                styleClass="derecha" 
-                headerText="#{msg.SPcantidadCajas}">
-                <h:outputText 
-                  value="#{producto.cantidadCajasItem}">
-                  <f:convertNumber 
-                    pattern="#####,###,###,##0.00" />
-                </h:outputText>
-              </p:column>
-              <p:column 
-                styleClass="derecha"
-                headerText="#{msg.SPcantidadTendido}">
-                <h:outputText 
-                  value="#{producto.cantidadXEmbalaje}">
-                  <f:convertNumber 
-                    pattern="#####,###,###,##0.00" />
-                </h:outputText>
-              </p:column>
-              <p:column 
-                styleClass="derecha"
-                headerText="#{msg.SPcantidadPallet}">
-                <h:outputText 
-                  value="#{producto.cantidadPalletsItem}">
-                  <f:convertNumber 
-                    pattern="#####,###,###,##0.00" />
-                </h:outputText>
-              </p:column>
-              <p:summaryRow>
-                <p:column 
-                  colspan="2" 
-                  styleClass="derecha">
-                  <h:outputText 
-                    value="TOTALES " />
-                </p:column>
-                <p:column 
-                  styleClass="derecha">
+                <f:facet 
+                  name="footer">
                   <h:outputText 
                     value="#{generarFPMB.totalCantidad}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
-                </p:column>
-                <p:column>
-                </p:column>
-                <p:column 
-                  styleClass="derecha">
+                </f:facet>
+              </p:column>
+              <p:column 
+                headerText="#{msg.costeoComperasValorUnitarioML}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.valorUnitarioUsd}">
+                  <f:convertNumber 
+                    pattern="$#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column 
+                headerText="#{msg.VentasRemisionValorTotal}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.valorTotal}">
+                  <f:convertNumber 
+                    pattern="$#####,###,###,##0.00" />
+                </h:outputText>
+                <f:facet 
+                  name="footer">
                   <h:outputText 
                     value="#{generarFPMB.totalValorTotal}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
-                </p:column>
-                <p:column 
-                  styleClass="derecha">
+                </f:facet>
+              </p:column>
+              <p:column 
+                headerText="#{msg.PesoNetoVista}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.totalPesoNetoItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
+                </h:outputText>
+                <f:facet 
+                  name="footer">
                   <h:outputText 
                     value="#{generarFPMB.totalPesoNeto}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
-                </p:column>
-                <p:column 
-                  styleClass="derecha">
+                </f:facet>
+              </p:column>
+              <p:column 
+                headerText="#{msg.PesoBrutoVista}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.totalPesoBrutoItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
+                </h:outputText>
+                <f:facet 
+                  name="footer">
                   <h:outputText 
                     value="#{generarFPMB.totalPesoBruto}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
-                </p:column>
-                <p:column 
-                  styleClass="derecha">
+                </f:facet>
+              </p:column>
+              <p:column 
+                headerText="#{msg.SPcantidadCajas}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.cantidadCajasItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
+                </h:outputText>
+                <f:facet 
+                  name="footer">
                   <h:outputText 
                     value="#{generarFPMB.totalCantidadCajas}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
-                </p:column>
-                <p:column 
-                  styleClass="derecha">
-                  <h:outputText
+                </f:facet>
+              </p:column>
+              <p:column 
+                headerText="#{msg.SPcantidadTendido}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.cantidadXEmbalaje}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
+                </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
                     value="#{generarFPMB.totalCantidadTendidos}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
-                </p:column>
-                <p:column 
-                  styleClass="derecha">
+                </f:facet>
+              </p:column>
+              <p:column 
+                headerText="#{msg.SPcantidadPallet}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.cantidadPalletsItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
+                </h:outputText>
+                <f:facet 
+                  name="footer">
                   <h:outputText 
                     value="#{generarFPMB.totalCantidadPallets}">
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
-                </p:column>
-              </p:summaryRow>
+                </f:facet>
+              </p:column>
             </p:dataTable>
             <p:panelGrid
               style="text-align: right;">
