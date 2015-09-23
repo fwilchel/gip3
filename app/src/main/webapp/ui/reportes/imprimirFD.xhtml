@@ -35,7 +35,7 @@
               for="codigo"
               styleClass="negrita" />
             <h:inputText 
-              value="#{imprimirFacturaDirectaMB.consecutivoDocumento}" 
+              value="#{imprimirFDMB.consecutivoDocumento}" 
               id="codigo"
               required="false" 
               maxlength="10" 
@@ -45,14 +45,14 @@
             <p:commandButton 
               value="#{msg.documentoEjecutarBusqueda}" 
               icon="ui-icon-search" 
-              action="#{imprimirFacturaDirectaMB.consultarDocumento}"
+              action="#{imprimirFDMB.consultarDocumento}"
               update="tablaDatos"/>
           </p:panelGrid>
           <p:dataTable 
             var="dato" 
             widgetVar="datoTabla" 
             id="tablaDatos"
-            value="#{imprimirFacturaDirectaMB.list}" 
+            value="#{imprimirFDMB.list}" 
             rows="10"
             emptyMessage="#{msg.ConsultarFormatoNovedadNoEncontrados}"
             paginator="true" 
@@ -68,7 +68,7 @@
                 update=":editarDlg2">
                 <f:setPropertyActionListener 
                   value="#{dato}"
-                  target="#{imprimirFacturaDirectaMB.fd}" />
+                  target="#{imprimirFDMB.fd}" />
               </p:commandButton>
             </p:column>
             <p:column 
@@ -103,24 +103,24 @@
       <h:form id="formaDlg2">
         <p:panelGrid columns="8"  styleClass="noBorders" >
           <p:outputLabel value="#{msg.recibiProductoDcoumento}" for="idDocumento" styleClass="negrita" />
-          <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.idDocumento}" id="idDocumento"/>
+          <h:outputText  styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.idDocumento}" id="idDocumento"/>
           <p:outputLabel value="#{msg.RequisicionNombreCons}" for="consecutivoDocumento" styleClass="negrita" />
-          <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.consecutivoDocumento}" id="consecutivoDocumento"/>
+          <h:outputText  styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.consecutivoDocumento}" id="consecutivoDocumento"/>
           <p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"  styleClass="negrita" />
-          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.fechaGeneracion}" />
+          <h:outputText styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.fechaGeneracion}" />
           <p:outputLabel value="#{msg.VentasVDRel}"  styleClass="negrita" />
-          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.observacionDocumento}" />
+          <h:outputText styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.observacionDocumento}" />
           <p:outputLabel value="#{msg.nomCliente}"  styleClass="negrita" />
-          <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.nombreCliente}" />
+          <h:outputText  styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.nombreCliente}" />
           <p:outputLabel value="#{msg.maestroDireccionCliente}"  styleClass="negrita" />
-          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.direccionCliente}" />	
+          <h:outputText styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.direccionCliente}" />	
           <p:outputLabel value="#{msg.maestroTelefonoCliente}"  styleClass="negrita" />
-          <h:outputText styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.telefonoCliente}" />
+          <h:outputText styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.telefonoCliente}" />
         </p:panelGrid>
         <p:dataTable 
-          var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirFacturaDirectaMB.fdDTO.idDocumento}"
-          value="#{imprimirFacturaDirectaMB.listaDetalle}"
-          rendered="#{not empty imprimirFacturaDirectaMB.listaDetalle}">
+          var="dato2" widgetVar="datoTabla" id="tablaDatos2" sortBy="#{imprimirFDMB.fdDTO.idDocumento}"
+          value="#{imprimirFDMB.listaDetalle}"
+          rendered="#{not empty imprimirFDMB.listaDetalle}">
           <p:column headerText="#{msg.buscadorPxCSKU}">
             <h:outputText value="#{dato2.sku}" />
           </p:column>
@@ -169,34 +169,34 @@
           <p:column>
             <p:panelGrid columns="2"  styleClass="noBorders">
               <p:outputLabel value="#{msg.VentasRemisionValorSubTotal}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorSubtotal}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.valorSubtotal}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
               <p:outputLabel value="#{msg.VentasRemisionValorDescuento}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorDescuento}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.valorDescuento}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
               <p:outputLabel value="#{msg.VentasValorIva10}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorIva10}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.valorIva10}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
               <p:outputLabel value="#{msg.VentasValorIva16}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorIva16}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.valorIva16}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
               <p:outputLabel value="#{msg.VentasValorIva5}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorIva5}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.valorIva5}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
               <p:outputLabel value="#{msg.VentasRemisionVRTotal}"  styleClass="negrita" />
-              <h:outputText  styleClass="filas_contenido" value="#{imprimirFacturaDirectaMB.fdDTO.valorTotal}">
+              <h:outputText  styleClass="filas_contenido" value="#{imprimirFDMB.fdDTO.valorTotal}">
                 <f:convertNumber pattern="$#####,###,###,###.0"/>
               </h:outputText>
             </p:panelGrid>
           </p:column>
         </p:panelGrid>
         <p:commandButton value="Reporte PDF" ajax="false"  icon="ui-icon-document">
-          <p:fileDownload value="#{imprimirFacturaDirectaMB.reportePDF}" />
+          <p:fileDownload value="#{imprimirFDMB.reportePDF}" />
         </p:commandButton>		
       </h:form>
     </p:dialog>

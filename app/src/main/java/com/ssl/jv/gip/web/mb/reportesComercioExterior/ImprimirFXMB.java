@@ -43,17 +43,17 @@ import com.ssl.jv.gip.web.mb.util.Numero_a_Letra_Ingles;
 import com.ssl.jv.gip.web.util.Modo;
 
 /**
- * The Class ReImprimirFacturaExpoMB.
+ * The Class ImprimirFXMB.
  */
-@ManagedBean(name = "reimprimirFacturaExpoMB")
+@ManagedBean
 @ViewScoped
-public class ReImprimirFacturaExpoMB extends UtilMB {
+public class ImprimirFXMB extends UtilMB {
 
   /**
    *
    */
   private static final long serialVersionUID = 5093870535116322203L;
-  private static final Logger LOGGER = Logger.getLogger(ReImprimirFacturaExpoMB.class);
+  private static final Logger LOGGER = Logger.getLogger(ImprimirFXMB.class);
   @EJB
   private ReportesComercioExteriorEJBLocal reportesComercioExteriorEJBLocal;
   @EJB

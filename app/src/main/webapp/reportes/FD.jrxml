@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-08-20T15:09:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FD" pageWidth="609" pageHeight="800" columnWidth="609" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="a18bf358-73ac-445b-b19b-f0921c907396">
 	<property name="ireport.zoom" value="1.2100000000000608"/>
 	<property name="ireport.x" value="0"/>
@@ -223,7 +221,7 @@ Somos Agentes Retenedores del IVA e ICA
 Autorretenedores según Resolución No. 0002968 del 5 de Abril de 2010
 Act. Económica 5612 tarifa 13.8 x 1000 / Act. Económica 47111 Tarifa 4.14 x 1000
 RESOLUCION DIAN No. 310000076925 del 13 de Mar de 2014
-Autoriza FD1 Del 10001 a 20000. Factura Impresa por Computador]]></text>
+Autoriza FD1 Del 20001 a 40000. Factura Impresa por Computador]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="19" y="82" width="156" height="53" uuid="938b2899-77b2-463a-b8fe-8b747d395043"/>

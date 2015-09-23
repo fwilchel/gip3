@@ -33,7 +33,7 @@
                 styleClass="label"/>
               <h:outputText
                 id="filtroFechaActual"
-                value="#{reimprimirFacturaExpoMB.fechaActual}">
+                value="#{imprimirFXMB.fechaActual}">
                 <f:convertDateTime 
                   pattern="dd/MM/yyyy hh:mm:ss a"/>
               </h:outputText>
@@ -46,7 +46,7 @@
                 styleClass="label"/>
               <p:inputText 
                 id="filtroConsecutivoDocumento" 
-                value="#{reimprimirFacturaExpoMB.filtroConsecutivoDocumento}" 
+                value="#{imprimirFXMB.filtroConsecutivoDocumento}" 
                 maxlength="40" 
                 label="#{msg.IngresarNumFX}"/>
               <p:message
@@ -55,7 +55,7 @@
                 name="footer">
                 <p:commandButton
                   value="#{msg.gfFltBtnBuscar}"
-                  actionListener="#{reimprimirFacturaExpoMB.consultarFacturasExportacion()}"
+                  actionListener="#{imprimirFXMB.consultarFacturasExportacion()}"
                   update=":forma:msgs tabla"/>
               </f:facet>
             </p:panelGrid>
@@ -64,7 +64,7 @@
           <p:dataTable 
             var="facturaExpo" widgetVar="facturasExpoTabla"
             id="tabla" scrollable="true" scrollWidth="1000px"
-            value="#{reimprimirFacturaExpoMB.listaFacturasExportacion}"
+            value="#{imprimirFXMB.listaFacturasExportacion}"
             rows="10" emptyMessage="#{msg.generalNoDatos}" paginator="true"
             paginatorPosition="bottom"
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -96,7 +96,7 @@
                 update=":reimprimirDlg">
                 <f:setPropertyActionListener 
                   value="#{facturaExpo}"
-                  target="#{reimprimirFacturaExpoMB.seleccionado}" />
+                  target="#{imprimirFXMB.seleccionado}" />
               </p:commandButton>
             </p:column>
 
@@ -140,92 +140,92 @@
           <p:messages id="msgs2" showDetail="false" showSummary="true"
                       globalOnly="true" showIcon="true"></p:messages>
           <p:panelGrid columns="4" style="width:100%"
-                       rendered="#{not empty reimprimirFacturaExpoMB.seleccionado}"
+                       rendered="#{not empty imprimirFXMB.seleccionado}"
                        columnClasses="label,value">
 
             <p:outputLabel value="#{msg.recibiProductoDcoumento}"
                            styleClass="negrita" />
-            <h:outputText value="#{reimprimirFacturaExpoMB.seleccionado.id}" />
+            <h:outputText value="#{imprimirFXMB.seleccionado.id}" />
 
             <p:outputLabel value="#{msg.RequisicionNombreCons}"
                            styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.consecutivoDocumento}" />
+              value="#{imprimirFXMB.seleccionado.consecutivoDocumento}" />
 
             <p:outputLabel value="#{msg.RequisicionNombreFechaGenerado}"
                            styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.fechaGeneracion}" >
+              value="#{imprimirFXMB.seleccionado.fechaGeneracion}" >
               <f:convertDateTime pattern="dd-MMM-yyyy" />
             </h:outputText>
 
             <p:outputLabel value="#{msg.nomCliente}" styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.cliente.nombre}" />
+              value="#{imprimirFXMB.seleccionado.cliente.nombre}" />
 
             <p:outputLabel value="#{msg.NumeroPedidoWeb}" styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.documentoCliente}" />
+              value="#{imprimirFXMB.seleccionado.documentoCliente}" />
 
             <p:outputLabel value="#{msg.maestroDireccionCliente}"
                            styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.cliente.direccion}" />
+              value="#{imprimirFXMB.seleccionado.cliente.direccion}" />
 
             <p:outputLabel value="#{msg.maestroTelefonoCliente}"
                            styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.cliente.telefono}" />
+              value="#{imprimirFXMB.seleccionado.cliente.telefono}" />
 
             <p:outputLabel value="#{msg.maestroContactoAgente}"
                            styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.cliente.contacto}" />
+              value="#{imprimirFXMB.seleccionado.cliente.contacto}" />
 
 <!--             <p:outputLabel value="#{msg.TerminoIncotermSP}" -->
             <!--                            styleClass="negrita" /> -->
             <!--             <h:outputText -->
-            <!--               value="#{reimprimirFacturaExpoMB.seleccionado.cliente.terminoIncoterms.get(0).descripcion}" /> -->
+            <!--               value="#{imprimirFXMB.seleccionado.cliente.terminoIncoterms.get(0).descripcion}" /> -->
 
             <p:outputLabel value="#{msg.LugarIncoterm}" styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.documentoXNegociacion.lugarIncoterm}" />
+              value="#{imprimirFXMB.seleccionado.documentoXNegociacion.lugarIncoterm}" />
 
             <p:outputLabel value="#{msg.CantidadContenedores20}"
                            styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.documentoXNegociacion.cantidadContenedoresDe20}" />
+              value="#{imprimirFXMB.seleccionado.documentoXNegociacion.cantidadContenedoresDe20}" />
 
             <p:outputLabel value="#{msg.CantidadContenedores40}"
                            styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.documentoXNegociacion.cantidadContenedoresDe40}" />
+              value="#{imprimirFXMB.seleccionado.documentoXNegociacion.cantidadContenedoresDe40}" />
 
             <p:outputLabel value="#{msg.FechaDespacho}" styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.fechaEsperadaEntrega}" >
+              value="#{imprimirFXMB.seleccionado.fechaEsperadaEntrega}" >
               <f:convertDateTime pattern="dd-MMM-yyyy" />
             </h:outputText>
 
             <p:outputLabel value="#{msg.DiasVigenciaFP}" styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.documentoXNegociacion.cantidadDiasVigencia}" />
+              value="#{imprimirFXMB.seleccionado.documentoXNegociacion.cantidadDiasVigencia}" />
 
             <p:outputLabel value="#{msg.CantidadEstibas}" styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.documentoXNegociacion.cantidadEstibas}" />
+              value="#{imprimirFXMB.seleccionado.documentoXNegociacion.cantidadEstibas}" />
 
             <p:outputLabel value="#{msg.PesoBrutoEstibas}"
                            styleClass="negrita" />
             <h:outputText
-              value="#{reimprimirFacturaExpoMB.seleccionado.documentoXNegociacion.pesoBrutoEstibas}" />
+              value="#{imprimirFXMB.seleccionado.documentoXNegociacion.pesoBrutoEstibas}" />
 
           </p:panelGrid>
 
           <br />
 
           <p:dataTable id="checkboxDT" var="producto"
-                       value="#{reimprimirFacturaExpoMB.listaProductosDocumento}"
+                       value="#{imprimirFXMB.listaProductosDocumento}"
                        rowKey="#{producto.id}">
 
             <p:column headerText="#{msg.TipoLoteOIC}">
@@ -253,7 +253,7 @@
               </h:outputText>
 
               <f:facet name="footer">
-                <h:outputText value="#{reimprimirFacturaExpoMB.totalCantitad1}"
+                <h:outputText value="#{imprimirFXMB.totalCantitad1}"
                               style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="0"/>
                 </h:outputText>
@@ -266,7 +266,7 @@
               </h:outputText>
 
               <f:facet name="footer">
-                <h:outputText value="#{reimprimirFacturaExpoMB.totalValorTotal}"
+                <h:outputText value="#{imprimirFXMB.totalValorTotal}"
                               style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </h:outputText>
@@ -280,7 +280,7 @@
 
               <f:facet name="footer">
                 <h:outputText
-                  value="#{reimprimirFacturaExpoMB.totalCantidadXEmbalaje}"
+                  value="#{imprimirFXMB.totalCantidadXEmbalaje}"
                   style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>									
                 </h:outputText>
@@ -294,7 +294,7 @@
 
               <f:facet name="footer">
                 <h:outputText
-                  value="#{reimprimirFacturaExpoMB.totalCantidadCajas}"
+                  value="#{imprimirFXMB.totalCantidadCajas}"
                   style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </h:outputText>
@@ -306,7 +306,7 @@
                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               </h:outputText>
               <f:facet name="footer">
-                <h:outputText value="#{reimprimirFacturaExpoMB.totalPesoNeto}"
+                <h:outputText value="#{imprimirFXMB.totalPesoNeto}"
                               style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </h:outputText>
@@ -318,7 +318,7 @@
                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               </h:outputText>
               <f:facet name="footer">
-                <h:outputText value="#{reimprimirFacturaExpoMB.totalPesoBruto}"
+                <h:outputText value="#{imprimirFXMB.totalPesoBruto}"
                               style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </h:outputText>
@@ -330,7 +330,7 @@
           <br />
 
           <p:dataTable id="tablaMuestra" var="prod2"
-                       value="#{reimprimirFacturaExpoMB.listaProductoTotales}">
+                       value="#{imprimirFXMB.listaProductoTotales}">
 
             <p:column headerText="#{msg.TipoLoteOIC}">
               <h:outputText value="#{prod2.descripcionLote}" />
@@ -381,7 +381,7 @@
             <h:outputText styleClass="filas_contenido"
                           value="#{msg.SP_CostoEntrega}" />
             <h:outputLabel styleClass="filas_contenido" for="Costo1"
-                           value="#{reimprimirFacturaExpoMB.totalCostoEntrega}"
+                           value="#{imprimirFXMB.totalCostoEntrega}"
                            style="text-align:right;width:100px;">
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
             </h:outputLabel>
@@ -389,7 +389,7 @@
             <h:outputText styleClass="filas_contenido"
                           value="#{msg.SP_CostoSeguro}" />
             <h:outputLabel styleClass="filas_contenido" for="Costo2"
-                           value="#{reimprimirFacturaExpoMB.totalCostoSeguro}"
+                           value="#{imprimirFXMB.totalCostoSeguro}"
                            style="text-align:right;width:100px;">
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
             </h:outputLabel>
@@ -397,7 +397,7 @@
             <h:outputText styleClass="filas_contenido"
                           value="#{msg.SP_CostoFlete}" />
             <h:outputLabel styleClass="filas_contenido" for="Costo3"
-                           value="#{reimprimirFacturaExpoMB.totalCostoFlete}"
+                           value="#{imprimirFXMB.totalCostoFlete}"
                            style="text-align:right;width:100px;">
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
             </h:outputLabel>
@@ -405,7 +405,7 @@
             <h:outputText styleClass="filas_contenido"
                           value="#{msg.SP_OtrosGastos}" />
             <h:outputLabel styleClass="filas_contenido" for="Costo4"
-                           value="#{reimprimirFacturaExpoMB.totalOtrosGastos}"
+                           value="#{imprimirFXMB.totalOtrosGastos}"
                            style="text-align:right;width:100px;">
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
             </h:outputLabel>
@@ -413,7 +413,7 @@
             <h:outputText styleClass="filas_contenido"
                           value="#{msg.SP_TotalCostos}" />
             <h:outputLabel styleClass="filas_contenido" for="Costo5"
-                           value="#{reimprimirFacturaExpoMB.totalCostos}"
+                           value="#{imprimirFXMB.totalCostos}"
                            style="text-align:right;width:100px;">
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
             </h:outputLabel>
@@ -421,7 +421,7 @@
             <h:outputText styleClass="filas_contenido"
                           value="#{msg.TotalNegociacion}" />
             <h:outputLabel styleClass="filas_contenido" for="Costo6"
-                           value="#{reimprimirFacturaExpoMB.totalValorNeg}"
+                           value="#{imprimirFXMB.totalValorNeg}"
                            style="text-align:right;width:100px;">
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
             </h:outputLabel>
@@ -430,12 +430,12 @@
 
 
           <p:panelGrid columns="1"
-                       rendered="#{not empty reimprimirFacturaExpoMB.seleccionado}"
+                       rendered="#{not empty imprimirFXMB.seleccionado}"
                        columnClasses="label,value">
 
             <p:commandButton value="Reporte PDF" ajax="false"
                              icon="ui-icon-document">
-              <p:fileDownload value="#{reimprimirFacturaExpoMB.reportePDF}" />
+              <p:fileDownload value="#{imprimirFXMB.reportePDF}" />
             </p:commandButton>
 
 

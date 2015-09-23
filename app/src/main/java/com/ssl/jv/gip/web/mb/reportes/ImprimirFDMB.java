@@ -32,8 +32,8 @@ import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
 
 /**
  * <p>
- * Title: ImprimirFacturaDirectaMB
- * </p>
+ Title: ImprimirFDMB
+ </p>
  *
  * <p>
  * Description: ManagedBean para las imprimir Factura Directa
@@ -52,9 +52,9 @@ import com.ssl.jv.gip.negocio.ejb.VentasFacturacionEJB;
  * @phone 321 2024867
  * @version 1.0
  */
-@ManagedBean(name = "imprimirFacturaDirectaMB")
+@ManagedBean
 @SessionScoped
-public class ImprimirFacturaDirectaMB extends UtilMB {
+public class ImprimirFDMB extends UtilMB {
 
 	@EJB
 	private VentasFacturacionEJB ventasFacturacionEjb;

@@ -159,7 +159,7 @@
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_factura</from-outcome>
-      <to-view-id>/ui/reportes/facturaDirecta.xhtml</to-view-id>
+      <to-view-id>/ui/reportes/imprimirFD.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
     <navigation-case>
@@ -250,7 +250,7 @@
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_FX_ReImprimir_FX</from-outcome>
-      <to-view-id>/ui/reportesComercioExterior/reimprimirFacturaExpo.xhtml</to-view-id>
+      <to-view-id>/ui/reportesComercioExterior/imprimirFX.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
     <navigation-case>

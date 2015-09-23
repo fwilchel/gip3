@@ -303,6 +303,23 @@
                 <p:message 
                   for="idUbicacion"/>
               </h:panelGroup>
+              <p:outputLabel 
+                value="#{msg.DiasVigenciaFP}" 
+                for="diasVigencia"
+                styleClass="negrita" />
+              <h:panelGroup>
+                <p:inputText 
+                  id="diasVigencia" 
+                  value="#{modificarFPMB.fp.documentoXNegociacion.cantidadDiasVigencia}"
+                  label="#{msg.DiasVigenciaFP}" 
+                  size="5"
+                  maxlength="5"
+                  disabled="false"
+                  required="true" />
+                <p:message 
+                  for="diasVigencia" 
+                  id="msgDiasVigencia"/>
+              </h:panelGroup>
             </p:panelGrid>
             <p:dataTable 
               id="tablaProductos"
