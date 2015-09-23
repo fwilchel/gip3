@@ -94,12 +94,13 @@ public class ModificarFPMB extends UtilMB {
   public void consultarListaFP() {
     filtro.setTipoDocumento(new Long(ConstantesTipoDocumento.FACTURA_PROFORMA));
     filtro.setEstado(new Long(ConstantesDocumento.AUTORIZADO));
+    filtro.setOrdenCampo("consecutivoDocumento DESC");
     this.listaFP = comunEJB.consultarDocumentos(filtro);
   }
 
   public String verDetalle(Documento selected) {
     this.fp = comercioExteriorEJB.consultarDocumentoComercioExterior(selected.getId());
-    this.productosFP = comercioExteriorEJB.consultarProductosSP(this.fp.getId(), fp.getCliente().getId());
+    this.productosFP = comercioExteriorEJB.consultarProductosFP(this.fp.getId());
     this.recalcularTotalesLista();
     this.modo = Modo.EDITAR;
     this.consultarSaldosInventarioComercioExterior();
