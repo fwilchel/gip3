@@ -47,7 +47,7 @@
                 icon="ui-icon-pencil"
                 title="Modificar"
                 update="@all"
-                action="#{modificarSPMB.onEdit(dato)}"/>
+                action="#{modificarSPMB.verDetalle(dato)}"/>
             </p:column>
             <p:column 
               headerText="#{msg.recibiProductoDcoumento}"
@@ -309,7 +309,6 @@
               widgetVar="tablaProductos"
               var="pxd" 
               value="#{modificarSPMB.productosXDocumento}"
-              sortBy="#{pxd.documento.id}"
               emptyMessage="#{msg.generalNoDatos}" >
               <f:facet 
                 name="header">
@@ -327,12 +326,14 @@
               </f:facet>
               <p:column 
                 headerText="#{msg.buscadorPxCSKU}"
-                style="width:32px;text-align:center;">
+                sortBy="#{pxd.productosInventario.sku}"
+                style="width:50px;text-align:center;">
                 <h:outputText 
                   value="#{pxd.productosInventario.sku}" />
               </p:column>
               <p:column 
                 headerText="#{msg.buscadorNombreProducto}"
+                sortBy="#{pxd.productosInventario.nombre}"
                 style="width:200px;text-align:left;">
                 <h:outputText 
                   value="#{pxd.productosInventario.nombre}" />
@@ -352,14 +353,22 @@
                   maxlength="9"
                   style="text-align:right;">                
                   <p:ajax 
-                    listener="#{modificarSPMB.recalcularTotales()}"
+                    listener="#{modificarSPMB.recalcularTotalesLista()}"
                     update=":tabPanel:formaEditar:tablaProductos"
                     process="@this" />
                   <f:convertNumber 
                     pattern="#####,###,###,##0" />
                 </p:spinner>
                 <p:message 
-                  for="cantidadProd1"/>
+                  for="cantidadProd1"/>                
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarSPMB.totalCantidad}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.costeoComperasValorUnitarioML}"
@@ -378,6 +387,14 @@
                   <f:convertNumber 
                     pattern="$#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarSPMB.totalValorTotal}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.PesoNetoVista}"
@@ -387,6 +404,14 @@
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarSPMB.totalPesoNeto}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.PesoBrutoVista}"
@@ -396,6 +421,14 @@
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarSPMB.totalPesoBruto}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.SPcantidadCajas}"
@@ -405,6 +438,14 @@
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarSPMB.totalCantidadCajas}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.SPcantidadTendido}"
@@ -414,6 +455,14 @@
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarSPMB.totalCantidadTendidos}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.SPcantidadPallet}"
@@ -423,6 +472,14 @@
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarSPMB.totalCantidadPallets}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 style="width:32px;text-align:center;">
@@ -438,98 +495,24 @@
                                       icon="ui-icon-alert"/>-->
                 </p:commandButton>
               </p:column>
-              <p:summaryRow 
-                rendered="true">
-                <p:column
-                  colspan="2"
-                  style="text-align:left">
-                  <p:commandButton 
-                    value="#{msg.generarOrdenCompraTotalizar}"
-                    actionListener="#{modificarSPMB.recalcularTotales()}" 
-                    update=":tabPanel:formaEditar:tablaProductos" 
-                    process=":tabPanel:formaEditar:tablaProductos"
-                    rendered="#{not empty modificarSPMB.sp}"/> 
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarSPMB.totalCantidad}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarSPMB.totalValorTotal}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarSPMB.totalPesoNeto}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarSPMB.totalPesoBruto}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarSPMB.totalCantidadCajas}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarSPMB.totalCantidadTendidos}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarSPMB.totalCantidadPallets}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:center">
-                </p:column>
-              </p:summaryRow>
               <f:facet
                 name="footer">
+<!--                <p:commandButton 
+                  value="#{msg.generarOrdenCompraTotalizar}"
+                  actionListener="#{modificarSPMB.recalcularTotalesLista()}" 
+                  update=":tabPanel:formaEditar:tablaProductos" 
+                  process=":tabPanel:formaEditar:tablaProductos"
+                  rendered="#{not empty modificarSPMB.sp}"/> -->
                 <p:commandButton 
-                  value="Guardar Ajustes SP" 
+                  value="Guardar" 
                   icon="ui-icon-disk"
-                  action="#{modificarSPMB.guardarAjustesSP}"
+                  action="#{modificarSPMB.guardar}"
                   update="@all"
                   rendered="#{not empty modificarSPMB.sp}"/>
                 <p:commandButton 
                   value="#{msg.generalCancelar}"
                   icon="ui-icon-cancel"
-                  action="#{modificarSPMB.backToList}"
+                  action="#{modificarSPMB.volverAlListado}"
                   immediate="true"
                   update="@all"/>
               </f:facet>

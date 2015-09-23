@@ -65,10 +65,10 @@ public class ModificarSPMB extends UtilMB {
     this.modo = Modo.LISTAR;
   }
 
-  public String onEdit(DocumentoIncontermDTO selected) {
+  public String verDetalle(DocumentoIncontermDTO selected) {
     this.sp = selected;
     this.productosXDocumento = comercioExteriorEJB.consultarProductosSP(this.sp.getIdDocumento(), sp.getClientesId());
-    this.recalcularTotales();
+    this.recalcularTotalesLista();
     this.modo = Modo.EDITAR;
     this.consultarSaldosInventarioComercioExterior();
     return null;
@@ -81,7 +81,7 @@ public class ModificarSPMB extends UtilMB {
   /**
    * Refrescar totales.
    */
-  public void recalcularTotales() {
+  public void recalcularTotalesLista() {
     totalValorTotal = new BigDecimal(0);
     totalCantidad = new BigDecimal(0);
     totalPesoNeto = new BigDecimal(0);
@@ -91,7 +91,7 @@ public class ModificarSPMB extends UtilMB {
     totalCantidadCajas = new BigDecimal(0);
     if (productosXDocumento != null && !productosXDocumento.isEmpty()) {
       for (ProductosXDocumento pxd : productosXDocumento) {
-        calcularTotalesPorRegistro(pxd);
+        calcularTotalesRegistro(pxd);
         totalValorTotal = totalValorTotal.add(pxd.getValorTotal());
         totalCantidad = totalCantidad.add(pxd.getCantidad1());
         totalPesoNeto = totalPesoNeto.add(pxd.getTotalPesoNetoItem());
@@ -103,7 +103,7 @@ public class ModificarSPMB extends UtilMB {
     }
   }
 
-  public void calcularTotalesPorRegistro(ProductosXDocumento pxd) {
+  public void calcularTotalesRegistro(ProductosXDocumento pxd) {
     BigDecimal cantidad = pxd.getCantidad1();
     BigDecimal precio = pxd.getValorUnitarioUsd();
     BigDecimal cantidadXEmbalaje = pxd.getProductosInventario().getProductosInventarioComext().getCantidadXEmbalaje();
@@ -191,7 +191,7 @@ public class ModificarSPMB extends UtilMB {
       pxd.setValorUnitatrioMl(BigDecimal.ZERO);
       this.productosXDocumento.add(pxd);
       this.productosXCliente.remove(pxc);
-      this.recalcularTotales();
+      this.recalcularTotalesLista();
       this.addMensajeInfo(":tabPanel:msgsBuscarProductos", Utilidad.stringFormat("Producto {0} agregado.", new String[]{pxc.getProductosInventario().getSku()}));
     }
   }
@@ -199,15 +199,15 @@ public class ModificarSPMB extends UtilMB {
   public void eliminarProducto(ProductosXDocumento pxd) {
     if (pxd != null) {
       this.productosXDocumento.remove(pxd);
-      this.recalcularTotales();
+      this.recalcularTotalesLista();
     }
   }
 
   /**
    * Guardar ajustes pedido.
    */
-  public void guardarAjustesSP() {
-    this.recalcularTotales();
+  public void guardar() {
+    this.recalcularTotalesLista();
     // solicitud
     sp.setValorTotalDocumento(totalValorTotal);
     // documento x negociacion
@@ -248,7 +248,7 @@ public class ModificarSPMB extends UtilMB {
     }
   }
 
-  public void backToList() {
+  public void volverAlListado() {
     this.init();
   }
 
