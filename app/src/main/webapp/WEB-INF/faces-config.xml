@@ -199,12 +199,12 @@
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_SP_Imprimir_FP</from-outcome>
-      <to-view-id>/ui/reportes/listaFacturasProforma.xhtml</to-view-id>
+      <to-view-id>/ui/reportes/imprimirFP.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>consultar_factura_proforma</from-outcome>
-      <to-view-id>/ui/reportes/imprimirFacturaProforma.xhtml</to-view-id>
+      <to-view-id>/ui/reportes/imprimirFPDetalle.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
     <navigation-case>

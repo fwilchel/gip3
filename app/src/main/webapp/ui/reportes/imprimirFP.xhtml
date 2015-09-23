@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:misc="http://java.sun.com/jsf/composite/misc"
-                template="/resources/#{menuMB.tema}/template/general.xhtml">
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:misc="http://java.sun.com/jsf/composite/misc"
+  template="/resources/#{menuMB.tema}/template/general.xhtml">
 
   <ui:define name="title">#{msg.generalTituloSOC} .::#{msg.imprimirFacturaProforma_Titulo}::.</ui:define>
 
@@ -25,26 +26,27 @@
                        columnClasses="label,value">
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_FechaActual}" for="fecha" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.fechaActual}" id="fecha" required="false" disabled="true" >
+            <p:inputText value="#{imprimirFPMB.fechaActual}" id="fecha" required="false" disabled="true" >
               <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss"/>
             </p:inputText>
             <p:message for="fecha"></p:message>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_ConsecutivoListaEmpaque}" for="consecutivo" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.consecutivoDocumento}" id="consecutivo" required="false" disabled="false" 
+            <p:inputText value="#{imprimirFPMB.consecutivoDocumento}" id="consecutivo" required="false" disabled="false" 
                          label="#{msg.imprimirFacturaProforma_ConsecutivoListaEmpaque}" />
             <p:message for="consecutivo"></p:message>
 
           </p:panelGrid>
 
-          <p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{imprimirFacturaProformaMB.consultarFacturasProforma}" update=":forma:tabPanel:tablaDatos2" ></p:commandButton>
+          <p:commandButton value="#{msg.generalConsultar}" icon="ui-icon-disk" actionListener="#{imprimirFPMB.consultarFacturasProforma}" update=":forma:tabPanel:tablaDatos2" ></p:commandButton>
 
-          <p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
-                       value="#{imprimirFacturaProformaMB.facturasProforma}" rows="10"
-                       emptyMessage="#{msg.generalNoDatos}" paginator="true"
-                       paginatorPosition="bottom"
-                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                       rowsPerPageTemplate="5,10,15">
+          <p:dataTable 
+            var="dato" widgetVar="datoTabla2" id="tablaDatos2"
+            value="#{imprimirFPMB.facturasProforma}" rows="10"
+            emptyMessage="#{msg.generalNoDatos}" paginator="true"
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="5,10,15">
 
             <f:facet name="header">
               <div align="right">
@@ -60,10 +62,10 @@
             </f:facet>
 
             <p:column style="width:32px;text-align: center">
-              <p:commandButton action="#{imprimirFacturaProformaMB.editar}"
+              <p:commandButton action="#{imprimirFPMB.editar}"
                                icon="ui-icon-pencil" title="#{msg.generalEditar}" >
                 <f:setPropertyActionListener value="#{dato}"
-                                             target="#{imprimirFacturaProformaMB.seleccionado}" />
+                                             target="#{imprimirFPMB.seleccionado}" />
               </p:commandButton>
             </p:column>
 

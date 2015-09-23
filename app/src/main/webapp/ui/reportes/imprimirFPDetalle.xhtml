@@ -27,90 +27,90 @@
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_Documento}"
                            for="documento" styleClass="negrita" />								
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.id}"
+            <p:inputText value="#{imprimirFPMB.seleccionado.id}"
                          id="documento" 
                          label="#{msg.imprimirFacturaProforma_Documento}" disabled="true"/>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_ConsecutivoDocumento}"
                            for="consecutivoDocumento" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.consecutivoDocumento}"
+            <p:inputText value="#{imprimirFPMB.seleccionado.consecutivoDocumento}"
                          id="consecutivoDocumento" 
                          label="#{msg.imprimirFacturaProforma_ConsecutivoDocumento}" disabled="true" />
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_FechaGeneracion}"
                            for="fechaGeneracion" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.fechaGeneracion}"
+            <p:inputText value="#{imprimirFPMB.seleccionado.fechaGeneracion}"
                          id="fechaGeneracion" label="#{msg.imprimirFacturaProforma_FechaGeneracion}" disabled="true">
               <f:convertDateTime pattern="dd-MMM-yyyy"/>
             </p:inputText>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_Cliente}"
                            for="clienteNombre" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.cliente.nombre}" size="80"
+            <p:inputText value="#{imprimirFPMB.seleccionado.cliente.nombre}" size="80"
                          id="clienteNombre" label="#{msg.imprimirFacturaProforma_Cliente}" disabled="true"/>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_NumeroPedidoWeb}"
                            for="clienteId" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.documentoCliente}"
+            <p:inputText value="#{imprimirFPMB.seleccionado.documentoCliente}"
                          id="clienteId" label="#{msg.imprimirFacturaProforma_NumeroPedidoWeb}" disabled="true"/>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_Direccion}"
                            for="clienteDireccion" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.cliente.direccion}" size="80"
+            <p:inputText value="#{imprimirFPMB.seleccionado.cliente.direccion}" size="80"
                          id="clienteDireccion" label="#{msg.imprimirFacturaProforma_Direccion}" disabled="true"/>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_Telefono}"
                            for="clienteTelefono" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.cliente.telefono}"
+            <p:inputText value="#{imprimirFPMB.seleccionado.cliente.telefono}"
                          id="clienteTelefono" label="#{msg.imprimirFacturaProforma_Telefono}" disabled="true"/>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_Contacto}"
                            for="clienteContacto" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.cliente.contacto}" size="80"
+            <p:inputText value="#{imprimirFPMB.seleccionado.cliente.contacto}" size="80"
                          id="clienteContacto" label="#{msg.imprimirFacturaProforma_Contacto}" disabled="true"/>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_TerminoIncoterm}"
                            for="terminoIncoterm" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.documentoXNegociacions[0].terminoIncoterm.descripcion}"
+            <p:inputText value="#{imprimirFPMB.seleccionado.documentoXNegociacions[0].terminoIncoterm.descripcion}"
                          id="terminoIncoterm" label="#{msg.imprimirFacturaProforma_TerminoIncoterm}" disabled="true"/>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_LugarIncoterm}"
                            for="lugarIncoterm" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.documentoXNegociacions[0].lugarIncoterm}" size="50"
+            <p:inputText value="#{imprimirFPMB.seleccionado.documentoXNegociacions[0].lugarIncoterm}" size="50"
                          id="lugarIncoterm" label="#{msg.imprimirFacturaProforma_LugarIncoterm}" disabled="true"/>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_CantidadContenedores20}"
                            for="cantidadContenedores20" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.documentoXNegociacions[0].cantidadContenedoresDe20}"
+            <p:inputText value="#{imprimirFPMB.seleccionado.documentoXNegociacions[0].cantidadContenedoresDe20}"
                          id="cantidadContenedores20" label="#{msg.imprimirFacturaProforma_CantidadContenedores20}" disabled="true"/>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_CantidadContenedores40}"
                            for="cantidadContenedores40" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.documentoXNegociacions[0].cantidadContenedoresDe40}"
+            <p:inputText value="#{imprimirFPMB.seleccionado.documentoXNegociacions[0].cantidadContenedoresDe40}"
                          id="cantidadContenedores40" label="#{msg.imprimirFacturaProforma_CantidadContenedores40}" disabled="true"/>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_FechaDespacho}"
                            for="cantidadEstibas" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.fechaEsperadaEntrega}"
+            <p:inputText value="#{imprimirFPMB.seleccionado.fechaEsperadaEntrega}"
                          id="cantidadEstibas" label="#{msg.imprimirFacturaProforma_FechaDespacho}" disabled="true" >
               <f:convertDateTime pattern="dd-MMM-yyyy"/>
             </p:inputText>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_DiasVigenciaFP}"
                            for="pesoBrutoEstibas" styleClass="negrita" />
-            <p:inputText value="#{imprimirFacturaProformaMB.seleccionado.documentoXNegociacions[0].cantidadDiasVigencia}"
+            <p:inputText value="#{imprimirFPMB.seleccionado.documentoXNegociacions[0].cantidadDiasVigencia}"
                          id="pesoBrutoEstibas" label="#{msg.imprimirFacturaProforma_DiasVigenciaFP}"  disabled="true"/>
 
           </p:panelGrid>
 
           <p:spacer height="20"></p:spacer>
 
-          <p:dataTable var="dato" widgetVar="datoTabla2" id="tablaDatos2"
-                       value="#{imprimirFacturaProformaMB.productosXDocumentos}" rows="10"
-                       emptyMessage="#{msg.generalNoDatos}" paginator="true"
-                       paginatorPosition="bottom" 
-                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                       rowsPerPageTemplate="5,10,15">
+          <p:dataTable 
+            id="tablaDatos2"
+            widgetVar="datoTabla2" 
+            var="dato" 
+            value="#{imprimirFPMB.productosXDocumentos}" 
+            emptyMessage="#{msg.generalNoDatos}" >
 
             <p:column headerText="#{msg.imprimirFacturaProforma_SKU}"
                       sortBy="#{dato.productosInventario.sku}">
@@ -128,7 +128,7 @@
                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               </p:outputLabel>
               <f:facet name="footer">
-                <p:outputLabel id="totalCantidad" value="#{imprimirFacturaProformaMB.totalCantidad}" style="text-align:right;width:100px;">
+                <p:outputLabel id="totalCantidad" value="#{imprimirFPMB.totalCantidad}" style="text-align:right;width:100px;">
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </p:outputLabel>                  
               </f:facet>
@@ -140,7 +140,7 @@
                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               </p:outputLabel>
               <f:facet name="footer">
-                <p:outputLabel id="totalPallets" value="#{imprimirFacturaProformaMB.totalValorUnitario}" style="text-align:right;width:100px;">
+                <p:outputLabel id="totalPallets" value="#{imprimirFPMB.totalValorUnitario}" style="text-align:right;width:100px;">
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </p:outputLabel>                  
               </f:facet>
@@ -152,7 +152,7 @@
                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               </p:outputLabel>
               <f:facet name="footer">
-                <p:outputLabel value="#{imprimirFacturaProformaMB.totalValorTotal}" style="text-align:right;width:100px;" >
+                <p:outputLabel value="#{imprimirFPMB.totalValorTotal}" style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </p:outputLabel>                  
               </f:facet>
@@ -164,7 +164,7 @@
                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               </p:outputLabel>
               <f:facet name="footer">
-                <p:outputLabel value="#{imprimirFacturaProformaMB.totalPesoNeto}" style="text-align:right;width:100px;" >
+                <p:outputLabel value="#{imprimirFPMB.totalPesoNeto}" style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </p:outputLabel>                  
               </f:facet>
@@ -176,7 +176,7 @@
                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               </p:outputLabel>
               <f:facet name="footer">
-                <p:outputLabel value="#{imprimirFacturaProformaMB.totalPesoBruto}" style="text-align:right;width:100px;" >
+                <p:outputLabel value="#{imprimirFPMB.totalPesoBruto}" style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </p:outputLabel>                  
               </f:facet>
@@ -188,7 +188,7 @@
                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               </p:outputLabel>
               <f:facet name="footer">
-                <p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadCajas}" style="text-align:right;width:100px;" >
+                <p:outputLabel value="#{imprimirFPMB.totalCantidadCajas}" style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </p:outputLabel>                 
               </f:facet>
@@ -200,7 +200,7 @@
                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               </p:outputLabel>
               <f:facet name="footer">
-                <p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadTendidos}" style="text-align:right;width:100px;" >
+                <p:outputLabel value="#{imprimirFPMB.totalCantidadTendidos}" style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </p:outputLabel>
               </f:facet>
@@ -212,7 +212,7 @@
                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
               </p:outputLabel>
               <f:facet name="footer">
-                <p:outputLabel value="#{imprimirFacturaProformaMB.totalCantidadPallets}" style="text-align:right;width:100px;" >
+                <p:outputLabel value="#{imprimirFPMB.totalCantidadPallets}" style="text-align:right;width:100px;" >
                   <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
                 </p:outputLabel>                  
               </f:facet>
@@ -226,32 +226,32 @@
                        columnClasses="label,value">
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_CostoEntregaFOB}" styleClass="negrita" />
-            <p:outputLabel value="#{imprimirFacturaProformaMB.seleccionado.documentoXNegociacions[0].costoEntrega}" styleClass="negrita" >
+            <p:outputLabel value="#{imprimirFPMB.seleccionado.documentoXNegociacions[0].costoEntrega}" styleClass="negrita" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
             </p:outputLabel>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_CostoSeguro}" styleClass="negrita" />
-            <p:outputLabel value="#{imprimirFacturaProformaMB.seleccionado.documentoXNegociacions[0].costoSeguro}" styleClass="negrita" >
+            <p:outputLabel value="#{imprimirFPMB.seleccionado.documentoXNegociacions[0].costoSeguro}" styleClass="negrita" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
             </p:outputLabel>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_CostoFlete}" styleClass="negrita" />
-            <p:outputLabel value="#{imprimirFacturaProformaMB.seleccionado.documentoXNegociacions[0].costoFlete}" styleClass="negrita">
+            <p:outputLabel value="#{imprimirFPMB.seleccionado.documentoXNegociacions[0].costoFlete}" styleClass="negrita">
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
             </p:outputLabel>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_OtrosGastos}" styleClass="negrita" />
-            <p:outputLabel value="#{imprimirFacturaProformaMB.seleccionado.documentoXNegociacions[0].otrosGastos}" styleClass="negrita" >
+            <p:outputLabel value="#{imprimirFPMB.seleccionado.documentoXNegociacions[0].otrosGastos}" styleClass="negrita" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
             </p:outputLabel>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_TotalCostos}" styleClass="negrita" />
-            <p:outputLabel value="#{imprimirFacturaProformaMB.totalGastos}" styleClass="negrita" >
+            <p:outputLabel value="#{imprimirFPMB.totalGastos}" styleClass="negrita" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
             </p:outputLabel>
 
             <p:outputLabel value="#{msg.imprimirFacturaProforma_TotalNegociacion}" styleClass="negrita" />
-            <p:outputLabel value="#{imprimirFacturaProformaMB.totalNegociacion}" styleClass="negrita" >
+            <p:outputLabel value="#{imprimirFPMB.totalNegociacion}" styleClass="negrita" >
               <f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
             </p:outputLabel>
 
@@ -261,7 +261,7 @@
 
           <p:commandButton value="#{msg.imprimirFacturaProforma_ImprimirFactura}" icon="ui-icon-disk" 
                            ajax="false" >
-            <p:fileDownload value="#{imprimirFacturaProformaMB.reporteFacturaProforma}" />
+            <p:fileDownload value="#{imprimirFPMB.reporteFacturaProforma}" />
           </p:commandButton>
           <p:commandButton value="#{msg.generalCancelar}" process="@this" icon="ui-icon-cancel" action="listado_SP_Imprimir_FP" ></p:commandButton>
 
