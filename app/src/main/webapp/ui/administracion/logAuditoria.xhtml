@@ -97,8 +97,9 @@
             <!---->
             <p:column
               headerText="#{msg.auditoriaFecha}"
-              style="width:120px;"
-              sortBy="#{registro.fecha}">
+              sortBy="#{registro.fecha}"
+              filterBy="#{registro.fecha}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{registro.fecha}">
                 <f:convertDateTime 
@@ -115,83 +116,97 @@
             <!---->
             <p:column
               headerText="#{msg.auditoriaIdUsuario}"
-              style="width:60px;"
-              sortBy="#{registro.usuario.id}">
+              sortBy="#{registro.usuario.id}"
+              filterBy="#{registro.usuario.id}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{registro.usuario.id}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaNomUsuario}"
-              sortBy="#{registro.usuario.nombre}">
+              sortBy="#{registro.usuario.nombre}"
+              filterBy="#{registro.usuario.nombre}"
+              filterMatchMode="contains" >
               <h:outputText 
-                value="#{registro.usuario.nombreCompleto}" />
+                value="#{registro.usuario.nombre}" />
             </p:column>
-            <!---->
-            <!--             <p:column -->
-            <!--               headerText="#{msg.auditoriaAplUsuario}" -->
-            <!--               style="width:60px;"> -->
-            <!--               <h:outputText  -->
-            <!--                 value="#{registro.usuario.apellidos}" /> -->
-            <!--             </p:column> -->
-            <!---->
-            <!--             <p:column -->
-            <!--               headerText="#{msg.auditoriaIdFuncionalidad}" -->
-            <!--               style="width:40px;"> -->
-            <!--               <h:outputText  -->
-            <!--                 value="#{registro.funcionalidad.id}" /> -->
-            <!--             </p:column> -->
+            <p:column 
+              headerText="#{msg.auditoriaAplUsuario}" 
+              sortBy="#{registro.usuario.apellidos}"
+              filterBy="#{registro.usuario.apellidos}"
+              filterMatchMode="contains" > 
+              <h:outputText  
+                value="#{registro.usuario.apellidos}" /> 
+            </p:column> 
+            <p:column 
+              headerText="#{msg.auditoriaIdFuncionalidad}" 
+              sortBy="#{registro.funcionalidad.id}"
+              filterBy="#{registro.funcionalidad.id}"
+              filterMatchMode="contains" > 
+              <h:outputText  
+                value="#{registro.funcionalidad.id}" /> 
+            </p:column> 
             <!---->
             <p:column
               headerText="#{msg.auditoriaNomfuncionalidad}"
-              sortBy="#{registro.funcionalidad.nombre}">
+              sortBy="#{registro.funcionalidad.nombre}"
+              filterBy="#{registro.funcionalidad.nombre}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{registro.funcionalidad.nombre}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaTabla}"
-              sortBy="#{registro.tabla}">
+              sortBy="#{registro.tabla}"
+              filterBy="#{registro.tabla}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{registro.tabla}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaAccion}"
-              style="width:40px;"
-              sortBy="#{registro.accion}">
+              sortBy="#{registro.accion}"
+              filterBy="#{registro.accion}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{registro.accion}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaIdRegTabla}"
-              style="width:80px;"
-              sortBy="#{registro.idRegTabla}">
+              sortBy="#{registro.idRegTabla}"
+              filterBy="#{registro.idRegTabla}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{registro.idRegTabla}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaCampo}"
-              style="width:80px;"
-              sortBy="#{registro.campo}">
+              sortBy="#{registro.campo}"
+              filterBy="#{registro.campo}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{registro.campo}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaValorAnt}"
-              style="width:80px;"
-              sortBy="#{registro.valorAnterior}">
+              sortBy="#{registro.valorAnterior}"
+              filterBy="#{registro.valorAnterior}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{registro.valorAnterior}" />
             </p:column>
             <!---->
             <p:column
               headerText="#{msg.auditoriaValorNue}"
-              style="width:80px;"
-              sortBy="#{registro.valorNuevo}">
+              sortBy="#{registro.valorNuevo}"
+              filterBy="#{registro.valorNuevo}"
+              filterMatchMode="contains" >
               <h:outputText 
                 value="#{registro.valorNuevo}" />
             </p:column>
