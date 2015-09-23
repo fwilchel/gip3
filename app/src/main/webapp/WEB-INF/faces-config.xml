@@ -40,86 +40,107 @@
     <navigation-case>
       <from-outcome>listado_maestro_Agentes</from-outcome>
       <to-view-id>/ui/maestros/agenteAduana.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>agenciaCarga</from-outcome>
       <to-view-id>/ui/maestros/agenciaCarga.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>lugar_incoterm</from-outcome>
       <to-view-id>/ui/maestros/lugarIncoterm.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>consultar_ultima_asignacionLote</from-outcome>
       <to-view-id>/ui/comercioexterior/reiniciarConsecutivoOic.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>ingresar_costos_incoterm</from-outcome>
       <to-view-id>/ui/comercioexterior/ingresarCostosIncoterm.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_documentos</from-outcome>
       <to-view-id>/ui/reportes/reporteDocumentos.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_LE_Generar_FX</from-outcome>
       <to-view-id>/ui/comercioexterior/generarFacturaExportacion.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>ingresar_VD_listadoPxC</from-outcome>
       <to-view-id>/ui/ventas/ingresarVentaDirecta.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_solicitud_pedido</from-outcome>
       <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_solicitud_pedido2</from-outcome>
       <to-view-id>/ui/comercioexterior/aprobarSolicitudPedido.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_SP_General</from-outcome>
       <to-view-id>/ui/comercioexterior/consultarSolicitudPedido.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_FX_AsignarContribucionCafe</from-outcome>
       <to-view-id>/ui/comercioexterior/asignarDatosContribucionCafetera.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_Formato_Novedad</from-outcome>
       <to-view-id>/ui/reportes/formatoNovedades.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_maestro_ProductosPorCliente_CE</from-outcome>
       <to-view-id>/ui/maestros/productosClienteComExt.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>incoterm_medio_transporte</from-outcome>
       <to-view-id>/ui/maestros/terminoIncotermXMedioTrans.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>maestro_inventario</from-outcome>
       <to-view-id>/ui/maestros/productos.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_terminos_transporte</from-outcome>
       <to-view-id>/ui/comercioexterior/terminosTransporte.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_LE</from-outcome>
       <to-view-id>/ui/comercioexterior/listadoGenerarListaEmpaque.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>generar_lista_empaque</from-outcome>
       <to-view-id>/ui/comercioexterior/generaListaEmpaque.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>crear_maestro_productosporcliente_CE</from-outcome>
       <to-view-id>/ui/maestros/crearProductoClienteComExt.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_OD</from-outcome>
       <to-view-id>/ui/comercioexterior/ordenDespacho.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_SP_Generar_FP</from-outcome>
@@ -129,302 +150,362 @@
     <navigation-case>
       <from-outcome>listado_LE2</from-outcome>
       <to-view-id>/ui/reportes/imprimirLE.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_FP_Asignar_LotesOIC</from-outcome>
       <to-view-id>/ui/comercioexterior/asignarLotesOIC.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_factura</from-outcome>
       <to-view-id>/ui/reportes/facturaDirecta.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_maestro_Clientes</from-outcome>
       <to-view-id>/ui/maestros/cliente.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>ingresar_solicitud_pedido</from-outcome>
       <to-view-id>/ui/comercioexterior/ingresarSolicitudPedido.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>lista_sugerencia</from-outcome>
       <to-view-id>/ui/compras/listaSugerenciasCompra.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>sugerencia_compra</from-outcome>
       <to-view-id>/ui/compras/sugerenciaCompra.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_LE4</from-outcome>
       <to-view-id>/ui/comercioexterior/listadoListaEmpaque.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>modificar_lista_empaque</from-outcome>
       <to-view-id>/ui/comercioexterior/modificarListaEmpaque.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_FX_Anular</from-outcome>
       <to-view-id>/ui/comercioexterior/anularFacturaExportacion.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_SP_Imprimir_FP</from-outcome>
       <to-view-id>/ui/reportes/listaFacturasProforma.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>consultar_factura_proforma</from-outcome>
       <to-view-id>/ui/reportes/imprimirFacturaProforma.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>categorias_costos_logisticos</from-outcome>
       <to-view-id>/ui/maestros/administrarCategoriasCL.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>items_costos_logisticos</from-outcome>
       <to-view-id>/ui/maestros/administrarItemsCL.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_FP_Autorizar</from-outcome>
       <to-view-id>/ui/comercioexterior/autorizarFacturaPF.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_maestro_inventario_ce</from-outcome>
       <to-view-id>/ui/maestros/movimientosInventarioComercioExterior.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>crear_maestro_inventario_ce</from-outcome>
       <to-view-id>/ui/maestros/inventarioComercioExt.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_factura_proforma</from-outcome>
       <to-view-id>/ui/comercioexterior/modificarFacturaProforma.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- Comercio Exterior / Anular solicitud de pedido-->
     <navigation-case>
       <from-outcome>listado_SP_Anular</from-outcome>
       <to-view-id>/ui/comercioexterior/anularSolicitudPedido.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_FX_InstruccionEmbarque</from-outcome>
       <to-view-id>/ui/comercioexterior/generarInstruccionEmbarque.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_FX_ReImprimir_FX</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/reimprimirFacturaExpo.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>generar_comprobante_inf_diarioFX</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/comprobanteInformeDiarioFX.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>generar_RepMenu_ContaFactFX</from-outcome>
       <to-view-id>/ui/reportes/reporteContabilidadFacturasFX.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>generar_reporte_remision</from-outcome>
       <to-view-id>/ui/ventas/imprimirRemision.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_factura_especial</from-outcome>
       <to-view-id>/ui/reportes/imprimirFacturaEspecial.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>generar_cinta_magneticaFD</from-outcome>
       <to-view-id>/ui/reportes/generarCintaMagneticaFD.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>generar_comprobante_inf_diarioFD</from-outcome>
       <to-view-id>/ui/reportes/generarComprobanteInformeDiario.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>generar_Reporte_Ventas</from-outcome>
       <to-view-id>/ui/reportes/generarReporteVentasFD.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_GenerarOrdenDespacho</from-outcome>
       <to-view-id>/ui/abastecimiento/despacharMercanciaVD.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>despachar_mercancia</from-outcome>
       <to-view-id>/ui/abastecimiento/despacharMercanciaVD.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
-    
     <navigation-case>
       <from-outcome>generar_Reporte_CS</from-outcome>
       <to-view-id>/ui/reportes/generarReporteVentasCS.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
-    
-    
     <!-- Reportes Comercio Exterior / Imprimir instruccion embarque -->
     <navigation-case>
       <from-outcome>listado_terminos_transporte2</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/imprimirInstruccionEmbarque.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_FX_AsignarDatosTL</from-outcome>
       <to-view-id>/ui/comercioexterior/listadoAsignarDatosTL.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>		
     <navigation-case>
       <from-outcome>listado_GenerarOrdenDespacho</from-outcome>
       <to-view-id>/ui/abastecimiento/ordenDespacho.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_factura2</from-outcome>
       <to-view-id>/ui/reportes/generarReporteVentasFD2.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>generar_RepMenu_ContaFact</from-outcome>
       <to-view-id>/ui/reportes/reporteContabilidadFacturasFD.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_LE3</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/generarInformeTiendaLinea.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_maestro_PuntosVenta</from-outcome>
       <to-view-id>/ui/maestros/puntoEntrega.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>consultar_factura_exportacion</from-outcome>
       <to-view-id>/ui/comercioexterior/asignarDatosTL.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>Rest_listado_maestro_inventario</from-outcome>
       <to-view-id>/ui/reportes/restListadoMaestroInventario.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- Reportes Comercio Exterior / Imprimir instruccion embarque -->
     <navigation-case>
       <from-outcome>listado_terminos_transporte2</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/imprimirInstruccionEmbarque.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_FX_AsignarDatosTL</from-outcome>
       <to-view-id>/ui/comercioexterior/listadoAsignarDatosTL.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>		
     <navigation-case>
       <from-outcome>listado_GenerarOrdenDespacho</from-outcome>
       <to-view-id>/ui/abastecimiento/ordenDespacho.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_factura2</from-outcome>
       <to-view-id>/ui/reportes/generarReporteVentasFD2.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>generar_RepMenu_ContaFact</from-outcome>
       <to-view-id>/ui/reportes/reporteContabilidadFacturasFD.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- Reportes Comercio Exterior / Generar Reporte Ventas CE -->
     <navigation-case>
       <from-outcome>generar_Reporte_VentasCE</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/generarReporteVentasCE.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>reporte_maestro_inventario_ce</from-outcome>
       <to-view-id>/ui/reportes/reporteInventarioComercioExt.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>	
     <navigation-case>
       <from-outcome>generar_Reporte_ProduccionCE</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/reporteProduccion.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_maestro_inventario_ce2</from-outcome>
       <to-view-id>/ui/maestros/listaInventarioComercioFotos.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>modificar_foto_ce</from-outcome>
       <to-view-id>/ui/maestros/inventarioComercioFotos.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>costos_logisticos</from-outcome>
       <to-view-id>/ui/comercioexterior/costosLogisticos.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- Reportes Comercio Exterior / Generar Reporte Cinta Testigo Magnetica -->
     <navigation-case>
       <from-outcome>generar_cinta_magneticaFX</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/generarReporteCintaTestigoMagnetica.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- Ventas y Facturacion / Generar Factura -->
     <navigation-case>
       <from-outcome>listado_remision</from-outcome>
       <to-view-id>/ui/ventas/generarFactura.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- Ventas y Facturacion / Generar Orden Despacho -->
     <navigation-case>
       <from-outcome>listado_despachar_mercanciaVD</from-outcome>
       <to-view-id>/ui/ventas/generarOrdenDespacho.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>devolucion_cliente_tienda</from-outcome>
       <to-view-id>/ui/devoluciones/devolucionClienteTienda.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>recibir_devoluciones_tiendas</from-outcome>
       <to-view-id>/ui/devoluciones/recibirDevolucionTienda.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- Devouciones / Devolucion Tienda Bodega -->
     <navigation-case>
       <from-outcome>devolucion_tienda_bodega</from-outcome>
       <to-view-id>/ui/devoluciones/devolucionTiendaBodega.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- maestros / productos x cliente -->
     <navigation-case>
       <from-outcome>listado_maestro_ProductosPorCliente</from-outcome>
       <to-view-id>/ui/maestros/productosCliente.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- seleccionar productos -->
     <navigation-case>
       <from-outcome>seleccionarProductos</from-outcome>
       <to-view-id>/ui/comun/seleccionarProductos.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- ingresar consumo de servicio -->
     <navigation-case>
       <from-outcome>ingresar_CS_listadoP</from-outcome>
       <to-view-id>/ui/ventas/ingresarConsumoServicio.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- log auditoria -->
     <navigation-case>
       <from-outcome>listado_log_auditoria</from-outcome>
       <to-view-id>/ui/administracion/logAuditoria.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- generar remision -->
     <navigation-case>
       <from-outcome>generar_remision</from-outcome>
       <to-view-id>/ui/ventas/generarRemision.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- login comercio nacional -->
     <navigation-case>
       <from-outcome>loginCN</from-outcome>
       <to-view-id>/ui/loginCN.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <!-- comercio nacional -->
     <navigation-case>
       <from-outcome>ingresar_solicitud_pedido_cn</from-outcome>
       <to-view-id>/ui/comercionacional/ingresarSolicitudPedido.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
      <!-- Reportes Comercio Exterior / listado_Reporte_Requerimiento_Exportacion -->
     <navigation-case>
       <from-outcome>listado_Reporte_Requerimiento_Exportacion</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/generarReporteRequerimientoExportacion.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
        <!-- Generar Comercio Exterior / Generar_Reporte_Requerimiento_Exportacion -->
     <navigation-case>
       <from-outcome>generarRequerimientoExportacion</from-outcome>
       <to-view-id>/ui/comercioexterior/generarRequerimientoExportacion.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
-    
     <!-- Generar Comercio Exterior / Modificar_Requerimiento_Exportacion -->
     <navigation-case>
       <from-outcome>modificarRequerimientoExportacion</from-outcome>
       <to-view-id>/ui/comercioexterior/modificarRequerimientoExportacion.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
-    
      <!-- Reportes Comercio Exterior / reporte_costos_logisticos -->
     <navigation-case>
       <from-outcome>reporte_costos_logisticos</from-outcome>
       <to-view-id>/ui/reportesComercioExterior/reporteCostosLogisticos.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
-    
-    
-    
   </navigation-rule>
 
   <!-- converter>
