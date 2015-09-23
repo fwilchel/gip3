@@ -327,12 +327,14 @@
               </f:facet>
               <p:column 
                 headerText="#{msg.buscadorPxCSKU}"
-                style="width:32px;text-align:center;">
+                sortBy="#{pxd.productosInventario.sku}"
+                style="width:50px;text-align:center;">
                 <h:outputText 
                   value="#{pxd.productosInventario.sku}" />
               </p:column>
               <p:column 
                 headerText="#{msg.buscadorNombreProducto}"
+                sortBy="#{pxd.productosInventario.nombre}"
                 style="width:200px;text-align:left;">
                 <h:outputText 
                   value="#{pxd.productosInventario.nombre}" />
@@ -353,13 +355,21 @@
                   style="text-align:right;">                
                   <p:ajax 
                     listener="#{modificarFPMB.recalcularTotalesLista()}"
-                    update=":tabPanel:formaEditar:tablaProductos"
+                    update="@form"
                     process="@this" />
                   <f:convertNumber 
                     pattern="#####,###,###,##0" />
                 </p:spinner>
                 <p:message 
-                  for="cantidadProd1"/>
+                  for="cantidadProd1"/>                
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalCantidad}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.costeoComperasValorUnitarioML}"
@@ -378,6 +388,14 @@
                   <f:convertNumber 
                     pattern="$#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalValorTotal}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.PesoNetoVista}"
@@ -387,6 +405,14 @@
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalPesoNeto}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.PesoBrutoVista}"
@@ -396,6 +422,14 @@
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalPesoBruto}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.SPcantidadCajas}"
@@ -405,6 +439,14 @@
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalCantidadCajas}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.SPcantidadTendido}"
@@ -414,6 +456,14 @@
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalCantidadTendidos}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 headerText="#{msg.SPcantidadPallet}"
@@ -423,6 +473,14 @@
                   <f:convertNumber 
                     pattern="#####,###,###,##0.00" />
                 </h:outputText>
+                <f:facet 
+                  name="footer">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalCantidadPallets}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </f:facet>
               </p:column>
               <p:column 
                 style="width:32px;text-align:center;">
@@ -438,86 +496,6 @@
                                       icon="ui-icon-alert"/>-->
                 </p:commandButton>
               </p:column>
-              <p:summaryRow 
-                rendered="true">
-                <p:column
-                  colspan="2"
-                  style="text-align:left">
-                  <p:commandButton 
-                    value="#{msg.generarOrdenCompraTotalizar}"
-                    actionListener="#{modificarFPMB.recalcularTotalesLista()}" 
-                    update=":tabPanel:formaEditar:tablaProductos" 
-                    process=":tabPanel:formaEditar:tablaProductos"
-                    rendered="#{not empty modificarFPMB.fp}"/> 
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarFPMB.totalCantidad}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarFPMB.totalValorTotal}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarFPMB.totalPesoNeto}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarFPMB.totalPesoBruto}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarFPMB.totalCantidadCajas}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarFPMB.totalCantidadTendidos}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:right">
-                  <h:outputText 
-                    value="#{modificarFPMB.totalCantidadPallets}">
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column
-                  style="text-align:center">
-                </p:column>
-              </p:summaryRow>
             </p:dataTable>
             <p:panelGrid
               id="pgTotalesCostos"
