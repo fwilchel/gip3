@@ -10,26 +10,32 @@
     <navigation-case>
       <from-outcome>introduccion</from-outcome>
       <to-view-id>/ui/introduccion.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>cambiarContrasena</from-outcome>
       <to-view-id>/ui/cambiarContrasena.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>salir</from-outcome>
       <to-view-id>/ui/login.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>salirCN</from-outcome>
       <to-view-id>/ui/loginCN.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>usuario</from-outcome>
       <to-view-id>/ui/administracion/usuarios.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_maestro_Ubicaciones</from-outcome>
       <to-view-id>/ui/maestros/ubicacion.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_maestro_Agentes</from-outcome>
@@ -118,6 +124,7 @@
     <navigation-case>
       <from-outcome>listado_SP_Generar_FP</from-outcome>
       <to-view-id>/ui/comercioexterior/generarFP.xhtml</to-view-id>
+      <redirect/>
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_LE2</from-outcome>

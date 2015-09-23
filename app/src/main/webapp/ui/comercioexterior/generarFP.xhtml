@@ -392,22 +392,8 @@
                 </p:column>
               </p:summaryRow>
             </p:dataTable>
-            <p:panelGrid>
-              <f:facet 
-                name="header">
-                <p:row>
-                  <p:column 
-                    colspan="2">
-                    <h:outputText
-                      value="Costos"/>
-                  </p:column>
-                  <p:column 
-                    colspan="2">
-                    <h:outputText
-                      value="Negociación"/>
-                  </p:column>
-                </p:row>
-              </f:facet>
+            <p:panelGrid
+              style="text-align: right;">
               <p:row>
                 <p:column 
                   styleClass="label"
@@ -424,6 +410,73 @@
                       pattern="#####,###,###,##0.00" />
                   </h:outputText>
                 </p:column>
+              </p:row>
+              <p:row>
+                <p:column 
+                  styleClass="label">
+                  <p:outputLabel
+                    value="#{msg.SP_CostoSeguro}"/>
+                </p:column>
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText
+                    value="#{generarFPMB.spSelected.documentoXNegociacion.costoSeguro}">                    
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+              </p:row>
+              <p:row>
+                <p:column 
+                  styleClass="label">
+                  <p:outputLabel
+                    value="#{msg.SP_CostoFlete}"/>
+                </p:column>
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText
+                    value="#{generarFPMB.spSelected.documentoXNegociacion.costoFlete}">                    
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+              </p:row>
+              <p:row>
+                <p:column 
+                  styleClass="label">
+                  <p:outputLabel
+                    value="#{msg.SP_OtrosGastos}"/>
+                </p:column>
+                <p:column 
+                  styleClass="derecha">
+                  <h:outputText
+                    value="#{generarFPMB.spSelected.documentoXNegociacion.otrosGastos}">                    
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+              </p:row>
+              <f:facet 
+                name="footer">
+                <p:row>
+                  <p:column 
+                    styleClass="label">
+                    <p:outputLabel
+                      value="#{msg.SP_TotalCostos}"/>
+                  </p:column>
+                  <p:column
+                    styleClass="derecha">
+                    <h:outputText
+                      value="#{generarFPMB.totalCostos}">                    
+                      <f:convertNumber 
+                        pattern="#####,###,###,##0.00" />
+                    </h:outputText>
+                  </p:column>
+                </p:row>
+              </f:facet>
+            </p:panelGrid>
+            <p:panelGrid>
+              <p:row>
                 <p:column 
                   styleClass="label"
                   style="width: 200px;">
@@ -441,66 +494,18 @@
                 </p:column>
               </p:row>
               <p:row>
-                <p:column 
+                <p:column
                   styleClass="label">
                   <p:outputLabel
-                    value="#{msg.SP_CostoSeguro}"/>
+                    value="#{msg.SP_TotalCostos}"/>
                 </p:column>
-                <p:column 
+                <p:column
                   styleClass="derecha">
                   <h:outputText
-                    value="#{generarFPMB.spSelected.documentoXNegociacion.costoSeguro}">                    
+                    value="#{generarFPMB.totalCostos}">                    
                     <f:convertNumber 
                       pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column>
-                  <span/>
-                </p:column>
-                <p:column>
-                  <span/>
-                </p:column>
-              </p:row>
-              <p:row>
-                <p:column 
-                  styleClass="label">
-                  <p:outputLabel
-                    value="#{msg.SP_CostoFlete}"/>
-                </p:column>
-                <p:column 
-                  styleClass="derecha">
-                  <h:outputText
-                    value="#{generarFPMB.spSelected.documentoXNegociacion.costoFlete}">                    
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column>
-                  <span/>
-                </p:column>
-                <p:column>
-                  <span/>
-                </p:column>
-              </p:row>
-              <p:row>
-                <p:column 
-                  styleClass="label">
-                  <p:outputLabel
-                    value="#{msg.SP_OtrosGastos}"/>
-                </p:column>
-                <p:column 
-                  styleClass="derecha">
-                  <h:outputText
-                    value="#{generarFPMB.spSelected.documentoXNegociacion.otrosGastos}">                    
-                    <f:convertNumber 
-                      pattern="#####,###,###,##0.00" />
-                  </h:outputText>
-                </p:column>
-                <p:column>
-                  <span/>
-                </p:column>
-                <p:column>
-                  <span/>
+                  </h:outputText>   
                 </p:column>
               </p:row>
               <f:facet 
@@ -509,20 +514,7 @@
                   <p:column 
                     styleClass="label">
                     <p:outputLabel
-                      value="Total"/>
-                  </p:column>
-                  <p:column
-                    styleClass="derecha">
-                    <h:outputText
-                      value="#{generarFPMB.totalCostos}">                    
-                      <f:convertNumber 
-                        pattern="#####,###,###,##0.00" />
-                    </h:outputText>
-                  </p:column>
-                  <p:column 
-                    styleClass="label">
-                    <p:outputLabel
-                      value="Total"/>
+                      value="#{msg.TotalNegociacion}"/>
                   </p:column>
                   <p:column
                     styleClass="derecha">
