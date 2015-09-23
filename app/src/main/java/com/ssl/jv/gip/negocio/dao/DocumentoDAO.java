@@ -1277,6 +1277,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
       }
       em.createNativeQuery(sql).executeUpdate();
       LogAuditoria logAuditoria = new LogAuditoria();
+      auditoria.setCampo("Estado");
       logAuditoria.setValorAnterior(dto.getEstado().toString());
       logAuditoria.setValorNuevo(Integer.toString(ConstantesDocumento.AUTORIZADO));
       logAuditoria.setTabla("Documentos");
