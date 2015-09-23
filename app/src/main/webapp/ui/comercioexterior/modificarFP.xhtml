@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/resources/#{menuMB.tema}/template/general.xhtml">
+  <ui:define 
+    name="title">
+    #{msg.generalTituloSOC} .::#{msg.solicitudPedidoInicio}::.
+  </ui:define>
+  <ui:define 
+    name="contenido">
+    <p:spacer 
+      height="40"/>
+    <p:tabView 
+      id="tabPanel">
+      <p:tab 
+        title="#{msg.solicitudPedidoInicio}">
+        <h:form 
+          prependId="false" 
+          id="forma"
+          rendered="#{modificarFPMB.renderedFormList()}">
+          <p:messages 
+            id="msgs" 
+            showDetail="false" 
+            showSummary="true"
+            globalOnly="false" 
+            showIcon="true"/>
+          <p:spacer 
+            height="20"/>
+          <p:dataTable 
+            id="tablaDatos"
+            widgetVar="tablaDatos" 
+            value="#{modificarFPMB.listaFP}" 
+            var="dato" 
+            rows="10"
+            emptyMessage="#{msg.comercioDocumentosIncotermNoEncontrados}"
+            paginator="true" 
+            paginatorPosition="bottom"
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="10,20,50,100">
+            <p:column 
+              style="width:32px;text-align:center">
+              <p:commandButton 
+                icon="ui-icon-pencil"
+                title="Modificar"
+                update="@all"
+                action="#{modificarFPMB.verDetalle(dato)}"/>
+            </p:column>
+            <p:column 
+              headerText="#{msg.recibiProductoDcoumento}"
+              sortBy="#{dato.id}"
+              filterBy="#{dato.id}"
+              filterMatchMode="contains" 
+              style="width:120px;">
+              <h:outputText 
+                value="#{dato.id}" />
+            </p:column>
+            <p:column 
+              headerText="#{msg.RequisicionNombreCons}"
+              sortBy="#{dato.consecutivoDocumento}"
+              filterBy="#{dato.consecutivoDocumento}"
+              filterMatchMode="contains"
+              style="width:160px;">
+              <h:outputText 
+                value="#{dato.consecutivoDocumento}"  />
+            </p:column>
+            <p:column 
+              headerText="#{msg.DocumentoClienteSP}"
+              sortBy="#{dato.documentoCliente}"
+              filterBy="#{dato.documentoCliente}"
+              filterMatchMode="contains" >
+              <h:outputText 
+                value="#{dato.documentoCliente}" />
+            </p:column>
+            <p:column 
+              headerText="#{msg.nomCliente}"
+              sortBy="#{dato.cliente.nombre}"
+              filterBy="#{dato.cliente.nombre}"
+              filterMatchMode="contains" >
+              <h:outputText 
+                value="#{dato.cliente.nombre}" />
+            </p:column>
+            <p:column 
+              headerText="#{msg.EstadoSP}"
+              sortBy="#{dato.estadosxdocumento.estado.nombre}"
+              filterBy="#{dato.estadosxdocumento.estado.nombre}"
+              filterMatchMode="contains" >
+              <h:outputText 
+                value="#{dato.estadosxdocumento.estado.nombre}" />
+            </p:column>
+            <p:column 
+              headerText="#{msg.RequisicionNombreFechaGenerado}"
+              sortBy="#{dato.fechaGeneracion}"
+              filterBy="#{dato.fechaGeneracion}"
+              filterMatchMode="contains" >
+              <h:outputText 
+                value="#{dato.fechaGeneracion}">
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy" />
+              </h:outputText>
+            </p:column>
+          </p:dataTable>
+        </h:form>
+        <h:form 
+          id="formaEditar"
+          rendered="#{modificarFPMB.renderedFormDetail()}">
+          <p:outputPanel 
+            id="datoDetalle" 
+            style="text-align:center;">
+            <p:messages 
+              id="msgs2" 
+              showDetail="false" 
+              showSummary="true"
+              globalOnly="true" 
+              showIcon="true"/>
+            <p:panelGrid 
+              columns="4" 
+              layout="grid"
+              rendered="#{not empty modificarFPMB.fp}"
+              columnClasses="label,izquierda,label,izquierda">
+              <p:outputLabel 
+                value="#{msg.recibiProductoDcoumento}" 
+                for="strId"
+                styleClass="negrita" 
+                style="width:20%"/>
+              <h:outputText 
+                id="strId" 
+                value="#{modificarFPMB.fp.id}" 
+                style="width:30%"/>                  
+              <p:outputLabel 
+                value="#{msg.RequisicionNombreCons}"
+                for="strConsecutivo" 
+                styleClass="negrita" />
+              <h:outputText
+                id="strConsecutivo" 
+                value="#{modificarFPMB.fp.consecutivoDocumento}"/>
+              <p:outputLabel 
+                value="#{msg.RequisicionNombreFechaGenerado}"
+                for="strFechaGeneracion" 
+                styleClass="negrita" />
+              <h:outputText
+                value="#{modificarFPMB.fp.fechaGeneracion}"
+                id="strFechaGeneracion" >
+                <f:convertDateTime 
+                  pattern="dd-MMM-yyyy" />
+              </h:outputText>
+              <p:outputLabel 
+                value="#{msg.nomCliente}" 
+                for="strNombreCliente"
+                styleClass="negrita" />
+              <h:outputText
+                value="#{modificarFPMB.fp.cliente.nombre}"
+                id="strNombreCliente" />
+              <p:outputLabel 
+                value="#{msg.NumeroPedidoWeb}"
+                for="strDocumentoCliente" 
+                styleClass="negrita" />
+              <h:outputText
+                value="#{modificarFPMB.fp.documentoCliente}"
+                id="strDocumentoCliente" />
+              <p:outputLabel 
+                value="#{msg.maestroDireccionCliente}"
+                for="strDocumentoClienteDir" 
+                styleClass="negrita" />
+              <h:outputText
+                value="#{modificarFPMB.fp.cliente.direccion}"
+                id="strDocumentoClienteDir" />
+              <p:outputLabel 
+                value="#{msg.maestroTelefonoCliente}"
+                for="strDocumentoClienteTel" 
+                styleClass="negrita" />
+              <h:outputText
+                value="#{modificarFPMB.fp.cliente.telefono}"
+                id="strDocumentoClienteTel" />
+              <p:outputLabel 
+                value="#{msg.maestroContactoAgente}"
+                for="strDocumentoClienteCont" 
+                styleClass="negrita" />
+              <h:outputText
+                value="#{modificarFPMB.fp.cliente.contacto}"
+                id="strDocumentoClienteCont" />
+              <p:outputLabel 
+                value="#{msg.observacionDocumento}"
+                for="strObservacionDoc" 
+                styleClass="negrita" />
+              <h:outputText
+                value="#{modificarFPMB.fp.observacionDocumento}"
+                id="strObservacionDoc" />
+              <p:outputLabel 
+                value="#{msg.observacionMarcacion2}"
+                for="strObservacionMar" 
+                styleClass="negrita" />
+              <h:outputText
+                value="#{modificarFPMB.fp.documentoXNegociacion.observacionesMarcacion2}"
+                id="strObservacionMar" />
+              <p:outputLabel 
+                value="#{msg.TerminoIncotermSP}"
+                for="idTerminoIncoterm" 
+                styleClass="negrita" />
+              <h:panelGroup>
+                <p:selectOneMenu 
+                  id="idTerminoIncoterm"
+                  value="#{modificarFPMB.fp.documentoXNegociacion.terminoIncoterm.id}"
+                  label="#{msg.TerminoIncotermSP}">
+                  <f:selectItem 
+                    itemLabel="#{msg.generalSinSeleccionar}" 
+                    noSelectionOption="true"/>
+                  <f:selectItems 
+                    value="#{comunMB.obtenerTerminosInconterm(modificarFPMB.fp.cliente.id)}"
+                    var="categoria" 
+                    itemValue="#{categoria.id}"
+                    itemLabel="#{categoria.descripcion}" />
+                </p:selectOneMenu>
+                <p:message 
+                  for="idTerminoIncoterm"/>
+              </h:panelGroup>
+              <p:outputLabel 
+                value="#{msg.LugarIncoterm}" 
+                for="strLugarIncoterm"
+                styleClass="negrita" />
+              <h:panelGroup>
+                <p:inputText 
+                  maxlength="50"
+                  value="#{modificarFPMB.fp.documentoXNegociacion.lugarIncoterm}"
+                  id="strLugarIncoterm" 
+                  required="true"
+                  label="#{msg.LugarIncoterm}" />
+                <p:message 
+                  for="strLugarIncoterm"/>
+              </h:panelGroup>
+              <p:outputLabel 
+                value="#{msg.CantidadContenedores20}"
+                for="dblCantidadContenedores20" 
+                styleClass="negrita" />
+              <h:panelGroup>
+                <p:inputText 
+                  maxlength="10" 
+                  size="10"
+                  value="#{modificarFPMB.fp.documentoXNegociacion.cantidadContenedoresDe20}"
+                  id="dblCantidadContenedores20" 
+                  required="true"
+                  label="#{msg.CantidadContenedores20}">
+                  <f:convertNumber 
+                    maxFractionDigits="2" 
+                    minFractionDigits="2" />
+                </p:inputText>
+                <p:message 
+                  for="dblCantidadContenedores20"/>
+              </h:panelGroup>
+              <p:outputLabel 
+                value="#{msg.CantidadContenedores40}"
+                for="dblCantidadContenedores40" 
+                styleClass="negrita" />
+              <h:panelGroup>
+                <p:inputText 
+                  maxlength="10" 
+                  size="10"
+                  value="#{modificarFPMB.fp.documentoXNegociacion.cantidadContenedoresDe40}"
+                  id="dblCantidadContenedores40" 
+                  required="true"
+                  label="#{msg.CantidadContenedores40}">
+                  <f:convertNumber 
+                    maxFractionDigits="2" 
+                    minFractionDigits="2" />
+                </p:inputText>
+                <p:message 
+                  for="dblCantidadContenedores40"/>
+              </h:panelGroup>
+              <p:outputLabel 
+                value="#{msg.FechaDespacho}" 
+                for="dtmFechaDespacho"
+                styleClass="negrita" />
+              <h:panelGroup>
+                <p:calendar 
+                  id="dtmFechaDespacho"
+                  value="#{modificarFPMB.fp.fechaEsperadaEntrega}"
+                  required="true" 
+                  pattern="yyyy-MM-dd"/>
+                <p:message 
+                  for="dtmFechaDespacho"/>
+              </h:panelGroup>
+              <p:outputLabel 
+                value="#{msg.Canal}" 
+                for="idUbicacion"
+                styleClass="negrita" />
+              <h:panelGroup>
+                <p:selectOneMenu 
+                  id="idUbicacion" 
+                  required="true"
+                  value="#{modificarFPMB.fp.ubicacionDestino.id}"
+                  label="#{msg.Canal}">
+                  <f:selectItem 
+                    itemLabel="#{msg.generalSinSeleccionar}" />
+                  <f:selectItems 
+                    value="#{comunMB.obtenerListaUbicaciones(menuMB.usuario.id)}"
+                    var="ubicacion" 
+                    itemValue="#{ubicacion.id}"
+                    itemLabel="#{ubicacion.nombre}" />
+                </p:selectOneMenu>
+                <p:message 
+                  for="idUbicacion"/>
+              </h:panelGroup>
+            </p:panelGrid>
+            <p:dataTable 
+              id="tablaProductos"
+              widgetVar="tablaProductos"
+              var="pxd" 
+              value="#{modificarFPMB.productosFP}"
+              sortBy="#{pxd.documento.id}"
+              emptyMessage="#{msg.generalNoDatos}" >
+              <f:facet 
+                name="header">
+                <div 
+                  align="right">
+                  <p:outputPanel>
+                    <p:commandButton 
+                      value="#{msg.buscadorConsultarPrdxCli}"
+                      action="#{modificarFPMB.consultarOtrosProductosDelCliente}"
+                      immediate="true"
+                      oncomplete="PF('dlgBuscarProductos').show()"
+                      update=":tabPanel:dlgBuscarProductos"/>
+                  </p:outputPanel>
+                </div>
+              </f:facet>
+              <p:column 
+                headerText="#{msg.buscadorPxCSKU}"
+                style="width:32px;text-align:center;">
+                <h:outputText 
+                  value="#{pxd.productosInventario.sku}" />
+              </p:column>
+              <p:column 
+                headerText="#{msg.buscadorNombreProducto}"
+                style="width:200px;text-align:left;">
+                <h:outputText 
+                  value="#{pxd.productosInventario.nombre}" />
+              </p:column>
+              <p:column 
+                headerText="#{msg.comprasCantidadSola}"
+                style="width:120px;text-align:right">
+                <p:spinner 
+                  id="cantidadProd1"
+                  value="#{pxd.cantidad1}" 
+                  label="#{msg.ispcnTblColCantidad}"
+                  stepFactor="1"
+                  min="1"
+                  max="#{999999999}"
+                  required="true"
+                  size="12"
+                  maxlength="9"
+                  style="text-align:right;">                
+                  <p:ajax 
+                    listener="#{modificarFPMB.recalcularTotalesLista()}"
+                    update=":tabPanel:formaEditar:tablaProductos"
+                    process="@this" />
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0" />
+                </p:spinner>
+                <p:message 
+                  for="cantidadProd1"/>
+              </p:column>
+              <p:column 
+                headerText="#{msg.costeoComperasValorUnitarioML}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.valorUnitarioUsd}">
+                  <f:convertNumber 
+                    pattern="$#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column 
+                headerText="#{msg.VentasRemisionValorTotal}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.valorTotal}">
+                  <f:convertNumber 
+                    pattern="$#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column 
+                headerText="#{msg.PesoNetoVista}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.totalPesoNetoItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column 
+                headerText="#{msg.PesoBrutoVista}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.totalPesoBrutoItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column 
+                headerText="#{msg.SPcantidadCajas}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.cantidadCajasItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column 
+                headerText="#{msg.SPcantidadTendido}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.cantidadXEmbalaje}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column 
+                headerText="#{msg.SPcantidadPallet}"
+                style="text-align:right">
+                <h:outputText 
+                  value="#{pxd.cantidadPalletsItem}">
+                  <f:convertNumber 
+                    pattern="#####,###,###,##0.00" />
+                </h:outputText>
+              </p:column>
+              <p:column 
+                style="width:32px;text-align:center;">
+                <p:commandButton 
+                  icon="ui-icon-trash" 
+                  title="#{msg.ispcnBtnRemoverProducto}"
+                  actionListener="#{modificarFPMB.eliminarProducto(pxd)}"
+                  process="@this" 
+                  update=":tabPanel:formaEditar:tablaProductos">
+                  <!--                  <p:confirm 
+                                      header="#{msg.generalConfirmacion}" 
+                                      message="#{msg.generalConfirmarEliminar}" 
+                                      icon="ui-icon-alert"/>-->
+                </p:commandButton>
+              </p:column>
+              <p:summaryRow 
+                rendered="true">
+                <p:column
+                  colspan="2"
+                  style="text-align:left">
+                  <p:commandButton 
+                    value="#{msg.generarOrdenCompraTotalizar}"
+                    actionListener="#{modificarFPMB.recalcularTotalesLista()}" 
+                    update=":tabPanel:formaEditar:tablaProductos" 
+                    process=":tabPanel:formaEditar:tablaProductos"
+                    rendered="#{not empty modificarFPMB.fp}"/> 
+                </p:column>
+                <p:column
+                  style="text-align:right">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalCantidad}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column
+                  style="text-align:right">
+                  <h:outputText 
+                    value="">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column
+                  style="text-align:right">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalValorTotal}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column
+                  style="text-align:right">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalPesoNeto}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column
+                  style="text-align:right">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalPesoBruto}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column
+                  style="text-align:right">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalCantidadCajas}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column
+                  style="text-align:right">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalCantidadTendidos}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column
+                  style="text-align:right">
+                  <h:outputText 
+                    value="#{modificarFPMB.totalCantidadPallets}">
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>
+                </p:column>
+                <p:column
+                  style="text-align:center">
+                </p:column>
+              </p:summaryRow>
+            </p:dataTable>
+            <p:panelGrid
+              id="pgTotalesCostos"
+              style="text-align: right;">
+              <p:row>
+                <p:column 
+                  styleClass="label"
+                  style="width: 200px;">
+                  <p:outputLabel
+                    value="#{msg.SP_CostoEntrega}"/>
+                </p:column>
+                <p:column
+                  style="width: 150px;" 
+                  styleClass="derecha">
+                  <p:inputText
+                    value="#{modificarFPMB.fp.documentoXNegociacion.costoEntrega}" 
+                    style="text-align: right;">                      
+                    <p:ajax
+                      event="blur"
+                      listener="#{modificarFPMB.recalcularTotales()}"
+                      update=":tabPanel:formaEditar:pgTotalesCostos :tabPanel:formaEditar:pgTotalesNegociacion"/>          
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </p:inputText>
+                </p:column>
+              </p:row>
+              <p:row>
+                <p:column 
+                  styleClass="label">
+                  <p:outputLabel
+                    value="#{msg.SP_CostoSeguro}"/>
+                </p:column>
+                <p:column 
+                  styleClass="derecha">
+                  <p:inputText
+                    value="#{modificarFPMB.fp.documentoXNegociacion.costoSeguro}"
+                    style="text-align: right;">                   
+                    <p:ajax
+                      event="blur"
+                      listener="#{modificarFPMB.recalcularTotales()}"
+                      update=":tabPanel:formaEditar:pgTotalesCostos :tabPanel:formaEditar:pgTotalesNegociacion"/>             
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </p:inputText>
+                </p:column>
+              </p:row>
+              <p:row>
+                <p:column 
+                  styleClass="label">
+                  <p:outputLabel
+                    value="#{msg.SP_CostoFlete}"/>
+                </p:column>
+                <p:column 
+                  styleClass="derecha">
+                  <p:inputText
+                    value="#{modificarFPMB.fp.documentoXNegociacion.costoFlete}"
+                    style="text-align: right;">             
+                    <p:ajax
+                      event="blur"
+                      listener="#{modificarFPMB.recalcularTotales()}"
+                      update=":tabPanel:formaEditar:pgTotalesCostos :tabPanel:formaEditar:pgTotalesNegociacion"/>             
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </p:inputText>
+                </p:column>
+              </p:row>
+              <p:row>
+                <p:column 
+                  styleClass="label">
+                  <p:outputLabel
+                    value="#{msg.SP_OtrosGastos}"/>
+                </p:column>
+                <p:column 
+                  styleClass="derecha">
+                  <p:inputText
+                    value="#{modificarFPMB.fp.documentoXNegociacion.otrosGastos}"
+                    style="text-align: right;">             
+                    <p:ajax
+                      event="blur"
+                      listener="#{modificarFPMB.recalcularTotales()}"
+                      update=":tabPanel:formaEditar:pgTotalesCostos :tabPanel:formaEditar:pgTotalesNegociacion"/>
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </p:inputText>
+                </p:column>
+              </p:row>
+              <f:facet 
+                name="footer">
+                <p:row>
+                  <p:column 
+                    styleClass="label">
+                    <p:outputLabel
+                      value="#{msg.SP_TotalCostos}"/>
+                  </p:column>
+                  <p:column
+                    styleClass="derecha">
+                    <h:outputText
+                      value="#{modificarFPMB.totalCostos}">                    
+                      <f:convertNumber 
+                        pattern="#####,###,###,##0.00" />
+                    </h:outputText>
+                  </p:column>
+                </p:row>
+              </f:facet>
+            </p:panelGrid>
+            <p:panelGrid
+              id="pgTotalesNegociacion">
+              <p:row>
+                <p:column 
+                  styleClass="label"
+                  style="width: 200px;">
+                  <p:outputLabel
+                    value="#{msg.VentasRemisionValorTotal}"/>
+                </p:column>
+                <p:column
+                  style="width: 150px;" 
+                  styleClass="derecha">
+                  <h:outputText
+                    value="#{modificarFPMB.totalValorTotal}">                    
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>   
+                </p:column>
+              </p:row>
+              <p:row>
+                <p:column
+                  styleClass="label">
+                  <p:outputLabel
+                    value="#{msg.SP_TotalCostos}"/>
+                </p:column>
+                <p:column
+                  styleClass="derecha">
+                  <h:outputText
+                    value="#{modificarFPMB.totalCostos}">                    
+                    <f:convertNumber 
+                      pattern="#####,###,###,##0.00" />
+                  </h:outputText>   
+                </p:column>
+              </p:row>
+              <f:facet 
+                name="footer">
+                <p:row>
+                  <p:column 
+                    styleClass="label">
+                    <p:outputLabel
+                      value="#{msg.TotalNegociacion}"/>
+                  </p:column>
+                  <p:column
+                    styleClass="derecha">
+                    <h:outputText
+                      value="#{modificarFPMB.totalNegociacion}">                    
+                      <f:convertNumber 
+                        pattern="#####,###,###,##0.00" />
+                    </h:outputText>
+                  </p:column>
+                </p:row>
+              </f:facet>
+            </p:panelGrid>
+            <p:panelGrid
+              layout="grid">  
+              <f:facet
+                name="footer">
+                <p:commandButton 
+                  value="Guardar" 
+                  icon="ui-icon-disk"
+                  action="#{modificarFPMB.guardarFP}"
+                  update="@all"
+                  rendered="#{not empty modificarFPMB.fp}"/>
+                <p:commandButton 
+                  value="#{msg.generalCancelar}"
+                  icon="ui-icon-cancel"
+                  action="#{modificarFPMB.volverAlListado}"
+                  immediate="true"
+                  update="@all"/>
+              </f:facet>
+            </p:panelGrid>
+          </p:outputPanel>
+        </h:form>
+        <p:dialog 
+          id="dlgBuscarProductos"
+          widgetVar="dlgBuscarProductos" 
+          header="Seleccionar productos"
+          modal="true" 
+          showEffect="fade"
+          hideEffect="fade" 
+          resizable="false" 
+          dynamic="true" 
+          width="800"
+          closable="true"
+          position="top"
+          closeOnEscape="true">
+          <p:ajax 
+            event="close" 
+            update=":tabPanel:formaEditar:tablaProductos"/>
+          <h:form
+            id="formBuscarProductos"
+            prependId="false">
+            <p:messages
+              id="msgsBuscarProductos" 
+              autoUpdate="true" />
+            <p:dataTable 
+              id="tablaProd"
+              widgetVar="prodTabla" 
+              var="pxc" 
+              value="#{modificarFPMB.productosCliente}" 
+              rows="10"
+              emptyMessage="No hay productos asociados al cliente"
+              paginator="true" 
+              paginatorPosition="bottom"
+              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+              rowsPerPageTemplate="10,20,50,100">
+              <p:column 
+                headerText="#{msg.buscadorPxCSKU}"
+                sortBy="#{pxc.productosInventario.sku}"
+                filterBy="#{pxc.productosInventario.sku}"
+                filterMatchMode="contains" 
+                style="width:100px;">
+                <h:outputText 
+                  value="#{pxc.productosInventario.sku}" />
+              </p:column>
+              <p:column 
+                headerText="#{msg.buscadorNombreProducto}"
+                sortBy="#{pxc.productosInventario.nombre}"
+                filterBy="#{pxc.productosInventario.nombre}"
+                filterMatchMode="contains">
+                <h:outputText 
+                  value="#{pxc.productosInventario.nombre}" />
+              </p:column>
+              <p:column 
+                style="width:32px;text-align: center">
+                <p:commandButton 
+                  icon="ui-icon-cart" 
+                  title="#{msg.ispcnBtnAgregarProducto}"
+                  actionListener="#{modificarFPMB.agregarProducto(pxc)}"
+                  process="@this" 
+                  update=":tabPanel:formaEditar:tablaProductos @form "/>
+              </p:column>
+            </p:dataTable>
+          </h:form>          
+        </p:dialog>
+      </p:tab>
+    </p:tabView>
+  </ui:define>
+</ui:composition>

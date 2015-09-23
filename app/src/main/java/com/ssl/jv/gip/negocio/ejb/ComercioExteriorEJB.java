@@ -119,6 +119,7 @@ import com.ssl.jv.gip.util.Moneda;
 import com.ssl.jv.gip.util.TipoMovimiento;
 import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
 import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
+import javax.ejb.EJBTransactionRolledbackException;
 
 /**
  * Session Bean implementation class ComercioExterior.
@@ -495,11 +496,11 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
         if (vProducto.getControlStockProductoInventarioCE() != null && vProducto.getControlStockProductoInventarioCE()) {
           if (vProducto.isBlnIncluirBusqueda()) {
-						// Consultar saldo del producto inventario, si no tiene
+            // Consultar saldo del producto inventario, si no tiene
             // lanzar excepcion
             dblSaldoActual = productoClienteComercioExteriorDAO.consultarUltimoSaldoProducto(vProducto.getIntIdProductoInventario());
             if (dblSaldoActual == null) {
-							// TODO Lanzar mensaje de excepcion
+              // TODO Lanzar mensaje de excepcion
               // Los siguientes skus no tienen saldo de inventario
               // asociado:
             }
@@ -510,12 +511,12 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
           // Consultar la cantidad de producto
           dblCantidadActual = vProducto.getDblCantidad1ActualProductoxDocumento();
 
-					// el calculo del nuevo saldo es saldo actual + la cantidad
+          // el calculo del nuevo saldo es saldo actual + la cantidad
           // actual - la cantidad nueva
           BigDecimal dblNuevoSaldo = dblSaldoActual.add(dblCantidadActual).min(vProducto.getDblCantidad1ProductoxDocumento());
 
           if (dblNuevoSaldo.compareTo(new BigDecimal(0)) == -1) {
-						// Error excepcion
+            // Error excepcion
             // TODO
             // "El calculo del nuevo saldo seria negativo para los siguientes skus:"
 
@@ -582,8 +583,8 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @Override
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
-  public void verificarSolicitudPedido(DocumentoIncontermDTO sp, DocumentoXNegociacion dxn, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception {
-    LOGGER.debug("method: update(record, selected)");
+  public void modificarSP(DocumentoIncontermDTO sp, DocumentoXNegociacion dxn, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception {
+    LOGGER.debug("method: modificarSP()");
     try {
       Map<Long, BigDecimal> saldos = this.consultarUltimosSaldos();
       // actualizar el documento
@@ -608,157 +609,73 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
       auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
       auditoria.setIdRegTabla(solicitud.getId());
       this.logAuditoriaDAO.add(auditoria);
-			// documento x negociacion
+      // documento x negociacion
       // TODO: necesario pq no hay manera de identificar el dxn para la sp
       List<DocumentoXNegociacion> documentosXNegociacion = documentoXNegociacionDAO.consultarDocumentoXNegociacionPorIdDocumento(solicitud.getId());
       for (DocumentoXNegociacion record : documentosXNegociacion) {
         this.documentoXNegociacionDAO.delete(record);
       }
       this.documentoXNegociacionDAO.update(dxn);
-      // consultar los productos asociados a la sp
-      List<ProductosXDocumento> productosPreseleccionados = this.consultarProductosSP(sp.getIdDocumento(), sp.getClientesId());
-      Map<Long, BigDecimal> cantidadesPreseleccionadas = new HashMap<>();
-      for (ProductosXDocumento pxd : productosPreseleccionados) {
-        cantidadesPreseleccionadas.put(pxd.getProductosInventario().getId(), pxd.getCantidad1());
-      }
-			// recorro primero la lista de los preseleccionados, para determinar que
-      // registros se deben eliminar.
-      for (ProductosXDocumento pxdPreseleccionado : productosPreseleccionados) {
-        // si no existe se debe eliminar
-        if (!buscarProductoEnLista(pxdPreseleccionado, productosSeleccionados)) {
-          productoXDocumentoDAO.delete(pxdPreseleccionado);
-          LOGGER.debug("productos eliminado");
-          if (pxdPreseleccionado.getProductosInventario().getProductosInventarioComext().getControlStock()) {
-            BigDecimal ultimoSaldo = saldos.get(pxdPreseleccionado.getProductosInventario().getProductosInventarioComext().getIdProducto());
-            if (ultimoSaldo == null) {
-              ultimoSaldo = BigDecimal.ZERO;
-            }
-            MovimientosInventarioComext movimientoInventario = new MovimientosInventarioComext();
-            movimientoInventario.setConsecutivoDocumento(sp.getConsecutivoDocumento());
-            movimientoInventario.setCantidad(pxdPreseleccionado.getCantidad1());
-            movimientoInventario.setFecha(new Timestamp(System.currentTimeMillis()));
-            movimientoInventario.setProductosInventarioComext(pxdPreseleccionado.getProductosInventario().getProductosInventarioComext());
-            movimientoInventario.setSaldo(ultimoSaldo.add(pxdPreseleccionado.getCantidad1()));
-            movimientoInventario.setTipoMovimiento(new com.ssl.jv.gip.jpa.pojo.TipoMovimiento(TipoMovimiento.ENTRADA.getCodigo()));
-            movimientoInventario = (MovimientosInventarioComext) movimientosInventarioComextDAO.add(movimientoInventario);
-            // auditoria para el movimiento
-            LogAuditoria aud = new LogAuditoria();
-            aud.setIdUsuario(auditoria.getIdUsuario());
-            aud.setIdRegTabla(movimientoInventario.getId());
-            aud.setIdFuncionalidad(auditoria.getIdFuncionalidad());
-            aud.setTabla("movimientos_inventario_comext");
-            aud.setCampo("Saldo");
-            aud.setAccion(TipoMovimiento.ENTRADA.getNombre());
-            aud.setValorAnterior(ultimoSaldo.toString());
-            aud.setValorNuevo(movimientoInventario.getSaldo().toString());
-            aud.setFecha(new Timestamp(System.currentTimeMillis()));
-            this.logAuditoriaDAO.add(aud);
-          }
-        }
-      }
-			// recorro despues la lista de los seleccionados contra los
-      // preseleccionados, de esta manera determino que registros nuevos debo
-      // crear y cuales actualizar
-      for (ProductosXDocumento pxdSeleccionado : productosSeleccionados) {
-        // si no existe se debe crear, si existe se debe actualizar
-        if (!buscarProductoEnLista(pxdSeleccionado, productosPreseleccionados)) {
-          if (pxdSeleccionado.getProductosInventario().getProductosInventarioComext().getControlStock()) {
-            BigDecimal ultimoSaldo = saldos.get(pxdSeleccionado.getProductosInventario().getProductosInventarioComext().getIdProducto());
-            if (ultimoSaldo == null || ultimoSaldo.compareTo(pxdSeleccionado.getCantidad1()) == -1) {
-              throw new Exception("Saldo insuficiente para el producto " + pxdSeleccionado.getProductosInventario().getSku());
-            }
-            productoXDocumentoDAO.add(pxdSeleccionado);
-            LOGGER.debug("producto agregado");
-            MovimientosInventarioComext movimientoInventario = new MovimientosInventarioComext();
-            movimientoInventario.setConsecutivoDocumento(sp.getConsecutivoDocumento());
-            movimientoInventario.setCantidad(pxdSeleccionado.getCantidad1());
-            movimientoInventario.setFecha(new Timestamp(System.currentTimeMillis()));
-            movimientoInventario.setProductosInventarioComext(pxdSeleccionado.getProductosInventario().getProductosInventarioComext());
-            movimientoInventario.setSaldo(ultimoSaldo.subtract(pxdSeleccionado.getCantidad1()));
-            movimientoInventario.setTipoMovimiento(new com.ssl.jv.gip.jpa.pojo.TipoMovimiento(TipoMovimiento.SALIDA.getCodigo()));
-            movimientoInventario = (MovimientosInventarioComext) movimientosInventarioComextDAO.add(movimientoInventario);
-            LOGGER.debug("movimiento agregado");
-            // auditoria para el movimiento
-            LogAuditoria aud = new LogAuditoria();
-            aud.setIdUsuario(auditoria.getIdUsuario());
-            aud.setIdRegTabla(movimientoInventario.getId());
-            aud.setIdFuncionalidad(auditoria.getIdFuncionalidad());
-            aud.setTabla("movimientos_inventario_comext");
-            aud.setCampo("Saldo");
-            aud.setAccion(TipoMovimiento.SALIDA.getNombre());
-            aud.setValorAnterior(ultimoSaldo.toString());
-            aud.setValorNuevo(movimientoInventario.getSaldo().toString());
-            aud.setFecha(new Timestamp(System.currentTimeMillis()));
-            this.logAuditoriaDAO.add(aud);
-            LOGGER.debug("log agregado");
-          } else {
-            productoXDocumentoDAO.add(pxdSeleccionado);
-            LOGGER.debug("producto agregado");
-          }
-        } else {
-          if (pxdSeleccionado.getProductosInventario().getProductosInventarioComext().getControlStock()) {
-            BigDecimal ultimoSaldo = saldos.get(pxdSeleccionado.getProductosInventario().getProductosInventarioComext().getIdProducto());
-            if (ultimoSaldo == null) {
-              ultimoSaldo = BigDecimal.ZERO;
-            }
-            // obtener la cantidad del anterior, mejor usar un mapa
-            BigDecimal cantidadAnterior = cantidadesPreseleccionadas.get(pxdSeleccionado.getProductosInventario().getId());
-            BigDecimal cantidadNueva = pxdSeleccionado.getCantidad1();
-            if (cantidadAnterior.compareTo(cantidadNueva) == 0) {
-              // significa q no se modificaron las cantidades
-              productoXDocumentoDAO.update(pxdSeleccionado);
-              LOGGER.debug("producto actualizado");
-            } else {
-              BigDecimal diferencia;
-              MovimientosInventarioComext movimientoInventario = new MovimientosInventarioComext();
-              LogAuditoria aud = new LogAuditoria();
-              if (cantidadAnterior.compareTo(cantidadNueva) == -1) {
-								// significa q aumento la cantidad / se debe hacer una salida /
-                // debe validar contra el inventario
-                diferencia = cantidadNueva.subtract(cantidadAnterior);
-                if (ultimoSaldo == null || ultimoSaldo.compareTo(diferencia) == -1) {
-                  throw new Exception("Saldo insuficiente para el producto " + pxdSeleccionado.getProductosInventario().getSku() + ". " + ultimoSaldo + " unidades disponibles.");
-                }
-                movimientoInventario.setCantidad(diferencia);
-                movimientoInventario.setSaldo(ultimoSaldo.subtract(diferencia));
-                movimientoInventario.setTipoMovimiento(new com.ssl.jv.gip.jpa.pojo.TipoMovimiento(TipoMovimiento.SALIDA.getCodigo()));
-                aud.setAccion(TipoMovimiento.SALIDA.getNombre());
-              }
-              if (cantidadAnterior.compareTo(cantidadNueva) == 1) {
-                // significa q q bajo la cantidad / se debe hacer una entrada
-                diferencia = cantidadAnterior.subtract(cantidadNueva);
-                movimientoInventario.setCantidad(diferencia);
-                movimientoInventario.setSaldo(ultimoSaldo.add(diferencia));
-                movimientoInventario.setTipoMovimiento(new com.ssl.jv.gip.jpa.pojo.TipoMovimiento(TipoMovimiento.ENTRADA.getCodigo()));
-                aud.setAccion(TipoMovimiento.ENTRADA.getNombre());
-              }
-              productoXDocumentoDAO.update(pxdSeleccionado);
-              LOGGER.debug("producto actualizado");
-              movimientoInventario.setProductosInventarioComext(pxdSeleccionado.getProductosInventario().getProductosInventarioComext());
-              movimientoInventario.setConsecutivoDocumento(sp.getConsecutivoDocumento());
-              movimientoInventario.setFecha(new Timestamp(System.currentTimeMillis()));
-              movimientoInventario = (MovimientosInventarioComext) movimientosInventarioComextDAO.add(movimientoInventario);
-              LOGGER.debug("movimiento agregado");
-              aud.setIdUsuario(auditoria.getIdUsuario());
-              aud.setIdRegTabla(movimientoInventario.getId());
-              aud.setIdFuncionalidad(auditoria.getIdFuncionalidad());
-              aud.setTabla("movimientos_inventario_comext");
-              aud.setCampo("Saldo");
-              aud.setValorAnterior(ultimoSaldo.toString());
-              aud.setValorNuevo(movimientoInventario.getSaldo().toString());
-              aud.setFecha(new Timestamp(System.currentTimeMillis()));
-              this.logAuditoriaDAO.add(aud);
-              LOGGER.debug("log agregado");
-            }
-          } else {
-            productoXDocumentoDAO.update(pxdSeleccionado);
-            LOGGER.debug("producto actualizado");
-          }
-        }
-      }
+      // actualizar el detalle
+      this.actualizarProductosDocumentoComercioExterior(solicitud, productosSeleccionados, auditoria);
     } catch (Exception ex) {
       LOGGER.error("Error en <<record>> ->> mensaje ->> {} / causa ->> {} ");
       throw ex;
+    }
+  }
+
+  @Override
+  @TransactionAttribute(TransactionAttributeType.REQUIRED)
+  public void modificarFP(Documento fp, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception {
+    LOGGER.debug("method: update(record, selected)");
+    if (fp.getEstadosxdocumento().getId().getIdEstado() == ConstantesDocumento.GENERADO) {
+      List<Documento> documentos = documentoDAO.consultarDocumentosPorObservacionDocumento(fp.getConsecutivoDocumento());
+      if (documentos != null) {
+        com.ssl.jv.gip.jpa.pojo.Estado estado = estadoDAOLocal.findByPK(new Long(ConstantesDocumento.ANULADO));
+        for (Documento doc : documentos) {
+          doc.getEstadosxdocumento().setEstado(estado);
+          documentoDAO.update(doc);
+        }
+      }
+    }
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("funcionalidad", 126L); // Autorizar Factura Proforma
+    parametros.put("documento", fp.getId());
+    String jpql = "SELECT l FROM LogAuditoria l WHERE l.idFuncionalidad = :funcionalidad AND l.idRegTabla = :documento ORDER BY l.fecha DESC LIMIT 1";
+    LogAuditoria logAuditoria;
+    try {
+      logAuditoria = logAuditoriaDAO.buscarRegistroPorConsultaJPQL(jpql, parametros);
+    } catch (EJBTransactionRolledbackException ex) {
+      throw new Exception("No se encontro en el log de auditoria el estado anterior de la FP.", ex);
+    }
+    if (logAuditoria != null) {
+      Long estadoAnterior = new Long(logAuditoria.getValorAnterior().trim());
+      // actualizar el documento
+      auditoria.setValorAnterior(fp.getEstadosxdocumento().getId().getIdEstado().toString());
+      fp.getEstadosxdocumento().getId().setIdEstado(estadoAnterior);
+      try {
+        documentoDAO.update(fp);
+        // ingresar el registro de auditoria
+        auditoria.setTabla("Documentos");
+        auditoria.setAccion("MOD");
+        auditoria.setCampo("Estado");
+        auditoria.setValorNuevo(fp.getEstadosxdocumento().getId().getIdEstado().toString());
+        auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
+        auditoria.setIdRegTabla(fp.getId());
+        this.logAuditoriaDAO.add(auditoria);
+        // documento x negociacion
+        // TODO: necesario pq no hay manera de identificar el dxn para la sp
+        List<DocumentoXNegociacion> documentosXNegociacion = documentoXNegociacionDAO.consultarDocumentoXNegociacionPorIdDocumento(fp.getId());
+        for (DocumentoXNegociacion record : documentosXNegociacion) {
+          this.documentoXNegociacionDAO.delete(record);
+        }
+        this.documentoXNegociacionDAO.update(fp.getDocumentoXNegociacion());
+        // actualizar el detalle
+        this.actualizarProductosDocumentoComercioExterior(fp, productosSeleccionados, auditoria);
+      } catch (Exception ex) {
+        LOGGER.error("Error en <<record>> ->> mensaje ->> {} / causa ->> {} ");
+        throw ex;
+      }
     }
   }
 
@@ -778,6 +695,151 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
       }
     }
     return false;
+  }
+
+  private void actualizarProductosDocumentoComercioExterior(Documento doc, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception {
+    // consultar los productos asociados a la sp
+    Map<Long, BigDecimal> saldos = this.consultarUltimosSaldos();
+    List<ProductosXDocumento> productosPreseleccionados = this.consultarProductosSP(doc.getId(), doc.getCliente().getId());
+    Map<Long, BigDecimal> cantidadesPreseleccionadas = new HashMap<>();
+    for (ProductosXDocumento pxd : productosPreseleccionados) {
+      cantidadesPreseleccionadas.put(pxd.getProductosInventario().getId(), pxd.getCantidad1());
+    }
+    // recorro primero la lista de los preseleccionados, para determinar que
+    // registros se deben eliminar.
+    for (ProductosXDocumento pxdPreseleccionado : productosPreseleccionados) {
+      // si no existe se debe eliminar
+      if (!buscarProductoEnLista(pxdPreseleccionado, productosSeleccionados)) {
+        productoXDocumentoDAO.delete(pxdPreseleccionado);
+        LOGGER.debug("productos eliminado");
+        if (pxdPreseleccionado.getProductosInventario().getProductosInventarioComext().getControlStock()) {
+          BigDecimal ultimoSaldo = saldos.get(pxdPreseleccionado.getProductosInventario().getProductosInventarioComext().getIdProducto());
+          if (ultimoSaldo == null) {
+            ultimoSaldo = BigDecimal.ZERO;
+          }
+          MovimientosInventarioComext movimientoInventario = new MovimientosInventarioComext();
+          movimientoInventario.setConsecutivoDocumento(doc.getConsecutivoDocumento());
+          movimientoInventario.setCantidad(pxdPreseleccionado.getCantidad1());
+          movimientoInventario.setFecha(new Timestamp(System.currentTimeMillis()));
+          movimientoInventario.setProductosInventarioComext(pxdPreseleccionado.getProductosInventario().getProductosInventarioComext());
+          movimientoInventario.setSaldo(ultimoSaldo.add(pxdPreseleccionado.getCantidad1()));
+          movimientoInventario.setTipoMovimiento(new com.ssl.jv.gip.jpa.pojo.TipoMovimiento(TipoMovimiento.ENTRADA.getCodigo()));
+          movimientoInventario = (MovimientosInventarioComext) movimientosInventarioComextDAO.add(movimientoInventario);
+          // auditoria para el movimiento
+          LogAuditoria aud = new LogAuditoria();
+          aud.setIdUsuario(auditoria.getIdUsuario());
+          aud.setIdRegTabla(movimientoInventario.getId());
+          aud.setIdFuncionalidad(auditoria.getIdFuncionalidad());
+          aud.setTabla("movimientos_inventario_comext");
+          aud.setCampo("Saldo");
+          aud.setAccion(TipoMovimiento.ENTRADA.getNombre());
+          aud.setValorAnterior(ultimoSaldo.toString());
+          aud.setValorNuevo(movimientoInventario.getSaldo().toString());
+          aud.setFecha(new Timestamp(System.currentTimeMillis()));
+          this.logAuditoriaDAO.add(aud);
+        }
+      }
+    }
+    // recorro despues la lista de los seleccionados contra los
+    // preseleccionados, de esta manera determino que registros nuevos debo
+    // crear y cuales actualizar
+    for (ProductosXDocumento pxdSeleccionado : productosSeleccionados) {
+      // si no existe se debe crear, si existe se debe actualizar
+      if (!buscarProductoEnLista(pxdSeleccionado, productosPreseleccionados)) {
+        if (pxdSeleccionado.getProductosInventario().getProductosInventarioComext().getControlStock()) {
+          BigDecimal ultimoSaldo = saldos.get(pxdSeleccionado.getProductosInventario().getProductosInventarioComext().getIdProducto());
+          if (ultimoSaldo == null || ultimoSaldo.compareTo(pxdSeleccionado.getCantidad1()) == -1) {
+            throw new Exception("Saldo insuficiente para el producto " + pxdSeleccionado.getProductosInventario().getSku());
+          }
+          productoXDocumentoDAO.add(pxdSeleccionado);
+          LOGGER.debug("producto agregado");
+          MovimientosInventarioComext movimientoInventario = new MovimientosInventarioComext();
+          movimientoInventario.setConsecutivoDocumento(doc.getConsecutivoDocumento());
+          movimientoInventario.setCantidad(pxdSeleccionado.getCantidad1());
+          movimientoInventario.setFecha(new Timestamp(System.currentTimeMillis()));
+          movimientoInventario.setProductosInventarioComext(pxdSeleccionado.getProductosInventario().getProductosInventarioComext());
+          movimientoInventario.setSaldo(ultimoSaldo.subtract(pxdSeleccionado.getCantidad1()));
+          movimientoInventario.setTipoMovimiento(new com.ssl.jv.gip.jpa.pojo.TipoMovimiento(TipoMovimiento.SALIDA.getCodigo()));
+          movimientoInventario = (MovimientosInventarioComext) movimientosInventarioComextDAO.add(movimientoInventario);
+          LOGGER.debug("movimiento agregado");
+          // auditoria para el movimiento
+          LogAuditoria aud = new LogAuditoria();
+          aud.setIdUsuario(auditoria.getIdUsuario());
+          aud.setIdRegTabla(movimientoInventario.getId());
+          aud.setIdFuncionalidad(auditoria.getIdFuncionalidad());
+          aud.setTabla("movimientos_inventario_comext");
+          aud.setCampo("Saldo");
+          aud.setAccion(TipoMovimiento.SALIDA.getNombre());
+          aud.setValorAnterior(ultimoSaldo.toString());
+          aud.setValorNuevo(movimientoInventario.getSaldo().toString());
+          aud.setFecha(new Timestamp(System.currentTimeMillis()));
+          this.logAuditoriaDAO.add(aud);
+          LOGGER.debug("log agregado");
+        } else {
+          productoXDocumentoDAO.add(pxdSeleccionado);
+          LOGGER.debug("producto agregado");
+        }
+      } else {
+        if (pxdSeleccionado.getProductosInventario().getProductosInventarioComext().getControlStock()) {
+          BigDecimal ultimoSaldo = saldos.get(pxdSeleccionado.getProductosInventario().getProductosInventarioComext().getIdProducto());
+          if (ultimoSaldo == null) {
+            ultimoSaldo = BigDecimal.ZERO;
+          }
+          // obtener la cantidad del anterior, mejor usar un mapa
+          BigDecimal cantidadAnterior = cantidadesPreseleccionadas.get(pxdSeleccionado.getProductosInventario().getId());
+          BigDecimal cantidadNueva = pxdSeleccionado.getCantidad1();
+          if (cantidadAnterior.compareTo(cantidadNueva) == 0) {
+            // significa q no se modificaron las cantidades
+            productoXDocumentoDAO.update(pxdSeleccionado);
+            LOGGER.debug("producto actualizado");
+          } else {
+            BigDecimal diferencia;
+            MovimientosInventarioComext movimientoInventario = new MovimientosInventarioComext();
+            LogAuditoria aud = new LogAuditoria();
+            if (cantidadAnterior.compareTo(cantidadNueva) == -1) {
+              // significa q aumento la cantidad / se debe hacer una salida /
+              // debe validar contra el inventario
+              diferencia = cantidadNueva.subtract(cantidadAnterior);
+              if (ultimoSaldo == null || ultimoSaldo.compareTo(diferencia) == -1) {
+                throw new Exception("Saldo insuficiente para el producto " + pxdSeleccionado.getProductosInventario().getSku() + ". " + ultimoSaldo + " unidades disponibles.");
+              }
+              movimientoInventario.setCantidad(diferencia);
+              movimientoInventario.setSaldo(ultimoSaldo.subtract(diferencia));
+              movimientoInventario.setTipoMovimiento(new com.ssl.jv.gip.jpa.pojo.TipoMovimiento(TipoMovimiento.SALIDA.getCodigo()));
+              aud.setAccion(TipoMovimiento.SALIDA.getNombre());
+            }
+            if (cantidadAnterior.compareTo(cantidadNueva) == 1) {
+              // significa q q bajo la cantidad / se debe hacer una entrada
+              diferencia = cantidadAnterior.subtract(cantidadNueva);
+              movimientoInventario.setCantidad(diferencia);
+              movimientoInventario.setSaldo(ultimoSaldo.add(diferencia));
+              movimientoInventario.setTipoMovimiento(new com.ssl.jv.gip.jpa.pojo.TipoMovimiento(TipoMovimiento.ENTRADA.getCodigo()));
+              aud.setAccion(TipoMovimiento.ENTRADA.getNombre());
+            }
+            productoXDocumentoDAO.update(pxdSeleccionado);
+            LOGGER.debug("producto actualizado");
+            movimientoInventario.setProductosInventarioComext(pxdSeleccionado.getProductosInventario().getProductosInventarioComext());
+            movimientoInventario.setConsecutivoDocumento(doc.getConsecutivoDocumento());
+            movimientoInventario.setFecha(new Timestamp(System.currentTimeMillis()));
+            movimientoInventario = (MovimientosInventarioComext) movimientosInventarioComextDAO.add(movimientoInventario);
+            LOGGER.debug("movimiento agregado");
+            aud.setIdUsuario(auditoria.getIdUsuario());
+            aud.setIdRegTabla(movimientoInventario.getId());
+            aud.setIdFuncionalidad(auditoria.getIdFuncionalidad());
+            aud.setTabla("movimientos_inventario_comext");
+            aud.setCampo("Saldo");
+            aud.setValorAnterior(ultimoSaldo.toString());
+            aud.setValorNuevo(movimientoInventario.getSaldo().toString());
+            aud.setFecha(new Timestamp(System.currentTimeMillis()));
+            this.logAuditoriaDAO.add(aud);
+            LOGGER.debug("log agregado");
+          }
+        } else {
+          productoXDocumentoDAO.update(pxdSeleccionado);
+          LOGGER.debug("producto actualizado");
+        }
+      }
+    }
   }
 
   /*
@@ -823,6 +885,16 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
   public Documento consultarDocumentoPorId(Long pId) {
     Documento entidad = documentoDAO.findByPK(pId);
     return entidad;
+  }
+
+  @Override
+  public Documento consultarDocumentoComercioExterior(Long id) {
+    if (id == null) {
+      throw new IllegalArgumentException("El parametro id del documento es requerido");
+    }
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("id", id);
+    return documentoDAO.buscarRegistroPorConsultaNombrada(Documento.BUSCAR_DOCUMENTO_COMERCIO_EXTERIOR, parametros);
   }
 
   @Override
@@ -901,7 +973,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @Override
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
-  public Documento crearSolicitudPedido(Documento sp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductoSolicitudPedidoDTO> listaPXDDTO) {
+  public Documento generarSP(Documento sp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductoSolicitudPedidoDTO> listaPXDDTO) {
     // crear el documento
     sp.setConsecutivoDocumento("SP1-" + this.documentoDAO.consultarProximoValorSecuencia("sp1_seq"));
     sp = (Documento) this.documentoDAO.add(sp);
@@ -1488,7 +1560,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
     ventaDirecta.setConsecutivoDocumento(prefijoConsecutivo + "-" + valorSecuencia);
 
-		// ventaDirecta.getEstadosxdocumento().setEstado(
+    // ventaDirecta.getEstadosxdocumento().setEstado(
     // estadoDAOLocal
     // .findByPK(estadosxdocumento.getId().getIdEstado()));
     ventaDirecta = (Documento) documentoDAO.add(ventaDirecta);
@@ -1550,12 +1622,12 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
     id.setIdProducto(Long.valueOf(productoDTO.getId()));
     productosXDocumento.setId(id);
     Date fechaActual = new Date();
-		// productosXDocumento.setInformacion(Boolean.FALSE);
+    // productosXDocumento.setInformacion(Boolean.FALSE);
     // productosXDocumento.setCalidad(Boolean.FALSE);
     productosXDocumento.setFechaEntrega(fechaActual);
     productosXDocumento.setFechaEstimadaEntrega(fechaActual);
     productosXDocumento.setCantidad1(productoDTO.getCantidad());
-		// productosXDocumento.setCantidad2(BigDecimal.ZERO);
+    // productosXDocumento.setCantidad2(BigDecimal.ZERO);
     // productosXDocumento.setValorUnitatrioMl(BigDecimal.ZERO);
     productosXDocumento.setValorUnitarioUsd(productoDTO.getValorUnitarioUsd());
     productosXDocumento.setValorTotal(productoDTO.getValorTotal());
@@ -1781,7 +1853,7 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @Override
   public int actualizarCostosLogisticos(BigDecimal valorTotal, BigDecimal fob, BigDecimal fletes, BigDecimal seguros, List<DocumentoCostosLogisticosDTO> documentos, LiquidacionCostoLogistico lcl) {
-		// public int actualizarCostosLogisticos(Long idDocumento, Long
+    // public int actualizarCostosLogisticos(Long idDocumento, Long
     // idTerminoIncoterm, BigDecimal valorFob, BigDecimal valorFletes,
     // BigDecimal valorSeguros, LiquidacionCostoLogistico lcl) {
     this.liquidacionCostoLogisticoDAO.add(lcl);

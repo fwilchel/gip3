@@ -30,11 +30,11 @@ import com.ssl.jv.gip.web.util.Modo;
 import com.ssl.jv.gip.web.util.Utilidad;
 
 /**
- * The Class SolicitudPedidoMB.
+ * The Class ModificarSPMB.
  */
-@ManagedBean(name = "solicitudPedidoMB")
+@ManagedBean
 @ViewScoped
-public class SolicitudPedidoMB extends UtilMB {
+public class ModificarSPMB extends UtilMB {
 
   private static final long serialVersionUID = 1L;
   private final MathContext mathContext = new MathContext(3, RoundingMode.HALF_DOWN);
@@ -240,7 +240,7 @@ public class SolicitudPedidoMB extends UtilMB {
     auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
     try {
       // verificar la sp
-      comercioExteriorEJB.verificarSolicitudPedido(sp, dxn, productosXDocumento, auditoria);
+      comercioExteriorEJB.modificarSP(sp, dxn, productosXDocumento, auditoria);
       this.addMensajeInfo("Se ha actualizado correctamente la Solicitud de Pedido " + sp.getConsecutivoDocumento());
       this.init();
     } catch (Exception ex) {

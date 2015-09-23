@@ -37,6 +37,7 @@ import com.ssl.jv.gip.negocio.dto.ProductoPorClienteDTO;
   @NamedQuery(name = Documento.FIND_BY_OBSERVACION_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.observacionDocumento = :observacionDocumento"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado = :idEstado ORDER BY d.id"),
   @NamedQuery(name = Documento.FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS, query = "SELECT distinct d FROM Documento d JOIN FETCH d.cliente cli JOIN FETCH cli.ciudad ciu JOIN FETCH cli.metodoPago mpa JOIN FETCH cli.terminoIncoterms ti WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstado,:idEstado2) ORDER BY d.id desc"),
+  @NamedQuery(name = Documento.BUSCAR_DOCUMENTO_COMERCIO_EXTERIOR, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dxn LEFT JOIN FETCH d.cliente cli LEFT JOIN FETCH cli.ciudad ciu LEFT JOIN FETCH cli.metodoPago mp WHERE d.id = :id"),
   @NamedQuery(name = Documento.FIND_BY_FECHAS_TIPO_DOCUMENTO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.fechaGeneracion BETWEEN :fechaInicio AND :fechaFin ORDER BY d.fechaGeneracion"),
   @NamedQuery(name = Documento.LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO, query = "SELECT d FROM Documento d JOIN FETCH d.documentoXNegociacions dn LEFT JOIN FETCH d.cliente cli LEFT JOIN FETCH cli.ciudad ciu LEFT JOIN FETCH cli.metodoPago mp WHERE d.estadosxdocumento.id.idTipoDocumento = :idTipoDocumento AND d.estadosxdocumento.id.idEstado IN (:idEstados) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
   @NamedQuery(name = Documento.LISTADO_ANULAR_SOLICITUD_PEDIDO, query = "SELECT d FROM Documento d WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d.estadosxdocumento.id.idEstado NOT IN (:cerrado, :anulado) AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.estadosxdocumento.id.idTipoDocumento = :facturaProforma) AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivoDocumento) ORDER BY d.id DESC"),
@@ -65,6 +66,7 @@ public class Documento implements Serializable {
   public static final String FIND_BY_OBSERVACION_DOCUMENTO = "Documento.findByObservacionDocumento";
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADO = "Documento.findByTipoDocumentoAndEstado";
   public static final String FIND_BY_TIPO_DOCUMENTO_AND_ESTADOS = "Documento.findByTipoDocumentoAndEstados";
+  public static final String BUSCAR_DOCUMENTO_COMERCIO_EXTERIOR = "Documento.buscarDocumentoComercioExterior";
   public static final String LISTA_EMPAQUE_FIND_BY_ESTADO_AND_TIPO_DOCUMENTO_AND_CONSECUTIVO = "Documento.findByEstadoTipoDocumentoConsecutivoDocumento";
   public static final String LISTADO_ANULAR_SOLICITUD_PEDIDO = "Documento.findByPendientePorAnular";
   public static final String ACTUALIZAR_ESTADO_DOCUMENTO = "UPDATE documentos SET id_estado = :id_estado WHERE id = :id";
@@ -85,7 +87,7 @@ public class Documento implements Serializable {
   public static final String ELIMINAR_REGISTRO = "Documento.eliminarRegistro";
   public static final String ACTUALIZAR_ESTADO_Y_OBSERVACION_POR_CONSECUTIVO = "UPDATE Documento d SET d.estadosxdocumento.id.idEstado = :estado, d.observacionDocumento = :observacionDocumento WHERE d.consecutivoDocumento = :consecutivoDocumento";
   public static final String BUSCAR_FACTURAS_PROFORMA = "Documento.buscarFacturasProforma";
-  public static final String BUSCAR_FACTURAS_PROFORMA_X_ESTADO = "Documento.buscarFacturasProformaXEstado";
+  public static final String BUSCAR_FACTURAS_PROFORMA_X_ESTADO = "Documento.buscarFacturasProformaXEstado";  
 
   @Id
   @SequenceGenerator(name = "documentoSeq", sequenceName = "documentos_id_seq", allocationSize = 1)

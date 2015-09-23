@@ -269,7 +269,7 @@ public class IngresarSolicitudPedidoMB extends UtilMB {
 		auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
 		// crear la sp
 		try {
-			sp = this.comercioEjb.crearSolicitudPedido(sp, auditoria, dxn, listaProductosXDocumentoDTO);
+			sp = this.comercioEjb.generarSP(sp, auditoria, dxn, listaProductosXDocumentoDTO);
 			String mensaje = AplicacionMB.getMessage("VentasSPExito_Crear", language);
 			String parametros[] = new String[2];
 			parametros[0] = "" + sp.getId();

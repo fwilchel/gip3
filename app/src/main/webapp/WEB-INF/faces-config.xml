@@ -79,7 +79,7 @@
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_solicitud_pedido</from-outcome>
-      <to-view-id>/ui/comercioexterior/solicitudPedido.xhtml</to-view-id>
+      <to-view-id>/ui/comercioexterior/modificarSP.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
     <navigation-case>
@@ -234,7 +234,7 @@
     </navigation-case>
     <navigation-case>
       <from-outcome>listado_factura_proforma</from-outcome>
-      <to-view-id>/ui/comercioexterior/modificarFacturaProforma.xhtml</to-view-id>
+      <to-view-id>/ui/comercioexterior/modificarFP.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
     <!-- Comercio Exterior / Anular solicitud de pedido-->

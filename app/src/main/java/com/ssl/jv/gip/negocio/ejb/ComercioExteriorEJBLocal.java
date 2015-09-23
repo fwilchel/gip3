@@ -173,7 +173,9 @@ public interface ComercioExteriorEJBLocal {
    */
   void guardarSolicitudPedido(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
 
-  void verificarSolicitudPedido(DocumentoIncontermDTO sp, DocumentoXNegociacion dxn, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception;
+  void modificarSP(DocumentoIncontermDTO sp, DocumentoXNegociacion dxn, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception;
+
+  void modificarFP(Documento fp, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception;
 
   /**
    * Actualizar estado documento.
@@ -219,6 +221,8 @@ public interface ComercioExteriorEJBLocal {
   //Documento generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO);
   Documento consultarDocumentoPorId(Long pId);
 
+  Documento consultarDocumentoComercioExterior(Long id);
+
   void generarListaEmpaque(ProductoDTO productoDTO);
 
   Documento crearFacturaProforma(Documento fp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductosXDocumento> productos, Documento sp);
@@ -227,7 +231,7 @@ public interface ComercioExteriorEJBLocal {
 
   List<DocumentoXLotesoic> guardarLotes(List<DocumentoXLotesoic> lista, Documento documento);
 
-  Documento crearSolicitudPedido(Documento sp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductoSolicitudPedidoDTO> pxd);
+  Documento generarSP(Documento sp, LogAuditoria auditoria, DocumentoXNegociacion dxn, List<ProductoSolicitudPedidoDTO> pxd);
 
   Map<Long, BigDecimal> consultarUltimosSaldos();
 
