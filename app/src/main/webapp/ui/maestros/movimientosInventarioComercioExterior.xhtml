@@ -184,9 +184,7 @@
               </div>
             </f:facet>
             <p:column 
-              filterBy="#{dato.productosInventarioComext.productosInventario.sku}" 
               headerText="#{msg.maestroInventarioComExt_SKU}"
-              filterMatchMode="contains" 
               sortBy="#{dato.productosInventarioComext.productosInventario.sku}" 
               style="width:100px;">
               <h:outputText 
@@ -194,18 +192,13 @@
                 style="text-align:center;"/>
             </p:column>
             <p:column 
-              filterBy="#{dato.productosInventarioComext.productosInventario.nombre}" 
               headerText="#{msg.maestroInventarioComExt_Nombre_del_producto}"
-              filterMatchMode="contains" 
               sortBy="#{dato.productosInventarioComext.productosInventario.nombre}">
               <h:outputText 
                 value="#{dato.productosInventarioComext.productosInventario.nombre}" />
             </p:column>
             <p:column 
               headerText="Tipo de movimiento"
-              filterBy="#{dato.tipoMovimiento.nombre}" 
-              filterMatchMode="contains" 
-              sortBy="#{dato.tipoMovimiento.nombre}"
               style="width:150px;">
               <p:selectOneMenu 
                 id="tipoMovimiento" 
@@ -246,7 +239,6 @@
             </p:column>
             <p:column 
               headerText="#{msg.maestroInventarioComExt_Saldo}"
-              sortBy="#{dato.saldo}"  
               style="width:150px;">
               <p:inputText  
                 value="#{dato.saldo}" 
