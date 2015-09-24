@@ -1853,8 +1853,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   @Override
   public List<Object[]> consultarAuditoriaEstadoModificacionFacturaProforma(DocumentoIncontermDTO documento) {
-    String sqlAuditoria = "SELECT  log_auditoria.id_funcionalidad,log_auditoria.id_reg_tabla,log_auditoria.valor_anterior " + "FROM log_auditoria,usuarios,funcionalidades " + "WHERE log_auditoria.id_usuario = usuarios.id " + "AND log_auditoria.id_funcionalidad = funcionalidades.id " + "AND log_auditoria.id_funcionalidad = 126 " + "AND log_auditoria.id_reg_tabla =" + documento.getIdDocumento() + " ORDER BY log_auditoria.fecha DESC LIMIT 1";
-
+    String sqlAuditoria = "SELECT log_auditoria.id_funcionalidad,log_auditoria.id_reg_tabla,log_auditoria.valor_anterior " + "FROM log_auditoria,usuarios,funcionalidades " + "WHERE log_auditoria.id_usuario = usuarios.id " + "AND log_auditoria.id_funcionalidad = funcionalidades.id " + "AND log_auditoria.id_funcionalidad = 126 " + "AND log_auditoria.id_reg_tabla =" + documento.getIdDocumento() + " ORDER BY log_auditoria.fecha DESC LIMIT 1";
     return em.createNativeQuery(sqlAuditoria).getResultList();
   }
 

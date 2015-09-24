@@ -189,13 +189,17 @@ public class GenericDAO<T> {
     }
   }
 
-  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Map<String, Object> parametros) {
+  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Object... parametros) {
     LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
     try {
       Query consulta = em.createNativeQuery(consultaNativa);
       if (parametros != null) {
-        for (String key : parametros.keySet()) {
-          consulta.setParameter(key, parametros.get(key));
+        int i = 1;
+        for (Object param : parametros) {
+          if (param != null) {
+            consulta.setParameter(i, param);
+          }
+          i++;
         }
       }
       List<T> o = consulta.getResultList();
@@ -207,31 +211,32 @@ public class GenericDAO<T> {
     }
   }
 
-  public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Map<String, Object> parametros) {
+  public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Object... parametros) {
     LOGGER.info("Entro a: <<buscarRegistroPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
-    try {
-      Query consulta = em.createNativeQuery(consultaNativa);
-      if (parametros != null) {
-        for (String key : parametros.keySet()) {
-          consulta.setParameter(key, parametros.get(key));
+    javax.persistence.Query q = em.createNativeQuery(consultaNativa);
+    if (parametros != null) {
+      int i = 1;
+      for (Object param : parametros) {
+        if (param != null) {
+          q.setParameter(i, param);
         }
+        i++;
       }
-      T o = (T) consulta.getSingleResult();
-      LOGGER.info("Sale de <<buscarRegistroPorConsultaNativa>> con resultado ->> {" + o + "}");
-      return o;
-    } catch (Exception ebd) {
-      LOGGER.error("Error en <<buscarRegistroPorConsultaNativa>>", ebd.getCause());
-      throw new PersistenceException(ebd);
     }
+    return (T) q.getSingleResult();
   }
 
-  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Class<T> tipo, Map<String, Object> parametros) {
+  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Class<T> tipo, Object... parametros) {
     LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
     try {
       Query consulta = em.createNativeQuery(consultaNativa, tipo);
       if (parametros != null) {
-        for (String key : parametros.keySet()) {
-          consulta.setParameter(key, parametros.get(key));
+        int i = 1;
+        for (Object param : parametros) {
+          if (param != null) {
+            consulta.setParameter(i, param);
+          }
+          i++;
         }
       }
       List<T> o = consulta.getResultList();
@@ -243,13 +248,17 @@ public class GenericDAO<T> {
     }
   }
 
-  public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Class<T> tipo, Map<String, Object> parametros) {
+  public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Class<T> tipo, Object... parametros) {
     LOGGER.info("Entro a: <<buscarRegistroPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
     try {
       Query consulta = em.createNativeQuery(consultaNativa, tipo);
       if (parametros != null) {
-        for (String key : parametros.keySet()) {
-          consulta.setParameter(key, parametros.get(key));
+        int i = 1;
+        for (Object param : parametros) {
+          if (param != null) {
+            consulta.setParameter(i, param);
+          }
+          i++;
         }
       }
       T o = (T) consulta.getSingleResult();
