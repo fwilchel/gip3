@@ -341,24 +341,22 @@
               <p:column 
                 headerText="#{msg.comprasCantidadSola}"
                 style="width:120px;text-align:right">
-                <p:spinner 
+                <p:inputText 
                   id="cantidadProd1"
                   value="#{pxd.cantidad1}" 
                   label="#{msg.ispcnTblColCantidad}"
-                  stepFactor="1"
-                  min="1"
-                  max="#{999999999}"
                   required="true"
                   size="12"
                   maxlength="9"
                   style="text-align:right;">                
                   <p:ajax 
+                    event="blur"
                     listener="#{modificarSPMB.recalcularTotalesLista()}"
-                    update=":tabPanel:formaEditar:tablaProductos"
+                    update="@form"
                     process="@this" />
                   <f:convertNumber 
-                    pattern="#####,###,###,##0" />
-                </p:spinner>
+                    integerOnly="true"  />
+                </p:inputText>
                 <p:message 
                   for="cantidadProd1"/>                
                 <f:facet 
@@ -497,12 +495,12 @@
               </p:column>
               <f:facet
                 name="footer">
-<!--                <p:commandButton 
-                  value="#{msg.generarOrdenCompraTotalizar}"
-                  actionListener="#{modificarSPMB.recalcularTotalesLista()}" 
-                  update=":tabPanel:formaEditar:tablaProductos" 
-                  process=":tabPanel:formaEditar:tablaProductos"
-                  rendered="#{not empty modificarSPMB.sp}"/> -->
+                <!--                <p:commandButton 
+                                  value="#{msg.generarOrdenCompraTotalizar}"
+                                  actionListener="#{modificarSPMB.recalcularTotalesLista()}" 
+                                  update=":tabPanel:formaEditar:tablaProductos" 
+                                  process=":tabPanel:formaEditar:tablaProductos"
+                                  rendered="#{not empty modificarSPMB.sp}"/> -->
                 <p:commandButton 
                   value="Guardar" 
                   icon="ui-icon-disk"
