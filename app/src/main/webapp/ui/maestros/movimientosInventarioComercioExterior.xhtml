@@ -33,7 +33,7 @@
           <p:dataTable 
             id="tblMovimientosInventario"
             widgetVar="tblMovimientosInventario" 
-            value="#{inventarioComercioExteriorMB.historicoMovimientos}" 
+            value="#{inventarioComercioExteriorMB.movimientosInventario}" 
             var="dato" 
             rows="10"
             emptyMessage="#{msg.generalNoDatos}" 
@@ -160,7 +160,7 @@
           <p:dataTable 
             id="tblNuevosMovimientos"
             widgetVar="tblNuevosMovimientos" 
-            value="#{inventarioComercioExteriorMB.nuevosMovimientos}" 
+            value="#{inventarioComercioExteriorMB.movimientosInventarioNuevos}" 
             var="dato" 
             emptyMessage="#{msg.generalNoDatos}" >
             <f:facet 
@@ -268,7 +268,8 @@
                 value="#{msg.generalGuardar}" 
                 icon="ui-icon-disk" 
                 actionListener="#{inventarioComercioExteriorMB.guardarMovimientos}"
-                update=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos"/>
+                update=":tabPanel:frmNuevosMovimientos:tblNuevosMovimientos"
+                disabled="#{empty inventarioComercioExteriorMB.movimientosInventarioNuevos}"/>
               <p:commandButton 
                 value="Limpiar" 
                 process="@this" 
