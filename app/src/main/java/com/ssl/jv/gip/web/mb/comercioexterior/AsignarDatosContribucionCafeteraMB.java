@@ -22,93 +22,78 @@ import com.ssl.jv.gip.web.util.Modo;
 @SessionScoped
 public class AsignarDatosContribucionCafeteraMB extends UtilMB {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
-  private List<DatoContribucionCafeteraDTO> listado;
-  private DatoContribucionCafeteraDTO seleccionado;
-
-  private List<DocumentoLotesContribucionCafeteriaDTO> documentosLotes;
-
-  private Modo modo;
-
   @EJB
   private ComercioExteriorEJBLocal comercioExteriorEjb;
-
-  public AsignarDatosContribucionCafeteraMB() {
-
-  }
+  private List<DatoContribucionCafeteraDTO> listado;
+  private DatoContribucionCafeteraDTO seleccionado;
+  private List<DocumentoLotesContribucionCafeteriaDTO> documentosLotes;
+  private Modo modo;
 
   @PostConstruct
   public void init() {
-
-	Map<String, Object> parametros = new HashMap<>();
-
-	parametros.put("tipo", ConstantesTipoDocumento.FACTURA_EXPORTACION);
-	parametros.put("estado", ConstantesDocumento.IMPRESO);
-
-	listado = comercioExteriorEjb.consultarDatosContribucionCafetera(parametros);
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("tipo", ConstantesTipoDocumento.FACTURA_EXPORTACION);
+    parametros.put("estado", ConstantesDocumento.IMPRESO);
+    listado = comercioExteriorEjb.consultarDatosContribucionCafetera(parametros);
   }
 
   public String modificar() {
-	documentosLotes = new ArrayList<>();
-
-	Map<String, Object> parametros = new HashMap<>();
-	parametros.put("consecutivo", seleccionado.getConsecutivo());
-
-	documentosLotes = comercioExteriorEjb.consultarDocumentoLotesContribucionCafetera(parametros);
-	return "";
-  }
-
-  public Modo getModo() {
-	return modo;
-  }
-
-  public void setModo(Modo modo) {
-	this.modo = modo;
-  }
-
-  public DatoContribucionCafeteraDTO getSeleccionado() {
-	return seleccionado;
-  }
-
-  public void setSeleccionado(DatoContribucionCafeteraDTO seleccionado) {
-	this.seleccionado = seleccionado;
-	this.modo = Modo.EDITAR;
+    documentosLotes = new ArrayList<>();
+    Map<String, Object> parametros = new HashMap<>();
+    parametros.put("consecutivo", seleccionado.getConsecutivo());
+    documentosLotes = comercioExteriorEjb.consultarDocumentoLotesContribucionCafetera(parametros);
+    return "";
   }
 
   public void guardar() {
-	try {
-	  documentosLotes = comercioExteriorEjb.guardarDocumentoLotesContribucionCafetera(documentosLotes);
-	  this.addMensajeInfo("Datos de contribución cafetera asignada exitosamente");
-	} catch (Exception ex) {
-	  this.addMensajeError("No se pudieron asignar los datos de contribución cafetera.");
-	}
+    try {
+      documentosLotes = comercioExteriorEjb.guardarDocumentoLotesContribucionCafetera(documentosLotes);
+      this.addMensajeInfo("Datos de contribución cafetera asignada exitosamente");
+    } catch (Exception ex) {
+      this.addMensajeError("No se pudieron asignar los datos de contribución cafetera.");
+    }
   }
 
   public boolean isCreacion() {
-	if (this.modo != null && this.modo.equals(Modo.CREAR)) {
-	  return true;
-	} else {
-	  return false;
-	}
+    if (this.modo != null && this.modo.equals(Modo.CREAR)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public Modo getModo() {
+    return modo;
+  }
+
+  public void setModo(Modo modo) {
+    this.modo = modo;
+  }
+
+  public DatoContribucionCafeteraDTO getSeleccionado() {
+    return seleccionado;
+  }
+
+  public void setSeleccionado(DatoContribucionCafeteraDTO seleccionado) {
+    this.seleccionado = seleccionado;
+    this.modo = Modo.EDITAR;
   }
 
   public List<DatoContribucionCafeteraDTO> getListado() {
-	return listado;
+    return listado;
   }
 
   public void setListado(List<DatoContribucionCafeteraDTO> listado) {
-	this.listado = listado;
+    this.listado = listado;
   }
 
   public List<DocumentoLotesContribucionCafeteriaDTO> getDocumentosLotes() {
-	return documentosLotes;
+    return documentosLotes;
   }
 
   public void setDocumentosLotes(List<DocumentoLotesContribucionCafeteriaDTO> documentosLotes) {
-	this.documentosLotes = documentosLotes;
+    this.documentosLotes = documentosLotes;
   }
 
 }
