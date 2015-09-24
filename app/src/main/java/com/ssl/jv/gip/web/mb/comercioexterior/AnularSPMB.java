@@ -1,6 +1,7 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
 import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -10,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
+import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Utilidad;
 import java.util.Date;
@@ -35,23 +37,23 @@ import javax.faces.bean.ViewScoped;
  * @phone 3192594013
  * @version 1.0
  */
-@ManagedBean(name = "anularSolicitudPedidoMB")
+@ManagedBean
 @ViewScoped
-public class AnularSolicitudPedidoMB extends UtilMB {
+public class AnularSPMB extends UtilMB {
 
   /**
    *
    */
   private static final long serialVersionUID = -2780795923623719268L;
 
-  private static final Logger LOGGER = Logger.getLogger(AnularSolicitudPedidoMB.class);
+  private static final Logger LOGGER = Logger.getLogger(AnularSPMB.class);
 
   @EJB
   private ComercioExteriorEJBLocal comercioExteriorEjb;
-
   @ManagedProperty(value = "#{aplicacionMB}")
   private AplicacionMB appMB;
-
+  @ManagedProperty(value = "#{menuMB}")
+  private MenuMB menu;
   private final Integer language = AplicacionMB.SPANISH;
   /**
    * Consecutivo por el cual se va a realizar la busqueda
@@ -94,7 +96,10 @@ public class AnularSolicitudPedidoMB extends UtilMB {
   public void anularSolicitudPedido() {
     LOGGER.debug("Metodo: <<anularSolicitudPedido>>");
     try {
-      comercioExteriorEjb.anularSolicitudPedido(seleccionado);
+      LogAuditoria auditoria = new LogAuditoria();
+      auditoria.setIdUsuario(menu.getUsuario().getId());
+      auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
+      comercioExteriorEjb.anularDocumentoComercioExterior(seleccionado, auditoria);
       listaDocumentos.remove(seleccionado);
       this.addMensajeInfo("listMsgs", AplicacionMB.getMessage("spaMsgExito", language));
     } catch (EJBTransactionRolledbackException e) {

@@ -240,7 +240,7 @@
     <!-- Comercio Exterior / Anular solicitud de pedido-->
     <navigation-case>
       <from-outcome>listado_SP_Anular</from-outcome>
-      <to-view-id>/ui/comercioexterior/anularSolicitudPedido.xhtml</to-view-id>
+      <to-view-id>/ui/comercioexterior/anularSP.xhtml</to-view-id>
       <redirect/>
     </navigation-case>
     <navigation-case>

@@ -41,7 +41,7 @@
                 styleClass="negrita"/>
               <h:outputText
                 id="filtroFechaActual"
-                value="#{anularSolicitudPedidoMB.fechaActual}">
+                value="#{anularSPMB.fechaActual}">
                 <f:convertDateTime 
                   pattern="dd/MM/yyyy hh:mm:ss a"/>
               </h:outputText>
@@ -51,14 +51,14 @@
                 styleClass="negrita"/>
               <p:inputText 
                 id="filtroConsecutivoDocumento" 
-                value="#{anularSolicitudPedidoMB.consecutivoDocumento}" 
+                value="#{anularSPMB.consecutivoDocumento}" 
                 maxlength="40" 
                 label=""/>
               <f:facet
                 name="footer">
                 <p:commandButton
                   value="#{msg.spaFilterBtnBuscar}"
-                  actionListener="#{anularSolicitudPedidoMB.buscar()}"
+                  actionListener="#{anularSPMB.buscar()}"
                   update="tblDocumentos"/>
               </f:facet>
             </p:panelGrid>
@@ -68,7 +68,7 @@
             id="tblDocumentos"
             var="documento" 
             widgetVar="tblDocumentos" 
-            value="#{anularSolicitudPedidoMB.listaDocumentos}" 
+            value="#{anularSPMB.listaDocumentos}" 
             rows="10"
             emptyMessage="#{msg.generalNoDatos}" 
             paginator="true"
@@ -107,7 +107,7 @@
               <p:commandButton 
                 icon="ui-icon-pencil" 
                 title="#{msg.spaBtnAnular}"
-                actionListener="#{anularSolicitudPedidoMB.seleccionarSolicitudPedido(documento)}"
+                actionListener="#{anularSPMB.seleccionarSolicitudPedido(documento)}"
                 oncomplete="PF('dlgConfirmacion').show()"
                 update=":dlgConfirmacion">
               </p:commandButton>
@@ -164,7 +164,7 @@
       modal="true">
       <p:ajax 
         event="close" 
-        listener="#{anularSolicitudPedidoMB.cancelar()}" />
+        listener="#{anularSPMB.cancelar()}" />
       <h:form
         id="formaAnular"
         prependId="false">
@@ -174,21 +174,21 @@
             columns="1" 
             cellpadding="10">
             <h:outputText
-              value="#{anularSolicitudPedidoMB.mensajeAdvertencia}" />
+              value="#{anularSPMB.mensajeAdvertencia}" />
           </h:panelGrid>
         </p:panel>
         <p:commandButton 
           value="#{msg.generalConfirmar}" 
           styleClass="ui-confirmdialog-yes" 
           icon="ui-icon-check" 
-          actionListener="#{anularSolicitudPedidoMB.anularSolicitudPedido()}"
+          actionListener="#{anularSPMB.anularSolicitudPedido()}"
           oncomplete="PF('dlgConfirmacion').hide()"
           update=":forma:pnlTab:tblDocumentos :forma:msgs"/>
         <p:commandButton 
           value="#{msg.generalCancelar}" 
           styleClass="ui-confirmdialog-no" 
           icon="ui-icon-close" 
-          actionListener="#{anularSolicitudPedidoMB.cancelar()}"
+          actionListener="#{anularSPMB.cancelar()}"
           oncomplete="PF('dlgConfirmacion').hide()"/>
       </h:form>          
     </p:dialog>

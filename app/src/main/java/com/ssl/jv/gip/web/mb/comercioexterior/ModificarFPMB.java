@@ -100,7 +100,7 @@ public class ModificarFPMB extends UtilMB {
 
   public String verDetalle(Documento selected) {
     this.fp = comercioExteriorEJB.consultarDocumentoComercioExterior(selected.getId());
-    this.productosFP = comercioExteriorEJB.consultarProductosFP(this.fp.getId());
+    this.productosFP = comercioExteriorEJB.consultarProductosDocumentoComercioExterior(this.fp.getId());
     this.recalcularTotalesLista();
     this.modo = Modo.EDITAR;
     this.consultarSaldosInventarioComercioExterior();

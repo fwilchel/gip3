@@ -413,6 +413,13 @@ public interface ComercioExteriorEJBLocal {
 	 * @param fp
 	 * @return
 	 */
-	List<ProductosXDocumento> consultarProductosFP(Long sp);
+	List<ProductosXDocumento> consultarProductosDocumentoComercioExterior(Long fp);
 
+    /**
+     * 
+     * @param documento
+   * @param auditoria
+     * @throws Exception 
+     */
+    void anularDocumentoComercioExterior(Documento documento, LogAuditoria auditoria) throws Exception;
 }
