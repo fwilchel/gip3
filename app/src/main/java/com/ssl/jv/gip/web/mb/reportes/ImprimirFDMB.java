@@ -142,7 +142,7 @@ public class ImprimirFDMB extends UtilMB {
 		try {
 			Hashtable<String, String> parametrosR = new Hashtable<>();
 			parametrosR.put("tipo", "pdf");
-			String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/report2.jasper");
+			String reporte = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes/FD2.jasper");
 			ByteArrayOutputStream os = (ByteArrayOutputStream) com.ssl.jv.gip.util.GeneradorReportes.generar(parametrosR, reporte, null, null, null, parametros, ds);
 			reportePDF = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "application/pdf ", fdDTO.getConsecutivoDocumento() + "_" + TIPO_IMPRESION + ".pdf");
 		} catch (Exception e) {
