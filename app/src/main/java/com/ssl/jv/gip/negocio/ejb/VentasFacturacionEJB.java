@@ -593,6 +593,9 @@ public class VentasFacturacionEJB implements VentasFacturacionEJBLocal {
 			auditoria.setAccion("CRE");
 			auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
 			auditoria.setIdRegTabla(factura.getId());
+            auditoria.setCampo("Estado");
+            auditoria.setValorAnterior(null);
+            auditoria.setValorNuevo(factura.getConsecutivoDocumento());
 			auditoria = logAuditoriaDAO.add(auditoria);
 			LOGGER.debug("Log de auditoria creado con id: " + auditoria.getIdLog());
 			LOGGER.debug("Crear los productos para la factura");
