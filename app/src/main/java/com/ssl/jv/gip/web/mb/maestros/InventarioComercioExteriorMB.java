@@ -53,8 +53,8 @@ public class InventarioComercioExteriorMB extends UtilMB {
   private String idUsuario;
   private String sku;
   private Modo modo;
-  private List<MovimientosInventarioComext> historicoMovimientos;
-  private List<MovimientosInventarioComext> nuevosMovimientos;
+  private List<MovimientosInventarioComext> movimientosInventario;
+  private List<MovimientosInventarioComext> movimientosInventarioNuevos;
   private ProductosInventarioFiltroDTO productosInventarioFiltroDTO;
   private List<ProductosInventario> productos;
   private List<SelectItem> categoriasInventarios;
@@ -64,10 +64,10 @@ public class InventarioComercioExteriorMB extends UtilMB {
   public void init() {
     modo = Modo.LISTAR;
     idUsuario = menu.getUsuario().getId();
-    historicoMovimientos = new ArrayList<>();
+    movimientosInventario = new ArrayList<>();
     productosInventarioFiltroDTO = new ProductosInventarioFiltroDTO();
     productos = new ArrayList<>();
-    nuevosMovimientos = new ArrayList<>();
+    movimientosInventarioNuevos = new ArrayList<>();
     cargarCategoriasInventario();
     consultarSaldosInventarioComercioExterior();
   }
@@ -77,12 +77,12 @@ public class InventarioComercioExteriorMB extends UtilMB {
   }
 
   public void reset() {
-    nuevosMovimientos = new ArrayList<>();
+    movimientosInventarioNuevos = new ArrayList<>();
   }
 
   public void consultarMovimientosInventarioComExt(ActionEvent actionEvent) {
     try {
-      historicoMovimientos = maestrosEJBLocal.consultarMovimientosInventarioComextsPorSku(sku);
+      movimientosInventario = maestrosEJBLocal.consultarMovimientosInventarioComextsPorSku(sku);
     } catch (Exception e) {
       LOGGER.error(e);
       Exception unrollException = (Exception) this.unrollException(e, ConstraintViolationException.class);
@@ -111,7 +111,7 @@ public class InventarioComercioExteriorMB extends UtilMB {
 
   public void agregarProducto(ProductosInventario producto) {
     if (producto != null) {
-      for (MovimientosInventarioComext m : nuevosMovimientos) {
+      for (MovimientosInventarioComext m : movimientosInventarioNuevos) {
         if (m.getProductosInventarioComext().getProductosInventario().getId().equals(producto.getId())) {
           addMensajeWarn("El producto " + producto.getSku() + " ya se encuentra en la lista.");
           break;
@@ -125,27 +125,28 @@ public class InventarioComercioExteriorMB extends UtilMB {
       movimiento.setFecha(new Date());
       BigDecimal ultimoSaldo = ultimosSaldosInventario.get(producto.getProductosInventarioComext().getIdProducto());
       movimiento.setSaldo(ultimoSaldo != null ? ultimoSaldo : BigDecimal.ZERO);
-      nuevosMovimientos.add(movimiento);
+      movimientosInventarioNuevos.add(movimiento);
       productos.remove(producto);
     }
   }
 
   public void eliminarMovimiento(MovimientosInventarioComext movimiento) {
     if (movimiento != null) {
-      nuevosMovimientos.remove(movimiento);
+      movimientosInventarioNuevos.remove(movimiento);
     }
   }
 
   public void guardarMovimientos() {
     try {
-      if (nuevosMovimientos.isEmpty()) {
+      if (movimientosInventarioNuevos.isEmpty()) {
         this.addMensajeError("No se han incluído productos");
+        return;
       }
       // auditoria
       LogAuditoria auditoria = new LogAuditoria();
       auditoria.setIdUsuario(menu.getUsuario().getId());
       auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
-      maestrosEJBLocal.guardarMovimientosInventarioComercioExterior(nuevosMovimientos, auditoria);
+      maestrosEJBLocal.guardarMovimientosInventarioComercioExterior(movimientosInventarioNuevos, auditoria);
       reset();
       consultarSaldosInventarioComercioExterior();
       addMensajeInfo("Se han creado correctamente las movimientos");
@@ -238,12 +239,12 @@ public class InventarioComercioExteriorMB extends UtilMB {
     this.menu = menu;
   }
 
-  public List<MovimientosInventarioComext> getHistoricoMovimientos() {
-    return historicoMovimientos;
+  public List<MovimientosInventarioComext> getMovimientosInventario() {
+    return movimientosInventario;
   }
 
-  public void setHistoricoMovimientos(List<MovimientosInventarioComext> historicoMovimientos) {
-    this.historicoMovimientos = historicoMovimientos;
+  public void setMovimientosInventario(List<MovimientosInventarioComext> movimientosInventario) {
+    this.movimientosInventario = movimientosInventario;
   }
 
   public ProductosInventarioFiltroDTO getProductosInventarioFiltroDTO() {
@@ -270,12 +271,12 @@ public class InventarioComercioExteriorMB extends UtilMB {
     this.categoriasInventarios = categoriasInventarios;
   }
 
-  public List<MovimientosInventarioComext> getNuevosMovimientos() {
-    return nuevosMovimientos;
+  public List<MovimientosInventarioComext> getMovimientosInventarioNuevos() {
+    return movimientosInventarioNuevos;
   }
 
-  public void setNuevosMovimientos(List<MovimientosInventarioComext> nuevosMovimientos) {
-    this.nuevosMovimientos = nuevosMovimientos;
+  public void setMovimientosInventarioNuevos(List<MovimientosInventarioComext> movimientosInventarioNuevos) {
+    this.movimientosInventarioNuevos = movimientosInventarioNuevos;
   }
 
 }
