@@ -1,23 +1,23 @@
 package com.ssl.jv.gip.web.mb.comercioexterior;
 
-import com.ssl.jv.gip.jpa.pojo.Documento;
-import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.faces.bean.ManagedProperty;
 
 import org.apache.log4j.Logger;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
+import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
 import com.ssl.jv.gip.web.mb.AplicacionMB;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
 import com.ssl.jv.gip.web.util.Utilidad;
-import java.util.Date;
-import java.util.List;
-import javax.ejb.EJBTransactionRolledbackException;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 /**
  * <p>
@@ -37,7 +37,7 @@ import javax.faces.bean.ViewScoped;
  * @phone 3192594013
  * @version 1.0
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class AnularSPMB extends UtilMB {
 
@@ -45,16 +45,14 @@ public class AnularSPMB extends UtilMB {
    *
    */
   private static final long serialVersionUID = -2780795923623719268L;
-
   private static final Logger LOGGER = Logger.getLogger(AnularSPMB.class);
-
+  private final Integer language = AplicacionMB.SPANISH;
   @EJB
   private ComercioExteriorEJBLocal comercioExteriorEjb;
   @ManagedProperty(value = "#{aplicacionMB}")
   private AplicacionMB appMB;
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
-  private final Integer language = AplicacionMB.SPANISH;
   /**
    * Consecutivo por el cual se va a realizar la busqueda
    */
@@ -68,6 +66,9 @@ public class AnularSPMB extends UtilMB {
    */
   private Documento seleccionado;
 
+  public AnularSPMB() {
+  }
+
   @PostConstruct
   public void init() {
     LOGGER.debug("Metodo: <<init>>");
@@ -78,6 +79,8 @@ public class AnularSPMB extends UtilMB {
    */
   public void buscar() {
     LOGGER.debug("Metodo: <<buscar>>");
+    // traer documentos q no esten en estado ANULADO, CERRADO.
+    // y q no se haya generado la FP
     setListaDocumentos(comercioExteriorEjb.consultarSolicitudesPedidoPorAnular(getConsecutivoDocumento()));
   }
 
@@ -138,60 +141,34 @@ public class AnularSPMB extends UtilMB {
     }
   }
 
-  /**
-   *
-   * @return
-   */
-  public Date getFechaActual() {
-    LOGGER.debug("Metodo: <<getFechaActual>>");
-    return new Date();
-  }
-
-  /**
-   * @param appMB the appMB to set
-   */
   public void setAppMB(AplicacionMB appMB) {
     this.appMB = appMB;
   }
 
-  /**
-   * @return the consecutivoDocumento
-   */
+  public void setMenu(MenuMB menu) {
+    this.menu = menu;
+  }
+
   public String getConsecutivoDocumento() {
     return consecutivoDocumento;
   }
 
-  /**
-   * @param consecutivoDocumento the consecutivoDocumento to set
-   */
   public void setConsecutivoDocumento(String consecutivoDocumento) {
     this.consecutivoDocumento = consecutivoDocumento;
   }
 
-  /**
-   * @return the listaDocumentos
-   */
   public List<Documento> getListaDocumentos() {
     return listaDocumentos;
   }
 
-  /**
-   * @param listaDocumentos the listaDocumentos to set
-   */
   public void setListaDocumentos(List<Documento> listaDocumentos) {
     this.listaDocumentos = listaDocumentos;
   }
 
-  /**
-   * @return the seleccionado
-   */
   public Documento getSeleccionado() {
     return seleccionado;
   }
 
-  /**
-   * @param seleccionado the seleccionado to set
-   */
   public void setSeleccionado(Documento seleccionado) {
     this.seleccionado = seleccionado;
   }
