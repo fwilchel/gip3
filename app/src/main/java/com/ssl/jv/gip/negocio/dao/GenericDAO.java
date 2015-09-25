@@ -117,24 +117,6 @@ public class GenericDAO<T> {
     this.em = em;
   }
 
-  public <T> List<T> buscarPorConsultaNombrada(String consultaNombrada, Map<String, Object> parametros) {
-    LOGGER.info("Entro a: <<buscarPorConsultaNombrada>> consultaNombrada ->> {" + consultaNombrada + "}");
-    try {
-      Query consulta = em.createNamedQuery(consultaNombrada);
-      if (parametros != null) {
-        for (String key : parametros.keySet()) {
-          consulta.setParameter(key, parametros.get(key));
-        }
-      }
-      List<T> o = consulta.getResultList();
-      LOGGER.info("Sale de <<buscarPorConsultaNombrada>> con resultado ->> {" + o + "}");
-      return o;
-    } catch (Exception ebd) {
-      LOGGER.error("Error en <<buscarPorConsultaNombrada>>", ebd.getCause());
-      throw new PersistenceException(ebd);
-    }
-  }
-
   public <T> T buscarRegistroPorConsultaNombrada(String consultaNombrada, Map<String, Object> parametros) {
     LOGGER.info("Entro a: <<buscarRegistroPorConsultaNombrada>> consultaNombrada ->> {" + consultaNombrada + "}");
     try {
@@ -153,62 +135,17 @@ public class GenericDAO<T> {
     }
   }
 
-  public <T> List<T> buscarPorConsultaJPQL(String consultaJPQL, Map<String, Object> parametros) {
-    LOGGER.info("Entro a: <<buscarPorConsultaJPQL>> consultaJPQL ->> {" + consultaJPQL + "}");
-    try {
-      Query consulta = em.createQuery(consultaJPQL);
-      if (parametros != null) {
-        for (String key : parametros.keySet()) {
-          consulta.setParameter(key, parametros.get(key));
-        }
-      }
-      List<T> o = consulta.getResultList();
-      LOGGER.info("Sale de <<buscarPorConsultaJPQL>> con resultado ->> {" + o + "}");
-      return o;
-    } catch (Exception ebd) {
-      LOGGER.error("Error en <<buscarPorConsultaJPQL>>", ebd.getCause());
-      throw new PersistenceException(ebd);
-    }
-  }
-
   public <T> T buscarRegistroPorConsultaJPQL(String consultaJPQL, Map<String, Object> parametros) {
     LOGGER.info("Entro a: <<buscarRegistroPorConsultaJPQL>> consultaNombrada ->> {" + consultaJPQL + "}");
-    try {
-      Query consulta = em.createQuery(consultaJPQL);
-      if (parametros != null) {
-        for (String key : parametros.keySet()) {
-          consulta.setParameter(key, parametros.get(key));
-        }
+    Query consulta = em.createQuery(consultaJPQL);
+    if (parametros != null) {
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
       }
-      T o = (T) consulta.getSingleResult();
-      LOGGER.info("Sale de <<buscarRegistroPorConsultaJPQL>> con resultado ->> {" + o + "}");
-      return o;
-    } catch (Exception ebd) {
-      LOGGER.error("Error en <<buscarRegistroPorConsultaJPQL>>", ebd.getCause());
-      throw new PersistenceException(ebd);
     }
-  }
-
-  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Object... parametros) {
-    LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
-    try {
-      Query consulta = em.createNativeQuery(consultaNativa);
-      if (parametros != null) {
-        int i = 1;
-        for (Object param : parametros) {
-          if (param != null) {
-            consulta.setParameter(i, param);
-          }
-          i++;
-        }
-      }
-      List<T> o = consulta.getResultList();
-      LOGGER.info("Sale de <<buscarPorConsultaNativa>> con resultado ->> {" + o + "}");
-      return o;
-    } catch (Exception ebd) {
-      LOGGER.error("Error en <<buscarPorConsultaNativa>>", ebd.getCause());
-      throw new PersistenceException(ebd);
-    }
+    T o = (T) consulta.getSingleResult();
+    LOGGER.info("Sale de <<buscarRegistroPorConsultaJPQL>> con resultado ->> {" + o + "}");
+    return o;
   }
 
   public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Object... parametros) {
@@ -226,102 +163,146 @@ public class GenericDAO<T> {
     return (T) q.getSingleResult();
   }
 
-  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Class<T> tipo, Object... parametros) {
-    LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
-    try {
-      Query consulta = em.createNativeQuery(consultaNativa, tipo);
-      if (parametros != null) {
-        int i = 1;
-        for (Object param : parametros) {
-          if (param != null) {
-            consulta.setParameter(i, param);
-          }
-          i++;
-        }
-      }
-      List<T> o = consulta.getResultList();
-      LOGGER.info("Sale de <<buscarPorConsultaNativa>> con resultado ->> {" + o + "}");
-      return o;
-    } catch (Exception ebd) {
-      LOGGER.error("Error en <<buscarPorConsultaNativa>>", ebd.getCause());
-      throw new PersistenceException(ebd);
-    }
-  }
-
   public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Class<T> tipo, Object... parametros) {
     LOGGER.info("Entro a: <<buscarRegistroPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
-    try {
-      Query consulta = em.createNativeQuery(consultaNativa, tipo);
-      if (parametros != null) {
-        int i = 1;
-        for (Object param : parametros) {
-          if (param != null) {
-            consulta.setParameter(i, param);
-          }
-          i++;
+    Query consulta = em.createNativeQuery(consultaNativa, tipo);
+    if (parametros != null) {
+      int i = 1;
+      for (Object param : parametros) {
+        if (param != null) {
+          consulta.setParameter(i, param);
         }
+        i++;
       }
-      T o = (T) consulta.getSingleResult();
-      LOGGER.info("Sale de <<buscarRegistroPorConsultaNativa>> con resultado ->> {" + o + "}");
-      return o;
-    } catch (Exception ebd) {
-      LOGGER.error("Error en <<buscarRegistroPorConsultaNativa>>", ebd.getCause());
-      throw new PersistenceException(ebd);
     }
+    T o = (T) consulta.getSingleResult();
+    LOGGER.info("Sale de <<buscarRegistroPorConsultaNativa>> con resultado ->> {" + o + "}");
+    return o;
+  }
+
+  public <T> List<T> buscarPorConsultaNombrada(String consultaNombrada, Map<String, Object> parametros) {
+    LOGGER.info("Entro a: <<buscarPorConsultaNombrada>> consultaNombrada ->> {" + consultaNombrada + "}");
+    Query consulta = em.createNamedQuery(consultaNombrada);
+    if (parametros != null) {
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+    }
+    List<T> o = consulta.getResultList();
+    LOGGER.info("Sale de <<buscarPorConsultaNombrada>> con resultado ->> {" + o + "}");
+    return o;
+  }
+
+  public <T> List<T> buscarPorConsultaJPQL(String consultaJPQL, Map<String, Object> parametros) {
+    LOGGER.info("Entro a: <<buscarPorConsultaJPQL>> consultaJPQL ->> {" + consultaJPQL + "}");
+    Query consulta = em.createQuery(consultaJPQL);
+    if (parametros != null) {
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+    }
+    List<T> o = consulta.getResultList();
+    LOGGER.info("Sale de <<buscarPorConsultaJPQL>> con resultado ->> {" + o + "}");
+    return o;
+  }
+
+  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Map<String, Object> parametros) {
+    LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
+    Query consulta = em.createNativeQuery(consultaNativa);
+    if (parametros != null) {
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+    }
+    List<T> o = consulta.getResultList();
+    LOGGER.info("Sale de <<buscarPorConsultaNativa>> con resultado ->> {" + o + "}");
+    return o;
+  }
+
+  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Class<T> tipo, Map<String, Object> parametros) {
+    LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
+    Query consulta = em.createNativeQuery(consultaNativa, tipo);
+    if (parametros != null) {
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
+      }
+    }
+    List<T> o = consulta.getResultList();
+    LOGGER.info("Sale de <<buscarPorConsultaNativa>> con resultado ->> {" + o + "}");
+    return o;
+  }
+
+  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Object... parametros) {
+    LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
+    Query consulta = em.createNativeQuery(consultaNativa);
+    if (parametros != null) {
+      int i = 1;
+      for (Object param : parametros) {
+        if (param != null) {
+          consulta.setParameter(i, param);
+        }
+        i++;
+      }
+    }
+    List<T> o = consulta.getResultList();
+    LOGGER.info("Sale de <<buscarPorConsultaNativa>> con resultado ->> {" + o + "}");
+    return o;
+  }
+
+  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Class<T> tipo, Object... parametros) {
+    LOGGER.info("Entro a: <<buscarPorConsultaNativa>> consultaNativa ->> {" + consultaNativa + "}");
+    Query consulta = em.createNativeQuery(consultaNativa, tipo);
+    if (parametros != null) {
+      int i = 1;
+      for (Object param : parametros) {
+        if (param != null) {
+          consulta.setParameter(i, param);
+        }
+        i++;
+      }
+    }
+    List<T> o = consulta.getResultList();
+    LOGGER.info("Sale de <<buscarPorConsultaNativa>> con resultado ->> {" + o + "}");
+    return o;
   }
 
   public int ejecutarConsultaNombrada(String nombreConsulta, Map<String, Object> parametros) throws PersistenceException {
     LOGGER.info("Entro a: <<ejecutarConsultaNombrada>> consultaJPQL ->> {" + nombreConsulta + "}");
-    try {
-      Query consulta = em.createNamedQuery(nombreConsulta);
-      if (parametros != null) {
-        for (String key : parametros.keySet()) {
-          consulta.setParameter(key, parametros.get(key));
-        }
+    Query consulta = em.createNamedQuery(nombreConsulta);
+    if (parametros != null) {
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
       }
-      int registrosAfectados = consulta.executeUpdate();
-      LOGGER.info("Sale de <<ejecutarConsultaNombrada>> con resultado ->> {" + registrosAfectados + "} registro(s) afectado(s)");
-      return registrosAfectados;
-    } catch (Exception ebd) {
-      LOGGER.error("Error en <<ejecutarConsultaNombrada>>", ebd.getCause());
-      throw new PersistenceException(ebd);
     }
+    int registrosAfectados = consulta.executeUpdate();
+    LOGGER.info("Sale de <<ejecutarConsultaNombrada>> con resultado ->> {" + registrosAfectados + "} registro(s) afectado(s)");
+    return registrosAfectados;
   }
 
   public int ejecutarConsultaJPQL(String consultaJPQL, Map<String, Object> parametros) throws PersistenceException {
     LOGGER.info("Entro a: <<ejecutarConsultaJPQL>> consultaJPQL ->> {" + consultaJPQL + "}");
-    try {
-      Query consulta = em.createQuery(consultaJPQL);
-      if (parametros != null) {
-        for (String key : parametros.keySet()) {
-          consulta.setParameter(key, parametros.get(key));
-        }
+    Query consulta = em.createQuery(consultaJPQL);
+    if (parametros != null) {
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
       }
-      int registrosAfectados = consulta.executeUpdate();
-      LOGGER.info("Sale de <<ejecutarConsultaJPQL>> con resultado ->> {" + registrosAfectados + "} registro(s) afectado(s)");
-      return registrosAfectados;
-    } catch (Exception ebd) {
-      LOGGER.error("Error en <<ejecutarConsultaJPQL>>", ebd.getCause());
-      throw new PersistenceException(ebd);
     }
+    int registrosAfectados = consulta.executeUpdate();
+    LOGGER.info("Sale de <<ejecutarConsultaJPQL>> con resultado ->> {" + registrosAfectados + "} registro(s) afectado(s)");
+    return registrosAfectados;
   }
 
   public int ejecutarConsultaNativa(String consultaNativa, Map<String, Object> parametros) throws PersistenceException {
     LOGGER.info("Entro a: <<ejecutarConsultaNativa>> consultaJPQL ->> {" + consultaNativa + "}");
-    try {
-      Query consulta = em.createNativeQuery(consultaNativa);
-      if (parametros != null) {
-        for (String key : parametros.keySet()) {
-          consulta.setParameter(key, parametros.get(key));
-        }
+    Query consulta = em.createNativeQuery(consultaNativa);
+    if (parametros != null) {
+      for (String key : parametros.keySet()) {
+        consulta.setParameter(key, parametros.get(key));
       }
-      int registrosAfectados = consulta.executeUpdate();
-      LOGGER.info("Sale de <<ejecutarConsultaNativa>> con resultado ->> {" + registrosAfectados + "} registro(s) afectado(s)");
-      return registrosAfectados;
-    } catch (Exception ebd) {
-      LOGGER.error("Error en <<ejecutarConsultaNativa>>", ebd.getCause());
-      throw new PersistenceException(ebd);
     }
+    int registrosAfectados = consulta.executeUpdate();
+    LOGGER.info("Sale de <<ejecutarConsultaNativa>> con resultado ->> {" + registrosAfectados + "} registro(s) afectado(s)");
+    return registrosAfectados;
   }
 
 }

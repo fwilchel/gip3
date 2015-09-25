@@ -27,21 +27,21 @@ public interface IGenericDAO<T> {
 
   public List<?> findAllActivoBoolean();
 
-  public <T> List<T> buscarPorConsultaNombrada(String consultaNombrada, Map<String, Object> parametros);
-
   public <T> T buscarRegistroPorConsultaNombrada(String consultaNombrada, Map<String, Object> parametros);
-
-  public <T> List<T> buscarPorConsultaJPQL(String consultaJPQL, Map<String, Object> parametros);
 
   public <T> T buscarRegistroPorConsultaJPQL(String consultaJPQL, Map<String, Object> parametros);
 
-  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Object... parametros);
+  public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Class<T> tipo, Object... parametros);
 
   public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Object... parametros);
 
-  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Class<T> tipo, Object... parametros);
+  public <T> List<T> buscarPorConsultaNombrada(String consultaNombrada, Map<String, Object> parametros);
 
-  public <T> T buscarRegistroPorConsultaNativa(String consultaNativa, Class<T> tipo, Object... parametros);
+  public <T> List<T> buscarPorConsultaJPQL(String consultaJPQL, Map<String, Object> parametros);
+
+  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Map<String, Object> parametros);
+
+  public <T> List<T> buscarPorConsultaNativa(String consultaNativa, Class<T> tipo, Map<String, Object> parametros);
 
   public int ejecutarConsultaNombrada(String consultaNombrada, Map<String, Object> parametros);
 

@@ -639,9 +639,6 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
         }
       }
     }
-    Map<String, Object> parametros = new HashMap<>();
-    parametros.put("funcionalidad", 126L); // Autorizar Factura Proforma
-    parametros.put("documento", fp.getId());
     StringBuilder sql = new StringBuilder();
     sql.append("SELECT log_auditoria.valor_anterior ");
     sql.append("FROM log_auditoria ");
