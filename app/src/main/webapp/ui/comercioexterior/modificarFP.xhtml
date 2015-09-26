@@ -41,6 +41,28 @@
             paginatorPosition="bottom"
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
             rowsPerPageTemplate="10,20,50,100">
+            <f:facet
+              name="header">
+              <div align="right">
+                <p:outputPanel>
+                  <p:outputLabel 
+                    value="#{msg.IngresarNumPedidoFactura}: "
+                    for="consecutivo" />
+                  <p:spacer
+                    height="5"/>
+                  <p:inputText 
+                    value="#{modificarFPMB.filtro.consecutivoDocumento}"
+                    id="consecutivo" 
+                    required="false" />
+                  <p:spacer
+                    height="5"/>
+                  <p:commandButton 
+                    value="#{msg.documentoEjecutarBusqueda}"
+                    update=":tabPanel:forma:tablaDatos" 
+                    actionListener="#{modificarFPMB.consultarListaFP()}" />
+                </p:outputPanel>
+              </div>
+            </f:facet>
             <p:column 
               style="width:32px;text-align:center">
               <p:commandButton 
@@ -282,7 +304,7 @@
                 <p:message 
                   for="dtmFechaDespacho"/>
               </h:panelGroup>
-              <p:outputLabel 
+<!--              <p:outputLabel 
                 value="#{msg.Canal}" 
                 for="idUbicacion"
                 styleClass="negrita" />
@@ -319,7 +341,7 @@
                 <p:message 
                   for="diasVigencia" 
                   id="msgDiasVigencia"/>
-              </h:panelGroup>
+              </h:panelGroup>-->
             </p:panelGrid>
             <p:dataTable 
               id="tablaProductos"

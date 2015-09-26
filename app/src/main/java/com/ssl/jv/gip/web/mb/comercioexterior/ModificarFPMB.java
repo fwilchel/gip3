@@ -88,7 +88,7 @@ public class ModificarFPMB extends UtilMB {
   public void init() {
     this.filtro = new FiltroDocumentoDTO();
     this.modo = Modo.LISTAR;
-    this.consultarListaFP();
+//    this.consultarListaFP();
   }
 
   public void consultarListaFP() {
@@ -112,10 +112,10 @@ public class ModificarFPMB extends UtilMB {
   }
 
   public void recalcularTotales() {
-	this.fp.getDocumentoXNegociacion().setCostoEntrega(this.fp.getDocumentoXNegociacion().getCostoEntrega() != null ? this.fp.getDocumentoXNegociacion().getCostoEntrega() : BigDecimal.ZERO);
-	this.fp.getDocumentoXNegociacion().setCostoSeguro(this.fp.getDocumentoXNegociacion().getCostoSeguro() != null ? this.fp.getDocumentoXNegociacion().getCostoSeguro() : BigDecimal.ZERO);
-	this.fp.getDocumentoXNegociacion().setCostoFlete(this.fp.getDocumentoXNegociacion().getCostoFlete() != null ? this.fp.getDocumentoXNegociacion().getCostoFlete() : BigDecimal.ZERO);
-	this.fp.getDocumentoXNegociacion().setOtrosGastos(this.fp.getDocumentoXNegociacion().getOtrosGastos() != null ? this.fp.getDocumentoXNegociacion().getOtrosGastos() : BigDecimal.ZERO);
+    this.fp.getDocumentoXNegociacion().setCostoEntrega(this.fp.getDocumentoXNegociacion().getCostoEntrega() != null ? this.fp.getDocumentoXNegociacion().getCostoEntrega() : BigDecimal.ZERO);
+    this.fp.getDocumentoXNegociacion().setCostoSeguro(this.fp.getDocumentoXNegociacion().getCostoSeguro() != null ? this.fp.getDocumentoXNegociacion().getCostoSeguro() : BigDecimal.ZERO);
+    this.fp.getDocumentoXNegociacion().setCostoFlete(this.fp.getDocumentoXNegociacion().getCostoFlete() != null ? this.fp.getDocumentoXNegociacion().getCostoFlete() : BigDecimal.ZERO);
+    this.fp.getDocumentoXNegociacion().setOtrosGastos(this.fp.getDocumentoXNegociacion().getOtrosGastos() != null ? this.fp.getDocumentoXNegociacion().getOtrosGastos() : BigDecimal.ZERO);
     this.totalCostos = this.fp.getDocumentoXNegociacion().getCostoEntrega().add(this.fp.getDocumentoXNegociacion().getCostoSeguro()).add(this.fp.getDocumentoXNegociacion().getCostoFlete());
     this.totalNegociacion = totalValorTotal.add(this.totalCostos);
   }
@@ -309,6 +309,14 @@ public class ModificarFPMB extends UtilMB {
    */
   public void setProductosFP(List<ProductosXDocumento> productosFP) {
     this.productosFP = productosFP;
+  }
+
+  public FiltroDocumentoDTO getFiltro() {
+    return filtro;
+  }
+
+  public void setFiltro(FiltroDocumentoDTO filtro) {
+    this.filtro = filtro;
   }
 
   /**
