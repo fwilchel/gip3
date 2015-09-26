@@ -88,7 +88,7 @@ public class ModificarFPMB extends UtilMB {
   public void init() {
     this.filtro = new FiltroDocumentoDTO();
     this.modo = Modo.LISTAR;
-//    this.consultarListaFP();
+    this.consultarListaFP();
   }
 
   public void consultarListaFP() {
