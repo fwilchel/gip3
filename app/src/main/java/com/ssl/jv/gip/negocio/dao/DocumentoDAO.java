@@ -692,52 +692,34 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
 
   @Override
   public List<Documento> consultarDocumentosSolicitudPedido(String consecutivoDocumento) {
-
     List<Documento> listado;
     String sql;
-    try {
-
-	  // Consulta las SPs q est�n en estado Verificado (14) de mercadeo y
-      // Asignada (16) de Caf�,
-      sql = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " + "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " + "JOIN FETCH d.documentoXNegociacions dxn " + "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " + "JOIN FETCH c.metodoPago mp " + "WHERE " + "(d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id=:estado2 and dxn.solicitudCafe = :solicitudCafe) " + "or "
-              + "(d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id=:estado1 and dxn.solicitudCafe = :solicitudMercadeo) " + "AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.observacionDocumento IN (SELECT d3.consecutivoDocumento FROM Documento d3 WHERE d3.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d3.estadosxdocumento.estado.id IN (:estado1, :estado2))) " + "AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
-              + "ORDER BY d.id DESC";
-
-	  // Query anterior
-	  /*
-       * query = "SELECT d FROM Documento d " + "JOIN FETCH d.cliente c " +
-       * "JOIN FETCH d.estadosxdocumento exd " + "JOIN FETCH exd.estado e " +
-       * "JOIN FETCH d.documentoXNegociacions dxn " +
-       * "JOIN FETCH dxn.terminoIncoterm ti " + "JOIN FETCH c.ciudad ciu " +
-       * "JOIN FETCH c.metodoPago mp " +
-       * "WHERE d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id IN (:estado1, :estado2) "
-       * +
-       * " AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.observacionDocumento IN (SELECT d3.consecutivoDocumento FROM Documento d3 WHERE d3.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d3.estadosxdocumento.estado.id IN (:estado1, :estado2)))"
-       * + " AND UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) " +
-       * " ORDER BY d.id DESC"; listado =
-       * em.createQuery(query).setParameter("tipoDocumento", (long)
-       * ConstantesTipoDocumento.SOLICITUD_PEDIDO).setParameter("estado1",
-       * (long) ConstantesDocumento.VERIFICADO).setParameter("estado2", (long)
-       * ConstantesDocumento.APROBADA).setParameter("consecutivo",
-       * consecutivoDocumento.equals("") ? "%" : "%" + consecutivoDocumento +
-       * "%").getResultList();
-       */
-      Query query = em.createQuery(sql);
-      query.setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
-      query.setParameter("estado1", (long) ConstantesDocumento.VERIFICADO);
-      query.setParameter("estado2", (long) ConstantesDocumento.ASIGNADA);
-      if (consecutivoDocumento == null || consecutivoDocumento.equals("")) {
-        query.setParameter("consecutivo", "%");
-      } else {
-        query.setParameter("consecutivo", "%" + consecutivoDocumento.trim() + "%");
-      }
-      query.setParameter("solicitudCafe", true);
-      query.setParameter("solicitudMercadeo", false);
-      listado = query.getResultList();
-    } catch (Exception e) {
-      LOGGER.error(e + "********Error consultando Documentos por Consecutivo de Pedido");
-      return null;
+    // Consulta las SPs q estan en estado Verificado (14) de mercadeo y Asignada (16) de Cafe,
+    sql = "SELECT d FROM Documento d "
+            + "JOIN FETCH d.cliente c "
+            + "JOIN FETCH d.estadosxdocumento exd "
+            + "JOIN FETCH exd.estado e "
+            + "JOIN FETCH d.documentoXNegociacions dxn "
+            + "JOIN FETCH dxn.terminoIncoterm ti "
+            + "JOIN FETCH c.ciudad ciu "
+            + "JOIN FETCH c.metodoPago mp "
+            + "WHERE UPPER(d.consecutivoDocumento) LIKE UPPER(:consecutivo) "
+            + "AND (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id=:verificado and dxn.solicitudCafe = :solicitudCafe) " 
+            + "OR (d.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND e.id=:asignada and dxn.solicitudCafe = :solicitudMercadeo) " 
+            + "AND d.consecutivoDocumento NOT IN (SELECT d2.observacionDocumento FROM Documento d2 WHERE d2.observacionDocumento IN (SELECT d3.consecutivoDocumento FROM Documento d3 WHERE d3.estadosxdocumento.id.idTipoDocumento = :tipoDocumento AND d3.estadosxdocumento.estado.id IN (:verificado, :asignada))) "
+            + "ORDER BY d.id DESC";
+    Query query = em.createQuery(sql);
+    query.setParameter("tipoDocumento", (long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
+    query.setParameter("verificado", (long) ConstantesDocumento.VERIFICADO);
+    query.setParameter("asignada", (long) ConstantesDocumento.ASIGNADA);
+    if (consecutivoDocumento == null || consecutivoDocumento.equals("")) {
+      query.setParameter("consecutivo", "%");
+    } else {
+      query.setParameter("consecutivo", "%" + consecutivoDocumento.trim() + "%");
     }
+    query.setParameter("solicitudCafe", true);
+    query.setParameter("solicitudMercadeo", false);
+    listado = query.getResultList();
     return listado;
   }
 
@@ -922,7 +904,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     List<ProductoImprimirLEDTO> lista = new ArrayList<>();
 
     try {
-	  // String query =
+      // String query =
       // "SELECT DISTINCT f FROM Usuario u INNER JOIN u.role r INNER JOIN r.permisos p INNER JOIN p.funcionalidade f WHERE u.email = :email ORDER BY f.ordenar";
       // String query
       // ="select d from Documento d where id_tipo_documento= :tipo AND id_estado = :estado AND UPPER(consecutivoDocumento) LIKE UPPER( :parametroConseDoc) ORDER BY id DESC";
@@ -964,7 +946,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
           dto.setPallet(objs[8] != null ? new BigDecimal(objs[8].toString()) : null);
           dto.setRegistroSanitario(objs[9] != null ? objs[9].toString() : null);
           dto.setCajasPorPallets(objs[10] != null ? new BigDecimal(objs[10].toString()) : null);
-		  // dto.setNombreIngles(objs[11] != null ?
+          // dto.setNombreIngles(objs[11] != null ?
           // objs[11].toString()
           // : null);
           // dto.setUnidad(objs[12] != null ? objs[12].toString() :
@@ -1064,7 +1046,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   public BigInteger generarListaEmpaque(ListaEmpaqueDTO listaEmpaqueDTO) {
     String sqlSec = "select nextval('documentos_id_seq') AS SEQ";
     BigInteger secuence = (BigInteger) em.createNativeQuery(sqlSec).getSingleResult();
-	// SimpleDateFormat dateFormat = new
+    // SimpleDateFormat dateFormat = new
     // SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     // String fechaoshig =
     // dateFormat.format(listaEmpaqueDTO.getFechaEsperadaEntrega());
@@ -1178,7 +1160,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
             + " documentos.observacion_documento, metodo_pago.descripcion_ingles, doc.solicitud_cafe ,doc.cantidad_estibas ,doc.peso_bruto_estibas," + " documentos.id_ubicacion_origen,documentos.id_ubicacion_destino," + " (select observacion_documento from documentos docu where docu.consecutivo_documento = (select observacion_documento " + " from documentos docu2 where docu2.consecutivo_documento = documentos.observacion_documento)) as observacion_documento2, doc.descripcion" + " FROM documentos"
             + " INNER JOIN clientes cli on documentos.id_cliente=cli.id" + " INNER JOIN estados on documentos.id_estado=estados.id" + " INNER JOIN Documento_x_Negociacion doc on documentos.id=doc.id_documento" + " INNER JOIN termino_incoterm inc on inc.id = doc.id_termino_incoterm" + " INNER JOIN ciudades ciu on ciu.id = cli.id_ciudad" + " INNER JOIN metodo_pago on cli.id_metodo_pago = metodo_pago.id" + " WHERE documentos.id_tipo_documento=" + ConstantesTipoDocumento.FACTURA_PROFORMA;
 
-	// if (parametros.length == 5)//Se envio un nuevo estado
+    // if (parametros.length == 5)//Se envio un nuevo estado
     // {
     // int estado2 = (Integer) ConstantesDocumento.ASIGNADA;
     // sql = sql + " AND documento.id_estado IN (" + estado + "," + estado2
@@ -1406,7 +1388,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   @Override
   public List<CintaMagneticaDTO> consultarCintaTestigoMagnetica(Map<String, Object> parametros) {
 
-	// String fechaIni = (String) parametros[0];
+    // String fechaIni = (String) parametros[0];
     // String fechaFin = (String) parametros[1];
     // Integer tipoDoc = (Integer) parametros[2];
     String fechaIni = (String) parametros.get("fechaInicial");
@@ -1439,7 +1421,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   @Override
   public List<ComprobanteInformeDiarioDTO> consultarComprobanteInformeDiario(Map<String, Object> parametros) {
 
-	// String fechaIni = (String) parametros[0];
+    // String fechaIni = (String) parametros[0];
     // String fechaFin = (String) parametros[1];
     // Integer tipoDoc = (Integer) parametros[2];
     String fechaIni = (String) parametros.get("fechaInicial");
@@ -1487,7 +1469,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
             + " inner join (select id ,consecutivo_documento,observacion_documento , fecha_generacion from documentos ) d3 on d3.consecutivo_documento = d2.observacion_documento" + " inner join productosxdocumentos pxd  on pxd.id_documento=d3.id" + " where d.id_tipo_documento= :tipoDoc1" + " and d.fecha_generacion between  :fechaIni1 and :fechaFin1" + " and d.id_estado in (12,5) )"
             // + "and d.sitio_entrega <> 'CS' )"
             + " prodVD on prodVD.id_documento=d.id" + " inner join clientes c on c.id=d.id_cliente" + " inner join punto_venta pv on d.id_punto_venta= pv.id" + " inner join productos_inventario pi on pi.id=prodVD.id_producto" + " left outer  join productosxdocumentos pxd2 on pxd2.id_producto=prodVD.id_producto and pxd2.id_documento=d.id" + " where d.id_tipo_documento= :tipoDoc2" + " and d.fecha_generacion between  :fechaIni2 and :fechaFin2" + " and d.id_estado in (12,5)";
-	// + " and d.sitio_entrega <> 'CS'";
+    // + " and d.sitio_entrega <> 'CS'";
     // + " order by d.consecutivo_documento";
 
     lista = em.createNativeQuery(query, ReporteVentaDTO.class).setParameter("fechaIni1", tsfechaIni).setParameter("fechaFin1", tsfechaFin).setParameter("fechaIni2", tsfechaIni).setParameter("fechaFin2", tsfechaFin).setParameter("tipoDoc1", tipoDoc).setParameter("tipoDoc2", tipoDoc).getResultList();
@@ -1586,7 +1568,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
         dto.setObservacionDocumento(objs[30] != null ? objs[30].toString() : null);
         dto.setObservacionesMarcacion2(objs[31] != null ? objs[31].toString() : null);
 
-		// dto.setClientesNit(objs[32] != null ? objs[32].toString()
+        // dto.setClientesNit(objs[32] != null ? objs[32].toString()
         // : null);
         lista.add(dto);
       }
@@ -1599,7 +1581,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   @Override
   public String modificarFacturaProforma(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listado) {
 
-	// if (documento.getIdEstado() == ConstantesDocumento.GENERADO) {
+    // if (documento.getIdEstado() == ConstantesDocumento.GENERADO) {
     //
     // String sql = "UPDATE documentos SET id_estado = " +
     // ConstantesDocumento.ANULADO + " WHERE  observacion_documento = " +
@@ -1985,17 +1967,17 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
     if (filtro != null) {
       // if (filtro.getCliente() != null) {
       from.append("JOIN d.cliente cliente ");
-	  // } 
+      // } 
       // d.ubicacionOrigen ubicacionOrigen
       // if (filtro.getPuntoVenta() != null) {
       from.append("LEFT JOIN d.puntoVenta puntoVenta ");
-	  // }
+      // }
       // if (filtro.getUbicacionOrigen() != null) {
       from.append("LEFT JOIN d.ubicacionOrigen ubicacionOrigen ");
-	  // }
+      // }
       // if (filtro.getUbicacionDestino() != null) {
       from.append("LEFT JOIN d.ubicacionDestino ubicacionDestino ");
-	  // }
+      // }
       // if (filtro.isSolicitudCafe() != null) {
       from.append("LEFT JOIN d.documentoXNegociacions dxn ");
       // }
@@ -2141,7 +2123,7 @@ public class DocumentoDAO extends GenericDAO<Documento> implements DocumentoDAOL
   @Override
   public List<Documento> consultarDocumentosOD(String consecutivoDocumento) {
 
-	// Orden despacho debe listar las SPs en estado asignada solamente para la
+    // Orden despacho debe listar las SPs en estado asignada solamente para la
     // categor�a de Caf�
     List<Documento> listado = new ArrayList<>();
     String query;
