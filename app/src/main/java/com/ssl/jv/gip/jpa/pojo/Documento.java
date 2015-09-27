@@ -164,7 +164,7 @@ public class Documento implements Serializable {
   private List<DocumentoXLotesoic> documentoXLotesoics;
 
   // bi-directional many-to-one association to DocumentoXNegociacion
-  @OneToMany(mappedBy = "documento", fetch=FetchType.LAZY)
+  @OneToMany(mappedBy = "documento", fetch=FetchType.EAGER)
   private List<DocumentoXNegociacion> documentoXNegociacions;
   
   // bi-directional many-to-one association to Estadosxdocumento

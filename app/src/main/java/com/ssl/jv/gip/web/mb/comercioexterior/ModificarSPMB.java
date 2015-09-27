@@ -14,18 +14,22 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import com.ssl.jv.gip.jpa.pojo.Documento;
 import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacion;
-import com.ssl.jv.gip.jpa.pojo.DocumentoXNegociacionPK;
 import com.ssl.jv.gip.jpa.pojo.LogAuditoria;
 import com.ssl.jv.gip.jpa.pojo.Moneda;
 import com.ssl.jv.gip.jpa.pojo.ProductosXClienteComext;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumento;
 import com.ssl.jv.gip.jpa.pojo.ProductosXDocumentoPK;
 import com.ssl.jv.gip.jpa.pojo.TerminoIncoterm;
-import com.ssl.jv.gip.negocio.dto.DocumentoIncontermDTO;
+import com.ssl.jv.gip.jpa.pojo.Ubicacion;
+import com.ssl.jv.gip.negocio.dto.FiltroDocumentoDTO;
 import com.ssl.jv.gip.negocio.ejb.ComercioExteriorEJBLocal;
+import com.ssl.jv.gip.negocio.ejb.ComunEJBLocal;
 import com.ssl.jv.gip.web.mb.MenuMB;
 import com.ssl.jv.gip.web.mb.UtilMB;
+import com.ssl.jv.gip.web.mb.util.ConstantesDocumento;
+import com.ssl.jv.gip.web.mb.util.ConstantesTipoDocumento;
 import com.ssl.jv.gip.web.util.Modo;
 import com.ssl.jv.gip.web.util.Utilidad;
 
@@ -40,12 +44,15 @@ public class ModificarSPMB extends UtilMB {
   private final MathContext mathContext = new MathContext(3, RoundingMode.HALF_DOWN);
   @EJB
   private ComercioExteriorEJBLocal comercioExteriorEJB;
+  @EJB
+  private ComunEJBLocal comunEJB;
   @ManagedProperty(value = "#{menuMB}")
   private MenuMB menu;
   private Modo modo;
-  private ArrayList<DocumentoIncontermDTO> listaSP = new ArrayList<>();
-  private DocumentoIncontermDTO sp;
-  private List<ProductosXDocumento> productosXDocumento;
+  private FiltroDocumentoDTO filtro;
+  private List<Documento> listaSP = new ArrayList<>();
+  private Documento sp;
+  private List<ProductosXDocumento> productosSP;
   private List<ProductosXClienteComext> productosXCliente;
   private BigDecimal totalCantidad = new BigDecimal(0.00);
   private BigDecimal totalValorTotal = new BigDecimal(0.00);
@@ -61,13 +68,34 @@ public class ModificarSPMB extends UtilMB {
    */
   @PostConstruct
   public void init() {
-    this.listaSP = (ArrayList<DocumentoIncontermDTO>) comercioExteriorEJB.consultarDocumentosSolicitudPedido();
     this.modo = Modo.LISTAR;
+    this.filtro = new FiltroDocumentoDTO();
+    this.consultarListaSP();
   }
 
-  public String verDetalle(DocumentoIncontermDTO selected) {
+  public void consultarListaSP() {
+    filtro.setTipoDocumento(new Long(ConstantesTipoDocumento.SOLICITUD_PEDIDO));
+    filtro.setEstado((long) ConstantesDocumento.ACTIVO, (long) ConstantesDocumento.VERIFICADO);
+    filtro.setOrdenCampo("consecutivoDocumento DESC");
+    this.listaSP = comunEJB.consultarDocumentos(filtro);
+  }
+
+  public String verDetalle(Documento selected) {
     this.sp = selected;
-    this.productosXDocumento = comercioExteriorEJB.consultarProductosSP(this.sp.getIdDocumento(), sp.getClientesId());
+    if (this.sp.getUbicacionOrigen() == null) {
+      this.sp.setUbicacionOrigen(new Ubicacion());
+    }
+    if (this.sp.getUbicacionDestino() == null) {
+      this.sp.setUbicacionDestino(new Ubicacion());
+    }
+    if (this.sp.getDocumentoXNegociacions() == null) {
+      this.sp.setDocumentoXNegociacions(new ArrayList<DocumentoXNegociacion>());
+      this.sp.getDocumentoXNegociacions().add(new DocumentoXNegociacion());
+    }
+    if (this.sp.getDocumentoXNegociacion().getTerminoIncoterm() == null) {
+      this.sp.getDocumentoXNegociacion().setTerminoIncoterm(new TerminoIncoterm());
+    }
+    this.productosSP = comercioExteriorEJB.consultarProductosSP(this.sp.getId(), sp.getCliente().getId());
     this.recalcularTotalesLista();
     this.modo = Modo.EDITAR;
     this.consultarSaldosInventarioComercioExterior();
@@ -89,8 +117,8 @@ public class ModificarSPMB extends UtilMB {
     totalCantidadTendidos = new BigDecimal(0);
     totalCantidadPallets = new BigDecimal(0);
     totalCantidadCajas = new BigDecimal(0);
-    if (productosXDocumento != null && !productosXDocumento.isEmpty()) {
-      for (ProductosXDocumento pxd : productosXDocumento) {
+    if (productosSP != null && !productosSP.isEmpty()) {
+      for (ProductosXDocumento pxd : productosSP) {
         calcularTotalesRegistro(pxd);
         totalValorTotal = totalValorTotal.add(pxd.getValorTotal());
         totalCantidad = totalCantidad.add(pxd.getCantidad1());
@@ -112,8 +140,8 @@ public class ModificarSPMB extends UtilMB {
     BigDecimal cantidadCajasXTendido = pxd.getProductosInventario().getProductosInventarioComext().getCantCajasXTendido();
     BigDecimal totalCajasXPallet = pxd.getProductosInventario().getProductosInventarioComext().getTotalCajasXPallet();
     pxd.setValorUnitarioUsd(precio);
-    pxd.setFechaEntrega(sp.getFechaEsperadaEntregaDate());
-    pxd.setFechaEstimadaEntrega(sp.getFechaEsperadaEntregaDate());
+    pxd.setFechaEntrega(sp.getFechaEsperadaEntrega());
+    pxd.setFechaEstimadaEntrega(sp.getFechaEsperadaEntrega());
     pxd.setValorTotal(cantidad.multiply(precio));
     if (cantidadXEmbalaje == null || cantidadXEmbalaje.compareTo(BigDecimal.ZERO) == 0) {
       pxd.setTotalPesoNetoItem(BigDecimal.ZERO);
@@ -144,13 +172,13 @@ public class ModificarSPMB extends UtilMB {
   public void consultarOtrosProductosDelCliente() {
     Map<String, Object> parametros = new HashMap<>();
     List<Long> productosAExcluir = new ArrayList<>();
-    if (productosXDocumento != null && !productosXDocumento.isEmpty()) {
-      for (ProductosXDocumento pxd : productosXDocumento) {
+    if (productosSP != null && !productosSP.isEmpty()) {
+      for (ProductosXDocumento pxd : productosSP) {
         productosAExcluir.add(pxd.getProductosInventario().getId());
       }
     }
-    parametros.put("cliente", sp.getIdCliente());
-    parametros.put("solicitudCafe", sp.getSolicitudCafe());
+    parametros.put("cliente", sp.getCliente().getId());
+    parametros.put("solicitudCafe", sp.getDocumentoXNegociacion().getSolicitudCafe());
     parametros.put("productosAExcluir", productosAExcluir);
     productosXCliente = comercioExteriorEJB.consultarProductosActivosXCliente(parametros);
   }
@@ -164,9 +192,9 @@ public class ModificarSPMB extends UtilMB {
     if (pxc != null) {
       if (pxc.getProductosInventario().getProductosInventarioComext().getControlStock()) {
         BigDecimal ultimoSaldo = ultimosSaldosInventario.get(pxc.getProductosInventario().getId());
-				if (ultimoSaldo == null) {
-					ultimoSaldo = BigDecimal.ZERO;
-				}
+        if (ultimoSaldo == null) {
+          ultimoSaldo = BigDecimal.ZERO;
+        }
         if (ultimoSaldo.compareTo(BigDecimal.ZERO) == 0) {
           this.addMensajeWarn(":tabPanel:msgsBuscarProductos", Utilidad.stringFormat("Para el producto {0}, no hay saldo siponible.", new String[]{pxc.getProductosInventario().getSku()}));
           return;
@@ -174,22 +202,22 @@ public class ModificarSPMB extends UtilMB {
       }
       ProductosXDocumento pxd = new ProductosXDocumento();
       ProductosXDocumentoPK pxdID = new ProductosXDocumentoPK();
-      pxdID.setIdDocumento(sp.getIdDocumento());
+      pxdID.setIdDocumento(sp.getId());
       pxdID.setIdProducto(pxc.getProductosInventario().getId());
       pxd.setId(pxdID);
-      pxd.setDocumento(comercioExteriorEJB.consultarDocumentoPorId(sp.getIdDocumento())); // TODO: esto no seria necesario si el listado fuera de documentos
+      pxd.setDocumento(sp); 
       pxd.setProductosInventario(pxc.getProductosInventario());
       pxd.setInformacion(false);
       pxd.setCalidad(false);
-      pxd.setFechaEntrega(sp.getFechaEsperadaEntregaDate());
-      pxd.setFechaEstimadaEntrega(sp.getFechaEsperadaEntregaDate());
+      pxd.setFechaEntrega(sp.getFechaEsperadaEntrega());
+      pxd.setFechaEstimadaEntrega(sp.getFechaEsperadaEntrega());
       pxd.setCantidad1(BigDecimal.ONE);
       pxd.setCantidad2(BigDecimal.ZERO);
       pxd.setUnidade(pxc.getProductosInventario().getUnidadVenta());
       pxd.setMoneda(new Moneda(pxc.getIdMoneda()));
       pxd.setValorUnitarioUsd(pxc.getPrecio());
       pxd.setValorUnitatrioMl(BigDecimal.ZERO);
-      this.productosXDocumento.add(pxd);
+      this.productosSP.add(pxd);
       this.productosXCliente.remove(pxc);
       this.recalcularTotalesLista();
       this.addMensajeInfo(":tabPanel:msgsBuscarProductos", Utilidad.stringFormat("Producto {0} agregado.", new String[]{pxc.getProductosInventario().getSku()}));
@@ -198,7 +226,7 @@ public class ModificarSPMB extends UtilMB {
 
   public void eliminarProducto(ProductosXDocumento pxd) {
     if (pxd != null) {
-      this.productosXDocumento.remove(pxd);
+      this.productosSP.remove(pxd);
       this.recalcularTotalesLista();
     }
   }
@@ -209,38 +237,27 @@ public class ModificarSPMB extends UtilMB {
   public void guardar() {
     this.recalcularTotalesLista();
     // solicitud
-    sp.setValorTotalDocumento(totalValorTotal);
-    // documento x negociacion
-    DocumentoXNegociacion dxn = new DocumentoXNegociacion();
-    DocumentoXNegociacionPK dxnPK = new DocumentoXNegociacionPK();
-    dxnPK.setIdDocumento(sp.getIdDocumento());
-    dxnPK.setIdTerminoIncoterm(sp.getIdTerminoIncoterm());
-    dxn.setPk(dxnPK);
+    sp.setValorTotal(totalValorTotal);
     // TODO: como se calculan estos costos, se deben incluir de una vez
-    dxn.setCostoEntrega(new BigDecimal(0));
-    dxn.setCostoSeguro(new BigDecimal(0));
-    dxn.setCostoFlete(new BigDecimal(0));
-    dxn.setOtrosGastos(new BigDecimal(0));
-    dxn.setTotalPesoNeto(totalPesoNeto);
-    dxn.setTotalPesoBruto(totalPesoBruto);
-    dxn.setTotalTendidos(totalCantidadTendidos);
-    dxn.setTotalPallets(totalCantidadPallets);
-    dxn.setSolicitudCafe(sp.getSolicitudCafe());
-    dxn.setLugarIncoterm(sp.getLugarIncoterm());
-    dxn.setTerminoIncoterm(new TerminoIncoterm(sp.getIdTerminoIncoterm()));
-    dxn.setObservacionesMarcacion2(null);
-    dxn.setCantidadDiasVigencia(0);
-    dxn.setCantidadContenedoresDe20(sp.getCantidadContenedores20());
-    dxn.setCantidadContenedoresDe40(sp.getCantidadContenedores40());
-    dxn.setCantidadEstibas(0);
-    dxn.setPesoBrutoEstibas(0);
+    sp.getDocumentoXNegociacion().setCostoEntrega(new BigDecimal(0));
+    sp.getDocumentoXNegociacion().setCostoSeguro(new BigDecimal(0));
+    sp.getDocumentoXNegociacion().setCostoFlete(new BigDecimal(0));
+    sp.getDocumentoXNegociacion().setOtrosGastos(new BigDecimal(0));
+    sp.getDocumentoXNegociacion().setTotalPesoNeto(totalPesoNeto);
+    sp.getDocumentoXNegociacion().setTotalPesoBruto(totalPesoBruto);
+    sp.getDocumentoXNegociacion().setTotalTendidos(totalCantidadTendidos);
+    sp.getDocumentoXNegociacion().setTotalPallets(totalCantidadPallets);
+    sp.getDocumentoXNegociacion().setObservacionesMarcacion2(null);
+    sp.getDocumentoXNegociacion().setCantidadDiasVigencia(0);
+    sp.getDocumentoXNegociacion().setCantidadEstibas(0);
+    sp.getDocumentoXNegociacion().setPesoBrutoEstibas(0);
     // auditoria
     LogAuditoria auditoria = new LogAuditoria();
     auditoria.setIdUsuario(menu.getUsuario().getId());
     auditoria.setIdFuncionalidad(menu.getIdOpcionActual());
     try {
       // verificar la sp
-      comercioExteriorEJB.modificarSP(sp, dxn, productosXDocumento, auditoria);
+      comercioExteriorEJB.modificarSP(sp, productosSP, auditoria);
       this.addMensajeInfo("Se ha actualizado correctamente la Solicitud de Pedido " + sp.getConsecutivoDocumento());
       this.init();
     } catch (Exception ex) {
@@ -262,212 +279,104 @@ public class ModificarSPMB extends UtilMB {
     return showList;
   }
 
-  /**
-   * Gets the sp.
-   *
-   * @return the sp
-   */
-  public DocumentoIncontermDTO getSp() {
+  public void setMenu(MenuMB menu) {
+    this.menu = menu;
+  }
+
+  public FiltroDocumentoDTO getFiltro() {
+    return filtro;
+  }
+
+  public void setFiltro(FiltroDocumentoDTO filtro) {
+    this.filtro = filtro;
+  }
+
+  public List<Documento> getListaSP() {
+    return listaSP;
+  }
+
+  public void setListaSP(List<Documento> listaSP) {
+    this.listaSP = listaSP;
+  }
+
+  public Documento getSp() {
     return sp;
   }
 
-  /**
-   * Sets the sp.
-   *
-   * @param sp the new sp
-   */
-  public void setSp(DocumentoIncontermDTO sp) {
+  public void setSp(Documento sp) {
     this.sp = sp;
   }
 
-  /**
-   * @return the productosXDocumento
-   */
-  public List<ProductosXDocumento> getProductosXDocumento() {
-    return productosXDocumento;
+  public List<ProductosXDocumento> getProductosSP() {
+    return productosSP;
   }
 
-  /**
-   * @param productosXDocumento the productosXDocumento to set
-   */
-  public void setProductosXDocumento(List<ProductosXDocumento> productosXDocumento) {
-    this.productosXDocumento = productosXDocumento;
+  public void setProductosSP(List<ProductosXDocumento> productosSP) {
+    this.productosSP = productosSP;
   }
 
-  /**
-   * @return the productosXCliente
-   */
   public List<ProductosXClienteComext> getProductosXCliente() {
     return productosXCliente;
   }
 
-  /**
-   * @param productosXCliente the productosXCliente to set
-   */
   public void setProductosXCliente(List<ProductosXClienteComext> productosXCliente) {
     this.productosXCliente = productosXCliente;
   }
 
-  /**
-   * Gets the lista documentos.
-   *
-   * @return the lista documentos
-   */
-  public ArrayList<DocumentoIncontermDTO> getListaSP() {
-    return listaSP;
-  }
-
-  /**
-   * Sets the lista documentos.
-   *
-   * @param listaSP the new lista documentos
-   */
-  public void setListaSP(ArrayList<DocumentoIncontermDTO> listaSP) {
-    this.listaSP = listaSP;
-  }
-
-  /**
-   * Gets the total valor t.
-   *
-   * @return the total valor t
-   */
-  public BigDecimal getTotalValorTotal() {
-    return totalValorTotal;
-  }
-
-  /**
-   * Sets the total valor t.
-   *
-   * @param totalValorTotal the new total valor t
-   */
-  public void setTotalValorTotal(BigDecimal totalValorTotal) {
-    this.totalValorTotal = totalValorTotal;
-  }
-
-  /**
-   * Gets the cantidad valor t.
-   *
-   * @return the cantidad valor t
-   */
   public BigDecimal getTotalCantidad() {
     return totalCantidad;
   }
 
-  /**
-   * Sets the cantidad valor t.
-   *
-   * @param totalCantidad the new cantidad valor t
-   */
   public void setTotalCantidad(BigDecimal totalCantidad) {
     this.totalCantidad = totalCantidad;
   }
 
-  /**
-   * Gets the valor peso neto t.
-   *
-   * @return the valor peso neto t
-   */
+  public BigDecimal getTotalValorTotal() {
+    return totalValorTotal;
+  }
+
+  public void setTotalValorTotal(BigDecimal totalValorTotal) {
+    this.totalValorTotal = totalValorTotal;
+  }
+
   public BigDecimal getTotalPesoNeto() {
     return totalPesoNeto;
   }
 
-  /**
-   * Sets the valor peso neto t.
-   *
-   * @param totalPesoNeto the new valor peso neto t
-   */
   public void setTotalPesoNeto(BigDecimal totalPesoNeto) {
     this.totalPesoNeto = totalPesoNeto;
   }
 
-  /**
-   * Gets the valor peso bruto t.
-   *
-   * @return the valor peso bruto t
-   */
   public BigDecimal getTotalPesoBruto() {
     return totalPesoBruto;
   }
 
-  /**
-   * Sets the valor peso bruto t.
-   *
-   * @param totalPesoBruto the new valor peso bruto t
-   */
   public void setTotalPesoBruto(BigDecimal totalPesoBruto) {
     this.totalPesoBruto = totalPesoBruto;
   }
 
-  /**
-   * Gets the valor cajas pallet t.
-   *
-   * @return the valor cajas pallet t
-   */
-  public BigDecimal getTotalCantidadPallets() {
-    return totalCantidadPallets;
-  }
-
-  /**
-   * Sets the valor cajas pallet t.
-   *
-   * @param totalCantidadPallets the new valor cajas pallet t
-   */
-  public void setTotalCantidadPallets(BigDecimal totalCantidadPallets) {
-    this.totalCantidadPallets = totalCantidadPallets;
-  }
-
-  /**
-   * Gets the valor cajas tendido t.
-   *
-   * @return the valor cajas tendido t
-   */
-  public BigDecimal getTotalCantidadTendidos() {
-    return totalCantidadTendidos;
-  }
-
-  /**
-   * Sets the valor cajas tendido t.
-   *
-   * @param totalCantidadTendidos the new valor cajas tendido t
-   */
-  public void setTotalCantidadTendidos(BigDecimal totalCantidadTendidos) {
-    this.totalCantidadTendidos = totalCantidadTendidos;
-  }
-
-  /**
-   * Gets the valor cajas t.
-   *
-   * @return the valor cajas t
-   */
   public BigDecimal getTotalCantidadCajas() {
     return totalCantidadCajas;
   }
 
-  /**
-   * Sets the valor cajas t.
-   *
-   * @param totalCantidadCajas the new valor cajas t
-   */
   public void setTotalCantidadCajas(BigDecimal totalCantidadCajas) {
     this.totalCantidadCajas = totalCantidadCajas;
   }
 
-  /**
-   * Gets the menu.
-   *
-   * @return the menu
-   */
-  public MenuMB getMenu() {
-    return menu;
+  public BigDecimal getTotalCantidadTendidos() {
+    return totalCantidadTendidos;
   }
 
-  /**
-   * Sets the menu.
-   *
-   * @param menu the new menu
-   */
-  public void setMenu(MenuMB menu) {
-    this.menu = menu;
+  public void setTotalCantidadTendidos(BigDecimal totalCantidadTendidos) {
+    this.totalCantidadTendidos = totalCantidadTendidos;
+  }
+
+  public BigDecimal getTotalCantidadPallets() {
+    return totalCantidadPallets;
+  }
+
+  public void setTotalCantidadPallets(BigDecimal totalCantidadPallets) {
+    this.totalCantidadPallets = totalCantidadPallets;
   }
 
 }

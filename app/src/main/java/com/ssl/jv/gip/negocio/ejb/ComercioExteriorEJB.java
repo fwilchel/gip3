@@ -583,42 +583,38 @@ public class ComercioExteriorEJB implements ComercioExteriorEJBLocal {
 
   @Override
   @TransactionAttribute(TransactionAttributeType.REQUIRED)
-  public void modificarSP(DocumentoIncontermDTO sp, DocumentoXNegociacion dxn, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception {
+  public void modificarSP(Documento sp, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception {
     LOGGER.debug("method: modificarSP()");
     try {
       Map<Long, BigDecimal> saldos = this.consultarUltimosSaldos();
       // actualizar el documento
-      Documento solicitud = documentoDAO.findByPK(sp.getIdDocumento());
+      auditoria.setValorAnterior(sp.getEstadosxdocumento().getEstado().getNombre());
       Estadosxdocumento estadosxdocumento = new Estadosxdocumento();
       EstadosxdocumentoPK estadosxdocumentoPK = new EstadosxdocumentoPK();
       estadosxdocumentoPK.setIdEstado((long) ConstantesDocumento.VERIFICADO);
       estadosxdocumentoPK.setIdTipoDocumento((long) ConstantesTipoDocumento.SOLICITUD_PEDIDO);
       estadosxdocumento.setId(estadosxdocumentoPK);
-      solicitud.setEstadosxdocumento(estadosxdocumento);
-      solicitud.setValorTotal(sp.getValorTotalDocumento());
-      solicitud.setUbicacionOrigen(new Ubicacion(sp.getIdUbicacionDestino()));
-      solicitud.setUbicacionDestino(new Ubicacion(sp.getIdUbicacionDestino()));
-      solicitud.setFechaEsperadaEntrega(sp.getFechaEsperadaEntregaDate());
-      documentoDAO.update(solicitud);
+      sp.setEstadosxdocumento(estadosxdocumento);
+      sp.setUbicacionOrigen(sp.getUbicacionDestino());
+      documentoDAO.update(sp);
       // ingresar el registro de auditoria
       auditoria.setTabla("Documentos");
       auditoria.setAccion("MOD");
       auditoria.setCampo("Estado");
-      auditoria.setValorAnterior(sp.getEstadoNombre());
       auditoria.setValorNuevo("Verificado");
       auditoria.setFecha(new Timestamp(System.currentTimeMillis()));
-      auditoria.setIdRegTabla(solicitud.getId());
+      auditoria.setIdRegTabla(sp.getId());
       this.logAuditoriaDAO.add(auditoria);
       // documento x negociacion
       // TODO: necesario pq no hay manera de identificar el dxn para la sp
-      List<DocumentoXNegociacion> documentosXNegociacion = documentoXNegociacionDAO.consultarDocumentoXNegociacionPorIdDocumento(solicitud.getId());
+      List<DocumentoXNegociacion> documentosXNegociacion = documentoXNegociacionDAO.consultarDocumentoXNegociacionPorIdDocumento(sp.getId());
       for (DocumentoXNegociacion record : documentosXNegociacion) {
         this.documentoXNegociacionDAO.delete(record);
       }
-      this.documentoXNegociacionDAO.update(dxn);
+      this.documentoXNegociacionDAO.update(sp.getDocumentoXNegociacion());
       // actualizar el detalle
-      List<ProductosXDocumento> productosPreseleccionados = this.consultarProductosSP(solicitud.getId(), solicitud.getCliente().getId());
-      this.actualizarProductosDocumentoComercioExterior(solicitud, productosSeleccionados, productosPreseleccionados, auditoria);
+      List<ProductosXDocumento> productosPreseleccionados = this.consultarProductosSP(sp.getId(), sp.getCliente().getId());
+      this.actualizarProductosDocumentoComercioExterior(sp, productosSeleccionados, productosPreseleccionados, auditoria);
     } catch (Exception ex) {
       LOGGER.error("Error en <<record>> ->> mensaje ->> {} / causa ->> {} ");
       throw ex;

@@ -183,7 +183,7 @@ public interface ComercioExteriorEJBLocal {
 	 */
 	void guardarSolicitudPedido(DocumentoIncontermDTO documento, List<ProductoPorClienteComExtDTO> listaSolicitudPedido);
 
-	void modificarSP(DocumentoIncontermDTO sp, DocumentoXNegociacion dxn, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception;
+	void modificarSP(Documento sp, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception;
 
 	void modificarFP(Documento fp, List<ProductosXDocumento> productosSeleccionados, LogAuditoria auditoria) throws Exception;
 

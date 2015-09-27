@@ -41,6 +41,28 @@
             paginatorPosition="bottom"
             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
             rowsPerPageTemplate="10,20,50,100">
+            <f:facet
+              name="header">
+              <div align="right">
+                <p:outputPanel>
+                  <p:outputLabel 
+                    value="#{msg.consecutivoSP}: "
+                    for="consecutivo" />
+                  <p:spacer
+                    height="5"/>
+                  <p:inputText 
+                    value="#{modificarSPMB.filtro.consecutivoDocumento}"
+                    id="consecutivo" 
+                    required="false" />
+                  <p:spacer
+                    height="5"/>
+                  <p:commandButton 
+                    value="#{msg.documentoEjecutarBusqueda}"
+                    update=":tabPanel:forma:tablaDatos" 
+                    actionListener="#{modificarSPMB.consultarListaSP()}" />
+                </p:outputPanel>
+              </div>
+            </f:facet>
             <p:column 
               style="width:32px;text-align:center">
               <p:commandButton 
@@ -51,12 +73,12 @@
             </p:column>
             <p:column 
               headerText="#{msg.recibiProductoDcoumento}"
-              sortBy="#{dato.idDocumento}"
-              filterBy="#{dato.idDocumento}"
+              sortBy="#{dato.id}"
+              filterBy="#{dato.id}"
               filterMatchMode="contains" 
               style="width:120px;">
               <h:outputText 
-                value="#{dato.idDocumento}" />
+                value="#{dato.id}" />
             </p:column>
             <p:column 
               headerText="#{msg.RequisicionNombreCons}"
@@ -77,19 +99,19 @@
             </p:column>
             <p:column 
               headerText="#{msg.nomCliente}"
-              sortBy="#{dato.clientesNombre}"
-              filterBy="#{dato.clientesNombre}"
+              sortBy="#{dato.cliente.nombre}"
+              filterBy="#{dato.cliente.nombre}"
               filterMatchMode="contains" >
               <h:outputText 
-                value="#{dato.clientesNombre}" />
+                value="#{dato.cliente.nombre}" />
             </p:column>
             <p:column 
               headerText="#{msg.EstadoSP}"
-              sortBy="#{dato.estadoNombre}"
-              filterBy="#{dato.estadoNombre}"
+              sortBy="#{dato.estadosxdocumento.estado.nombre}"
+              filterBy="#{dato.estadosxdocumento.estado.nombre}"
               filterMatchMode="contains" >
               <h:outputText 
-                value="#{dato.estadoNombre}" />
+                value="#{dato.estadosxdocumento.estado.nombre}" />
             </p:column>
             <p:column 
               headerText="#{msg.RequisicionNombreFechaGenerado}"
@@ -128,7 +150,7 @@
                 style="width:20%"/>
               <h:outputText 
                 id="strId" 
-                value="#{modificarSPMB.sp.idDocumento}" 
+                value="#{modificarSPMB.sp.id}" 
                 style="width:30%"/>                  
               <p:outputLabel 
                 value="#{msg.RequisicionNombreCons}"
@@ -152,7 +174,7 @@
                 for="strNombreCliente"
                 styleClass="negrita" />
               <h:outputText
-                value="#{modificarSPMB.sp.clientesNombre}"
+                value="#{modificarSPMB.sp.cliente.nombre}"
                 id="strNombreCliente" />
               <p:outputLabel 
                 value="#{msg.NumeroPedidoWeb}"
@@ -166,21 +188,21 @@
                 for="strDocumentoClienteDir" 
                 styleClass="negrita" />
               <h:outputText
-                value="#{modificarSPMB.sp.clientesDireccion}"
+                value="#{modificarSPMB.sp.cliente.direccion}"
                 id="strDocumentoClienteDir" />
               <p:outputLabel 
                 value="#{msg.maestroTelefonoCliente}"
                 for="strDocumentoClienteTel" 
                 styleClass="negrita" />
               <h:outputText
-                value="#{modificarSPMB.sp.clientesTelefono}"
+                value="#{modificarSPMB.sp.cliente.telefono}"
                 id="strDocumentoClienteTel" />
               <p:outputLabel 
                 value="#{msg.maestroContactoAgente}"
                 for="strDocumentoClienteCont" 
                 styleClass="negrita" />
               <h:outputText
-                value="#{modificarSPMB.sp.clientesContacto}"
+                value="#{modificarSPMB.sp.cliente.contacto}"
                 id="strDocumentoClienteCont" />
               <p:outputLabel 
                 value="#{msg.observacionDocumento}"
@@ -194,7 +216,7 @@
                 for="strObservacionMar" 
                 styleClass="negrita" />
               <h:outputText
-                value="#{modificarSPMB.sp.observacionesMarcacion2}"
+                value="#{modificarSPMB.sp.documentoXNegociacion.observacionesMarcacion2}"
                 id="strObservacionMar" />
               <p:outputLabel 
                 value="#{msg.TerminoIncotermSP}"
@@ -203,13 +225,13 @@
               <h:panelGroup>
                 <p:selectOneMenu 
                   id="idTerminoIncoterm"
-                  value="#{modificarSPMB.sp.idTerminoIncoterm}"
+                  value="#{modificarSPMB.sp.documentoXNegociacion.terminoIncoterm.id}"
                   label="#{msg.TerminoIncotermSP}">
                   <f:selectItem 
                     itemLabel="#{msg.generalSinSeleccionar}" 
                     noSelectionOption="true"/>
                   <f:selectItems 
-                    value="#{comunMB.obtenerTerminosInconterm(modificarSPMB.sp.clientesId)}"
+                    value="#{comunMB.obtenerTerminosInconterm(modificarSPMB.sp.cliente.id)}"
                     var="categoria" 
                     itemValue="#{categoria.id}"
                     itemLabel="#{categoria.descripcion}" />
@@ -224,7 +246,7 @@
               <h:panelGroup>
                 <p:inputText 
                   maxlength="50"
-                  value="#{modificarSPMB.sp.lugarIncoterm}"
+                  value="#{modificarSPMB.sp.documentoXNegociacion.lugarIncoterm}"
                   id="strLugarIncoterm" 
                   required="true"
                   label="#{msg.LugarIncoterm}" />
@@ -239,7 +261,7 @@
                 <p:inputText 
                   maxlength="10" 
                   size="10"
-                  value="#{modificarSPMB.sp.cantidadContenedores20}"
+                  value="#{modificarSPMB.sp.documentoXNegociacion.cantidadContenedoresDe20}"
                   id="dblCantidadContenedores20" 
                   required="true"
                   label="#{msg.CantidadContenedores20}">
@@ -258,7 +280,7 @@
                 <p:inputText 
                   maxlength="10" 
                   size="10"
-                  value="#{modificarSPMB.sp.cantidadContenedores40}"
+                  value="#{modificarSPMB.sp.documentoXNegociacion.cantidadContenedoresDe40}"
                   id="dblCantidadContenedores40" 
                   required="true"
                   label="#{msg.CantidadContenedores40}">
@@ -276,7 +298,7 @@
               <h:panelGroup>
                 <p:calendar 
                   id="dtmFechaDespacho"
-                  value="#{modificarSPMB.sp.fechaEsperadaEntregaDate}"
+                  value="#{modificarSPMB.sp.fechaEsperadaEntrega}"
                   required="true" 
                   pattern="yyyy-MM-dd"/>
                 <p:message 
@@ -290,7 +312,7 @@
                 <p:selectOneMenu 
                   id="idUbicacion" 
                   required="true"
-                  value="#{modificarSPMB.sp.idUbicacionDestino}"
+                  value="#{modificarSPMB.sp.ubicacionDestino.id}"
                   label="#{msg.Canal}">
                   <f:selectItem 
                     itemLabel="#{msg.generalSinSeleccionar}" />
@@ -308,7 +330,7 @@
               id="tablaProductos"
               widgetVar="tablaProductos"
               var="pxd" 
-              value="#{modificarSPMB.productosXDocumento}"
+              value="#{modificarSPMB.productosSP}"
               emptyMessage="#{msg.generalNoDatos}" >
               <f:facet 
                 name="header">
