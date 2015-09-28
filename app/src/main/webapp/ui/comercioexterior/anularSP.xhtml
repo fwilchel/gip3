@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition 
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:h="http://java.sun.com/jsf/html"
@@ -7,112 +7,66 @@
   xmlns:p="http://primefaces.org/ui"
   xmlns:misc="http://java.sun.com/jsf/composite/misc"
   template="/resources/#{menuMB.tema}/template/general.xhtml">
-
   <ui:define 
     name="title">#{msg.generalTituloSOC} .::#{msg.UsuarioAdminUsuariosTitulo}::.
   </ui:define>
-
   <ui:define 
     name="contenido">
-
     <p:spacer 
       height="40"/>
-
     <h:form 
       id="forma"
       prependId="false" >
-
       <p:messages 
         id="msgs" />
-
       <p:tabView 
         id="pnlTab">
-
         <p:tab 
           title="#{msg.spaTitle}">
-
-          <p:panel
-            id="pnlFtlDocumentos">
-            <p:panelGrid
-              columns="2">
-              <h:outputLabel 
-                for="filtroFechaActual" 
-                value="#{msg.generalFechaActual}" 
-                styleClass="negrita"/>
-              <h:outputText
-                id="filtroFechaActual"
-                value="#{anularSPMB.fechaActual}">
-                <f:convertDateTime 
-                  pattern="dd/MM/yyyy hh:mm:ss a"/>
-              </h:outputText>
-              <h:outputLabel 
-                for="filtroConsecutivoDocumento" 
-                value="#{msg.spaFilterLblConsecutivo}" 
-                styleClass="negrita"/>
-              <p:inputText 
-                id="filtroConsecutivoDocumento" 
-                value="#{anularSPMB.consecutivoDocumento}" 
-                maxlength="40" 
-                label=""/>
-              <f:facet
-                name="footer">
-                <p:commandButton
-                  value="#{msg.spaFilterBtnBuscar}"
-                  actionListener="#{anularSPMB.buscar()}"
-                  update="tblDocumentos"/>
-              </f:facet>
-            </p:panelGrid>
-          </p:panel>
-
           <p:dataTable 
             id="tblDocumentos"
-            var="documento" 
-            widgetVar="tblDocumentos" 
-            value="#{anularSPMB.listaDocumentos}" 
+            widgetVar="tblDocumentos"
+            var="documento"  
+            value="#{anularSPMB.listaSP}" 
             rows="10"
             emptyMessage="#{msg.generalNoDatos}" 
             paginator="true"
             paginatorPosition="bottom"
-            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-            rowsPerPageTemplate="5,10,15">
-
-            <f:facet 
+            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            rowsPerPageTemplate="10,20,50,100">
+            <f:facet
               name="header">
-              <div 
-                align="right">
+              <div align="right">
                 <p:outputPanel>
-                  <h:outputText 
-                    value="#{msg.generalBuscarTodosCampos}: " />
+                  <p:outputLabel 
+                    value="#{msg.consecutivoSP}: "
+                    for="consecutivo" />
+                  <p:spacer
+                    height="5"/>
                   <p:inputText 
-                    id="globalFilter"
-                    onkeyup="PF('tblDocumentos').filter()" 
-                    style="width:150px"
-                    placeholder="#{msg.generalPalabrasBuscar}" />
-                  <p:spacer 
-                    width="30">
-                  </p:spacer>				
+                    value="#{anularSPMB.filtro.consecutivoDocumento}"
+                    id="consecutivo" 
+                    required="false" />
+                  <p:spacer
+                    height="5"/>
                   <p:commandButton 
-                    action="introduccion" 
-                    title="#{msg.generalCancelar}" 
-                    ajax="false"
-                    icon="ui-icon-cancel" 
-                    value="#{msg.generalCancelar}" />
+                    value="#{msg.documentoEjecutarBusqueda}"
+                    update=":forma:pnlTab:tblDocumentos" 
+                    actionListener="#{anularSPMB.consultarListaSP()}" />
                 </p:outputPanel>
               </div>
             </f:facet>
-
             <!-- opcion de anular el registro -->
             <p:column 
               style="width:32px;text-align: center">
-              <p:commandButton 
-                icon="ui-icon-pencil" 
-                title="#{msg.spaBtnAnular}"
-                actionListener="#{anularSPMB.seleccionarSolicitudPedido(documento)}"
-                oncomplete="PF('dlgConfirmacion').show()"
-                update=":dlgConfirmacion">
-              </p:commandButton>
+<!--               <p:commandButton  -->
+<!--                 icon="ui-icon-pencil"  -->
+<!--                 title="#{msg.spaBtnAnular}" -->
+<!--                 actionListener="#{anularSPMB.seleccionarSolicitudPedido(documento)}" -->
+<!--                 oncomplete="PF('dlgConfirmacion').show()" -->
+<!--                 update=":dlgConfirmacion"> -->
+<!--               </p:commandButton> -->
             </p:column>
-
             <!-- codigo gip -->
             <p:column   
               headerText="#{msg.spaTblColumnCodigoGip}"
@@ -122,7 +76,6 @@
               <h:outputText 
                 value="#{documento.id}" />
             </p:column>
-
             <!-- consecutivo factura -->
             <p:column 
               headerText="#{msg.spaTblColumnConsecutivoFactura}"
@@ -132,7 +85,6 @@
               <h:outputText 
                 value="#{documento.consecutivoDocumento}" />
             </p:column>
-
             <!-- fecha generacion -->
             <p:column 
               headerText="#{msg.spaTblColumnFechaGeneracion}"
@@ -145,15 +97,10 @@
                   pattern="dd-MMM-yyyy"/>
               </h:outputText>
             </p:column>
-
           </p:dataTable>
-
         </p:tab>
-
       </p:tabView>
-
     </h:form>
-
     <p:dialog 
       id="dlgConfirmacion" 
       widgetVar="dlgConfirmacion" 
@@ -192,7 +139,5 @@
           oncomplete="PF('dlgConfirmacion').hide()"/>
       </h:form>          
     </p:dialog>
-
   </ui:define>
-
 </ui:composition>
